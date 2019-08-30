@@ -1,0 +1,22 @@
+.controls {
+  clear: both !important;
+  margin-top: 6px !important;
+}
+
+.field {
+  background: #fff !important;
+  border: 1px solid rgba(9, 45, 66, 0.13) !important;
+  border-radius: 3px !important;
+  color: #17394d !important;
+  display: block !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  margin-bottom: 4px !important;
+  overflow: hidden;
+  padding: 8px 12px !important;
+  resize: none !important;
+}
+
+.field:focus {
+  outline: none !important;
+}

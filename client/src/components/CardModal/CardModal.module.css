@@ -1,0 +1,211 @@
+.actionButton {
+  background: #ebeef0 !important;
+  box-shadow: 0 1px 0 0 rgba(9, 45, 66, 0.13) !important;
+  color: #444 !important;
+  margin-top: 8px !important;
+  padding: 6px 8px 6px 18px !important;
+  text-align: left !important;
+  transition: background 85ms ease !important;
+}
+
+.actionButton:hover {
+  background: #dfe3e6 !important;
+  box-shadow: 0 1px 0 0 rgba(9, 45, 66, 0.25) !important;
+  color: #4c4c4c !important;
+}
+
+.actionIcon {
+  color: #17394d !important;
+  margin-right: 8px !important;
+}
+
+.actions {
+  margin-bottom: 24px;
+}
+
+.actionsTitle {
+  color: #8c8c8c;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-top: 16px;
+  text-transform: uppercase;
+  line-height: 20px;
+  margin-bottom: -4px;
+}
+
+.addAttachment {
+  margin: 0 -4.3px !important;
+  text-decoration: none !important;
+}
+
+.attachment {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 4px 4px 0;
+  max-width: 100%;
+}
+
+.attachments {
+  display: inline-block;
+  margin: 0 8px 8px 0;
+  max-width: 100%;
+  vertical-align: top;
+}
+
+.contentModule {
+  margin-bottom: 24px;
+}
+
+.contentPadding {
+  padding: 8px 8px 0 16px !important;
+}
+
+.deadline {
+  background: #dce0e4;
+  border: none;
+  border-radius: 3px;
+  color: #6b808c;
+  line-height: 20px;
+  outline: none;
+  padding: 6px 14px;
+  text-align: left;
+  text-decoration: underline;
+  transition: background 0.3s ease;
+  vertical-align: top;
+}
+
+.deadline:hover {
+  background: #d2d8dc;
+  color: #17394d;
+}
+
+.descriptionButton {
+  background: rgba(9, 45, 66, 0.08);
+  border: none;
+  border-radius: 3px;
+  display: block;
+  color: #6b808c;
+  cursor: pointer;
+  min-height: 54px;
+  outline: none;
+  padding: 8px 12px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  width: 100%;
+}
+
+.descriptionButton:hover {
+  background-color: rgba(9, 45, 66, 0.13);
+  color: #092d42;
+}
+
+.descriptionButtonText {
+  position: absolute;
+  top: 12px;
+}
+
+.descriptionText {
+  background: transparent;
+  border: none;
+  color: #17394d;
+  cursor: pointer;
+  line-height: 1.5;
+  font-size: 15px;
+  margin-bottom: 8px;
+  outline: none;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  padding: 0;
+  text-align: left;
+  white-space: pre-line;
+  width: 100%;
+}
+
+.grid {
+  background: #f5f6f7;
+  margin: 0 !important;
+}
+
+.headerPadding {
+  padding: 0 !important;
+}
+
+.headerTitle {
+  margin: 4px 0;
+  padding: 6px 0 0;
+}
+
+.headerWrapper {
+  margin: 12px 48px 12px 56px;
+  position: relative;
+}
+
+.labels {
+  border: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #fff;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 32px;
+  margin: 0 4px 4px 0;
+  max-width: 100%;
+  min-width: 40px;
+  outline: none;
+  overflow: hidden;
+  padding: 0 12px;
+  text-overflow: ellipsis;
+  text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 0;
+  white-space: nowrap;
+}
+
+.modalPadding {
+  padding: 0px !important;
+}
+
+.moduleHeader {
+  color: #17394d;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  margin: 0 0 4px;
+  padding: 8px 0;
+}
+
+.moduleIcon {
+  color: #17394d;
+  font-size: 17px !important;
+  height: 32px !important;
+  left: -40px;
+  line-height: 32px;
+  margin-right: 0 !important;
+  position: absolute;
+  top: 2px;
+  width: 32px !important;
+}
+
+.moduleWrapper {
+  margin: 0 0 0 40px;
+  position: relative;
+}
+
+.text {
+  color: #6b808c;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  line-height: 20px;
+  margin: 0 8px 4px 0;
+  text-transform: uppercase;
+}
+
+.sidebarPadding {
+  padding: 8px 16px 0 8px !important;
+}
+
+.wrapper {
+  width: 768px !important;
+}

@@ -1,0 +1,11 @@
+.button {
+  float: right;
+  height: 32px;
+  line-height: 20px;
+  margin-top: -2px;
+  padding: 6px 12px;
+}
+
+.title {
+  display: inline-block;
+}

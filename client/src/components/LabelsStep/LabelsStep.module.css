@@ -1,0 +1,15 @@
+.addButton {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #6b808c !important;
+  font-weight: normal !important;
+  margin-top: 8px !important;
+  padding: 6px 11px !important;
+  text-align: left !important;
+  text-decoration: underline !important;
+  transition: background 0.3s ease !important;
+}
+
+.addButton:hover {
+  background: #e9e9e9 !important;
+}

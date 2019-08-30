@@ -1,0 +1,49 @@
+.addUser {
+  background: #2c3035 !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  line-height: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transition: all 0.1s ease 0s !important;
+  vertical-align: top !important;
+  width: 36px;
+}
+
+.addUser:hover {
+  background: #4b4f53;
+}
+
+.header {
+  flex: 0 0 auto;
+  margin: 0 -1rem !important;
+}
+
+.name {
+  background: transparent !important;
+  color: #fff !important;
+  font-size: 32px !important;
+  font-weight: bold !important;
+  line-height: 36px !important;
+  padding: 0 !important;
+}
+
+.user {
+  display: inline-block;
+  margin: 0 -4px 0 0;
+  vertical-align: top;
+  line-height: 0;
+}
+
+.users {
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: top;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0 20px;
+}

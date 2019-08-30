@@ -1,0 +1,22 @@
+.closeButton {
+  background: transparent !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 10px 12px 10px 8px !important;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 40px;
+  z-index: 2000;
+}
+
+.wrapper {
+  border-radius: 3px !important;
+  border-width: 0 !important;
+  box-shadow: 0 8px 16px -4px rgba(9, 45, 66, 0.25),
+    0 0 0 1px rgba(9, 45, 66, 0.08) !important;
+  margin-top: 6px !important;
+  overflow: hidden;
+  padding: 0 12px 12px !important;
+  width: 304px;
+}
