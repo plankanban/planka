@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "console": "dotenv sails console",
+    "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+    "db:migrate": "knex migrate:latest --cwd db",
+    "db:seed": "knex seed:run --cwd db",
+    "lint": "node_modules/@sailshq/eslint/bin/eslint.js . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "start": "NODE_ENV=production node app.js",
+    "start:dev": "nodemon",
+    "test": "npm run lint && npm run custom-tests && echo 'Done.'"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "dotenv": "^8.1.0",
+    "dotenv-cli": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.19.2",
+    "lodash": "^4.17.15",
+    "moment": "^2.23.0",
+    "sails": "^1.2.3",
+    "sails-hook-orm": "^2.1.1",
+    "sails-hook-sockets": "^2.0.0",
+    "sails-postgresql": "^1.0.1",
+    "sharp": "^0.23.0"
+  },
+  "devDependencies": {
+    "@sailshq/eslint": "^4.19.3",
+    "nodemon": "^1.19.1"
+  },
+  "engines": {
+    "node": "^10.11"
+  }
+}

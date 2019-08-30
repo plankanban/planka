@@ -1,0 +1,60 @@
+import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { Button, Form } from 'semantic-ui-react';
+import { Popup } from '../../lib/custom-ui';
+
+import { useDeepCompareCallback, useForm } from '../../hooks';
+import LabelColors from '../../constants/LabelColors';
+import Editor from './Editor';
+
+import styles from './AddStep.module.css';
+
+const AddStep = React.memo(({ onCreate, onBack }) => {
+  const [t] = useTranslation();
+
+  const [data, handleFieldChange] = useForm(() => ({
+    name: '',
+    color: LabelColors.KEYS[0],
+  }));
+
+  const editor = useRef(null);
+
+  const handleSubmit = useDeepCompareCallback(() => {
+    const cleanData = {
+      ...data,
+      name: data.name.trim(),
+    };
+
+    if (!cleanData.name) {
+      editor.current.selectNameField();
+      return;
+    }
+
+    onCreate(cleanData);
+    onBack();
+  }, [data, onCreate, onBack]);
+
+  return (
+    <>
+      <Popup.Header onBack={onBack}>
+        {t('common.createLabel', {
+          context: 'title',
+        })}
+      </Popup.Header>
+      <Popup.Content>
+        <Form onSubmit={handleSubmit}>
+          <Editor ref={editor} data={data} onFieldChange={handleFieldChange} />
+          <Button positive content={t('action.createLabel')} className={styles.submitButton} />
+        </Form>
+      </Popup.Content>
+    </>
+  );
+});
+
+AddStep.propTypes = {
+  onCreate: PropTypes.func.isRequired,
+  onBack: PropTypes.func.isRequired,
+};
+
+export default AddStep;

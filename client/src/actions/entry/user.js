@@ -1,0 +1,86 @@
+import EntryActionTypes from '../../constants/EntryActionTypes';
+
+export const createUser = (data) => ({
+  type: EntryActionTypes.USER_CREATE,
+  payload: {
+    data,
+  },
+});
+
+export const clearUserCreationError = () => ({
+  type: EntryActionTypes.USER_CREATION_ERROR_CLEAR,
+  payload: {},
+});
+
+export const updateUser = (id, data) => ({
+  type: EntryActionTypes.USER_UPDATE,
+  payload: {
+    id,
+    data,
+  },
+});
+
+export const updateCurrentUser = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_UPDATE,
+  payload: {
+    data,
+  },
+});
+
+export const uploadCurrentUserAvatar = (file) => ({
+  type: EntryActionTypes.CURRENT_USER_AVATAR_UPLOAD,
+  payload: {
+    file,
+  },
+});
+
+export const deleteUser = (id) => ({
+  type: EntryActionTypes.USER_DELETE,
+  payload: {
+    id,
+  },
+});
+
+export const addUserToCard = (id, cardId) => ({
+  type: EntryActionTypes.USER_TO_CARD_ADD,
+  payload: {
+    id,
+    cardId,
+  },
+});
+
+export const addUserToCurrentCard = (id) => ({
+  type: EntryActionTypes.USER_TO_CURRENT_CARD_ADD,
+  payload: {
+    id,
+  },
+});
+
+export const removeUserFromCard = (id, cardId) => ({
+  type: EntryActionTypes.USER_FROM_CARD_REMOVE,
+  payload: {
+    id,
+    cardId,
+  },
+});
+
+export const removeUserFromCurrentCard = (id) => ({
+  type: EntryActionTypes.USER_FROM_CURRENT_CARD_REMOVE,
+  payload: {
+    id,
+  },
+});
+
+export const addUserToFilterInCurrentBoard = (id) => ({
+  type: EntryActionTypes.USER_TO_FILTER_IN_CURRENT_BOARD_ADD,
+  payload: {
+    id,
+  },
+});
+
+export const removeUserFromFilterInCurrentBoard = (id) => ({
+  type: EntryActionTypes.USER_FROM_FILTER_IN_CURRENT_BOARD_REMOVE,
+  payload: {
+    id,
+  },
+});

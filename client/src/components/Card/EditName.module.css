@@ -1,0 +1,24 @@
+.field {
+  border: none !important;
+  margin-bottom: 4px !important;
+  outline: none !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  resize: none !important;
+  width: 100% !important;
+  word-wrap: break-word !important;
+}
+
+.fieldWrapper {
+  background-color: #fff !important;
+  border-radius: 3px !important;
+  box-shadow: 0 1px 0 #ccc !important;
+  margin-bottom: 8px !important;
+  min-height: 20px !important;
+  padding: 6px 8px 2px !important;
+}
+
+.submitButton {
+  margin-bottom: 8px;
+  vertical-align: top;
+}

@@ -1,0 +1,27 @@
+.button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  max-width: 100%;
+  outline: none;
+  padding: 0;
+}
+
+.hoverable:hover {
+  opacity: 0.75;
+}
+
+.wrapper {
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #fff;
+  display: inline-block;
+  font-weight: 400;
+  min-width: 40px;
+  outline: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 0;
+  white-space: nowrap;
+}

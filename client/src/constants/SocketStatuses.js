@@ -1,0 +1,7 @@
+const DISCONNECTED = 'DISCONNECTED';
+const RECONNECTED = 'RECONNECTED';
+
+export default {
+  DISCONNECTED,
+  RECONNECTED,
+};

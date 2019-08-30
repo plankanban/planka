@@ -1,0 +1,113 @@
+.addCardButton {
+  background: none !important;
+  border: none !important;
+  color: #6b808c !important;
+  cursor: pointer;
+  display: block !important;
+  fill: #6b808c !important;
+  flex: 0 0 auto;
+  font-weight: normal !important;
+  height: 36px !important;
+  margin: 0 -8px !important;
+  padding: 8px !important;
+  text-align: left !important;
+  width: calc(100% + 16px);
+}
+
+.addCardButton:active {
+  outline: none !important;
+}
+
+.addCardButton:hover {
+  background-color: #092d4221 !important;
+  color: #17394d !important;
+  fill: #17394d !important;
+}
+
+.addCardButtonIcon {
+  height: 20px !important;
+  padding: 0.64px !important;
+  width: 20px !important;
+}
+
+.addCardButtonText {
+  display: inline-block !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+  margin-left: 2px;
+  vertical-align: top !important;
+}
+
+.cards {
+  flex: 1 1 auto;
+}
+
+.header {
+  background: #dfe3e6 !important;
+  border-radius: 3px 3px 0 0 !important;
+  box-sizing: none;
+  flex: 0 0 auto;
+  margin-bottom: 0 !important;
+  outline: none !important;
+  padding: 6px 36px 4px 8px !important;
+  position: relative !important;
+}
+
+.header:hover .target {
+  opacity: 1 !important;
+}
+
+.headerButton {
+  background: none !important;
+  box-shadow: none !important;
+  color: #798d99 !important;
+  line-height: 32px !important;
+  margin: 0 !important;
+  opacity: 0;
+  padding: 0 !important;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 32px;
+}
+
+.headerButton:hover {
+  background-color: rgba(9, 45, 66, 0.13) !important;
+  color: #516b7a !important;
+}
+
+.headerName {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-radius: 3px !important;
+  color: #17394d !important;
+  font-weight: bold !important;
+  line-height: 20px !important;
+  margin: 0 !important;
+  max-height: 256px !important;
+  outline: none !important;
+  overflow: hidden !important;
+  overflow-wrap: break-word !important;
+  padding: 4px 8px !important;
+  resize: none !important;
+  width: 100% !important;
+  word-break: break-word !important;
+}
+
+.list {
+  background: #dfe3e6 !important;
+  border-radius: 0 0 3px 3px !important;
+  box-sizing: border-box !important;
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px !important;
+  position: relative !important;
+  white-space: normal !important;
+}
+
+.wrapper {
+  flex: 0 0 auto;
+  margin: 0 4px !important;
+  vertical-align: top !important;
+  width: 272px !important;
+}
