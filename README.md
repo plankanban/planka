@@ -4,13 +4,14 @@ A Trello-like application built with React and Redux.
 
 ![](https://github.com/meltyshev/planka/blob/master/demo.gif?raw=true)
 
-Online demo is coming soon.
+[Client demo](https://meltyshev.github.io/planka) (with some restrictions).
 
 ### Features
 
 - Create projects, boards, lists, cards, labels and tasks
 - Add card members, track time, set a deadline, write comments
 - Filter by members and labels
+- Real-time updates
 - User notifications
 - Internationalization
 
