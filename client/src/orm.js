@@ -13,7 +13,9 @@ import {
   User,
 } from './models';
 
-const orm = new ORM();
+const orm = new ORM({
+  stateSelector: ({ db }) => db,
+});
 
 orm.register(
   User,

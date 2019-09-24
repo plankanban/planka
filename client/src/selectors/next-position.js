@@ -2,7 +2,6 @@ import { createSelector } from 'redux-orm';
 import isUndefined from 'lodash/isUndefined';
 
 import orm from '../orm';
-import { dbSelector } from './common';
 import Config from '../constants/Config';
 
 const nextPosition = (items, index, excludedId) => {
@@ -30,7 +29,6 @@ const nextPosition = (items, index, excludedId) => {
 
 export const nextBoardPositionSelector = createSelector(
   orm,
-  dbSelector,
   (_, projectId) => projectId,
   (_, __, index) => index,
   (_, __, ___, excludedId) => excludedId,
@@ -47,7 +45,6 @@ export const nextBoardPositionSelector = createSelector(
 
 export const nextListPositionSelector = createSelector(
   orm,
-  dbSelector,
   (_, boardId) => boardId,
   (_, __, index) => index,
   (_, __, ___, excludedId) => excludedId,
@@ -64,7 +61,6 @@ export const nextListPositionSelector = createSelector(
 
 export const nextCardPositionSelector = createSelector(
   orm,
-  dbSelector,
   (_, listId) => listId,
   (_, __, index) => index,
   (_, __, ___, excludedId) => excludedId,

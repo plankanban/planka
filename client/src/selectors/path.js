@@ -2,7 +2,6 @@ import { createSelector as createReselectSelector } from 'reselect';
 import { createSelector as createReduxOrmSelector } from 'redux-orm';
 
 import orm from '../orm';
-import { dbSelector } from './common';
 import matchPaths from '../utils/match-paths';
 import Paths from '../constants/Paths';
 
@@ -12,12 +11,13 @@ export const pathnameSelector = ({
   },
 }) => pathname;
 
-// eslint-disable-next-line max-len
-export const pathsMatchSelector = createReselectSelector(pathnameSelector, (pathname) => matchPaths(pathname, Object.values(Paths)));
+export const pathsMatchSelector = createReselectSelector(
+  pathnameSelector,
+  (pathname) => matchPaths(pathname, Object.values(Paths)),
+);
 
 export const pathSelector = createReduxOrmSelector(
   orm,
-  dbSelector,
   pathsMatchSelector,
   ({ Project, Board, Card }, pathsMatch) => {
     if (pathsMatch) {

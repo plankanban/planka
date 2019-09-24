@@ -1,5 +1,10 @@
-// eslint-disable-next-line max-len
-const getFullSeconds = ({ startedAt, total }) => (startedAt ? Math.floor((new Date() - startedAt) / 1000) + total : total);
+const getFullSeconds = ({ startedAt, total }) => {
+  if (startedAt) {
+    return Math.floor((new Date() - startedAt) / 1000) + total;
+  }
+
+  return total;
+};
 
 export const createTimer = ({ hours, minutes, seconds }) => ({
   startedAt: null,
