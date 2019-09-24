@@ -6,7 +6,9 @@ import EntryActionTypes from '../../../constants/EntryActionTypes';
 export default function* () {
   yield all([
     takeLatest(EntryActionTypes.AUTHENTICATE, ({ payload: { data } }) => authenticateService(data)),
-    // eslint-disable-next-line max-len
-    takeLatest(EntryActionTypes.AUTHENTICATION_ERROR_CLEAR, () => clearAuthenticationErrorService()),
+    takeLatest(
+      EntryActionTypes.AUTHENTICATION_ERROR_CLEAR,
+      () => clearAuthenticationErrorService(),
+    ),
   ]);
 }

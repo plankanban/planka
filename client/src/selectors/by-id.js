@@ -1,12 +1,10 @@
 import { createSelector } from 'redux-orm';
 
 import orm from '../orm';
-import { dbSelector } from './common';
 import { isLocalId } from '../utils/local-id';
 
 export const makeBoardByIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ Board }, id) => {
     const boardModel = Board.withId(id);
@@ -21,7 +19,6 @@ export const makeBoardByIdSelector = () => createSelector(
 
 export const makeListByIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ List }, id) => {
     const listModel = List.withId(id);
@@ -39,7 +36,6 @@ export const makeListByIdSelector = () => createSelector(
 
 export const makeCardIdsByListIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ List }, id) => {
     const listModel = List.withId(id);
@@ -54,7 +50,6 @@ export const makeCardIdsByListIdSelector = () => createSelector(
 
 export const makeCardByIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ Card }, id) => {
     const cardModel = Card.withId(id);
@@ -72,7 +67,6 @@ export const makeCardByIdSelector = () => createSelector(
 
 export const makeUsersByCardIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ Card }, id) => {
     const cardModel = Card.withId(id);
@@ -87,7 +81,6 @@ export const makeUsersByCardIdSelector = () => createSelector(
 
 export const makeLabelsByCardIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ Card }, id) => {
     const cardModel = Card.withId(id);
@@ -102,7 +95,6 @@ export const makeLabelsByCardIdSelector = () => createSelector(
 
 export const makeTasksByCardIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ Card }, id) => {
     const cardModel = Card.withId(id);
@@ -117,7 +109,6 @@ export const makeTasksByCardIdSelector = () => createSelector(
 
 export const makeLastActionIdByCardIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ Card }, id) => {
     const cardModel = Card.withId(id);
@@ -134,7 +125,6 @@ export const makeLastActionIdByCardIdSelector = () => createSelector(
 
 export const makeNotificationsTotalByCardIdSelector = () => createSelector(
   orm,
-  dbSelector,
   (_, id) => id,
   ({ Card }, id) => {
     const cardModel = Card.withId(id);

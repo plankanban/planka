@@ -9,6 +9,7 @@ io.sails.url = Config.API_URL;
 io.sails.autoConnect = false;
 io.sails.reconnection = true;
 io.sails.useCORSRouteToGetCookie = false;
+io.sails.environment = process.env.NODE_ENV;
 
 const { socket } = io;
 

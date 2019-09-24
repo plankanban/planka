@@ -1,7 +1,6 @@
 import { createSelector } from 'redux-orm';
 
 import orm from '../orm';
-import { dbSelector } from './common';
 import { pathSelector } from './path';
 import { isLocalId } from '../utils/local-id';
 
@@ -11,7 +10,6 @@ export const currentUserIdSelector = ({ auth: { userId } }) => userId;
 
 export const currentUserSelector = createSelector(
   orm,
-  dbSelector,
   (state) => currentUserIdSelector(state),
   ({ User }, id) => {
     if (!id) {
@@ -30,7 +28,6 @@ export const currentUserSelector = createSelector(
 
 export const projectsForCurrentUserSelector = createSelector(
   orm,
-  dbSelector,
   (state) => currentUserIdSelector(state),
   ({ User }, id) => {
     if (!id) {
@@ -68,7 +65,6 @@ export const projectsForCurrentUserSelector = createSelector(
 
 export const notificationsForCurrentUserSelector = createSelector(
   orm,
-  dbSelector,
   (state) => currentUserIdSelector(state),
   ({ User }, id) => {
     if (!id) {
@@ -97,7 +93,6 @@ export const notificationsForCurrentUserSelector = createSelector(
 
 export const currentProjectSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).projectId,
   ({ Project }, id) => {
     if (!id) {
@@ -116,7 +111,6 @@ export const currentProjectSelector = createSelector(
 
 export const membershipsForCurrentProjectSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).projectId,
   (state) => currentUserIdSelector(state),
   ({ Project }, id, currentUserId) => {
@@ -146,7 +140,6 @@ export const membershipsForCurrentProjectSelector = createSelector(
 
 export const boardsForCurrentProjectSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).projectId,
   ({ Project }, id) => {
     if (!id) {
@@ -171,7 +164,6 @@ export const boardsForCurrentProjectSelector = createSelector(
 
 export const currentBoardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
@@ -190,7 +182,6 @@ export const currentBoardSelector = createSelector(
 
 export const listIdsForCurrentBoardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
@@ -212,7 +203,6 @@ export const listIdsForCurrentBoardSelector = createSelector(
 
 export const labelsForCurrentBoardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
@@ -234,7 +224,6 @@ export const labelsForCurrentBoardSelector = createSelector(
 
 export const filterUsersForCurrentBoardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
@@ -253,7 +242,6 @@ export const filterUsersForCurrentBoardSelector = createSelector(
 
 export const filterLabelsForCurrentBoardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
@@ -272,7 +260,6 @@ export const filterLabelsForCurrentBoardSelector = createSelector(
 
 export const currentCardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
@@ -291,7 +278,6 @@ export const currentCardSelector = createSelector(
 
 export const usersForCurrentCardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
@@ -310,7 +296,6 @@ export const usersForCurrentCardSelector = createSelector(
 
 export const labelsForCurrentCardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
@@ -329,7 +314,6 @@ export const labelsForCurrentCardSelector = createSelector(
 
 export const tasksForCurrentCardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
@@ -354,7 +338,6 @@ export const tasksForCurrentCardSelector = createSelector(
 
 export const actionsForCurrentCardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).cardId,
   (state) => currentUserIdSelector(state),
   ({ Card }, id, currentUserId) => {
@@ -384,7 +367,6 @@ export const actionsForCurrentCardSelector = createSelector(
 
 export const notificationIdsForCurrentCardSelector = createSelector(
   orm,
-  dbSelector,
   (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
