@@ -5,7 +5,7 @@ import Config from '../constants/Config';
 
 const io = sailsIOClient(socketIOClient);
 
-io.sails.url = Config.API_URL;
+io.sails.url = Config.SERVER_BASE_URL;
 io.sails.autoConnect = false;
 io.sails.reconnection = true;
 io.sails.useCORSRouteToGetCookie = false;
@@ -22,7 +22,7 @@ socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
         method,
         data,
         headers,
-        url: `${Config.API_PATH}${url}`,
+        url: `/api${url}`,
       },
       (_, { body, error }) => {
         if (error) {

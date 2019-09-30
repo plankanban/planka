@@ -19,6 +19,7 @@
  * https://sailsjs.com/docs/concepts/deployment
  */
 
+const url = require('url');
 const path = require('path');
 const sails = require('sails');
 
@@ -246,7 +247,7 @@ module.exports = {
     ***************************************************************************/
 
     onlyAllowOrigins: [
-      process.env.BASE_URL,
+      new url.URL(process.env.BASE_URL).origin,
     ],
 
     /***************************************************************************
@@ -360,7 +361,7 @@ module.exports = {
   custom: {
     baseUrl: process.env.BASE_URL,
 
-    uploadsPath: path.join(sails.config.paths.tmp, 'public', 'uploads'),
+    uploadsPath: path.join(sails.config.paths.public, 'uploads'),
     uploadsUrl: `${process.env.BASE_URL}/uploads`,
 
     // mailgunDomain: 'mg.example.com',

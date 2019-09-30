@@ -19,8 +19,7 @@ export default {
       addUser: 'Добавление пользователя',
       administrator: 'Администратор',
       all: 'Все',
-      allChangesWillBeAutomaticallySavedAfterConnectionRestored:
-        'Все изменения сохранятся автоматически,<br />как только подключение восстановится',
+      allChangesWillBeAutomaticallySavedAfterConnectionRestored: 'Все изменения сохранятся автоматически,<br />как только подключение восстановится',
       areYouSureYouWantToDeleteThisBoard: 'Вы уверены, что хотите удалить эту доску?',
       areYouSureYouWantToDeleteThisCard: 'Вы уверены, что хотите удалить эту карточку?',
       areYouSureYouWantToDeleteThisComment: 'Вы уверены, что хотите удалить этот комментарий?',
@@ -29,8 +28,7 @@ export default {
       areYouSureYouWantToDeleteThisProject: 'Вы уверены, что хотите удалить этот проект?',
       areYouSureYouWantToDeleteThisTask: 'Вы уверены, что хотите удалить эту задачу?',
       areYouSureYouWantToDeleteThisUser: 'Вы уверены, что хотите удалить этого пользователя?',
-      areYouSureYouWantToRemoveThisMemberFromProject:
-        'Вы уверены, что хотите удалить этого участника из проекта?',
+      areYouSureYouWantToRemoveThisMemberFromProject: 'Вы уверены, что хотите удалить этого участника из проекта?',
       boardNotFound: 'Доска не найдена',
       cardActions: 'Действия с карточкой',
       cardNotFound: 'Карточка не найдена',
@@ -76,10 +74,8 @@ export default {
       notifications: 'Уведомления',
       noUnreadNotifications: 'Уведомлений нет',
       openBoard: 'Откройте доску',
-      pageNotFound: 'Страница не найдена',
       projectNotFound: 'Доска не найдена',
-      refreshPageToLoadLastDataAndReceiveUpdates:
-        '<0>Обновите страницу</0>, чтобы загрузить<br />актуальные данные и получать обновления',
+      refreshPageToLoadLastDataAndReceiveUpdates: '<0>Обновите страницу</0>, чтобы загрузить<br />актуальные данные и получать обновления',
       removeMember: 'Удаление участника',
       seconds: 'Секунды',
       taskActions: 'Действия с задачей',
@@ -90,10 +86,8 @@ export default {
       userAddedThisCardToList: '<0>{{user}}</0><1> добавил(а) эту карточку в {{list}}</1>',
       userIsAlreadyExist: 'Пользователь уже существует',
       userLeftNewCommentToCard: '{{user}} оставил(а) комментарий «{{comment}}» к <2>{{card}}</2>',
-      userMovedCardFromListToList:
-        '{{user}} переместил(а) <2>{{card}}</2> из {{fromList}} в {{toList}}',
-      userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> переместил(а) эту карточку из {{fromList}} в {{toList}}</1>',
+      userMovedCardFromListToList: '{{user}} переместил(а) <2>{{card}}</2> из {{fromList}} в {{toList}}',
+      userMovedThisCardFromListToList: '<0>{{user}}</0><1> переместил(а) эту карточку из {{fromList}} в {{toList}}</1>',
       users: 'Пользователи',
       writeComment: 'Напишите комментарий...',
     },

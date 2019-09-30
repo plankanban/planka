@@ -2,11 +2,11 @@
 
 A Trello-like application built with React and Redux.
 
-![](https://github.com/meltyshev/planka/blob/master/demo.gif?raw=true)
+![](https://raw.githubusercontent.com/meltyshev/planka/master/demo.gif)
 
-[Client demo](https://meltyshev.github.io/planka) (with some restrictions).
+[**Client demo**](https://meltyshev.github.io/planka) (with some limitations).
 
-### Features
+## Features
 
 - Create projects, boards, lists, cards, labels and tasks
 - Add card members, track time, set a deadline, write comments
@@ -15,40 +15,52 @@ A Trello-like application built with React and Redux.
 - User notifications
 - Internationalization
 
-### Tech stack
+## Deploy
 
-- React, Redux, Redux-Saga, Redux-ORM, Semantic UI React, react-beautiful-dnd
-- Sails.js, Knex.js
-- PostgreSQL
+### Docker Compose
 
-### Run in development
+[![](https://d207aa93qlcgug.cloudfront.net/1.95.5.qa/img/nav/docker-logo-loggedout.png)](https://hub.docker.com/r/meltyshev/planka)
 
-```bash
+- Make sure you have Docker and Docker Compose installed and operational.
+- Create docker-compose.yml based on the example. This is the ONLY file you will need. You can create this file on your own machine by copy and pasting the content.
+- Edit BASE_URL to match your domain name or IP address.
+
+Download the docker-compose.yaml:
+
+```
+curl -L https://raw.githubusercontent.com/meltyshev/planka/master/docker-compose.yml -o docker-compose.yml
+```
+
+Pull images and start services:
+
+```
+docker-compose up -d
+```
+
+Demo user: demo@demo.demo demo
+
+## Development
+
+```
 git clone https://github.com/meltyshev/planka.git
 ```
 
-Server:
+Server folder:
 
-```bash
-cd server
-
-npm install
 ```
+npm install
 
-Create a database and edit DATABASE_URL in .env file.
+# Create a database and edit DATABASE_URL in .env file
 
-```bash
 npm run db:migrate
 npm run db:seed
 
 npm run start:dev
 ```
 
-Client (second terminal window):
+Client folder:
 
-```bash
-cd client
-
+```
 npm install
 
 npm start
@@ -56,11 +68,13 @@ npm start
 
 Demo user: demo@demo.demo demo
 
-## Run in production
+## Tech stack
 
-In progress..
+- React, Redux, Redux-Saga, Redux-ORM, Semantic UI React, react-beautiful-dnd
+- Sails.js, Knex.js
+- PostgreSQL
 
-## Todo
+## Roadmap
 
 In progress..
 

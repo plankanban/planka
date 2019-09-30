@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  planka:
+    image: meltyshev/planka:latest
+    command: >
+      bash -c
+        "for i in `seq 1 30`; do
+          npm start &&
+          s=$$? && break || s=$$?;
+          echo \"Tried $$i times. Waiting 5 seconds...\";
+          sleep 5;
+        done; (exit $$s)"
+    restart: unless-stopped
+    volumes:
+      - uploads:/app/public/uploads
+    ports:
+      - 3000:1337
+    environment:
+      - BASE_URL=http://localhost:3000
+      - DATABASE_URL=postgresql://postgres@postgres/planka
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:alpine
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=planka
+
+volumes:
+  uploads:
+  db-data:

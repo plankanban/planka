@@ -1,0 +1,10 @@
+*/node_modules
+*/.gitignore
+*/README.md
+
+**/.DS_Store
+**/.gitkeep
+
+server/public/*
+server/views/*
+client/build
