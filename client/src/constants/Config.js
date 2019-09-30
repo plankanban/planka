@@ -1,13 +1,12 @@
-const API_URL = 'http://localhost:1337';
-const API_PATH = '';
+const SERVER_BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
+  || (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:1337');
 
 const POSITION_GAP = 65535;
 
 const ACTIONS_LIMIT = 10;
 
 export default {
-  API_URL,
-  API_PATH,
+  SERVER_BASE_URL,
   POSITION_GAP,
   ACTIONS_LIMIT,
 };

@@ -13,7 +13,7 @@ const http = {};
       return result;
     }, new FormData());
 
-    return fetch(`${Config.API_URL}${Config.API_PATH}${url}`, {
+    return fetch(`${Config.SERVER_BASE_URL}/api${url}`, {
       method,
       headers,
       body: formData,

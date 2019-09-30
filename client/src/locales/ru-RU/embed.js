@@ -6,6 +6,7 @@ export default {
       invalidPassword: 'Неверный пароль',
       logInToPlanka: 'Вход в Planka',
       noInternetConnection: 'Нет соединения',
+      pageNotFound: 'Страница не найдена',
       password: 'Пароль',
       projectManagment: 'Управление проектами',
       serverConnectionFailed: 'Не могу подключиться к серверу',
