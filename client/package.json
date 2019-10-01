@@ -3,7 +3,7 @@
   "scripts": {
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "lint": "eslint src",
+    "lint": "eslint --ext js,jsx src",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
@@ -30,7 +30,7 @@
     "date-fns": "^2.4.1",
     "dequal": "^1.0.0",
     "history": "^4.10.1",
-    "i18next": "^17.0.16",
+    "i18next": "^17.0.17",
     "i18next-browser-languagedetector": "^3.0.3",
     "initials": "^3.0.1",
     "lodash": "^4.17.15",
@@ -42,8 +42,8 @@
     "react-i18next": "^10.13.1",
     "react-input-mask": "^2.0.4",
     "react-redux": "^7.1.1",
-    "react-router-dom": "^5.1.1",
-    "react-scripts": "3.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.1.2",
     "react-textarea-autosize": "^7.1.0",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
@@ -57,7 +57,6 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "6.4.0",
     "eslint-config-airbnb": "^18.0.1"
   }
 }
