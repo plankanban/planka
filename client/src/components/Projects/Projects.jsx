@@ -23,7 +23,7 @@ const Projects = React.memo(({
         <Grid className={styles.gridFix}>
           <Grid.Row>
             {items.map((item) => (
-              <Grid.Column key={item.id} width={4}>
+              <Grid.Column key={item.id} mobile={8} computer={4}>
                 <Link
                   to={
                     item.firstBoardId
@@ -39,7 +39,7 @@ const Projects = React.memo(({
               </Grid.Column>
             ))}
             {isEditable && (
-              <Grid.Column width={4}>
+              <Grid.Column mobile={8} computer={4}>
                 <button
                   type="button"
                   className={classNames(styles.card, styles.add)}

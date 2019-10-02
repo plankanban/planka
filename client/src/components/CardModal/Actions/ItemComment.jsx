@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Comment } from 'semantic-ui-react';
+import { Markdown } from '../../../lib/custom-ui';
 
 import EditComment from './EditComment';
 import User from '../../User';
@@ -39,7 +40,7 @@ const ItemComment = React.memo(
           </div>
           <EditComment ref={editComment} defaultData={data} onUpdate={onUpdate}>
             <>
-              <p className={styles.text}>{data.text}</p>
+              <Markdown source={data.text} linkTarget="_blank" className={styles.text} />
               <Comment.Actions>
                 {user.isCurrent && (
                   <Comment.Action

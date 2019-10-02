@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import {
   Button, Grid, Icon, Modal,
 } from 'semantic-ui-react';
+import { Markdown } from '../../lib/custom-ui';
 
 import NameField from './NameField';
 import EditDescription from './EditDescription';
@@ -109,7 +110,6 @@ const CardModal = React.memo(
         closeIcon
         size="small"
         centered={false}
-        className={styles.wrapper}
         onClose={onClose}
       >
         <Grid className={styles.grid}>
@@ -239,7 +239,7 @@ const CardModal = React.memo(
                   <EditDescription defaultValue={description} onUpdate={handleDescriptionUpdate}>
                     {description ? (
                       <button type="button" className={styles.descriptionText}>
-                        {description}
+                        <Markdown linkStopPropagation source={description} linkTarget="_blank" />
                       </button>
                     ) : (
                       <button type="button" className={styles.descriptionButton}>

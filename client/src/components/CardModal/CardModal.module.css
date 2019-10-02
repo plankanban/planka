@@ -3,8 +3,10 @@
   box-shadow: 0 1px 0 0 rgba(9, 45, 66, 0.13) !important;
   color: #444 !important;
   margin-top: 8px !important;
+  overflow: hidden;
   padding: 6px 8px 6px 18px !important;
   text-align: left !important;
+  text-overflow: ellipsis;
   transition: background 85ms ease !important;
 }
 
@@ -16,6 +18,7 @@
 
 .actionIcon {
   color: #17394d !important;
+  display: inline !important;
   margin-right: 8px !important;
 }
 
@@ -121,6 +124,10 @@
   text-align: left;
   white-space: pre-line;
   width: 100%;
+}
+
+.descriptionText img {
+  max-width: 100%;
 }
 
 .grid {
