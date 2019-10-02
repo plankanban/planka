@@ -38,6 +38,10 @@
   word-break: break-word;
 }
 
+.text img {
+  max-width: 100%;
+}
+
 .title {
   padding-bottom: 4px;
 }

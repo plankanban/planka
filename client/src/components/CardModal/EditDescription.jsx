@@ -47,14 +47,14 @@ const EditDescription = React.forwardRef(({ children, defaultValue, onUpdate }, 
   );
 
   const handleChildrenClick = useCallback(() => {
-    open();
+    if (!getSelection().toString()) {
+      open();
+    }
   }, [open]);
 
   const handleFieldKeyDown = useCallback(
     (event) => {
-      if (event.key === 'Enter') {
-        event.preventDefault();
-
+      if (event.ctrlKey && event.key === 'Enter') {
         submit();
       }
     },
