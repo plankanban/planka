@@ -19,6 +19,7 @@ services:
     environment:
       - BASE_URL=http://localhost:3000
       - DATABASE_URL=postgresql://postgres@postgres/planka
+      - SECRET_KEY=notsecretkey
     depends_on:
       - postgres
 
