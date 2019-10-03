@@ -1,5 +1,7 @@
 # Planka
 
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/meltyshev/planka)
+
 A Trello-like application built with React and Redux.
 
 ![](https://raw.githubusercontent.com/meltyshev/planka/master/demo.gif)
@@ -18,13 +20,16 @@ A Trello-like application built with React and Redux.
 
 ## Deploy
 
+**Please note that Planka is NOT released yet, API and database structure may be changed!**
+
 ### Docker Compose
 
 [![](https://d207aa93qlcgug.cloudfront.net/1.95.5.qa/img/nav/docker-logo-loggedout.png)](https://hub.docker.com/r/meltyshev/planka)
 
 - Make sure you have [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed and operational.
-- Create `docker-compose.yml` based on [the example](./docker-compose.yml). This is the ONLY file you will need. You can create this file on your own machine by copy and pasting the content.
+- Create `docker-compose.yml` based on [the example](https://raw.githubusercontent.com/meltyshev/planka/master/docker-compose.yml). This is the ONLY file you will need. You can create this file on your own machine by copy and pasting the content.
 - Edit `BASE_URL` to match your domain name or IP address.
+- Edit `SECRET_KEY` with random value. You can generate it by `openssl rand -hex 64`.
 
 Download the docker-compose.yml:
 
@@ -78,11 +83,13 @@ Demo user: demo@demo.demo demo
 ## Roadmap
 
 - [ ] Move board tabs to the main page, add members directly to a board instead of a project
+- [ ] Fetch last data after reconnection
 - [ ] File attachments
 - [ ] Custom fields
 - [ ] Public boards
 - [ ] Member permissions
+- [ ] Automatic actions
 
 ## License
 
-Planka is [MIT licensed](./LICENSE).
+Planka is [MIT licensed](https://github.com/meltyshev/planka/blob/master/LICENSE).
