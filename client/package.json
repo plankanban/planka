@@ -1,4 +1,5 @@
 {
+  "name": "planka-client",
   "private": true,
   "scripts": {
     "build": "react-scripts build",
@@ -7,12 +8,18 @@
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "eslintConfig": {
     "env": {
       "browser": true
@@ -44,7 +51,7 @@
     "react-markdown": "^4.2.2",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.2",
+    "react-scripts": "3.2.0",
     "react-textarea-autosize": "^7.1.0",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
