@@ -148,7 +148,7 @@ export default class extends Model {
   }
 
   getOrderedInCardActionsQuerySet() {
-    return this.actions.orderBy('id', 'desc');
+    return this.actions.orderBy('id', false);
   }
 
   getUnreadNotificationsQuerySet() {

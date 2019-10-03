@@ -95,7 +95,7 @@ export default class extends Model {
       .filter({
         isRead: false,
       })
-      .orderBy('id', 'desc');
+      .orderBy('id', false);
   }
 
   deleteWithRelated(user) {
