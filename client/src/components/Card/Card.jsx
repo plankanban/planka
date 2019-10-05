@@ -11,7 +11,7 @@ import EditName from './EditName';
 import ActionsPopup from './ActionsPopup';
 import User from '../User';
 import Label from '../Label';
-import Deadline from '../Deadline';
+import DueDate from '../DueDate';
 import Timer from '../Timer';
 
 import styles from './Card.module.css';
@@ -21,7 +21,7 @@ const Card = React.memo(
     id,
     index,
     name,
-    deadline,
+    dueDate,
     timer,
     isPersisted,
     notificationsTotal,
@@ -74,7 +74,7 @@ const Card = React.memo(
         )}
         <div className={styles.name}>{name}</div>
         {tasks.length > 0 && <Tasks items={tasks} />}
-        {(deadline || timer) && (
+        {(dueDate || timer) && (
           <span className={styles.attachments}>
             {notificationsTotal > 0 && (
               <span
@@ -87,9 +87,9 @@ const Card = React.memo(
                 {notificationsTotal}
               </span>
             )}
-            {deadline && (
+            {dueDate && (
               <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                <Deadline value={deadline} size="tiny" />
+                <DueDate value={dueDate} size="tiny" />
               </span>
             )}
             {timer && (
@@ -131,7 +131,7 @@ const Card = React.memo(
                       card={{
                         id,
                         name,
-                        deadline,
+                        dueDate,
                         timer,
                         isPersisted,
                       }}
@@ -171,7 +171,7 @@ Card.propTypes = {
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  deadline: PropTypes.instanceOf(Date),
+  dueDate: PropTypes.instanceOf(Date),
   timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isPersisted: PropTypes.bool.isRequired,
   notificationsTotal: PropTypes.number.isRequired,
@@ -194,7 +194,7 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-  deadline: undefined,
+  dueDate: undefined,
   timer: undefined,
 };
 

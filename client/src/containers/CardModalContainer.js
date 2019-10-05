@@ -42,7 +42,7 @@ const mapStateToProps = (state) => {
   const {
     name,
     description,
-    deadline,
+    dueDate,
     timer,
     isSubscribed,
     isActionsFetching,
@@ -58,7 +58,7 @@ const mapStateToProps = (state) => {
   return {
     name,
     description,
-    deadline,
+    dueDate,
     timer,
     isSubscribed,
     isActionsFetching,

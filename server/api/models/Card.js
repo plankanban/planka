@@ -24,8 +24,9 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true
     },
-    deadline: {
-      type: 'ref'
+    dueDate: {
+      type: 'ref',
+      columnName: 'due_date'
     },
     timer: {
       type: 'json'

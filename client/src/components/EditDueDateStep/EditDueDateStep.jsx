@@ -11,9 +11,9 @@ import {
   useDeepCompareCallback, useDidUpdate, useForm, useToggle,
 } from '../../hooks';
 
-import styles from './EditDeadlineStep.module.css';
+import styles from './EditDueDateStep.module.css';
 
-const EditDeadlineStep = React.memo(({
+const EditDueDateStep = React.memo(({
   defaultValue, onUpdate, onBack, onClose,
 }) => {
   const [t] = useTranslation();
@@ -107,7 +107,7 @@ const EditDeadlineStep = React.memo(({
   return (
     <>
       <Popup.Header onBack={onBack}>
-        {t('common.editDeadline', {
+        {t('common.editDueDate', {
           context: 'title',
         })}
       </Popup.Header>
@@ -137,16 +137,16 @@ const EditDeadlineStep = React.memo(({
   );
 });
 
-EditDeadlineStep.propTypes = {
+EditDueDateStep.propTypes = {
   defaultValue: PropTypes.instanceOf(Date),
   onUpdate: PropTypes.func.isRequired,
   onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
-EditDeadlineStep.defaultProps = {
+EditDueDateStep.defaultProps = {
   defaultValue: undefined,
   onBack: undefined,
 };
 
-export default EditDeadlineStep;
+export default EditDueDateStep;

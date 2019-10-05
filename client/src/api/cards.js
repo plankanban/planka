@@ -4,7 +4,7 @@ import socket from './socket';
 
 export const transformCard = (card) => ({
   ...card,
-  deadline: card.deadline && new Date(card.deadline),
+  dueDate: card.dueDate && new Date(card.dueDate),
   timer: card.timer && {
     ...card.timer,
     startedAt: card.timer.startedAt && new Date(card.timer.startedAt),
@@ -13,8 +13,8 @@ export const transformCard = (card) => ({
 
 export const transformCardData = (data) => ({
   ...data,
-  ...(data.deadline && {
-    deadline: data.deadline.toISOString(),
+  ...(data.dueDate && {
+    dueDate: data.dueDate.toISOString(),
   }),
   ...(data.timer && {
     ...data.timer,
