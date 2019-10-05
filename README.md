@@ -6,7 +6,7 @@ A Trello-like application built with React and Redux.
 
 ![](https://raw.githubusercontent.com/meltyshev/planka/master/demo.gif)
 
-[**Client demo**](https://meltyshev.github.io/planka) (with some limitations).
+[**Client demo**](https://meltyshev.github.io/planka) (without server features).
 
 ## Features
 
