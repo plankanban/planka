@@ -1,4 +1,6 @@
-import { call, select, put } from 'redux-saga/effects';
+import {
+  call, put, select, take,
+} from 'redux-saga/effects';
 
 import { accessTokenSelector } from '../../../selectors';
 import { logout } from '../../../actions';
@@ -14,6 +16,7 @@ export default function* (method, ...args) {
   } catch (error) {
     if (error.code === ErrorCodes.UNAUTHORIZED) {
       yield put(logout()); // TODO: next url
+      yield take();
     }
 
     throw error;

@@ -11,7 +11,7 @@ A Trello-like application built with React and Redux.
 ## Features
 
 - Create projects, boards, lists, cards, labels and tasks
-- Add card members, track time, set a deadline, write comments
+- Add card members, track time, set a due date, write comments
 - Markdown support in a card description and comment
 - Filter by members and labels
 - Real-time updates

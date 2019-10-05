@@ -1,5 +1,5 @@
 import {
-  all, call, fork, take,
+  all, apply, call, fork, take,
 } from 'redux-saga/effects';
 
 import watchers from './watchers';
@@ -12,11 +12,11 @@ import Paths from '../../constants/Paths';
 export default function* () {
   yield all(watchers.map((watcher) => fork(watcher)));
 
-  yield call([socket, socket.connect]);
-  yield call(initializeAppService);
+  yield apply(socket, socket.connect);
+  yield fork(initializeAppService);
 
   yield take(ActionTypes.LOGOUT);
-  yield call(removeAccessToken);
 
+  yield call(removeAccessToken);
   window.location.href = Paths.LOGIN;
 }

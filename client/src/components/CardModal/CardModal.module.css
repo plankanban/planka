@@ -64,7 +64,7 @@
   padding: 8px 8px 0 16px !important;
 }
 
-.deadline {
+.dueDate {
   background: #dce0e4;
   border: none;
   border-radius: 3px;
@@ -78,7 +78,7 @@
   vertical-align: top;
 }
 
-.deadline:hover {
+.dueDate:hover {
   background: #d2d8dc;
   color: #17394d;
 }

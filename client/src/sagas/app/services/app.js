@@ -14,13 +14,7 @@ import i18n from '../../../i18n';
 import Paths from '../../../constants/Paths';
 
 export function* loadLocaleService(language) {
-  try {
-    yield call(i18n.loadAppLocale, language);
-
-    return true;
-  } catch (error) {
-    return false;
-  }
+  yield call(i18n.loadAppLocale, language);
 }
 
 export function* initializeAppService() {

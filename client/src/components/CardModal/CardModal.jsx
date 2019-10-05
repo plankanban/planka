@@ -13,11 +13,11 @@ import Tasks from './Tasks';
 import Actions from './Actions';
 import User from '../User';
 import Label from '../Label';
-import Deadline from '../Deadline';
+import DueDate from '../DueDate';
 import Timer from '../Timer';
 import ProjectMembershipsPopup from '../ProjectMembershipsPopup';
 import LabelsPopup from '../LabelsPopup';
-import EditDeadlinePopup from '../EditDeadlinePopup';
+import EditDueDatePopup from '../EditDueDatePopup';
 import EditTimerPopup from '../EditTimerPopup';
 import DeletePopup from '../DeletePopup';
 
@@ -27,7 +27,7 @@ const CardModal = React.memo(
   ({
     name,
     description,
-    deadline,
+    dueDate,
     timer,
     isSubscribed,
     isActionsFetching,
@@ -77,10 +77,10 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
-    const handleDeadlineUpdate = useCallback(
-      (newDeadline) => {
+    const handleDueDateUpdate = useCallback(
+      (newDueDate) => {
         onUpdate({
-          deadline: newDeadline,
+          dueDate: newDueDate,
         });
       },
       [onUpdate],
@@ -125,7 +125,7 @@ const CardModal = React.memo(
           </Grid.Row>
           <Grid.Row className={styles.modalPadding}>
             <Grid.Column width={12} className={styles.contentPadding}>
-              {(users.length > 0 || labels.length > 0 || deadline || timer) && (
+              {(users.length > 0 || labels.length > 0 || dueDate || timer) && (
                 <div className={styles.moduleWrapper}>
                   {users.length > 0 && (
                     <div className={styles.attachments}>
@@ -154,7 +154,7 @@ const CardModal = React.memo(
                       >
                         <button
                           type="button"
-                          className={classNames(styles.attachment, styles.deadline)}
+                          className={classNames(styles.attachment, styles.dueDate)}
                         >
                           <Icon name="add" size="small" className={styles.addAttachment} />
                         </button>
@@ -195,24 +195,24 @@ const CardModal = React.memo(
                       >
                         <button
                           type="button"
-                          className={classNames(styles.attachment, styles.deadline)}
+                          className={classNames(styles.attachment, styles.dueDate)}
                         >
                           <Icon name="add" size="small" className={styles.addAttachment} />
                         </button>
                       </LabelsPopup>
                     </div>
                   )}
-                  {deadline && (
+                  {dueDate && (
                     <div className={styles.attachments}>
                       <div className={styles.text}>
-                        {t('common.deadline', {
+                        {t('common.dueDate', {
                           context: 'title',
                         })}
                       </div>
                       <span className={styles.attachment}>
-                        <EditDeadlinePopup defaultValue={deadline} onUpdate={handleDeadlineUpdate}>
-                          <Deadline value={deadline} />
-                        </EditDeadlinePopup>
+                        <EditDueDatePopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                          <DueDate value={dueDate} />
+                        </EditDueDatePopup>
                       </span>
                     </div>
                   )}
@@ -302,12 +302,12 @@ const CardModal = React.memo(
                     {t('common.labels')}
                   </Button>
                 </LabelsPopup>
-                <EditDeadlinePopup defaultValue={deadline} onUpdate={handleDeadlineUpdate}>
+                <EditDueDatePopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="calendar check outline" className={styles.actionIcon} />
-                    {t('common.deadline')}
+                    {t('common.dueDate')}
                   </Button>
-                </EditDeadlinePopup>
+                </EditDueDatePopup>
                 <EditTimerPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="clock outline" className={styles.actionIcon} />
@@ -346,7 +346,7 @@ const CardModal = React.memo(
 CardModal.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
-  deadline: PropTypes.instanceOf(Date),
+  dueDate: PropTypes.instanceOf(Date),
   timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isSubscribed: PropTypes.bool.isRequired,
   isActionsFetching: PropTypes.bool.isRequired,
@@ -381,7 +381,7 @@ CardModal.propTypes = {
 
 CardModal.defaultProps = {
   description: undefined,
-  deadline: undefined,
+  dueDate: undefined,
   timer: undefined,
 };
 

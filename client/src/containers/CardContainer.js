@@ -35,7 +35,7 @@ const makeMapStateToProps = () => {
     const allLabels = labelsForCurrentBoardSelector(state);
 
     const {
-      name, deadline, timer, isPersisted,
+      name, dueDate, timer, isPersisted,
     } = cardByIdSelector(state, id);
 
     const users = usersByCardIdSelector(state, id);
@@ -47,7 +47,7 @@ const makeMapStateToProps = () => {
       id,
       index,
       name,
-      deadline,
+      dueDate,
       timer,
       isPersisted,
       notificationsTotal,

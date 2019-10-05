@@ -8,7 +8,7 @@ import { Popup } from '../../lib/custom-ui';
 import { useSteps } from '../../hooks';
 import ProjectMembershipsStep from '../ProjectMembershipsStep';
 import LabelsStep from '../LabelsStep';
-import EditDeadlineStep from '../EditDeadlineStep';
+import EditDueDateStep from '../EditDueDateStep';
 import EditTimerStep from '../EditTimerStep';
 import DeleteStep from '../DeleteStep';
 
@@ -17,7 +17,7 @@ import styles from './ActionsPopup.module.css';
 const StepTypes = {
   USERS: 'USERS',
   LABELS: 'LABELS',
-  EDIT_DEADLINE: 'EDIT_DEADLINE',
+  EDIT_DUE_DATE: 'EDIT_DUE_DATE',
   EDIT_TIMER: 'EDIT_TIMER',
   DELETE: 'DELETE',
 };
@@ -57,8 +57,8 @@ const ActionsStep = React.memo(
       openStep(StepTypes.LABELS);
     }, [openStep]);
 
-    const handleEditDeadlineClick = useCallback(() => {
-      openStep(StepTypes.EDIT_DEADLINE);
+    const handleEditDueDateClick = useCallback(() => {
+      openStep(StepTypes.EDIT_DUE_DATE);
     }, [openStep]);
 
     const handleEditTimerClick = useCallback(() => {
@@ -69,10 +69,10 @@ const ActionsStep = React.memo(
       openStep(StepTypes.DELETE);
     }, [openStep]);
 
-    const handleDeadlineUpdate = useCallback(
-      (deadline) => {
+    const handleDueDateUpdate = useCallback(
+      (dueDate) => {
         onUpdate({
-          deadline,
+          dueDate,
         });
       },
       [onUpdate],
@@ -112,11 +112,11 @@ const ActionsStep = React.memo(
               onBack={handleBack}
             />
           );
-        case StepTypes.EDIT_DEADLINE:
+        case StepTypes.EDIT_DUE_DATE:
           return (
-            <EditDeadlineStep
-              defaultValue={card.deadline}
-              onUpdate={handleDeadlineUpdate}
+            <EditDueDateStep
+              defaultValue={card.dueDate}
+              onUpdate={handleDueDateUpdate}
               onBack={handleBack}
               onClose={onClose}
             />
@@ -170,8 +170,8 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
-            <Menu.Item className={styles.menuItem} onClick={handleEditDeadlineClick}>
-              {t('action.editDeadline', {
+            <Menu.Item className={styles.menuItem} onClick={handleEditDueDateClick}>
+              {t('action.editDueDate', {
                 context: 'title',
               })}
             </Menu.Item>

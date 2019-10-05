@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import styles from './Deadline.module.css';
+import styles from './DueDate.module.css';
 
 const SIZES = {
   TINY: 'tiny',
@@ -35,7 +35,7 @@ const FORMATS = {
   medium: 'longDateTime',
 };
 
-const Deadline = React.memo(({
+const DueDate = React.memo(({
   value, size, isDisabled, onClick,
 }) => {
   const [t] = useTranslation();
@@ -62,17 +62,17 @@ const Deadline = React.memo(({
   );
 });
 
-Deadline.propTypes = {
+DueDate.propTypes = {
   value: PropTypes.instanceOf(Date).isRequired,
   size: PropTypes.oneOf(Object.values(SIZES)),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
-Deadline.defaultProps = {
+DueDate.defaultProps = {
   size: SIZES.MEDIUM,
   isDisabled: false,
   onClick: undefined,
 };
 
-export default Deadline;
+export default DueDate;

@@ -13,7 +13,7 @@ export default class extends Model {
     position: attr(),
     name: attr(),
     description: attr(),
-    deadline: attr(),
+    dueDate: attr(),
     timer: attr(),
     isSubscribed: attr({
       getDefault: () => false,

@@ -30,7 +30,7 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true
     },
-    deadline: {
+    dueDate: {
       type: 'string',
       custom: value => moment(value, moment.ISO_8601, true).isValid(),
       allowNull: true
@@ -87,7 +87,7 @@ module.exports = {
       'position',
       'name',
       'description',
-      'deadline',
+      'dueDate',
       'timer',
       'isSubscribed'
     ]);

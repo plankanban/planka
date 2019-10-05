@@ -10,7 +10,7 @@ module.exports.up = knex =>
     table.specificType('position', 'double precision').notNullable();
     table.text('name').notNullable();
     table.text('description');
-    table.timestamp('deadline', true);
+    table.timestamp('dueDate', true);
     table.jsonb('timer');
 
     table.timestamp('created_at', true);
