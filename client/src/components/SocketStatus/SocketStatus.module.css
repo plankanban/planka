@@ -28,7 +28,7 @@
   bottom: 20px;
   box-shadow: #b04632 0 1px 0;
   padding: 12px 18px;
-  position: absolute;
+  position: fixed;
   right: 20px;
   width: 390px;
   z-index: 10001;
