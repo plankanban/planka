@@ -21,40 +21,38 @@ const Projects = React.memo(({
     return (
       <Container className={styles.cardsWrapper}>
         <Grid className={styles.gridFix}>
-          <Grid.Row>
-            {items.map((item) => (
-              <Grid.Column key={item.id} mobile={8} computer={4}>
-                <Link
-                  to={
-                    item.firstBoardId
-                      ? Paths.BOARDS.replace(':id', item.firstBoardId)
-                      : Paths.PROJECTS.replace(':id', item.id)
-                  }
-                >
-                  <div className={classNames(styles.card, styles.open)}>
-                    <div className={styles.cardOverlay} />
-                    <div className={styles.openTitle}>{item.name}</div>
+          {items.map((item) => (
+            <Grid.Column key={item.id} mobile={8} computer={4}>
+              <Link
+                to={
+                  item.firstBoardId
+                    ? Paths.BOARDS.replace(':id', item.firstBoardId)
+                    : Paths.PROJECTS.replace(':id', item.id)
+                }
+              >
+                <div className={classNames(styles.card, styles.open)}>
+                  <div className={styles.cardOverlay} />
+                  <div className={styles.openTitle}>{item.name}</div>
+                </div>
+              </Link>
+            </Grid.Column>
+          ))}
+          {isEditable && (
+            <Grid.Column mobile={8} computer={4}>
+              <button
+                type="button"
+                className={classNames(styles.card, styles.add)}
+                onClick={onAdd}
+              >
+                <div className={styles.addTitleWrapper}>
+                  <div className={styles.addTitle}>
+                    <PlusIcon className={styles.addGridIcon} />
+                    {t('action.createProject')}
                   </div>
-                </Link>
-              </Grid.Column>
-            ))}
-            {isEditable && (
-              <Grid.Column mobile={8} computer={4}>
-                <button
-                  type="button"
-                  className={classNames(styles.card, styles.add)}
-                  onClick={onAdd}
-                >
-                  <div className={styles.addTitleWrapper}>
-                    <div className={styles.addTitle}>
-                      <PlusIcon className={styles.addGridIcon} />
-                      {t('action.createProject')}
-                    </div>
-                  </div>
-                </button>
-              </Grid.Column>
-            )}
-          </Grid.Row>
+                </div>
+              </button>
+            </Grid.Column>
+          )}
         </Grid>
       </Container>
     );
