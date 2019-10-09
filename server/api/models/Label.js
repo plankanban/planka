@@ -28,12 +28,13 @@ module.exports = {
 
     name: {
       type: 'string',
-      required: true
+      isNotEmptyString: true,
+      allowNull: true
     },
     color: {
       type: 'string',
       isIn: COLORS,
-      allowNull: true
+      required: true
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

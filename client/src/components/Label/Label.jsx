@@ -48,7 +48,7 @@ const Label = React.memo(({
       className={classNames(styles.wrapper, onClick && styles.hoverable)}
       style={style}
     >
-      {name}
+      {name || '\u00A0'}
     </div>
   );
 
@@ -62,14 +62,15 @@ const Label = React.memo(({
 });
 
 Label.propTypes = {
-  name: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(LabelColors.KEYS).isRequired, // TODO: without color
+  name: PropTypes.string,
+  color: PropTypes.oneOf(LabelColors.KEYS).isRequired,
   size: PropTypes.oneOf(Object.values(SIZES)),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 Label.defaultProps = {
+  name: undefined,
   size: SIZES.MEDIUM,
   isDisabled: false,
   onClick: undefined,

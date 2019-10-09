@@ -12,12 +12,13 @@ module.exports = {
     },
     name: {
       type: 'string',
-      isNotEmptyString: true
+      isNotEmptyString: true,
+      allowNull: true
     },
     color: {
       type: 'string',
       isIn: Label.COLORS,
-      allowNull: true
+      required: true
     }
   },
 

@@ -6,8 +6,8 @@ module.exports.up = knex =>
 
     table.integer('board_id').notNullable();
 
-    table.text('name').notNullable();
-    table.text('color');
+    table.text('name');
+    table.text('color').notNullable();
 
     table.timestamp('created_at', true);
     table.timestamp('updated_at', true);

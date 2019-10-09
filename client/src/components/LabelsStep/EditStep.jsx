@@ -1,5 +1,5 @@
 import dequal from 'dequal';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
@@ -22,25 +22,18 @@ const EditStep = React.memo(({
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({
-    name: '',
     color: LabelColors.KEYS[0],
     ...defaultData,
+    name: defaultData.name || '',
   }));
 
   const [step, openStep, handleBack] = useSteps();
 
-  const editor = useRef(null);
-
   const handleSubmit = useDeepCompareCallback(() => {
     const cleanData = {
       ...data,
-      name: data.name.trim(),
+      name: data.name.trim() || null,
     };
-
-    if (!cleanData.name) {
-      editor.current.selectNameField();
-      return;
-    }
 
     if (!dequal(cleanData, defaultData)) {
       onUpdate(cleanData);
@@ -76,7 +69,7 @@ const EditStep = React.memo(({
       </Popup.Header>
       <Popup.Content>
         <Form onSubmit={handleSubmit}>
-          <Editor ref={editor} data={data} onFieldChange={handleFieldChange} />
+          <Editor data={data} onFieldChange={handleFieldChange} />
           <Button positive content={t('action.save')} />
         </Form>
         <Button
