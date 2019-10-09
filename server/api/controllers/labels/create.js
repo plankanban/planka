@@ -7,7 +7,8 @@ const Errors = {
 module.exports = {
   inputs: {
     boardId: {
-      type: 'number',
+      type: 'string',
+      regex: /^[0-9]+$/,
       required: true
     },
     name: {

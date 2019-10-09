@@ -59,6 +59,20 @@
   margin: 0 !important;
 }
 
+.notification {
+  background: #eb5a46;
+  color: #fff;
+  float: right;
+  font-size: 12px;
+  line-height: 20px;
+  padding: 0px 6px;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  text-align: left;
+  transition: background 0.3s ease;
+}
+
 .open {
   background: #555;
   background-size: cover;

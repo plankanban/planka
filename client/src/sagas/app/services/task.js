@@ -1,13 +1,12 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { createTaskRequest, deleteTaskRequest, updateTaskRequest } from '../requests';
-import { maxIdSelector, pathSelector } from '../../../selectors';
+import { pathSelector } from '../../../selectors';
 import { createTask, deleteTask, updateTask } from '../../../actions';
-import { nextLocalId } from '../../../utils/local-id';
-import { Task } from '../../../models';
+import { createLocalId } from '../../../utils/local-id';
 
 export function* createTaskService(cardId, data) {
-  const localId = nextLocalId(yield select(maxIdSelector, Task.modelName));
+  const localId = yield call(createLocalId);
 
   yield put(
     createTask({

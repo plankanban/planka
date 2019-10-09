@@ -2,10 +2,13 @@ module.exports.up = knex =>
   knex.schema.createTable('card_label', table => {
     /* Columns */
 
-    table.increments();
+    table
+      .bigInteger('id')
+      .primary()
+      .defaultTo(knex.raw('next_id()'));
 
-    table.integer('card_id').notNullable();
-    table.integer('label_id').notNullable();
+    table.bigInteger('card_id').notNullable();
+    table.bigInteger('label_id').notNullable();
 
     table.timestamp('created_at', true);
     table.timestamp('updated_at', true);

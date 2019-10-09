@@ -5,14 +5,13 @@ import {
   deleteCommentActionRequest,
   updateCommentActionRequest,
 } from '../requests';
-import { currentUserIdSelector, maxIdSelector, pathSelector } from '../../../selectors';
+import { currentUserIdSelector, pathSelector } from '../../../selectors';
 import { createCommentAction, deleteCommentAction, updateCommentAction } from '../../../actions';
-import { nextLocalId } from '../../../utils/local-id';
-import { Action } from '../../../models';
+import { createLocalId } from '../../../utils/local-id';
 import { ActionTypes } from '../../../constants/Enums';
 
 export function* createCommentActionService(cardId, data) {
-  const localId = nextLocalId(yield select(maxIdSelector, Action.modelName));
+  const localId = yield call(createLocalId);
   const userId = yield select(currentUserIdSelector);
 
   yield put(

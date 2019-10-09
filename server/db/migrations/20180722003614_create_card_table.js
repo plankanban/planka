@@ -2,10 +2,13 @@ module.exports.up = knex =>
   knex.schema.createTable('card', table => {
     /* Columns */
 
-    table.increments();
+    table
+      .bigInteger('id')
+      .primary()
+      .defaultTo(knex.raw('next_id()'));
 
-    table.integer('list_id').notNullable();
-    table.integer('board_id').notNullable();
+    table.bigInteger('list_id').notNullable();
+    table.bigInteger('board_id').notNullable();
 
     table.specificType('position', 'double precision').notNullable();
     table.text('name').notNullable();

@@ -17,7 +17,7 @@ module.exports = {
       columnName: 'from_model'
     },
     originalRecordId: {
-      type: 'number',
+      type: 'string',
       required: true,
       columnName: 'original_record_id'
     },

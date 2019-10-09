@@ -7,7 +7,7 @@ import {
   deleteLabelRequest,
   updateLabelRequest,
 } from '../requests';
-import { maxIdSelector, pathSelector } from '../../../selectors';
+import { pathSelector } from '../../../selectors';
 import {
   addLabelToBoardFilter,
   addLabelToCard,
@@ -17,11 +17,10 @@ import {
   removeLabelFromCard,
   updateLabel,
 } from '../../../actions';
-import { nextLocalId } from '../../../utils/local-id';
-import { Label } from '../../../models';
+import { createLocalId } from '../../../utils/local-id';
 
 export function* createLabelService(boardId, data) {
-  const localId = nextLocalId(yield select(maxIdSelector, Label.modelName));
+  const localId = yield call(createLocalId);
 
   yield put(
     createLabel({

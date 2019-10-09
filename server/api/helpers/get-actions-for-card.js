@@ -4,11 +4,11 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isInteger(value) || _.isArray(value),
+      custom: value => _.isString(value) || _.isArray(value),
       required: true
     },
     beforeId: {
-      type: 'number'
+      type: 'string'
     }
   },
 

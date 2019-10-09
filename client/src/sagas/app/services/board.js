@@ -2,15 +2,9 @@ import { call, put, select } from 'redux-saga/effects';
 
 import { goToBoardService, goToProjectService } from './router';
 import { createBoardRequest, deleteBoardRequest, updateBoardRequest } from '../requests';
-import {
-  boardByIdSelector,
-  maxIdSelector,
-  nextBoardPositionSelector,
-  pathSelector,
-} from '../../../selectors';
+import { boardByIdSelector, nextBoardPositionSelector, pathSelector } from '../../../selectors';
 import { createBoard, deleteBoard, updateBoard } from '../../../actions';
-import { nextLocalId } from '../../../utils/local-id';
-import { Board } from '../../../models';
+import { createLocalId } from '../../../utils/local-id';
 
 export function* createBoardService(projectId, data) {
   const nextData = {
@@ -18,7 +12,7 @@ export function* createBoardService(projectId, data) {
     position: yield select(nextBoardPositionSelector, projectId),
   };
 
-  const localId = nextLocalId(yield select(maxIdSelector, Board.modelName));
+  const localId = yield call(createLocalId);
 
   yield put(
     createBoard({

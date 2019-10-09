@@ -10,11 +10,13 @@ const Errors = {
 module.exports = {
   inputs: {
     cardId: {
-      type: 'number',
+      type: 'string',
+      regex: /^[0-9]+$/,
       required: true
     },
     userId: {
-      type: 'number',
+      type: 'string',
+      regex: /^[0-9]+$/,
       required: true
     }
   },

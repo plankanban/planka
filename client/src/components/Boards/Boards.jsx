@@ -168,7 +168,7 @@ const Boards = React.memo(
 
 Boards.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  currentId: PropTypes.number,
+  currentId: PropTypes.string,
   isEditable: PropTypes.bool.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

@@ -1,13 +1,12 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { createProjectMembershipRequest, deleteProjectMembershipRequest } from '../requests';
-import { maxIdSelector, pathSelector } from '../../../selectors';
+import { pathSelector } from '../../../selectors';
 import { createProjectMembership, deleteProjectMembership } from '../../../actions';
-import { nextLocalId } from '../../../utils/local-id';
-import { ProjectMembership } from '../../../models';
+import { createLocalId } from '../../../utils/local-id';
 
 export function* createProjectMembershipService(projectId, data) {
-  const localId = nextLocalId(yield select(maxIdSelector, ProjectMembership.modelName));
+  const localId = yield call(createLocalId);
 
   yield put(
     createProjectMembership({

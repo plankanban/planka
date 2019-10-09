@@ -2,7 +2,7 @@ module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      custom: value => _.isInteger(value) || _.isPlainObject(value),
+      custom: value => _.isString(value) || _.isPlainObject(value),
       required: true
     }
   },
@@ -12,7 +12,7 @@ module.exports = {
       deletedAt: null
     };
 
-    if (_.isInteger(inputs.criteria)) {
+    if (_.isString(inputs.criteria)) {
       criteria.id = inputs.criteria;
     } else if (_.isPlainObject(inputs.criteria)) {
       Object.assign(criteria, inputs.criteria);

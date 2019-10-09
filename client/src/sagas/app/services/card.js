@@ -2,10 +2,9 @@ import { call, put, select } from 'redux-saga/effects';
 
 import { goToBoardService } from './router';
 import { createCardRequest, deleteCardRequest, updateCardRequest } from '../requests';
-import { maxIdSelector, nextCardPositionSelector, pathSelector } from '../../../selectors';
+import { nextCardPositionSelector, pathSelector } from '../../../selectors';
 import { createCard, deleteCard, updateCard } from '../../../actions';
-import { nextLocalId } from '../../../utils/local-id';
-import { Card } from '../../../models';
+import { createLocalId } from '../../../utils/local-id';
 
 export function* createCardService(listId, data) {
   const nextData = {
@@ -13,7 +12,7 @@ export function* createCardService(listId, data) {
     position: yield select(nextCardPositionSelector, listId),
   };
 
-  const localId = nextLocalId(yield select(maxIdSelector, Card.modelName));
+  const localId = yield call(createLocalId);
 
   yield put(
     createCard({

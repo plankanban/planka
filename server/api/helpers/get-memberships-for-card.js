@@ -2,12 +2,12 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isInteger(value) || _.isArray(value),
+      custom: value => _.isString(value) || _.isArray(value),
       required: true
     },
     exceptUserId: {
-      type: 'number',
-      custom: value => _.isInteger(value) || _.isArray(value)
+      type: 'json',
+      custom: value => _.isString(value) || _.isArray(value)
     }
   },
 

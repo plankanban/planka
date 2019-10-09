@@ -1,15 +1,9 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { createListRequest, deleteListRequest, updateListRequest } from '../requests';
-import {
-  listByIdSelector,
-  maxIdSelector,
-  nextListPositionSelector,
-  pathSelector,
-} from '../../../selectors';
+import { listByIdSelector, nextListPositionSelector, pathSelector } from '../../../selectors';
 import { createList, deleteList, updateList } from '../../../actions';
-import { nextLocalId } from '../../../utils/local-id';
-import { List } from '../../../models';
+import { createLocalId } from '../../../utils/local-id';
 
 export function* createListService(boardId, data) {
   const nextData = {
@@ -17,7 +11,7 @@ export function* createListService(boardId, data) {
     position: yield select(nextListPositionSelector, boardId),
   };
 
-  const localId = nextLocalId(yield select(maxIdSelector, List.modelName));
+  const localId = yield call(createLocalId);
 
   yield put(
     createList({

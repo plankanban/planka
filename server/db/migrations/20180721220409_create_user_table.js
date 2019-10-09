@@ -3,7 +3,10 @@ module.exports.up = knex =>
     .createTable('user', table => {
       /* Columns */
 
-      table.increments();
+      table
+        .bigInteger('id')
+        .primary()
+        .defaultTo(knex.raw('next_id()'));
 
       table.text('email').notNullable();
       table.text('password').notNullable();

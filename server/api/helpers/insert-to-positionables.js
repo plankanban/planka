@@ -1,6 +1,6 @@
 const GAP = 2 ** 14;
 const MIN_GAP = 0.125;
-const MAX_POSITION = 2 ** 40; // 2 ** 50
+const MAX_POSITION = 2 ** 50;
 
 const findBeginnings = positions => {
   positions.unshift(0);

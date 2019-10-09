@@ -12,7 +12,7 @@ module.exports = function defineCurrentUserHook(sails) {
     let id;
 
     try {
-      id = Number(sails.helpers.verifyToken(accessToken));
+      id = sails.helpers.verifyToken(accessToken);
     } catch (unusedError) {
       return;
     }

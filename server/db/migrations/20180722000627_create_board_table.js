@@ -1,10 +1,13 @@
 module.exports.up = knex =>
-  knex.schema.createTable('list', table => {
+  knex.schema.createTable('board', table => {
     /* Columns */
 
-    table.increments();
+    table
+      .bigInteger('id')
+      .primary()
+      .defaultTo(knex.raw('next_id()'));
 
-    table.integer('board_id').notNullable();
+    table.bigInteger('project_id').notNullable();
 
     table.specificType('position', 'double precision').notNullable();
     table.text('name').notNullable();
@@ -14,8 +17,8 @@ module.exports.up = knex =>
 
     /* Indexes */
 
-    table.index('board_id');
+    table.index('project_id');
     table.index('position');
   });
 
-module.exports.down = knex => knex.schema.dropTable('list');
+module.exports.down = knex => knex.schema.dropTable('board');

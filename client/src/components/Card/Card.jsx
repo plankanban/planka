@@ -74,7 +74,7 @@ const Card = React.memo(
         )}
         <div className={styles.name}>{name}</div>
         {tasks.length > 0 && <Tasks items={tasks} />}
-        {(dueDate || timer) && (
+        {(dueDate || timer || notificationsTotal > 0) && (
           <span className={styles.attachments}>
             {notificationsTotal > 0 && (
               <span
@@ -168,7 +168,7 @@ const Card = React.memo(
 );
 
 Card.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   dueDate: PropTypes.instanceOf(Date),
