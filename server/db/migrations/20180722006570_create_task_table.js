@@ -2,9 +2,12 @@ module.exports.up = knex =>
   knex.schema.createTable('task', table => {
     /* Columns */
 
-    table.increments();
+    table
+      .bigInteger('id')
+      .primary()
+      .defaultTo(knex.raw('next_id()'));
 
-    table.integer('card_id').notNullable();
+    table.bigInteger('card_id').notNullable();
 
     table.text('name').notNullable();
     table.boolean('is_completed').notNullable();

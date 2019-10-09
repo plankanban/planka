@@ -66,7 +66,7 @@ module.exports.models = {
 
   attributes: {
     id: {
-      type: 'number',
+      type: 'string',
       autoIncrement: true,
     },
     createdAt: {

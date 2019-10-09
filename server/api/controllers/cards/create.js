@@ -9,7 +9,8 @@ const Errors = {
 module.exports = {
   inputs: {
     listId: {
-      type: 'number',
+      type: 'string',
+      regex: /^[0-9]+$/,
       required: true
     },
     position: {

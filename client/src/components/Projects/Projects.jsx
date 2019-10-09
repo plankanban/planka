@@ -31,6 +31,9 @@ const Projects = React.memo(({
                 }
               >
                 <div className={classNames(styles.card, styles.open)}>
+                  {item.notificationsTotal > 0 && (
+                    <span className={styles.notification}>{item.notificationsTotal}</span>
+                  )}
                   <div className={styles.cardOverlay} />
                   <div className={styles.openTitle}>{item.name}</div>
                 </div>
@@ -69,7 +72,7 @@ const Projects = React.memo(({
 
 Projects.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  currentId: PropTypes.number,
+  currentId: PropTypes.string,
   isEditable: PropTypes.bool.isRequired,
   onAdd: PropTypes.func.isRequired,
 };

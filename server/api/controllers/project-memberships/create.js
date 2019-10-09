@@ -13,11 +13,13 @@ const Errors = {
 module.exports = {
   inputs: {
     projectId: {
-      type: 'number',
+      type: 'string',
+      regex: /^[0-9]+$/,
       required: true
     },
     userId: {
-      type: 'number',
+      type: 'string',
+      regex: /^[0-9]+$/,
       required: true
     }
   },

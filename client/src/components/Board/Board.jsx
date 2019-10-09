@@ -13,7 +13,7 @@ import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-ic
 
 import styles from './Board.module.css';
 
-const parseDNDId = (dndId) => parseInt(dndId.split(':').pop(), 10);
+const parseDndId = (dndId) => dndId.split(':')[1];
 
 const Board = React.memo(
   ({
@@ -51,7 +51,7 @@ const Board = React.memo(
           return;
         }
 
-        const id = parseDNDId(draggableId);
+        const id = parseDndId(draggableId);
 
         switch (type) {
           case DroppableTypes.LIST:
@@ -59,7 +59,7 @@ const Board = React.memo(
 
             break;
           case DroppableTypes.CARD:
-            onCardMove(id, parseDNDId(destination.droppableId), destination.index);
+            onCardMove(id, parseDndId(destination.droppableId), destination.index);
 
             break;
           default:

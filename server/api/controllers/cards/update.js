@@ -12,11 +12,13 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'number',
+      type: 'string',
+      regex: /^[0-9]+$/,
       required: true
     },
     listId: {
-      type: 'number'
+      type: 'string',
+      regex: /^[0-9]+$/
     },
     position: {
       type: 'number'

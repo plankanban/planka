@@ -110,7 +110,7 @@ const List = React.memo(
 );
 
 List.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
