@@ -43,13 +43,17 @@ const Item = React.memo(({
 });
 
 Item.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   color: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+};
+
+Item.defaultProps = {
+  name: undefined,
 };
 
 export default Item;

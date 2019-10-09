@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useImperativeHandle, useRef,
-} from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -11,26 +9,14 @@ import LabelColors from '../../constants/LabelColors';
 
 import styles from './Editor.module.css';
 
-const Editor = React.forwardRef(({ data, onFieldChange }, ref) => {
+const Editor = React.memo(({ data, onFieldChange }) => {
   const [t] = useTranslation();
 
   const nameField = useRef(null);
 
-  const selectNameField = useCallback(() => {
+  useEffect(() => {
     nameField.current.select();
   }, []);
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      selectNameField,
-    }),
-    [selectNameField],
-  );
-
-  useEffect(() => {
-    selectNameField();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -71,4 +57,4 @@ Editor.propTypes = {
   onFieldChange: PropTypes.func.isRequired,
 };
 
-export default React.memo(Editor);
+export default Editor;

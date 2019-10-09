@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
@@ -18,18 +18,11 @@ const AddStep = React.memo(({ onCreate, onBack }) => {
     color: LabelColors.KEYS[0],
   }));
 
-  const editor = useRef(null);
-
   const handleSubmit = useDeepCompareCallback(() => {
     const cleanData = {
       ...data,
-      name: data.name.trim(),
+      name: data.name.trim() || null,
     };
-
-    if (!cleanData.name) {
-      editor.current.selectNameField();
-      return;
-    }
 
     onCreate(cleanData);
     onBack();
@@ -44,7 +37,7 @@ const AddStep = React.memo(({ onCreate, onBack }) => {
       </Popup.Header>
       <Popup.Content>
         <Form onSubmit={handleSubmit}>
-          <Editor ref={editor} data={data} onFieldChange={handleFieldChange} />
+          <Editor data={data} onFieldChange={handleFieldChange} />
           <Button positive content={t('action.createLabel')} className={styles.submitButton} />
         </Form>
       </Popup.Content>
