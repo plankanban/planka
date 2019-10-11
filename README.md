@@ -1,8 +1,8 @@
 # Planka
 
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/meltyshev/planka)
+![David (path)](https://img.shields.io/david/meltyshev/planka?path=client) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/meltyshev/planka)
 
-A Trello-like application built with React and Redux.
+A Trello-like kanban board built with React and Redux.
 
 ![](https://raw.githubusercontent.com/meltyshev/planka/master/demo.gif)
 
