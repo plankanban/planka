@@ -1,6 +1,5 @@
 {
-  "short_name": "Planka",
-  "name": "Planka Project Management",
+  "name": "Planka",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +19,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
+  "theme_color": "#22252a",
   "background_color": "#ffffff"
 }
