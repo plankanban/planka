@@ -37,7 +37,7 @@
     "date-fns": "^2.4.1",
     "dequal": "^1.0.0",
     "history": "^4.10.1",
-    "i18next": "^17.0.18",
+    "i18next": "^17.2.0",
     "i18next-browser-languagedetector": "^4.0.0",
     "initials": "^3.0.1",
     "lodash": "^4.17.15",
