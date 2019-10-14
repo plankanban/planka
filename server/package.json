@@ -8,7 +8,7 @@
     "db:init": "cd db && node init.js",
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
-    "lint": "node_modules/@sailshq/eslint/bin/eslint.js . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "start": "npm run db:init && NODE_ENV=production node app.js",
     "start:dev": "nodemon",
     "test": "npm run lint && npm run custom-tests && echo 'Done.'"
@@ -28,10 +28,10 @@
     "sharp": "^0.23.1"
   },
   "devDependencies": {
-    "@sailshq/eslint": "^4.19.3",
+    "eslint": "5.16.0",
     "nodemon": "^1.19.3"
   },
   "engines": {
-    "node": "^10.11"
+    "node": "^12.10"
   }
 }
