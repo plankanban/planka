@@ -33,15 +33,19 @@ const Project = React.memo(
         <Grid className={styles.header}>
           <Grid.Row>
             <Grid.Column>
-              <EditPopup
-                defaultData={{
-                  name,
-                }}
-                onUpdate={onUpdate}
-                onDelete={onDelete}
-              >
-                <Button content={name} disabled={!isEditable} className={styles.name} />
-              </EditPopup>
+              {isEditable ? (
+                <EditPopup
+                  defaultData={{
+                    name,
+                  }}
+                  onUpdate={onUpdate}
+                  onDelete={onDelete}
+                >
+                  <Button content={name} disabled={!isEditable} className={styles.name} />
+                </EditPopup>
+              ) : (
+                <span className={styles.name}>{name}</span>
+              )}
               <span className={styles.users}>
                 {memberships.map((membership) => (
                   <span key={membership.id} className={styles.user}>

@@ -44,6 +44,7 @@ const EditNameStep = React.memo(({
       </Popup.Header>
       <Popup.Content>
         <Form onSubmit={handleSubmit}>
+          <div className={styles.text}>{t('common.name')}</div>
           <Input
             fluid
             ref={field}
