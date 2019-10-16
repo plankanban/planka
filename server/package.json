@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
-    "dotenv": "^8.1.0",
+    "dotenv": "^8.2.0",
     "dotenv-cli": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.5",
@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "eslint": "5.16.0",
-    "nodemon": "^1.19.3"
+    "nodemon": "^1.19.4"
   },
   "engines": {
     "node": "^12.10"

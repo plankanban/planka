@@ -105,13 +105,7 @@ const CardModal = React.memo(
     const labelIds = labels.map((label) => label.id);
 
     return (
-      <Modal
-        open
-        closeIcon
-        size="small"
-        centered={false}
-        onClose={onClose}
-      >
+      <Modal open closeIcon size="small" centered={false} onClose={onClose}>
         <Grid className={styles.grid}>
           <Grid.Row className={styles.headerPadding}>
             <Grid.Column width={16} className={styles.headerPadding}>

@@ -78,6 +78,7 @@ const EditStep = React.memo(({
       </Popup.Header>
       <Popup.Content>
         <Form onSubmit={handleSubmit}>
+          <div className={styles.text}>{t('common.title')}</div>
           <Input
             fluid
             ref={nameField}

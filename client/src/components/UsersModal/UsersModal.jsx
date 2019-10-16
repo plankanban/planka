@@ -2,13 +2,11 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
-  Button, Header, Modal, Table,
+  Button, Modal, Table,
 } from 'semantic-ui-react';
 
 import AddUserPopupContainer from '../../containers/AddUserPopupContainer';
 import Item from './Item';
-
-import styles from './UsersModal.module.css';
 
 const UsersModal = React.memo(({
   items, onUpdate, onDelete, onClose,
@@ -30,13 +28,13 @@ const UsersModal = React.memo(({
   );
 
   return (
-    <Modal open closeIcon size="large" onClose={onClose}>
+    <Modal open closeIcon size="large" centered={false} onClose={onClose}>
+      <Modal.Header>
+        {t('common.users', {
+          context: 'title',
+        })}
+      </Modal.Header>
       <Modal.Content>
-        <Header size="huge" className={styles.title}>
-          {t('common.users', {
-            context: 'title',
-          })}
-        </Header>
         <Table basic="very">
           <Table.Header>
             <Table.Row>
@@ -58,17 +56,13 @@ const UsersModal = React.memo(({
               />
             ))}
           </Table.Body>
-          <Table.Footer>
-            <Table.Row>
-              <Table.HeaderCell colSpan="4">
-                <AddUserPopupContainer>
-                  <Button positive content={t('action.addUser')} className={styles.button} />
-                </AddUserPopupContainer>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Footer>
         </Table>
       </Modal.Content>
+      <Modal.Actions>
+        <AddUserPopupContainer>
+          <Button positive content={t('action.addUser')} />
+        </AddUserPopupContainer>
+      </Modal.Actions>
     </Modal>
   );
 });

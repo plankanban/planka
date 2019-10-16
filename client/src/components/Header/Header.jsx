@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Icon, Menu } from 'semantic-ui-react';
 
@@ -20,46 +19,40 @@ const Header = React.memo(
     onNotificationDelete,
     onUsers,
     onLogout,
-  }) => {
-    const [t] = useTranslation();
-
-    return (
-      <div className={styles.wrapper}>
-        <Link to={Paths.ROOT} className={styles.logo}>
-          Planka
-        </Link>
-        <Menu inverted size="large" className={styles.menu}>
+  }) => (
+    <div className={styles.wrapper}>
+      <Link to={Paths.ROOT} className={styles.logo}>
+        Planka
+      </Link>
+      <Menu inverted size="large" className={styles.menu}>
+        <Menu.Menu position="right">
           {isEditable && (
             <Menu.Item className={styles.item} onClick={onUsers}>
-              {t('common.users', {
-                context: 'title',
-              })}
+              <Icon fitted name="users" />
             </Menu.Item>
           )}
-          <Menu.Menu position="right">
-            <NotificationsPopup items={notifications} onDelete={onNotificationDelete}>
-              <Menu.Item className={styles.item}>
-                <Icon name="bell" className={styles.icon} />
-                {notifications.length > 0 && (
-                  <span className={styles.notification}>{notifications.length}</span>
-                )}
-              </Menu.Item>
-            </NotificationsPopup>
-            <UserPopup
-              name={user.name}
-              avatar={user.avatar}
-              isAvatarUploading={user.isAvatarUploading}
-              onUpdate={onUserUpdate}
-              onAvatarUpload={onUserAvatarUpload}
-              onLogout={onLogout}
-            >
-              <Menu.Item className={styles.item}>{user.name}</Menu.Item>
-            </UserPopup>
-          </Menu.Menu>
-        </Menu>
-      </div>
-    );
-  },
+          <NotificationsPopup items={notifications} onDelete={onNotificationDelete}>
+            <Menu.Item className={styles.item}>
+              <Icon fitted name="bell" />
+              {notifications.length > 0 && (
+                <span className={styles.notification}>{notifications.length}</span>
+              )}
+            </Menu.Item>
+          </NotificationsPopup>
+          <UserPopup
+            name={user.name}
+            avatar={user.avatar}
+            isAvatarUploading={user.isAvatarUploading}
+            onUpdate={onUserUpdate}
+            onAvatarUpload={onUserAvatarUpload}
+            onLogout={onLogout}
+          >
+            <Menu.Item className={styles.item}>{user.name}</Menu.Item>
+          </UserPopup>
+        </Menu.Menu>
+      </Menu>
+    </div>
+  ),
 );
 
 Header.propTypes = {

@@ -22,9 +22,11 @@
 .name {
   background: transparent !important;
   color: #fff !important;
+  display: inline-block !important;
   font-size: 32px !important;
   font-weight: bold !important;
   line-height: 36px !important;
+  margin-right: 8px !important;
   padding: 0 !important;
 }
 
