@@ -83,7 +83,7 @@ export default {
       userIsAlreadyExist: 'User is already exist',
       userLeftNewCommentToCard: '{{user}} left a new comment «{{comment}}» to <2>{{card}}</2>',
       userMovedCardFromListToList: '{{user}} moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
-      userMovedThisCardFromListToList: '<0>{{user}}</0><1> moved this card from {{fromList}} to {{toList}}</1> 12342134123412412412412412412',
+      userMovedThisCardFromListToList: '<0>{{user}}</0><1> moved this card from {{fromList}} to {{toList}}</1>',
       users: 'Users',
       writeComment: 'Write a comment...',
     },
