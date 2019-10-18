@@ -7,11 +7,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 
 import {
-  useClosableForm,
-  useDeepCompareCallback,
-  useDidUpdate,
-  useForm,
-  useToggle,
+  useClosableForm, useDidUpdate, useForm, useToggle,
 } from '../../../hooks';
 
 import styles from './Add.module.css';
@@ -36,7 +32,7 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
     setIsOpened(false);
   }, []);
 
-  const submit = useDeepCompareCallback(() => {
+  const submit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim(),

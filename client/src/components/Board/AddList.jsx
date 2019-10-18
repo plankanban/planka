@@ -6,11 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Form, Input } from 'semantic-ui-react';
 
 import {
-  useClosableForm,
-  useDeepCompareCallback,
-  useDidUpdate,
-  useForm,
-  useToggle,
+  useClosableForm, useDidUpdate, useForm, useToggle,
 } from '../../hooks';
 
 import styles from './AddList.module.css';
@@ -62,7 +58,7 @@ const AddList = React.forwardRef(({ children, onCreate }, ref) => {
     close,
   );
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim(),

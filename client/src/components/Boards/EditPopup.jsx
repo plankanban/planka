@@ -6,7 +6,7 @@ import { Button, Form } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import { useDeepCompareCallback, useForm, useSteps } from '../../hooks';
+import { useForm, useSteps } from '../../hooks';
 import DeleteStep from '../DeleteStep';
 
 import styles from './EditPopup.module.css';
@@ -29,7 +29,7 @@ const EditStep = React.memo(({
 
   const nameField = useRef(null);
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim(),

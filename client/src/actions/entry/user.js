@@ -7,8 +7,8 @@ export const createUser = (data) => ({
   },
 });
 
-export const clearUserCreationError = () => ({
-  type: EntryActionTypes.USER_CREATION_ERROR_CLEAR,
+export const clearUserCreateError = () => ({
+  type: EntryActionTypes.USER_CREATE_ERROR_CLEAR,
   payload: {},
 });
 
@@ -25,6 +25,30 @@ export const updateCurrentUser = (data) => ({
   payload: {
     data,
   },
+});
+
+export const updateCurrentUserEmail = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_EMAIL_UPDATE,
+  payload: {
+    data,
+  },
+});
+
+export const clearCurrentUserEmailUpdateError = () => ({
+  type: EntryActionTypes.CURRENT_USER_EMAIL_UPDATE_ERROR_CLEAR,
+  payload: {},
+});
+
+export const updateCurrentUserPassword = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE,
+  payload: {
+    data,
+  },
+});
+
+export const clearCurrentUserPasswordUpdateError = () => ({
+  type: EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE_ERROR_CLEAR,
+  payload: {},
 });
 
 export const uploadCurrentUserAvatar = (file) => ({

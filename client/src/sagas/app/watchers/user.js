@@ -4,13 +4,17 @@ import {
   addUserToCardService,
   addUserToCurrentCardService,
   addUserToFilterInCurrentBoardService,
-  clearUserCreationErrorService,
+  clearCurrentUserEmailUpdateErrorService,
+  clearCurrentUserPasswordUpdateErrorService,
+  clearUserCreateErrorService,
   createUserService,
   deleteUserService,
   removeUserFromCardService,
   removeUserFromCurrentCardService,
   removeUserFromFilterInCurrentBoardService,
   updateUserService,
+  updateCurrentUserEmailService,
+  updateCurrentUserPasswordService,
   updateCurrentUserService,
   uploadCurrentUserAvatarService,
 } from '../services';
@@ -19,7 +23,7 @@ import EntryActionTypes from '../../../constants/EntryActionTypes';
 export default function* () {
   yield all([
     takeLatest(EntryActionTypes.USER_CREATE, ({ payload: { data } }) => createUserService(data)),
-    takeLatest(EntryActionTypes.USER_CREATION_ERROR_CLEAR, () => clearUserCreationErrorService()),
+    takeLatest(EntryActionTypes.USER_CREATE_ERROR_CLEAR, () => clearUserCreateErrorService()),
     takeLatest(
       EntryActionTypes.USER_UPDATE,
       ({ payload: { id, data } }) => updateUserService(id, data),
@@ -27,6 +31,22 @@ export default function* () {
     takeLatest(
       EntryActionTypes.CURRENT_USER_UPDATE,
       ({ payload: { data } }) => updateCurrentUserService(data),
+    ),
+    takeLatest(
+      EntryActionTypes.CURRENT_USER_EMAIL_UPDATE,
+      ({ payload: { data } }) => updateCurrentUserEmailService(data),
+    ),
+    takeLatest(
+      EntryActionTypes.CURRENT_USER_EMAIL_UPDATE_ERROR_CLEAR,
+      () => clearCurrentUserEmailUpdateErrorService(),
+    ),
+    takeLatest(
+      EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE,
+      ({ payload: { data } }) => updateCurrentUserPasswordService(data),
+    ),
+    takeLatest(
+      EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE_ERROR_CLEAR,
+      () => clearCurrentUserPasswordUpdateErrorService(),
     ),
     takeLatest(
       EntryActionTypes.CURRENT_USER_AVATAR_UPLOAD,

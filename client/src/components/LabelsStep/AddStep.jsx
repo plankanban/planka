@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
 import { Popup } from '../../lib/custom-ui';
 
-import { useDeepCompareCallback, useForm } from '../../hooks';
+import { useForm } from '../../hooks';
 import LabelColors from '../../constants/LabelColors';
 import Editor from './Editor';
 
@@ -18,7 +18,7 @@ const AddStep = React.memo(({ onCreate, onBack }) => {
     color: LabelColors.KEYS[0],
   }));
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim() || null,

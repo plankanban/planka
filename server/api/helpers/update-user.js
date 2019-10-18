@@ -21,19 +21,31 @@ module.exports = {
     }
   },
 
+  exits: {
+    conflict: {}
+  },
+
   fn: async function(inputs, exits) {
     if (!_.isUndefined(inputs.values.email)) {
       inputs.values.email = inputs.values.email.toLowerCase();
     }
 
+    let isOnlyPasswordChange = false;
+
     if (!_.isUndefined(inputs.values.password)) {
       inputs.values.password = bcrypt.hashSync(inputs.values.password, 10);
+
+      if (Object.keys(inputs.values).length === 1) {
+        isOnlyPasswordChange = true;
+      }
     }
 
     const user = await User.updateOne({
       id: inputs.record.id,
       deletedAt: null
-    }).set(inputs.values);
+    })
+      .set(inputs.values)
+      .intercept(undefined, 'conflict');
 
     if (user) {
       if (inputs.record.avatar && user.avatar !== inputs.record.avatar) {
@@ -44,28 +56,30 @@ module.exports = {
         } catch (unusedError) {}
       }
 
-      const adminUserIds = await sails.helpers.getAdminUserIds();
+      if (!isOnlyPasswordChange) {
+        const adminUserIds = await sails.helpers.getAdminUserIds();
 
-      const projectIds = await sails.helpers.getMembershipProjectIdsForUser(
-        user.id
-      );
-
-      const userIdsForProject = await sails.helpers.getMembershipUserIdsForProject(
-        projectIds
-      );
-
-      const userIds = _.union([user.id], adminUserIds, userIdsForProject);
-
-      userIds.forEach(userId => {
-        sails.sockets.broadcast(
-          `user:${userId}`,
-          'userUpdate',
-          {
-            item: user
-          },
-          inputs.request
+        const projectIds = await sails.helpers.getMembershipProjectIdsForUser(
+          user.id
         );
-      });
+
+        const userIdsForProject = await sails.helpers.getMembershipUserIdsForProject(
+          projectIds
+        );
+
+        const userIds = _.union([user.id], adminUserIds, userIdsForProject);
+
+        userIds.forEach(userId => {
+          sails.sockets.broadcast(
+            `user:${userId}`,
+            'userUpdate',
+            {
+              item: user
+            },
+            inputs.request
+          );
+        });
+      }
     }
 
     return exits.success(user);

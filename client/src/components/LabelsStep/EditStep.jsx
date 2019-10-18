@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
 import { Popup } from '../../lib/custom-ui';
 
-import { useDeepCompareCallback, useForm, useSteps } from '../../hooks';
+import { useForm, useSteps } from '../../hooks';
 import LabelColors from '../../constants/LabelColors';
 import Editor from './Editor';
 import DeleteStep from '../DeleteStep';
@@ -29,7 +29,7 @@ const EditStep = React.memo(({
 
   const [step, openStep, handleBack] = useSteps();
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim() || null,

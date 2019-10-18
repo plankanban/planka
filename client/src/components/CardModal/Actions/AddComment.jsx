@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 
-import { useDeepCompareCallback, useForm } from '../../../hooks';
+import { useForm } from '../../../hooks';
 
 import styles from './AddComment.module.css';
 
@@ -18,7 +18,7 @@ const AddComment = React.memo(({ onCreate }) => {
 
   const textField = useRef(null);
 
-  const submit = useDeepCompareCallback(() => {
+  const submit = useCallback(() => {
     const cleanData = {
       ...data,
       text: data.text.trim(),

@@ -5,7 +5,7 @@ import { Icon, Menu } from 'semantic-ui-react';
 
 import Paths from '../../constants/Paths';
 import NotificationsPopup from './NotificationsPopup';
-import UserPopup from './UserPopup';
+import UserPopup from '../UserPopup';
 
 import styles from './Header.module.css';
 
@@ -14,10 +14,14 @@ const Header = React.memo(
     user,
     notifications,
     isEditable,
+    onUsers,
+    onNotificationDelete,
     onUserUpdate,
     onUserAvatarUpload,
-    onNotificationDelete,
-    onUsers,
+    onUserEmailUpdate,
+    onUserEmailUpdateMessageDismiss,
+    onUserPasswordUpdate,
+    onUserPasswordUpdateMessageDismiss,
     onLogout,
   }) => (
     <div className={styles.wrapper}>
@@ -40,11 +44,18 @@ const Header = React.memo(
             </Menu.Item>
           </NotificationsPopup>
           <UserPopup
+            email={user.email}
             name={user.name}
             avatar={user.avatar}
             isAvatarUploading={user.isAvatarUploading}
+            emailUpdateForm={user.emailUpdateForm}
+            passwordUpdateForm={user.passwordUpdateForm}
             onUpdate={onUserUpdate}
             onAvatarUpload={onUserAvatarUpload}
+            onEmailUpdate={onUserEmailUpdate}
+            onEmailUpdateMessageDismiss={onUserEmailUpdateMessageDismiss}
+            onPasswordUpdate={onUserPasswordUpdate}
+            onPasswordUpdateMessageDismiss={onUserPasswordUpdateMessageDismiss}
             onLogout={onLogout}
           >
             <Menu.Item className={styles.item}>{user.name}</Menu.Item>
@@ -61,10 +72,14 @@ Header.propTypes = {
   notifications: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   isEditable: PropTypes.bool.isRequired,
+  onUsers: PropTypes.func.isRequired,
+  onNotificationDelete: PropTypes.func.isRequired,
   onUserUpdate: PropTypes.func.isRequired,
   onUserAvatarUpload: PropTypes.func.isRequired,
-  onNotificationDelete: PropTypes.func.isRequired,
-  onUsers: PropTypes.func.isRequired,
+  onUserEmailUpdate: PropTypes.func.isRequired,
+  onUserEmailUpdateMessageDismiss: PropTypes.func.isRequired,
+  onUserPasswordUpdate: PropTypes.func.isRequired,
+  onUserPasswordUpdateMessageDismiss: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
 };
 

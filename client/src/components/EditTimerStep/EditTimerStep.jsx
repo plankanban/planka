@@ -1,11 +1,11 @@
 import dequal from 'dequal';
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import { useDeepCompareCallback, useForm, useToggle } from '../../hooks';
+import { useForm, useToggle } from '../../hooks';
 import {
   createTimer, getTimerParts, startTimer, stopTimer, updateTimer,
 } from '../../utils/timer';
@@ -41,16 +41,16 @@ const EditTimerStep = React.memo(({
   const minutesField = useRef(null);
   const secondsField = useRef(null);
 
-  const handleStartClick = useDeepCompareCallback(() => {
+  const handleStartClick = useCallback(() => {
     onUpdate(startTimer(defaultValue));
     onClose();
   }, [defaultValue, onUpdate, onClose]);
 
-  const handleStopClick = useDeepCompareCallback(() => {
+  const handleStopClick = useCallback(() => {
     onUpdate(stopTimer(defaultValue));
   }, [defaultValue, onUpdate]);
 
-  const handleClearClick = useDeepCompareCallback(() => {
+  const handleClearClick = useCallback(() => {
     if (defaultValue) {
       onUpdate(null);
     }
@@ -58,12 +58,12 @@ const EditTimerStep = React.memo(({
     onClose();
   }, [defaultValue, onUpdate, onClose]);
 
-  const handleToggleEditClick = useDeepCompareCallback(() => {
+  const handleToggleEditClick = useCallback(() => {
     setData(createData(defaultValue));
     toggleEdit();
   }, [defaultValue, setData, toggleEdit]);
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     const parts = {
       hours: parseInt(data.hours, 10),
       minutes: parseInt(data.minutes, 10),

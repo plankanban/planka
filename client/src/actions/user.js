@@ -9,8 +9,8 @@ export const createUser = (data) => ({
   },
 });
 
-export const clearUserCreationError = () => ({
-  type: ActionTypes.USER_CREATION_ERROR_CLEAR,
+export const clearUserCreateError = () => ({
+  type: ActionTypes.USER_CREATE_ERROR_CLEAR,
   payload: {},
 });
 
@@ -19,6 +19,20 @@ export const updateUser = (id, data) => ({
   payload: {
     id,
     data,
+  },
+});
+
+export const clearUserEmailUpdateError = (id) => ({
+  type: ActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR,
+  payload: {
+    id,
+  },
+});
+
+export const clearUserPasswordUpdateError = (id) => ({
+  type: ActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR,
+  payload: {
+    id,
   },
 });
 
@@ -141,6 +155,53 @@ export const updateUserReceived = (user) => ({
   },
 });
 
+export const updateUserEmailRequested = (id, data) => ({
+  type: ActionTypes.USER_EMAIL_UPDATE_REQUESTED,
+  payload: {
+    id,
+    data,
+  },
+});
+
+export const updateUserEmailSucceeded = (id, email) => ({
+  type: ActionTypes.USER_EMAIL_UPDATE_SUCCEEDED,
+  payload: {
+    id,
+    email,
+  },
+});
+
+export const updateUserEmailFailed = (id, error) => ({
+  type: ActionTypes.USER_EMAIL_UPDATE_FAILED,
+  payload: {
+    id,
+    error,
+  },
+});
+
+export const updateUserPasswordRequested = (id, data) => ({
+  type: ActionTypes.USER_PASSWORD_UPDATE_REQUESTED,
+  payload: {
+    id,
+    data,
+  },
+});
+
+export const updateUserPasswordSucceeded = (id) => ({
+  type: ActionTypes.USER_PASSWORD_UPDATE_SUCCEEDED,
+  payload: {
+    id,
+  },
+});
+
+export const updateUserPasswordFailed = (id, error) => ({
+  type: ActionTypes.USER_PASSWORD_UPDATE_FAILED,
+  payload: {
+    id,
+    error,
+  },
+});
+
 export const uploadUserAvatarRequested = (id) => ({
   type: ActionTypes.USER_AVATAR_UPLOAD_REQUESTED,
   payload: {
@@ -148,10 +209,11 @@ export const uploadUserAvatarRequested = (id) => ({
   },
 });
 
-export const uploadUserAvatarSucceeded = (user) => ({
+export const uploadUserAvatarSucceeded = (id, avatar) => ({
   type: ActionTypes.USER_AVATAR_UPLOAD_SUCCEEDED,
   payload: {
-    user,
+    id,
+    avatar,
   },
 });
 

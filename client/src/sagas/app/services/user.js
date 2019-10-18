@@ -5,6 +5,8 @@ import {
   createUserRequest,
   deleteCardMembershipRequest,
   deleteUserRequest,
+  updateUserEmailRequest,
+  updateUserPasswordRequest,
   updateUserRequest,
   uploadUserAvatarRequest,
 } from '../requests';
@@ -12,7 +14,9 @@ import { currentUserIdSelector, pathSelector } from '../../../selectors';
 import {
   addUserToBoardFilter,
   addUserToCard,
-  clearUserCreationError,
+  clearUserCreateError,
+  clearUserEmailUpdateError,
+  clearUserPasswordUpdateError,
   createUser,
   deleteUser,
   updateUser,
@@ -25,8 +29,8 @@ export function* createUserService(data) {
   yield call(createUserRequest, data);
 }
 
-export function* clearUserCreationErrorService() {
-  yield put(clearUserCreationError());
+export function* clearUserCreateErrorService() {
+  yield put(clearUserCreateError());
 }
 
 export function* updateUserService(id, data) {
@@ -40,10 +44,54 @@ export function* updateCurrentUserService(data) {
   yield call(updateUserService, id, data);
 }
 
+export function* updateUserEmailService(id, data) {
+  yield call(updateUserEmailRequest, id, data);
+}
+
+export function* updateCurrentUserEmailService(data) {
+  const id = yield select(currentUserIdSelector);
+
+  yield call(updateUserEmailService, id, data);
+}
+
+export function* clearUserEmailUpdateErrorService(id) {
+  yield put(clearUserEmailUpdateError(id));
+}
+
+export function* clearCurrentUserEmailUpdateErrorService() {
+  const id = yield select(currentUserIdSelector);
+
+  yield call(clearUserEmailUpdateErrorService, id);
+}
+
+export function* updateUserPasswordService(id, data) {
+  yield call(updateUserPasswordRequest, id, data);
+}
+
+export function* updateCurrentUserPasswordService(data) {
+  const id = yield select(currentUserIdSelector);
+
+  yield call(updateUserPasswordService, id, data);
+}
+
+export function* clearUserPasswordUpdateErrorService(id) {
+  yield put(clearUserPasswordUpdateError(id));
+}
+
+export function* clearCurrentUserPasswordUpdateErrorService() {
+  const id = yield select(currentUserIdSelector);
+
+  yield call(clearUserPasswordUpdateErrorService, id);
+}
+
+export function* uploadUserAvatarService(id, file) {
+  yield call(uploadUserAvatarRequest, id, file);
+}
+
 export function* uploadCurrentUserAvatarService(file) {
   const id = yield select(currentUserIdSelector);
 
-  yield call(uploadUserAvatarRequest, id, file);
+  yield call(uploadUserAvatarService, id, file);
 }
 
 export function* deleteUserService(id) {

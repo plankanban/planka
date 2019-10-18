@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import {
@@ -6,7 +6,7 @@ import {
 } from 'semantic-ui-react';
 import { Input } from '../../lib/custom-ui';
 
-import { useDeepCompareCallback, useForm } from '../../hooks';
+import { useForm } from '../../hooks';
 
 import styles from './AddProjectModal.module.css';
 
@@ -22,7 +22,7 @@ const AddProjectModal = React.memo(({
 
   const nameField = useRef(null);
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim(),

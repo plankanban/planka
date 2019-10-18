@@ -2,20 +2,20 @@ import { combineReducers } from 'redux';
 
 import router from './router';
 import socket from './socket';
-import db from './db';
+import orm from './orm';
 import auth from './auth';
-import login from './login';
 import app from './app';
-import user from './user';
-import project from './project';
+import authenticateForm from './forms/authenticate';
+import userCreateForm from './forms/user-create';
+import projectCreateForm from './forms/project-create';
 
 export default combineReducers({
   router,
   socket,
-  db,
+  orm,
   auth,
-  login,
   app,
-  user,
-  project,
+  authenticateForm,
+  userCreateForm,
+  projectCreateForm,
 });

@@ -2,6 +2,24 @@ import { Model, attr } from 'redux-orm';
 
 import ActionTypes from '../constants/ActionTypes';
 
+const DEFAULT_EMAIL_UPDATE_FORM = {
+  data: {
+    email: '',
+    currentPassword: '',
+  },
+  isSubmitting: false,
+  error: null,
+};
+
+const DEFAULT_PASSWORD_UPDATE_FORM = {
+  data: {
+    password: '',
+    currentPassword: '',
+  },
+  isSubmitting: false,
+  error: null,
+};
+
 export default class extends Model {
   static modelName = 'User';
 
@@ -16,6 +34,12 @@ export default class extends Model {
     }),
     isAvatarUploading: attr({
       getDefault: () => false,
+    }),
+    emailUpdateForm: attr({
+      getDefault: () => DEFAULT_EMAIL_UPDATE_FORM,
+    }),
+    passwordUpdateForm: attr({
+      getDefault: () => DEFAULT_PASSWORD_UPDATE_FORM,
     }),
   };
 
@@ -44,6 +68,30 @@ export default class extends Model {
         User.withId(payload.id).update(payload.data);
 
         break;
+      case ActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          emailUpdateForm: {
+            ...userModel.emailUpdateForm,
+            error: null,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          passwordUpdateForm: {
+            ...userModel.passwordUpdateForm,
+            error: null,
+          },
+        });
+
+        break;
+      }
       case ActionTypes.USER_DELETE:
         User.withId(payload.id).deleteWithRelated();
 
@@ -52,6 +100,73 @@ export default class extends Model {
         User.withId(payload.user.id).update(payload.user);
 
         break;
+      case ActionTypes.USER_EMAIL_UPDATE_REQUESTED: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          emailUpdateForm: {
+            ...userModel.emailUpdateForm,
+            data: payload.data,
+            isSubmitting: true,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_EMAIL_UPDATE_SUCCEEDED: {
+        User.withId(payload.id).update({
+          email: payload.email,
+          emailUpdateForm: DEFAULT_EMAIL_UPDATE_FORM,
+        });
+
+        break;
+      }
+      case ActionTypes.USER_EMAIL_UPDATE_FAILED: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          emailUpdateForm: {
+            ...userModel.emailUpdateForm,
+            isSubmitting: false,
+            error: payload.error,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_PASSWORD_UPDATE_REQUESTED: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          passwordUpdateForm: {
+            ...userModel.passwordUpdateForm,
+            data: payload.data,
+            isSubmitting: true,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_PASSWORD_UPDATE_SUCCEEDED: {
+        User.withId(payload.id).update({
+          passwordUpdateForm: DEFAULT_PASSWORD_UPDATE_FORM,
+        });
+
+        break;
+      }
+      case ActionTypes.USER_PASSWORD_UPDATE_FAILED: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          passwordUpdateForm: {
+            ...userModel.passwordUpdateForm,
+            isSubmitting: false,
+            error: payload.error,
+          },
+        });
+
+        break;
+      }
       case ActionTypes.USER_AVATAR_UPLOAD_REQUESTED:
         User.withId(payload.id).update({
           isAvatarUploading: true,
@@ -59,8 +174,8 @@ export default class extends Model {
 
         break;
       case ActionTypes.USER_AVATAR_UPLOAD_SUCCEEDED:
-        User.withId(payload.user.id).update({
-          ...payload.user,
+        User.withId(payload.id).update({
+          avatar: payload.avatar,
           isAvatarUploading: false,
         });
 

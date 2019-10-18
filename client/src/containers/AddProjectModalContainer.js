@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { closeModal, createProject } from '../actions/entry';
 import AddProjectModal from '../components/AddProjectModal';
 
-const mapStateToProps = ({ project: { data: defaultData, isSubmitting } }) => ({
+const mapStateToProps = ({ projectCreateForm: { data: defaultData, isSubmitting } }) => ({
   defaultData,
   isSubmitting,
 });

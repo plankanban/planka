@@ -11,7 +11,13 @@ import {
   fetchCurrentUserFailed,
   fetchCurrentUserRequested,
   fetchCurrentUserSucceeded,
+  updateUserEmailFailed,
+  updateUserEmailRequested,
+  updateUserEmailSucceeded,
   updateUserFailed,
+  updateUserPasswordFailed,
+  updateUserPasswordRequested,
+  updateUserPasswordSucceeded,
   updateUserRequested,
   updateUserSucceeded,
   uploadUserAvatarFailed,
@@ -92,13 +98,61 @@ export function* updateUserRequest(id, data) {
   }
 }
 
+export function* updateUserEmailRequest(id, data) {
+  yield put(updateUserEmailRequested(id, data));
+
+  try {
+    const { item } = yield call(request, api.updateUserEmail, id, data);
+
+    const action = updateUserEmailSucceeded(id, item);
+    yield put(action);
+
+    return {
+      success: true,
+      payload: action.payload,
+    };
+  } catch (error) {
+    const action = updateUserEmailFailed(id, error);
+    yield put(action);
+
+    return {
+      success: false,
+      payload: action.payload,
+    };
+  }
+}
+
+export function* updateUserPasswordRequest(id, data) {
+  yield put(updateUserPasswordRequested(id, data));
+
+  try {
+    yield call(request, api.updateUserPassword, id, data);
+
+    const action = updateUserPasswordSucceeded(id);
+    yield put(action);
+
+    return {
+      success: true,
+      payload: action.payload,
+    };
+  } catch (error) {
+    const action = updateUserPasswordFailed(id, error);
+    yield put(action);
+
+    return {
+      success: false,
+      payload: action.payload,
+    };
+  }
+}
+
 export function* uploadUserAvatarRequest(id, file) {
   yield put(uploadUserAvatarRequested(id));
 
   try {
     const { item } = yield call(request, api.uploadUserAvatar, id, file);
 
-    const action = uploadUserAvatarSucceeded(item);
+    const action = uploadUserAvatarSucceeded(id, item);
     yield put(action);
 
     return {

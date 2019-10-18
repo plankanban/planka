@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import { useDeepCompareCallback, useForm } from '../../hooks';
+import { useForm } from '../../hooks';
 
 import styles from './AddPopup.module.css';
 
@@ -18,7 +18,7 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
 
   const nameField = useRef(null);
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim(),
