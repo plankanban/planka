@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -9,15 +11,44 @@ import {
 import { Input } from '../../lib/custom-ui';
 
 import {
-  useDeepCompareCallback,
-  useDeepCompareEffect,
-  useDidUpdate,
-  useForm,
-  usePrevious,
-  useToggle,
+  useDidUpdate, useForm, usePrevious, useToggle,
 } from '../../hooks';
 
 import styles from './Login.module.css';
+
+const createMessage = (error) => {
+  if (!error) {
+    return error;
+  }
+
+  switch (error.message) {
+    case 'Email does not exist':
+      return {
+        type: 'error',
+        content: 'common.emailDoesNotExist',
+      };
+    case 'Password is not valid':
+      return {
+        type: 'error',
+        content: 'common.invalidPassword',
+      };
+    case 'Failed to fetch':
+      return {
+        type: 'warning',
+        content: 'common.noInternetConnection',
+      };
+    case 'Network request failed':
+      return {
+        type: 'warning',
+        content: 'common.serverConnectionFailed',
+      };
+    default:
+      return {
+        type: 'warning',
+        content: 'common.unknownError',
+      };
+  }
+};
 
 const Login = React.memo(
   ({
@@ -32,12 +63,13 @@ const Login = React.memo(
       ...defaultData,
     }));
 
+    const message = useMemo(() => createMessage(error), [error]);
     const [focusPasswordFieldState, focusPasswordField] = useToggle();
 
     const emailField = useRef(null);
     const passwordField = useRef(null);
 
-    const handleSubmit = useDeepCompareCallback(() => {
+    const handleSubmit = useCallback(() => {
       const cleanData = {
         ...data,
         email: data.email.trim(),
@@ -60,14 +92,14 @@ const Login = React.memo(
       emailField.current.select();
     }, []);
 
-    useDeepCompareEffect(() => {
+    useEffect(() => {
       if (wasSubmitting && !isSubmitting && error) {
         switch (error.message) {
-          case 'emailDoesNotExist':
+          case 'Email does not exist':
             emailField.current.select();
 
             break;
-          case 'invalidPassword':
+          case 'Password is not valid':
             setData((prevData) => ({
               ...prevData,
               password: '',
@@ -98,14 +130,14 @@ const Login = React.memo(
                     className={styles.formTitle}
                   />
                   <div>
-                    {error && (
+                    {message && (
                       <Message
                         // eslint-disable-next-line react/jsx-props-no-spreading
                         {...{
-                          [error.type || 'error']: true,
+                          [message.type]: true,
                         }}
                         visible
-                        content={t(`common.${error.message}`)}
+                        content={t(message.content)}
                         onDismiss={onMessageDismiss}
                       />
                     )}

@@ -14,7 +14,7 @@ import {
 } from './models';
 
 const orm = new ORM({
-  stateSelector: ({ db }) => db,
+  stateSelector: (state) => state.orm,
 });
 
 orm.register(

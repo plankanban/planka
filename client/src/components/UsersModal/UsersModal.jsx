@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  Button, Modal, Table,
-} from 'semantic-ui-react';
+import { Button, Modal, Table } from 'semantic-ui-react';
 
 import AddUserPopupContainer from '../../containers/AddUserPopupContainer';
 import Item from './Item';

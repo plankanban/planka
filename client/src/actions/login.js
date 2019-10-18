@@ -9,8 +9,8 @@ export const authenticate = (data) => ({
   },
 });
 
-export const clearAuthenticationError = () => ({
-  type: ActionTypes.AUTHENTICATION_ERROR_CLEAR,
+export const clearAuthenticateError = () => ({
+  type: ActionTypes.AUTHENTICATE_ERROR_CLEAR,
   payload: {},
 });
 

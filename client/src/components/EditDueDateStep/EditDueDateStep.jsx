@@ -7,9 +7,7 @@ import DatePicker from 'react-datepicker';
 import { Button, Form } from 'semantic-ui-react';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import {
-  useDeepCompareCallback, useDidUpdate, useForm, useToggle,
-} from '../../hooks';
+import { useDidUpdate, useForm, useToggle } from '../../hooks';
 
 import styles from './EditDueDateStep.module.css';
 
@@ -65,7 +63,7 @@ const EditDueDateStep = React.memo(({
     [setData, selectTimeField, t],
   );
 
-  const handleSubmit = useDeepCompareCallback(() => {
+  const handleSubmit = useCallback(() => {
     if (!nullableDate) {
       dateField.current.select();
       return;
@@ -86,9 +84,9 @@ const EditDueDateStep = React.memo(({
     }
 
     onClose();
-  }, [defaultValue, onUpdate, onClose, data, nullableDate]);
+  }, [defaultValue, onUpdate, onClose, data, nullableDate, t]);
 
-  const handleClearClick = useDeepCompareCallback(() => {
+  const handleClearClick = useCallback(() => {
     if (defaultValue) {
       onUpdate(null);
     }

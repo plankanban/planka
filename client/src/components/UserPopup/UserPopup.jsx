@@ -2,23 +2,40 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
-import { withPopup } from '../../../lib/popup';
-import { Popup } from '../../../lib/custom-ui';
+import { withPopup } from '../../lib/popup';
+import { Popup } from '../../lib/custom-ui';
 
-import { useSteps } from '../../../hooks';
+import { useSteps } from '../../hooks';
 import EditNameStep from './EditNameStep';
 import EditAvatarStep from './EditAvatarStep';
+import EditEmailStep from './EditEmailStep';
+import EditPasswordStep from './EditPasswordStep';
 
 import styles from './UserPopup.module.css';
 
 const StepTypes = {
   EDIT_NAME: 'EDIT_NAME',
   EDIT_AVATAR: 'EDIT_AVATAR',
+  EDIT_EMAIL: 'EDIT_EMAIL',
+  EDIT_PASSWORD: 'EDIT_PASSWORD',
 };
 
 const UserStep = React.memo(
   ({
-    name, avatar, isAvatarUploading, onUpdate, onAvatarUpload, onLogout, onClose,
+    email,
+    name,
+    avatar,
+    isAvatarUploading,
+    emailUpdateForm,
+    passwordUpdateForm,
+    onUpdate,
+    onAvatarUpload,
+    onEmailUpdate,
+    onEmailUpdateMessageDismiss,
+    onPasswordUpdate,
+    onPasswordUpdateMessageDismiss,
+    onLogout,
+    onClose,
   }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
@@ -29,6 +46,14 @@ const UserStep = React.memo(
 
     const handleAvatarEditClick = useCallback(() => {
       openStep(StepTypes.EDIT_AVATAR);
+    }, [openStep]);
+
+    const handleEmailEditClick = useCallback(() => {
+      openStep(StepTypes.EDIT_EMAIL);
+    }, [openStep]);
+
+    const handlePasswordEditClick = useCallback(() => {
+      openStep(StepTypes.EDIT_PASSWORD);
     }, [openStep]);
 
     const handleNameUpdate = useCallback(
@@ -68,6 +93,31 @@ const UserStep = React.memo(
               onBack={handleBack}
             />
           );
+        case StepTypes.EDIT_EMAIL:
+          return (
+            <EditEmailStep
+              defaultData={emailUpdateForm.data}
+              email={email}
+              isSubmitting={emailUpdateForm.isSubmitting}
+              error={emailUpdateForm.error}
+              onUpdate={onEmailUpdate}
+              onMessageDismiss={onEmailUpdateMessageDismiss}
+              onBack={handleBack}
+              onClose={onClose}
+            />
+          );
+        case StepTypes.EDIT_PASSWORD:
+          return (
+            <EditPasswordStep
+              defaultData={passwordUpdateForm.data}
+              isSubmitting={passwordUpdateForm.isSubmitting}
+              error={passwordUpdateForm.error}
+              onUpdate={onPasswordUpdate}
+              onMessageDismiss={onPasswordUpdateMessageDismiss}
+              onBack={handleBack}
+              onClose={onClose}
+            />
+          );
         default:
       }
     }
@@ -87,6 +137,16 @@ const UserStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleEmailEditClick}>
+              {t('action.editEmail', {
+                context: 'title',
+              })}
+            </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handlePasswordEditClick}>
+              {t('action.editPassword', {
+                context: 'title',
+              })}
+            </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={onLogout}>
               {t('action.logOut', {
                 context: 'title',
@@ -100,11 +160,20 @@ const UserStep = React.memo(
 );
 
 UserStep.propTypes = {
+  email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string,
   isAvatarUploading: PropTypes.bool.isRequired,
+  /* eslint-disable react/forbid-prop-types */
+  emailUpdateForm: PropTypes.object.isRequired,
+  passwordUpdateForm: PropTypes.object.isRequired,
+  /* eslint-enable react/forbid-prop-types */
   onUpdate: PropTypes.func.isRequired,
   onAvatarUpload: PropTypes.func.isRequired,
+  onEmailUpdate: PropTypes.func.isRequired,
+  onEmailUpdateMessageDismiss: PropTypes.func.isRequired,
+  onPasswordUpdate: PropTypes.func.isRequired,
+  onPasswordUpdateMessageDismiss: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };

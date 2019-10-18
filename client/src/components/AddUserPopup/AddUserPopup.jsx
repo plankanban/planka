@@ -1,16 +1,34 @@
 import isEmail from 'validator/lib/isEmail';
-import React, { useEffect, useRef } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import {
-  useDeepCompareCallback, useDeepCompareEffect, useForm, usePrevious,
-} from '../../hooks';
+import { useForm, usePrevious } from '../../hooks';
 
 import styles from './AddUserPopup.module.css';
+
+const createMessage = (error) => {
+  if (!error) {
+    return error;
+  }
+
+  if (error.message === 'User is already exist') {
+    return {
+      type: 'error',
+      content: 'common.userIsAlreadyExist',
+    };
+  }
+
+  return {
+    type: 'warning',
+    content: 'common.unknownError',
+  };
+};
 
 const AddUserPopup = React.memo(
   ({
@@ -26,11 +44,13 @@ const AddUserPopup = React.memo(
       ...defaultData,
     }));
 
+    const message = useMemo(() => createMessage(error), [error]);
+
     const emailField = useRef(null);
     const passwordField = useRef(null);
     const nameField = useRef(null);
 
-    const handleSubmit = useDeepCompareCallback(() => {
+    const handleSubmit = useCallback(() => {
       const cleanData = {
         ...data,
         email: data.email.trim(),
@@ -59,11 +79,11 @@ const AddUserPopup = React.memo(
       emailField.current.select();
     }, []);
 
-    useDeepCompareEffect(() => {
+    useEffect(() => {
       if (wasSubmitting && !isSubmitting) {
         if (!error) {
           onClose();
-        } else if (error.message === 'userIsAlreadyExist') {
+        } else if (error.message === 'User is already exist') {
           emailField.current.select();
         }
       }
@@ -77,14 +97,14 @@ const AddUserPopup = React.memo(
           })}
         </Popup.Header>
         <Popup.Content>
-          {error && (
+          {message && (
             <Message
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...{
-                [error.type || 'error']: true,
+                [message.type]: true,
               }}
               visible
-              content={t(`common.${error.message}`)}
+              content={t(message.content)}
               onDismiss={onMessageDismiss}
             />
           )}

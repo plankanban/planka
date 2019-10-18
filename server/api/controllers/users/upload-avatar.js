@@ -118,7 +118,7 @@ module.exports = {
       }
 
       return this.res.json({
-        item: user
+        item: user.avatar
       });
     });
   }

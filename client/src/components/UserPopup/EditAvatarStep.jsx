@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
-import { Popup } from '../../../lib/custom-ui';
+import { Popup } from '../../lib/custom-ui';
 
-import User from '../../User';
+import User from '../User';
 
 import styles from './EditAvatarStep.module.css';
 

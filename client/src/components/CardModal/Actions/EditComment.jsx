@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 
-import { useClosableForm, useDeepCompareCallback, useForm } from '../../../hooks';
+import { useClosableForm, useForm } from '../../../hooks';
 
 import styles from './EditComment.module.css';
 
@@ -18,7 +18,7 @@ const EditComment = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
 
   const textField = useRef(null);
 
-  const open = useDeepCompareCallback(() => {
+  const open = useCallback(() => {
     setIsOpened(true);
     setData({
       text: '',
@@ -31,7 +31,7 @@ const EditComment = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
     setData(null);
   }, [setData]);
 
-  const submit = useDeepCompareCallback(() => {
+  const submit = useCallback(() => {
     const cleanData = {
       ...data,
       text: data.text.trim(),

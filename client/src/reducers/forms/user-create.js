@@ -1,4 +1,4 @@
-import ActionTypes from '../constants/ActionTypes';
+import ActionTypes from '../../constants/ActionTypes';
 
 const initialState = {
   data: {
@@ -19,7 +19,7 @@ export default (state = initialState, { type, payload }) => {
           ...payload.data,
         },
       };
-    case ActionTypes.USER_CREATION_ERROR_CLEAR:
+    case ActionTypes.USER_CREATE_ERROR_CLEAR:
       return {
         ...state,
         error: null,

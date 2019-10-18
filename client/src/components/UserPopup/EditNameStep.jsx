@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
-import { Input, Popup } from '../../../lib/custom-ui';
+import { Input, Popup } from '../../lib/custom-ui';
 
-import { useField } from '../../../hooks';
+import { useField } from '../../hooks';
 
 import styles from './EditNameStep.module.css';
 
