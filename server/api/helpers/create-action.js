@@ -11,6 +11,9 @@ module.exports = {
     values: {
       type: 'json',
       required: true
+    },
+    request: {
+      type: 'ref'
     }
   },
 
@@ -21,9 +24,14 @@ module.exports = {
       userId: inputs.user.id
     }).fetch();
 
-    sails.sockets.broadcast(`board:${inputs.card.boardId}`, 'actionCreate', {
-      item: action
-    });
+    sails.sockets.broadcast(
+      `board:${inputs.card.boardId}`,
+      'actionCreate',
+      {
+        item: action
+      },
+      inputs.request
+    );
 
     const userIds = await sails.helpers.getSubscriptionUserIdsForCard(
       action.cardId,

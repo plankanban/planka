@@ -44,7 +44,7 @@ module.exports = {
       data: _.pick(inputs, ['text'])
     };
 
-    const action = await sails.helpers.createAction(card, currentUser, values);
+    const action = await sails.helpers.createAction(card, currentUser, values, this.req);
 
     return exits.success({
       item: action
