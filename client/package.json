@@ -55,7 +55,7 @@
     "react-textarea-autosize": "^7.1.0",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
-    "redux-orm": "^0.15.0",
+    "redux-orm": "^0.15.1",
     "redux-saga": "^1.1.1",
     "reselect": "^4.0.0",
     "sails.io.js": "^1.2.1",
