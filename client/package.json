@@ -33,10 +33,10 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "connected-react-router": "^6.5.2",
-    "date-fns": "^2.5.1",
+    "date-fns": "^2.6.0",
     "dequal": "^1.0.0",
     "history": "^4.10.1",
-    "i18next": "^17.2.0",
+    "i18next": "^17.3.0",
     "i18next-browser-languagedetector": "^4.0.0",
     "initials": "^3.0.1",
     "lodash": "^4.17.15",
