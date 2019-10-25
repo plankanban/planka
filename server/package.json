@@ -18,7 +18,7 @@
     "dotenv": "^8.2.0",
     "dotenv-cli": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.19.5",
+    "knex": "^0.20.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "sails": "^1.2.3",
