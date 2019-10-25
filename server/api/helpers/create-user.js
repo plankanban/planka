@@ -25,7 +25,9 @@ module.exports = {
       email: inputs.values.email.toLowerCase(),
       password: bcrypt.hashSync(inputs.values.password, 10)
     })
-      .intercept(undefined, 'conflict')
+      .intercept({
+        message: 'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"'
+      }, 'conflict')
       .fetch();
 
     const userIds = await sails.helpers.getAdminUserIds();

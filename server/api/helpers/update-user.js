@@ -45,7 +45,9 @@ module.exports = {
       deletedAt: null
     })
       .set(inputs.values)
-      .intercept(undefined, 'conflict');
+      .intercept({
+        message: 'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"'
+      }, 'conflict');
 
     if (user) {
       if (inputs.record.avatar && user.avatar !== inputs.record.avatar) {
