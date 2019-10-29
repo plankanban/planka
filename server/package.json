@@ -25,7 +25,7 @@
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
-    "sharp": "^0.23.1"
+    "sharp": "^0.23.2"
   },
   "devDependencies": {
     "eslint": "5.16.0",
