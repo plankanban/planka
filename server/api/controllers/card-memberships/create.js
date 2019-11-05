@@ -1,13 +1,13 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found'
+    notFound: 'Card is not found',
   },
   USER_NOT_FOUND: {
-    notFound: 'User is not found'
+    notFound: 'User is not found',
   },
   CARD_MEMBERSHIP_EXIST: {
-    conflict: 'Card membership is already exist'
-  }
+    conflict: 'Card membership is already exist',
+  },
 };
 
 module.exports = {
@@ -15,25 +15,25 @@ module.exports = {
     cardId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     userId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
+      responseType: 'notFound',
     },
     conflict: {
-      responseType: 'conflict'
-    }
+      responseType: 'conflict',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { card, project } = await sails.helpers
@@ -42,17 +42,14 @@ module.exports = {
 
     let isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
-    isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      inputs.userId
-    );
+    isUserMemberForProject = await sails.helpers.isUserMemberForProject(project.id, inputs.userId);
 
     if (!isUserMemberForProject) {
       throw Errors.USER_NOT_FOUND;
@@ -63,7 +60,7 @@ module.exports = {
       .intercept('conflict', () => Errors.CARD_MEMBERSHIP_EXIST);
 
     return exits.success({
-      item: cardMembership
+      item: cardMembership,
     });
-  }
+  },
 };

@@ -2,18 +2,18 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const label = await Label.updateOne(inputs.record.id).set(inputs.values);
 
     if (label) {
@@ -21,12 +21,12 @@ module.exports = {
         `board:${label.boardId}`,
         'labelUpdate',
         {
-          item: label
+          item: label,
         },
-        inputs.request
+        inputs.request,
       );
     }
 
     return exits.success(label);
-  }
+  },
 };

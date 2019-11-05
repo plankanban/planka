@@ -1,7 +1,7 @@
 const Errors = {
   LABEL_NOT_FOUND: {
-    notFound: 'Label is not found'
-  }
+    notFound: 'Label is not found',
+  },
 };
 
 module.exports = {
@@ -9,26 +9,29 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
-    let { label, project } = await sails.helpers
+    const labelToProjectPath = await sails.helpers
       .getLabelToProjectPath(inputs.id)
       .intercept('notFound', () => Errors.LABEL_NOT_FOUND);
 
+    let { label } = labelToProjectPath;
+    const { project } = labelToProjectPath;
+
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -42,7 +45,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: label
+      item: label,
     });
-  }
+  },
 };

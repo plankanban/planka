@@ -1,13 +1,13 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found'
+    notFound: 'Card is not found',
   },
   LABEL_NOT_FOUND: {
-    notFound: 'Label is not found'
+    notFound: 'Label is not found',
   },
   CARD_LABEL_EXIST: {
-    conflict: 'Card label is already exist'
-  }
+    conflict: 'Card label is already exist',
+  },
 };
 
 module.exports = {
@@ -15,25 +15,25 @@ module.exports = {
     cardId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     labelId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
+      responseType: 'notFound',
     },
     conflict: {
-      responseType: 'conflict'
-    }
+      responseType: 'conflict',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { card, project } = await sails.helpers
@@ -42,7 +42,7 @@ module.exports = {
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -51,7 +51,7 @@ module.exports = {
 
     const label = await Label.findOne({
       id: inputs.labelId,
-      boardId: card.boardId
+      boardId: card.boardId,
     });
 
     if (!label) {
@@ -63,7 +63,7 @@ module.exports = {
       .intercept('conflict', () => Errors.CARD_LABEL_EXIST);
 
     return exits.success({
-      item: cardLabel
+      item: cardLabel,
     });
-  }
+  },
 };

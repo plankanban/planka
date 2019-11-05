@@ -1,10 +1,10 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found'
+    notFound: 'Card is not found',
   },
   CARD_MEMBERSHIP_NOT_FOUND: {
-    notFound: 'Card membership is not found'
-  }
+    notFound: 'Card membership is not found',
+  },
 };
 
 module.exports = {
@@ -12,22 +12,22 @@ module.exports = {
     cardId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     userId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { board, project } = await sails.helpers
@@ -36,7 +36,7 @@ module.exports = {
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -45,25 +45,21 @@ module.exports = {
 
     let cardMembership = await CardMembership.findOne({
       cardId: inputs.cardId,
-      userId: inputs.userId
+      userId: inputs.userId,
     });
 
     if (!cardMembership) {
       throw Errors.CARD_MEMBERSHIP_NOT_FOUND;
     }
 
-    cardMembership = await sails.helpers.deleteCardMembership(
-      cardMembership,
-      board,
-      this.req
-    );
+    cardMembership = await sails.helpers.deleteCardMembership(cardMembership, board, this.req);
 
     if (!cardMembership) {
       throw Errors.CARD_MEMBERSHIP_NOT_FOUND;
     }
 
     return exits.success({
-      item: cardMembership
+      item: cardMembership,
     });
-  }
+  },
 };

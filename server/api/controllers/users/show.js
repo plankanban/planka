@@ -1,5 +1,5 @@
 module.exports = {
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     // TODO: allow over HTTP without subscription
     if (!this.req.isSocket) {
       return this.res.badRequest();
@@ -10,7 +10,7 @@ module.exports = {
     sails.sockets.join(this.req, `user:${currentUser.id}`); // TODO: only when subscription needed
 
     return exits.success({
-      item: currentUser
+      item: currentUser,
     });
-  }
+  },
 };

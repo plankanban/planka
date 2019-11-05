@@ -2,39 +2,35 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
-    const project = await Project.updateOne(inputs.record.id).set(
-      inputs.values
-    );
+  async fn(inputs, exits) {
+    const project = await Project.updateOne(inputs.record.id).set(inputs.values);
 
     if (project) {
-      const userIds = await sails.helpers.getMembershipUserIdsForProject(
-        project.id
-      );
+      const userIds = await sails.helpers.getMembershipUserIdsForProject(project.id);
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectUpdate',
           {
-            item: project
+            item: project,
           },
-          inputs.request
+          inputs.request,
         );
       });
     }
 
     return exits.success(project);
-  }
+  },
 };

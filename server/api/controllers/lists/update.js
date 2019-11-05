@@ -1,7 +1,7 @@
 const Errors = {
   LIST_NOT_FOUND: {
-    notFound: 'List is not found'
-  }
+    notFound: 'List is not found',
+  },
 };
 
 module.exports = {
@@ -9,33 +9,36 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     position: {
-      type: 'number'
+      type: 'number',
     },
     name: {
       type: 'string',
-      isNotEmptyString: true
-    }
+      isNotEmptyString: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
-    let { list, project } = await sails.helpers
+    const listToProjectPath = await sails.helpers
       .getListToProjectPath(inputs.id)
       .intercept('notFound', () => Errors.LIST_NOT_FOUND);
 
+    let { list } = listToProjectPath;
+    const { project } = listToProjectPath;
+
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -51,7 +54,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: list
+      item: list,
     });
-  }
+  },
 };

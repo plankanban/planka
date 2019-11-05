@@ -2,21 +2,21 @@ module.exports = {
   inputs: {
     card: {
       type: 'ref',
-      required: true
+      required: true,
     },
     label: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const cardLabel = await CardLabel.create({
       cardId: inputs.card.id,
-      labelId: inputs.label.id
+      labelId: inputs.label.id,
     })
       .intercept('E_UNIQUE', 'conflict')
       .fetch();
@@ -25,11 +25,11 @@ module.exports = {
       `board:${inputs.card.boardId}`,
       'cardLabelCreate',
       {
-        item: cardLabel
+        item: cardLabel,
       },
-      inputs.request
+      inputs.request,
     );
 
     return exits.success(cardLabel);
-  }
+  },
 };

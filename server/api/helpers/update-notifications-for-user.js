@@ -2,41 +2,41 @@ module.exports = {
   inputs: {
     ids: {
       type: 'json',
-      custom: value => _.isArray(value),
-      required: true
+      custom: (value) => _.isArray(value),
+      required: true,
     },
     user: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const notifications = await Notification.update({
       id: inputs.ids,
-      userId: inputs.user.id
+      userId: inputs.user.id,
     })
       .set(inputs.values)
       .fetch();
 
-    notifications.forEach(notification => {
+    notifications.forEach((notification) => {
       sails.sockets.broadcast(
         `user:${notification.userId}`,
         'notificationUpdate',
         {
-          item: notification
+          item: notification,
         },
-        inputs.request
+        inputs.request,
       );
     });
 
     return exits.success(notifications);
-  }
+  },
 };

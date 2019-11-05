@@ -1,7 +1,7 @@
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found'
-  }
+    notFound: 'User is not found',
+  },
 };
 
 module.exports = {
@@ -9,28 +9,28 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     isAdmin: {
-      type: 'boolean'
+      type: 'boolean',
     },
     name: {
       type: 'string',
-      isNotEmptyString: true
+      isNotEmptyString: true,
     },
     avatar: {
       type: 'json',
-      custom: value => _.isNull(value)
-    }
+      custom: (value) => _.isNull(value),
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     if (!currentUser.isAdmin) {
@@ -56,7 +56,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: user
+      item: user,
     });
-  }
+  },
 };

@@ -13,23 +13,23 @@ module.exports = {
 
     position: {
       type: 'number',
-      required: true
+      required: true,
     },
     name: {
       type: 'string',
-      required: true
+      required: true,
     },
     description: {
       type: 'string',
       isNotEmptyString: true,
-      allowNull: true
+      allowNull: true,
     },
     dueDate: {
       type: 'ref',
-      columnName: 'due_date'
+      columnName: 'due_date',
     },
     timer: {
-      type: 'json'
+      type: 'json',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -43,31 +43,31 @@ module.exports = {
     listId: {
       model: 'List',
       required: true,
-      columnName: 'list_id'
+      columnName: 'list_id',
     },
     boardId: {
       model: 'Board',
       required: true,
-      columnName: 'board_id'
+      columnName: 'board_id',
     },
     subscriptionUsers: {
       collection: 'User',
       via: 'cardId',
-      through: 'CardSubscription'
+      through: 'CardSubscription',
     },
     membershipUsers: {
       collection: 'User',
       via: 'cardId',
-      through: 'CardMembership'
+      through: 'CardMembership',
     },
     labels: {
       collection: 'Label',
       via: 'cardId',
-      through: 'CardLabel'
+      through: 'CardLabel',
     },
     tasks: {
       collection: 'Task',
-      via: 'cardId'
-    }
-  }
+      via: 'cardId',
+    },
+  },
 };

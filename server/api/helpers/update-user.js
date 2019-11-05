@@ -6,26 +6,25 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      custom: value =>
-        _.isPlainObject(value) &&
-        (_.isUndefined(value.email) || _.isString(value.email)) &&
-        (_.isUndefined(value.password) || _.isString(value.password)),
-      required: true
+      custom: (value) => _.isPlainObject(value)
+        && (_.isUndefined(value.email) || _.isString(value.email))
+        && (_.isUndefined(value.password) || _.isString(value.password)),
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
   exits: {
-    conflict: {}
+    conflict: {},
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     if (!_.isUndefined(inputs.values.email)) {
       inputs.values.email = inputs.values.email.toLowerCase();
     }
@@ -42,48 +41,48 @@ module.exports = {
 
     const user = await User.updateOne({
       id: inputs.record.id,
-      deletedAt: null
+      deletedAt: null,
     })
       .set(inputs.values)
-      .intercept({
-        message: 'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"'
-      }, 'conflict');
+      .intercept(
+        {
+          message:
+            'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"',
+        },
+        'conflict',
+      );
 
     if (user) {
       if (inputs.record.avatar && user.avatar !== inputs.record.avatar) {
         try {
-          fs.unlinkSync(
-            path.join(sails.config.custom.uploadsPath, inputs.record.avatar)
-          );
-        } catch (unusedError) {}
+          fs.unlinkSync(path.join(sails.config.custom.uploadsPath, inputs.record.avatar));
+        } catch (error) {
+          console.warn(error.stack); // eslint-disable-line no-console
+        }
       }
 
       if (!isOnlyPasswordChange) {
         const adminUserIds = await sails.helpers.getAdminUserIds();
 
-        const projectIds = await sails.helpers.getMembershipProjectIdsForUser(
-          user.id
-        );
+        const projectIds = await sails.helpers.getMembershipProjectIdsForUser(user.id);
 
-        const userIdsForProject = await sails.helpers.getMembershipUserIdsForProject(
-          projectIds
-        );
+        const userIdsForProject = await sails.helpers.getMembershipUserIdsForProject(projectIds);
 
         const userIds = _.union([user.id], adminUserIds, userIdsForProject);
 
-        userIds.forEach(userId => {
+        userIds.forEach((userId) => {
           sails.sockets.broadcast(
             `user:${userId}`,
             'userUpdate',
             {
-              item: user
+              item: user,
             },
-            inputs.request
+            inputs.request,
           );
         });
       }
     }
 
     return exits.success(user);
-  }
+  },
 };

@@ -1,4 +1,4 @@
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   sync: true,
@@ -6,13 +6,13 @@ module.exports = {
   inputs: {
     payload: {
       type: 'json',
-      required: true
-    }
+      required: true,
+    },
   },
 
-  fn: function(inputs, exits) {
+  fn(inputs, exits) {
     const token = jwt.sign(inputs.payload, sails.config.session.secret);
 
     return exits.success(token);
-  }
+  },
 };

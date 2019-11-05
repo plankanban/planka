@@ -1,7 +1,7 @@
 const Errors = {
   PROJECT_NOT_FOUND: {
-    notFound: 'Project is not found'
-  }
+    notFound: 'Project is not found',
+  },
 };
 
 module.exports = {
@@ -9,21 +9,21 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     name: {
       type: 'string',
-      isNotEmptyString: true
-    }
+      isNotEmptyString: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     let project = await Project.findOne(inputs.id);
 
     if (!project) {
@@ -39,7 +39,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: project
+      item: project,
     });
-  }
+  },
 };

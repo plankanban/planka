@@ -2,27 +2,27 @@ module.exports = {
   inputs: {
     values: {
       type: 'json',
-      required: true
+      required: true,
     },
     user: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
+      type: 'ref',
     },
     withProjectMembership: {
       type: 'boolean',
-      defaultsTo: false
-    }
+      defaultsTo: false,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const project = await Project.create(inputs.values).fetch();
 
     const projectMembership = await ProjectMembership.create({
       projectId: project.id,
-      userId: inputs.user.id
+      userId: inputs.user.id,
     }).fetch();
 
     sails.sockets.broadcast(
@@ -33,19 +33,19 @@ module.exports = {
         included: {
           users: [inputs.user],
           projectMemberships: [projectMembership],
-          boards: []
-        }
+          boards: [],
+        },
       },
-      inputs.request
+      inputs.request,
     );
 
     return exits.success(
       inputs.withProjectMembership
         ? {
           project,
-          projectMembership
+          projectMembership,
         }
-        : project
+        : project,
     );
-  }
+  },
 };

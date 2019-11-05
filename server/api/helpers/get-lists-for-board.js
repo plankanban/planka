@@ -2,28 +2,28 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value),
-      required: true
+      custom: (value) => _.isString(value) || _.isArray(value),
+      required: true,
     },
     exceptListId: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value)
-    }
+      custom: (value) => _.isString(value) || _.isArray(value),
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const criteria = {
-      boardId: inputs.id
+      boardId: inputs.id,
     };
 
     if (!_.isUndefined(inputs.exceptListId)) {
       criteria.id = {
-        '!=': inputs.exceptListId
+        '!=': inputs.exceptListId,
       };
     }
 
     const lists = await List.find(criteria).sort('position');
 
     return exits.success(lists);
-  }
+  },
 };

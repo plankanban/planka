@@ -8,10 +8,23 @@
     "db:init": "cd db && node init.js",
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
+    "format": "prettier-eslint --write \"**/*.js\"",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "start": "npm run db:init && NODE_ENV=production node app.js",
     "start:dev": "nodemon",
     "test": "npm run lint && npm run custom-tests && echo 'Done.'"
+  },
+  "eslintConfig": {
+    "extends": "airbnb-base",
+    "globals": {
+      "_": true,
+      "sails": true
+    },
+    "rules": {
+      "no-param-reassign": "off",
+      "no-throw-literal": "off",
+      "no-undef": "off"
+    }
   },
   "dependencies": {
     "bcrypt": "^3.0.6",
@@ -25,11 +38,15 @@
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
-    "sharp": "^0.23.2"
+    "sharp": "^0.23.2",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "eslint": "5.16.0",
-    "nodemon": "^1.19.4"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "nodemon": "^1.19.4",
+    "prettier-eslint-cli": "^5.0.0"
   },
   "engines": {
     "node": "^12.10"

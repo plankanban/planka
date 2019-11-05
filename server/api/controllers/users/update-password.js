@@ -2,11 +2,11 @@ const bcrypt = require('bcrypt');
 
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found'
+    notFound: 'User is not found',
   },
   CURRENT_PASSWORD_NOT_VALID: {
-    forbidden: 'Current password is not valid'
-  }
+    forbidden: 'Current password is not valid',
+  },
 };
 
 module.exports = {
@@ -14,28 +14,28 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     password: {
       type: 'string',
-      required: true
+      required: true,
     },
     currentPassword: {
       type: 'string',
-      isNotEmptyString: true
-    }
+      isNotEmptyString: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
+      responseType: 'notFound',
     },
     forbidden: {
-      responseType: 'forbidden'
-    }
+      responseType: 'forbidden',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     if (inputs.id === currentUser.id) {
@@ -53,8 +53,8 @@ module.exports = {
     }
 
     if (
-      inputs.id === currentUser.id &&
-      !bcrypt.compareSync(inputs.currentPassword, user.password)
+      inputs.id === currentUser.id
+      && !bcrypt.compareSync(inputs.currentPassword, user.password)
     ) {
       throw Errors.CURRENT_PASSWORD_NOT_VALID;
     }
@@ -68,7 +68,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: null
+      item: null,
     });
-  }
+  },
 };

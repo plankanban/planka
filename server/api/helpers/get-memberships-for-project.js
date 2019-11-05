@@ -2,16 +2,16 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value),
-      required: true
-    }
+      custom: (value) => _.isString(value) || _.isArray(value),
+      required: true,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const projectMemberships = await sails.helpers.getProjectMemberships({
-      projectId: inputs.id
+      projectId: inputs.id,
     });
 
     return exits.success(projectMemberships);
-  }
+  },
 };

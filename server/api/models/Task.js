@@ -13,12 +13,12 @@ module.exports = {
 
     name: {
       type: 'string',
-      required: true
+      required: true,
     },
     isCompleted: {
       type: 'boolean',
       defaultsTo: false,
-      columnName: 'is_completed'
+      columnName: 'is_completed',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -32,7 +32,7 @@ module.exports = {
     cardId: {
       model: 'Card',
       required: true,
-      columnName: 'card_id'
-    }
-  }
+      columnName: 'card_id',
+    },
+  },
 };

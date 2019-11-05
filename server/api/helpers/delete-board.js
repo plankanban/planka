@@ -2,35 +2,33 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const board = await Board.archiveOne(inputs.record.id);
 
     if (board) {
       sails.sockets.leaveAll(`board:${board.id}`);
 
-      const userIds = await sails.helpers.getMembershipUserIdsForProject(
-        board.projectId
-      );
+      const userIds = await sails.helpers.getMembershipUserIdsForProject(board.projectId);
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'boardDelete',
           {
-            item: board
+            item: board,
           },
-          inputs.request
+          inputs.request,
         );
       });
     }
 
     return exits.success(board);
-  }
+  },
 };

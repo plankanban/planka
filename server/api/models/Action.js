@@ -18,11 +18,11 @@ module.exports = {
     type: {
       type: 'string',
       isIn: TYPES,
-      required: true
+      required: true,
     },
     data: {
       type: 'json',
-      required: true
+      required: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -36,12 +36,12 @@ module.exports = {
     cardId: {
       model: 'Card',
       required: true,
-      columnName: 'card_id'
+      columnName: 'card_id',
     },
     userId: {
       model: 'User',
       required: true,
-      columnName: 'user_id'
-    }
-  }
+      columnName: 'user_id',
+    },
+  },
 };

@@ -2,15 +2,15 @@ module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
-    notFound: {}
+    notFound: {},
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const board = await Board.findOne(inputs.criteria);
 
     if (!board) {
@@ -22,14 +22,14 @@ module.exports = {
     if (!project) {
       throw {
         notFound: {
-          board
-        }
+          board,
+        },
       };
     }
 
     return exits.success({
       board,
-      project
+      project,
     });
-  }
+  },
 };

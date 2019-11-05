@@ -1,13 +1,13 @@
 const Errors = {
   PROJECT_NOT_FOUND: {
-    notFound: 'Project is not found'
+    notFound: 'Project is not found',
   },
   USER_NOT_FOUND: {
-    notFound: 'User is not found'
+    notFound: 'User is not found',
   },
   PROJECT_MEMBERSHIP_EXIST: {
-    conflict: 'Project membership is already exist'
-  }
+    conflict: 'Project membership is already exist',
+  },
 };
 
 module.exports = {
@@ -15,25 +15,25 @@ module.exports = {
     projectId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     userId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
+      responseType: 'notFound',
     },
     conflict: {
-      responseType: 'conflict'
-    }
+      responseType: 'conflict',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const project = await Project.findOne(inputs.projectId);
 
     if (!project) {
@@ -53,8 +53,8 @@ module.exports = {
     return exits.success({
       item: projectMembership,
       included: {
-        users: [user]
-      }
+        users: [user],
+      },
     });
-  }
+  },
 };

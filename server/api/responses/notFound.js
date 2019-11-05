@@ -31,6 +31,6 @@ module.exports = function notFound(message) {
 
   return res.status(404).json({
     code: 'E_NOT_FOUND',
-    message
+    message,
   });
 };

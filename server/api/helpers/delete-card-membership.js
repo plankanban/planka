@@ -2,18 +2,18 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     board: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const cardMembership = await CardMembership.destroyOne(inputs.record.id);
 
     if (cardMembership) {
@@ -21,27 +21,27 @@ module.exports = {
         `board:${inputs.board.id}`,
         'cardMembershipDelete',
         {
-          item: cardMembership
+          item: cardMembership,
         },
-        inputs.request
+        inputs.request,
       );
 
       const cardSubscription = await CardSubscription.destroyOne({
         cardId: cardMembership.cardId,
         userId: cardMembership.userId,
-        isPermanent: false
+        isPermanent: false,
       });
 
       if (cardSubscription) {
         sails.sockets.broadcast(`user:${cardMembership.userId}`, 'cardUpdate', {
           item: {
             id: cardMembership.cardId,
-            isSubscribed: false
-          }
+            isSubscribed: false,
+          },
         });
       }
     }
 
     return exits.success(cardMembership);
-  }
+  },
 };

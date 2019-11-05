@@ -31,6 +31,6 @@ module.exports = function unprocessableEntity(message) {
 
   return res.status(422).json({
     code: 'E_UNPROCESSABLE_ENTITY',
-    message
+    message,
   });
 };

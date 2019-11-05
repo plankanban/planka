@@ -31,110 +31,112 @@ const createMessage = (error) => {
   }
 };
 
-const EditPasswordStep = React.memo(({
-  defaultData, isSubmitting, error, onUpdate, onMessageDismiss, onBack, onClose,
-}) => {
-  const [t] = useTranslation();
-  const wasSubmitting = usePrevious(isSubmitting);
+const EditPasswordStep = React.memo(
+  ({
+    defaultData, isSubmitting, error, onUpdate, onMessageDismiss, onBack, onClose,
+  }) => {
+    const [t] = useTranslation();
+    const wasSubmitting = usePrevious(isSubmitting);
 
-  const [data, handleFieldChange, setData] = useForm({
-    password: '',
-    currentPassword: '',
-    ...defaultData,
-  });
+    const [data, handleFieldChange, setData] = useForm({
+      password: '',
+      currentPassword: '',
+      ...defaultData,
+    });
 
-  const message = useMemo(() => createMessage(error), [error]);
-  const [focusCurrentPasswordFieldState, focusCurrentPasswordField] = useToggle();
+    const message = useMemo(() => createMessage(error), [error]);
+    const [focusCurrentPasswordFieldState, focusCurrentPasswordField] = useToggle();
 
-  const passwordField = useRef(null);
-  const currentPasswordField = useRef(null);
+    const passwordField = useRef(null);
+    const currentPasswordField = useRef(null);
 
-  const handleSubmit = useCallback(() => {
-    if (!data.password) {
-      passwordField.current.select();
-      return;
-    }
-
-    if (!data.currentPassword) {
-      currentPasswordField.current.focus();
-      return;
-    }
-
-    onUpdate(data);
-  }, [onUpdate, data]);
-
-  useEffect(() => {
-    passwordField.current.select();
-  }, []);
-
-  useEffect(() => {
-    if (wasSubmitting && !isSubmitting) {
-      if (!error) {
-        onClose();
-      } else if (error.message === 'Current password is not valid') {
-        setData((prevData) => ({
-          ...prevData,
-          currentPassword: '',
-        }));
-        focusCurrentPasswordField();
+    const handleSubmit = useCallback(() => {
+      if (!data.password) {
+        passwordField.current.select();
+        return;
       }
-    }
-  }, [isSubmitting, wasSubmitting, error, onClose, setData, focusCurrentPasswordField]);
 
-  useDidUpdate(() => {
-    currentPasswordField.current.focus();
-  }, [focusCurrentPasswordFieldState]);
+      if (!data.currentPassword) {
+        currentPasswordField.current.focus();
+        return;
+      }
 
-  return (
-    <>
-      <Popup.Header onBack={onBack}>
-        {t('common.editPassword', {
-          context: 'title',
-        })}
-      </Popup.Header>
-      <Popup.Content>
-        {message && (
-          <Message
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...{
-              [message.type]: true,
-            }}
-            visible
-            content={t(message.content)}
-            onDismiss={onMessageDismiss}
-          />
-        )}
-        <Form onSubmit={handleSubmit}>
-          <div className={styles.text}>{t('common.newPassword')}</div>
-          <Input
-            fluid
-            ref={passwordField}
-            name="password"
-            value={data.password}
-            className={styles.field}
-            onChange={handleFieldChange}
-          />
-          <div className={styles.text}>{t('common.currentPassword')}</div>
-          <Input
-            fluid
-            ref={currentPasswordField}
-            type="password"
-            name="currentPassword"
-            value={data.currentPassword}
-            className={styles.field}
-            onChange={handleFieldChange}
-          />
-          <Button
-            positive
-            content={t('action.save')}
-            loading={isSubmitting}
-            disabled={isSubmitting}
-          />
-        </Form>
-      </Popup.Content>
-    </>
-  );
-});
+      onUpdate(data);
+    }, [onUpdate, data]);
+
+    useEffect(() => {
+      passwordField.current.select();
+    }, []);
+
+    useEffect(() => {
+      if (wasSubmitting && !isSubmitting) {
+        if (!error) {
+          onClose();
+        } else if (error.message === 'Current password is not valid') {
+          setData((prevData) => ({
+            ...prevData,
+            currentPassword: '',
+          }));
+          focusCurrentPasswordField();
+        }
+      }
+    }, [isSubmitting, wasSubmitting, error, onClose, setData, focusCurrentPasswordField]);
+
+    useDidUpdate(() => {
+      currentPasswordField.current.focus();
+    }, [focusCurrentPasswordFieldState]);
+
+    return (
+      <>
+        <Popup.Header onBack={onBack}>
+          {t('common.editPassword', {
+            context: 'title',
+          })}
+        </Popup.Header>
+        <Popup.Content>
+          {message && (
+            <Message
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...{
+                [message.type]: true,
+              }}
+              visible
+              content={t(message.content)}
+              onDismiss={onMessageDismiss}
+            />
+          )}
+          <Form onSubmit={handleSubmit}>
+            <div className={styles.text}>{t('common.newPassword')}</div>
+            <Input
+              fluid
+              ref={passwordField}
+              name="password"
+              value={data.password}
+              className={styles.field}
+              onChange={handleFieldChange}
+            />
+            <div className={styles.text}>{t('common.currentPassword')}</div>
+            <Input
+              fluid
+              ref={currentPasswordField}
+              type="password"
+              name="currentPassword"
+              value={data.currentPassword}
+              className={styles.field}
+              onChange={handleFieldChange}
+            />
+            <Button
+              positive
+              content={t('action.save')}
+              loading={isSubmitting}
+              disabled={isSubmitting}
+            />
+          </Form>
+        </Popup.Content>
+      </>
+    );
+  },
+);
 
 EditPasswordStep.propTypes = {
   defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types

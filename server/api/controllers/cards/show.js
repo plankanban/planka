@@ -1,7 +1,7 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found'
-  }
+    notFound: 'Card is not found',
+  },
 };
 
 module.exports = {
@@ -9,17 +9,17 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { card, project } = await sails.helpers
@@ -28,7 +28,7 @@ module.exports = {
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -36,7 +36,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: card
+      item: card,
     });
-  }
+  },
 };

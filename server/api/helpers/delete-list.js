@@ -2,25 +2,25 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const list = await List.archiveOne(inputs.record.id);
 
     sails.sockets.broadcast(
       `board:${list.boardId}`,
       'listDelete',
       {
-        item: list
+        item: list,
       },
-      inputs.request
+      inputs.request,
     );
 
     return exits.success(list);
-  }
+  },
 };

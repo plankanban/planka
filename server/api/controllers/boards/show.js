@@ -1,7 +1,7 @@
 const Errors = {
   BOARD_NOT_FOUND: {
-    notFound: 'Board is not found'
-  }
+    notFound: 'Board is not found',
+  },
 };
 
 module.exports = {
@@ -9,17 +9,17 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     // TODO: allow over HTTP without subscription
     if (!this.req.isSocket) {
       return this.res.badRequest();
@@ -33,7 +33,7 @@ module.exports = {
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -48,7 +48,7 @@ module.exports = {
 
     const cardSubscriptions = await sails.helpers.getSubscriptionsByUserForCard(
       cardIds,
-      currentUser.id
+      currentUser.id,
     );
 
     const cardMemberships = await sails.helpers.getMembershipsForCard(cardIds);
@@ -59,12 +59,12 @@ module.exports = {
     const isSubscribedByCardId = cardSubscriptions.reduce(
       (result, cardSubscription) => ({
         ...result,
-        [cardSubscription.cardId]: true
+        [cardSubscription.cardId]: true,
       }),
-      {}
+      {},
     );
 
-    cards.forEach(card => {
+    cards.forEach((card) => {
       card.isSubscribed = isSubscribedByCardId[card.id] || false;
     });
 
@@ -78,8 +78,8 @@ module.exports = {
         cards,
         cardMemberships,
         cardLabels,
-        tasks
-      }
+        tasks,
+      },
     });
-  }
+  },
 };

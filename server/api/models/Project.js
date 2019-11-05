@@ -13,7 +13,7 @@ module.exports = {
 
     name: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -27,11 +27,11 @@ module.exports = {
     membershipUsers: {
       collection: 'User',
       via: 'projectId',
-      through: 'ProjectMembership'
+      through: 'ProjectMembership',
     },
     boards: {
       collection: 'Board',
-      via: 'projectId'
-    }
-  }
+      via: 'projectId',
+    },
+  },
 };

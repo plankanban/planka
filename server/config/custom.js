@@ -12,11 +12,11 @@ const path = require('path');
 const sails = require('sails');
 
 module.exports.custom = {
-  /***************************************************************************
-  *                                                                          *
-  * Any other custom config this Sails app should use during development.    *
-  *                                                                          *
-  ***************************************************************************/
+  /**
+   *
+   * Any other custom config this Sails app should use during development.
+   *
+   */
 
   baseUrl: process.env.BASE_URL,
 

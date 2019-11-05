@@ -6,23 +6,23 @@ module.exports = {
   inputs: {
     token: {
       type: 'string',
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
-    notValid: {}
+    notValid: {},
   },
 
-  fn: function(inputs, exits) {
+  fn(inputs, exits) {
     let payload;
 
     try {
       payload = jwt.verify(inputs.token, sails.config.session.secret);
-    } catch (unusedError) {
+    } catch (error) {
       throw 'notValid';
     }
 
     return exits.success(payload);
-  }
+  },
 };

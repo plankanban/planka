@@ -13,31 +13,31 @@
  */
 
 module.exports.i18n = {
-  /***************************************************************************
-  *                                                                          *
-  * Which locales are supported?                                             *
-  *                                                                          *
-  ***************************************************************************/
+  /**
+   *
+   * Which locales are supported?
+   *
+   */
 
   locales: ['en', 'es', 'fr', 'de'],
 
-  /****************************************************************************
-  *                                                                           *
-  * What is the default locale for the site? Note that this setting will be   *
-  * overridden for any request that sends an "Accept-Language" header (i.e.   *
-  * most browsers), but it's still useful if you need to localize the         *
-  * response for requests made by non-browser clients (e.g. cURL).            *
-  *                                                                           *
-  ****************************************************************************/
+  /**
+   *
+   * What is the default locale for the site? Note that this setting will be
+   * overridden for any request that sends an "Accept-Language" header (i.e.
+   * most browsers), but it's still useful if you need to localize the
+   * response for requests made by non-browser clients (e.g. cURL).
+   *
+   */
 
   // defaultLocale: 'en',
 
-  /****************************************************************************
-  *                                                                           *
-  * Path (relative to app root) of directory to store locale (translation)    *
-  * files in.                                                                 *
-  *                                                                           *
-  ****************************************************************************/
+  /**
+   *
+   * Path (relative to app root) of directory to store locale (translation)
+   * files in.
+   *
+   */
 
   // localesDirectory: 'config/locales',
 };

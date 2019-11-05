@@ -31,6 +31,6 @@ module.exports = function conflict(message) {
 
   return res.status(409).json({
     code: 'E_CONFLICT',
-    message
+    message,
   });
 };

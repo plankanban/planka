@@ -4,27 +4,27 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value),
-      required: true
+      custom: (value) => _.isString(value) || _.isArray(value),
+      required: true,
     },
     beforeId: {
-      type: 'string'
-    }
+      type: 'string',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const criteria = {
-      cardId: inputs.id
+      cardId: inputs.id,
     };
 
     if (!_.isUndefined(inputs.beforeId)) {
       criteria.id = {
-        '<': inputs.beforeId
+        '<': inputs.beforeId,
       };
     }
 
     const actions = await sails.helpers.getActions(criteria, LIMIT);
 
     return exits.success(actions);
-  }
+  },
 };

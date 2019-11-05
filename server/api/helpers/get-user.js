@@ -2,14 +2,14 @@ module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      custom: value => _.isString(value) || _.isPlainObject(value),
-      required: true
-    }
+      custom: (value) => _.isString(value) || _.isPlainObject(value),
+      required: true,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const criteria = {
-      deletedAt: null
+      deletedAt: null,
     };
 
     if (_.isString(inputs.criteria)) {
@@ -21,5 +21,5 @@ module.exports = {
     const user = await User.findOne(criteria);
 
     return exits.success(user);
-  }
+  },
 };

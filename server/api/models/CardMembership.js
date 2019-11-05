@@ -22,14 +22,14 @@ module.exports = {
     cardId: {
       model: 'Card',
       required: true,
-      columnName: 'card_id'
+      columnName: 'card_id',
     },
     userId: {
       model: 'User',
       required: true,
-      columnName: 'user_id'
-    }
+      columnName: 'user_id',
+    },
   },
 
-  tableName: 'card_membership'
+  tableName: 'card_membership',
 };

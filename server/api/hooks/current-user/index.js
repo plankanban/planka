@@ -1,23 +1,24 @@
 /**
  * current-user hook
  *
- * @description :: A hook definition. Extends Sails by adding shadow routes, implicit actions, and/or initialization logic.
+ * @description :: A hook definition. Extends Sails by adding shadow routes, implicit actions,
+ *                 and/or initialization logic.
  * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
  */
 
 module.exports = function defineCurrentUserHook(sails) {
   const TOKEN_PATTERN = /^Bearer /;
 
-  const getUser = async accessToken => {
+  const getUser = async (accessToken) => {
     let id;
 
     try {
       id = sails.helpers.verifyToken(accessToken);
-    } catch (unusedError) {
-      return;
+    } catch (error) {
+      return null;
     }
 
-    return await sails.helpers.getUser(id);
+    return sails.helpers.getUser(id);
   };
 
   return {
@@ -25,32 +26,26 @@ module.exports = function defineCurrentUserHook(sails) {
      * Runs when this Sails app loads/lifts.
      */
 
-    initialize: async function() {
+    async initialize() {
       sails.log.info('Initializing custom hook (`current-user`)');
     },
 
     routes: {
       before: {
         '/*': {
-          fn: async function(req, res, next) {
+          async fn(req, res, next) {
             const { authorization: authorizationHeader } = req.headers;
 
-            if (
-              authorizationHeader &&
-              TOKEN_PATTERN.test(authorizationHeader)
-            ) {
-              const accessToken = authorizationHeader.replace(
-                TOKEN_PATTERN,
-                ''
-              );
+            if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
+              const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
 
               req.currentUser = await getUser(accessToken);
             }
 
             return next();
-          }
-        }
-      }
-    }
+          },
+        },
+      },
+    },
   };
 };

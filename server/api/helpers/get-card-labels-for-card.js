@@ -2,16 +2,16 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value),
-      required: true
-    }
+      custom: (value) => _.isString(value) || _.isArray(value),
+      required: true,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const cardLabels = await sails.helpers.getCardLabels({
-      cardId: inputs.id
+      cardId: inputs.id,
     });
 
     return exits.success(cardLabels);
-  }
+  },
 };

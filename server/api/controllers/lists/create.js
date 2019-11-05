@@ -1,7 +1,7 @@
 const Errors = {
   BOARD_NOT_FOUND: {
-    notFound: 'Board is not found'
-  }
+    notFound: 'Board is not found',
+  },
 };
 
 module.exports = {
@@ -9,25 +9,25 @@ module.exports = {
     boardId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     position: {
       type: 'number',
-      required: true
+      required: true,
     },
     name: {
       type: 'string',
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { board, project } = await sails.helpers
@@ -36,7 +36,7 @@ module.exports = {
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -48,7 +48,7 @@ module.exports = {
     const list = await sails.helpers.createList(board, values, this.req);
 
     return exits.success({
-      item: list
+      item: list,
     });
-  }
+  },
 };

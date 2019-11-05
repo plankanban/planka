@@ -2,52 +2,49 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      custom: value =>
-        _.isPlainObject(value) &&
-        (_.isUndefined(value.position) || _.isFinite(value.position)),
-      required: true
+      // eslint-disable-next-line max-len
+      custom: (value) => _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
-    const userIds = await sails.helpers.getMembershipUserIdsForProject(
-      inputs.record.projectId
-    );
+  async fn(inputs, exits) {
+    const userIds = await sails.helpers.getMembershipUserIdsForProject(inputs.record.projectId);
 
     if (!_.isUndefined(inputs.values.position)) {
       const boards = await sails.helpers.getBoardsForProject(
         inputs.record.projectId,
-        inputs.record.id
+        inputs.record.id,
       );
 
       const { position, repositions } = sails.helpers.insertToPositionables(
         inputs.values.position,
-        boards
+        boards,
       );
 
       inputs.values.position = position;
 
-      repositions.forEach(async ({ id, position }) => {
+      repositions.forEach(async ({ id, position: nextPosition }) => {
         await Board.update({
           id,
-          projectId: inputs.record.projectId
+          projectId: inputs.record.projectId,
         }).set({
-          position
+          position: nextPosition,
         });
 
-        userIds.forEach(userId => {
+        userIds.forEach((userId) => {
           sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
             item: {
               id,
-              position
-            }
+              position: nextPosition,
+            },
           });
         });
       });
@@ -56,18 +53,18 @@ module.exports = {
     const board = await Board.updateOne(inputs.record.id).set(inputs.values);
 
     if (board) {
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'boardUpdate',
           {
-            item: board
+            item: board,
           },
-          inputs.request
+          inputs.request,
         );
       });
     }
 
     return exits.success(board);
-  }
+  },
 };

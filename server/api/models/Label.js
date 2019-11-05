@@ -15,7 +15,7 @@ const COLORS = [
   'sky',
   'lime',
   'pink',
-  'black'
+  'black',
 ];
 
 module.exports = {
@@ -29,12 +29,12 @@ module.exports = {
     name: {
       type: 'string',
       isNotEmptyString: true,
-      allowNull: true
+      allowNull: true,
     },
     color: {
       type: 'string',
       isIn: COLORS,
-      required: true
+      required: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -48,12 +48,12 @@ module.exports = {
     boardId: {
       model: 'Board',
       required: true,
-      columnName: 'board_id'
+      columnName: 'board_id',
     },
     cards: {
       collection: 'Card',
       via: 'labelId',
-      through: 'CardLabel'
-    }
-  }
+      through: 'CardLabel',
+    },
+  },
 };

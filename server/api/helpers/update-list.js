@@ -2,52 +2,44 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      custom: value =>
-        _.isPlainObject(value) &&
-        (_.isUndefined(value.position) || _.isFinite(value.position)),
-      required: true
+      // eslint-disable-next-line max-len
+      custom: (value) => _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     if (!_.isUndefined(inputs.values.position)) {
-      const lists = await sails.helpers.getListsForBoard(
-        inputs.record.boardId,
-        inputs.record.id
-      );
+      const lists = await sails.helpers.getListsForBoard(inputs.record.boardId, inputs.record.id);
 
       const { position, repositions } = sails.helpers.insertToPositionables(
         inputs.values.position,
-        lists
+        lists,
       );
 
       inputs.values.position = position;
 
-      repositions.forEach(async ({ id, position }) => {
+      repositions.forEach(async ({ id, position: nextPosition }) => {
         await List.update({
           id,
-          boardId: inputs.record.boardId
+          boardId: inputs.record.boardId,
         }).set({
-          position
+          position: nextPosition,
         });
 
-        sails.sockets.broadcast(
-          `board:${inputs.record.boardId}`,
-          'listUpdate',
-          {
-            item: {
-              id,
-              position
-            }
-          }
-        );
+        sails.sockets.broadcast(`board:${inputs.record.boardId}`, 'listUpdate', {
+          item: {
+            id,
+            position: nextPosition,
+          },
+        });
       });
     }
 
@@ -58,12 +50,12 @@ module.exports = {
         `board:${list.boardId}`,
         'listUpdate',
         {
-          item: list
+          item: list,
         },
-        inputs.request
+        inputs.request,
       );
     }
 
     return exits.success(list);
-  }
+  },
 };

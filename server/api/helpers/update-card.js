@@ -2,32 +2,31 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      custom: value =>
-        _.isPlainObject(value) &&
-        (_.isUndefined(value.position) || _.isFinite(value.position)),
-      required: true
+      // eslint-disable-next-line max-len
+      custom: (value) => _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
+      required: true,
     },
     toList: {
-      type: 'ref'
+      type: 'ref',
     },
     list: {
       type: 'ref',
-      required: true
+      required: true,
     },
     user: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { isSubscribed, ...values } = inputs.values;
 
     let listId;
@@ -44,36 +43,26 @@ module.exports = {
     }
 
     if (!_.isUndefined(values.position)) {
-      const cards = await sails.helpers.getCardsForList(
-        listId,
-        inputs.record.id
-      );
+      const cards = await sails.helpers.getCardsForList(listId, inputs.record.id);
 
-      const { position, repositions } = sails.helpers.insertToPositionables(
-        values.position,
-        cards
-      );
+      const { position, repositions } = sails.helpers.insertToPositionables(values.position, cards);
 
       values.position = position;
 
-      repositions.forEach(async ({ id, position }) => {
+      repositions.forEach(async ({ id, position: nextPosition }) => {
         await Card.update({
           id,
-          listId
+          listId,
         }).set({
-          position
+          position: nextPosition,
         });
 
-        sails.sockets.broadcast(
-          `board:${inputs.record.boardId}`,
-          'cardUpdate',
-          {
-            item: {
-              id,
-              position
-            }
-          }
-        );
+        sails.sockets.broadcast(`board:${inputs.record.boardId}`, 'cardUpdate', {
+          item: {
+            id,
+            position: nextPosition,
+          },
+        });
       });
     }
 
@@ -89,21 +78,19 @@ module.exports = {
         `board:${card.boardId}`,
         'cardUpdate',
         {
-          item: card
+          item: card,
         },
-        inputs.request
+        inputs.request,
       );
 
       if (inputs.toList) {
-        const values = {
+        await sails.helpers.createAction(card, inputs.user, {
           type: 'moveCard',
           data: {
             fromList: _.pick(inputs.list, ['id', 'name']),
-            toList: _.pick(inputs.toList, ['id', 'name'])
-          }
-        };
-
-        await sails.helpers.createAction(card, inputs.user, values);
+            toList: _.pick(inputs.toList, ['id', 'name']),
+          },
+        });
       }
     } else {
       card = inputs.record;
@@ -112,19 +99,19 @@ module.exports = {
     if (!_.isUndefined(isSubscribed)) {
       const cardSubscription = await CardSubscription.findOne({
         cardId: card.id,
-        userId: inputs.user.id
+        userId: inputs.user.id,
       });
 
       if (isSubscribed !== !!cardSubscription) {
         if (isSubscribed) {
           await CardSubscription.create({
             cardId: card.id,
-            userId: inputs.user.id
+            userId: inputs.user.id,
           }).tolerate('E_UNIQUE');
         } else {
           await CardSubscription.destroyOne({
             cardId: card.id,
-            userId: inputs.user.id
+            userId: inputs.user.id,
           });
         }
 
@@ -134,14 +121,14 @@ module.exports = {
           {
             item: {
               isSubscribed,
-              id: card.id
-            }
+              id: card.id,
+            },
           },
-          inputs.request
+          inputs.request,
         );
       }
     }
 
     return exits.success(card);
-  }
+  },
 };

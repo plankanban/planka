@@ -1,7 +1,7 @@
 const Errors = {
   COMMENT_ACTION_NOT_FOUND: {
-    notFound: 'Comment action is not found'
-  }
+    notFound: 'Comment action is not found',
+  },
 };
 
 module.exports = {
@@ -9,34 +9,37 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     text: {
       type: 'string',
-      isNotEmptyString: true
-    }
+      isNotEmptyString: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
-    let { action, board, project } = await sails.helpers
+    const actionToProjectPath = await sails.helpers
       .getActionToProjectPath({
         id: inputs.id,
         type: 'commentCard',
-        userId: currentUser.id
+        userId: currentUser.id,
       })
       .intercept('notFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
 
+    let { action } = actionToProjectPath;
+    const { board, project } = actionToProjectPath;
+
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -44,7 +47,7 @@ module.exports = {
     }
 
     const values = {
-      data: _.pick(inputs, ['text'])
+      data: _.pick(inputs, ['text']),
     };
 
     action = await sails.helpers.updateAction(action, values, board, this.req);
@@ -54,7 +57,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: action
+      item: action,
     });
-  }
+  },
 };
