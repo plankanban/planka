@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-exports.seed = function(knex) {
+exports.seed = (knex) => {
   const date = new Date().toUTCString();
 
   return knex('user').insert({
@@ -9,6 +9,6 @@ exports.seed = function(knex) {
     isAdmin: true,
     name: 'Demo Demo',
     createdAt: date,
-    updatedAt: date
+    updatedAt: date,
   });
 };

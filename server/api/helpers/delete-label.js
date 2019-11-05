@@ -2,16 +2,16 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     await CardLabel.destroy({
-      labelId: inputs.record.id
+      labelId: inputs.record.id,
     });
 
     const label = await Label.archiveOne(inputs.record.id);
@@ -21,12 +21,12 @@ module.exports = {
         `board:${label.boardId}`,
         'labelDelete',
         {
-          item: label
+          item: label,
         },
-        inputs.request
+        inputs.request,
       );
     }
 
     return exits.success(label);
-  }
+  },
 };

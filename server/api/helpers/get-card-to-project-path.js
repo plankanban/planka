@@ -2,15 +2,15 @@ module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
-    notFound: {}
+    notFound: {},
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const card = await Card.findOne(inputs.criteria);
 
     if (!card) {
@@ -19,16 +19,16 @@ module.exports = {
 
     const path = await sails.helpers
       .getListToProjectPath(card.listId)
-      .intercept('notFound', path => ({
+      .intercept('notFound', (nodes) => ({
         notFound: {
           card,
-          ...path
-        }
+          ...nodes,
+        },
       }));
 
     return exits.success({
       card,
-      ...path
+      ...path,
     });
-  }
+  },
 };

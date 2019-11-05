@@ -2,57 +2,57 @@ module.exports = {
   inputs: {
     board: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      custom: value => _.isPlainObject(value) && _.isFinite(value.position),
-      required: true
+      custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const lists = await sails.helpers.getListsForBoard(inputs.board.id);
 
     const { position, repositions } = sails.helpers.insertToPositionables(
       inputs.values.position,
-      lists
+      lists,
     );
 
-    repositions.forEach(async ({ id, position }) => {
+    repositions.forEach(async ({ id, position: nextPosition }) => {
       await List.update({
         id,
-        boardId: inputs.board.id
+        boardId: inputs.board.id,
       }).set({
-        position
+        position: nextPosition,
       });
 
       sails.sockets.broadcast(`board:${inputs.board.id}`, 'listUpdate', {
         item: {
           id,
-          position
-        }
+          position: nextPosition,
+        },
       });
     });
 
     const list = await List.create({
       ...inputs.values,
       position,
-      boardId: inputs.board.id
+      boardId: inputs.board.id,
     }).fetch();
 
     sails.sockets.broadcast(
       `board:${list.boardId}`,
       'listCreate',
       {
-        item: list
+        item: list,
       },
-      inputs.request
+      inputs.request,
     );
 
     return exits.success(list);
-  }
+  },
 };

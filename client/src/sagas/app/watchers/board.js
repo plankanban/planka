@@ -10,18 +10,11 @@ import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 export default function* () {
   yield all([
-    takeLatest(
-      EntryActionTypes.BOARD_IN_CURRENT_PROJECT_CREATE,
-      ({ payload: { data } }) => createBoardInCurrentProjectService(data),
-    ),
-    takeLatest(
-      EntryActionTypes.BOARD_UPDATE,
-      ({ payload: { id, data } }) => updateBoardService(id, data),
-    ),
-    takeLatest(
-      EntryActionTypes.BOARD_MOVE,
-      ({ payload: { id, index } }) => moveBoardService(id, index),
-    ),
+    /* eslint-disable max-len */
+    takeLatest(EntryActionTypes.BOARD_IN_CURRENT_PROJECT_CREATE, ({ payload: { data } }) => createBoardInCurrentProjectService(data)),
+    takeLatest(EntryActionTypes.BOARD_UPDATE, ({ payload: { id, data } }) => updateBoardService(id, data)),
+    takeLatest(EntryActionTypes.BOARD_MOVE, ({ payload: { id, index } }) => moveBoardService(id, index)),
+    /* eslint-enable max-len */
     takeLatest(EntryActionTypes.BOARD_DELETE, ({ payload: { id } }) => deleteBoardService(id)),
   ]);
 }

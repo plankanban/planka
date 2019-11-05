@@ -4,25 +4,25 @@ module.exports = {
   inputs: {
     records: {
       type: 'ref',
-      custom: value => _.isArray(value),
-      required: true
+      custom: (value) => _.isArray(value),
+      required: true,
     },
     attribute: {
       type: 'string',
-      defaultsTo: 'id'
+      defaultsTo: 'id',
     },
     unique: {
       type: 'boolean',
-      defaultsTo: false
-    }
+      defaultsTo: false,
+    },
   },
 
-  fn: function(inputs, exits) {
+  fn(inputs, exits) {
     let result = _.map(inputs.records, inputs.attribute);
     if (inputs.unique) {
       result = _.uniq(result);
     }
 
     return exits.success(result);
-  }
+  },
 };

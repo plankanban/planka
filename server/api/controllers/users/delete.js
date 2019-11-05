@@ -1,7 +1,7 @@
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found'
-  }
+    notFound: 'User is not found',
+  },
 };
 
 module.exports = {
@@ -9,17 +9,17 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     let user = await sails.helpers.getUser(inputs.id);
 
     if (!user) {
@@ -33,7 +33,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: user
+      item: user,
     });
-  }
+  },
 };

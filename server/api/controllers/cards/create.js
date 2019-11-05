@@ -2,8 +2,8 @@ const moment = require('moment');
 
 const Errors = {
   LIST_NOT_FOUND: {
-    notFound: 'List is not found'
-  }
+    notFound: 'List is not found',
+  },
 };
 
 module.exports = {
@@ -11,43 +11,41 @@ module.exports = {
     listId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     position: {
       type: 'number',
-      required: true
+      required: true,
     },
     name: {
       type: 'string',
-      required: true
+      required: true,
     },
     description: {
       type: 'string',
       isNotEmptyString: true,
-      allowNull: true
+      allowNull: true,
     },
     dueDate: {
       type: 'string',
-      custom: value => moment(value, moment.ISO_8601, true).isValid()
+      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
     },
     timer: {
       type: 'json',
-      custom: value =>
-        _.isPlainObject(value) &&
-        _.size(value) === 2 &&
-        (_.isNull(value.startedAt) ||
-          moment(value.startedAt, moment.ISO_8601, true).isValid()) &&
-        _.isFinite(value.total)
-    }
+      custom: (value) => _.isPlainObject(value)
+        && _.size(value) === 2
+        && (_.isNull(value.startedAt) || moment(value.startedAt, moment.ISO_8601, true).isValid())
+        && _.isFinite(value.total),
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { list, project } = await sails.helpers
@@ -56,30 +54,19 @@ module.exports = {
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
       throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, [
-      'position',
-      'name',
-      'description',
-      'dueDate',
-      'timer'
-    ]);
+    const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'timer']);
 
-    const card = await sails.helpers.createCard(
-      list,
-      values,
-      currentUser,
-      this.req
-    );
+    const card = await sails.helpers.createCard(list, values, currentUser, this.req);
 
     return exits.success({
-      item: card
+      item: card,
     });
-  }
+  },
 };

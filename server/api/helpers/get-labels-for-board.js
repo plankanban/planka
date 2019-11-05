@@ -2,16 +2,16 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value),
-      required: true
-    }
+      custom: (value) => _.isString(value) || _.isArray(value),
+      required: true,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const labels = await Label.find({
-      boardId: inputs.id
+      boardId: inputs.id,
     }).sort('id');
 
     return exits.success(labels);
-  }
+  },
 };

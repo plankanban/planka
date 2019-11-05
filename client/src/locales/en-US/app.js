@@ -15,7 +15,8 @@ export default {
       addUser_title: 'Add User',
       administrator: 'Administrator',
       all: 'All',
-      allChangesWillBeAutomaticallySavedAfterConnectionRestored: 'All changes will be automatically saved<br />after connection restored',
+      allChangesWillBeAutomaticallySavedAfterConnectionRestored:
+        'All changes will be automatically saved<br />after connection restored',
       areYouSureYouWantToDeleteThisBoard: 'Are you sure you want to delete this board?',
       areYouSureYouWantToDeleteThisCard: 'Are you sure you want to delete this card?',
       areYouSureYouWantToDeleteThisComment: 'Are you sure you want to delete this comment?',
@@ -24,7 +25,8 @@ export default {
       areYouSureYouWantToDeleteThisProject: 'Are you sure you want to delete this project?',
       areYouSureYouWantToDeleteThisTask: 'Are you sure you want to delete this task?',
       areYouSureYouWantToDeleteThisUser: 'Are you sure you want to delete this user?',
-      areYouSureYouWantToRemoveThisMemberFromProject: 'Are you sure you want to remove this member from project?',
+      areYouSureYouWantToRemoveThisMemberFromProject:
+        'Are you sure you want to remove this member from project?',
       boardNotFound_title: 'Board Not Found',
       cardActions_title: 'Card Actions',
       cardNotFound_title: 'Card Not Found',
@@ -77,7 +79,8 @@ export default {
       noUnreadNotifications: 'No unread notifications',
       openBoard_title: 'Open Board',
       projectNotFound_title: 'Project Not Found',
-      refreshPageToLoadLastDataAndReceiveUpdates: '<0>Refresh the page</0> to load last data<br />and receive updates',
+      refreshPageToLoadLastDataAndReceiveUpdates:
+        '<0>Refresh the page</0> to load last data<br />and receive updates',
       removeMember_title: 'Remove Member',
       seconds: 'Seconds',
       taskActions_title: 'Task Actions',
@@ -89,7 +92,8 @@ export default {
       userIsAlreadyExist: 'User is already exist',
       userLeftNewCommentToCard: '{{user}} left a new comment «{{comment}}» to <2>{{card}}</2>',
       userMovedCardFromListToList: '{{user}} moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
-      userMovedThisCardFromListToList: '<0>{{user}}</0><1> moved this card from {{fromList}} to {{toList}}</1>',
+      userMovedThisCardFromListToList:
+        '<0>{{user}}</0><1> moved this card from {{fromList}} to {{toList}}</1>',
       users: 'Users',
       writeComment: 'Write a comment...',
     },

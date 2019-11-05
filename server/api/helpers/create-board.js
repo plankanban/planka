@@ -2,44 +2,42 @@ module.exports = {
   inputs: {
     project: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      custom: value => _.isPlainObject(value) && _.isFinite(value.position),
-      required: true
+      custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const boards = await sails.helpers.getBoardsForProject(inputs.project.id);
 
     const { position, repositions } = sails.helpers.insertToPositionables(
       inputs.values.position,
-      boards
+      boards,
     );
 
-    const userIds = await sails.helpers.getMembershipUserIdsForProject(
-      inputs.project.id
-    );
+    const userIds = await sails.helpers.getMembershipUserIdsForProject(inputs.project.id);
 
-    repositions.forEach(async ({ id, position }) => {
+    repositions.forEach(async ({ id, position: nextPosition }) => {
       await Board.update({
         id,
-        projectId: inputs.project.id
+        projectId: inputs.project.id,
       }).set({
-        position
+        position: nextPosition,
       });
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
           item: {
             id,
-            position
-          }
+            position: nextPosition,
+          },
         });
       });
     });
@@ -47,10 +45,10 @@ module.exports = {
     const board = await Board.create({
       ...inputs.values,
       position,
-      projectId: inputs.project.id
+      projectId: inputs.project.id,
     }).fetch();
 
-    userIds.forEach(userId => {
+    userIds.forEach((userId) => {
       sails.sockets.broadcast(
         `user:${userId}`,
         'boardCreate',
@@ -58,13 +56,13 @@ module.exports = {
           item: board,
           included: {
             lists: [],
-            labels: []
-          }
+            labels: [],
+          },
         },
-        inputs.request
+        inputs.request,
       );
     });
 
     return exits.success(board);
-  }
+  },
 };

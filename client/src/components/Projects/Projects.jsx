@@ -42,11 +42,7 @@ const Projects = React.memo(({
           ))}
           {isEditable && (
             <Grid.Column mobile={8} computer={4}>
-              <button
-                type="button"
-                className={classNames(styles.card, styles.add)}
-                onClick={onAdd}
-              >
+              <button type="button" className={classNames(styles.card, styles.add)} onClick={onAdd}>
                 <div className={styles.addTitleWrapper}>
                   <div className={styles.addTitle}>
                     <PlusIcon className={styles.addGridIcon} />

@@ -2,32 +2,32 @@ module.exports = {
   inputs: {
     board: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const label = await Label.create({
       ...inputs.values,
-      boardId: inputs.board.id
+      boardId: inputs.board.id,
     }).fetch();
 
     sails.sockets.broadcast(
       `board:${label.boardId}`,
       'labelCreate',
       {
-        item: label
+        item: label,
       },
-      inputs.request
+      inputs.request,
     );
 
     return exits.success(label);
-  }
+  },
 };

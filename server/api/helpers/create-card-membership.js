@@ -2,24 +2,24 @@ module.exports = {
   inputs: {
     card: {
       type: 'ref',
-      required: true
+      required: true,
     },
     userOrUserId: {
       type: 'ref',
-      custom: value => _.isPlainObject(value) || _.isString(value),
-      required: true
+      custom: (value) => _.isPlainObject(value) || _.isString(value),
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { userId = inputs.userOrUserId } = inputs.userOrUserId;
 
     const cardMembership = await CardMembership.create({
       userId,
-      cardId: inputs.card.id
+      cardId: inputs.card.id,
     })
       .intercept('E_UNIQUE', 'conflict')
       .fetch();
@@ -28,15 +28,15 @@ module.exports = {
       `board:${inputs.card.boardId}`,
       'cardMembershipCreate',
       {
-        item: cardMembership
+        item: cardMembership,
       },
-      inputs.request
+      inputs.request,
     );
 
     const cardSubscription = await CardSubscription.create({
       cardId: cardMembership.cardId,
       userId: cardMembership.userId,
-      isPermanent: false
+      isPermanent: false,
     })
       .tolerate('E_UNIQUE')
       .fetch();
@@ -48,13 +48,13 @@ module.exports = {
         {
           item: {
             id: cardMembership.cardId,
-            isSubscribed: true
-          }
+            isSubscribed: true,
+          },
         },
-        inputs.request
+        inputs.request,
       );
     }
 
     return exits.success(cardMembership);
-  }
+  },
 };

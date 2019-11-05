@@ -31,6 +31,6 @@ module.exports = function unauthorized(message) {
 
   return res.status(401).json({
     code: 'E_UNAUTHORIZED',
-    message
+    message,
   });
 };

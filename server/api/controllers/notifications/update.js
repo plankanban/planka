@@ -3,20 +3,20 @@ module.exports = {
     ids: {
       type: 'string',
       required: true,
-      regex: /^[0-9]+(,[0-9]+)*$/
+      regex: /^[0-9]+(,[0-9]+)*$/,
     },
     isRead: {
-      type: 'boolean'
-    }
+      type: 'boolean',
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const values = _.pick(inputs, ['isRead']);
@@ -25,11 +25,11 @@ module.exports = {
       inputs.ids.split(','),
       currentUser,
       values,
-      this.req
+      this.req,
     );
 
     return exits.success({
-      items: notifications
+      items: notifications,
     });
-  }
+  },
 };

@@ -2,28 +2,28 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value),
-      required: true
+      custom: (value) => _.isString(value) || _.isArray(value),
+      required: true,
     },
     exceptBoardId: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value)
-    }
+      custom: (value) => _.isString(value) || _.isArray(value),
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const criteria = {
-      projectId: inputs.id
+      projectId: inputs.id,
     };
 
     if (!_.isUndefined(inputs.exceptBoardId)) {
       criteria.id = {
-        '!=': inputs.exceptBoardId
+        '!=': inputs.exceptBoardId,
       };
     }
 
     const boards = await sails.helpers.getBoards(criteria);
 
     return exits.success(boards);
-  }
+  },
 };

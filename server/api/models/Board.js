@@ -13,11 +13,11 @@ module.exports = {
 
     position: {
       type: 'number',
-      required: true
+      required: true,
     },
     name: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -31,15 +31,15 @@ module.exports = {
     projectId: {
       model: 'Project',
       required: true,
-      columnName: 'project_id'
+      columnName: 'project_id',
     },
     lists: {
       collection: 'List',
-      via: 'boardId'
+      via: 'boardId',
     },
     labels: {
       collection: 'Label',
-      via: 'boardId'
-    }
-  }
+      via: 'boardId',
+    },
+  },
 };

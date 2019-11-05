@@ -4,45 +4,47 @@ module.exports = {
   inputs: {
     values: {
       type: 'json',
-      custom: value =>
-        _.isPlainObject(value) &&
-        _.isString(value.email) &&
-        _.isString(value.password),
-      required: true
+      // eslint-disable-next-line max-len
+      custom: (value) => _.isPlainObject(value) && _.isString(value.email) && _.isString(value.password),
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
   exits: {
-    conflict: {}
+    conflict: {},
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const user = await User.create({
       ...inputs.values,
       email: inputs.values.email.toLowerCase(),
-      password: bcrypt.hashSync(inputs.values.password, 10)
+      password: bcrypt.hashSync(inputs.values.password, 10),
     })
-      .intercept({
-        message: 'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"'
-      }, 'conflict')
+      .intercept(
+        {
+          message:
+            'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"',
+        },
+        'conflict',
+      )
       .fetch();
 
     const userIds = await sails.helpers.getAdminUserIds();
 
-    userIds.forEach(userId => {
+    userIds.forEach((userId) => {
       sails.sockets.broadcast(
         `user:${userId}`,
         'userCreate',
         {
-          item: user
+          item: user,
         },
-        inputs.request
+        inputs.request,
       );
     });
 
     return exits.success(user);
-  }
+  },
 };

@@ -2,47 +2,44 @@ module.exports = {
   inputs: {
     card: {
       type: 'ref',
-      required: true
+      required: true,
     },
     user: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const action = await Action.create({
       ...inputs.values,
       cardId: inputs.card.id,
-      userId: inputs.user.id
+      userId: inputs.user.id,
     }).fetch();
 
     sails.sockets.broadcast(
       `board:${inputs.card.boardId}`,
       'actionCreate',
       {
-        item: action
+        item: action,
       },
-      inputs.request
+      inputs.request,
     );
 
-    const userIds = await sails.helpers.getSubscriptionUserIdsForCard(
-      action.cardId,
-      action.userId
-    );
+    const userIds = await sails.helpers.getSubscriptionUserIdsForCard(action.cardId, action.userId);
 
-    userIds.forEach(async userId => {
+    userIds.forEach(async (userId) => {
       const notification = await Notification.create({
         userId,
         actionId: action.id,
-        cardId: action.cardId
+        cardId: action.cardId,
       }).fetch();
 
       sails.sockets.broadcast(`user:${userId}`, 'notificationCreate', {
@@ -50,11 +47,11 @@ module.exports = {
         included: {
           users: [inputs.user],
           cards: [inputs.card],
-          actions: [action]
-        }
+          actions: [action],
+        },
       });
     });
 
     return exits.success(action);
-  }
+  },
 };

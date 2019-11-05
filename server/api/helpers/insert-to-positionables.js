@@ -2,13 +2,14 @@ const GAP = 2 ** 14;
 const MIN_GAP = 0.125;
 const MAX_POSITION = 2 ** 50;
 
-const findBeginnings = positions => {
+const findBeginnings = (positions) => {
   positions.unshift(0);
 
   let prevPosition = positions.pop();
   const beginnings = [prevPosition];
 
-  _.forEachRight(positions, position => {
+  // eslint-disable-next-line consistent-return
+  _.forEachRight(positions, (position) => {
     if (prevPosition - MIN_GAP >= position) {
       return false;
     }
@@ -20,7 +21,7 @@ const findBeginnings = positions => {
   return beginnings;
 };
 
-const getRepositionsMap = positions => {
+const getRepositionsMap = (positions) => {
   const repositionsMap = {};
 
   if (positions.length <= 1) {
@@ -33,7 +34,7 @@ const getRepositionsMap = positions => {
 
   let prevPosition = positions.shift();
 
-  for (let i = 0; i < positions.length; i++) {
+  for (let i = 0; i < positions.length; i += 1) {
     const position = positions[i];
     const nextPosition = positions[i + 1];
 
@@ -41,12 +42,9 @@ const getRepositionsMap = positions => {
       break;
     }
 
-    if (
-      !_.isUndefined(nextPosition) &&
-      prevPosition + MIN_GAP * 2 <= nextPosition
-    ) {
+    if (!_.isUndefined(nextPosition) && prevPosition + MIN_GAP * 2 <= nextPosition) {
       (repositionsMap[position] || (repositionsMap[position] = [])).push(
-        prevPosition + (nextPosition - prevPosition) / 2
+        prevPosition + (nextPosition - prevPosition) / 2,
       );
 
       break;
@@ -58,21 +56,17 @@ const getRepositionsMap = positions => {
       return null;
     }
 
-    (repositionsMap[position] || (repositionsMap[position] = [])).push(
-      prevPosition
-    );
+    (repositionsMap[position] || (repositionsMap[position] = [])).push(prevPosition);
   }
 
   return repositionsMap;
 };
 
-const getFullRepositionsMap = positions => {
+const getFullRepositionsMap = (positions) => {
   const repositionsMap = {};
 
   _.forEach(positions, (position, index) => {
-    (repositionsMap[position] || (repositionsMap[position] = [])).push(
-      GAP * (index + 1)
-    );
+    (repositionsMap[position] || (repositionsMap[position] = [])).push(GAP * (index + 1));
   });
 
   return repositionsMap;
@@ -84,15 +78,15 @@ module.exports = {
   inputs: {
     position: {
       type: 'number',
-      required: true
+      required: true,
     },
     records: {
       type: 'ref',
-      required: true
-    }
+      required: true,
+    },
   },
 
-  fn: function(inputs, exits) {
+  fn(inputs, exits) {
     const lowers = [];
     const uppers = [];
 
@@ -102,30 +96,29 @@ module.exports = {
 
     const beginnings = findBeginnings([...lowers, inputs.position]);
 
-    const repositionsMap =
-      getRepositionsMap([...beginnings, ...uppers]) ||
-      getFullRepositionsMap([...lowers, inputs.position, ...uppers]);
+    const repositionsMap = getRepositionsMap([...beginnings, ...uppers])
+      || getFullRepositionsMap([...lowers, inputs.position, ...uppers]);
 
-    let position = repositionsMap[inputs.position]
+    const position = repositionsMap[inputs.position]
       ? repositionsMap[inputs.position].pop()
       : inputs.position;
 
     const repositions = [];
 
-    _.forEachRight(inputs.records, ({ id, position }) => {
-      if (_.isEmpty(repositionsMap[position])) {
+    _.forEachRight(inputs.records, ({ id, position: currentPosition }) => {
+      if (_.isEmpty(repositionsMap[currentPosition])) {
         return;
       }
 
       repositions.unshift({
         id,
-        position: repositionsMap[position].pop()
+        position: repositionsMap[currentPosition].pop(),
       });
     });
 
     return exits.success({
       position,
-      repositions
+      repositions,
     });
-  }
+  },
 };

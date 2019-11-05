@@ -1,7 +1,7 @@
 const Errors = {
   PROJECT_NOT_FOUND: {
-    notFound: 'Project is not found'
-  }
+    notFound: 'Project is not found',
+  },
 };
 
 module.exports = {
@@ -9,25 +9,25 @@ module.exports = {
     projectId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     position: {
       type: 'number',
-      required: true
+      required: true,
     },
     name: {
       type: 'string',
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const project = await Project.findOne(inputs.projectId);
 
     if (!project) {
@@ -42,8 +42,8 @@ module.exports = {
       item: board,
       included: {
         lists: [],
-        labels: []
-      }
+        labels: [],
+      },
     });
-  }
+  },
 };

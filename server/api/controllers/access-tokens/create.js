@@ -2,11 +2,11 @@ const bcrypt = require('bcrypt');
 
 const Errors = {
   EMAIL_NOT_EXIST: {
-    unauthorized: 'Email does not exist'
+    unauthorized: 'Email does not exist',
   },
   PASSWORD_NOT_VALID: {
-    unauthorized: 'Password is not valid'
-  }
+    unauthorized: 'Password is not valid',
+  },
 };
 
 module.exports = {
@@ -14,23 +14,23 @@ module.exports = {
     email: {
       type: 'string',
       required: true,
-      isEmail: true
+      isEmail: true,
     },
     password: {
       type: 'string',
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     unauthorized: {
-      responseType: 'unauthorized'
-    }
+      responseType: 'unauthorized',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const user = await sails.helpers.getUser({
-      email: inputs.email.toLowerCase()
+      email: inputs.email.toLowerCase(),
     });
 
     if (!user) {
@@ -42,7 +42,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: sails.helpers.signToken(user.id)
+      item: sails.helpers.signToken(user.id),
     });
-  }
+  },
 };

@@ -1,27 +1,31 @@
-const stream = require('stream');
 const fs = require('fs');
 const path = require('path');
+const util = require('util');
+const stream = require('stream');
 const uuid = require('uuid/v4');
 const sharp = require('sharp');
 
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found'
-  }
+    notFound: 'User is not found',
+  },
 };
 
+const pipeline = util.promisify(stream.pipeline);
+
 const createReceiver = () => {
-  const receiver = require('stream').Writable({ objectMode: true });
+  const receiver = stream.Writable({ objectMode: true });
 
   let firstFileHandled = false;
-  receiver._write = (file, encoding, done) => {
+  // eslint-disable-next-line no-underscore-dangle
+  receiver._write = async (file, receiverEncoding, done) => {
     if (firstFileHandled) {
       file.pipe(
         new stream.Writable({
-          write(chunk, encoding, callback) {
+          write(chunk, streamEncoding, callback) {
             callback();
-          }
-        })
+          },
+        }),
       );
 
       return done();
@@ -33,30 +37,25 @@ const createReceiver = () => {
       .jpeg();
 
     const transform = new stream.Transform({
-      transform(chunk, encoding, callback) {
+      transform(chunk, streamEncoding, callback) {
         callback(null, chunk);
-      }
+      },
     });
 
-    stream.pipeline(file, resize, transform, error => {
-      if (error) {
-        return done(error.message);
-      }
+    try {
+      await pipeline(file, resize, transform);
 
       file.fd = `${uuid()}.jpg`;
 
-      const output = fs.createWriteStream(
-        path.join(sails.config.custom.uploadsPath, file.fd)
+      await pipeline(
+        transform,
+        fs.createWriteStream(path.join(sails.config.custom.uploadsPath, file.fd)),
       );
 
-      stream.pipeline(transform, output, error => {
-        if (error) {
-          return done(error);
-        }
-
-        done();
-      });
-    });
+      return done();
+    } catch (error) {
+      return done(error);
+    }
   };
 
   return receiver;
@@ -67,20 +66,20 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
+      responseType: 'notFound',
     },
     unprocessableEntity: {
-      responseType: 'unprocessableEntity'
-    }
+      responseType: 'unprocessableEntity',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     let user;
@@ -98,7 +97,7 @@ module.exports = {
 
     this.req.file('file').upload(createReceiver(), async (error, files) => {
       if (error) {
-        return exits.unprocessableEntity(error);
+        return exits.unprocessableEntity(error.message);
       }
 
       if (files.length === 0) {
@@ -108,18 +107,18 @@ module.exports = {
       user = await sails.helpers.updateUser(
         user,
         {
-          avatar: files[0].fd
+          avatar: files[0].fd,
         },
-        this.req
+        this.req,
       );
 
       if (!user) {
         throw Errors.USER_NOT_FOUND;
       }
 
-      return this.res.json({
-        item: user.avatar
+      return exits.success({
+        item: user.toJSON().avatar,
       });
     });
-  }
+  },
 };

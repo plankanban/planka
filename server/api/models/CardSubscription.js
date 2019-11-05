@@ -14,7 +14,7 @@ module.exports = {
     isPermanent: {
       type: 'boolean',
       defaultsTo: true,
-      columnName: 'is_permanent'
+      columnName: 'is_permanent',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -28,14 +28,14 @@ module.exports = {
     cardId: {
       model: 'Card',
       required: true,
-      columnName: 'card_id'
+      columnName: 'card_id',
     },
     userId: {
       model: 'User',
       required: true,
-      columnName: 'user_id'
-    }
+      columnName: 'user_id',
+    },
   },
 
-  tableName: 'card_subscription'
+  tableName: 'card_subscription',
 };

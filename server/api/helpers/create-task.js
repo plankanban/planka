@@ -2,32 +2,32 @@ module.exports = {
   inputs: {
     card: {
       type: 'ref',
-      required: true
+      required: true,
     },
     values: {
       type: 'json',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const task = await Task.create({
       ...inputs.values,
-      cardId: inputs.card.id
+      cardId: inputs.card.id,
     }).fetch();
 
     sails.sockets.broadcast(
       `board:${inputs.card.boardId}`,
       'taskCreate',
       {
-        item: task
+        item: task,
       },
-      inputs.request
+      inputs.request,
     );
 
     return exits.success(task);
-  }
+  },
 };

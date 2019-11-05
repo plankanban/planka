@@ -22,14 +22,14 @@ module.exports = {
     cardId: {
       model: 'Card',
       required: true,
-      columnName: 'card_id'
+      columnName: 'card_id',
     },
     labelId: {
       model: 'Label',
       required: true,
-      columnName: 'label_id'
-    }
+      columnName: 'label_id',
+    },
   },
 
-  tableName: 'card_label'
+  tableName: 'card_label',
 };

@@ -2,11 +2,11 @@ module.exports = {
   inputs: {
     name: {
       type: 'string',
-      required: true
-    }
+      required: true,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const values = _.pick(inputs, ['name']);
@@ -15,7 +15,7 @@ module.exports = {
       values,
       currentUser,
       this.req,
-      true
+      true,
     );
 
     return exits.success({
@@ -23,8 +23,8 @@ module.exports = {
       included: {
         users: [currentUser],
         projectMemberships: [projectMembership],
-        boards: []
-      }
+        boards: [],
+      },
     });
-  }
+  },
 };

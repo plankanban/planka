@@ -22,14 +22,14 @@ module.exports = {
     projectId: {
       model: 'Project',
       required: true,
-      columnName: 'project_id'
+      columnName: 'project_id',
     },
     userId: {
       model: 'User',
       required: true,
-      columnName: 'user_id'
-    }
+      columnName: 'user_id',
+    },
   },
 
-  tableName: 'project_membership'
+  tableName: 'project_membership',
 };

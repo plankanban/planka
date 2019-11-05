@@ -14,29 +14,29 @@ module.exports = {
     email: {
       type: 'string',
       isEmail: true,
-      required: true
+      required: true,
     },
     password: {
       type: 'string',
-      required: true
+      required: true,
     },
     isAdmin: {
       type: 'boolean',
       defaultsTo: false,
-      columnName: 'is_admin'
+      columnName: 'is_admin',
     },
     name: {
       type: 'string',
-      required: true
+      required: true,
     },
     avatar: {
       type: 'string',
       isNotEmptyString: true,
-      allowNull: true
+      allowNull: true,
     },
     deletedAt: {
       type: 'ref',
-      columnName: 'deleted_at'
+      columnName: 'deleted_at',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -50,24 +50,24 @@ module.exports = {
     membershipProjects: {
       collection: 'Project',
       via: 'userId',
-      through: 'ProjectMembership'
+      through: 'ProjectMembership',
     },
     subscriptionCards: {
       collection: 'Card',
       via: 'userId',
-      through: 'CardSubscription'
+      through: 'CardSubscription',
     },
     membershipCards: {
       collection: 'Card',
       via: 'userId',
-      through: 'CardMembership'
-    }
+      through: 'CardMembership',
+    },
   },
 
-  customToJSON: function() {
+  customToJSON() {
     return {
       ..._.omit(this, 'password'),
-      avatar: this.avatar && `${sails.config.custom.uploadsUrl}/${this.avatar}`
+      avatar: this.avatar && `${sails.config.custom.uploadsUrl}/${this.avatar}`,
     };
-  }
+  },
 };

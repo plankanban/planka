@@ -2,18 +2,18 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     board: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const task = await Task.archiveOne(inputs.record.id);
 
     if (task) {
@@ -21,12 +21,12 @@ module.exports = {
         `board:${inputs.board.id}`,
         'taskDelete',
         {
-          item: task
+          item: task,
         },
-        inputs.request
+        inputs.request,
       );
     }
 
     return exits.success(task);
-  }
+  },
 };

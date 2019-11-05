@@ -2,38 +2,34 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value),
-      required: true
+      custom: (value) => _.isString(value) || _.isArray(value),
+      required: true,
     },
     exceptUserId: {
       type: 'json',
-      custom: value => _.isString(value) || _.isArray(value)
+      custom: (value) => _.isString(value) || _.isArray(value),
     },
     withCardSubscriptions: {
       type: 'boolean',
-      defaultsTo: false
-    }
+      defaultsTo: false,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const cardSubscriptions = await sails.helpers.getSubscriptionsForCard(
       inputs.id,
-      inputs.exceptUserId
+      inputs.exceptUserId,
     );
 
-    const userIds = sails.helpers.mapRecords(
-      cardSubscriptions,
-      'userId',
-      _.isArray(inputs.id)
-    );
+    const userIds = sails.helpers.mapRecords(cardSubscriptions, 'userId', _.isArray(inputs.id));
 
     return exits.success(
       inputs.withCardSubscriptions
         ? {
           userIds,
-          cardSubscriptions
+          cardSubscriptions,
         }
-        : userIds
+        : userIds,
     );
-  }
+  },
 };

@@ -2,16 +2,16 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const projectMemberships = await ProjectMembership.destroy({
-      projectId: inputs.record.id
+      projectId: inputs.record.id,
     }).fetch();
 
     const project = await Project.archiveOne(inputs.record.id);
@@ -20,22 +20,22 @@ module.exports = {
       const userIds = sails.helpers.mapRecords(projectMemberships, 'userId');
 
       const boards = await sails.helpers.getBoardsForProject(project.id);
-      const boardRooms = boards.map(board => `board:${board.id}`);
+      const boardRooms = boards.map((board) => `board:${board.id}`);
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.removeRoomMembersFromRooms(`user:${userId}`, boardRooms);
 
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectDelete',
           {
-            item: project
+            item: project,
           },
-          inputs.request
+          inputs.request,
         );
       });
     }
 
     return exits.success(project);
-  }
+  },
 };

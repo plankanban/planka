@@ -2,38 +2,35 @@ module.exports = {
   inputs: {
     project: {
       type: 'ref',
-      required: true
+      required: true,
     },
     user: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
   exits: {
-    conflict: {}
+    conflict: {},
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const projectMembership = await ProjectMembership.create({
       projectId: inputs.project.id,
-      userId: inputs.user.id
+      userId: inputs.user.id,
     })
       .intercept('E_UNIQUE', 'conflict')
       .fetch();
 
-    const {
-      userIds,
-      projectMemberships
-    } = await sails.helpers.getMembershipUserIdsForProject(
+    const { userIds, projectMemberships } = await sails.helpers.getMembershipUserIdsForProject(
       projectMembership.projectId,
-      true
+      true,
     );
 
-    userIds.forEach(userId => {
+    userIds.forEach((userId) => {
       if (userId !== projectMembership.userId) {
         sails.sockets.broadcast(
           `user:${userId}`,
@@ -41,33 +38,27 @@ module.exports = {
           {
             item: projectMembership,
             included: {
-              users: [inputs.user]
-            }
+              users: [inputs.user],
+            },
           },
-          inputs.request
+          inputs.request,
         );
       }
     });
 
     const users = await sails.helpers.getUsers(userIds);
 
-    const boards = await sails.helpers.getBoardsForProject(
-      projectMembership.projectId
-    );
+    const boards = await sails.helpers.getBoardsForProject(projectMembership.projectId);
 
-    sails.sockets.broadcast(
-      `user:${projectMembership.userId}`,
-      'projectCreate',
-      {
-        item: inputs.project,
-        included: {
-          users,
-          projectMemberships,
-          boards
-        }
-      }
-    );
+    sails.sockets.broadcast(`user:${projectMembership.userId}`, 'projectCreate', {
+      item: inputs.project,
+      included: {
+        users,
+        projectMemberships,
+        boards,
+      },
+    });
 
     return exits.success(projectMembership);
-  }
+  },
 };

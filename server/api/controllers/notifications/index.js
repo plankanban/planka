@@ -1,10 +1,8 @@
 module.exports = {
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
-    const notifications = await sails.helpers.getNotificationsForUser(
-      currentUser.id
-    );
+    const notifications = await sails.helpers.getNotificationsForUser(currentUser.id);
 
     const actionIds = sails.helpers.mapRecords(notifications, 'actionId');
     const actions = await sails.helpers.getActions(actionIds);
@@ -20,8 +18,8 @@ module.exports = {
       included: {
         users,
         cards,
-        actions
-      }
+        actions,
+      },
     });
-  }
+  },
 };

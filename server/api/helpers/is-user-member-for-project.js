@@ -2,20 +2,20 @@ module.exports = {
   inputs: {
     id: {
       type: 'string',
-      required: true
+      required: true,
     },
     userId: {
       type: 'string',
-      required: true
-    }
+      required: true,
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const projectMembership = await ProjectMembership.findOne({
       projectId: inputs.id,
-      userId: inputs.userId
+      userId: inputs.userId,
     });
 
     return exits.success(!!projectMembership);
-  }
+  },
 };

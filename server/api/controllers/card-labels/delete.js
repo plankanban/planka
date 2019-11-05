@@ -1,10 +1,10 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found'
+    notFound: 'Card is not found',
   },
   CARD_LABEL_NOT_FOUND: {
-    notFound: 'Card label is not found'
-  }
+    notFound: 'Card label is not found',
+  },
 };
 
 module.exports = {
@@ -12,22 +12,22 @@ module.exports = {
     cardId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
+      required: true,
     },
     labelId: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { board, project } = await sails.helpers
@@ -36,7 +36,7 @@ module.exports = {
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -45,7 +45,7 @@ module.exports = {
 
     let cardLabel = await CardLabel.findOne({
       cardId: inputs.cardId,
-      labelId: inputs.labelId
+      labelId: inputs.labelId,
     });
 
     if (!cardLabel) {
@@ -59,7 +59,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: cardLabel
+      item: cardLabel,
     });
-  }
+  },
 };

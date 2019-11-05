@@ -2,14 +2,14 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const card = await Card.archiveOne(inputs.record.id);
 
     if (card) {
@@ -17,12 +17,12 @@ module.exports = {
         `board:${card.boardId}`,
         'cardDelete',
         {
-          item: card
+          item: card,
         },
-        inputs.request
+        inputs.request,
       );
     }
 
     return exits.success(card);
-  }
+  },
 };

@@ -2,13 +2,13 @@ module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      custom: value => _.isArray(value) || _.isPlainObject(value)
-    }
+      custom: (value) => _.isArray(value) || _.isPlainObject(value),
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const criteria = {
-      deletedAt: null
+      deletedAt: null,
     };
 
     if (_.isArray(inputs.criteria)) {
@@ -20,5 +20,5 @@ module.exports = {
     const users = await User.find(criteria).sort('id');
 
     return exits.success(users);
-  }
+  },
 };

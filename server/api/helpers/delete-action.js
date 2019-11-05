@@ -2,18 +2,18 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     board: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const action = await Action.archiveOne(inputs.record.id);
 
     if (action) {
@@ -21,12 +21,12 @@ module.exports = {
         `board:${inputs.board.id}`,
         'actionDelete',
         {
-          item: action
+          item: action,
         },
-        inputs.request
+        inputs.request,
       );
     }
 
     return exits.success(action);
-  }
+  },
 };

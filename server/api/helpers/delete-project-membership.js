@@ -2,17 +2,15 @@ module.exports = {
   inputs: {
     record: {
       type: 'ref',
-      required: true
+      required: true,
     },
     request: {
-      type: 'ref'
-    }
+      type: 'ref',
+    },
   },
 
-  fn: async function(inputs, exits) {
-    const boards = await sails.helpers.getBoardsForProject(
-      inputs.record.projectId
-    );
+  async fn(inputs, exits) {
+    const boards = await sails.helpers.getBoardsForProject(inputs.record.projectId);
 
     const boardIds = sails.helpers.mapRecords(boards);
 
@@ -21,50 +19,44 @@ module.exports = {
 
     await CardSubscription.destroy({
       cardId: cardIds,
-      userId: inputs.record.userId
+      userId: inputs.record.userId,
     });
 
     await CardMembership.destroy({
       cardId: cardIds,
-      userId: inputs.record.userId
+      userId: inputs.record.userId,
     });
 
-    const projectMembership = await ProjectMembership.destroyOne(
-      inputs.record.id
-    );
+    const projectMembership = await ProjectMembership.destroyOne(inputs.record.id);
 
     if (projectMembership) {
       const userIds = await sails.helpers.getMembershipUserIdsForProject(
-        projectMembership.projectId
+        projectMembership.projectId,
       );
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectMembershipDelete',
           {
-            item: projectMembership
+            item: projectMembership,
           },
-          inputs.request
+          inputs.request,
         );
       });
 
       sails.sockets.removeRoomMembersFromRooms(
         `user:${projectMembership.userId}`,
-        boardIds.map(boardId => `board:${boardId}`)
+        boardIds.map((boardId) => `board:${boardId}`),
       );
 
       const project = await Project.findOne(projectMembership.projectId);
 
-      sails.sockets.broadcast(
-        `user:${projectMembership.userId}`,
-        'projectDelete',
-        {
-          item: project
-        }
-      );
+      sails.sockets.broadcast(`user:${projectMembership.userId}`, 'projectDelete', {
+        item: project,
+      });
     }
 
     return exits.success(projectMembership);
-  }
+  },
 };

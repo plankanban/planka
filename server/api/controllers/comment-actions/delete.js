@@ -1,7 +1,7 @@
 const Errors = {
   COMMENT_ACTION_NOT_FOUND: {
-    notFound: 'Comment action is not found'
-  }
+    notFound: 'Comment action is not found',
+  },
 };
 
 module.exports = {
@@ -9,35 +9,38 @@ module.exports = {
     id: {
       type: 'string',
       regex: /^[0-9]+$/,
-      required: true
-    }
+      required: true,
+    },
   },
 
   exits: {
     notFound: {
-      responseType: 'notFound'
-    }
+      responseType: 'notFound',
+    },
   },
 
-  fn: async function(inputs, exits) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const criteria = {
       id: inputs.id,
-      type: 'commentCard'
+      type: 'commentCard',
     };
 
     if (!currentUser.isAdmin) {
       criteria.userId = currentUser.id;
     }
 
-    let { action, board, project } = await sails.helpers
+    const actionToProjectPath = await sails.helpers
       .getActionToProjectPath(criteria)
       .intercept('notFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
 
+    let { action } = actionToProjectPath;
+    const { board, project } = actionToProjectPath;
+
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
-      currentUser.id
+      currentUser.id,
     );
 
     if (!isUserMemberForProject) {
@@ -51,7 +54,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: action
+      item: action,
     });
-  }
+  },
 };

@@ -14,18 +14,18 @@ module.exports = {
     fromModel: {
       type: 'string',
       required: true,
-      columnName: 'from_model'
+      columnName: 'from_model',
     },
     originalRecordId: {
       type: 'string',
       required: true,
-      columnName: 'original_record_id'
+      columnName: 'original_record_id',
     },
     originalRecord: {
       type: 'json',
       required: true,
-      columnName: 'original_record'
-    }
+      columnName: 'original_record',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -36,5 +36,5 @@ module.exports = {
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
   },
 
-  archiveModelIdentity: false
+  archiveModelIdentity: false,
 };
