@@ -2,8 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Progress } from 'semantic-ui-react';
-
-import { useToggle } from '../../hooks';
+import { useToggle } from '../../lib/hooks';
 
 import styles from './Tasks.module.css';
 

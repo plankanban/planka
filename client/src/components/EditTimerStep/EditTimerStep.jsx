@@ -3,9 +3,10 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
+import { useToggle } from '../../lib/hooks';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import { useForm, useToggle } from '../../hooks';
+import { useForm } from '../../hooks';
 import {
   createTimer, getTimerParts, startTimer, stopTimer, updateTimer,
 } from '../../utils/timer';
@@ -114,7 +115,7 @@ const EditTimerStep = React.memo(({
           <div className={styles.fieldWrapper}>
             <div className={styles.fieldBox}>
               <div className={styles.text}>{t('common.hours')}</div>
-              <Input
+              <Input.Mask
                 ref={hoursField}
                 name="hours"
                 value={data.hours}
@@ -126,7 +127,7 @@ const EditTimerStep = React.memo(({
             </div>
             <div className={styles.fieldBox}>
               <div className={styles.text}>{t('common.minutes')}</div>
-              <Input
+              <Input.Mask
                 ref={minutesField}
                 name="minutes"
                 value={data.minutes}
@@ -138,7 +139,7 @@ const EditTimerStep = React.memo(({
             </div>
             <div className={styles.fieldBox}>
               <div className={styles.text}>{t('common.seconds')}</div>
-              <Input
+              <Input.Mask
                 ref={secondsField}
                 name="seconds"
                 value={data.seconds}
