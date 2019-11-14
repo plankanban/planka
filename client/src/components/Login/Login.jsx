@@ -8,11 +8,10 @@ import isEmail from 'validator/lib/isEmail';
 import {
   Form, Grid, Header, Message,
 } from 'semantic-ui-react';
+import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input } from '../../lib/custom-ui';
 
-import {
-  useDidUpdate, useForm, usePrevious, useToggle,
-} from '../../hooks';
+import { useForm } from '../../hooks';
 
 import styles from './Login.module.css';
 
@@ -156,10 +155,9 @@ const Login = React.memo(
                       </div>
                       <div className={styles.inputWrapper}>
                         <div className={styles.inputLabel}>{t('common.password')}</div>
-                        <Input
+                        <Input.Password
                           fluid
                           ref={passwordField}
-                          type="password"
                           name="password"
                           value={data.password}
                           readOnly={isSubmitting}

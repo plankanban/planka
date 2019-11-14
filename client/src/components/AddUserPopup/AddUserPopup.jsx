@@ -5,10 +5,11 @@ import React, {
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
+import { usePrevious } from '../../lib/hooks';
 import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import { useForm, usePrevious } from '../../hooks';
+import { useForm } from '../../hooks';
 
 import styles from './AddUserPopup.module.css';
 
@@ -120,7 +121,7 @@ const AddUserPopup = React.memo(
               onChange={handleFieldChange}
             />
             <div className={styles.text}>{t('common.password')}</div>
-            <Input
+            <Input.Password
               fluid
               ref={passwordField}
               name="password"

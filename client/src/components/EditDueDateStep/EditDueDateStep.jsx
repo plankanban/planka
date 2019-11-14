@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import DatePicker from 'react-datepicker';
 import { Button, Form } from 'semantic-ui-react';
+import { useDidUpdate, useToggle } from '../../lib/hooks';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import { useDidUpdate, useForm, useToggle } from '../../hooks';
+import { useForm } from '../../hooks';
 
 import styles from './EditDueDateStep.module.css';
 

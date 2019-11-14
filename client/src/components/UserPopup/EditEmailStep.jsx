@@ -5,11 +5,10 @@ import React, {
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
+import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input, Popup } from '../../lib/custom-ui';
 
-import {
-  useDidUpdate, useForm, usePrevious, useToggle,
-} from '../../hooks';
+import { useForm } from '../../hooks';
 
 import styles from './EditNameStep.module.css';
 
@@ -145,10 +144,9 @@ const EditEmailStep = React.memo(
             {data.email.trim() !== email && (
               <>
                 <div className={styles.text}>{t('common.currentPassword')}</div>
-                <Input
+                <Input.Password
                   fluid
                   ref={currentPasswordField}
-                  type="password"
                   name="currentPassword"
                   value={data.currentPassword}
                   className={styles.field}

@@ -1,28 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Input as SemanticUIInput } from 'semantic-ui-react';
 
-import MaskedInput from './MaskedInput';
+import InputPassword from './InputPassword';
+import InputMask from './InputMask';
 
-const Input = React.forwardRef(({ mask, maskChar, ...props }, ref) => {
-  const nextProps = props;
+const Input = SemanticUIInput;
 
-  if (mask) {
-    nextProps.input = <MaskedInput mask={mask} maskChar={maskChar} />;
-  }
+Input.Password = InputPassword;
+Input.Mask = InputMask;
 
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <SemanticUIInput {...nextProps} ref={ref} />;
-});
-
-Input.propTypes = {
-  mask: PropTypes.string,
-  maskChar: PropTypes.string,
-};
-
-Input.defaultProps = {
-  mask: undefined,
-  maskChar: undefined,
-};
-
-export default React.memo(Input);
+export default Input;

@@ -2,8 +2,9 @@ import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
 import { TextArea } from 'semantic-ui-react';
+import { useDidUpdate, usePrevious } from '../../lib/hooks';
 
-import { useDidUpdate, useField, usePrevious } from '../../hooks';
+import { useField } from '../../hooks';
 
 import styles from './NameField.module.css';
 

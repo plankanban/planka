@@ -4,10 +4,9 @@ import React, {
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Input } from 'semantic-ui-react';
+import { useDidUpdate, useToggle } from '../../lib/hooks';
 
-import {
-  useClosableForm, useDidUpdate, useForm, useToggle,
-} from '../../hooks';
+import { useClosableForm, useForm } from '../../hooks';
 
 import styles from './AddList.module.css';
 

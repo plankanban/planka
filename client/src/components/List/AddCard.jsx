@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
+import { useDidUpdate, useToggle } from '../../lib/hooks';
 
-import {
-  useClosableForm, useDidUpdate, useForm, useToggle,
-} from '../../hooks';
+import { useClosableForm, useForm } from '../../hooks';
 
 import styles from './AddCard.module.css';
 
