@@ -3,18 +3,18 @@ import { Icon, Input } from 'semantic-ui-react';
 import { useToggle } from '../../../hooks';
 
 const InputPassword = React.forwardRef((props, ref) => {
-  const [isHidden, toggleHidden] = useToggle(true);
+  const [isVisible, toggleVisible] = useToggle();
 
   const handleToggleClick = useCallback(() => {
-    toggleHidden();
-  }, [toggleHidden]);
+    toggleVisible();
+  }, [toggleVisible]);
 
   return (
     <Input
       {...props} // eslint-disable-line react/jsx-props-no-spreading
       ref={ref}
-      type={isHidden ? 'password' : 'text'}
-      icon={<Icon link name={isHidden ? 'eye slash' : 'eye'} onClick={handleToggleClick} />}
+      type={isVisible ? 'text' : 'password'}
+      icon={<Icon link name={isVisible ? 'eye' : 'eye slash'} onClick={handleToggleClick} />}
     />
   );
 });
