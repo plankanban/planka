@@ -3,8 +3,8 @@ FROM node:alpine AS server-builder
 WORKDIR /app
 
 RUN apk add vips-dev fftw-dev build-base python --no-cache \
-    --repository https://alpine.global.ssl.fastly.net/alpine/edge/community/ \
-    --repository https://alpine.global.ssl.fastly.net/alpine/edge/main/
+    --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/community/ \
+    --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/main/
 
 COPY server/package.json server/package-lock.json ./
 
@@ -25,7 +25,7 @@ RUN npm run build
 FROM node:alpine
 
 RUN apk add bash vips --no-cache \
-    --repository https://alpine.global.ssl.fastly.net/alpine/edge/community/
+    --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/community/
 
 WORKDIR /app
 
