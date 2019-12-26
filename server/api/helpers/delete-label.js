@@ -11,7 +11,7 @@ module.exports = {
 
   async fn(inputs, exits) {
     await CardLabel.destroy({
-      labelId: inputs.record.id,
+      labelId: input.srecord.id,
     });
 
     const label = await Label.archiveOne(inputs.record.id);
