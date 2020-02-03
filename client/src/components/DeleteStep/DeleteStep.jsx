@@ -5,9 +5,7 @@ import { Popup } from '../../lib/custom-ui';
 
 import styles from './DeleteStep.module.css';
 
-const DeleteStep = React.memo(({
-  title, content, buttonContent, onConfirm, onBack,
-}) => (
+const DeleteStep = React.memo(({ title, content, buttonContent, onConfirm, onBack }) => (
   <>
     <Popup.Header onBack={onBack}>{title}</Popup.Header>
     <Popup.Content>

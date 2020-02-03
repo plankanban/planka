@@ -19,7 +19,7 @@ module.exports = {
 
     const path = await sails.helpers
       .getBoardToProjectPath(label.boardId)
-      .intercept('notFound', (nodes) => ({
+      .intercept('notFound', nodes => ({
         notFound: {
           label,
           ...nodes,

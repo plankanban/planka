@@ -9,6 +9,4 @@ import Task from './Task';
 import Action from './Action';
 import Notification from './Notification';
 
-export {
-  User, Project, ProjectMembership, Board, List, Label, Card, Task, Action, Notification,
-};
+export { User, Project, ProjectMembership, Board, List, Label, Card, Task, Action, Notification };

@@ -12,16 +12,14 @@ import { ReactComponent as PlusIcon } from '../../assets/images/plus-icon.svg';
 
 import styles from './Projects.module.css';
 
-const Projects = React.memo(({
-  items, currentId, isEditable, onAdd,
-}) => {
+const Projects = React.memo(({ items, currentId, isEditable, onAdd }) => {
   const [t] = useTranslation();
 
   if (isUndefined(currentId)) {
     return (
       <Container className={styles.cardsWrapper}>
         <Grid className={styles.gridFix}>
-          {items.map((item) => (
+          {items.map(item => (
             <Grid.Column key={item.id} mobile={8} computer={4}>
               <Link
                 to={

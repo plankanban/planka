@@ -30,7 +30,7 @@ module.exports = {
       true,
     );
 
-    userIds.forEach((userId) => {
+    userIds.forEach(userId => {
       if (userId !== projectMembership.userId) {
         sails.sockets.broadcast(
           `user:${userId}`,

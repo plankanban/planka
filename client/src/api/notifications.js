@@ -4,20 +4,22 @@ import { transformAction } from './actions';
 
 /* Actions */
 
-const getNotifications = (headers) => socket.get('/notifications', undefined, headers).then((body) => ({
-  ...body,
-  included: {
-    ...body.included,
-    cards: body.included.cards.map(transformCard),
-    actions: body.included.actions.map(transformAction),
-  },
-}));
+const getNotifications = headers =>
+  socket.get('/notifications', undefined, headers).then(body => ({
+    ...body,
+    included: {
+      ...body.included,
+      cards: body.included.cards.map(transformCard),
+      actions: body.included.actions.map(transformAction),
+    },
+  }));
 
-const updateNotifications = (ids, data, headers) => socket.patch(`/notifications/${ids.join(',')}`, data, headers);
+const updateNotifications = (ids, data, headers) =>
+  socket.patch(`/notifications/${ids.join(',')}`, data, headers);
 
 /* Event handlers */
 
-const makeHandleNotificationCreate = (next) => (body) => {
+const makeHandleNotificationCreate = next => body => {
   next({
     ...body,
     included: {

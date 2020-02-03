@@ -42,9 +42,9 @@ module.exports = {
     return exits.success(
       inputs.withProjectMembership
         ? {
-          project,
-          projectMembership,
-        }
+            project,
+            projectMembership,
+          }
         : project,
     );
   },

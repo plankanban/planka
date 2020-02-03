@@ -7,9 +7,7 @@ import DeletePopup from '../DeletePopup';
 
 import styles from './Item.module.css';
 
-const Item = React.memo(({
-  name, email, isAdmin, onUpdate, onDelete,
-}) => {
+const Item = React.memo(({ name, email, isAdmin, onUpdate, onDelete }) => {
   const [t] = useTranslation();
 
   const handleIsAdminChange = useCallback(() => {

@@ -5,7 +5,7 @@ import { allUsersExceptCurrentSelector } from '../selectors';
 import { closeModal, deleteUser, updateUser } from '../actions/entry';
 import UsersModal from '../components/UsersModal';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const items = allUsersExceptCurrentSelector(state);
 
   return {
@@ -13,16 +13,14 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onUpdate: updateUser,
-    onDelete: deleteUser,
-    onClose: closeModal,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onUpdate: updateUser,
+      onDelete: deleteUser,
+      onClose: closeModal,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(UsersModal);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersModal);

@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createUser = (data) => ({
+export const createUser = data => ({
   type: ActionTypes.USER_CREATE,
   payload: {
     data,
@@ -22,21 +22,21 @@ export const updateUser = (id, data) => ({
   },
 });
 
-export const clearUserEmailUpdateError = (id) => ({
+export const clearUserEmailUpdateError = id => ({
   type: ActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR,
   payload: {
     id,
   },
 });
 
-export const clearUserPasswordUpdateError = (id) => ({
+export const clearUserPasswordUpdateError = id => ({
   type: ActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR,
   payload: {
     id,
   },
 });
 
-export const deleteUser = (id) => ({
+export const deleteUser = id => ({
   type: ActionTypes.USER_DELETE,
   payload: {
     id,
@@ -78,28 +78,28 @@ export const removeUserFromBoardFilter = (id, boardId) => ({
 
 /* Events */
 
-export const createUserRequested = (data) => ({
+export const createUserRequested = data => ({
   type: ActionTypes.USER_CREATE_REQUESTED,
   payload: {
     data,
   },
 });
 
-export const createUserSucceeded = (user) => ({
+export const createUserSucceeded = user => ({
   type: ActionTypes.USER_CREATE_SUCCEEDED,
   payload: {
     user,
   },
 });
 
-export const createUserFailed = (error) => ({
+export const createUserFailed = error => ({
   type: ActionTypes.USER_CREATE_FAILED,
   payload: {
     error,
   },
 });
 
-export const createUserReceived = (user) => ({
+export const createUserReceived = user => ({
   type: ActionTypes.USER_CREATE_RECEIVED,
   payload: {
     user,
@@ -111,14 +111,14 @@ export const fetchCurrentUserRequested = () => ({
   payload: {},
 });
 
-export const fetchCurrentUserSucceeded = (user) => ({
+export const fetchCurrentUserSucceeded = user => ({
   type: ActionTypes.CURRENT_USER_FETCH_SUCCEEDED,
   payload: {
     user,
   },
 });
 
-export const fetchCurrentUserFailed = (error) => ({
+export const fetchCurrentUserFailed = error => ({
   type: ActionTypes.CURRENT_USER_FETCH_FAILED,
   payload: {
     error,
@@ -133,7 +133,7 @@ export const updateUserRequested = (id, data) => ({
   },
 });
 
-export const updateUserSucceeded = (user) => ({
+export const updateUserSucceeded = user => ({
   type: ActionTypes.USER_UPDATE_SUCCEEDED,
   payload: {
     user,
@@ -148,7 +148,7 @@ export const updateUserFailed = (id, error) => ({
   },
 });
 
-export const updateUserReceived = (user) => ({
+export const updateUserReceived = user => ({
   type: ActionTypes.USER_UPDATE_RECEIVED,
   payload: {
     user,
@@ -187,7 +187,7 @@ export const updateUserPasswordRequested = (id, data) => ({
   },
 });
 
-export const updateUserPasswordSucceeded = (id) => ({
+export const updateUserPasswordSucceeded = id => ({
   type: ActionTypes.USER_PASSWORD_UPDATE_SUCCEEDED,
   payload: {
     id,
@@ -202,7 +202,7 @@ export const updateUserPasswordFailed = (id, error) => ({
   },
 });
 
-export const uploadUserAvatarRequested = (id) => ({
+export const uploadUserAvatarRequested = id => ({
   type: ActionTypes.USER_AVATAR_UPLOAD_REQUESTED,
   payload: {
     id,
@@ -225,14 +225,14 @@ export const uploadUserAvatarFailed = (id, error) => ({
   },
 });
 
-export const deleteUserRequested = (id) => ({
+export const deleteUserRequested = id => ({
   type: ActionTypes.USER_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteUserSucceeded = (user) => ({
+export const deleteUserSucceeded = user => ({
   type: ActionTypes.USER_DELETE_SUCCEEDED,
   payload: {
     user,
@@ -247,7 +247,7 @@ export const deleteUserFailed = (id, error) => ({
   },
 });
 
-export const deleteUserReceived = (user) => ({
+export const deleteUserReceived = user => ({
   type: ActionTypes.USER_DELETE_RECEIVED,
   payload: {
     user,

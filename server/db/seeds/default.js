@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
-exports.seed = (knex) => {
+exports.seed = knex => {
   const date = new Date().toUTCString();
 
   return knex('user').insert({

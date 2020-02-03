@@ -16,7 +16,7 @@ export const updateCard = (id, data) => ({
   },
 });
 
-export const updateCurrentCard = (data) => ({
+export const updateCurrentCard = data => ({
   type: EntryActionTypes.CURRENT_CARD_UPDATE,
   payload: {
     data,
@@ -32,7 +32,7 @@ export const moveCard = (id, listId, index) => ({
   },
 });
 
-export const deleteCard = (id) => ({
+export const deleteCard = id => ({
   type: EntryActionTypes.CARD_DELETE,
   payload: {
     id,

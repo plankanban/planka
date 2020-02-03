@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createTask = (task) => ({
+export const createTask = task => ({
   type: ActionTypes.TASK_CREATE,
   payload: {
     task,
@@ -17,7 +17,7 @@ export const updateTask = (id, data) => ({
   },
 });
 
-export const deleteTask = (id) => ({
+export const deleteTask = id => ({
   type: ActionTypes.TASK_DELETE,
   payload: {
     id,
@@ -50,7 +50,7 @@ export const createTaskFailed = (localId, error) => ({
   },
 });
 
-export const createTaskReceived = (task) => ({
+export const createTaskReceived = task => ({
   type: ActionTypes.TASK_CREATE_RECEIVED,
   payload: {
     task,
@@ -65,7 +65,7 @@ export const updateTaskRequested = (id, data) => ({
   },
 });
 
-export const updateTaskSucceeded = (task) => ({
+export const updateTaskSucceeded = task => ({
   type: ActionTypes.TASK_UPDATE_SUCCEEDED,
   payload: {
     task,
@@ -80,21 +80,21 @@ export const updateTaskFailed = (id, error) => ({
   },
 });
 
-export const updateTaskReceived = (task) => ({
+export const updateTaskReceived = task => ({
   type: ActionTypes.TASK_UPDATE_RECEIVED,
   payload: {
     task,
   },
 });
 
-export const deleteTaskRequested = (id) => ({
+export const deleteTaskRequested = id => ({
   type: ActionTypes.TASK_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteTaskSucceeded = (task) => ({
+export const deleteTaskSucceeded = task => ({
   type: ActionTypes.TASK_DELETE_SUCCEEDED,
   payload: {
     task,
@@ -109,7 +109,7 @@ export const deleteTaskFailed = (id, error) => ({
   },
 });
 
-export const deleteTaskReceived = (task) => ({
+export const deleteTaskReceived = task => ({
   type: ActionTypes.TASK_DELETE_RECEIVED,
   payload: {
     task,

@@ -5,7 +5,7 @@ import { currentUserSelector, pathSelector, projectsForCurrentUserSelector } fro
 import { openAddProjectModal } from '../actions/entry';
 import Projects from '../components/Projects';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { projectId } = pathSelector(state);
   const { isAdmin } = currentUserSelector(state);
   const projects = projectsForCurrentUserSelector(state);
@@ -17,14 +17,12 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onAdd: openAddProjectModal,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onAdd: openAddProjectModal,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Projects);
+export default connect(mapStateToProps, mapDispatchToProps)(Projects);

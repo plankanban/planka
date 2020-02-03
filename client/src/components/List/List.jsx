@@ -15,9 +15,7 @@ import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-ic
 import styles from './List.module.css';
 
 const List = React.memo(
-  ({
-    id, index, name, isPersisted, cardIds, onUpdate, onDelete, onCardCreate,
-  }) => {
+  ({ id, index, name, isPersisted, cardIds, onUpdate, onDelete, onCardCreate }) => {
     const [t] = useTranslation();
 
     const addCard = useRef(null);
@@ -30,7 +28,7 @@ const List = React.memo(
     }, [isPersisted]);
 
     const handleNameUpdate = useCallback(
-      (newName) => {
+      newName => {
         onUpdate({
           name: newName,
         });

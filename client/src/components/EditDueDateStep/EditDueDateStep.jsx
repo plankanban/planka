@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useMemo, useRef,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import DatePicker from 'react-datepicker';
@@ -12,9 +10,7 @@ import { useForm } from '../../hooks';
 
 import styles from './EditDueDateStep.module.css';
 
-const EditDueDateStep = React.memo(({
-  defaultValue, onUpdate, onBack, onClose,
-}) => {
+const EditDueDateStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange, setData] = useForm(() => {
@@ -51,8 +47,8 @@ const EditDueDateStep = React.memo(({
   }, [data.date, t]);
 
   const handleDatePickerChange = useCallback(
-    (date) => {
-      setData((prevData) => ({
+    date => {
+      setData(prevData => ({
         ...prevData,
         date: t('format:date', {
           postProcess: 'formatDate',

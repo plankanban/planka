@@ -8,22 +8,34 @@
     "db:init": "cd db && node init.js",
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
-    "format": "prettier-eslint --write \"**/*.js\"",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "start": "npm run db:init && NODE_ENV=production node app.js",
     "start:dev": "nodemon",
     "test": "npm run lint && npm run custom-tests && echo 'Done.'"
   },
   "eslintConfig": {
-    "extends": "airbnb-base",
+    "plugins": [
+      "prettier"
+    ],
+    "extends": [
+      "airbnb-base",
+      "plugin:prettier/recommended"
+    ],
+    "rules": {
+      "no-throw-literal": "off",
+      "no-undef": "off",
+      "prettier/prettier": [
+        "error",
+        {
+          "printWidth": 100,
+          "singleQuote": true,
+          "trailingComma": "all"
+        }
+      ]
+    },
     "globals": {
       "_": true,
       "sails": true
-    },
-    "rules": {
-      "no-param-reassign": "off",
-      "no-throw-literal": "off",
-      "no-undef": "off"
     }
   },
   "dependencies": {
@@ -31,23 +43,24 @@
     "dotenv": "^8.2.0",
     "dotenv-cli": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.20.7",
+    "knex": "^0.20.8",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "sails": "^1.2.3",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
-    "sharp": "^0.23.4",
-    "uuid": "^3.3.3"
+    "sharp": "^0.24.0",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "nodemon": "^2.0.2",
-    "prettier-eslint": "^9.0.1",
-    "prettier-eslint-cli": "^5.0.0"
+    "prettier": "1.19.1"
   },
   "engines": {
     "node": "^12.10"

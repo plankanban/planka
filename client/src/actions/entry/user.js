@@ -1,6 +1,6 @@
 import EntryActionTypes from '../../constants/EntryActionTypes';
 
-export const createUser = (data) => ({
+export const createUser = data => ({
   type: EntryActionTypes.USER_CREATE,
   payload: {
     data,
@@ -20,14 +20,14 @@ export const updateUser = (id, data) => ({
   },
 });
 
-export const updateCurrentUser = (data) => ({
+export const updateCurrentUser = data => ({
   type: EntryActionTypes.CURRENT_USER_UPDATE,
   payload: {
     data,
   },
 });
 
-export const updateCurrentUserEmail = (data) => ({
+export const updateCurrentUserEmail = data => ({
   type: EntryActionTypes.CURRENT_USER_EMAIL_UPDATE,
   payload: {
     data,
@@ -39,7 +39,7 @@ export const clearCurrentUserEmailUpdateError = () => ({
   payload: {},
 });
 
-export const updateCurrentUserPassword = (data) => ({
+export const updateCurrentUserPassword = data => ({
   type: EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE,
   payload: {
     data,
@@ -51,14 +51,14 @@ export const clearCurrentUserPasswordUpdateError = () => ({
   payload: {},
 });
 
-export const uploadCurrentUserAvatar = (file) => ({
+export const uploadCurrentUserAvatar = file => ({
   type: EntryActionTypes.CURRENT_USER_AVATAR_UPLOAD,
   payload: {
     file,
   },
 });
 
-export const deleteUser = (id) => ({
+export const deleteUser = id => ({
   type: EntryActionTypes.USER_DELETE,
   payload: {
     id,
@@ -73,7 +73,7 @@ export const addUserToCard = (id, cardId) => ({
   },
 });
 
-export const addUserToCurrentCard = (id) => ({
+export const addUserToCurrentCard = id => ({
   type: EntryActionTypes.USER_TO_CURRENT_CARD_ADD,
   payload: {
     id,
@@ -88,21 +88,21 @@ export const removeUserFromCard = (id, cardId) => ({
   },
 });
 
-export const removeUserFromCurrentCard = (id) => ({
+export const removeUserFromCurrentCard = id => ({
   type: EntryActionTypes.USER_FROM_CURRENT_CARD_REMOVE,
   payload: {
     id,
   },
 });
 
-export const addUserToFilterInCurrentBoard = (id) => ({
+export const addUserToFilterInCurrentBoard = id => ({
   type: EntryActionTypes.USER_TO_FILTER_IN_CURRENT_BOARD_ADD,
   payload: {
     id,
   },
 });
 
-export const removeUserFromFilterInCurrentBoard = (id) => ({
+export const removeUserFromFilterInCurrentBoard = id => ({
   type: EntryActionTypes.USER_FROM_FILTER_IN_CURRENT_BOARD_REMOVE,
   payload: {
     id,

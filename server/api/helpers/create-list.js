@@ -6,7 +6,7 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
+      custom: value => _.isPlainObject(value) && _.isFinite(value.position),
       required: true,
     },
     request: {

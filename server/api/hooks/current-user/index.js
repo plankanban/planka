@@ -9,7 +9,7 @@
 module.exports = function defineCurrentUserHook(sails) {
   const TOKEN_PATTERN = /^Bearer /;
 
-  const getUser = async (accessToken) => {
+  const getUser = async accessToken => {
     let id;
 
     try {

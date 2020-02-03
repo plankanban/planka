@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useImperativeHandle, useRef, useState,
-} from 'react';
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -52,7 +50,7 @@ const EditName = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
   );
 
   const handleFieldKeyDown = useCallback(
-    (event) => {
+    event => {
       if (event.key === 'Enter') {
         event.preventDefault();
 

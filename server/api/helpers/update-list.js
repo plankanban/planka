@@ -6,8 +6,8 @@ module.exports = {
     },
     values: {
       type: 'json',
-      // eslint-disable-next-line max-len
-      custom: (value) => _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
+      custom: value =>
+        _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
       required: true,
     },
     request: {
@@ -24,7 +24,7 @@ module.exports = {
         lists,
       );
 
-      inputs.values.position = position;
+      inputs.values.position = position; // eslint-disable-line no-param-reassign
 
       repositions.forEach(async ({ id, position: nextPosition }) => {
         await List.update({

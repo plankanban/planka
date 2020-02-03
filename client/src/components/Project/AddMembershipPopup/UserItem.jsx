@@ -6,9 +6,7 @@ import User from '../../User';
 
 import styles from './UserItem.module.css';
 
-const UserItem = React.memo(({
-  name, avatar, isActive, onSelect,
-}) => (
+const UserItem = React.memo(({ name, avatar, isActive, onSelect }) => (
   <button
     type="button"
     disabled={isActive}

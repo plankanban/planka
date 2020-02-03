@@ -15,9 +15,7 @@ const StepTypes = {
   DELETE: 'DELETE',
 };
 
-const EditStep = React.memo(({
-  defaultData, onUpdate, onDelete, onClose,
-}) => {
+const EditStep = React.memo(({ defaultData, onUpdate, onDelete, onClose }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({

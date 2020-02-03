@@ -6,7 +6,7 @@ const DragScroller = React.memo(({ children, ...props }) => {
   const prevPosition = useRef(null);
 
   const handleMouseDown = useCallback(
-    (event) => {
+    event => {
       if (event.target !== wrapper.current && !event.target.dataset.dragScroller) {
         return;
       }
@@ -17,7 +17,7 @@ const DragScroller = React.memo(({ children, ...props }) => {
   );
 
   const handleWindowMouseMove = useCallback(
-    (event) => {
+    event => {
       if (!prevPosition.current) {
         return;
       }

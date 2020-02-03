@@ -6,8 +6,8 @@ module.exports = {
     },
     values: {
       type: 'json',
-      // eslint-disable-next-line max-len
-      custom: (value) => _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
+      custom: value =>
+        _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
       required: true,
     },
     request: {
@@ -29,7 +29,7 @@ module.exports = {
         boards,
       );
 
-      inputs.values.position = position;
+      inputs.values.position = position; // eslint-disable-line no-param-reassign
 
       repositions.forEach(async ({ id, position: nextPosition }) => {
         await Board.update({
@@ -39,7 +39,7 @@ module.exports = {
           position: nextPosition,
         });
 
-        userIds.forEach((userId) => {
+        userIds.forEach(userId => {
           sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
             item: {
               id,
@@ -53,7 +53,7 @@ module.exports = {
     const board = await Board.updateOne(inputs.record.id).set(inputs.values);
 
     if (board) {
-      userIds.forEach((userId) => {
+      userIds.forEach(userId => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'boardUpdate',

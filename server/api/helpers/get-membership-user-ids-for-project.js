@@ -2,7 +2,7 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: (value) => _.isString(value) || _.isArray(value),
+      custom: value => _.isString(value) || _.isArray(value),
       required: true,
     },
     withProjectMemberships: {
@@ -19,9 +19,9 @@ module.exports = {
     return exits.success(
       inputs.withProjectMemberships
         ? {
-          userIds,
-          projectMemberships,
-        }
+            userIds,
+            projectMemberships,
+          }
         : userIds,
     );
   },

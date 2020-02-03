@@ -3,6 +3,6 @@ import { LOCATION_CHANGE } from 'connected-react-router';
 
 import { locationChangedService } from '../services';
 
-export default function* () {
+export default function*() {
   yield takeEvery(LOCATION_CHANGE, () => locationChangedService());
 }

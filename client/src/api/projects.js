@@ -2,7 +2,7 @@ import socket from './socket';
 
 /* Actions */
 
-const getProjects = (headers) => socket.get('/projects', undefined, headers);
+const getProjects = headers => socket.get('/projects', undefined, headers);
 
 const createProject = (data, headers) => socket.post('/projects', data, headers);
 

@@ -4,8 +4,8 @@ module.exports = {
   inputs: {
     values: {
       type: 'json',
-      // eslint-disable-next-line max-len
-      custom: (value) => _.isPlainObject(value) && _.isString(value.email) && _.isString(value.password),
+      custom: value =>
+        _.isPlainObject(value) && _.isString(value.email) && _.isString(value.password),
       required: true,
     },
     request: {
@@ -34,7 +34,7 @@ module.exports = {
 
     const userIds = await sails.helpers.getAdminUserIds();
 
-    userIds.forEach((userId) => {
+    userIds.forEach(userId => {
       sails.sockets.broadcast(
         `user:${userId}`,
         'userCreate',

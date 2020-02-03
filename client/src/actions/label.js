@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createLabel = (label) => ({
+export const createLabel = label => ({
   type: ActionTypes.LABEL_CREATE,
   payload: {
     label,
@@ -17,7 +17,7 @@ export const updateLabel = (id, data) => ({
   },
 });
 
-export const deleteLabel = (id) => ({
+export const deleteLabel = id => ({
   type: ActionTypes.LABEL_DELETE,
   payload: {
     id,
@@ -82,7 +82,7 @@ export const createLabelFailed = (localId, error) => ({
   },
 });
 
-export const createLabelReceived = (label) => ({
+export const createLabelReceived = label => ({
   type: ActionTypes.LABEL_CREATE_RECEIVED,
   payload: {
     label,
@@ -97,7 +97,7 @@ export const updateLabelRequested = (id, data) => ({
   },
 });
 
-export const updateLabelSucceeded = (label) => ({
+export const updateLabelSucceeded = label => ({
   type: ActionTypes.LABEL_UPDATE_SUCCEEDED,
   payload: {
     label,
@@ -112,21 +112,21 @@ export const updateLabelFailed = (id, error) => ({
   },
 });
 
-export const updateLabelReceived = (label) => ({
+export const updateLabelReceived = label => ({
   type: ActionTypes.LABEL_UPDATE_RECEIVED,
   payload: {
     label,
   },
 });
 
-export const deleteLabelRequested = (id) => ({
+export const deleteLabelRequested = id => ({
   type: ActionTypes.LABEL_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteLabelSucceeded = (label) => ({
+export const deleteLabelSucceeded = label => ({
   type: ActionTypes.LABEL_DELETE_SUCCEEDED,
   payload: {
     label,
@@ -141,7 +141,7 @@ export const deleteLabelFailed = (id, error) => ({
   },
 });
 
-export const deleteLabelReceived = (label) => ({
+export const deleteLabelReceived = label => ({
   type: ActionTypes.LABEL_DELETE_RECEIVED,
   payload: {
     label,

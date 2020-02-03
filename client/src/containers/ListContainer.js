@@ -23,16 +23,14 @@ const makeMapStateToProps = () => {
   };
 };
 
-const mapDispatchToProps = (dispatch, { id }) => bindActionCreators(
-  {
-    onUpdate: (data) => updateList(id, data),
-    onDelete: () => deleteList(id),
-    onCardCreate: (data) => createCard(id, data),
-  },
-  dispatch,
-);
+const mapDispatchToProps = (dispatch, { id }) =>
+  bindActionCreators(
+    {
+      onUpdate: data => updateList(id, data),
+      onDelete: () => deleteList(id),
+      onCardCreate: data => createCard(id, data),
+    },
+    dispatch,
+  );
 
-export default connect(
-  makeMapStateToProps,
-  mapDispatchToProps,
-)(List);
+export default connect(makeMapStateToProps, mapDispatchToProps)(List);

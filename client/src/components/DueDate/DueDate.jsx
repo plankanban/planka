@@ -35,9 +35,7 @@ const FORMATS = {
   medium: 'longDateTime',
 };
 
-const DueDate = React.memo(({
-  value, size, isDisabled, onClick,
-}) => {
+const DueDate = React.memo(({ value, size, isDisabled, onClick }) => {
   const [t] = useTranslation();
 
   const style = {

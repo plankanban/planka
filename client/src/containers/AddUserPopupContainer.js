@@ -10,15 +10,13 @@ const mapStateToProps = ({ userCreateForm: { data: defaultData, isSubmitting, er
   error,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onCreate: createUser,
-    onMessageDismiss: clearUserCreateError,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onCreate: createUser,
+      onMessageDismiss: clearUserCreateError,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AddUserPopup);
+export default connect(mapStateToProps, mapDispatchToProps)(AddUserPopup);

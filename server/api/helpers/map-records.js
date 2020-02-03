@@ -4,7 +4,7 @@ module.exports = {
   inputs: {
     records: {
       type: 'ref',
-      custom: (value) => _.isArray(value),
+      custom: value => _.isArray(value),
       required: true,
     },
     attribute: {

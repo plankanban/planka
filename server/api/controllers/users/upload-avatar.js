@@ -45,7 +45,7 @@ const createReceiver = () => {
     try {
       await pipeline(file, resize, transform);
 
-      file.fd = `${uuid()}.jpg`;
+      file.fd = `${uuid()}.jpg`; // eslint-disable-line no-param-reassign
 
       await pipeline(
         transform,

@@ -80,13 +80,13 @@ module.exports.models = {
   },
 
   beforeCreate(valuesToSet, proceed) {
-    valuesToSet.createdAt = new Date().toUTCString();
+    valuesToSet.createdAt = new Date().toUTCString(); // eslint-disable-line no-param-reassign
 
     proceed();
   },
 
   beforeUpdate(valuesToSet, proceed) {
-    valuesToSet.updatedAt = new Date().toUTCString();
+    valuesToSet.updatedAt = new Date().toUTCString(); // eslint-disable-line no-param-reassign
 
     proceed();
   },

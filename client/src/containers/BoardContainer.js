@@ -23,7 +23,7 @@ import {
 } from '../actions/entry';
 import Board from '../components/Board';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { cardId } = pathSelector(state);
   const allProjectMemberships = membershipsForCurrentProjectSelector(state);
   const listIds = listIdsForCurrentBoardSelector(state);
@@ -41,23 +41,21 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onListCreate: createListInCurrentBoard,
-    onCardMove: moveCard,
-    onListMove: moveList,
-    onUserToFilterAdd: addUserToFilterInCurrentBoard,
-    onUserFromFilterRemove: removeUserFromFilterInCurrentBoard,
-    onLabelToFilterAdd: addLabelToFilterInCurrentBoard,
-    onLabelFromFilterRemove: removeLabelFromFilterInCurrentBoard,
-    onLabelCreate: createLabelInCurrentBoard,
-    onLabelUpdate: updateLabel,
-    onLabelDelete: deleteLabel,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onListCreate: createListInCurrentBoard,
+      onCardMove: moveCard,
+      onListMove: moveList,
+      onUserToFilterAdd: addUserToFilterInCurrentBoard,
+      onUserFromFilterRemove: removeUserFromFilterInCurrentBoard,
+      onLabelToFilterAdd: addLabelToFilterInCurrentBoard,
+      onLabelFromFilterRemove: removeLabelFromFilterInCurrentBoard,
+      onLabelCreate: createLabelInCurrentBoard,
+      onLabelUpdate: updateLabel,
+      onLabelDelete: deleteLabel,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Board);
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

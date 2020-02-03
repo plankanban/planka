@@ -6,8 +6,8 @@ module.exports = {
     },
     values: {
       type: 'json',
-      // eslint-disable-next-line max-len
-      custom: (value) => _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
+      custom: value =>
+        _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
       required: true,
     },
     toList: {
@@ -36,7 +36,7 @@ module.exports = {
       if (listId !== inputs.list.id) {
         values.listId = listId;
       } else {
-        delete inputs.toList;
+        delete inputs.toList; // eslint-disable-line no-param-reassign
       }
     } else {
       listId = inputs.list.id;

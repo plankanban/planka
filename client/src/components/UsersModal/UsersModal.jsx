@@ -6,9 +6,7 @@ import { Button, Modal, Table } from 'semantic-ui-react';
 import AddUserPopupContainer from '../../containers/AddUserPopupContainer';
 import Item from './Item';
 
-const UsersModal = React.memo(({
-  items, onUpdate, onDelete, onClose,
-}) => {
+const UsersModal = React.memo(({ items, onUpdate, onDelete, onClose }) => {
   const [t] = useTranslation();
 
   const handleUpdate = useCallback(
@@ -19,7 +17,7 @@ const UsersModal = React.memo(({
   );
 
   const handleDelete = useCallback(
-    (id) => {
+    id => {
       onDelete(id);
     },
     [onDelete],
@@ -43,13 +41,13 @@ const UsersModal = React.memo(({
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {items.map((item) => (
+            {items.map(item => (
               <Item
                 key={item.id}
                 name={item.name}
                 email={item.email}
                 isAdmin={item.isAdmin}
-                onUpdate={(data) => handleUpdate(item.id, data)}
+                onUpdate={data => handleUpdate(item.id, data)}
                 onDelete={() => handleDelete(item.id)}
               />
             ))}

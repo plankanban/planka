@@ -15,24 +15,25 @@ const { socket } = io;
 
 socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
 
-['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach((method) => {
-  socket[method.toLowerCase()] = (url, data, headers) => new Promise((resolve, reject) => {
-    socket.request(
-      {
-        method,
-        data,
-        headers,
-        url: `/api${url}`,
-      },
-      (_, { body, error }) => {
-        if (error) {
-          reject(body);
-        } else {
-          resolve(body);
-        }
-      },
-    );
-  });
+['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach(method => {
+  socket[method.toLowerCase()] = (url, data, headers) =>
+    new Promise((resolve, reject) => {
+      socket.request(
+        {
+          method,
+          data,
+          headers,
+          url: `/api${url}`,
+        },
+        (_, { body, error }) => {
+          if (error) {
+            reject(body);
+          } else {
+            resolve(body);
+          }
+        },
+      );
+    });
 });
 
 export default socket;

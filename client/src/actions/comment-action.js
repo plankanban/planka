@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createCommentAction = (action) => ({
+export const createCommentAction = action => ({
   type: ActionTypes.COMMENT_ACTION_CREATE,
   payload: {
     action,
@@ -17,7 +17,7 @@ export const updateCommentAction = (id, data) => ({
   },
 });
 
-export const deleteCommentAction = (id) => ({
+export const deleteCommentAction = id => ({
   type: ActionTypes.COMMENT_ACTION_DELETE,
   payload: {
     id,
@@ -58,7 +58,7 @@ export const updateCommentActionRequested = (id, data) => ({
   },
 });
 
-export const updateCommentActionSucceeded = (action) => ({
+export const updateCommentActionSucceeded = action => ({
   type: ActionTypes.COMMENT_ACTION_UPDATE_SUCCEEDED,
   payload: {
     action,
@@ -73,14 +73,14 @@ export const updateCommentActionFailed = (id, error) => ({
   },
 });
 
-export const deleteCommentActionRequested = (id) => ({
+export const deleteCommentActionRequested = id => ({
   type: ActionTypes.COMMENT_ACTION_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteCommentActionSucceeded = (action) => ({
+export const deleteCommentActionSucceeded = action => ({
   type: ActionTypes.COMMENT_ACTION_DELETE_SUCCEEDED,
   payload: {
     action,

@@ -14,9 +14,7 @@ const StepTypes = {
   DELETE: 'DELETE',
 };
 
-const ActionsStep = React.memo(({
-  onNameEdit, onCardAdd, onDelete, onClose,
-}) => {
+const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onClose }) => {
   const [t] = useTranslation();
   const [step, openStep, handleBack] = useSteps();
 

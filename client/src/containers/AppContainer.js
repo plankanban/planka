@@ -4,7 +4,7 @@ import { currentModalSelector } from '../selectors';
 import ModalTypes from '../constants/ModalTypes';
 import App from '../components/App';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const currentModal = currentModalSelector(state);
 
   return {

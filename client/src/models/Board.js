@@ -1,6 +1,4 @@
-import {
-  Model, attr, fk, many,
-} from 'redux-orm';
+import { Model, attr, fk, many } from 'redux-orm';
 
 import ActionTypes from '../constants/ActionTypes';
 
@@ -36,7 +34,7 @@ export default class extends Model {
       case ActionTypes.PROJECTS_FETCH_SUCCEEDED:
       case ActionTypes.PROJECT_CREATE_SUCCEEDED:
       case ActionTypes.PROJECT_CREATE_RECEIVED:
-        payload.boards.forEach((board) => {
+        payload.boards.forEach(board => {
           Board.upsert(board);
         });
 
@@ -100,7 +98,7 @@ export default class extends Model {
   }
 
   deleteWithRelated() {
-    this.cards.toModelArray().forEach((cardModel) => {
+    this.cards.toModelArray().forEach(cardModel => {
       cardModel.deleteWithRelated();
     });
 
