@@ -34,7 +34,7 @@ import {
 import Paths from '../constants/Paths';
 import CardModal from '../components/CardModal';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { isAdmin } = currentUserSelector(state);
   const allProjectMemberships = membershipsForCurrentProjectSelector(state);
   const allLabels = labelsForCurrentBoardSelector(state);
@@ -74,28 +74,29 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onUpdate: updateCurrentCard,
-    onDelete: deleteCurrentCard,
-    onUserAdd: addUserToCurrentCard,
-    onUserRemove: removeUserFromCurrentCard,
-    onLabelAdd: addLabelToCurrentCard,
-    onLabelRemove: removeLabelFromCurrentCard,
-    onLabelCreate: createLabelInCurrentBoard,
-    onLabelUpdate: updateLabel,
-    onLabelDelete: deleteLabel,
-    onTaskCreate: createTaskInCurrentCard,
-    onTaskUpdate: updateTask,
-    onTaskDelete: deleteTask,
-    onActionsFetch: fetchActionsInCurrentCard,
-    onCommentActionCreate: createCommentActionInCurrentCard,
-    onCommentActionUpdate: updateCommentAction,
-    onCommentActionDelete: deleteCommentAction,
-    push,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onUpdate: updateCurrentCard,
+      onDelete: deleteCurrentCard,
+      onUserAdd: addUserToCurrentCard,
+      onUserRemove: removeUserFromCurrentCard,
+      onLabelAdd: addLabelToCurrentCard,
+      onLabelRemove: removeLabelFromCurrentCard,
+      onLabelCreate: createLabelInCurrentBoard,
+      onLabelUpdate: updateLabel,
+      onLabelDelete: deleteLabel,
+      onTaskCreate: createTaskInCurrentCard,
+      onTaskUpdate: updateTask,
+      onTaskDelete: deleteTask,
+      onActionsFetch: fetchActionsInCurrentCard,
+      onCommentActionCreate: createCommentActionInCurrentCard,
+      onCommentActionUpdate: updateCommentAction,
+      onCommentActionDelete: deleteCommentAction,
+      push,
+    },
+    dispatch,
+  );
 
 const mergeProps = (stateProps, dispatchProps) => ({
   ...omit(stateProps, 'boardId'),
@@ -103,8 +104,4 @@ const mergeProps = (stateProps, dispatchProps) => ({
   onClose: () => dispatchProps.push(Paths.BOARDS.replace(':id', stateProps.boardId)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  mergeProps,
-)(CardModal);
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(CardModal);

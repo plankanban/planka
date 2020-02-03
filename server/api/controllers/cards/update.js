@@ -34,15 +34,16 @@ module.exports = {
     },
     dueDate: {
       type: 'string',
-      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
+      custom: value => moment(value, moment.ISO_8601, true).isValid(),
       allowNull: true,
     },
     timer: {
       type: 'json',
-      custom: (value) => _.isPlainObject(value)
-        && _.size(value) === 2
-        && (_.isNull(value.startedAt) || moment(value.startedAt, moment.ISO_8601, true).isValid())
-        && _.isFinite(value.total),
+      custom: value =>
+        _.isPlainObject(value) &&
+        _.size(value) === 2 &&
+        (_.isNull(value.startedAt) || moment(value.startedAt, moment.ISO_8601, true).isValid()) &&
+        _.isFinite(value.total),
     },
     isSubscribed: {
       type: 'boolean',

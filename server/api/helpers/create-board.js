@@ -6,7 +6,7 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
+      custom: value => _.isPlainObject(value) && _.isFinite(value.position),
       required: true,
     },
     request: {
@@ -32,7 +32,7 @@ module.exports = {
         position: nextPosition,
       });
 
-      userIds.forEach((userId) => {
+      userIds.forEach(userId => {
         sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
           item: {
             id,
@@ -48,7 +48,7 @@ module.exports = {
       projectId: inputs.project.id,
     }).fetch();
 
-    userIds.forEach((userId) => {
+    userIds.forEach(userId => {
       sails.sockets.broadcast(
         `user:${userId}`,
         'boardCreate',

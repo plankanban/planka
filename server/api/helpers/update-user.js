@@ -10,9 +10,10 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => _.isPlainObject(value)
-        && (_.isUndefined(value.email) || _.isString(value.email))
-        && (_.isUndefined(value.password) || _.isString(value.password)),
+      custom: value =>
+        _.isPlainObject(value) &&
+        (_.isUndefined(value.email) || _.isString(value.email)) &&
+        (_.isUndefined(value.password) || _.isString(value.password)),
       required: true,
     },
     request: {
@@ -26,12 +27,14 @@ module.exports = {
 
   async fn(inputs, exits) {
     if (!_.isUndefined(inputs.values.email)) {
+      // eslint-disable-next-line no-param-reassign
       inputs.values.email = inputs.values.email.toLowerCase();
     }
 
     let isOnlyPasswordChange = false;
 
     if (!_.isUndefined(inputs.values.password)) {
+      // eslint-disable-next-line no-param-reassign
       inputs.values.password = bcrypt.hashSync(inputs.values.password, 10);
 
       if (Object.keys(inputs.values).length === 1) {
@@ -70,7 +73,7 @@ module.exports = {
 
         const userIds = _.union([user.id], adminUserIds, userIdsForProject);
 
-        userIds.forEach((userId) => {
+        userIds.forEach(userId => {
           sails.sockets.broadcast(
             `user:${userId}`,
             'userUpdate',

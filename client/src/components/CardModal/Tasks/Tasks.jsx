@@ -8,9 +8,7 @@ import Add from './Add';
 
 import styles from './Tasks.module.css';
 
-const Tasks = React.memo(({
-  items, onCreate, onUpdate, onDelete,
-}) => {
+const Tasks = React.memo(({ items, onCreate, onUpdate, onDelete }) => {
   const [t] = useTranslation();
 
   const handleUpdate = useCallback(
@@ -21,13 +19,13 @@ const Tasks = React.memo(({
   );
 
   const handleDelete = useCallback(
-    (id) => {
+    id => {
       onDelete(id);
     },
     [onDelete],
   );
 
-  const completedItems = items.filter((item) => item.isCompleted);
+  const completedItems = items.filter(item => item.isCompleted);
 
   return (
     <>
@@ -41,13 +39,13 @@ const Tasks = React.memo(({
           className={styles.progress}
         />
       )}
-      {items.map((item) => (
+      {items.map(item => (
         <Item
           key={item.id}
           name={item.name}
           isCompleted={item.isCompleted}
           isPersisted={item.isPersisted}
-          onUpdate={(data) => handleUpdate(item.id, data)}
+          onUpdate={data => handleUpdate(item.id, data)}
           onDelete={() => handleDelete(item.id)}
         />
       ))}

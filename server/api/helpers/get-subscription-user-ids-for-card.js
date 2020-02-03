@@ -2,12 +2,12 @@ module.exports = {
   inputs: {
     id: {
       type: 'json',
-      custom: (value) => _.isString(value) || _.isArray(value),
+      custom: value => _.isString(value) || _.isArray(value),
       required: true,
     },
     exceptUserId: {
       type: 'json',
-      custom: (value) => _.isString(value) || _.isArray(value),
+      custom: value => _.isString(value) || _.isArray(value),
     },
     withCardSubscriptions: {
       type: 'boolean',
@@ -26,9 +26,9 @@ module.exports = {
     return exits.success(
       inputs.withCardSubscriptions
         ? {
-          userIds,
-          cardSubscriptions,
-        }
+            userIds,
+            cardSubscriptions,
+          }
         : userIds,
     );
   },

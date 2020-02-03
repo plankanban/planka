@@ -7,9 +7,7 @@ import User from '../User';
 
 import styles from './Item.module.css';
 
-const Item = React.memo(({
-  isPersisted, isActive, user, onUserSelect, onUserDeselect,
-}) => {
+const Item = React.memo(({ isPersisted, isActive, user, onUserSelect, onUserDeselect }) => {
   const handleToggleClick = useCallback(() => {
     if (isActive) {
       onUserDeselect();

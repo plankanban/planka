@@ -7,13 +7,11 @@ import { useToggle } from '../../lib/hooks';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
-import {
-  createTimer, getTimerParts, startTimer, stopTimer, updateTimer,
-} from '../../utils/timer';
+import { createTimer, getTimerParts, startTimer, stopTimer, updateTimer } from '../../utils/timer';
 
 import styles from './EditTimerStep.module.css';
 
-const createData = (timer) => {
+const createData = timer => {
   if (!timer) {
     return {
       hours: '0',
@@ -31,9 +29,7 @@ const createData = (timer) => {
   };
 };
 
-const EditTimerStep = React.memo(({
-  defaultValue, onUpdate, onBack, onClose,
-}) => {
+const EditTimerStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
   const [t] = useTranslation();
   const [data, handleFieldChange, setData] = useForm(() => createData(defaultValue));
   const [isEditing, toggleEdit] = useToggle();
@@ -158,8 +154,8 @@ const EditTimerStep = React.memo(({
           </div>
           {isEditing && <Button positive content={t('action.save')} />}
         </Form>
-        {!isEditing
-          && (defaultValue && defaultValue.startedAt ? (
+        {!isEditing &&
+          (defaultValue && defaultValue.startedAt ? (
             <Button positive content={t('action.stop')} icon="pause" onClick={handleStopClick} />
           ) : (
             <Button positive content={t('action.start')} icon="play" onClick={handleStartClick} />

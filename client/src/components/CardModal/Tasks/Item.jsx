@@ -8,9 +8,7 @@ import ActionsPopup from './ActionsPopup';
 
 import styles from './Item.module.css';
 
-const Item = React.memo(({
-  name, isCompleted, isPersisted, onUpdate, onDelete,
-}) => {
+const Item = React.memo(({ name, isCompleted, isPersisted, onUpdate, onDelete }) => {
   const editName = useRef(null);
 
   const handleClick = useCallback(() => {
@@ -20,7 +18,7 @@ const Item = React.memo(({
   }, [isPersisted]);
 
   const handleNameUpdate = useCallback(
-    (newName) => {
+    newName => {
       onUpdate({
         name: newName,
       });

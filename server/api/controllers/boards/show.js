@@ -64,9 +64,10 @@ module.exports = {
       {},
     );
 
-    cards.forEach((card) => {
-      card.isSubscribed = isSubscribedByCardId[card.id] || false;
-    });
+    cards.map(card => ({
+      ...card,
+      isSubscribed: isSubscribedByCardId[card.id] || false,
+    }));
 
     sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed
 

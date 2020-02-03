@@ -8,9 +8,7 @@ import { useField } from '../../hooks';
 
 import styles from './EditNameStep.module.css';
 
-const EditNameStep = React.memo(({
-  defaultValue, onUpdate, onBack, onClose,
-}) => {
+const EditNameStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
   const [t] = useTranslation();
   const [value, handleFieldChange] = useField(defaultValue);
 

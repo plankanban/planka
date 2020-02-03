@@ -9,9 +9,7 @@ import User from '../User';
 import styles from './EditAvatarStep.module.css';
 
 const EditAvatarStep = React.memo(
-  ({
-    defaultValue, name, isUploading, onUpload, onClear, onBack,
-  }) => {
+  ({ defaultValue, name, isUploading, onUpload, onClear, onBack }) => {
     const [t] = useTranslation();
 
     const field = useRef(null);

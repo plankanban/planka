@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useImperativeHandle, useRef, useState,
-} from 'react';
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Input } from 'semantic-ui-react';
@@ -44,7 +42,7 @@ const AddList = React.forwardRef(({ children, onCreate }, ref) => {
   }, [open]);
 
   const handleFieldKeyDown = useCallback(
-    (event) => {
+    event => {
       if (event.key === 'Escape') {
         close();
       }

@@ -9,20 +9,18 @@ import Item from './Item';
 import styles from './ProjectMembershipsStep.module.css';
 
 const ProjectMembershipsStep = React.memo(
-  ({
-    items, currentUserIds, title, onUserSelect, onUserDeselect, onBack,
-  }) => {
+  ({ items, currentUserIds, title, onUserSelect, onUserDeselect, onBack }) => {
     const [t] = useTranslation();
 
     const handleUserSelect = useCallback(
-      (id) => {
+      id => {
         onUserSelect(id);
       },
       [onUserSelect],
     );
 
     const handleUserDeselect = useCallback(
-      (id) => {
+      id => {
         onUserDeselect(id);
       },
       [onUserDeselect],
@@ -33,7 +31,7 @@ const ProjectMembershipsStep = React.memo(
         <Popup.Header onBack={onBack}>{t(title)}</Popup.Header>
         <Popup.Content>
           <Menu secondary vertical className={styles.menu}>
-            {items.map((item) => (
+            {items.map(item => (
               <Item
                 key={item.id}
                 isPersisted={item.isPersisted}

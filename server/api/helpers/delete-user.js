@@ -38,7 +38,7 @@ module.exports = {
 
       const userIds = _.union([user.id], adminUserIds, userIdsForProject);
 
-      userIds.forEach((userId) => {
+      userIds.forEach(userId => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'userDelete',

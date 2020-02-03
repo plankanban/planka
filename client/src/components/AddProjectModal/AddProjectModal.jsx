@@ -1,18 +1,14 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  Button, Form, Header, Modal,
-} from 'semantic-ui-react';
+import { Button, Form, Header, Modal } from 'semantic-ui-react';
 import { Input } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
 import styles from './AddProjectModal.module.css';
 
-const AddProjectModal = React.memo(({
-  defaultData, isSubmitting, onCreate, onClose,
-}) => {
+const AddProjectModal = React.memo(({ defaultData, isSubmitting, onCreate, onClose }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({

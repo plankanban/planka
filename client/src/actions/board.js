@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createBoard = (board) => ({
+export const createBoard = board => ({
   type: ActionTypes.BOARD_CREATE,
   payload: {
     board,
@@ -17,7 +17,7 @@ export const updateBoard = (id, data) => ({
   },
 });
 
-export const deleteBoard = (id) => ({
+export const deleteBoard = id => ({
   type: ActionTypes.BOARD_DELETE,
   payload: {
     id,
@@ -61,7 +61,7 @@ export const createBoardReceived = (board, lists, labels) => ({
   },
 });
 
-export const fetchBoardRequested = (id) => ({
+export const fetchBoardRequested = id => ({
   type: ActionTypes.BOARD_FETCH_REQUESTED,
   payload: {
     id,
@@ -105,7 +105,7 @@ export const updateBoardRequested = (id, data) => ({
   },
 });
 
-export const updateBoardSucceeded = (board) => ({
+export const updateBoardSucceeded = board => ({
   type: ActionTypes.BOARD_UPDATE_SUCCEEDED,
   payload: {
     board,
@@ -120,21 +120,21 @@ export const updateBoardFailed = (id, error) => ({
   },
 });
 
-export const updateBoardReceived = (board) => ({
+export const updateBoardReceived = board => ({
   type: ActionTypes.BOARD_UPDATE_RECEIVED,
   payload: {
     board,
   },
 });
 
-export const deleteBoardRequested = (id) => ({
+export const deleteBoardRequested = id => ({
   type: ActionTypes.BOARD_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteBoardSucceeded = (board) => ({
+export const deleteBoardSucceeded = board => ({
   type: ActionTypes.BOARD_DELETE_SUCCEEDED,
   payload: {
     board,
@@ -149,7 +149,7 @@ export const deleteBoardFailed = (id, error) => ({
   },
 });
 
-export const deleteBoardReceived = (board) => ({
+export const deleteBoardReceived = board => ({
   type: ActionTypes.BOARD_DELETE_RECEIVED,
   payload: {
     board,

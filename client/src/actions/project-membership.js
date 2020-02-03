@@ -2,14 +2,14 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createProjectMembership = (projectMembership) => ({
+export const createProjectMembership = projectMembership => ({
   type: ActionTypes.PROJECT_MEMBERSHIP_CREATE,
   payload: {
     projectMembership,
   },
 });
 
-export const deleteProjectMembership = (id) => ({
+export const deleteProjectMembership = id => ({
   type: ActionTypes.PROJECT_MEMBERSHIP_DELETE,
   payload: {
     id,
@@ -50,14 +50,14 @@ export const createProjectMembershipReceived = (projectMembership, user) => ({
   },
 });
 
-export const deleteProjectMembershipRequested = (id) => ({
+export const deleteProjectMembershipRequested = id => ({
   type: ActionTypes.PROJECT_MEMBERSHIP_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteProjectMembershipSucceeded = (projectMembership) => ({
+export const deleteProjectMembershipSucceeded = projectMembership => ({
   type: ActionTypes.PROJECT_MEMBERSHIP_DELETE_SUCCEEDED,
   payload: {
     projectMembership,
@@ -72,7 +72,7 @@ export const deleteProjectMembershipFailed = (id, error) => ({
   },
 });
 
-export const deleteProjectMembershipReceived = (projectMembership) => ({
+export const deleteProjectMembershipReceived = projectMembership => ({
   type: ActionTypes.PROJECT_MEMBERSHIP_DELETE_RECEIVED,
   payload: {
     projectMembership,

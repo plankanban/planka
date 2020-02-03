@@ -75,21 +75,22 @@ i18n
     debug: process.env.NODE_ENV !== 'production',
   });
 
-i18n.loadAppLocale = (language) => import(`./locales/${language}/app`).then((module) => {
-  const locale = module.default;
+i18n.loadAppLocale = language =>
+  import(`./locales/${language}/app`).then(module => {
+    const locale = module.default;
 
-  Object.keys(locale).forEach((namespace) => {
-    if (namespace === 'dateFns') {
-      i18n.dateFns.addLocale(language, locale[namespace]);
-    } else {
-      i18n.addResourceBundle(language, namespace, locale[namespace], true, true);
-    }
+    Object.keys(locale).forEach(namespace => {
+      if (namespace === 'dateFns') {
+        i18n.dateFns.addLocale(language, locale[namespace]);
+      } else {
+        i18n.addResourceBundle(language, namespace, locale[namespace], true, true);
+      }
+    });
   });
-});
 
 setDefaultLocale(i18n.language);
 
-i18n.on('languageChanged', (language) => {
+i18n.on('languageChanged', language => {
   setDefaultLocale(language);
 });
 

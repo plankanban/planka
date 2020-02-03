@@ -20,9 +20,9 @@ module.exports = {
       const userIds = sails.helpers.mapRecords(projectMemberships, 'userId');
 
       const boards = await sails.helpers.getBoardsForProject(project.id);
-      const boardRooms = boards.map((board) => `board:${board.id}`);
+      const boardRooms = boards.map(board => `board:${board.id}`);
 
-      userIds.forEach((userId) => {
+      userIds.forEach(userId => {
         sails.sockets.removeRoomMembersFromRooms(`user:${userId}`, boardRooms);
 
         sails.sockets.broadcast(

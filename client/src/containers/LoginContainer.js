@@ -10,15 +10,13 @@ const mapStateToProps = ({ authenticateForm: { data: defaultData, isSubmitting, 
   error,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onAuthenticate: authenticate,
-    onMessageDismiss: clearAuthenticateError,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onAuthenticate: authenticate,
+      onMessageDismiss: clearAuthenticateError,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

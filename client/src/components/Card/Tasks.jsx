@@ -10,7 +10,7 @@ const Tasks = React.memo(({ items }) => {
   const [isOpened, toggleOpened] = useToggle();
 
   const handleToggleClick = useCallback(
-    (event) => {
+    event => {
       event.preventDefault();
 
       toggleOpened();
@@ -18,7 +18,7 @@ const Tasks = React.memo(({ items }) => {
     [toggleOpened],
   );
 
-  const completedItems = items.filter((item) => item.isCompleted);
+  const completedItems = items.filter(item => item.isCompleted);
 
   return (
     <>
@@ -47,7 +47,7 @@ const Tasks = React.memo(({ items }) => {
       </div>
       {isOpened && (
         <ul className={styles.tasks}>
-          {items.map((item) => (
+          {items.map(item => (
             <li
               key={item.id}
               className={classNames(styles.task, item.isCompleted && styles.taskCompleted)}

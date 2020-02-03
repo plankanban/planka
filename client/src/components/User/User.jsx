@@ -55,7 +55,7 @@ const COLORS = [
   '#2c3e50', // Midnight blue
 ];
 
-const getColor = (name) => {
+const getColor = name => {
   let sum = 0;
   for (let i = 0; i < name.length; i += 1) {
     sum += name.charCodeAt(i);
@@ -64,9 +64,7 @@ const getColor = (name) => {
   return COLORS[sum % COLORS.length];
 };
 
-const User = React.memo(({
-  name, avatar, size, isDisabled, onClick,
-}) => {
+const User = React.memo(({ name, avatar, size, isDisabled, onClick }) => {
   const style = {
     ...STYLES[size],
     background: avatar ? `url("${avatar}")` : getColor(name),

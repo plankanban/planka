@@ -1,6 +1,6 @@
 import EntryActionTypes from '../../constants/EntryActionTypes';
 
-export const createTaskInCurrentCard = (data) => ({
+export const createTaskInCurrentCard = data => ({
   type: EntryActionTypes.TASK_IN_CURRENT_CARD_CREATE,
   payload: {
     data,
@@ -15,7 +15,7 @@ export const updateTask = (id, data) => ({
   },
 });
 
-export const deleteTask = (id) => ({
+export const deleteTask = id => ({
   type: EntryActionTypes.TASK_DELETE,
   payload: {
     id,

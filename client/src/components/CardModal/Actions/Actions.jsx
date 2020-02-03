@@ -1,9 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import {
-  Comment, Icon, Loader, Visibility,
-} from 'semantic-ui-react';
+import { Comment, Icon, Loader, Visibility } from 'semantic-ui-react';
 
 import { ActionTypes } from '../../../constants/Enums';
 import AddComment from './AddComment';
@@ -32,7 +30,7 @@ const Actions = React.memo(
     );
 
     const handleCommentDelete = useCallback(
-      (id) => {
+      id => {
         onCommentDelete(id);
       },
       [onCommentDelete],
@@ -53,26 +51,28 @@ const Actions = React.memo(
             <div className={styles.moduleHeader}>{t('common.actions')}</div>
             <div className={styles.wrapper}>
               <Comment.Group>
-                {items.map((item) => (item.type === ActionTypes.COMMENT_CARD ? (
-                  <Item.Comment
-                    key={item.id}
-                    data={item.data}
-                    createdAt={item.createdAt}
-                    isPersisted={item.isPersisted}
-                    user={item.user}
-                    isEditable={isEditable}
-                    onUpdate={(data) => handleCommentUpdate(item.id, data)}
-                    onDelete={() => handleCommentDelete(item.id)}
-                  />
-                ) : (
-                  <Item
-                    key={item.id}
-                    type={item.type}
-                    data={item.data}
-                    createdAt={item.createdAt}
-                    user={item.user}
-                  />
-                )))}
+                {items.map(item =>
+                  item.type === ActionTypes.COMMENT_CARD ? (
+                    <Item.Comment
+                      key={item.id}
+                      data={item.data}
+                      createdAt={item.createdAt}
+                      isPersisted={item.isPersisted}
+                      user={item.user}
+                      isEditable={isEditable}
+                      onUpdate={data => handleCommentUpdate(item.id, data)}
+                      onDelete={() => handleCommentDelete(item.id)}
+                    />
+                  ) : (
+                    <Item
+                      key={item.id}
+                      type={item.type}
+                      data={item.data}
+                      createdAt={item.createdAt}
+                      user={item.user}
+                    />
+                  ),
+                )}
               </Comment.Group>
             </div>
             {isFetching ? (

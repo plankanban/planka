@@ -34,9 +34,7 @@ const STYLES = {
   },
 };
 
-const Label = React.memo(({
-  name, color, size, isDisabled, onClick,
-}) => {
+const Label = React.memo(({ name, color, size, isDisabled, onClick }) => {
   const style = {
     ...STYLES[size],
     background: LabelColors.MAP[color],

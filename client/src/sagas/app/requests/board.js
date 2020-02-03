@@ -55,9 +55,7 @@ export function* fetchBoardRequest(id) {
   try {
     const {
       item,
-      included: {
-        lists, labels, cards, cardMemberships, cardLabels, tasks,
-      },
+      included: { lists, labels, cards, cardMemberships, cardLabels, tasks },
     } = yield call(request, api.getBoard, id);
 
     const action = fetchBoardSucceeded(

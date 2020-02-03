@@ -11,8 +11,9 @@ export const pathnameSelector = ({
   },
 }) => pathname;
 
-// eslint-disable-next-line max-len
-export const pathsMatchSelector = createReselectSelector(pathnameSelector, (pathname) => matchPaths(pathname, Object.values(Paths)));
+export const pathsMatchSelector = createReselectSelector(pathnameSelector, pathname =>
+  matchPaths(pathname, Object.values(Paths)),
+);
 
 export const pathSelector = createReduxOrmSelector(
   orm,

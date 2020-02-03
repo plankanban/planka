@@ -10,9 +10,7 @@ import User from '../../User';
 
 import styles from './Item.module.css';
 
-const Item = React.memo(({
-  type, data, createdAt, user,
-}) => {
+const Item = React.memo(({ type, data, createdAt, user }) => {
   const [t] = useTranslation();
 
   let contentNode;

@@ -35,7 +35,7 @@ const AddComment = React.memo(({ onCreate }) => {
   }, [onCreate, data, setData]);
 
   const handleFieldKeyDown = useCallback(
-    (event) => {
+    event => {
       if (event.ctrlKey && event.key === 'Enter') {
         submit();
       }

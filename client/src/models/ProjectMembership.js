@@ -24,7 +24,7 @@ export default class extends Model {
       case ActionTypes.PROJECTS_FETCH_SUCCEEDED:
       case ActionTypes.PROJECT_CREATE_SUCCEEDED:
       case ActionTypes.PROJECT_CREATE_RECEIVED:
-        payload.projectMemberships.forEach((projectMembership) => {
+        payload.projectMemberships.forEach(projectMembership => {
           ProjectMembership.upsert(projectMembership);
         });
 
@@ -52,8 +52,8 @@ export default class extends Model {
   }
 
   deleteWithRelated() {
-    this.project.boards.toModelArray().forEach((boardModel) => {
-      boardModel.cards.toModelArray().forEach((cardModel) => {
+    this.project.boards.toModelArray().forEach(boardModel => {
+      boardModel.cards.toModelArray().forEach(cardModel => {
         try {
           cardModel.users.remove(this.userId);
         } catch {} // eslint-disable-line no-empty

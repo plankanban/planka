@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useImperativeHandle, useRef, useState,
-} from 'react';
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
 import { TextArea } from 'semantic-ui-react';
@@ -44,12 +42,12 @@ const EditName = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
     [open, close],
   );
 
-  const handleFieldClick = useCallback((event) => {
+  const handleFieldClick = useCallback(event => {
     event.stopPropagation();
   }, []);
 
   const handleFieldKeyDown = useCallback(
-    (event) => {
+    event => {
       switch (event.key) {
         case 'Enter':
           event.preventDefault();

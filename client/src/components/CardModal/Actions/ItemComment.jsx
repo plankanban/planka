@@ -12,9 +12,7 @@ import DeletePopup from '../../DeletePopup';
 import styles from './ItemComment.module.css';
 
 const ItemComment = React.memo(
-  ({
-    data, createdAt, isPersisted, user, isEditable, onUpdate, onDelete,
-  }) => {
+  ({ data, createdAt, isPersisted, user, isEditable, onUpdate, onDelete }) => {
     const [t] = useTranslation();
 
     const editComment = useRef(null);

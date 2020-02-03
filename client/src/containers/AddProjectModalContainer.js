@@ -9,15 +9,13 @@ const mapStateToProps = ({ projectCreateForm: { data: defaultData, isSubmitting 
   isSubmitting,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onCreate: createProject,
-    onClose: closeModal,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onCreate: createProject,
+      onClose: closeModal,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AddProjectModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AddProjectModal);

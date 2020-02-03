@@ -2,12 +2,10 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { boardsForCurrentProjectSelector, currentUserSelector, pathSelector } from '../selectors';
-import {
-  createBoardInCurrentProject, deleteBoard, moveBoard, updateBoard,
-} from '../actions/entry';
+import { createBoardInCurrentProject, deleteBoard, moveBoard, updateBoard } from '../actions/entry';
 import Boards from '../components/Boards';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const { boardId } = pathSelector(state);
   const { isAdmin } = currentUserSelector(state);
   const boards = boardsForCurrentProjectSelector(state);
@@ -19,17 +17,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onCreate: createBoardInCurrentProject,
-    onUpdate: updateBoard,
-    onMove: moveBoard,
-    onDelete: deleteBoard,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onCreate: createBoardInCurrentProject,
+      onUpdate: updateBoard,
+      onMove: moveBoard,
+      onDelete: deleteBoard,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Boards);
+export default connect(mapStateToProps, mapDispatchToProps)(Boards);

@@ -15,7 +15,7 @@ import {
 } from '../actions/entry';
 import Project from '../components/Project';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const allUsers = allUsersSelector(state);
   const { isAdmin } = currentUserSelector(state);
   const { name } = currentProjectSelector(state);
@@ -29,17 +29,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(
-  {
-    onUpdate: updateCurrentProject,
-    onDelete: deleteCurrentProject,
-    onMembershipCreate: createMembershipInCurrentProject,
-    onMembershipDelete: deleteProjectMembership,
-  },
-  dispatch,
-);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      onUpdate: updateCurrentProject,
+      onDelete: deleteCurrentProject,
+      onMembershipCreate: createMembershipInCurrentProject,
+      onMembershipDelete: deleteProjectMembership,
+    },
+    dispatch,
+  );
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

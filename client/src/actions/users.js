@@ -7,14 +7,14 @@ export const fetchUsersRequested = () => ({
   payload: {},
 });
 
-export const fetchUsersSucceeded = (users) => ({
+export const fetchUsersSucceeded = users => ({
   type: ActionTypes.USERS_FETCH_SUCCEEDED,
   payload: {
     users,
   },
 });
 
-export const fetchUsersFailed = (error) => ({
+export const fetchUsersFailed = error => ({
   type: ActionTypes.USERS_FETCH_FAILED,
   payload: {
     error,

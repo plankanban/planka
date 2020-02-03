@@ -13,7 +13,7 @@ import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-ic
 
 import styles from './Board.module.css';
 
-const parseDndId = (dndId) => dndId.split(':')[1];
+const parseDndId = dndId => dndId.split(':')[1];
 
 const Board = React.memo(
   ({
@@ -41,12 +41,10 @@ const Board = React.memo(
     }, []);
 
     const handleDragEnd = useCallback(
-      ({
-        draggableId, type, source, destination,
-      }) => {
+      ({ draggableId, type, source, destination }) => {
         if (
-          !destination
-          || (source.droppableId === destination.droppableId && source.index === destination.index)
+          !destination ||
+          (source.droppableId === destination.droppableId && source.index === destination.index)
         ) {
           return;
         }

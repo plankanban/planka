@@ -1,7 +1,5 @@
 import isEmail from 'validator/lib/isEmail';
-import React, {
-  useCallback, useEffect, useMemo, useRef,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
@@ -12,7 +10,7 @@ import { useForm } from '../../hooks';
 
 import styles from './EditNameStep.module.css';
 
-const createMessage = (error) => {
+const createMessage = error => {
   if (!error) {
     return error;
   }
@@ -37,9 +35,7 @@ const createMessage = (error) => {
 };
 
 const EditEmailStep = React.memo(
-  ({
-    defaultData, email, isSubmitting, error, onUpdate, onMessageDismiss, onBack, onClose,
-  }) => {
+  ({ defaultData, email, isSubmitting, error, onUpdate, onMessageDismiss, onBack, onClose }) => {
     const [t] = useTranslation();
     const wasSubmitting = usePrevious(isSubmitting);
 
@@ -92,7 +88,7 @@ const EditEmailStep = React.memo(
 
               break;
             case 'Current password is not valid':
-              setData((prevData) => ({
+              setData(prevData => ({
                 ...prevData,
                 currentPassword: '',
               }));

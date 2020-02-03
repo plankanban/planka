@@ -7,9 +7,7 @@ import LabelColors from '../../constants/LabelColors';
 
 import styles from './Item.module.css';
 
-const Item = React.memo(({
-  name, color, isPersisted, isActive, onSelect, onDeselect, onEdit,
-}) => {
+const Item = React.memo(({ name, color, isPersisted, isActive, onSelect, onDeselect, onEdit }) => {
   const handleToggleClick = useCallback(() => {
     if (isActive) {
       onDeselect();

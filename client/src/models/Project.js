@@ -18,7 +18,7 @@ export default class extends Model {
   static reducer({ type, payload }, Project) {
     switch (type) {
       case ActionTypes.PROJECTS_FETCH_SUCCEEDED:
-        payload.projects.forEach((project) => {
+        payload.projects.forEach(project => {
           Project.upsert(project);
         });
 
@@ -57,7 +57,7 @@ export default class extends Model {
   }
 
   deleteWithRelated() {
-    this.boards.toModelArray().forEach((boardModel) => {
+    this.boards.toModelArray().forEach(boardModel => {
       boardModel.deleteWithRelated();
     });
 

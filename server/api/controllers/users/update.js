@@ -20,7 +20,7 @@ module.exports = {
     },
     avatar: {
       type: 'json',
-      custom: (value) => _.isNull(value),
+      custom: value => _.isNull(value),
     },
   },
 
@@ -38,7 +38,7 @@ module.exports = {
         throw Errors.USER_NOT_FOUND; // Forbidden
       }
 
-      delete inputs.isAdmin;
+      delete inputs.isAdmin; // eslint-disable-line no-param-reassign
     }
 
     let user = await sails.helpers.getUser(inputs.id);

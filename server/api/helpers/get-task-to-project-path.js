@@ -19,7 +19,7 @@ module.exports = {
 
     const path = await sails.helpers
       .getCardToProjectPath(task.cardId)
-      .intercept('notFound', (nodes) => ({
+      .intercept('notFound', nodes => ({
         notFound: {
           task,
           ...nodes,

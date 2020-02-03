@@ -13,7 +13,7 @@ const PAIRS = [
   ['black', '#355263'],
 ];
 
-const KEYS = PAIRS.map((pair) => pair[0]);
+const KEYS = PAIRS.map(pair => pair[0]);
 
 const MAP = fromPairs(PAIRS);
 

@@ -18,9 +18,7 @@ import EditPopup from './EditPopup';
 import styles from './Boards.module.css';
 
 const Boards = React.memo(
-  ({
-    items, currentId, isEditable, onCreate, onUpdate, onMove, onDelete,
-  }) => {
+  ({ items, currentId, isEditable, onCreate, onUpdate, onMove, onDelete }) => {
     const [t] = useTranslation();
 
     const handleDragStart = useCallback(() => {
@@ -46,76 +44,78 @@ const Boards = React.memo(
     );
 
     const handleDelete = useCallback(
-      (id) => {
+      id => {
         onDelete(id);
       },
       [onDelete],
     );
 
     const renderItems = useCallback(
-      (safeItems) => safeItems.map((item) => (
-        <div key={item.id} className={styles.tabWrapper}>
-          <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
-            {item.isPersisted ? (
-              <Link
-                to={Paths.BOARDS.replace(':id', item.id)}
-                title={item.name}
-                className={styles.link}
-              >
-                {item.name}
-              </Link>
-            ) : (
-              <span className={styles.link}>{item.name}</span>
-            )}
+      safeItems =>
+        safeItems.map(item => (
+          <div key={item.id} className={styles.tabWrapper}>
+            <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
+              {item.isPersisted ? (
+                <Link
+                  to={Paths.BOARDS.replace(':id', item.id)}
+                  title={item.name}
+                  className={styles.link}
+                >
+                  {item.name}
+                </Link>
+              ) : (
+                <span className={styles.link}>{item.name}</span>
+              )}
+            </div>
           </div>
-        </div>
-      )),
+        )),
       [currentId],
     );
 
     const renderEditableItems = useCallback(
-      (safeItems) => safeItems.map((item, index) => (
-        <Draggable
-          key={item.id}
-          draggableId={item.id}
-          index={index}
-          isDragDisabled={!item.isPersisted}
-        >
-          {({ innerRef, draggableProps, dragHandleProps }) => (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <div {...draggableProps} ref={innerRef} className={styles.tabWrapper}>
-              <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
-                {item.isPersisted ? (
-                  <Link
-                    {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
-                    to={Paths.BOARDS.replace(':id', item.id)}
-                    title={item.name}
-                    className={styles.link}
-                  >
-                    {item.name}
-                  </Link>
-                ) : (
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                  <span {...dragHandleProps} className={styles.link}>
-                    {item.name}
-                  </span>
-                )}
-                {item.isPersisted && (
-                <EditPopup
-                  defaultData={pick(item, 'name')}
-                  onUpdate={(data) => handleUpdate(item.id, data)}
-                  onDelete={() => handleDelete(item.id)}
-                >
-                  <Button className={classNames(styles.editButton, styles.target)}>
-                    <Icon fitted name="pencil" size="small" />
-                  </Button>
-                </EditPopup>
-                )}
+      safeItems =>
+        safeItems.map((item, index) => (
+          <Draggable
+            key={item.id}
+            draggableId={item.id}
+            index={index}
+            isDragDisabled={!item.isPersisted}
+          >
+            {({ innerRef, draggableProps, dragHandleProps }) => (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <div {...draggableProps} ref={innerRef} className={styles.tabWrapper}>
+                <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
+                  {item.isPersisted ? (
+                    <Link
+                      {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
+                      to={Paths.BOARDS.replace(':id', item.id)}
+                      title={item.name}
+                      className={styles.link}
+                    >
+                      {item.name}
+                    </Link>
+                  ) : (
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    <span {...dragHandleProps} className={styles.link}>
+                      {item.name}
+                    </span>
+                  )}
+                  {item.isPersisted && (
+                    <EditPopup
+                      defaultData={pick(item, 'name')}
+                      onUpdate={data => handleUpdate(item.id, data)}
+                      onDelete={() => handleDelete(item.id)}
+                    >
+                      <Button className={classNames(styles.editButton, styles.target)}>
+                        <Icon fitted name="pencil" size="small" />
+                      </Button>
+                    </EditPopup>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </Draggable>
-      )),
+            )}
+          </Draggable>
+        )),
       [currentId, handleUpdate, handleDelete],
     );
 

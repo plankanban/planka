@@ -16,17 +16,17 @@ export const updateTimer = ({ startedAt }, parts) => ({
   startedAt: startedAt && new Date(),
 });
 
-export const startTimer = (timer) => ({
+export const startTimer = timer => ({
   startedAt: new Date(),
   total: timer ? timer.total : 0,
 });
 
-export const stopTimer = (timer) => ({
+export const stopTimer = timer => ({
   startedAt: null,
   total: getFullSeconds(timer),
 });
 
-export const getTimerParts = (timer) => {
+export const getTimerParts = timer => {
   const fullSeconds = getFullSeconds(timer);
 
   const hours = Math.floor(fullSeconds / 3600);
@@ -40,8 +40,8 @@ export const getTimerParts = (timer) => {
   };
 };
 
-export const formatTimer = (timer) => {
+export const formatTimer = timer => {
   const { hours, minutes, seconds } = getTimerParts(timer);
 
-  return [hours, ...[minutes, seconds].map((part) => (part < 10 ? `0${part}` : part))].join(':');
+  return [hours, ...[minutes, seconds].map(part => (part < 10 ? `0${part}` : part))].join(':');
 };

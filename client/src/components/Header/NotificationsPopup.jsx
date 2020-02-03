@@ -16,7 +16,7 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
   const [t] = useTranslation();
 
   const handleDelete = useCallback(
-    (id) => {
+    id => {
       onDelete(id);
     },
     [onDelete],
@@ -77,28 +77,28 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
       <Popup.Header>{t('common.notifications')}</Popup.Header>
       <Popup.Content>
         {items.length > 0
-          ? items.map((item) => (
-            <div key={item.id} className={styles.wrapper}>
-              {item.card && item.action ? (
-                <>
-                  <User
-                    name={item.action.user.name}
-                    avatar={item.action.user.avatar}
-                    size="large"
-                  />
-                  <span className={styles.content}>{renderItemContent(item)}</span>
-                </>
-              ) : (
-                <div className={styles.deletedContent}>{t('common.cardOrActionAreDeleted')}</div>
-              )}
-              <Button
-                type="button"
-                icon="close"
-                className={styles.button}
-                onClick={() => handleDelete(item.id)}
-              />
-            </div>
-          ))
+          ? items.map(item => (
+              <div key={item.id} className={styles.wrapper}>
+                {item.card && item.action ? (
+                  <>
+                    <User
+                      name={item.action.user.name}
+                      avatar={item.action.user.avatar}
+                      size="large"
+                    />
+                    <span className={styles.content}>{renderItemContent(item)}</span>
+                  </>
+                ) : (
+                  <div className={styles.deletedContent}>{t('common.cardOrActionAreDeleted')}</div>
+                )}
+                <Button
+                  type="button"
+                  icon="close"
+                  className={styles.button}
+                  onClick={() => handleDelete(item.id)}
+                />
+              </div>
+            ))
           : t('common.noUnreadNotifications')}
       </Popup.Content>
     </>

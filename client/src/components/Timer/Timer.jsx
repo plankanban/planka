@@ -32,9 +32,7 @@ const STYLES = {
   },
 };
 
-const Timer = React.memo(({
-  startedAt, total, size, isDisabled, onClick,
-}) => {
+const Timer = React.memo(({ startedAt, total, size, isDisabled, onClick }) => {
   const prevStartedAt = usePrevious(startedAt);
   const forceUpdate = useForceUpdate();
 

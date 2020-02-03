@@ -1,13 +1,9 @@
-import React, {
-  useCallback, useEffect, useMemo, useRef,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import isEmail from 'validator/lib/isEmail';
-import {
-  Form, Grid, Header, Message,
-} from 'semantic-ui-react';
+import { Form, Grid, Header, Message } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input } from '../../lib/custom-ui';
 
@@ -15,7 +11,7 @@ import { useForm } from '../../hooks';
 
 import styles from './Login.module.css';
 
-const createMessage = (error) => {
+const createMessage = error => {
   if (!error) {
     return error;
   }
@@ -50,9 +46,7 @@ const createMessage = (error) => {
 };
 
 const Login = React.memo(
-  ({
-    defaultData, isSubmitting, error, onAuthenticate, onMessageDismiss,
-  }) => {
+  ({ defaultData, isSubmitting, error, onAuthenticate, onMessageDismiss }) => {
     const [t] = useTranslation();
     const wasSubmitting = usePrevious(isSubmitting);
 
@@ -99,7 +93,7 @@ const Login = React.memo(
 
             break;
           case 'Password is not valid':
-            setData((prevData) => ({
+            setData(prevData => ({
               ...prevData,
               password: '',
             }));

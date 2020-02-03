@@ -1,12 +1,10 @@
-import {
-  call, put, select, take,
-} from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 
 import { accessTokenSelector } from '../../../selectors';
 import { logout } from '../../../actions';
 import ErrorCodes from '../../../constants/ErrorCodes';
 
-export default function* (method, ...args) {
+export default function*(method, ...args) {
   try {
     const accessToken = yield select(accessTokenSelector);
 

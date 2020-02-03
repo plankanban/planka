@@ -1,7 +1,5 @@
 import dequal from 'dequal';
-import React, {
-  useCallback, useEffect, useImperativeHandle, useRef, useState,
-} from 'react';
+import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
@@ -59,7 +57,7 @@ const EditComment = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
   );
 
   const handleFieldKeyDown = useCallback(
-    (event) => {
+    event => {
       if (event.ctrlKey && event.key === 'Enter') {
         submit();
       }
