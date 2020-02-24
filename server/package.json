@@ -39,19 +39,19 @@
     }
   },
   "dependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^4.0.0",
     "dotenv": "^8.2.0",
     "dotenv-cli": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.20.8",
+    "knex": "^0.20.10",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "sails": "^1.2.3",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
-    "sharp": "^0.24.0",
-    "uuid": "^3.4.0"
+    "sharp": "^0.24.1",
+    "uuid": "^7.0.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 const stream = require('stream');
-const uuid = require('uuid/v4');
+const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
 
 const Errors = {
