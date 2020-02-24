@@ -64,6 +64,8 @@ module.exports = {
     },
   },
 
+  tableName: 'user_account',
+
   customToJSON() {
     return {
       ..._.omit(this, 'password'),

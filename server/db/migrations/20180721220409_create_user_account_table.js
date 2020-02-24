@@ -1,6 +1,6 @@
 module.exports.up = knex =>
   knex.schema
-    .createTable('user', table => {
+    .createTable('user_account', table => {
       /* Columns */
 
       table
@@ -19,7 +19,7 @@ module.exports.up = knex =>
       table.timestamp('deleted_at', true);
     })
     .raw(
-      'ALTER TABLE "user" ADD CONSTRAINT "user_email_unique" EXCLUDE ("email" WITH =) WHERE ("deleted_at" IS NULL)',
+      'ALTER TABLE "user_account" ADD CONSTRAINT "user_email_unique" EXCLUDE ("email" WITH =) WHERE ("deleted_at" IS NULL)',
     );
 
-module.exports.down = knex => knex.schema.dropTable('user');
+module.exports.down = knex => knex.schema.dropTable('user_account');
