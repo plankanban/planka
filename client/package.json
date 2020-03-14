@@ -48,7 +48,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "connected-react-router": "^6.7.0",
-    "date-fns": "^2.9.0",
+    "date-fns": "^2.11.0",
     "dequal": "^1.0.0",
     "history": "^4.10.1",
     "i18next": "^19.3.2",
@@ -56,10 +56,10 @@
     "initials": "^3.0.1",
     "lodash": "^4.17.15",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
-    "react-beautiful-dnd": "^12.2.0",
-    "react-datepicker": "^2.13.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-beautiful-dnd": "^13.0.0",
+    "react-datepicker": "^2.14.0",
+    "react-dom": "^16.13.0",
     "react-i18next": "^11.3.3",
     "react-input-mask": "^2.0.4",
     "react-markdown": "^4.3.1",
@@ -80,13 +80,13 @@
   },
   "devDependencies": {
     "eslint": "^6.8.0",
-    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^2.4.0",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.0",
     "prettier": "1.19.1"
   }
 }
