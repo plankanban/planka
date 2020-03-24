@@ -13,7 +13,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function*() {
+export default function* () {
   yield all([
     takeLatest(EntryActionTypes.LABEL_IN_CURRENT_BOARD_CREATE, ({ payload: { data } }) =>
       createLabelInCurrentBoardService(data),

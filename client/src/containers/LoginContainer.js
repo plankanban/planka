@@ -10,7 +10,7 @@ const mapStateToProps = ({ authenticateForm: { data: defaultData, isSubmitting, 
   error,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onAuthenticate: authenticate,

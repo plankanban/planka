@@ -43,24 +43,24 @@
     "dotenv": "^8.2.0",
     "dotenv-cli": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.20.11",
+    "knex": "^0.20.13",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "sails": "^1.2.3",
+    "sails": "^1.2.4",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
-    "sharp": "^0.25.1",
+    "sharp": "^0.25.2",
     "uuid": "^7.0.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-config-prettier": "^6.10.0",
+    "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-prettier": "^3.1.2",
     "nodemon": "^2.0.2",
-    "prettier": "1.19.1"
+    "prettier": "2.0.2"
   },
   "engines": {
     "node": "^12.10"

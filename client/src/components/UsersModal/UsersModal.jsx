@@ -17,7 +17,7 @@ const UsersModal = React.memo(({ items, onUpdate, onDelete, onClose }) => {
   );
 
   const handleDelete = useCallback(
-    id => {
+    (id) => {
       onDelete(id);
     },
     [onDelete],
@@ -41,13 +41,13 @@ const UsersModal = React.memo(({ items, onUpdate, onDelete, onClose }) => {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {items.map(item => (
+            {items.map((item) => (
               <Item
                 key={item.id}
                 name={item.name}
                 email={item.email}
                 isAdmin={item.isAdmin}
-                onUpdate={data => handleUpdate(item.id, data)}
+                onUpdate={(data) => handleUpdate(item.id, data)}
                 onDelete={() => handleDelete(item.id)}
               />
             ))}

@@ -10,7 +10,7 @@ import { useForm } from '../../hooks';
 
 import styles from './EditNameStep.module.css';
 
-const createMessage = error => {
+const createMessage = (error) => {
   if (!error) {
     return error;
   }
@@ -88,7 +88,7 @@ const EditEmailStep = React.memo(
 
               break;
             case 'Current password is not valid':
-              setData(prevData => ({
+              setData((prevData) => ({
                 ...prevData,
                 currentPassword: '',
               }));

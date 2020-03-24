@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createProject = data => ({
+export const createProject = (data) => ({
   type: ActionTypes.PROJECT_CREATE,
   payload: {
     data,
@@ -17,7 +17,7 @@ export const updateProject = (id, data) => ({
   },
 });
 
-export const deleteProject = id => ({
+export const deleteProject = (id) => ({
   type: ActionTypes.PROJECT_DELETE,
   payload: {
     id,
@@ -26,7 +26,7 @@ export const deleteProject = id => ({
 
 /* Events */
 
-export const createProjectRequested = data => ({
+export const createProjectRequested = (data) => ({
   type: ActionTypes.PROJECT_CREATE_REQUESTED,
   payload: {
     data,
@@ -43,7 +43,7 @@ export const createProjectSucceeded = (project, users, projectMemberships, board
   },
 });
 
-export const createProjectFailed = error => ({
+export const createProjectFailed = (error) => ({
   type: ActionTypes.PROJECT_CREATE_FAILED,
   payload: {
     error,
@@ -68,7 +68,7 @@ export const updateProjectRequested = (id, data) => ({
   },
 });
 
-export const updateProjectSucceeded = project => ({
+export const updateProjectSucceeded = (project) => ({
   type: ActionTypes.PROJECT_UPDATE_SUCCEEDED,
   payload: {
     project,
@@ -83,21 +83,21 @@ export const updateProjectFailed = (id, error) => ({
   },
 });
 
-export const updateProjectReceived = project => ({
+export const updateProjectReceived = (project) => ({
   type: ActionTypes.PROJECT_UPDATE_RECEIVED,
   payload: {
     project,
   },
 });
 
-export const deleteProjectRequested = id => ({
+export const deleteProjectRequested = (id) => ({
   type: ActionTypes.PROJECT_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteProjectSucceeded = project => ({
+export const deleteProjectSucceeded = (project) => ({
   type: ActionTypes.PROJECT_DELETE_SUCCEEDED,
   payload: {
     project,
@@ -112,7 +112,7 @@ export const deleteProjectFailed = (id, error) => ({
   },
 });
 
-export const deleteProjectReceived = project => ({
+export const deleteProjectReceived = (project) => ({
   type: ActionTypes.PROJECT_DELETE_RECEIVED,
   payload: {
     project,

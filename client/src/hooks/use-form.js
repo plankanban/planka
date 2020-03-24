@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 
-export default initialData => {
+export default (initialData) => {
   const [data, setData] = useState(initialData);
 
   const handleFieldChange = useCallback((_, { name: fieldName, value }) => {
-    setData(prevData => ({
+    setData((prevData) => ({
       ...prevData,
       [fieldName]: value,
     }));

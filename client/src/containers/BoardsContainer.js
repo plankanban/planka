@@ -5,7 +5,7 @@ import { boardsForCurrentProjectSelector, currentUserSelector, pathSelector } fr
 import { createBoardInCurrentProject, deleteBoard, moveBoard, updateBoard } from '../actions/entry';
 import Boards from '../components/Boards';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { boardId } = pathSelector(state);
   const { isAdmin } = currentUserSelector(state);
   const boards = boardsForCurrentProjectSelector(state);
@@ -17,7 +17,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onCreate: createBoardInCurrentProject,

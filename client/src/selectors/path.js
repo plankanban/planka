@@ -11,7 +11,7 @@ export const pathnameSelector = ({
   },
 }) => pathname;
 
-export const pathsMatchSelector = createReselectSelector(pathnameSelector, pathname =>
+export const pathsMatchSelector = createReselectSelector(pathnameSelector, (pathname) =>
   matchPaths(pathname, Object.values(Paths)),
 );
 

@@ -47,8 +47,8 @@ const EditDueDateStep = React.memo(({ defaultValue, onUpdate, onBack, onClose })
   }, [data.date, t]);
 
   const handleDatePickerChange = useCallback(
-    date => {
-      setData(prevData => ({
+    (date) => {
+      setData((prevData) => ({
         ...prevData,
         date: t('format:date', {
           postProcess: 'formatDate',

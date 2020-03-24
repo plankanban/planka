@@ -12,7 +12,7 @@ export const createNotificationReceived = (notification, user, card, action) => 
   },
 });
 
-export const deleteNotificationReceived = notification => ({
+export const deleteNotificationReceived = (notification) => ({
   type: ActionTypes.NOTIFICATION_DELETE_RECEIVED,
   payload: {
     notification,

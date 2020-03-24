@@ -50,7 +50,7 @@ const EditName = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
   );
 
   const handleFieldKeyDown = useCallback(
-    event => {
+    (event) => {
       if (event.key === 'Enter') {
         event.preventDefault();
 

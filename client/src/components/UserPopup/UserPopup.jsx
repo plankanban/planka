@@ -57,7 +57,7 @@ const UserStep = React.memo(
     }, [openStep]);
 
     const handleNameUpdate = useCallback(
-      newName => {
+      (newName) => {
         onUpdate({
           name: newName,
         });

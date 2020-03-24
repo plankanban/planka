@@ -19,7 +19,7 @@ const Projects = React.memo(({ items, currentId, isEditable, onAdd }) => {
     return (
       <Container className={styles.cardsWrapper}>
         <Grid className={styles.gridFix}>
-          {items.map(item => (
+          {items.map((item) => (
             <Grid.Column key={item.id} mobile={8} computer={4}>
               <Link
                 to={

@@ -34,7 +34,7 @@ import {
 import Paths from '../constants/Paths';
 import CardModal from '../components/CardModal';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { isAdmin } = currentUserSelector(state);
   const allProjectMemberships = membershipsForCurrentProjectSelector(state);
   const allLabels = labelsForCurrentBoardSelector(state);
@@ -74,7 +74,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onUpdate: updateCurrentCard,

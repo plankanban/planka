@@ -16,7 +16,7 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
   const [t] = useTranslation();
 
   const handleDelete = useCallback(
-    id => {
+    (id) => {
       onDelete(id);
     },
     [onDelete],
@@ -77,7 +77,7 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
       <Popup.Header>{t('common.notifications')}</Popup.Header>
       <Popup.Content>
         {items.length > 0
-          ? items.map(item => (
+          ? items.map((item) => (
               <div key={item.id} className={styles.wrapper}>
                 {item.card && item.action ? (
                   <>

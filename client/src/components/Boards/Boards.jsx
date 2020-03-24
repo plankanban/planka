@@ -44,15 +44,15 @@ const Boards = React.memo(
     );
 
     const handleDelete = useCallback(
-      id => {
+      (id) => {
         onDelete(id);
       },
       [onDelete],
     );
 
     const renderItems = useCallback(
-      safeItems =>
-        safeItems.map(item => (
+      (safeItems) =>
+        safeItems.map((item) => (
           <div key={item.id} className={styles.tabWrapper}>
             <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
               {item.isPersisted ? (
@@ -73,7 +73,7 @@ const Boards = React.memo(
     );
 
     const renderEditableItems = useCallback(
-      safeItems =>
+      (safeItems) =>
         safeItems.map((item, index) => (
           <Draggable
             key={item.id}
@@ -103,7 +103,7 @@ const Boards = React.memo(
                   {item.isPersisted && (
                     <EditPopup
                       defaultData={pick(item, 'name')}
-                      onUpdate={data => handleUpdate(item.id, data)}
+                      onUpdate={(data) => handleUpdate(item.id, data)}
                       onDelete={() => handleDelete(item.id)}
                     >
                       <Button className={classNames(styles.editButton, styles.target)}>

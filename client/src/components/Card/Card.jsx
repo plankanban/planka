@@ -49,7 +49,7 @@ const Card = React.memo(
     }, []);
 
     const handleNameUpdate = useCallback(
-      newName => {
+      (newName) => {
         onUpdate({
           name: newName,
         });
@@ -65,7 +65,7 @@ const Card = React.memo(
       <>
         {labels.length > 0 && (
           <span className={styles.labels}>
-            {labels.map(label => (
+            {labels.map((label) => (
               <span key={label.id} className={classNames(styles.attachment, styles.attachmentLeft)}>
                 <Label name={label.name} color={label.color} size="tiny" />
               </span>
@@ -101,7 +101,7 @@ const Card = React.memo(
         )}
         {users.length > 0 && (
           <span className={classNames(styles.attachments, styles.attachmentsRight)}>
-            {users.map(user => (
+            {users.map((user) => (
               <span key={user.id} className={classNames(styles.attachment, styles.attachmentRight)}>
                 <User name={user.name} avatar={user.avatar} size="tiny" />
               </span>
@@ -136,9 +136,9 @@ const Card = React.memo(
                         isPersisted,
                       }}
                       projectMemberships={allProjectMemberships}
-                      currentUserIds={users.map(user => user.id)}
+                      currentUserIds={users.map((user) => user.id)}
                       labels={allLabels}
-                      currentLabelIds={labels.map(label => label.id)}
+                      currentLabelIds={labels.map((label) => label.id)}
                       onNameEdit={handleNameEdit}
                       onUpdate={onUpdate}
                       onDelete={onDelete}

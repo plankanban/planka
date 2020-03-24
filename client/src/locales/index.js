@@ -8,6 +8,6 @@ const localePairs = [
   ['ru-RU', ruRU],
 ];
 
-export const languages = localePairs.map(locale => locale[0]);
+export const languages = localePairs.map((locale) => locale[0]);
 
 export const embedLocales = fromPairs(localePairs);

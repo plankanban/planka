@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
 const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
-  const handleLinkClick = useCallback(event => {
+  const handleLinkClick = useCallback((event) => {
     event.stopPropagation();
   }, []);
 
@@ -12,7 +12,7 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
                       jsx-a11y/click-events-have-key-events,
                       jsx-a11y/no-static-element-interactions,
                       react/jsx-props-no-spreading */
-    linkProps => <a {...linkProps} onClick={handleLinkClick} />,
+    (linkProps) => <a {...linkProps} onClick={handleLinkClick} />,
     /* eslint-enable jsx-a11y/anchor-has-content,
                      jsx-a11y/click-events-have-key-events,
                      jsx-a11y/no-static-element-interactions,

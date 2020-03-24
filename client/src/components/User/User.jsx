@@ -55,7 +55,7 @@ const COLORS = [
   '#2c3e50', // Midnight blue
 ];
 
-const getColor = name => {
+const getColor = (name) => {
   let sum = 0;
   for (let i = 0; i < name.length; i += 1) {
     sum += name.charCodeAt(i);

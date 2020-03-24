@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { pathSelector } from '../selectors';
 import ProjectWrapper from '../components/ProjectWrapper';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { cardId, boardId, projectId } = pathSelector(state);
 
   return {

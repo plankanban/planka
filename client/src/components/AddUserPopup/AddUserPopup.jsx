@@ -11,7 +11,7 @@ import { useForm } from '../../hooks';
 
 import styles from './AddUserPopup.module.css';
 
-const createMessage = error => {
+const createMessage = (error) => {
   if (!error) {
     return error;
   }

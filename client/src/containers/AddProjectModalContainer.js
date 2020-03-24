@@ -9,7 +9,7 @@ const mapStateToProps = ({ projectCreateForm: { data: defaultData, isSubmitting 
   isSubmitting,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onCreate: createProject,

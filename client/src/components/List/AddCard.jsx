@@ -60,7 +60,7 @@ const AddCard = React.forwardRef(({ children, onCreate }, ref) => {
   }, [open]);
 
   const handleFieldKeyDown = useCallback(
-    event => {
+    (event) => {
       switch (event.key) {
         case 'Enter':
           event.preventDefault();

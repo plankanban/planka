@@ -12,7 +12,7 @@ const AddMembershipStep = React.memo(({ users, currentUserIds, onCreate, onClose
   const [t] = useTranslation();
 
   const handleUserSelect = useCallback(
-    id => {
+    (id) => {
       onCreate({
         userId: id,
       });
@@ -31,7 +31,7 @@ const AddMembershipStep = React.memo(({ users, currentUserIds, onCreate, onClose
       </Popup.Header>
       <Popup.Content>
         <div className={styles.menu}>
-          {users.map(user => (
+          {users.map((user) => (
             <UserItem
               key={user.id}
               name={user.name}

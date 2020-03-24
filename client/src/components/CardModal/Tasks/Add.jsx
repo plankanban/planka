@@ -60,7 +60,7 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
   }, [open]);
 
   const handleFieldKeyDown = useCallback(
-    event => {
+    (event) => {
       if (event.key === 'Enter') {
         event.preventDefault();
 

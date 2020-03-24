@@ -7,7 +7,7 @@ const createBoard = (projectId, data, headers) =>
   socket.post(`/projects/${projectId}/boards`, data, headers);
 
 const getBoard = (id, headers) =>
-  socket.get(`/boards/${id}`, undefined, headers).then(body => ({
+  socket.get(`/boards/${id}`, undefined, headers).then((body) => ({
     ...body,
     included: {
       ...body.included,

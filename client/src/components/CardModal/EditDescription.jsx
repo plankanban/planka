@@ -51,7 +51,7 @@ const EditDescription = React.forwardRef(({ children, defaultValue, onUpdate }, 
   }, [open]);
 
   const handleFieldKeyDown = useCallback(
-    event => {
+    (event) => {
       if (event.ctrlKey && event.key === 'Enter') {
         submit();
       }

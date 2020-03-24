@@ -7,8 +7,8 @@ import { removeAccessToken } from '../../utils/access-token-storage';
 import ActionTypes from '../../constants/ActionTypes';
 import Paths from '../../constants/Paths';
 
-export default function*() {
-  yield all(watchers.map(watcher => fork(watcher)));
+export default function* () {
+  yield all(watchers.map((watcher) => fork(watcher)));
 
   yield apply(socket, socket.connect);
   yield fork(initializeAppService);

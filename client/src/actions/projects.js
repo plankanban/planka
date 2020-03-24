@@ -17,7 +17,7 @@ export const fetchProjectsSucceeded = (projects, users, projectMemberships, boar
   },
 });
 
-export const fetchProjectsFailed = error => ({
+export const fetchProjectsFailed = (error) => ({
   type: ActionTypes.PROJECTS_FETCH_FAILED,
   payload: {
     error,

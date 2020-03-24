@@ -27,7 +27,7 @@ const LabelsStep = React.memo(
     }, [openStep]);
 
     const handleEdit = useCallback(
-      id => {
+      (id) => {
         openStep(StepTypes.EDIT, {
           id,
         });
@@ -36,14 +36,14 @@ const LabelsStep = React.memo(
     );
 
     const handleSelect = useCallback(
-      id => {
+      (id) => {
         onSelect(id);
       },
       [onSelect],
     );
 
     const handleDeselect = useCallback(
-      id => {
+      (id) => {
         onDeselect(id);
       },
       [onDeselect],
@@ -57,7 +57,7 @@ const LabelsStep = React.memo(
     );
 
     const handleDelete = useCallback(
-      id => {
+      (id) => {
         onDelete(id);
       },
       [onDelete],
@@ -68,13 +68,13 @@ const LabelsStep = React.memo(
         case StepTypes.ADD:
           return <AddStep onCreate={onCreate} onBack={handleBack} />;
         case StepTypes.EDIT: {
-          const currentItem = items.find(item => item.id === step.params.id);
+          const currentItem = items.find((item) => item.id === step.params.id);
 
           if (currentItem) {
             return (
               <EditStep
                 defaultData={pick(currentItem, ['name', 'color'])}
-                onUpdate={data => handleUpdate(currentItem.id, data)}
+                onUpdate={(data) => handleUpdate(currentItem.id, data)}
                 onDelete={() => handleDelete(currentItem.id)}
                 onBack={handleBack}
               />
@@ -93,7 +93,7 @@ const LabelsStep = React.memo(
       <>
         <Popup.Header onBack={onBack}>{t(title)}</Popup.Header>
         <Popup.Content>
-          {items.map(item => (
+          {items.map((item) => (
             <Item
               key={item.id}
               name={item.name}

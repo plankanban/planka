@@ -22,7 +22,7 @@ const Project = React.memo(
     onMembershipDelete,
   }) => {
     const handleMembershipDelete = useCallback(
-      id => {
+      (id) => {
         onMembershipDelete(id);
       },
       [onMembershipDelete],
@@ -47,7 +47,7 @@ const Project = React.memo(
                 <span className={styles.name}>{name}</span>
               )}
               <span className={styles.users}>
-                {memberships.map(membership => (
+                {memberships.map((membership) => (
                   <span key={membership.id} className={styles.user}>
                     <EditMembershipPopup
                       user={membership.user}
@@ -67,7 +67,7 @@ const Project = React.memo(
               {isEditable && (
                 <AddMembershipPopup
                   users={allUsers}
-                  currentUserIds={memberships.map(membership => membership.user.id)}
+                  currentUserIds={memberships.map((membership) => membership.user.id)}
                   onCreate={onMembershipCreate}
                 >
                   <Button icon="add user" className={styles.addUser} />

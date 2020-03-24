@@ -26,14 +26,14 @@ const Filter = React.memo(
     const [t] = useTranslation();
 
     const handleUserRemoveClick = useCallback(
-      id => {
+      (id) => {
         onUserRemove(id);
       },
       [onUserRemove],
     );
 
     const handleLabelRemoveClick = useCallback(
-      id => {
+      (id) => {
         onLabelRemove(id);
       },
       [onLabelRemove],
@@ -44,7 +44,7 @@ const Filter = React.memo(
         <span className={styles.filter}>
           <ProjectMembershipsPopup
             items={allProjectMemberships}
-            currentUserIds={users.map(user => user.id)}
+            currentUserIds={users.map((user) => user.id)}
             title={t('common.filterByMembers', {
               context: 'title',
             })}
@@ -56,7 +56,7 @@ const Filter = React.memo(
               {users.length === 0 && <span className={styles.filterLabel}>{t('common.all')}</span>}
             </button>
           </ProjectMembershipsPopup>
-          {users.map(user => (
+          {users.map((user) => (
             <span key={user.id} className={styles.filterItem}>
               <User
                 name={user.name}
@@ -70,7 +70,7 @@ const Filter = React.memo(
         <span className={styles.filter}>
           <LabelsPopup
             items={allLabels}
-            currentIds={labels.map(label => label.id)}
+            currentIds={labels.map((label) => label.id)}
             title={t('common.filterByLabels', {
               context: 'title',
             })}
@@ -85,7 +85,7 @@ const Filter = React.memo(
               {labels.length === 0 && <span className={styles.filterLabel}>{t('common.all')}</span>}
             </button>
           </LabelsPopup>
-          {labels.map(label => (
+          {labels.map((label) => (
             <span key={label.id} className={styles.filterItem}>
               <Label
                 name={label.name}

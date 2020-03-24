@@ -26,9 +26,9 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = (dispatch, { id }) =>
   bindActionCreators(
     {
-      onUpdate: data => updateList(id, data),
+      onUpdate: (data) => updateList(id, data),
       onDelete: () => deleteList(id),
-      onCardCreate: data => createCard(id, data),
+      onCardCreate: (data) => createCard(id, data),
     },
     dispatch,
   );

@@ -61,15 +61,15 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = (dispatch, { id }) =>
   bindActionCreators(
     {
-      onUpdate: data => updateCard(id, data),
+      onUpdate: (data) => updateCard(id, data),
       onDelete: () => deleteCard(id),
-      onUserAdd: userId => addUserToCard(userId, id),
-      onUserRemove: userId => removeUserFromCard(userId, id),
-      onLabelAdd: labelId => addLabelToCard(labelId, id),
-      onLabelRemove: labelId => removeLabelFromCard(labelId, id),
-      onLabelCreate: data => createLabelInCurrentBoard(data),
+      onUserAdd: (userId) => addUserToCard(userId, id),
+      onUserRemove: (userId) => removeUserFromCard(userId, id),
+      onLabelAdd: (labelId) => addLabelToCard(labelId, id),
+      onLabelRemove: (labelId) => removeLabelFromCard(labelId, id),
+      onLabelCreate: (data) => createLabelInCurrentBoard(data),
       onLabelUpdate: (labelId, data) => updateLabel(labelId, data),
-      onLabelDelete: labelId => deleteLabel(labelId),
+      onLabelDelete: (labelId) => deleteLabel(labelId),
     },
     dispatch,
   );

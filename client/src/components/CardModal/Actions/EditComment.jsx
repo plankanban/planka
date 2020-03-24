@@ -57,7 +57,7 @@ const EditComment = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
   );
 
   const handleFieldKeyDown = useCallback(
-    event => {
+    (event) => {
       if (event.ctrlKey && event.key === 'Enter') {
         submit();
       }

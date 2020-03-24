@@ -7,7 +7,7 @@ import Config from '../constants/Config';
 const nextPosition = (items, index, excludedId) => {
   const filteredItems = isUndefined(excludedId)
     ? items
-    : items.filter(item => item.id !== excludedId);
+    : items.filter((item) => item.id !== excludedId);
 
   if (isUndefined(index)) {
     const lastItem = filteredItems[filteredItems.length - 1];
