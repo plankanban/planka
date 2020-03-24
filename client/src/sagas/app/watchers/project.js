@@ -7,7 +7,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function*() {
+export default function* () {
   yield all([
     takeLatest(EntryActionTypes.PROJECT_CREATE, ({ payload: { data } }) =>
       createProjectService(data),

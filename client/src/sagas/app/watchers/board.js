@@ -8,7 +8,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function*() {
+export default function* () {
   yield all([
     takeLatest(EntryActionTypes.BOARD_IN_CURRENT_PROJECT_CREATE, ({ payload: { data } }) =>
       createBoardInCurrentProjectService(data),

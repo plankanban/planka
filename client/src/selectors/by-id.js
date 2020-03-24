@@ -47,7 +47,7 @@ export const makeCardIdsByListIdSelector = () =>
         return listModel;
       }
 
-      return listModel.getOrderedFilteredCardsModelArray().map(cardModel => cardModel.id);
+      return listModel.getOrderedFilteredCardsModelArray().map((cardModel) => cardModel.id);
     },
   );
 

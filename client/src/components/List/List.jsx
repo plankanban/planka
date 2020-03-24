@@ -28,7 +28,7 @@ const List = React.memo(
     }, [isPersisted]);
 
     const handleNameUpdate = useCallback(
-      newName => {
+      (newName) => {
         onUpdate({
           name: newName,
         });

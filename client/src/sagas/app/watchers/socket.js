@@ -40,7 +40,7 @@ import {
 import api, { socket } from '../../../api';
 
 const createSocketEventsChannel = () =>
-  eventChannel(emit => {
+  eventChannel((emit) => {
     const handleReconnect = () => {
       emit([socketReconnectedService]);
     };
@@ -279,7 +279,7 @@ const createSocketEventsChannel = () =>
     };
   });
 
-export default function*() {
+export default function* () {
   const socketEventsChannel = yield call(createSocketEventsChannel);
 
   try {

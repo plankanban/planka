@@ -21,7 +21,7 @@ export default class extends Model {
       case ActionTypes.BOARD_CREATE_SUCCEEDED:
       case ActionTypes.BOARD_CREATE_RECEIVED:
       case ActionTypes.BOARD_FETCH_SUCCEEDED:
-        payload.labels.forEach(label => {
+        payload.labels.forEach((label) => {
           Label.upsert(label);
         });
 

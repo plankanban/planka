@@ -1,6 +1,6 @@
 import EntryActionTypes from '../../constants/EntryActionTypes';
 
-export const authenticate = data => ({
+export const authenticate = (data) => ({
   type: EntryActionTypes.AUTHENTICATE,
   payload: {
     data,

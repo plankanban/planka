@@ -58,7 +58,7 @@ const CardModal = React.memo(
     const [t] = useTranslation();
 
     const handleNameUpdate = useCallback(
-      newName => {
+      (newName) => {
         onUpdate({
           name: newName,
         });
@@ -67,7 +67,7 @@ const CardModal = React.memo(
     );
 
     const handleDescriptionUpdate = useCallback(
-      newDescription => {
+      (newDescription) => {
         onUpdate({
           description: newDescription,
         });
@@ -76,7 +76,7 @@ const CardModal = React.memo(
     );
 
     const handleDueDateUpdate = useCallback(
-      newDueDate => {
+      (newDueDate) => {
         onUpdate({
           dueDate: newDueDate,
         });
@@ -85,7 +85,7 @@ const CardModal = React.memo(
     );
 
     const handleTimerUpdate = useCallback(
-      newTimer => {
+      (newTimer) => {
         onUpdate({
           timer: newTimer,
         });
@@ -99,8 +99,8 @@ const CardModal = React.memo(
       });
     }, [isSubscribed, onUpdate]);
 
-    const userIds = users.map(user => user.id);
-    const labelIds = labels.map(label => label.id);
+    const userIds = users.map((user) => user.id);
+    const labelIds = labels.map((label) => label.id);
 
     return (
       <Modal open closeIcon size="small" centered={false} onClose={onClose}>
@@ -126,7 +126,7 @@ const CardModal = React.memo(
                           context: 'title',
                         })}
                       </div>
-                      {users.map(user => (
+                      {users.map((user) => (
                         <span key={user.id} className={styles.attachment}>
                           <ProjectMembershipsPopup
                             items={allProjectMemberships}
@@ -160,7 +160,7 @@ const CardModal = React.memo(
                           context: 'title',
                         })}
                       </div>
-                      {labels.map(label => (
+                      {labels.map((label) => (
                         <span key={label.id} className={styles.attachment}>
                           <LabelsPopup
                             key={label.id}

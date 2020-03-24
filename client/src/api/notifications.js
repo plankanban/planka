@@ -4,8 +4,8 @@ import { transformAction } from './actions';
 
 /* Actions */
 
-const getNotifications = headers =>
-  socket.get('/notifications', undefined, headers).then(body => ({
+const getNotifications = (headers) =>
+  socket.get('/notifications', undefined, headers).then((body) => ({
     ...body,
     included: {
       ...body.included,
@@ -19,7 +19,7 @@ const updateNotifications = (ids, data, headers) =>
 
 /* Event handlers */
 
-const makeHandleNotificationCreate = next => body => {
+const makeHandleNotificationCreate = (next) => (body) => {
   next({
     ...body,
     included: {

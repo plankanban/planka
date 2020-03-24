@@ -30,13 +30,13 @@ export default class extends Model {
   static reducer({ type, payload }, Notification) {
     switch (type) {
       case ActionTypes.NOTIFICATIONS_DELETE:
-        payload.ids.forEach(id => {
+        payload.ids.forEach((id) => {
           Notification.withId(id).delete();
         });
 
         break;
       case ActionTypes.NOTIFICATIONS_FETCH_SUCCEEDED:
-        payload.notifications.forEach(notification => {
+        payload.notifications.forEach((notification) => {
           Notification.upsert(notification);
         });
 

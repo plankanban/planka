@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Events */
 
-export const fetchActionsRequested = cardId => ({
+export const fetchActionsRequested = (cardId) => ({
   type: ActionTypes.ACTIONS_FETCH_REQUESTED,
   payload: {
     cardId,

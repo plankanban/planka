@@ -9,7 +9,7 @@ import { useForm } from '../../hooks';
 
 import styles from './EditNameStep.module.css';
 
-const createMessage = error => {
+const createMessage = (error) => {
   if (!error) {
     return error;
   }
@@ -68,7 +68,7 @@ const EditPasswordStep = React.memo(
         if (!error) {
           onClose();
         } else if (error.message === 'Current password is not valid') {
-          setData(prevData => ({
+          setData((prevData) => ({
             ...prevData,
             currentPassword: '',
           }));

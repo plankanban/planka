@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const deleteNotifications = ids => ({
+export const deleteNotifications = (ids) => ({
   type: ActionTypes.NOTIFICATIONS_DELETE,
   payload: {
     ids,
@@ -26,21 +26,21 @@ export const fetchNotificationsSucceeded = (notifications, users, cards, actions
   },
 });
 
-export const fetchNotificationsFailed = error => ({
+export const fetchNotificationsFailed = (error) => ({
   type: ActionTypes.NOTIFICATIONS_FETCH_FAILED,
   payload: {
     error,
   },
 });
 
-export const deleteNotificationsRequested = ids => ({
+export const deleteNotificationsRequested = (ids) => ({
   type: ActionTypes.NOTIFICATIONS_DELETE_REQUESTED,
   payload: {
     ids,
   },
 });
 
-export const deleteNotificationsSucceeded = notifications => ({
+export const deleteNotificationsSucceeded = (notifications) => ({
   type: ActionTypes.NOTIFICATIONS_DELETE_SUCCEEDED,
   payload: {
     notifications,

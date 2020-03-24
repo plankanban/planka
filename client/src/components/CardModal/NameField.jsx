@@ -18,7 +18,7 @@ const NameField = React.memo(({ defaultValue, onUpdate }) => {
     isFocused.current = true;
   }, []);
 
-  const handleKeyDown = useCallback(event => {
+  const handleKeyDown = useCallback((event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
 

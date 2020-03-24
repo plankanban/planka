@@ -11,7 +11,7 @@ import { useForm } from '../../hooks';
 
 import styles from './Login.module.css';
 
-const createMessage = error => {
+const createMessage = (error) => {
   if (!error) {
     return error;
   }
@@ -93,7 +93,7 @@ const Login = React.memo(
 
             break;
           case 'Password is not valid':
-            setData(prevData => ({
+            setData((prevData) => ({
               ...prevData,
               password: '',
             }));

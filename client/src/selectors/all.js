@@ -9,7 +9,7 @@ export const allUsersSelector = createSelector(orm, ({ User }) =>
 
 export const allUsersExceptCurrentSelector = createSelector(
   orm,
-  state => currentUserIdSelector(state),
+  (state) => currentUserIdSelector(state),
   ({ User }, currentUserId) =>
     User.getOrderedUndeletedQuerySet()
       .exclude({

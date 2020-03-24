@@ -10,7 +10,7 @@ const mapStateToProps = ({ userCreateForm: { data: defaultData, isSubmitting, er
   error,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onCreate: createUser,

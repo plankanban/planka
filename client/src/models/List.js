@@ -21,7 +21,7 @@ export default class extends Model {
       case ActionTypes.BOARD_CREATE_SUCCEEDED:
       case ActionTypes.BOARD_CREATE_RECEIVED:
       case ActionTypes.BOARD_FETCH_SUCCEEDED:
-        payload.lists.forEach(list => {
+        payload.lists.forEach((list) => {
           List.upsert(list);
         });
 
@@ -63,22 +63,22 @@ export default class extends Model {
   getOrderedFilteredCardsModelArray() {
     let cardModels = this.getOrderedCardsQuerySet().toModelArray();
 
-    const filterUserIds = this.board.filterUsers.toRefArray().map(user => user.id);
-    const filterLabelIds = this.board.filterLabels.toRefArray().map(label => label.id);
+    const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
+    const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);
 
     if (filterUserIds.length > 0) {
-      cardModels = cardModels.filter(cardModel => {
+      cardModels = cardModels.filter((cardModel) => {
         const users = cardModel.users.toRefArray();
 
-        return users.some(user => filterUserIds.includes(user.id));
+        return users.some((user) => filterUserIds.includes(user.id));
       });
     }
 
     if (filterLabelIds.length > 0) {
-      cardModels = cardModels.filter(cardModel => {
+      cardModels = cardModels.filter((cardModel) => {
         const labels = cardModel.labels.toRefArray();
 
-        return labels.some(label => filterLabelIds.includes(label.id));
+        return labels.some((label) => filterLabelIds.includes(label.id));
       });
     }
 
@@ -86,7 +86,7 @@ export default class extends Model {
   }
 
   deleteWithRelated() {
-    this.cards.toModelArray().forEach(cardModel => {
+    this.cards.toModelArray().forEach((cardModel) => {
       cardModel.deleteWithRelated();
     });
 

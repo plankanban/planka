@@ -15,7 +15,7 @@ const { socket } = io;
 
 socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
 
-['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach(method => {
+['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach((method) => {
   socket[method.toLowerCase()] = (url, data, headers) =>
     new Promise((resolve, reject) => {
       socket.request(

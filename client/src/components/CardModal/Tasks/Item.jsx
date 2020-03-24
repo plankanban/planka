@@ -18,7 +18,7 @@ const Item = React.memo(({ name, isCompleted, isPersisted, onUpdate, onDelete })
   }, [isPersisted]);
 
   const handleNameUpdate = useCallback(
-    newName => {
+    (newName) => {
       onUpdate({
         name: newName,
       });

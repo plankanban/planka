@@ -2,28 +2,28 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Events */
 
-export const createCardMembershipRequested = data => ({
+export const createCardMembershipRequested = (data) => ({
   type: ActionTypes.CARD_MEMBERSHIP_CREATE_REQUESTED,
   payload: {
     data,
   },
 });
 
-export const createCardMembershipSucceeded = cardMembership => ({
+export const createCardMembershipSucceeded = (cardMembership) => ({
   type: ActionTypes.CARD_MEMBERSHIP_CREATE_SUCCEEDED,
   payload: {
     cardMembership,
   },
 });
 
-export const createCardMembershipFailed = error => ({
+export const createCardMembershipFailed = (error) => ({
   type: ActionTypes.CARD_MEMBERSHIP_CREATE_FAILED,
   payload: {
     error,
   },
 });
 
-export const createCardMembershipReceived = cardMembership => ({
+export const createCardMembershipReceived = (cardMembership) => ({
   type: ActionTypes.CARD_MEMBERSHIP_CREATE_RECEIVED,
   payload: {
     cardMembership,
@@ -38,7 +38,7 @@ export const deleteCardMembershipRequested = (cardId, userId) => ({
   },
 });
 
-export const deleteCardMembershipSucceeded = cardMembership => ({
+export const deleteCardMembershipSucceeded = (cardMembership) => ({
   type: ActionTypes.CARD_MEMBERSHIP_DELETE_SUCCEEDED,
   payload: {
     cardMembership,
@@ -54,7 +54,7 @@ export const deleteCardMembershipFailed = (cardId, userId, error) => ({
   },
 });
 
-export const deleteCardMembershipReceived = cardMembership => ({
+export const deleteCardMembershipReceived = (cardMembership) => ({
   type: ActionTypes.CARD_MEMBERSHIP_DELETE_RECEIVED,
   payload: {
     cardMembership,

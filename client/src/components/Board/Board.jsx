@@ -13,7 +13,7 @@ import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-ic
 
 import styles from './Board.module.css';
 
-const parseDndId = dndId => dndId.split(':')[1];
+const parseDndId = (dndId) => dndId.split(':')[1];
 
 const Board = React.memo(
   ({

@@ -23,7 +23,7 @@ import {
 } from '../actions/entry';
 import Board from '../components/Board';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const { cardId } = pathSelector(state);
   const allProjectMemberships = membershipsForCurrentProjectSelector(state);
   const listIds = listIdsForCurrentBoardSelector(state);
@@ -41,7 +41,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onListCreate: createListInCurrentBoard,

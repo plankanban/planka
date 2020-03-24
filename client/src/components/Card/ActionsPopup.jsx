@@ -70,7 +70,7 @@ const ActionsStep = React.memo(
     }, [openStep]);
 
     const handleDueDateUpdate = useCallback(
-      dueDate => {
+      (dueDate) => {
         onUpdate({
           dueDate,
         });
@@ -79,7 +79,7 @@ const ActionsStep = React.memo(
     );
 
     const handleTimerUpdate = useCallback(
-      timer => {
+      (timer) => {
         onUpdate({
           timer,
         });

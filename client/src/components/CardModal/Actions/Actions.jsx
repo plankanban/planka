@@ -30,7 +30,7 @@ const Actions = React.memo(
     );
 
     const handleCommentDelete = useCallback(
-      id => {
+      (id) => {
         onCommentDelete(id);
       },
       [onCommentDelete],
@@ -51,7 +51,7 @@ const Actions = React.memo(
             <div className={styles.moduleHeader}>{t('common.actions')}</div>
             <div className={styles.wrapper}>
               <Comment.Group>
-                {items.map(item =>
+                {items.map((item) =>
                   item.type === ActionTypes.COMMENT_CARD ? (
                     <Item.Comment
                       key={item.id}
@@ -60,7 +60,7 @@ const Actions = React.memo(
                       isPersisted={item.isPersisted}
                       user={item.user}
                       isEditable={isEditable}
-                      onUpdate={data => handleCommentUpdate(item.id, data)}
+                      onUpdate={(data) => handleCommentUpdate(item.id, data)}
                       onDelete={() => handleCommentDelete(item.id)}
                     />
                   ) : (

@@ -11,7 +11,7 @@ import { createTimer, getTimerParts, startTimer, stopTimer, updateTimer } from '
 
 import styles from './EditTimerStep.module.css';
 
-const createData = timer => {
+const createData = (timer) => {
   if (!timer) {
     return {
       hours: '0',

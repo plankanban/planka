@@ -2,7 +2,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 /* Actions */
 
-export const createCard = card => ({
+export const createCard = (card) => ({
   type: ActionTypes.CARD_CREATE,
   payload: {
     card,
@@ -17,7 +17,7 @@ export const updateCard = (id, data) => ({
   },
 });
 
-export const deleteCard = id => ({
+export const deleteCard = (id) => ({
   type: ActionTypes.CARD_DELETE,
   payload: {
     id,
@@ -50,21 +50,21 @@ export const createCardFailed = (localId, error) => ({
   },
 });
 
-export const createCardReceived = card => ({
+export const createCardReceived = (card) => ({
   type: ActionTypes.CARD_CREATE_RECEIVED,
   payload: {
     card,
   },
 });
 
-export const fetchCardRequested = id => ({
+export const fetchCardRequested = (id) => ({
   type: ActionTypes.CARD_FETCH_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const fetchCardSucceeded = card => ({
+export const fetchCardSucceeded = (card) => ({
   type: ActionTypes.CARD_FETCH_SUCCEEDED,
   payload: {
     card,
@@ -87,7 +87,7 @@ export const updateCardRequested = (id, data) => ({
   },
 });
 
-export const updateCardSucceeded = card => ({
+export const updateCardSucceeded = (card) => ({
   type: ActionTypes.CARD_UPDATE_SUCCEEDED,
   payload: {
     card,
@@ -102,21 +102,21 @@ export const updateCardFailed = (id, error) => ({
   },
 });
 
-export const updateCardReceived = card => ({
+export const updateCardReceived = (card) => ({
   type: ActionTypes.CARD_UPDATE_RECEIVED,
   payload: {
     card,
   },
 });
 
-export const deleteCardRequested = id => ({
+export const deleteCardRequested = (id) => ({
   type: ActionTypes.CARD_DELETE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const deleteCardSucceeded = card => ({
+export const deleteCardSucceeded = (card) => ({
   type: ActionTypes.CARD_DELETE_SUCCEEDED,
   payload: {
     card,
@@ -131,7 +131,7 @@ export const deleteCardFailed = (id, error) => ({
   },
 });
 
-export const deleteCardReceived = card => ({
+export const deleteCardReceived = (card) => ({
   type: ActionTypes.CARD_DELETE_RECEIVED,
   payload: {
     card,

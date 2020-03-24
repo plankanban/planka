@@ -30,7 +30,7 @@ export default class extends Model {
   static reducer({ type, payload }, Action) {
     switch (type) {
       case ActionTypes.ACTIONS_FETCH_SUCCEEDED:
-        payload.actions.forEach(action => {
+        payload.actions.forEach((action) => {
           Action.upsert(action);
         });
 
@@ -64,7 +64,7 @@ export default class extends Model {
 
         break;
       case ActionTypes.NOTIFICATIONS_FETCH_SUCCEEDED:
-        payload.actions.forEach(action => {
+        payload.actions.forEach((action) => {
           Action.upsert({
             ...action,
             isInCard: false,

@@ -15,7 +15,7 @@ import {
 } from '../actions/entry';
 import Header from '../components/Header';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const currentUser = currentUserSelector(state);
   const notifications = notificationsForCurrentUserSelector(state);
 
@@ -26,7 +26,7 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onUsers: openUsersModal, // TODO: rename

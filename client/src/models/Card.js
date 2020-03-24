@@ -53,7 +53,7 @@ export default class extends Model {
 
         break;
       case ActionTypes.BOARD_FETCH_SUCCEEDED:
-        payload.cards.forEach(card => {
+        payload.cards.forEach((card) => {
           Card.upsert(card);
         });
 
@@ -132,7 +132,7 @@ export default class extends Model {
 
         break;
       case ActionTypes.NOTIFICATIONS_FETCH_SUCCEEDED:
-        payload.cards.forEach(card => {
+        payload.cards.forEach((card) => {
           Card.upsert(card);
         });
 

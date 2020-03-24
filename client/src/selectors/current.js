@@ -10,7 +10,7 @@ export const currentUserIdSelector = ({ auth: { userId } }) => userId;
 
 export const currentUserSelector = createSelector(
   orm,
-  state => currentUserIdSelector(state),
+  (state) => currentUserIdSelector(state),
   ({ User }, id) => {
     if (!id) {
       return id;
@@ -28,7 +28,7 @@ export const currentUserSelector = createSelector(
 
 export const projectsForCurrentUserSelector = createSelector(
   orm,
-  state => currentUserIdSelector(state),
+  (state) => currentUserIdSelector(state),
   ({ User }, id) => {
     if (!id) {
       return id;
@@ -45,8 +45,8 @@ export const projectsForCurrentUserSelector = createSelector(
       .toModelArray()
       .map(({ project: projectModel }) => {
         let notificationsTotal = 0;
-        projectModel.boards.toModelArray().forEach(boardModel => {
-          boardModel.cards.toModelArray().forEach(cardModel => {
+        projectModel.boards.toModelArray().forEach((boardModel) => {
+          boardModel.cards.toModelArray().forEach((cardModel) => {
             notificationsTotal += cardModel.getUnreadNotificationsQuerySet().count();
           });
         });
@@ -65,7 +65,7 @@ export const projectsForCurrentUserSelector = createSelector(
 
 export const notificationsForCurrentUserSelector = createSelector(
   orm,
-  state => currentUserIdSelector(state),
+  (state) => currentUserIdSelector(state),
   ({ User }, id) => {
     if (!id) {
       return id;
@@ -80,7 +80,7 @@ export const notificationsForCurrentUserSelector = createSelector(
     return userModel
       .getOrderedUnreadNotificationsQuerySet()
       .toModelArray()
-      .map(notificationModel => ({
+      .map((notificationModel) => ({
         ...notificationModel.ref,
         action: notificationModel.action && {
           ...notificationModel.action.ref,
@@ -93,7 +93,7 @@ export const notificationsForCurrentUserSelector = createSelector(
 
 export const currentProjectSelector = createSelector(
   orm,
-  state => pathSelector(state).projectId,
+  (state) => pathSelector(state).projectId,
   ({ Project }, id) => {
     if (!id) {
       return id;
@@ -111,8 +111,8 @@ export const currentProjectSelector = createSelector(
 
 export const membershipsForCurrentProjectSelector = createSelector(
   orm,
-  state => pathSelector(state).projectId,
-  state => currentUserIdSelector(state),
+  (state) => pathSelector(state).projectId,
+  (state) => currentUserIdSelector(state),
   ({ Project }, id, currentUserId) => {
     if (!id) {
       return id;
@@ -127,7 +127,7 @@ export const membershipsForCurrentProjectSelector = createSelector(
     return projectModel
       .getOrderedMembershipsQuerySet()
       .toModelArray()
-      .map(projectMembershipModel => ({
+      .map((projectMembershipModel) => ({
         ...projectMembershipModel.ref,
         isPersisted: !isLocalId(projectMembershipModel.id),
         user: {
@@ -140,7 +140,7 @@ export const membershipsForCurrentProjectSelector = createSelector(
 
 export const boardsForCurrentProjectSelector = createSelector(
   orm,
-  state => pathSelector(state).projectId,
+  (state) => pathSelector(state).projectId,
   ({ Project }, id) => {
     if (!id) {
       return id;
@@ -155,7 +155,7 @@ export const boardsForCurrentProjectSelector = createSelector(
     return projectModel
       .getOrderedBoardsQuerySet()
       .toRefArray()
-      .map(board => ({
+      .map((board) => ({
         ...board,
         isPersisted: !isLocalId(board.id),
       }));
@@ -164,7 +164,7 @@ export const boardsForCurrentProjectSelector = createSelector(
 
 export const currentBoardSelector = createSelector(
   orm,
-  state => pathSelector(state).boardId,
+  (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
       return id;
@@ -182,7 +182,7 @@ export const currentBoardSelector = createSelector(
 
 export const listIdsForCurrentBoardSelector = createSelector(
   orm,
-  state => pathSelector(state).boardId,
+  (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
       return id;
@@ -197,13 +197,13 @@ export const listIdsForCurrentBoardSelector = createSelector(
     return boardModel
       .getOrderedListsQuerySet()
       .toRefArray()
-      .map(list => list.id);
+      .map((list) => list.id);
   },
 );
 
 export const labelsForCurrentBoardSelector = createSelector(
   orm,
-  state => pathSelector(state).boardId,
+  (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
       return id;
@@ -215,7 +215,7 @@ export const labelsForCurrentBoardSelector = createSelector(
       return boardModel;
     }
 
-    return boardModel.labels.toRefArray().map(label => ({
+    return boardModel.labels.toRefArray().map((label) => ({
       ...label,
       isPersisted: !isLocalId(label.id),
     }));
@@ -224,7 +224,7 @@ export const labelsForCurrentBoardSelector = createSelector(
 
 export const filterUsersForCurrentBoardSelector = createSelector(
   orm,
-  state => pathSelector(state).boardId,
+  (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
       return id;
@@ -242,7 +242,7 @@ export const filterUsersForCurrentBoardSelector = createSelector(
 
 export const filterLabelsForCurrentBoardSelector = createSelector(
   orm,
-  state => pathSelector(state).boardId,
+  (state) => pathSelector(state).boardId,
   ({ Board }, id) => {
     if (!id) {
       return id;
@@ -260,7 +260,7 @@ export const filterLabelsForCurrentBoardSelector = createSelector(
 
 export const currentCardSelector = createSelector(
   orm,
-  state => pathSelector(state).cardId,
+  (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
       return id;
@@ -278,7 +278,7 @@ export const currentCardSelector = createSelector(
 
 export const usersForCurrentCardSelector = createSelector(
   orm,
-  state => pathSelector(state).cardId,
+  (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
       return id;
@@ -296,7 +296,7 @@ export const usersForCurrentCardSelector = createSelector(
 
 export const labelsForCurrentCardSelector = createSelector(
   orm,
-  state => pathSelector(state).cardId,
+  (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
       return id;
@@ -314,7 +314,7 @@ export const labelsForCurrentCardSelector = createSelector(
 
 export const tasksForCurrentCardSelector = createSelector(
   orm,
-  state => pathSelector(state).cardId,
+  (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
       return id;
@@ -329,7 +329,7 @@ export const tasksForCurrentCardSelector = createSelector(
     return cardModel
       .getOrderedTasksQuerySet()
       .toRefArray()
-      .map(task => ({
+      .map((task) => ({
         ...task,
         isPersisted: !isLocalId(task.id),
       }));
@@ -338,8 +338,8 @@ export const tasksForCurrentCardSelector = createSelector(
 
 export const actionsForCurrentCardSelector = createSelector(
   orm,
-  state => pathSelector(state).cardId,
-  state => currentUserIdSelector(state),
+  (state) => pathSelector(state).cardId,
+  (state) => currentUserIdSelector(state),
   ({ Card }, id, currentUserId) => {
     if (!id) {
       return id;
@@ -354,7 +354,7 @@ export const actionsForCurrentCardSelector = createSelector(
     return cardModel
       .getOrderedInCardActionsQuerySet()
       .toModelArray()
-      .map(actionModel => ({
+      .map((actionModel) => ({
         ...actionModel.ref,
         isPersisted: !isLocalId(actionModel.id),
         user: {
@@ -367,7 +367,7 @@ export const actionsForCurrentCardSelector = createSelector(
 
 export const notificationIdsForCurrentCardSelector = createSelector(
   orm,
-  state => pathSelector(state).cardId,
+  (state) => pathSelector(state).cardId,
   ({ Card }, id) => {
     if (!id) {
       return id;
@@ -382,6 +382,6 @@ export const notificationIdsForCurrentCardSelector = createSelector(
     return cardModel
       .getUnreadNotificationsQuerySet()
       .toRefArray()
-      .map(notification => notification.id);
+      .map((notification) => notification.id);
   },
 );

@@ -59,7 +59,7 @@ export default class extends Model {
       case ActionTypes.PROJECT_CREATE_RECEIVED:
       case ActionTypes.ACTIONS_FETCH_SUCCEEDED:
       case ActionTypes.NOTIFICATIONS_FETCH_SUCCEEDED:
-        payload.users.forEach(user => {
+        payload.users.forEach((user) => {
           User.upsert(user);
         });
 
@@ -214,7 +214,7 @@ export default class extends Model {
   }
 
   deleteWithRelated(user) {
-    this.projectMemberships.toModelArray().forEach(projectMembershipModel => {
+    this.projectMemberships.toModelArray().forEach((projectMembershipModel) => {
       projectMembershipModel.deleteWithRelated();
     });
 
