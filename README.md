@@ -82,7 +82,6 @@ Demo user: demo@demo.demo demo
 
 ## Roadmap
 
-- [ ] Move board tabs to the main page, add members directly to a board instead of a project
 - [ ] Fetch last data after reconnection
 - [ ] File attachments
 - [ ] Custom fields
