@@ -1,6 +1,6 @@
 const Errors = {
   PROJECT_MEMBERSHIP_NOT_FOUND: {
-    notFound: 'Project membership is not found',
+    projectMembershipNotFound: 'Project membership not found',
   },
 };
 
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    projectMembershipNotFound: {
       responseType: 'notFound',
     },
   },

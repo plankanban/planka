@@ -2,7 +2,7 @@ module.exports = {
   inputs: {
     ids: {
       type: 'json',
-      custom: value => _.isArray(value),
+      custom: (value) => _.isArray(value),
       required: true,
     },
     user: {
@@ -26,7 +26,7 @@ module.exports = {
       .set(inputs.values)
       .fetch();
 
-    notifications.forEach(notification => {
+    notifications.forEach((notification) => {
       sails.sockets.broadcast(
         `user:${notification.userId}`,
         'notificationUpdate',

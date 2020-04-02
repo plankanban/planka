@@ -1,6 +1,6 @@
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found',
+    userNotFound: 'User not found',
   },
 };
 
@@ -20,12 +20,12 @@ module.exports = {
     },
     avatar: {
       type: 'json',
-      custom: value => _.isNull(value),
+      custom: (value) => _.isNull(value),
     },
   },
 
   exits: {
-    notFound: {
+    userNotFound: {
       responseType: 'notFound',
     },
   },

@@ -1,6 +1,9 @@
 const Errors = {
-  USER_EXIST: {
-    conflict: 'User is already exist',
+  EMAIL_ALREADY_IN_USE: {
+    emailAlreadyInUse: 'Email already in use',
+  },
+  USERNAME_ALREADY_IN_USE: {
+    usernameAlreadyInUse: 'Username already in use',
   },
 };
 
@@ -19,20 +22,32 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    username: {
+      type: 'string',
+      isNotEmptyString: true,
+      minLength: 3,
+      maxLength: 16,
+      regex: /^[a-zA-Z0-9]+(_?[a-zA-Z0-9])*$/,
+      allowNull: true,
+    },
   },
 
   exits: {
-    conflict: {
+    emailAlreadyInUse: {
+      responseType: 'conflict',
+    },
+    usernameAlreadyInUse: {
       responseType: 'conflict',
     },
   },
 
   async fn(inputs, exits) {
-    const values = _.pick(inputs, ['email', 'password', 'name']);
+    const values = _.pick(inputs, ['email', 'password', 'name', 'username']);
 
     const user = await sails.helpers
       .createUser(values, this.req)
-      .intercept('conflict', () => Errors.USER_EXIST);
+      .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
+      .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);
 
     return exits.success({
       item: user,

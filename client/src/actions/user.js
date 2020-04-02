@@ -36,6 +36,13 @@ export const clearUserPasswordUpdateError = (id) => ({
   },
 });
 
+export const clearUserUsernameUpdateError = (id) => ({
+  type: ActionTypes.USER_USERNAME_UPDATE_ERROR_CLEAR,
+  payload: {
+    id,
+  },
+});
+
 export const deleteUser = (id) => ({
   type: ActionTypes.USER_DELETE,
   payload: {
@@ -196,6 +203,30 @@ export const updateUserPasswordSucceeded = (id) => ({
 
 export const updateUserPasswordFailed = (id, error) => ({
   type: ActionTypes.USER_PASSWORD_UPDATE_FAILED,
+  payload: {
+    id,
+    error,
+  },
+});
+
+export const updateUserUsernameRequested = (id, data) => ({
+  type: ActionTypes.USER_USERNAME_UPDATE_REQUESTED,
+  payload: {
+    id,
+    data,
+  },
+});
+
+export const updateUserUsernameSucceeded = (id, username) => ({
+  type: ActionTypes.USER_USERNAME_UPDATE_SUCCEEDED,
+  payload: {
+    id,
+    username,
+  },
+});
+
+export const updateUserUsernameFailed = (id, error) => ({
+  type: ActionTypes.USER_USERNAME_UPDATE_FAILED,
   payload: {
     id,
     error,

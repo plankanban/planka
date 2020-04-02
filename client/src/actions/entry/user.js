@@ -51,6 +51,18 @@ export const clearCurrentUserPasswordUpdateError = () => ({
   payload: {},
 });
 
+export const updateCurrentUserUsername = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_USERNAME_UPDATE,
+  payload: {
+    data,
+  },
+});
+
+export const clearCurrentUserUsernameUpdateError = () => ({
+  type: EntryActionTypes.CURRENT_USER_USERNAME_UPDATE_ERROR_CLEAR,
+  payload: {},
+});
+
 export const uploadCurrentUserAvatar = (file) => ({
   type: EntryActionTypes.CURRENT_USER_AVATAR_UPLOAD,
   payload: {

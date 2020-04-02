@@ -7,20 +7,20 @@ module.exports = {
   },
 
   exits: {
-    notFound: {},
+    pathNotFound: {},
   },
 
   async fn(inputs, exits) {
     const task = await Task.findOne(inputs.criteria);
 
     if (!task) {
-      throw 'notFound';
+      throw 'pathNotFound';
     }
 
     const path = await sails.helpers
       .getCardToProjectPath(task.cardId)
-      .intercept('notFound', nodes => ({
-        notFound: {
+      .intercept('pathNotFound', (nodes) => ({
+        pathNotFound: {
           task,
           ...nodes,
         },

@@ -6,7 +6,7 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: value =>
+      custom: (value) =>
         _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
       required: true,
     },
@@ -39,7 +39,7 @@ module.exports = {
           position: nextPosition,
         });
 
-        userIds.forEach(userId => {
+        userIds.forEach((userId) => {
           sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
             item: {
               id,
@@ -53,7 +53,7 @@ module.exports = {
     const board = await Board.updateOne(inputs.record.id).set(inputs.values);
 
     if (board) {
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'boardUpdate',

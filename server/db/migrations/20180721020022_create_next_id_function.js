@@ -1,4 +1,4 @@
-module.exports.up = knex =>
+module.exports.up = (knex) =>
   knex.raw(`
     CREATE SEQUENCE next_id_seq;
 
@@ -20,7 +20,7 @@ module.exports.up = knex =>
     $$ LANGUAGE PLPGSQL;
   `);
 
-module.exports.down = knex =>
+module.exports.down = (knex) =>
   knex.raw(`
     DROP SEQUENCE next_id_seq;
     DROP FUNCTION next_id(OUT id BIGINT);

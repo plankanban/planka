@@ -2,7 +2,7 @@ module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      custom: value => _.isString(value) || _.isPlainObject(value),
+      custom: (value) => _.isString(value) || _.isPlainObject(value),
       required: true,
     },
   },

@@ -20,6 +20,15 @@ const DEFAULT_PASSWORD_UPDATE_FORM = {
   error: null,
 };
 
+const DEFAULT_USERNAME_UPDATE_FORM = {
+  data: {
+    username: '',
+    currentPassword: '',
+  },
+  isSubmitting: false,
+  error: null,
+};
+
 export default class extends Model {
   static modelName = 'User';
 
@@ -40,6 +49,9 @@ export default class extends Model {
     }),
     passwordUpdateForm: attr({
       getDefault: () => DEFAULT_PASSWORD_UPDATE_FORM,
+    }),
+    usernameUpdateForm: attr({
+      getDefault: () => DEFAULT_USERNAME_UPDATE_FORM,
     }),
   };
 
@@ -86,6 +98,18 @@ export default class extends Model {
         userModel.update({
           passwordUpdateForm: {
             ...userModel.passwordUpdateForm,
+            error: null,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_USERNAME_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          usernameUpdateForm: {
+            ...userModel.usernameUpdateForm,
             error: null,
           },
         });
@@ -160,6 +184,40 @@ export default class extends Model {
         userModel.update({
           passwordUpdateForm: {
             ...userModel.passwordUpdateForm,
+            isSubmitting: false,
+            error: payload.error,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_USERNAME_UPDATE_REQUESTED: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          usernameUpdateForm: {
+            ...userModel.usernameUpdateForm,
+            data: payload.data,
+            isSubmitting: true,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_USERNAME_UPDATE_SUCCEEDED: {
+        User.withId(payload.id).update({
+          username: payload.username,
+          usernameUpdateForm: DEFAULT_USERNAME_UPDATE_FORM,
+        });
+
+        break;
+      }
+      case ActionTypes.USER_USERNAME_UPDATE_FAILED: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          usernameUpdateForm: {
+            ...userModel.usernameUpdateForm,
             isSubmitting: false,
             error: payload.error,
           },

@@ -1,6 +1,6 @@
 const Errors = {
   PROJECT_NOT_FOUND: {
-    notFound: 'Project is not found',
+    projectNotFound: 'Project not found',
   },
 };
 
@@ -22,7 +22,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    projectNotFound: {
       responseType: 'notFound',
     },
   },

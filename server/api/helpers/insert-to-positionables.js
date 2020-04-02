@@ -2,14 +2,14 @@ const GAP = 2 ** 14;
 const MIN_GAP = 0.125;
 const MAX_POSITION = 2 ** 50;
 
-const findBeginnings = positions => {
+const findBeginnings = (positions) => {
   positions.unshift(0);
 
   let prevPosition = positions.pop();
   const beginnings = [prevPosition];
 
   // eslint-disable-next-line consistent-return
-  _.forEachRight(positions, position => {
+  _.forEachRight(positions, (position) => {
     if (prevPosition - MIN_GAP >= position) {
       return false;
     }
@@ -21,7 +21,7 @@ const findBeginnings = positions => {
   return beginnings;
 };
 
-const getRepositionsMap = positions => {
+const getRepositionsMap = (positions) => {
   const repositionsMap = {};
 
   if (positions.length <= 1) {
@@ -62,7 +62,7 @@ const getRepositionsMap = positions => {
   return repositionsMap;
 };
 
-const getFullRepositionsMap = positions => {
+const getFullRepositionsMap = (positions) => {
   const repositionsMap = {};
 
   _.forEach(positions, (position, index) => {

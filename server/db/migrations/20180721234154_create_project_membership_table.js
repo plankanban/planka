@@ -1,11 +1,8 @@
-module.exports.up = knex =>
-  knex.schema.createTable('project_membership', table => {
+module.exports.up = (knex) =>
+  knex.schema.createTable('project_membership', (table) => {
     /* Columns */
 
-    table
-      .bigInteger('id')
-      .primary()
-      .defaultTo(knex.raw('next_id()'));
+    table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
 
     table.bigInteger('project_id').notNullable();
     table.bigInteger('user_id').notNullable();
@@ -19,4 +16,4 @@ module.exports.up = knex =>
     table.index('user_id');
   });
 
-module.exports.down = knex => knex.schema.dropTable('project_membership');
+module.exports.down = (knex) => knex.schema.dropTable('project_membership');

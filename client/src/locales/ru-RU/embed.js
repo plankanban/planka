@@ -1,8 +1,8 @@
 export default {
   translation: {
     common: {
-      email: 'E-mail',
-      emailDoesNotExist: 'Неверный e-mail',
+      emailOrUsername: 'E-mail или имя пользователя',
+      invalidEmailOrUsername: 'Неверный e-mail или имя пользователя',
       invalidPassword: 'Неверный пароль',
       logInToPlanka: 'Вход в Planka',
       noInternetConnection: 'Нет соединения',

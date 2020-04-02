@@ -1,6 +1,6 @@
 const Errors = {
   COMMENT_ACTION_NOT_FOUND: {
-    notFound: 'Comment action is not found',
+    commentActionNotFound: 'Comment action not found',
   },
 };
 
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    commentActionNotFound: {
       responseType: 'notFound',
     },
   },
@@ -33,7 +33,7 @@ module.exports = {
 
     const actionToProjectPath = await sails.helpers
       .getActionToProjectPath(criteria)
-      .intercept('notFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
 
     let { action } = actionToProjectPath;
     const { board, project } = actionToProjectPath;

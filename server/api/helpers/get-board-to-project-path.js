@@ -7,21 +7,21 @@ module.exports = {
   },
 
   exits: {
-    notFound: {},
+    pathNotFound: {},
   },
 
   async fn(inputs, exits) {
     const board = await Board.findOne(inputs.criteria);
 
     if (!board) {
-      throw 'notFound';
+      throw 'pathNotFound';
     }
 
     const project = await Project.findOne(board.projectId);
 
     if (!project) {
       throw {
-        notFound: {
+        pathNotFound: {
           board,
         },
       };

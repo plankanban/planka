@@ -2,10 +2,10 @@ const moment = require('moment');
 
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found',
+    cardNotFound: 'Card not found',
   },
   LIST_NOT_FOUND: {
-    notFound: 'List is not found',
+    listNotFound: 'List not found',
   },
 };
 
@@ -34,12 +34,12 @@ module.exports = {
     },
     dueDate: {
       type: 'string',
-      custom: value => moment(value, moment.ISO_8601, true).isValid(),
+      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
       allowNull: true,
     },
     timer: {
       type: 'json',
-      custom: value =>
+      custom: (value) =>
         _.isPlainObject(value) &&
         _.size(value) === 2 &&
         (_.isNull(value.startedAt) || moment(value.startedAt, moment.ISO_8601, true).isValid()) &&
@@ -51,7 +51,10 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    cardNotFound: {
+      responseType: 'notFound',
+    },
+    listNotFound: {
       responseType: 'notFound',
     },
   },
@@ -61,7 +64,7 @@ module.exports = {
 
     const cardToProjectPath = await sails.helpers
       .getCardToProjectPath(inputs.id)
-      .intercept('notFound', () => Errors.CARD_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     let { card } = cardToProjectPath;
     const { list, project } = cardToProjectPath;

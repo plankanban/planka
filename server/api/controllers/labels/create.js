@@ -1,6 +1,6 @@
 const Errors = {
   BOARD_NOT_FOUND: {
-    notFound: 'Board is not found',
+    boardNotFound: 'Board not found',
   },
 };
 
@@ -24,7 +24,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    boardNotFound: {
       responseType: 'notFound',
     },
   },
@@ -34,7 +34,7 @@ module.exports = {
 
     const { board, project } = await sails.helpers
       .getBoardToProjectPath(inputs.boardId)
-      .intercept('notFound', () => Errors.BOARD_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,

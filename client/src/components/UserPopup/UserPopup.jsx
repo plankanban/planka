@@ -7,6 +7,7 @@ import { Popup } from '../../lib/custom-ui';
 
 import { useSteps } from '../../hooks';
 import EditNameStep from './EditNameStep';
+import EditUsernameStep from './EditUsernameStep';
 import EditAvatarStep from './EditAvatarStep';
 import EditEmailStep from './EditEmailStep';
 import EditPasswordStep from './EditPasswordStep';
@@ -15,6 +16,7 @@ import styles from './UserPopup.module.css';
 
 const StepTypes = {
   EDIT_NAME: 'EDIT_NAME',
+  EDIT_USERNAME: 'EDIT_USERNAME',
   EDIT_AVATAR: 'EDIT_AVATAR',
   EDIT_EMAIL: 'EDIT_EMAIL',
   EDIT_PASSWORD: 'EDIT_PASSWORD',
@@ -24,12 +26,16 @@ const UserStep = React.memo(
   ({
     email,
     name,
+    username,
     avatar,
     isAvatarUploading,
+    usernameUpdateForm,
     emailUpdateForm,
     passwordUpdateForm,
     onUpdate,
     onAvatarUpload,
+    onUsernameUpdate,
+    onUsernameUpdateMessageDismiss,
     onEmailUpdate,
     onEmailUpdateMessageDismiss,
     onPasswordUpdate,
@@ -46,6 +52,10 @@ const UserStep = React.memo(
 
     const handleAvatarEditClick = useCallback(() => {
       openStep(StepTypes.EDIT_AVATAR);
+    }, [openStep]);
+
+    const handleUsernameEditClick = useCallback(() => {
+      openStep(StepTypes.EDIT_USERNAME);
     }, [openStep]);
 
     const handleEmailEditClick = useCallback(() => {
@@ -93,6 +103,19 @@ const UserStep = React.memo(
               onBack={handleBack}
             />
           );
+        case StepTypes.EDIT_USERNAME:
+          return (
+            <EditUsernameStep
+              defaultData={usernameUpdateForm.data}
+              username={username}
+              isSubmitting={usernameUpdateForm.isSubmitting}
+              error={usernameUpdateForm.error}
+              onUpdate={onUsernameUpdate}
+              onMessageDismiss={onUsernameUpdateMessageDismiss}
+              onBack={handleBack}
+              onClose={onClose}
+            />
+          );
         case StepTypes.EDIT_EMAIL:
           return (
             <EditEmailStep
@@ -124,7 +147,11 @@ const UserStep = React.memo(
 
     return (
       <>
-        <Popup.Header>{name}</Popup.Header>
+        <Popup.Header>
+          {t('common.userActions', {
+            context: 'title',
+          })}
+        </Popup.Header>
         <Popup.Content>
           <Menu secondary vertical className={styles.menu}>
             <Menu.Item className={styles.menuItem} onClick={handleNameEditClick}>
@@ -134,6 +161,11 @@ const UserStep = React.memo(
             </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleAvatarEditClick}>
               {t('action.editAvatar', {
+                context: 'title',
+              })}
+            </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleUsernameEditClick}>
+              {t('action.editUsername', {
                 context: 'title',
               })}
             </Menu.Item>
@@ -162,14 +194,18 @@ const UserStep = React.memo(
 UserStep.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  username: PropTypes.string,
   avatar: PropTypes.string,
   isAvatarUploading: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
+  usernameUpdateForm: PropTypes.object.isRequired,
   emailUpdateForm: PropTypes.object.isRequired,
   passwordUpdateForm: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
   onUpdate: PropTypes.func.isRequired,
   onAvatarUpload: PropTypes.func.isRequired,
+  onUsernameUpdate: PropTypes.func.isRequired,
+  onUsernameUpdateMessageDismiss: PropTypes.func.isRequired,
   onEmailUpdate: PropTypes.func.isRequired,
   onEmailUpdateMessageDismiss: PropTypes.func.isRequired,
   onPasswordUpdate: PropTypes.func.isRequired,
@@ -179,6 +215,7 @@ UserStep.propTypes = {
 };
 
 UserStep.defaultProps = {
+  username: undefined,
   avatar: undefined,
 };
 

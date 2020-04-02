@@ -8,6 +8,7 @@ import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
+import { isUsername } from '../../utils/validator';
 
 import styles from './Login.module.css';
 
@@ -17,12 +18,12 @@ const createMessage = (error) => {
   }
 
   switch (error.message) {
-    case 'Email does not exist':
+    case 'Invalid email or username':
       return {
         type: 'error',
-        content: 'common.emailDoesNotExist',
+        content: 'common.invalidEmailOrUsername',
       };
-    case 'Password is not valid':
+    case 'Invalid password':
       return {
         type: 'error',
         content: 'common.invalidPassword',
@@ -51,7 +52,7 @@ const Login = React.memo(
     const wasSubmitting = usePrevious(isSubmitting);
 
     const [data, handleFieldChange, setData] = useForm(() => ({
-      email: '',
+      emailOrUsername: '',
       password: '',
       ...defaultData,
     }));
@@ -59,17 +60,17 @@ const Login = React.memo(
     const message = useMemo(() => createMessage(error), [error]);
     const [focusPasswordFieldState, focusPasswordField] = useToggle();
 
-    const emailField = useRef(null);
+    const emailOrUsernameField = useRef(null);
     const passwordField = useRef(null);
 
     const handleSubmit = useCallback(() => {
       const cleanData = {
         ...data,
-        email: data.email.trim(),
+        emailOrUsername: data.emailOrUsername.trim(),
       };
 
-      if (!isEmail(cleanData.email)) {
-        emailField.current.select();
+      if (!isEmail(cleanData.emailOrUsername) && !isUsername(cleanData.emailOrUsername)) {
+        emailOrUsernameField.current.select();
         return;
       }
 
@@ -82,17 +83,17 @@ const Login = React.memo(
     }, [onAuthenticate, data]);
 
     useEffect(() => {
-      emailField.current.select();
+      emailOrUsernameField.current.select();
     }, []);
 
     useEffect(() => {
       if (wasSubmitting && !isSubmitting && error) {
         switch (error.message) {
-          case 'Email does not exist':
-            emailField.current.select();
+          case 'Invalid email or username':
+            emailOrUsernameField.current.select();
 
             break;
-          case 'Password is not valid':
+          case 'Invalid password':
             setData((prevData) => ({
               ...prevData,
               password: '',
@@ -136,12 +137,12 @@ const Login = React.memo(
                     )}
                     <Form size="large" onSubmit={handleSubmit}>
                       <div className={styles.inputWrapper}>
-                        <div className={styles.inputLabel}>{t('common.email')}</div>
+                        <div className={styles.inputLabel}>{t('common.emailOrUsername')}</div>
                         <Input
                           fluid
-                          ref={emailField}
-                          name="email"
-                          value={data.email}
+                          ref={emailOrUsernameField}
+                          name="emailOrUsername"
+                          value={data.emailOrUsername}
                           readOnly={isSubmitting}
                           className={styles.input}
                           onChange={handleFieldChange}

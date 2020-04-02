@@ -17,6 +17,7 @@ module.exports.routes = {
   'PATCH /api/users/:id': 'users/update',
   'PATCH /api/users/:id/email': 'users/update-email',
   'PATCH /api/users/:id/password': 'users/update-password',
+  'PATCH /api/users/:id/username': 'users/update-username',
   'POST /api/users/:id/upload-avatar': 'users/upload-avatar',
   'DELETE /api/users/:id': 'users/delete',
 

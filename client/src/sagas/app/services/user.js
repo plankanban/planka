@@ -8,6 +8,7 @@ import {
   updateUserEmailRequest,
   updateUserPasswordRequest,
   updateUserRequest,
+  updateUserUsernameRequest,
   uploadUserAvatarRequest,
 } from '../requests';
 import { currentUserIdSelector, pathSelector } from '../../../selectors';
@@ -17,6 +18,7 @@ import {
   clearUserCreateError,
   clearUserEmailUpdateError,
   clearUserPasswordUpdateError,
+  clearUserUsernameUpdateError,
   createUser,
   deleteUser,
   updateUser,
@@ -82,6 +84,26 @@ export function* clearCurrentUserPasswordUpdateErrorService() {
   const id = yield select(currentUserIdSelector);
 
   yield call(clearUserPasswordUpdateErrorService, id);
+}
+
+export function* updateUserUsernameService(id, data) {
+  yield call(updateUserUsernameRequest, id, data);
+}
+
+export function* updateCurrentUserUsernameService(data) {
+  const id = yield select(currentUserIdSelector);
+
+  yield call(updateUserUsernameService, id, data);
+}
+
+export function* clearUserUsernameUpdateErrorService(id) {
+  yield put(clearUserUsernameUpdateError(id));
+}
+
+export function* clearCurrentUserUsernameUpdateErrorService() {
+  const id = yield select(currentUserIdSelector);
+
+  yield call(clearUserUsernameUpdateErrorService, id);
 }
 
 export function* uploadUserAvatarService(id, file) {

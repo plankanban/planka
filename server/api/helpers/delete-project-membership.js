@@ -34,7 +34,7 @@ module.exports = {
         projectMembership.projectId,
       );
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectMembershipDelete',
@@ -47,7 +47,7 @@ module.exports = {
 
       sails.sockets.removeRoomMembersFromRooms(
         `user:${projectMembership.userId}`,
-        boardIds.map(boardId => `board:${boardId}`),
+        boardIds.map((boardId) => `board:${boardId}`),
       );
 
       const project = await Project.findOne(projectMembership.projectId);

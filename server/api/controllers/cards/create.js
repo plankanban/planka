@@ -2,7 +2,7 @@ const moment = require('moment');
 
 const Errors = {
   LIST_NOT_FOUND: {
-    notFound: 'List is not found',
+    listNotFound: 'List not found',
   },
 };
 
@@ -28,11 +28,11 @@ module.exports = {
     },
     dueDate: {
       type: 'string',
-      custom: value => moment(value, moment.ISO_8601, true).isValid(),
+      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
     },
     timer: {
       type: 'json',
-      custom: value =>
+      custom: (value) =>
         _.isPlainObject(value) &&
         _.size(value) === 2 &&
         (_.isNull(value.startedAt) || moment(value.startedAt, moment.ISO_8601, true).isValid()) &&
@@ -41,7 +41,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    listNotFound: {
       responseType: 'notFound',
     },
   },
@@ -51,7 +51,7 @@ module.exports = {
 
     const { list, project } = await sails.helpers
       .getListToProjectPath(inputs.listId)
-      .intercept('notFound', () => Errors.LIST_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,

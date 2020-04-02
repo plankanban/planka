@@ -7,7 +7,7 @@ const sharp = require('sharp');
 
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found',
+    userNotFound: 'User not found',
   },
 };
 
@@ -32,9 +32,7 @@ const createReceiver = () => {
     }
     firstFileHandled = true;
 
-    const resize = sharp()
-      .resize(36, 36)
-      .jpeg();
+    const resize = sharp().resize(36, 36).jpeg();
 
     const transform = new stream.Transform({
       transform(chunk, streamEncoding, callback) {
@@ -71,10 +69,10 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    userNotFound: {
       responseType: 'notFound',
     },
-    unprocessableEntity: {
+    uploadError: {
       responseType: 'unprocessableEntity',
     },
   },
@@ -97,11 +95,11 @@ module.exports = {
 
     this.req.file('file').upload(createReceiver(), async (error, files) => {
       if (error) {
-        return exits.unprocessableEntity(error.message);
+        return exits.uploadError(error.message);
       }
 
       if (files.length === 0) {
-        return exits.unprocessableEntity('No file was uploaded');
+        return exits.uploadError('No file was uploaded');
       }
 
       user = await sails.helpers.updateUser(

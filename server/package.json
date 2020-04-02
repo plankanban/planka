@@ -51,7 +51,8 @@
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
     "sharp": "^0.25.2",
-    "uuid": "^7.0.2"
+    "uuid": "^7.0.2",
+    "validator": "^13.0.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

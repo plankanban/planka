@@ -1,6 +1,6 @@
 const Errors = {
   TASK_NOT_FOUND: {
-    notFound: 'Task is not found',
+    taskNotFound: 'Task not found',
   },
 };
 
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    taskNotFound: {
       responseType: 'notFound',
     },
   },
@@ -24,7 +24,7 @@ module.exports = {
 
     const taskToProjectPath = await sails.helpers
       .getTaskToProjectPath(inputs.id)
-      .intercept('notFound', () => Errors.TASK_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.TASK_NOT_FOUND);
 
     let { task } = taskToProjectPath;
     const { board, project } = taskToProjectPath;

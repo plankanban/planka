@@ -34,8 +34,9 @@ const UsersModal = React.memo(({ items, onUpdate, onDelete, onClose }) => {
         <Table basic="very">
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>{t('common.name')}</Table.HeaderCell>
-              <Table.HeaderCell>{t('common.email')}</Table.HeaderCell>
+              <Table.HeaderCell width={4}>{t('common.name')}</Table.HeaderCell>
+              <Table.HeaderCell width={4}>{t('common.username')}</Table.HeaderCell>
+              <Table.HeaderCell width={4}>{t('common.email')}</Table.HeaderCell>
               <Table.HeaderCell>{t('common.administrator')}</Table.HeaderCell>
               <Table.HeaderCell />
             </Table.Row>
@@ -45,6 +46,7 @@ const UsersModal = React.memo(({ items, onUpdate, onDelete, onClose }) => {
               <Item
                 key={item.id}
                 name={item.name}
+                username={item.username}
                 email={item.email}
                 isAdmin={item.isAdmin}
                 onUpdate={(data) => handleUpdate(item.id, data)}

@@ -19,7 +19,7 @@ module.exports = {
     if (project) {
       const userIds = await sails.helpers.getMembershipUserIdsForProject(project.id);
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectUpdate',

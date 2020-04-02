@@ -10,12 +10,6 @@ module.exports = {
     },
   },
 
-  exits: {
-    notFound: {
-      responseType: 'notFound',
-    },
-  },
-
   async fn(inputs, exits) {
     const { currentUser } = this.req;
 

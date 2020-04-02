@@ -1,12 +1,12 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found',
+    cardNotFound: 'Card not found',
   },
   USER_NOT_FOUND: {
-    notFound: 'User is not found',
+    userNotFound: 'User not found',
   },
-  CARD_MEMBERSHIP_EXIST: {
-    conflict: 'Card membership is already exist',
+  USER_ALREADY_CARD_MEMBER: {
+    userAlreadyCardMember: 'User already card member',
   },
 };
 
@@ -25,10 +25,13 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    cardNotFound: {
       responseType: 'notFound',
     },
-    conflict: {
+    userNotFound: {
+      responseType: 'notFound',
+    },
+    userAlreadyCardMember: {
       responseType: 'conflict',
     },
   },
@@ -38,7 +41,7 @@ module.exports = {
 
     const { card, project } = await sails.helpers
       .getCardToProjectPath(inputs.cardId)
-      .intercept('notFound', () => Errors.CARD_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     let isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
@@ -57,7 +60,7 @@ module.exports = {
 
     const cardMembership = await sails.helpers
       .createCardMembership(card, inputs.userId, this.req)
-      .intercept('conflict', () => Errors.CARD_MEMBERSHIP_EXIST);
+      .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
 
     return exits.success({
       item: cardMembership,
