@@ -1,9 +1,9 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found',
+    cardNotFound: 'Card not found',
   },
-  CARD_LABEL_NOT_FOUND: {
-    notFound: 'Card label is not found',
+  LABEL_NOT_IN_CARD: {
+    labelNotInCard: 'Label not in card',
   },
 };
 
@@ -22,7 +22,10 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    cardNotFound: {
+      responseType: 'notFound',
+    },
+    labelNotInCard: {
       responseType: 'notFound',
     },
   },
@@ -32,7 +35,7 @@ module.exports = {
 
     const { board, project } = await sails.helpers
       .getCardToProjectPath(inputs.cardId)
-      .intercept('notFound', () => Errors.CARD_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
@@ -49,13 +52,13 @@ module.exports = {
     });
 
     if (!cardLabel) {
-      throw Errors.CARD_LABEL_NOT_FOUND;
+      throw Errors.LABEL_NOT_IN_CARD;
     }
 
     cardLabel = await sails.helpers.deleteCardLabel(cardLabel, board, this.req);
 
     if (!cardLabel) {
-      throw Errors.CARD_LABEL_NOT_FOUND;
+      throw Errors.LABEL_NOT_IN_CARD;
     }
 
     return exits.success({

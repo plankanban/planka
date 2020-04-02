@@ -2,7 +2,7 @@ import ActionTypes from '../../constants/ActionTypes';
 
 const initialState = {
   data: {
-    email: '',
+    emailOrUsername: '',
     password: '',
   },
   isSubmitting: false,

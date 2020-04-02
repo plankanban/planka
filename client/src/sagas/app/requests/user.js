@@ -20,6 +20,9 @@ import {
   updateUserPasswordSucceeded,
   updateUserRequested,
   updateUserSucceeded,
+  updateUserUsernameFailed,
+  updateUserUsernameRequested,
+  updateUserUsernameSucceeded,
   uploadUserAvatarFailed,
   uploadUserAvatarRequested,
   uploadUserAvatarSucceeded,
@@ -137,6 +140,30 @@ export function* updateUserPasswordRequest(id, data) {
     };
   } catch (error) {
     const action = updateUserPasswordFailed(id, error);
+    yield put(action);
+
+    return {
+      success: false,
+      payload: action.payload,
+    };
+  }
+}
+
+export function* updateUserUsernameRequest(id, data) {
+  yield put(updateUserUsernameRequested(id, data));
+
+  try {
+    const { item } = yield call(request, api.updateUserUsername, id, data);
+
+    const action = updateUserUsernameSucceeded(id, item);
+    yield put(action);
+
+    return {
+      success: true,
+      payload: action.payload,
+    };
+  } catch (error) {
+    const action = updateUserUsernameFailed(id, error);
     yield put(action);
 
     return {

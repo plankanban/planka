@@ -4,6 +4,7 @@ const initialState = {
   data: {
     email: '',
     name: '',
+    username: '',
   },
   isSubmitting: false,
   error: null,

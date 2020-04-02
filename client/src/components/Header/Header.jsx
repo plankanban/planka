@@ -18,6 +18,8 @@ const Header = React.memo(
     onNotificationDelete,
     onUserUpdate,
     onUserAvatarUpload,
+    onUserUsernameUpdate,
+    onUserUsernameUpdateMessageDismiss,
     onUserEmailUpdate,
     onUserEmailUpdateMessageDismiss,
     onUserPasswordUpdate,
@@ -46,12 +48,16 @@ const Header = React.memo(
           <UserPopup
             email={user.email}
             name={user.name}
+            username={user.username}
             avatar={user.avatar}
             isAvatarUploading={user.isAvatarUploading}
+            usernameUpdateForm={user.usernameUpdateForm}
             emailUpdateForm={user.emailUpdateForm}
             passwordUpdateForm={user.passwordUpdateForm}
             onUpdate={onUserUpdate}
             onAvatarUpload={onUserAvatarUpload}
+            onUsernameUpdate={onUserUsernameUpdate}
+            onUsernameUpdateMessageDismiss={onUserUsernameUpdateMessageDismiss}
             onEmailUpdate={onUserEmailUpdate}
             onEmailUpdateMessageDismiss={onUserEmailUpdateMessageDismiss}
             onPasswordUpdate={onUserPasswordUpdate}
@@ -76,6 +82,8 @@ Header.propTypes = {
   onNotificationDelete: PropTypes.func.isRequired,
   onUserUpdate: PropTypes.func.isRequired,
   onUserAvatarUpload: PropTypes.func.isRequired,
+  onUserUsernameUpdate: PropTypes.func.isRequired,
+  onUserUsernameUpdateMessageDismiss: PropTypes.func.isRequired,
   onUserEmailUpdate: PropTypes.func.isRequired,
   onUserEmailUpdateMessageDismiss: PropTypes.func.isRequired,
   onUserPasswordUpdate: PropTypes.func.isRequired,

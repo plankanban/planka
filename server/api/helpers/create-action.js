@@ -35,7 +35,7 @@ module.exports = {
 
     const userIds = await sails.helpers.getSubscriptionUserIdsForCard(action.cardId, action.userId);
 
-    userIds.forEach(async userId => {
+    userIds.forEach(async (userId) => {
       const notification = await Notification.create({
         userId,
         actionId: action.id,

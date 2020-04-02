@@ -1,11 +1,8 @@
-module.exports.up = knex =>
-  knex.schema.createTable('notification', table => {
+module.exports.up = (knex) =>
+  knex.schema.createTable('notification', (table) => {
     /* Columns */
 
-    table
-      .bigInteger('id')
-      .primary()
-      .defaultTo(knex.raw('next_id()'));
+    table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
 
     table.bigInteger('user_id').notNullable();
     table.bigInteger('action_id').notNullable();
@@ -24,4 +21,4 @@ module.exports.up = knex =>
     table.index('is_read');
   });
 
-module.exports.down = knex => knex.schema.dropTable('notification');
+module.exports.down = (knex) => knex.schema.dropTable('notification');

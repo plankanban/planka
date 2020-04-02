@@ -7,7 +7,7 @@ import DeletePopup from '../DeletePopup';
 
 import styles from './Item.module.css';
 
-const Item = React.memo(({ name, email, isAdmin, onUpdate, onDelete }) => {
+const Item = React.memo(({ name, username, email, isAdmin, onUpdate, onDelete }) => {
   const [t] = useTranslation();
 
   const handleIsAdminChange = useCallback(() => {
@@ -19,6 +19,7 @@ const Item = React.memo(({ name, email, isAdmin, onUpdate, onDelete }) => {
   return (
     <Table.Row>
       <Table.Cell>{name}</Table.Cell>
+      <Table.Cell>{username || '-'}</Table.Cell>
       <Table.Cell>{email}</Table.Cell>
       <Table.Cell collapsing>
         <Radio toggle checked={isAdmin} onChange={handleIsAdminChange} />
@@ -41,10 +42,15 @@ const Item = React.memo(({ name, email, isAdmin, onUpdate, onDelete }) => {
 
 Item.propTypes = {
   name: PropTypes.string.isRequired,
+  username: PropTypes.string,
   email: PropTypes.string.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+};
+
+Item.defaultProps = {
+  username: undefined,
 };
 
 export default Item;

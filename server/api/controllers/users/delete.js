@@ -1,6 +1,6 @@
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found',
+    userNotFound: 'User not found',
   },
 };
 
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    userNotFound: {
       responseType: 'notFound',
     },
   },

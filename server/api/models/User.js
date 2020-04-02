@@ -29,6 +29,14 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    username: {
+      type: 'string',
+      isNotEmptyString: true,
+      minLength: 3,
+      maxLength: 16,
+      regex: /^[a-zA-Z0-9]+(_?[a-zA-Z0-9])*$/,
+      allowNull: true,
+    },
     avatar: {
       type: 'string',
       isNotEmptyString: true,

@@ -10,10 +10,11 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: value =>
+      custom: (value) =>
         _.isPlainObject(value) &&
         (_.isUndefined(value.email) || _.isString(value.email)) &&
-        (_.isUndefined(value.password) || _.isString(value.password)),
+        (_.isUndefined(value.password) || _.isString(value.password)) &&
+        (!value.username || _.isString(value.username)),
       required: true,
     },
     request: {
@@ -22,7 +23,8 @@ module.exports = {
   },
 
   exits: {
-    conflict: {},
+    emailAlreadyInUse: {},
+    usernameAlreadyInUse: {},
   },
 
   async fn(inputs, exits) {
@@ -42,6 +44,11 @@ module.exports = {
       }
     }
 
+    if (inputs.values.username) {
+      // eslint-disable-next-line no-param-reassign
+      inputs.values.username = inputs.values.username.toLowerCase();
+    }
+
     const user = await User.updateOne({
       id: inputs.record.id,
       deletedAt: null,
@@ -52,7 +59,14 @@ module.exports = {
           message:
             'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"',
         },
-        'conflict',
+        'emailAlreadyInUse',
+      )
+      .intercept(
+        {
+          message:
+            'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_username_unique"',
+        },
+        'usernameAlreadyInUse',
       );
 
     if (user) {
@@ -73,7 +87,7 @@ module.exports = {
 
         const userIds = _.union([user.id], adminUserIds, userIdsForProject);
 
-        userIds.forEach(userId => {
+        userIds.forEach((userId) => {
           sails.sockets.broadcast(
             `user:${userId}`,
             'userUpdate',

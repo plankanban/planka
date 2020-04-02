@@ -14,7 +14,7 @@ module.exports = {
   },
 
   exits: {
-    conflict: {},
+    userAlreadyProjectMember: {},
   },
 
   async fn(inputs, exits) {
@@ -22,7 +22,7 @@ module.exports = {
       projectId: inputs.project.id,
       userId: inputs.user.id,
     })
-      .intercept('E_UNIQUE', 'conflict')
+      .intercept('E_UNIQUE', 'userAlreadyProjectMember')
       .fetch();
 
     const { userIds, projectMemberships } = await sails.helpers.getMembershipUserIdsForProject(
@@ -30,7 +30,7 @@ module.exports = {
       true,
     );
 
-    userIds.forEach(userId => {
+    userIds.forEach((userId) => {
       if (userId !== projectMembership.userId) {
         sails.sockets.broadcast(
           `user:${userId}`,

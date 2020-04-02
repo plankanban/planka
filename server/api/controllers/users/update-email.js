@@ -2,13 +2,13 @@ const bcrypt = require('bcrypt');
 
 const Errors = {
   USER_NOT_FOUND: {
-    notFound: 'User is not found',
+    userNotFound: 'User not found',
   },
-  CURRENT_PASSWORD_NOT_VALID: {
-    forbidden: 'Current password is not valid',
+  INVALID_CURRENT_PASSWORD: {
+    invalidCurrentPassword: 'Invalid current password',
   },
-  USER_EXIST: {
-    conflict: 'User is already exist',
+  EMAIL_ALREADY_IN_USE: {
+    emailAlreadyInUse: 'Email already in use',
   },
 };
 
@@ -31,13 +31,13 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    userNotFound: {
       responseType: 'notFound',
     },
-    forbidden: {
+    invalidCurrentPassword: {
       responseType: 'forbidden',
     },
-    conflict: {
+    emailAlreadyInUse: {
       responseType: 'conflict',
     },
   },
@@ -47,7 +47,7 @@ module.exports = {
 
     if (inputs.id === currentUser.id) {
       if (!inputs.currentPassword) {
-        throw Errors.CURRENT_PASSWORD_NOT_VALID;
+        throw Errors.INVALID_CURRENT_PASSWORD;
       }
     } else if (!currentUser.isAdmin) {
       throw Errors.USER_NOT_FOUND; // Forbidden
@@ -63,14 +63,14 @@ module.exports = {
       inputs.id === currentUser.id &&
       !bcrypt.compareSync(inputs.currentPassword, user.password)
     ) {
-      throw Errors.CURRENT_PASSWORD_NOT_VALID;
+      throw Errors.INVALID_CURRENT_PASSWORD;
     }
 
     const values = _.pick(inputs, ['email']);
 
     user = await sails.helpers
       .updateUser(user, values, this.req)
-      .intercept('conflict', () => Errors.USER_EXIST);
+      .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;

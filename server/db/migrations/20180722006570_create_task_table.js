@@ -1,11 +1,8 @@
-module.exports.up = knex =>
-  knex.schema.createTable('task', table => {
+module.exports.up = (knex) =>
+  knex.schema.createTable('task', (table) => {
     /* Columns */
 
-    table
-      .bigInteger('id')
-      .primary()
-      .defaultTo(knex.raw('next_id()'));
+    table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
 
     table.bigInteger('card_id').notNullable();
 
@@ -20,4 +17,4 @@ module.exports.up = knex =>
     table.index('card_id');
   });
 
-module.exports.down = knex => knex.schema.dropTable('task');
+module.exports.down = (knex) => knex.schema.dropTable('task');

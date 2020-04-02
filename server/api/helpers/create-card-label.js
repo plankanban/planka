@@ -13,12 +13,16 @@ module.exports = {
     },
   },
 
+  exits: {
+    labelAlreadyInCard: {},
+  },
+
   async fn(inputs, exits) {
     const cardLabel = await CardLabel.create({
       cardId: inputs.card.id,
       labelId: inputs.label.id,
     })
-      .intercept('E_UNIQUE', 'conflict')
+      .intercept('E_UNIQUE', 'labelAlreadyInCard')
       .fetch();
 
     sails.sockets.broadcast(

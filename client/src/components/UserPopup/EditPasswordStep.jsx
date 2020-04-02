@@ -15,7 +15,7 @@ const createMessage = (error) => {
   }
 
   switch (error.message) {
-    case 'Current password is not valid':
+    case 'Invalid current password':
       return {
         type: 'error',
         content: 'common.invalidCurrentPassword',
@@ -67,7 +67,7 @@ const EditPasswordStep = React.memo(
       if (wasSubmitting && !isSubmitting) {
         if (!error) {
           onClose();
-        } else if (error.message === 'Current password is not valid') {
+        } else if (error.message === 'Invalid current password') {
           setData((prevData) => ({
             ...prevData,
             currentPassword: '',

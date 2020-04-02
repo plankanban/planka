@@ -1,12 +1,12 @@
 const Errors = {
   PROJECT_NOT_FOUND: {
-    notFound: 'Project is not found',
+    projectNotFound: 'Project not found',
   },
   USER_NOT_FOUND: {
-    notFound: 'User is not found',
+    userNotFound: 'User not found',
   },
-  PROJECT_MEMBERSHIP_EXIST: {
-    conflict: 'Project membership is already exist',
+  USER_ALREADY_PROJECT_MEMBER: {
+    userAlreadyProjectMember: 'User already project member',
   },
 };
 
@@ -25,10 +25,13 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    projectNotFound: {
       responseType: 'notFound',
     },
-    conflict: {
+    userNotFound: {
+      responseType: 'notFound',
+    },
+    userAlreadyProjectMember: {
       responseType: 'conflict',
     },
   },
@@ -48,7 +51,7 @@ module.exports = {
 
     const projectMembership = await sails.helpers
       .createProjectMembership(project, user, this.req)
-      .intercept('conflict', () => Errors.PROJECT_MEMBERSHIP_EXIST);
+      .intercept('userAlreadyProjectMember', () => Errors.USER_ALREADY_PROJECT_MEMBER);
 
     return exits.success({
       item: projectMembership,

@@ -1,6 +1,6 @@
 const Errors = {
   LABEL_NOT_FOUND: {
-    notFound: 'Label is not found',
+    labelNotFound: 'Label not found',
   },
 };
 
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    labelNotFound: {
       responseType: 'notFound',
     },
   },
@@ -24,7 +24,7 @@ module.exports = {
 
     const labelToProjectPath = await sails.helpers
       .getLabelToProjectPath(inputs.id)
-      .intercept('notFound', () => Errors.LABEL_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.LABEL_NOT_FOUND);
 
     let { label } = labelToProjectPath;
     const { project } = labelToProjectPath;

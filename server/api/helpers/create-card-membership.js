@@ -6,12 +6,16 @@ module.exports = {
     },
     userOrUserId: {
       type: 'ref',
-      custom: value => _.isPlainObject(value) || _.isString(value),
+      custom: (value) => _.isPlainObject(value) || _.isString(value),
       required: true,
     },
     request: {
       type: 'ref',
     },
+  },
+
+  exits: {
+    userAlreadyCardMember: {},
   },
 
   async fn(inputs, exits) {
@@ -21,7 +25,7 @@ module.exports = {
       userId,
       cardId: inputs.card.id,
     })
-      .intercept('E_UNIQUE', 'conflict')
+      .intercept('E_UNIQUE', 'userAlreadyCardMember')
       .fetch();
 
     sails.sockets.broadcast(

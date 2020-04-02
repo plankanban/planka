@@ -1,6 +1,6 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found',
+    cardNotFound: 'Card not found',
   },
 };
 
@@ -18,7 +18,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    cardNotFound: {
       responseType: 'notFound',
     },
   },
@@ -28,7 +28,7 @@ module.exports = {
 
     const { project } = await sails.helpers
       .getCardToProjectPath(inputs.cardId)
-      .intercept('notFound', () => Errors.CARD_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,

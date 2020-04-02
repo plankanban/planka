@@ -16,6 +16,9 @@ const updateUserEmail = (id, data, headers) => socket.patch(`/users/${id}/email`
 const updateUserPassword = (id, data, headers) =>
   socket.patch(`/users/${id}/password`, data, headers);
 
+const updateUserUsername = (id, data, headers) =>
+  socket.patch(`/users/${id}/username`, data, headers);
+
 const uploadUserAvatar = (id, file, headers) =>
   http.post(
     `/users/${id}/upload-avatar`,
@@ -34,6 +37,7 @@ export default {
   updateUser,
   updateUserEmail,
   updateUserPassword,
+  updateUserUsername,
   uploadUserAvatar,
   deleteUser,
 };

@@ -2,7 +2,7 @@ module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      custom: value => _.isArray(value) || _.isPlainObject(value),
+      custom: (value) => _.isArray(value) || _.isPlainObject(value),
     },
     limit: {
       type: 'number',
@@ -10,9 +10,7 @@ module.exports = {
   },
 
   async fn(inputs, exits) {
-    const actions = await Action.find(inputs.criteria)
-      .sort('id DESC')
-      .limit(inputs.limit);
+    const actions = await Action.find(inputs.criteria).sort('id DESC').limit(inputs.limit);
 
     return exits.success(actions);
   },

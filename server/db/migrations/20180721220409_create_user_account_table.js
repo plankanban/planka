@@ -1,17 +1,15 @@
-module.exports.up = knex =>
+module.exports.up = (knex) =>
   knex.schema
-    .createTable('user_account', table => {
+    .createTable('user_account', (table) => {
       /* Columns */
 
-      table
-        .bigInteger('id')
-        .primary()
-        .defaultTo(knex.raw('next_id()'));
+      table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
 
       table.text('email').notNullable();
       table.text('password').notNullable();
       table.boolean('is_admin').notNullable();
       table.text('name').notNullable();
+      table.text('username');
       table.text('avatar');
 
       table.timestamp('created_at', true);
@@ -20,6 +18,9 @@ module.exports.up = knex =>
     })
     .raw(
       'ALTER TABLE "user_account" ADD CONSTRAINT "user_email_unique" EXCLUDE ("email" WITH =) WHERE ("deleted_at" IS NULL)',
+    )
+    .raw(
+      'ALTER TABLE "user_account" ADD CONSTRAINT "user_username_unique" EXCLUDE ("username" WITH =) WHERE ("username" IS NOT NULL AND "deleted_at" IS NULL)',
     );
 
-module.exports.down = knex => knex.schema.dropTable('user_account');
+module.exports.down = (knex) => knex.schema.dropTable('user_account');

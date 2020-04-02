@@ -17,7 +17,7 @@ module.exports = {
 
       const userIds = await sails.helpers.getMembershipUserIdsForProject(board.projectId);
 
-      userIds.forEach(userId => {
+      userIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'boardDelete',

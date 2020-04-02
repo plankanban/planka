@@ -1,6 +1,6 @@
 const Errors = {
   LIST_NOT_FOUND: {
-    notFound: 'List is not found',
+    listNotFound: 'List not found',
   },
 };
 
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    listNotFound: {
       responseType: 'notFound',
     },
   },
@@ -24,7 +24,7 @@ module.exports = {
 
     const listToProjectPath = await sails.helpers
       .getListToProjectPath(inputs.id)
-      .intercept('notFound', () => Errors.LIST_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
     let { list } = listToProjectPath;
     const { project } = listToProjectPath;

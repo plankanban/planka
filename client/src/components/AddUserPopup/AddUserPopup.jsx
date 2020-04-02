@@ -8,6 +8,7 @@ import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
+import { isUsername } from '../../utils/validator';
 
 import styles from './AddUserPopup.module.css';
 
@@ -16,17 +17,23 @@ const createMessage = (error) => {
     return error;
   }
 
-  if (error.message === 'User is already exist') {
-    return {
-      type: 'error',
-      content: 'common.userIsAlreadyExist',
-    };
+  switch (error.message) {
+    case 'Email already in use':
+      return {
+        type: 'error',
+        content: 'common.emailAlreadyInUse',
+      };
+    case 'Username already in use':
+      return {
+        type: 'error',
+        content: 'common.usernameAlreadyInUse',
+      };
+    default:
+      return {
+        type: 'warning',
+        content: 'common.unknownError',
+      };
   }
-
-  return {
-    type: 'warning',
-    content: 'common.unknownError',
-  };
 };
 
 const AddUserPopup = React.memo(
@@ -38,6 +45,7 @@ const AddUserPopup = React.memo(
       email: '',
       password: '',
       name: '',
+      username: '',
       ...defaultData,
     }));
 
@@ -46,12 +54,14 @@ const AddUserPopup = React.memo(
     const emailField = useRef(null);
     const passwordField = useRef(null);
     const nameField = useRef(null);
+    const usernameField = useRef(null);
 
     const handleSubmit = useCallback(() => {
       const cleanData = {
         ...data,
         email: data.email.trim(),
         name: data.name.trim(),
+        username: data.username.trim() || null,
       };
 
       if (!isEmail(cleanData.email)) {
@@ -69,6 +79,11 @@ const AddUserPopup = React.memo(
         return;
       }
 
+      if (cleanData.username && !isUsername(cleanData.username)) {
+        usernameField.current.select();
+        return;
+      }
+
       onCreate(cleanData);
     }, [onCreate, data]);
 
@@ -78,10 +93,20 @@ const AddUserPopup = React.memo(
 
     useEffect(() => {
       if (wasSubmitting && !isSubmitting) {
-        if (!error) {
+        if (error) {
+          switch (error.message) {
+            case 'Email already in use':
+              emailField.current.select();
+
+              break;
+            case 'Username already in use':
+              usernameField.current.select();
+
+              break;
+            default:
+          }
+        } else {
           onClose();
-        } else if (error.message === 'User is already exist') {
-          emailField.current.select();
         }
       }
     }, [isSubmitting, wasSubmitting, error, onClose]);
@@ -132,6 +157,22 @@ const AddUserPopup = React.memo(
               ref={nameField}
               name="name"
               value={data.name}
+              readOnly={isSubmitting}
+              className={styles.field}
+              onChange={handleFieldChange}
+            />
+            <div className={styles.text}>
+              {t('common.username')} (
+              {t('common.optional', {
+                context: 'inline',
+              })}
+              )
+            </div>
+            <Input
+              fluid
+              ref={usernameField}
+              name="username"
+              value={data.username}
               readOnly={isSubmitting}
               className={styles.field}
               onChange={handleFieldChange}

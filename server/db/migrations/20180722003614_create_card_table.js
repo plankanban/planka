@@ -1,11 +1,8 @@
-module.exports.up = knex =>
-  knex.schema.createTable('card', table => {
+module.exports.up = (knex) =>
+  knex.schema.createTable('card', (table) => {
     /* Columns */
 
-    table
-      .bigInteger('id')
-      .primary()
-      .defaultTo(knex.raw('next_id()'));
+    table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
 
     table.bigInteger('list_id').notNullable();
     table.bigInteger('board_id').notNullable();
@@ -25,4 +22,4 @@ module.exports.up = knex =>
     table.index('position');
   });
 
-module.exports.down = knex => knex.schema.dropTable('card');
+module.exports.down = (knex) => knex.schema.dropTable('card');

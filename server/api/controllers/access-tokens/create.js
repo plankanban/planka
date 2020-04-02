@@ -1,20 +1,24 @@
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 const Errors = {
-  EMAIL_NOT_EXIST: {
-    unauthorized: 'Email does not exist',
+  INVALID_EMAIL_OR_USERNAME: {
+    invalidEmailOrUsername: 'Invalid email or username',
   },
-  PASSWORD_NOT_VALID: {
-    unauthorized: 'Password is not valid',
+  INVALID_PASSWORD: {
+    invalidPassword: 'Invalid password',
   },
 };
 
 module.exports = {
   inputs: {
-    email: {
+    emailOrUsername: {
       type: 'string',
+      custom: (value) =>
+        value.includes('@')
+          ? validator.isEmail(value)
+          : value.length >= 3 && value.length <= 16 && /^[a-zA-Z0-9]+(_?[a-zA-Z0-9])*$/.test(value),
       required: true,
-      isEmail: true,
     },
     password: {
       type: 'string',
@@ -23,22 +27,23 @@ module.exports = {
   },
 
   exits: {
-    unauthorized: {
+    invalidEmailOrUsername: {
+      responseType: 'unauthorized',
+    },
+    invalidPassword: {
       responseType: 'unauthorized',
     },
   },
 
   async fn(inputs, exits) {
-    const user = await sails.helpers.getUser({
-      email: inputs.email.toLowerCase(),
-    });
+    const user = await sails.helpers.getUserByEmailOrUsername(inputs.emailOrUsername);
 
     if (!user) {
-      throw Errors.EMAIL_NOT_EXIST;
+      throw Errors.INVALID_EMAIL_OR_USERNAME;
     }
 
     if (!bcrypt.compareSync(inputs.password, user.password)) {
-      throw Errors.PASSWORD_NOT_VALID;
+      throw Errors.INVALID_PASSWORD;
     }
 
     return exits.success({

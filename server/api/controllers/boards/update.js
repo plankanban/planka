@@ -1,6 +1,6 @@
 const Errors = {
   BOARD_NOT_FOUND: {
-    notFound: 'Board is not found',
+    boardNotFound: 'Board not found',
   },
 };
 
@@ -21,7 +21,7 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    boardNotFound: {
       responseType: 'notFound',
     },
   },

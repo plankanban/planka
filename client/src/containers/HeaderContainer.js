@@ -5,12 +5,14 @@ import { currentUserSelector, notificationsForCurrentUserSelector } from '../sel
 import {
   clearCurrentUserEmailUpdateError,
   clearCurrentUserPasswordUpdateError,
+  clearCurrentUserUsernameUpdateError,
   deleteNotification,
   logout,
   openUsersModal,
   updateCurrentUser,
   updateCurrentUserEmail,
   updateCurrentUserPassword,
+  updateCurrentUserUsername,
   uploadCurrentUserAvatar,
 } from '../actions/entry';
 import Header from '../components/Header';
@@ -33,6 +35,8 @@ const mapDispatchToProps = (dispatch) =>
       onNotificationDelete: deleteNotification,
       onUserUpdate: updateCurrentUser,
       onUserAvatarUpload: uploadCurrentUserAvatar,
+      onUserUsernameUpdate: updateCurrentUserUsername,
+      onUserUsernameUpdateMessageDismiss: clearCurrentUserUsernameUpdateError,
       onUserEmailUpdate: updateCurrentUserEmail,
       onUserEmailUpdateMessageDismiss: clearCurrentUserEmailUpdateError,
       onUserPasswordUpdate: updateCurrentUserPassword,

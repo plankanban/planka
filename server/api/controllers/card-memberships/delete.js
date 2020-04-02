@@ -1,9 +1,9 @@
 const Errors = {
   CARD_NOT_FOUND: {
-    notFound: 'Card is not found',
+    cardNotFound: 'Card not found',
   },
-  CARD_MEMBERSHIP_NOT_FOUND: {
-    notFound: 'Card membership is not found',
+  USER_NOT_CARD_MEMBER: {
+    userNotCardMember: 'User not card member',
   },
 };
 
@@ -22,7 +22,10 @@ module.exports = {
   },
 
   exits: {
-    notFound: {
+    cardNotFound: {
+      responseType: 'notFound',
+    },
+    userNotCardMember: {
       responseType: 'notFound',
     },
   },
@@ -32,7 +35,7 @@ module.exports = {
 
     const { board, project } = await sails.helpers
       .getCardToProjectPath(inputs.cardId)
-      .intercept('notFound', () => Errors.CARD_NOT_FOUND);
+      .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
@@ -49,13 +52,13 @@ module.exports = {
     });
 
     if (!cardMembership) {
-      throw Errors.CARD_MEMBERSHIP_NOT_FOUND;
+      throw Errors.USER_NOT_CARD_MEMBER;
     }
 
     cardMembership = await sails.helpers.deleteCardMembership(cardMembership, board, this.req);
 
     if (!cardMembership) {
-      throw Errors.CARD_MEMBERSHIP_NOT_FOUND;
+      throw Errors.USER_NOT_CARD_MEMBER;
     }
 
     return exits.success({

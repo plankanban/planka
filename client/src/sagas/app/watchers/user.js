@@ -6,6 +6,7 @@ import {
   addUserToFilterInCurrentBoardService,
   clearCurrentUserEmailUpdateErrorService,
   clearCurrentUserPasswordUpdateErrorService,
+  clearCurrentUserUsernameUpdateErrorService,
   clearUserCreateErrorService,
   createUserService,
   deleteUserService,
@@ -16,6 +17,7 @@ import {
   updateCurrentUserEmailService,
   updateCurrentUserPasswordService,
   updateCurrentUserService,
+  updateCurrentUserUsernameService,
   uploadCurrentUserAvatarService,
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
@@ -41,6 +43,12 @@ export default function* () {
     ),
     takeLatest(EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE_ERROR_CLEAR, () =>
       clearCurrentUserPasswordUpdateErrorService(),
+    ),
+    takeLatest(EntryActionTypes.CURRENT_USER_USERNAME_UPDATE, ({ payload: { data } }) =>
+      updateCurrentUserUsernameService(data),
+    ),
+    takeLatest(EntryActionTypes.CURRENT_USER_USERNAME_UPDATE_ERROR_CLEAR, () =>
+      clearCurrentUserUsernameUpdateErrorService(),
     ),
     takeLatest(EntryActionTypes.CURRENT_USER_AVATAR_UPLOAD, ({ payload: { file } }) =>
       uploadCurrentUserAvatarService(file),
