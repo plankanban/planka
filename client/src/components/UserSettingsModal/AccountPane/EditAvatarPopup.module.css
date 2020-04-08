@@ -24,10 +24,9 @@
   display: inline-block;
   height: 36px;
   overflow: hidden;
-  margin-left: 8px;
   position: relative;
   transition: background 0.3s ease;
-  width: calc(100% - 44px);
+  width: 100%;
 }
 
 .input:hover {

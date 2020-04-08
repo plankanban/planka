@@ -1,14 +1,14 @@
-import isEmail from 'validator/lib/isEmail';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
-import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
-import { Input, Popup } from '../../lib/custom-ui';
+import { useDidUpdate, usePrevious, useToggle } from '../../../lib/hooks';
+import { withPopup } from '../../../lib/popup';
+import { Input, Popup } from '../../../lib/custom-ui';
 
-import { useForm } from '../../hooks';
+import { useForm } from '../../../hooks';
 
-import styles from './EditNameStep.module.css';
+import styles from './EditPasswordPopup.module.css';
 
 const createMessage = (error) => {
   if (!error) {
@@ -16,11 +16,6 @@ const createMessage = (error) => {
   }
 
   switch (error.message) {
-    case 'Email already in use':
-      return {
-        type: 'error',
-        content: 'common.emailAlreadyInUse',
-      };
     case 'Invalid current password':
       return {
         type: 'error',
@@ -34,13 +29,13 @@ const createMessage = (error) => {
   }
 };
 
-const EditEmailStep = React.memo(
-  ({ defaultData, email, isSubmitting, error, onUpdate, onMessageDismiss, onBack, onClose }) => {
+const EditPasswordStep = React.memo(
+  ({ defaultData, isSubmitting, error, onUpdate, onMessageDismiss, onClose }) => {
     const [t] = useTranslation();
     const wasSubmitting = usePrevious(isSubmitting);
 
     const [data, handleFieldChange, setData] = useForm({
-      email: '',
+      password: '',
       currentPassword: '',
       ...defaultData,
     });
@@ -48,57 +43,37 @@ const EditEmailStep = React.memo(
     const message = useMemo(() => createMessage(error), [error]);
     const [focusCurrentPasswordFieldState, focusCurrentPasswordField] = useToggle();
 
-    const emailField = useRef(null);
+    const passwordField = useRef(null);
     const currentPasswordField = useRef(null);
 
     const handleSubmit = useCallback(() => {
-      const cleanData = {
-        ...data,
-        email: data.email.trim(),
-      };
-
-      if (!isEmail(cleanData.email)) {
-        emailField.current.select();
+      if (!data.password) {
+        passwordField.current.select();
         return;
       }
 
-      if (cleanData.email === email) {
-        onClose();
-        return;
-      }
-
-      if (!cleanData.currentPassword) {
+      if (!data.currentPassword) {
         currentPasswordField.current.focus();
         return;
       }
 
-      onUpdate(cleanData);
-    }, [email, onUpdate, onClose, data]);
+      onUpdate(data);
+    }, [onUpdate, data]);
 
     useEffect(() => {
-      emailField.current.select();
+      passwordField.current.select();
     }, []);
 
     useEffect(() => {
       if (wasSubmitting && !isSubmitting) {
-        if (error) {
-          switch (error.message) {
-            case 'Email already in use':
-              emailField.current.select();
-
-              break;
-            case 'Invalid current password':
-              setData((prevData) => ({
-                ...prevData,
-                currentPassword: '',
-              }));
-              focusCurrentPasswordField();
-
-              break;
-            default:
-          }
-        } else {
+        if (!error) {
           onClose();
+        } else if (error.message === 'Invalid current password') {
+          setData((prevData) => ({
+            ...prevData,
+            currentPassword: '',
+          }));
+          focusCurrentPasswordField();
         }
       }
     }, [isSubmitting, wasSubmitting, error, onClose, setData, focusCurrentPasswordField]);
@@ -109,8 +84,8 @@ const EditEmailStep = React.memo(
 
     return (
       <>
-        <Popup.Header onBack={onBack}>
-          {t('common.editEmail', {
+        <Popup.Header>
+          {t('common.editPassword', {
             context: 'title',
           })}
         </Popup.Header>
@@ -127,29 +102,24 @@ const EditEmailStep = React.memo(
             />
           )}
           <Form onSubmit={handleSubmit}>
-            <div className={styles.text}>{t('common.newEmail')}</div>
-            <Input
+            <div className={styles.text}>{t('common.newPassword')}</div>
+            <Input.Password
               fluid
-              ref={emailField}
-              name="email"
-              value={data.email}
-              placeholder={email}
+              ref={passwordField}
+              name="password"
+              value={data.password}
               className={styles.field}
               onChange={handleFieldChange}
             />
-            {data.email.trim() !== email && (
-              <>
-                <div className={styles.text}>{t('common.currentPassword')}</div>
-                <Input.Password
-                  fluid
-                  ref={currentPasswordField}
-                  name="currentPassword"
-                  value={data.currentPassword}
-                  className={styles.field}
-                  onChange={handleFieldChange}
-                />
-              </>
-            )}
+            <div className={styles.text}>{t('common.currentPassword')}</div>
+            <Input.Password
+              fluid
+              ref={currentPasswordField}
+              name="currentPassword"
+              value={data.currentPassword}
+              className={styles.field}
+              onChange={handleFieldChange}
+            />
             <Button
               positive
               content={t('action.save')}
@@ -163,19 +133,17 @@ const EditEmailStep = React.memo(
   },
 );
 
-EditEmailStep.propTypes = {
+EditPasswordStep.propTypes = {
   defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  email: PropTypes.string.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onUpdate: PropTypes.func.isRequired,
   onMessageDismiss: PropTypes.func.isRequired,
-  onBack: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-EditEmailStep.defaultProps = {
+EditPasswordStep.defaultProps = {
   error: undefined,
 };
 
-export default EditEmailStep;
+export default withPopup(EditPasswordStep);

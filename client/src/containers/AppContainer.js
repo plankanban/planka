@@ -9,6 +9,7 @@ const mapStateToProps = (state) => {
 
   return {
     isUsersModalOpened: currentModal === ModalTypes.USERS,
+    isUserSettingsModalOpened: currentModal === ModalTypes.USER_SETTINGS,
     isAddProjectModalOpened: currentModal === ModalTypes.ADD_PROJECT,
   };
 };

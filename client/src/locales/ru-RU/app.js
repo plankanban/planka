@@ -13,6 +13,7 @@ export default {
 
   translation: {
     common: {
+      account: 'Учетная запись',
       actions: 'Действия',
       addComment: 'Добавление комментария',
       addMember: 'Добавление участника',
@@ -31,6 +32,7 @@ export default {
       areYouSureYouWantToDeleteThisUser: 'Вы уверены, что хотите удалить этого пользователя?',
       areYouSureYouWantToRemoveThisMemberFromProject:
         'Вы уверены, что хотите удалить этого участника из проекта?',
+      authentication: 'Аутентификация',
       boardNotFound: 'Доска не найдена',
       cardActions: 'Действия с карточкой',
       cardNotFound: 'Карточка не найдена',
@@ -58,7 +60,6 @@ export default {
       editDueDate: 'Изменение срока',
       editEmail: 'Изменение e-mail',
       editLabel: 'Изменения метки',
-      editName: 'Изменение имени',
       editPassword: 'Изменение пароля',
       editProject: 'Изменение проекта',
       editTimer: 'Изменение таймера',
@@ -92,6 +93,7 @@ export default {
         '<0>Обновите страницу</0>, чтобы загрузить<br />актуальные данные и получать обновления',
       removeMember: 'Удаление участника',
       seconds: 'Секунды',
+      settings: 'Настройки',
       taskActions: 'Действия с задачей',
       tasks: 'Задачи',
       time: 'Время',
@@ -136,11 +138,9 @@ export default {
       deleteTask: 'Удалить задачу',
       deleteUser: 'Удалить пользователя',
       edit: 'Изменить',
-      editAvatar: 'Изменить аватар',
       editDueDate: 'Изменить срок',
       editDescription: 'Изменить описание',
       editEmail: 'Изменить e-mail',
-      editName: 'Изменить имя',
       editPassword: 'Изменить пароль',
       editTask: 'Изменить задачу',
       editTimer: 'Изменить таймер',

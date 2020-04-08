@@ -1,14 +1,15 @@
+import isEmail from 'validator/lib/isEmail';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
-import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
-import { Input, Popup } from '../../lib/custom-ui';
+import { useDidUpdate, usePrevious, useToggle } from '../../../lib/hooks';
+import { withPopup } from '../../../lib/popup';
+import { Input, Popup } from '../../../lib/custom-ui';
 
-import { useForm } from '../../hooks';
-import { isUsername } from '../../utils/validator';
+import { useForm } from '../../../hooks';
 
-import styles from './EditUsernameStep.module.css';
+import styles from './EditEmailPopup.module.css';
 
 const createMessage = (error) => {
   if (!error) {
@@ -16,10 +17,10 @@ const createMessage = (error) => {
   }
 
   switch (error.message) {
-    case 'Username already in use':
+    case 'Email already in use':
       return {
         type: 'error',
-        content: 'common.usernameAlreadyInUse',
+        content: 'common.emailAlreadyInUse',
       };
     case 'Invalid current password':
       return {
@@ -34,13 +35,13 @@ const createMessage = (error) => {
   }
 };
 
-const EditUsernameStep = React.memo(
-  ({ defaultData, username, isSubmitting, error, onUpdate, onMessageDismiss, onBack, onClose }) => {
+const EditEmailStep = React.memo(
+  ({ defaultData, email, isSubmitting, error, onUpdate, onMessageDismiss, onClose }) => {
     const [t] = useTranslation();
     const wasSubmitting = usePrevious(isSubmitting);
 
     const [data, handleFieldChange, setData] = useForm({
-      username: '',
+      email: '',
       currentPassword: '',
       ...defaultData,
     });
@@ -48,21 +49,21 @@ const EditUsernameStep = React.memo(
     const message = useMemo(() => createMessage(error), [error]);
     const [focusCurrentPasswordFieldState, focusCurrentPasswordField] = useToggle();
 
-    const usernameField = useRef(null);
+    const emailField = useRef(null);
     const currentPasswordField = useRef(null);
 
     const handleSubmit = useCallback(() => {
       const cleanData = {
         ...data,
-        username: data.username.trim() || null,
+        email: data.email.trim(),
       };
 
-      if (cleanData.username && !isUsername(cleanData.username)) {
-        usernameField.current.select();
+      if (!isEmail(cleanData.email)) {
+        emailField.current.select();
         return;
       }
 
-      if (cleanData.username === username) {
+      if (cleanData.email === email) {
         onClose();
         return;
       }
@@ -73,18 +74,18 @@ const EditUsernameStep = React.memo(
       }
 
       onUpdate(cleanData);
-    }, [username, onUpdate, onClose, data]);
+    }, [email, onUpdate, onClose, data]);
 
     useEffect(() => {
-      usernameField.current.select();
+      emailField.current.select();
     }, []);
 
     useEffect(() => {
       if (wasSubmitting && !isSubmitting) {
         if (error) {
           switch (error.message) {
-            case 'Username already in use':
-              usernameField.current.select();
+            case 'Email already in use':
+              emailField.current.select();
 
               break;
             case 'Invalid current password':
@@ -109,8 +110,8 @@ const EditUsernameStep = React.memo(
 
     return (
       <>
-        <Popup.Header onBack={onBack}>
-          {t('common.editUsername', {
+        <Popup.Header>
+          {t('common.editEmail', {
             context: 'title',
           })}
         </Popup.Header>
@@ -127,29 +128,25 @@ const EditUsernameStep = React.memo(
             />
           )}
           <Form onSubmit={handleSubmit}>
-            <div className={styles.text}>{t('common.newUsername')}</div>
+            <div className={styles.text}>{t('common.newEmail')}</div>
             <Input
               fluid
-              ref={usernameField}
-              name="username"
-              value={data.username}
-              placeholder={username}
+              ref={emailField}
+              name="email"
+              value={data.email}
+              placeholder={email}
               className={styles.field}
               onChange={handleFieldChange}
             />
-            {data.username.trim() !== (username || '') && (
-              <>
-                <div className={styles.text}>{t('common.currentPassword')}</div>
-                <Input.Password
-                  fluid
-                  ref={currentPasswordField}
-                  name="currentPassword"
-                  value={data.currentPassword}
-                  className={styles.field}
-                  onChange={handleFieldChange}
-                />
-              </>
-            )}
+            <div className={styles.text}>{t('common.currentPassword')}</div>
+            <Input.Password
+              fluid
+              ref={currentPasswordField}
+              name="currentPassword"
+              value={data.currentPassword}
+              className={styles.field}
+              onChange={handleFieldChange}
+            />
             <Button
               positive
               content={t('action.save')}
@@ -163,20 +160,18 @@ const EditUsernameStep = React.memo(
   },
 );
 
-EditUsernameStep.propTypes = {
+EditEmailStep.propTypes = {
   defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  username: PropTypes.string,
+  email: PropTypes.string.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onUpdate: PropTypes.func.isRequired,
   onMessageDismiss: PropTypes.func.isRequired,
-  onBack: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-EditUsernameStep.defaultProps = {
-  username: undefined,
+EditEmailStep.defaultProps = {
   error: undefined,
 };
 
-export default EditUsernameStep;
+export default withPopup(EditEmailStep);
