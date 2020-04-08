@@ -1,8 +1,11 @@
 const USERS = 'USERS';
 
+const USER_SETTINGS = 'USER_SETTINGS';
+
 const ADD_PROJECT = 'ADD_PROJECT';
 
 export default {
   USERS,
+  USER_SETTINGS,
   ADD_PROJECT,
 };

@@ -32,7 +32,7 @@ const createReceiver = () => {
     }
     firstFileHandled = true;
 
-    const resize = sharp().resize(36, 36).jpeg();
+    const resize = sharp().resize(100, 100).jpeg();
 
     const transform = new stream.Transform({
       transform(chunk, streamEncoding, callback) {

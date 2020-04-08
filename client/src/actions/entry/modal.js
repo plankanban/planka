@@ -8,6 +8,13 @@ export const openUsersModal = () => ({
   },
 });
 
+export const openUserSettingsModal = () => ({
+  type: EntryActionTypes.MODAL_OPEN,
+  payload: {
+    type: ModalTypes.USER_SETTINGS,
+  },
+});
+
 export const openAddProjectModal = () => ({
   type: EntryActionTypes.MODAL_OPEN,
   payload: {

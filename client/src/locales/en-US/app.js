@@ -9,6 +9,7 @@ export default {
 
   translation: {
     common: {
+      account: 'Account',
       actions: 'Actions',
       addComment: 'Add comment',
       addMember_title: 'Add Member',
@@ -27,6 +28,7 @@ export default {
       areYouSureYouWantToDeleteThisUser: 'Are you sure you want to delete this user?',
       areYouSureYouWantToRemoveThisMemberFromProject:
         'Are you sure you want to remove this member from project?',
+      authentication: 'Authentication',
       boardNotFound_title: 'Board Not Found',
       cardActions_title: 'Card Actions',
       cardNotFound_title: 'Card Not Found',
@@ -54,7 +56,6 @@ export default {
       editDueDate_title: 'Edit Due Date',
       editEmail_title: 'Edit E-mail',
       editLabel_title: 'Edit Label',
-      editName_title: 'Edit Name',
       editPassword_title: 'Edit Password',
       editProject_title: 'Edit Project',
       editTimer_title: 'Edit Timer',
@@ -88,6 +89,7 @@ export default {
         '<0>Refresh the page</0> to load last data<br />and receive updates',
       removeMember_title: 'Remove Member',
       seconds: 'Seconds',
+      settings: 'Settings',
       taskActions_title: 'Task Actions',
       tasks: 'Tasks',
       time: 'Time',
@@ -135,11 +137,9 @@ export default {
       deleteTask_title: 'Delete Task',
       deleteUser: 'Delete user',
       edit: 'Edit',
-      editAvatar_title: 'Edit Avatar',
       editDueDate_title: 'Edit Due Date',
       editDescription_title: 'Edit Description',
       editEmail_title: 'Edit E-mail',
-      editName_title: 'Edit Name',
       editPassword_title: 'Edit Password',
       editTask_title: 'Edit Task',
       editTimer_title: 'Edit Timer',

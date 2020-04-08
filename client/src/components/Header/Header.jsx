@@ -16,14 +16,7 @@ const Header = React.memo(
     isEditable,
     onUsers,
     onNotificationDelete,
-    onUserUpdate,
-    onUserAvatarUpload,
-    onUserUsernameUpdate,
-    onUserUsernameUpdateMessageDismiss,
-    onUserEmailUpdate,
-    onUserEmailUpdateMessageDismiss,
-    onUserPasswordUpdate,
-    onUserPasswordUpdateMessageDismiss,
+    onUserSettings,
     onLogout,
   }) => (
     <div className={styles.wrapper}>
@@ -45,25 +38,7 @@ const Header = React.memo(
               )}
             </Menu.Item>
           </NotificationsPopup>
-          <UserPopup
-            email={user.email}
-            name={user.name}
-            username={user.username}
-            avatar={user.avatar}
-            isAvatarUploading={user.isAvatarUploading}
-            usernameUpdateForm={user.usernameUpdateForm}
-            emailUpdateForm={user.emailUpdateForm}
-            passwordUpdateForm={user.passwordUpdateForm}
-            onUpdate={onUserUpdate}
-            onAvatarUpload={onUserAvatarUpload}
-            onUsernameUpdate={onUserUsernameUpdate}
-            onUsernameUpdateMessageDismiss={onUserUsernameUpdateMessageDismiss}
-            onEmailUpdate={onUserEmailUpdate}
-            onEmailUpdateMessageDismiss={onUserEmailUpdateMessageDismiss}
-            onPasswordUpdate={onUserPasswordUpdate}
-            onPasswordUpdateMessageDismiss={onUserPasswordUpdateMessageDismiss}
-            onLogout={onLogout}
-          >
+          <UserPopup onSettings={onUserSettings} onLogout={onLogout}>
             <Menu.Item className={styles.item}>{user.name}</Menu.Item>
           </UserPopup>
         </Menu.Menu>
@@ -80,14 +55,7 @@ Header.propTypes = {
   isEditable: PropTypes.bool.isRequired,
   onUsers: PropTypes.func.isRequired,
   onNotificationDelete: PropTypes.func.isRequired,
-  onUserUpdate: PropTypes.func.isRequired,
-  onUserAvatarUpload: PropTypes.func.isRequired,
-  onUserUsernameUpdate: PropTypes.func.isRequired,
-  onUserUsernameUpdateMessageDismiss: PropTypes.func.isRequired,
-  onUserEmailUpdate: PropTypes.func.isRequired,
-  onUserEmailUpdateMessageDismiss: PropTypes.func.isRequired,
-  onUserPasswordUpdate: PropTypes.func.isRequired,
-  onUserPasswordUpdateMessageDismiss: PropTypes.func.isRequired,
+  onUserSettings: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
 };
 

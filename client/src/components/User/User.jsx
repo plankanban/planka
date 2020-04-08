@@ -10,6 +10,7 @@ const SIZES = {
   SMALL: 'small',
   MEDIUM: 'medium',
   LARGE: 'large',
+  MASSIVE: 'massive',
 };
 
 // TODO: move to styles
@@ -42,6 +43,13 @@ const STYLES = {
     height: '36px',
     padding: '12px 0 10px',
     width: '36px',
+  },
+  massive: {
+    fontSize: '36px',
+    fontWeight: '500',
+    height: '100px',
+    padding: '32px 0 10px',
+    width: '100px',
   },
 };
 
