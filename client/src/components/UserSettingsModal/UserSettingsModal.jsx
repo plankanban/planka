@@ -11,6 +11,8 @@ const UserSettingsModal = React.memo(
     name,
     username,
     avatar,
+    phone,
+    organization,
     isAvatarUploading,
     usernameUpdateForm,
     emailUpdateForm,
@@ -38,6 +40,8 @@ const UserSettingsModal = React.memo(
             name={name}
             username={username}
             avatar={avatar}
+            phone={phone}
+            organization={organization}
             isAvatarUploading={isAvatarUploading}
             usernameUpdateForm={usernameUpdateForm}
             emailUpdateForm={emailUpdateForm}
@@ -70,6 +74,8 @@ UserSettingsModal.propTypes = {
   name: PropTypes.string.isRequired,
   username: PropTypes.string,
   avatar: PropTypes.string,
+  phone: PropTypes.string,
+  organization: PropTypes.string,
   isAvatarUploading: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,
@@ -90,6 +96,8 @@ UserSettingsModal.propTypes = {
 UserSettingsModal.defaultProps = {
   username: undefined,
   avatar: undefined,
+  phone: undefined,
+  organization: undefined,
 };
 
 export default UserSettingsModal;

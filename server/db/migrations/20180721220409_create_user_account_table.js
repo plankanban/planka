@@ -11,6 +11,8 @@ module.exports.up = (knex) =>
       table.text('name').notNullable();
       table.text('username');
       table.text('avatar');
+      table.text('phone');
+      table.text('organization');
 
       table.timestamp('created_at', true);
       table.timestamp('updated_at', true);

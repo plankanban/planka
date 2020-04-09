@@ -42,6 +42,16 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
     },
+    phone: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
+    organization: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
     deletedAt: {
       type: 'ref',
       columnName: 'deleted_at',

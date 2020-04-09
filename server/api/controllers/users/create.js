@@ -30,6 +30,16 @@ module.exports = {
       regex: /^[a-zA-Z0-9]+(_?[a-zA-Z0-9])*$/,
       allowNull: true,
     },
+    phone: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
+    organization: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -42,7 +52,14 @@ module.exports = {
   },
 
   async fn(inputs, exits) {
-    const values = _.pick(inputs, ['email', 'password', 'name', 'username']);
+    const values = _.pick(inputs, [
+      'email',
+      'password',
+      'name',
+      'username',
+      'phone',
+      'organization',
+    ]);
 
     const user = await sails.helpers
       .createUser(values, this.req)

@@ -84,6 +84,8 @@ export default {
       noUnreadNotifications: 'No unread notifications',
       openBoard_title: 'Open Board',
       optional_inline: 'optional',
+      organization: 'Organization',
+      phone: 'Phone',
       projectNotFound_title: 'Project Not Found',
       refreshPageToLoadLastDataAndReceiveUpdates:
         '<0>Refresh the page</0> to load last data<br />and receive updates',

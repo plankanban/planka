@@ -18,6 +18,8 @@ const AccountPane = React.memo(
     name,
     username,
     avatar,
+    phone,
+    organization,
     isAvatarUploading,
     usernameUpdateForm,
     emailUpdateForm,
@@ -53,6 +55,8 @@ const AccountPane = React.memo(
         <EditInformation
           defaultData={{
             name,
+            phone,
+            organization,
           }}
           onUpdate={onUpdate}
         />
@@ -120,6 +124,8 @@ AccountPane.propTypes = {
   name: PropTypes.string.isRequired,
   username: PropTypes.string,
   avatar: PropTypes.string,
+  phone: PropTypes.string,
+  organization: PropTypes.string,
   isAvatarUploading: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,
@@ -139,6 +145,8 @@ AccountPane.propTypes = {
 AccountPane.defaultProps = {
   username: undefined,
   avatar: undefined,
+  phone: undefined,
+  organization: undefined,
 };
 
 export default AccountPane;

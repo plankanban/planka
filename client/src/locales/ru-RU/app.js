@@ -88,6 +88,8 @@ export default {
       noUnreadNotifications: 'Уведомлений нет',
       openBoard: 'Откройте доску',
       optional_inline: 'необязательно',
+      organization: 'Организация',
+      phone: 'Телефон',
       projectNotFound: 'Доска не найдена',
       refreshPageToLoadLastDataAndReceiveUpdates:
         '<0>Обновите страницу</0>, чтобы загрузить<br />актуальные данные и получать обновления',
