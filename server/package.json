@@ -51,17 +51,17 @@
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
     "sharp": "^0.25.2",
-    "uuid": "^7.0.2",
+    "uuid": "^7.0.3",
     "validator": "^13.0.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-config-prettier": "^6.10.1",
-    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-prettier": "^3.1.2",
-    "nodemon": "^2.0.2",
-    "prettier": "2.0.2"
+    "nodemon": "^2.0.3",
+    "prettier": "2.0.4"
   },
   "engines": {
     "node": "^12.10"
