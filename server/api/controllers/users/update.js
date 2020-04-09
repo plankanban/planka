@@ -22,6 +22,16 @@ module.exports = {
       type: 'json',
       custom: (value) => _.isNull(value),
     },
+    phone: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
+    organization: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -47,7 +57,7 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    const values = _.pick(inputs, ['isAdmin', 'name', 'avatar']);
+    const values = _.pick(inputs, ['isAdmin', 'name', 'avatar', 'phone', 'organization']);
 
     user = await sails.helpers.updateUser(user, values, this.req);
 
