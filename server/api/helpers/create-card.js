@@ -49,6 +49,17 @@ module.exports = {
       boardId: inputs.list.boardId,
     }).fetch();
 
+    if (inputs.user.subscribeToOwnCards) {
+      await CardSubscription.create({
+        cardId: card.id,
+        userId: inputs.user.id,
+      }).tolerate('E_UNIQUE');
+
+      card.isSubscribed = true;
+    } else {
+      card.isSubscribed = false;
+    }
+
     sails.sockets.broadcast(
       `board:${card.boardId}`,
       'cardCreate',

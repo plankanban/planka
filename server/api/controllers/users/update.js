@@ -32,6 +32,9 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
     },
+    subscribeToOwnCards: {
+      type: 'boolean',
+    },
   },
 
   exits: {
@@ -57,7 +60,14 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    const values = _.pick(inputs, ['isAdmin', 'name', 'avatar', 'phone', 'organization']);
+    const values = _.pick(inputs, [
+      'isAdmin',
+      'name',
+      'avatar',
+      'phone',
+      'organization',
+      'subscribeToOwnCards',
+    ]);
 
     user = await sails.helpers.updateUser(user, values, this.req);
 

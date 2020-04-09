@@ -52,6 +52,11 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
     },
+    subscribeToOwnCards: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'subscribe_to_own_cards',
+    },
     deletedAt: {
       type: 'ref',
       columnName: 'deleted_at',

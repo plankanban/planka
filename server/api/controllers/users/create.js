@@ -40,6 +40,9 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
     },
+    subscribeToOwnCards: {
+      type: 'boolean',
+    },
   },
 
   exits: {
@@ -59,6 +62,7 @@ module.exports = {
       'username',
       'phone',
       'organization',
+      'subscribeToOwnCards',
     ]);
 
     const user = await sails.helpers

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal, Tab } from 'semantic-ui-react';
 
 import AccountPane from './AccountPane';
+import PreferencesPane from './PreferencesPane';
 
 const UserSettingsModal = React.memo(
   ({
@@ -13,6 +14,7 @@ const UserSettingsModal = React.memo(
     avatar,
     phone,
     organization,
+    subscribeToOwnCards,
     isAvatarUploading,
     usernameUpdateForm,
     emailUpdateForm,
@@ -57,12 +59,26 @@ const UserSettingsModal = React.memo(
           />
         ),
       },
+      {
+        menuItem: t('common.preferences', {
+          context: 'title',
+        }),
+        render: () => (
+          <PreferencesPane subscribeToOwnCards={subscribeToOwnCards} onUpdate={onUpdate} />
+        ),
+      },
     ];
 
     return (
       <Modal open closeIcon size="small" centered={false} onClose={onClose}>
         <Modal.Content>
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+          <Tab
+            menu={{
+              secondary: true,
+              pointing: true,
+            }}
+            panes={panes}
+          />
         </Modal.Content>
       </Modal>
     );
@@ -76,6 +92,7 @@ UserSettingsModal.propTypes = {
   avatar: PropTypes.string,
   phone: PropTypes.string,
   organization: PropTypes.string,
+  subscribeToOwnCards: PropTypes.bool.isRequired,
   isAvatarUploading: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,
