@@ -13,6 +13,7 @@ module.exports.up = (knex) =>
       table.text('avatar');
       table.text('phone');
       table.text('organization');
+      table.boolean('subscribe_to_own_cards').notNullable();
 
       table.timestamp('created_at', true);
       table.timestamp('updated_at', true);

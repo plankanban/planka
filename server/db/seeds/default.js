@@ -9,6 +9,7 @@ exports.seed = (knex) => {
     isAdmin: true,
     name: 'Demo Demo',
     username: 'demo',
+    subscribeToOwnCards: false,
     createdAt: date,
     updatedAt: date,
   });

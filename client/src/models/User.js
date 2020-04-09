@@ -39,6 +39,7 @@ export default class extends Model {
     avatar: attr(),
     phone: attr(),
     organization: attr(),
+    subscribeToOwnCards: attr(),
     deletedAt: attr(),
     isAdmin: attr({
       getDefault: () => false,
