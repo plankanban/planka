@@ -51,7 +51,7 @@
     "date-fns": "^2.12.0",
     "dequal": "^1.0.0",
     "history": "^4.10.1",
-    "i18next": "^19.4.0",
+    "i18next": "^19.4.1",
     "i18next-browser-languagedetector": "^4.0.2",
     "initials": "^3.0.1",
     "lodash": "^4.17.15",
