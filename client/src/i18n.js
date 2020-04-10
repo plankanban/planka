@@ -88,8 +88,6 @@ i18n.loadAppLocale = (language) =>
     });
   });
 
-setDefaultLocale(i18n.language);
-
 i18n.on('languageChanged', (language) => {
   setDefaultLocale(language);
 });
