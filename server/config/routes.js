@@ -18,7 +18,7 @@ module.exports.routes = {
   'PATCH /api/users/:id/email': 'users/update-email',
   'PATCH /api/users/:id/password': 'users/update-password',
   'PATCH /api/users/:id/username': 'users/update-username',
-  'POST /api/users/:id/upload-avatar': 'users/upload-avatar',
+  'POST /api/users/:id/update-avatar': 'users/update-avatar',
   'DELETE /api/users/:id': 'users/delete',
 
   'GET /api/projects': 'projects/index',
@@ -54,6 +54,10 @@ module.exports.routes = {
   'POST /api/cards/:cardId/tasks': 'tasks/create',
   'PATCH /api/tasks/:id': 'tasks/update',
   'DELETE /api/tasks/:id': 'tasks/delete',
+
+  'POST /api/cards/:cardId/attachments': 'attachments/create',
+  'PATCH /api/attachments/:id': 'attachments/update',
+  'DELETE /api/attachments/:id': 'attachments/delete',
 
   'GET /api/cards/:cardId/actions': 'actions/index',
 

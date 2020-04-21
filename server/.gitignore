@@ -128,9 +128,12 @@ lib-cov
 *.pid
 
 public/*
-!public/uploads
-public/uploads/*
-!public/uploads/.gitkeep
+!public/user-avatars
+public/user-avatars/*
+!public/user-avatars/.gitkeep
+!public/attachments
+public/attachments/*
+!public/attachments/.gitkeep
 
 views/*
 !views/.gitkeep

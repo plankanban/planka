@@ -10,7 +10,7 @@ module.exports.up = (knex) =>
       table.boolean('is_admin').notNullable();
       table.text('name').notNullable();
       table.text('username');
-      table.text('avatar');
+      table.text('avatar_dirname');
       table.text('phone');
       table.text('organization');
       table.boolean('subscribe_to_own_cards').notNullable();

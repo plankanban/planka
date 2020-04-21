@@ -83,7 +83,7 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
                   <>
                     <User
                       name={item.action.user.name}
-                      avatar={item.action.user.avatar}
+                      avatarUrl={item.action.user.avatarUrl}
                       size="large"
                     />
                     <span className={styles.content}>{renderItemContent(item)}</span>

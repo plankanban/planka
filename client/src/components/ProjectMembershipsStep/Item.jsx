@@ -24,7 +24,7 @@ const Item = React.memo(({ isPersisted, isActive, user, onUserSelect, onUserDese
       onClick={handleToggleClick}
     >
       <span className={styles.user}>
-        <User name={user.name} avatar={user.avatar} />
+        <User name={user.name} avatarUrl={user.avatarUrl} />
       </span>
       <div className={classNames(styles.menuItemText, isActive && styles.menuItemTextActive)}>
         {user.name}

@@ -8,6 +8,7 @@ export * from './list';
 export * from './label';
 export * from './card';
 export * from './task';
+export * from './attachment';
 export * from './actions';
 export * from './comment-action';
 export * from './notification';

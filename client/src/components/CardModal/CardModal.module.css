@@ -1,6 +1,6 @@
 .actionButton {
   background: #ebeef0 !important;
-  box-shadow: 0 1px 0 0 rgba(9, 45, 66, 0.13) !important;
+  box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.13) !important;
   color: #444 !important;
   margin-top: 8px !important;
   overflow: hidden;
@@ -12,7 +12,7 @@
 
 .actionButton:hover {
   background: #dfe3e6 !important;
-  box-shadow: 0 1px 0 0 rgba(9, 45, 66, 0.25) !important;
+  box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.25) !important;
   color: #4c4c4c !important;
 }
 
@@ -65,7 +65,7 @@
 }
 
 .dueDate {
-  background: #dce0e4;
+  background: rgba(9, 30, 66, 0.04);
   border: none;
   border-radius: 3px;
   color: #6b808c;
@@ -79,12 +79,12 @@
 }
 
 .dueDate:hover {
-  background: #d2d8dc;
+  background: rgba(9, 30, 66, 0.08);
   color: #17394d;
 }
 
 .descriptionButton {
-  background: rgba(9, 45, 66, 0.08);
+  background: rgba(9, 30, 66, 0.04);
   border: none;
   border-radius: 3px;
   display: block;
@@ -100,7 +100,7 @@
 }
 
 .descriptionButton:hover {
-  background-color: rgba(9, 45, 66, 0.13);
+  background-color: rgba(9, 30, 66, 0.08);
   color: #092d42;
 }
 

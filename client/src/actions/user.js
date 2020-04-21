@@ -233,23 +233,23 @@ export const updateUserUsernameFailed = (id, error) => ({
   },
 });
 
-export const uploadUserAvatarRequested = (id) => ({
-  type: ActionTypes.USER_AVATAR_UPLOAD_REQUESTED,
+export const updateUserAvatarRequested = (id) => ({
+  type: ActionTypes.USER_AVATAR_UPDATE_REQUESTED,
   payload: {
     id,
   },
 });
 
-export const uploadUserAvatarSucceeded = (id, avatar) => ({
-  type: ActionTypes.USER_AVATAR_UPLOAD_SUCCEEDED,
+export const updateUserAvatarSucceeded = (id, avatarUrl) => ({
+  type: ActionTypes.USER_AVATAR_UPDATE_SUCCEEDED,
   payload: {
     id,
-    avatar,
+    avatarUrl,
   },
 });
 
-export const uploadUserAvatarFailed = (id, error) => ({
-  type: ActionTypes.USER_AVATAR_UPLOAD_FAILED,
+export const updateUserAvatarFailed = (id, error) => ({
+  type: ActionTypes.USER_AVATAR_UPDATE_FAILED,
   payload: {
     id,
     error,

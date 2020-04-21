@@ -72,10 +72,10 @@ const getColor = (name) => {
   return COLORS[sum % COLORS.length];
 };
 
-const User = React.memo(({ name, avatar, size, isDisabled, onClick }) => {
+const User = React.memo(({ name, avatarUrl, size, isDisabled, onClick }) => {
   const style = {
     ...STYLES[size],
-    background: avatar ? `url("${avatar}")` : getColor(name),
+    background: avatarUrl ? `url("${avatarUrl}")` : getColor(name),
   };
 
   const contentNode = (
@@ -84,7 +84,7 @@ const User = React.memo(({ name, avatar, size, isDisabled, onClick }) => {
       className={classNames(styles.wrapper, onClick && styles.hoverable)}
       style={style}
     >
-      {!avatar && <span className={styles.initials}>{initials(name)}</span>}
+      {!avatarUrl && <span className={styles.initials}>{initials(name)}</span>}
     </span>
   );
 
@@ -99,14 +99,14 @@ const User = React.memo(({ name, avatar, size, isDisabled, onClick }) => {
 
 User.propTypes = {
   name: PropTypes.string.isRequired,
-  avatar: PropTypes.string,
+  avatarUrl: PropTypes.string,
   size: PropTypes.oneOf(Object.values(SIZES)),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 User.defaultProps = {
-  avatar: undefined,
+  avatarUrl: undefined,
   size: SIZES.MEDIUM,
   isDisabled: false,
   onClick: undefined,

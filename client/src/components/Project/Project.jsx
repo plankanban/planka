@@ -56,7 +56,7 @@ const Project = React.memo(
                     >
                       <User
                         name={membership.user.name}
-                        avatar={membership.user.avatar}
+                        avatarUrl={membership.user.avatarUrl}
                         size="large"
                         isDisabled={!membership.isPersisted}
                       />

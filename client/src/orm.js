@@ -2,6 +2,7 @@ import { ORM } from 'redux-orm';
 
 import {
   Action,
+  Attachment,
   Board,
   Card,
   Label,
@@ -26,6 +27,7 @@ orm.register(
   Label,
   Card,
   Task,
+  Attachment,
   Action,
   Notification,
 );

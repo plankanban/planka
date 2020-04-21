@@ -5,11 +5,11 @@ import {
   createUserRequest,
   deleteCardMembershipRequest,
   deleteUserRequest,
+  updateUserAvatarRequest,
   updateUserEmailRequest,
   updateUserPasswordRequest,
   updateUserRequest,
   updateUserUsernameRequest,
-  uploadUserAvatarRequest,
 } from '../requests';
 import { currentUserIdSelector, pathSelector } from '../../../selectors';
 import {
@@ -106,14 +106,14 @@ export function* clearCurrentUserUsernameUpdateErrorService() {
   yield call(clearUserUsernameUpdateErrorService, id);
 }
 
-export function* uploadUserAvatarService(id, file) {
-  yield call(uploadUserAvatarRequest, id, file);
+export function* updateUserAvatarService(id, data) {
+  yield call(updateUserAvatarRequest, id, data);
 }
 
-export function* uploadCurrentUserAvatarService(file) {
+export function* updateCurrentUserAvatarService(data) {
   const id = yield select(currentUserIdSelector);
 
-  yield call(uploadUserAvatarService, id, file);
+  yield call(updateUserAvatarService, id, data);
 }
 
 export function* deleteUserService(id) {

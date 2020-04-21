@@ -6,7 +6,20 @@ import List from './List';
 import Label from './Label';
 import Card from './Card';
 import Task from './Task';
+import Attachment from './Attachment';
 import Action from './Action';
 import Notification from './Notification';
 
-export { User, Project, ProjectMembership, Board, List, Label, Card, Task, Action, Notification };
+export {
+  User,
+  Project,
+  ProjectMembership,
+  Board,
+  List,
+  Label,
+  Card,
+  Task,
+  Attachment,
+  Action,
+  Notification,
+};

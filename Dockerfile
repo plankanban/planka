@@ -36,7 +36,8 @@ COPY --from=client-builder /app/build/index.html views
 
 ENV BASE_URL DATABASE_URL
 
-VOLUME /app/public/uploads
+VOLUME /app/public/user-avatars
+VOLUME /app/public/attachments
 
 EXPOSE 1337
 

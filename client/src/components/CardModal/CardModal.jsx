@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
-import { Markdown } from '../../lib/custom-ui';
+import { FilePicker, Markdown } from '../../lib/custom-ui';
 
 import NameField from './NameField';
 import EditDescription from './EditDescription';
 import Tasks from './Tasks';
+import Attachments from './Attachments';
 import Actions from './Actions';
 import User from '../User';
 import Label from '../Label';
@@ -33,6 +34,7 @@ const CardModal = React.memo(
     users,
     labels,
     tasks,
+    attachments,
     actions,
     allProjectMemberships,
     allLabels,
@@ -49,6 +51,9 @@ const CardModal = React.memo(
     onTaskCreate,
     onTaskUpdate,
     onTaskDelete,
+    onAttachmentCreate,
+    onAttachmentUpdate,
+    onAttachmentDelete,
     onActionsFetch,
     onCommentActionCreate,
     onCommentActionUpdate,
@@ -93,6 +98,15 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
+    const handleAttachmentFileSelect = useCallback(
+      (file) => {
+        onAttachmentCreate({
+          file,
+        });
+      },
+      [onAttachmentCreate],
+    );
+
     const handleToggleSubscribeClick = useCallback(() => {
       onUpdate({
         isSubscribed: !isSubscribed,
@@ -134,7 +148,7 @@ const CardModal = React.memo(
                             onUserSelect={onUserAdd}
                             onUserDeselect={onUserRemove}
                           >
-                            <User name={user.name} avatar={user.avatar} />
+                            <User name={user.name} avatarUrl={user.avatarUrl} />
                           </ProjectMembershipsPopup>
                         </span>
                       ))}
@@ -255,6 +269,19 @@ const CardModal = React.memo(
                   />
                 </div>
               </div>
+              {attachments.length > 0 && (
+                <div className={styles.contentModule}>
+                  <div className={styles.moduleWrapper}>
+                    <Icon name="attach" className={styles.moduleIcon} />
+                    <div className={styles.moduleHeader}>{t('common.attachments')}</div>
+                    <Attachments
+                      items={attachments}
+                      onUpdate={onAttachmentUpdate}
+                      onDelete={onAttachmentDelete}
+                    />
+                  </div>
+                </div>
+              )}
               <Actions
                 items={actions}
                 isFetching={isActionsFetching}
@@ -306,6 +333,12 @@ const CardModal = React.memo(
                     {t('common.timer')}
                   </Button>
                 </EditTimerPopup>
+                <FilePicker onSelect={handleAttachmentFileSelect}>
+                  <Button fluid className={styles.actionButton}>
+                    <Icon name="attach" className={styles.actionIcon} />
+                    {t('common.attachment')}
+                  </Button>
+                </FilePicker>
               </div>
               <div className={styles.actions}>
                 <span className={styles.actionsTitle}>{t('common.actions')}</span>
@@ -347,6 +380,7 @@ CardModal.propTypes = {
   users: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
   tasks: PropTypes.array.isRequired,
+  attachments: PropTypes.array.isRequired,
   actions: PropTypes.array.isRequired,
   allProjectMemberships: PropTypes.array.isRequired,
   allLabels: PropTypes.array.isRequired,
@@ -364,6 +398,9 @@ CardModal.propTypes = {
   onTaskCreate: PropTypes.func.isRequired,
   onTaskUpdate: PropTypes.func.isRequired,
   onTaskDelete: PropTypes.func.isRequired,
+  onAttachmentCreate: PropTypes.func.isRequired,
+  onAttachmentUpdate: PropTypes.func.isRequired,
+  onAttachmentDelete: PropTypes.func.isRequired,
   onActionsFetch: PropTypes.func.isRequired,
   onCommentActionCreate: PropTypes.func.isRequired,
   onCommentActionUpdate: PropTypes.func.isRequired,

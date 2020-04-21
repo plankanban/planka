@@ -17,15 +17,15 @@ const AccountPane = React.memo(
     email,
     name,
     username,
-    avatar,
+    avatarUrl,
     phone,
     organization,
-    isAvatarUploading,
+    isAvatarUpdating,
     usernameUpdateForm,
     emailUpdateForm,
     passwordUpdateForm,
     onUpdate,
-    onAvatarUpload,
+    onAvatarUpdate,
     onUsernameUpdate,
     onUsernameUpdateMessageDismiss,
     onEmailUpdate,
@@ -37,18 +37,18 @@ const AccountPane = React.memo(
 
     const handleAvatarDelete = useCallback(() => {
       onUpdate({
-        avatar: null,
+        avatarUrl: null,
       });
     }, [onUpdate]);
 
     return (
       <Tab.Pane attached={false} className={styles.wrapper}>
         <EditAvatarPopup
-          defaultValue={avatar}
-          onUpload={onAvatarUpload}
+          defaultValue={avatarUrl}
+          onUpdate={onAvatarUpdate}
           onDelete={handleAvatarDelete}
         >
-          <User name={name} avatar={avatar} size="massive" isDisabled={isAvatarUploading} />
+          <User name={name} avatarUrl={avatarUrl} size="massive" isDisabled={isAvatarUpdating} />
         </EditAvatarPopup>
         <br />
         <br />
@@ -123,17 +123,17 @@ AccountPane.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   username: PropTypes.string,
-  avatar: PropTypes.string,
+  avatarUrl: PropTypes.string,
   phone: PropTypes.string,
   organization: PropTypes.string,
-  isAvatarUploading: PropTypes.bool.isRequired,
+  isAvatarUpdating: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,
   emailUpdateForm: PropTypes.object.isRequired,
   passwordUpdateForm: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
   onUpdate: PropTypes.func.isRequired,
-  onAvatarUpload: PropTypes.func.isRequired,
+  onAvatarUpdate: PropTypes.func.isRequired,
   onUsernameUpdate: PropTypes.func.isRequired,
   onUsernameUpdateMessageDismiss: PropTypes.func.isRequired,
   onEmailUpdate: PropTypes.func.isRequired,
@@ -144,7 +144,7 @@ AccountPane.propTypes = {
 
 AccountPane.defaultProps = {
   username: undefined,
-  avatar: undefined,
+  avatarUrl: undefined,
   phone: undefined,
   organization: undefined,
 };

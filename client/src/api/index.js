@@ -11,6 +11,7 @@ import cards from './cards';
 import cardMemberships from './card-memberships';
 import cardLabels from './card-labels';
 import tasks from './tasks';
+import attachments from './attachments';
 import actions from './actions';
 import commentActions from './comment-actions';
 import notifications from './notifications';
@@ -29,6 +30,7 @@ export default {
   ...cardMemberships,
   ...cardLabels,
   ...tasks,
+  ...attachments,
   ...actions,
   ...commentActions,
   ...notifications,

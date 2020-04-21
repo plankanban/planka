@@ -46,11 +46,13 @@
     "knex": "^0.20.13",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
+    "rimraf": "^3.0.2",
     "sails": "^1.2.4",
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql": "^1.0.2",
     "sharp": "^0.25.2",
+    "stream-to-array": "^2.3.0",
     "uuid": "^7.0.3",
     "validator": "^13.0.0"
   },

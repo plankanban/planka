@@ -39,7 +39,7 @@ const EditMembershipStep = React.memo(({ user, isEditable, onDelete }) => {
   return (
     <>
       <span className={styles.user}>
-        <User name={user.name} avatar={user.avatar} size="large" />
+        <User name={user.name} avatarUrl={user.avatarUrl} size="large" />
       </span>
       <span className={styles.content}>
         <div className={styles.name}>{user.name}</div>

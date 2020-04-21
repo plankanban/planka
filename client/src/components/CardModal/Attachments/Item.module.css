@@ -1,0 +1,90 @@
+.button {
+  background: transparent !important;
+  box-shadow: none !important;
+  line-height: 28px !important;
+  margin: 0 !important;
+  min-height: auto !important;
+  opacity: 0;
+  padding: 0 !important;
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 28px;
+}
+
+.button:hover {
+  background-color: rgba(9, 30, 66, 0.08) !important;
+}
+
+.details {
+  box-sizing: border-box;
+  padding: 8px 32px 8px 128px;
+  margin: 0;
+  min-height: 80px;
+  z-index: 0;
+}
+
+.extension {
+  color: #5e6c84;
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+  height: 100%;
+  line-height: 80px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.name {
+  color: #17394d;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  word-wrap: break-word;
+}
+
+.options {
+  display: block;
+  color: #6b808c;
+  line-height: 20px;
+  margin-bottom: 8px;
+}
+
+.thumbnail {
+  border-radius: 3px;
+  background-color: rgba(9, 30, 66, 0.04);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 3px;
+  height: 80px;
+  left: 0;
+  margin-top: -40px;
+  position: absolute;
+  text-align: center;
+  text-decoration: none;
+  top: 50%;
+  width: 112px;
+  z-index: 1;
+}
+
+.wrapper {
+  cursor: pointer;
+  margin-bottom: 8px;
+  min-height: 80px;
+  position: relative;
+}
+
+.wrapper:hover .details {
+  background-color: rgba(9, 30, 66, 0.04);
+}
+
+.wrapper:hover .target {
+  opacity: 1;
+}
+
+.wrapperSubmitting {
+  background-color: rgba(9, 30, 66, 0.04);
+}

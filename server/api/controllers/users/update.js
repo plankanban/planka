@@ -18,7 +18,7 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
     },
-    avatar: {
+    avatarUrl: {
       type: 'json',
       custom: (value) => _.isNull(value),
     },
@@ -63,7 +63,7 @@ module.exports = {
     const values = _.pick(inputs, [
       'isAdmin',
       'name',
-      'avatar',
+      'avatarUrl',
       'phone',
       'organization',
       'subscribeToOwnCards',

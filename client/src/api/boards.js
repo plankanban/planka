@@ -1,5 +1,6 @@
 import socket from './socket';
 import { transformCard } from './cards';
+import { transformAttachment } from './attachments';
 
 /* Actions */
 
@@ -12,6 +13,7 @@ const getBoard = (id, headers) =>
     included: {
       ...body.included,
       cards: body.included.cards.map(transformCard),
+      attachments: body.included.attachments.map(transformAttachment),
     },
   }));
 

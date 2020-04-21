@@ -10,6 +10,7 @@ import list from './list';
 import label from './label';
 import card from './card';
 import task from './task';
+import attachment from './attachment';
 import actions from './actions';
 import commentAction from './comment-action';
 import notification from './notification';
@@ -27,6 +28,7 @@ export default [
   label,
   card,
   task,
+  attachment,
   actions,
   commentAction,
   notification,

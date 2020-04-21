@@ -82,11 +82,11 @@ Demo user: demo@demo.demo demo
 
 ## Roadmap
 
+- [x] File attachments
+- [ ] Member permissions
 - [ ] Fetch last data after reconnection
-- [ ] File attachments
 - [ ] Custom fields
 - [ ] Public boards
-- [ ] Member permissions
 - [ ] Automatic actions
 
 ## License

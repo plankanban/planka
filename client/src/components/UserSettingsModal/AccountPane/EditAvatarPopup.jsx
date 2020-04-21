@@ -3,23 +3,24 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
 import { withPopup } from '../../../lib/popup';
-import { Popup } from '../../../lib/custom-ui';
+import { FilePicker, Popup } from '../../../lib/custom-ui';
 
 import styles from './EditAvatarPopup.module.css';
 
-const EditAvatarStep = React.memo(({ defaultValue, onUpload, onDelete, onClose }) => {
+const EditAvatarStep = React.memo(({ defaultValue, onUpdate, onDelete, onClose }) => {
   const [t] = useTranslation();
 
   const field = useRef(null);
 
-  const handleFieldChange = useCallback(
-    ({ target }) => {
-      if (target.files[0]) {
-        onUpload(target.files[0]);
-        onClose();
-      }
+  const handleFileSelect = useCallback(
+    (file) => {
+      onUpdate({
+        file,
+      });
+
+      onClose();
     },
-    [onUpload, onClose],
+    [onUpdate, onClose],
   );
 
   const handleDeleteClick = useCallback(() => {
@@ -39,15 +40,14 @@ const EditAvatarStep = React.memo(({ defaultValue, onUpload, onDelete, onClose }
         })}
       </Popup.Header>
       <Popup.Content>
-        <div className={styles.input}>
-          <Button content={t('action.uploadNewAvatar')} className={styles.customButton} />
-          <input
-            ref={field}
-            type="file"
-            accept="image/*"
-            className={styles.file}
-            onChange={handleFieldChange}
-          />
+        <div className={styles.action}>
+          <FilePicker accept="image/*" onSelect={handleFileSelect}>
+            <Button
+              ref={field}
+              content={t('action.uploadNewAvatar')}
+              className={styles.actionButton}
+            />
+          </FilePicker>
         </div>
         {defaultValue && (
           <Button negative content={t('action.deleteAvatar')} onClick={handleDeleteClick} />
@@ -59,7 +59,7 @@ const EditAvatarStep = React.memo(({ defaultValue, onUpload, onDelete, onClose }
 
 EditAvatarStep.propTypes = {
   defaultValue: PropTypes.string,
-  onUpload: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };

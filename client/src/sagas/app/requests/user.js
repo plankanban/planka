@@ -11,6 +11,9 @@ import {
   fetchCurrentUserFailed,
   fetchCurrentUserRequested,
   fetchCurrentUserSucceeded,
+  updateUserAvatarFailed,
+  updateUserAvatarRequested,
+  updateUserAvatarSucceeded,
   updateUserEmailFailed,
   updateUserEmailRequested,
   updateUserEmailSucceeded,
@@ -23,9 +26,6 @@ import {
   updateUserUsernameFailed,
   updateUserUsernameRequested,
   updateUserUsernameSucceeded,
-  uploadUserAvatarFailed,
-  uploadUserAvatarRequested,
-  uploadUserAvatarSucceeded,
 } from '../../../actions';
 import api from '../../../api';
 
@@ -173,13 +173,13 @@ export function* updateUserUsernameRequest(id, data) {
   }
 }
 
-export function* uploadUserAvatarRequest(id, file) {
-  yield put(uploadUserAvatarRequested(id));
+export function* updateUserAvatarRequest(id, data) {
+  yield put(updateUserAvatarRequested(id));
 
   try {
-    const { item } = yield call(request, api.uploadUserAvatar, id, file);
+    const { item } = yield call(request, api.updateUserAvatar, id, data);
 
-    const action = uploadUserAvatarSucceeded(id, item);
+    const action = updateUserAvatarSucceeded(id, item);
     yield put(action);
 
     return {
@@ -187,7 +187,7 @@ export function* uploadUserAvatarRequest(id, file) {
       payload: action.payload,
     };
   } catch (error) {
-    const action = uploadUserAvatarFailed(id, error);
+    const action = updateUserAvatarFailed(id, error);
     yield put(action);
 
     return {

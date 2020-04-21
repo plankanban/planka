@@ -35,7 +35,7 @@ const AddMembershipStep = React.memo(({ users, currentUserIds, onCreate, onClose
             <UserItem
               key={user.id}
               name={user.name}
-              avatar={user.avatar}
+              avatarUrl={user.avatarUrl}
               isActive={currentUserIds.includes(user.id)}
               onSelect={() => handleUserSelect(user.id)}
             />

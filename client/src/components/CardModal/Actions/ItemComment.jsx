@@ -24,7 +24,7 @@ const ItemComment = React.memo(
     return (
       <Comment>
         <span className={styles.user}>
-          <User name={user.name} avatar={user.avatar} />
+          <User name={user.name} avatarUrl={user.avatarUrl} />
         </span>
         <div className={classNames(styles.content)}>
           <div className={styles.title}>

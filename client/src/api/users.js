@@ -19,14 +19,8 @@ const updateUserPassword = (id, data, headers) =>
 const updateUserUsername = (id, data, headers) =>
   socket.patch(`/users/${id}/username`, data, headers);
 
-const uploadUserAvatar = (id, file, headers) =>
-  http.post(
-    `/users/${id}/upload-avatar`,
-    {
-      file,
-    },
-    headers,
-  );
+const updateUserAvatar = (id, data, headers) =>
+  http.post(`/users/${id}/update-avatar`, data, headers);
 
 const deleteUser = (id, headers) => socket.delete(`/users/${id}`, undefined, headers);
 
@@ -38,6 +32,6 @@ export default {
   updateUserEmail,
   updateUserPassword,
   updateUserUsername,
-  uploadUserAvatar,
+  updateUserAvatar,
   deleteUser,
 };

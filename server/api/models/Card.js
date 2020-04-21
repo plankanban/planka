@@ -69,5 +69,13 @@ module.exports = {
       collection: 'Task',
       via: 'cardId',
     },
+    attachments: {
+      collection: 'Attachment',
+      via: 'cardId',
+    },
+    actions: {
+      collection: 'Action',
+      via: 'cardId',
+    },
   },
 };

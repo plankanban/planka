@@ -145,6 +145,10 @@ export default class extends Model {
     return this.tasks.orderBy('id');
   }
 
+  getOrderedAttachmentsQuerySet() {
+    return this.attachments.orderBy('id', false);
+  }
+
   getOrderedInCardActionsQuerySet() {
     return this.actions.orderBy('id', false);
   }
