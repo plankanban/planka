@@ -103,7 +103,7 @@ const Card = React.memo(
           <span className={classNames(styles.attachments, styles.attachmentsRight)}>
             {users.map((user) => (
               <span key={user.id} className={classNames(styles.attachment, styles.attachmentRight)}>
-                <User name={user.name} avatar={user.avatar} size="tiny" />
+                <User name={user.name} avatarUrl={user.avatarUrl} size="tiny" />
               </span>
             ))}
           </span>

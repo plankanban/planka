@@ -58,7 +58,7 @@
 
 .card:hover {
   background-color: #f5f6f7;
-  border-bottom-color: rgba(9, 45, 66, 0.25);
+  border-bottom-color: rgba(9, 30, 66, 0.25);
 }
 
 .card:hover .target {

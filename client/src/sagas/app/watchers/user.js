@@ -14,11 +14,11 @@ import {
   removeUserFromCurrentCardService,
   removeUserFromFilterInCurrentBoardService,
   updateUserService,
+  updateCurrentUserAvatarService,
   updateCurrentUserEmailService,
   updateCurrentUserPasswordService,
   updateCurrentUserService,
   updateCurrentUserUsernameService,
-  uploadCurrentUserAvatarService,
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
@@ -50,8 +50,8 @@ export default function* () {
     takeLatest(EntryActionTypes.CURRENT_USER_USERNAME_UPDATE_ERROR_CLEAR, () =>
       clearCurrentUserUsernameUpdateErrorService(),
     ),
-    takeLatest(EntryActionTypes.CURRENT_USER_AVATAR_UPLOAD, ({ payload: { file } }) =>
-      uploadCurrentUserAvatarService(file),
+    takeLatest(EntryActionTypes.CURRENT_USER_AVATAR_UPDATE, ({ payload: { data } }) =>
+      updateCurrentUserAvatarService(data),
     ),
     takeLatest(EntryActionTypes.USER_DELETE, ({ payload: { id } }) => deleteUserService(id)),
     takeLatest(EntryActionTypes.USER_TO_CARD_ADD, ({ payload: { id, cardId } }) =>

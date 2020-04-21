@@ -1,6 +1,6 @@
-const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt');
+const rimraf = require('rimraf');
 
 module.exports = {
   inputs: {
@@ -14,7 +14,8 @@ module.exports = {
         _.isPlainObject(value) &&
         (_.isUndefined(value.email) || _.isString(value.email)) &&
         (_.isUndefined(value.password) || _.isString(value.password)) &&
-        (!value.username || _.isString(value.username)),
+        (!value.username || _.isString(value.username)) &&
+        (_.isUndefined(value.avatarUrl) || _.isNull(value.avatarUrl)),
       required: true,
     },
     request: {
@@ -49,6 +50,13 @@ module.exports = {
       inputs.values.username = inputs.values.username.toLowerCase();
     }
 
+    if (!_.isUndefined(inputs.values.avatarUrl)) {
+      /* eslint-disable no-param-reassign */
+      inputs.values.avatarDirname = null;
+      delete inputs.values.avatarUrl;
+      /* eslint-enable no-param-reassign */
+    }
+
     const user = await User.updateOne({
       id: inputs.record.id,
       deletedAt: null,
@@ -70,9 +78,9 @@ module.exports = {
       );
 
     if (user) {
-      if (inputs.record.avatar && user.avatar !== inputs.record.avatar) {
+      if (inputs.record.avatarDirname && user.avatarDirname !== inputs.record.avatarDirname) {
         try {
-          fs.unlinkSync(path.join(sails.config.custom.uploadsPath, inputs.record.avatar));
+          rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatarDirname));
         } catch (error) {
           console.warn(error.stack); // eslint-disable-line no-console
         }

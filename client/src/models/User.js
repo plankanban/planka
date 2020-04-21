@@ -36,7 +36,7 @@ export default class extends Model {
     id: attr(),
     email: attr(),
     name: attr(),
-    avatar: attr(),
+    avatarUrl: attr(),
     phone: attr(),
     organization: attr(),
     subscribeToOwnCards: attr(),
@@ -44,7 +44,7 @@ export default class extends Model {
     isAdmin: attr({
       getDefault: () => false,
     }),
-    isAvatarUploading: attr({
+    isAvatarUpdating: attr({
       getDefault: () => false,
     }),
     emailUpdateForm: attr({
@@ -228,22 +228,22 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_AVATAR_UPLOAD_REQUESTED:
+      case ActionTypes.USER_AVATAR_UPDATE_REQUESTED:
         User.withId(payload.id).update({
-          isAvatarUploading: true,
+          isAvatarUpdating: true,
         });
 
         break;
-      case ActionTypes.USER_AVATAR_UPLOAD_SUCCEEDED:
+      case ActionTypes.USER_AVATAR_UPDATE_SUCCEEDED:
         User.withId(payload.id).update({
-          avatar: payload.avatar,
-          isAvatarUploading: false,
+          avatarUrl: payload.avatarUrl,
+          isAvatarUpdating: false,
         });
 
         break;
-      case ActionTypes.USER_AVATAR_UPLOAD_FAILED:
+      case ActionTypes.USER_AVATAR_UPDATE_FAILED:
         User.withId(payload.id).update({
-          isAvatarUploading: false,
+          isAvatarUpdating: false,
         });
 
         break;

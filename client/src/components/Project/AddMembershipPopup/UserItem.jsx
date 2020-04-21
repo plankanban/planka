@@ -6,7 +6,7 @@ import User from '../../User';
 
 import styles from './UserItem.module.css';
 
-const UserItem = React.memo(({ name, avatar, isActive, onSelect }) => (
+const UserItem = React.memo(({ name, avatarUrl, isActive, onSelect }) => (
   <button
     type="button"
     disabled={isActive}
@@ -14,7 +14,7 @@ const UserItem = React.memo(({ name, avatar, isActive, onSelect }) => (
     onClick={onSelect}
   >
     <span className={styles.user}>
-      <User name={name} avatar={avatar} />
+      <User name={name} avatarUrl={avatarUrl} />
     </span>
     <div className={classNames(styles.menuItemText, isActive && styles.menuItemTextActive)}>
       {name}
@@ -24,13 +24,13 @@ const UserItem = React.memo(({ name, avatar, isActive, onSelect }) => (
 
 UserItem.propTypes = {
   name: PropTypes.string.isRequired,
-  avatar: PropTypes.string,
+  avatarUrl: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
 };
 
 UserItem.defaultProps = {
-  avatar: undefined,
+  avatarUrl: undefined,
 };
 
 export default UserItem;

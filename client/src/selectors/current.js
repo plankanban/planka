@@ -336,6 +336,30 @@ export const tasksForCurrentCardSelector = createSelector(
   },
 );
 
+export const attachmentsForCurrentCardSelector = createSelector(
+  orm,
+  (state) => pathSelector(state).cardId,
+  ({ Card }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const cardModel = Card.withId(id);
+
+    if (!cardModel) {
+      return cardModel;
+    }
+
+    return cardModel
+      .getOrderedAttachmentsQuerySet()
+      .toRefArray()
+      .map((attachment) => ({
+        ...attachment,
+        isPersisted: !isLocalId(attachment.id),
+      }));
+  },
+);
+
 export const actionsForCurrentCardSelector = createSelector(
   orm,
   (state) => pathSelector(state).cardId,

@@ -55,6 +55,7 @@ module.exports = {
     const cardLabels = await sails.helpers.getCardLabelsForCard(cardIds);
 
     const tasks = await sails.helpers.getTasksForCard(cardIds);
+    const attachments = await sails.helpers.getAttachmentsForCard(cardIds);
 
     const isSubscribedByCardId = cardSubscriptions.reduce(
       (result, cardSubscription) => ({
@@ -80,6 +81,7 @@ module.exports = {
         cardMemberships,
         cardLabels,
         tasks,
+        attachments,
       },
     });
   },

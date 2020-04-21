@@ -55,7 +55,7 @@ export function* fetchBoardRequest(id) {
   try {
     const {
       item,
-      included: { lists, labels, cards, cardMemberships, cardLabels, tasks },
+      included: { lists, labels, cards, cardMemberships, cardLabels, tasks, attachments },
     } = yield call(request, api.getBoard, id);
 
     const action = fetchBoardSucceeded(
@@ -66,6 +66,7 @@ export function* fetchBoardRequest(id) {
       cardMemberships,
       cardLabels,
       tasks,
+      attachments,
     );
     yield put(action);
 

@@ -13,7 +13,8 @@ services:
         done; (exit $$s)"
     restart: unless-stopped
     volumes:
-      - uploads:/app/public/uploads
+      - user-avatars:/app/public/user-avatars
+      - attachments:/app/public/attachments
     ports:
       - 3000:1337
     environment:
@@ -30,7 +31,9 @@ services:
       - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=planka
+      - POSTGRES_HOST_AUTH_METHOD=trust
 
 volumes:
-  uploads:
+  user-avatars:
+  attachments:
   db-data:

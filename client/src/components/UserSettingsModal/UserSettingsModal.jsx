@@ -11,16 +11,16 @@ const UserSettingsModal = React.memo(
     email,
     name,
     username,
-    avatar,
+    avatarUrl,
     phone,
     organization,
     subscribeToOwnCards,
-    isAvatarUploading,
+    isAvatarUpdating,
     usernameUpdateForm,
     emailUpdateForm,
     passwordUpdateForm,
     onUpdate,
-    onAvatarUpload,
+    onAvatarUpdate,
     onUsernameUpdate,
     onUsernameUpdateMessageDismiss,
     onEmailUpdate,
@@ -41,15 +41,15 @@ const UserSettingsModal = React.memo(
             email={email}
             name={name}
             username={username}
-            avatar={avatar}
+            avatarUrl={avatarUrl}
             phone={phone}
             organization={organization}
-            isAvatarUploading={isAvatarUploading}
+            isAvatarUpdating={isAvatarUpdating}
             usernameUpdateForm={usernameUpdateForm}
             emailUpdateForm={emailUpdateForm}
             passwordUpdateForm={passwordUpdateForm}
             onUpdate={onUpdate}
-            onAvatarUpload={onAvatarUpload}
+            onAvatarUpdate={onAvatarUpdate}
             onUsernameUpdate={onUsernameUpdate}
             onUsernameUpdateMessageDismiss={onUsernameUpdateMessageDismiss}
             onEmailUpdate={onEmailUpdate}
@@ -89,18 +89,18 @@ UserSettingsModal.propTypes = {
   email: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   username: PropTypes.string,
-  avatar: PropTypes.string,
+  avatarUrl: PropTypes.string,
   phone: PropTypes.string,
   organization: PropTypes.string,
   subscribeToOwnCards: PropTypes.bool.isRequired,
-  isAvatarUploading: PropTypes.bool.isRequired,
+  isAvatarUpdating: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,
   emailUpdateForm: PropTypes.object.isRequired,
   passwordUpdateForm: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
   onUpdate: PropTypes.func.isRequired,
-  onAvatarUpload: PropTypes.func.isRequired,
+  onAvatarUpdate: PropTypes.func.isRequired,
   onUsernameUpdate: PropTypes.func.isRequired,
   onUsernameUpdateMessageDismiss: PropTypes.func.isRequired,
   onEmailUpdate: PropTypes.func.isRequired,
@@ -112,7 +112,7 @@ UserSettingsModal.propTypes = {
 
 UserSettingsModal.defaultProps = {
   username: undefined,
-  avatar: undefined,
+  avatarUrl: undefined,
   phone: undefined,
   organization: undefined,
 };

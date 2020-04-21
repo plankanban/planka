@@ -8,10 +8,10 @@ import {
   clearCurrentUserUsernameUpdateError,
   closeModal,
   updateCurrentUser,
+  updateCurrentUserAvatar,
   updateCurrentUserEmail,
   updateCurrentUserPassword,
   updateCurrentUserUsername,
-  uploadCurrentUserAvatar,
 } from '../actions/entry';
 import UserSettingsModal from '../components/UserSettingsModal';
 
@@ -20,11 +20,11 @@ const mapStateToProps = (state) => {
     email,
     name,
     username,
-    avatar,
+    avatarUrl,
     phone,
     organization,
     subscribeToOwnCards,
-    isAvatarUploading,
+    isAvatarUpdating,
     emailUpdateForm,
     passwordUpdateForm,
     usernameUpdateForm,
@@ -34,11 +34,11 @@ const mapStateToProps = (state) => {
     email,
     name,
     username,
-    avatar,
+    avatarUrl,
     phone,
     organization,
     subscribeToOwnCards,
-    isAvatarUploading,
+    isAvatarUpdating,
     emailUpdateForm,
     passwordUpdateForm,
     usernameUpdateForm,
@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onUpdate: updateCurrentUser,
-      onAvatarUpload: uploadCurrentUserAvatar,
+      onAvatarUpdate: updateCurrentUserAvatar,
       onUsernameUpdate: updateCurrentUserUsername,
       onUsernameUpdateMessageDismiss: clearCurrentUserUsernameUpdateError,
       onEmailUpdate: updateCurrentUserEmail,

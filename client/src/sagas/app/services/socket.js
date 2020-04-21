@@ -12,6 +12,7 @@ import {
 } from '../../../selectors';
 import {
   createActionReceived,
+  createAttachmentReceived,
   createBoardReceived,
   createCardLabelReceived,
   createCardMembershipReceived,
@@ -24,6 +25,7 @@ import {
   createTaskReceived,
   createUserReceived,
   deleteActionReceived,
+  deleteAttachmentReceived,
   deleteCardLabelReceived,
   deleteCardMembershipReceived,
   deleteCardReceived,
@@ -38,6 +40,7 @@ import {
   socketDisconnected,
   socketReconnected,
   updateActionReceived,
+  updateAttachmentReceived,
   updateBoardReceived,
   updateCardReceived,
   updateLabelReceived,
@@ -203,6 +206,18 @@ export function* updateTaskReceivedService(task) {
 
 export function* deleteTaskReceivedService(task) {
   yield put(deleteTaskReceived(task));
+}
+
+export function* createAttachmentReceivedService(attachment) {
+  yield put(createAttachmentReceived(attachment));
+}
+
+export function* updateAttachmentReceivedService(attachment) {
+  yield put(updateAttachmentReceived(attachment));
+}
+
+export function* deleteAttachmentReceivedService(attachment) {
+  yield put(deleteAttachmentReceived(attachment));
 }
 
 export function* createActionReceivedService(action) {

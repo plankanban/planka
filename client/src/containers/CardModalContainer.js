@@ -5,6 +5,7 @@ import omit from 'lodash/omit';
 
 import {
   actionsForCurrentCardSelector,
+  attachmentsForCurrentCardSelector,
   currentCardSelector,
   currentUserSelector,
   labelsForCurrentBoardSelector,
@@ -16,9 +17,11 @@ import {
 import {
   addLabelToCurrentCard,
   addUserToCurrentCard,
+  createAttachmentInCurrentCard,
   createCommentActionInCurrentCard,
   createLabelInCurrentBoard,
   createTaskInCurrentCard,
+  deleteAttachment,
   deleteCommentAction,
   deleteCurrentCard,
   deleteLabel,
@@ -26,6 +29,7 @@ import {
   fetchActionsInCurrentCard,
   removeLabelFromCurrentCard,
   removeUserFromCurrentCard,
+  updateAttachment,
   updateCommentAction,
   updateCurrentCard,
   updateLabel,
@@ -53,6 +57,7 @@ const mapStateToProps = (state) => {
   const users = usersForCurrentCardSelector(state);
   const labels = labelsForCurrentCardSelector(state);
   const tasks = tasksForCurrentCardSelector(state);
+  const attachments = attachmentsForCurrentCardSelector(state);
   const actions = actionsForCurrentCardSelector(state);
 
   return {
@@ -66,6 +71,7 @@ const mapStateToProps = (state) => {
     users,
     labels,
     tasks,
+    attachments,
     actions,
     allProjectMemberships,
     allLabels,
@@ -89,6 +95,9 @@ const mapDispatchToProps = (dispatch) =>
       onTaskCreate: createTaskInCurrentCard,
       onTaskUpdate: updateTask,
       onTaskDelete: deleteTask,
+      onAttachmentCreate: createAttachmentInCurrentCard,
+      onAttachmentUpdate: updateAttachment,
+      onAttachmentDelete: deleteAttachment,
       onActionsFetch: fetchActionsInCurrentCard,
       onCommentActionCreate: createCommentActionInCurrentCard,
       onCommentActionUpdate: updateCommentAction,

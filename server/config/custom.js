@@ -20,6 +20,9 @@ module.exports.custom = {
 
   baseUrl: process.env.BASE_URL,
 
-  uploadsPath: path.join(sails.config.paths.public, 'uploads'),
-  uploadsUrl: `${process.env.BASE_URL}/uploads`,
+  userAvatarsPath: path.join(sails.config.paths.public, 'user-avatars'),
+  userAvatarsUrl: `${process.env.BASE_URL}/user-avatars`,
+
+  attachmentsPath: path.join(sails.config.paths.public, 'attachments'),
+  attachmentsUrl: `${process.env.BASE_URL}/attachments`,
 };

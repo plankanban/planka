@@ -10,6 +10,7 @@ export * from './card';
 export * from './card-membership';
 export * from './card-label';
 export * from './task';
+export * from './attachment';
 export * from './actions';
 export * from './comment-action';
 export * from './notifications';

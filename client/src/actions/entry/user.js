@@ -63,10 +63,10 @@ export const clearCurrentUserUsernameUpdateError = () => ({
   payload: {},
 });
 
-export const uploadCurrentUserAvatar = (file) => ({
-  type: EntryActionTypes.CURRENT_USER_AVATAR_UPLOAD,
+export const updateCurrentUserAvatar = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_AVATAR_UPDATE,
   payload: {
-    file,
+    data,
   },
 });
 

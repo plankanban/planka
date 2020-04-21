@@ -3,6 +3,7 @@ import { call, cancelled, take } from 'redux-saga/effects';
 
 import {
   createActionReceivedService,
+  createAttachmentReceivedService,
   createBoardReceivedService,
   createCardLabelReceivedService,
   createCardMembershipReceivedService,
@@ -15,6 +16,7 @@ import {
   createTaskReceivedService,
   createUserReceivedService,
   deleteActionReceivedService,
+  deleteAttachmentReceivedService,
   deleteCardLabelReceivedService,
   deleteCardMembershipReceivedService,
   deleteCardReceivedService,
@@ -29,6 +31,7 @@ import {
   socketDisconnectedService,
   socketReconnectedService,
   updateActionReceivedService,
+  updateAttachmentReceivedService,
   updateBoardReceivedService,
   updateCardReceivedService,
   updateLabelReceivedService,
@@ -153,6 +156,18 @@ const createSocketEventsChannel = () =>
       emit([deleteTaskReceivedService, item]);
     };
 
+    const handleAttachmentCreate = api.makeHandleAttachmentCreate(({ item }) => {
+      emit([createAttachmentReceivedService, item]);
+    });
+
+    const handleAttachmentUpdate = api.makeHandleAttachmentUpdate(({ item }) => {
+      emit([updateAttachmentReceivedService, item]);
+    });
+
+    const handleAttachmentDelete = api.makeHandleAttachmentDelete(({ item }) => {
+      emit([deleteAttachmentReceivedService, item]);
+    });
+
     const handleActionCreate = api.makeHandleActionCreate(({ item }) => {
       emit([createActionReceivedService, item]);
     });
@@ -222,6 +237,10 @@ const createSocketEventsChannel = () =>
     socket.on('taskUpdate', handleTaskUpdate);
     socket.on('taskDelete', handleTaskDelete);
 
+    socket.on('attachmentCreate', handleAttachmentCreate);
+    socket.on('attachmentUpdate', handleAttachmentUpdate);
+    socket.on('attachmentDelete', handleAttachmentDelete);
+
     socket.on('actionCreate', handleActionCreate);
     socket.on('actionUpdate', handleActionUpdate);
     socket.on('actionDelete', handleActionDelete);
@@ -269,6 +288,10 @@ const createSocketEventsChannel = () =>
       socket.off('taskCreate', handleTaskCreate);
       socket.off('taskUpdate', handleTaskUpdate);
       socket.off('taskDelete', handleTaskDelete);
+
+      socket.off('attachmentCreate', handleAttachmentCreate);
+      socket.off('attachmentUpdate', handleAttachmentUpdate);
+      socket.off('attachmentDelete', handleAttachmentDelete);
 
       socket.off('actionCreate', handleActionCreate);
       socket.off('actionUpdate', handleActionUpdate);
