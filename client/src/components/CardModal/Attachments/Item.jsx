@@ -65,7 +65,16 @@ const Item = React.memo(
         >
           {coverUrl ? (
             isCover && (
-              <Label corner="left" size="tiny" icon="star" className={styles.thumbnailLabel} />
+              <Label
+                corner="left"
+                size="mini"
+                icon={{
+                  name: 'star',
+                  color: 'grey',
+                  inverted: true,
+                }}
+                className={styles.thumbnailLabel}
+              />
             )
           ) : (
             <span className={styles.extension}>{extension || '-'}</span>
