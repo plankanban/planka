@@ -64,6 +64,7 @@ export const makeCardByIdSelector = () =>
 
       return {
         ...cardModel.ref,
+        coverUrl: cardModel.coverAttachment && cardModel.coverAttachment.coverUrl,
         isPersisted: !isLocalId(id),
       };
     },

@@ -6,6 +6,7 @@ module.exports.up = (knex) =>
 
     table.bigInteger('list_id').notNullable();
     table.bigInteger('board_id').notNullable();
+    table.bigInteger('cover_attachment_id');
 
     table.specificType('position', 'double precision').notNullable();
     table.text('name').notNullable();

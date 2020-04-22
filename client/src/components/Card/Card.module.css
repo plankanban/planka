@@ -68,13 +68,21 @@
 .content {
   cursor: grab;
   display: block;
-  padding: 6px 8px 0;
 }
 
 .content:after {
   content: "";
   display: table;
   clear: both;
+}
+
+.cover {
+  border-radius: 3px 3px 0 0;
+  vertical-align: middle;
+}
+
+.details {
+  padding: 6px 8px 0;
 }
 
 .labels {

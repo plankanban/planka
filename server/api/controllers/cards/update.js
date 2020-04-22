@@ -20,6 +20,11 @@ module.exports = {
       type: 'string',
       regex: /^[0-9]+$/,
     },
+    coverAttachmentId: {
+      type: 'string',
+      regex: /^[0-9]+$/,
+      allowNull: true,
+    },
     position: {
       type: 'number',
     },
@@ -91,6 +96,7 @@ module.exports = {
     }
 
     const values = _.pick(inputs, [
+      'coverAttachmentId',
       'position',
       'name',
       'description',

@@ -5,6 +5,7 @@ module.exports.up = (knex) =>
     table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
 
     table.bigInteger('card_id').notNullable();
+    table.bigInteger('user_id').notNullable();
 
     table.text('dirname').notNullable();
     table.text('filename').notNullable();

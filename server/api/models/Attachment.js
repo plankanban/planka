@@ -42,14 +42,19 @@ module.exports = {
       required: true,
       columnName: 'card_id',
     },
+    userId: {
+      model: 'User',
+      required: true,
+      columnName: 'user_id',
+    },
   },
 
   customToJSON() {
     return {
       ..._.omit(this, ['dirname', 'filename', 'isImage']),
       url: `${sails.config.custom.attachmentsUrl}/${this.dirname}/${this.filename}`,
-      thumbnailUrl: this.isImage
-        ? `${sails.config.custom.attachmentsUrl}/${this.dirname}/240.jpg`
+      coverUrl: this.isImage
+        ? `${sails.config.custom.attachmentsUrl}/${this.dirname}/thumbnails/cover-256.jpg`
         : null,
     };
   },

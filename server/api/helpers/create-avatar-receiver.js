@@ -2,10 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const util = require('util');
 const stream = require('stream');
+const streamToArray = require('stream-to-array');
 const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
 
-const pipeline = util.promisify(stream.pipeline);
+const writeFile = util.promisify(fs.writeFile);
 
 module.exports = {
   sync: true,
@@ -25,18 +26,20 @@ module.exports = {
       }
       firstFileHandled = true;
 
-      const resize = sharp().resize(100, 100).jpeg();
-      const passThrought = new stream.PassThrough();
+      const buffer = await streamToArray(file).then((parts) =>
+        Buffer.concat(parts.map((part) => (util.isBuffer(part) ? part : Buffer.from(part)))),
+      );
 
       try {
-        await pipeline(file, resize, passThrought);
+        const square100Buffer = await sharp(buffer).resize(100, 100).jpeg().toBuffer();
 
         const dirname = uuid();
-        const dirPath = path.join(sails.config.custom.userAvatarsPath, dirname);
 
-        fs.mkdirSync(dirPath);
+        const rootPath = path.join(sails.config.custom.userAvatarsPath, dirname);
+        fs.mkdirSync(rootPath);
 
-        await pipeline(passThrought, fs.createWriteStream(path.join(dirPath, '100.jpg')));
+        await writeFile(path.join(rootPath, 'original.jpg'), buffer);
+        await writeFile(path.join(rootPath, 'square-100.jpg'), square100Buffer);
 
         // eslint-disable-next-line no-param-reassign
         file.extra = {

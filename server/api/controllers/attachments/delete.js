@@ -27,7 +27,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.ATTACHMENT_NOT_FOUND);
 
     let { attachment } = attachmentToProjectPath;
-    const { board, project } = attachmentToProjectPath;
+    const { card, board, project } = attachmentToProjectPath;
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
@@ -38,7 +38,7 @@ module.exports = {
       throw Errors.ATTACHMENT_NOT_FOUND; // Forbidden
     }
 
-    attachment = await sails.helpers.deleteAttachment(attachment, board, this.req);
+    attachment = await sails.helpers.deleteAttachment(attachment, card, board, this.req);
 
     if (!attachment) {
       throw Errors.ATTACHMENT_NOT_FOUND;

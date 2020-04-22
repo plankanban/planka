@@ -94,7 +94,8 @@ module.exports = {
     return {
       ..._.omit(this, ['password', 'avatarDirname']),
       avatarUrl:
-        this.avatarDirname && `${sails.config.custom.userAvatarsUrl}/${this.avatarDirname}/100.jpg`,
+        this.avatarDirname &&
+        `${sails.config.custom.userAvatarsUrl}/${this.avatarDirname}/square-100.jpg`,
     };
   },
 };

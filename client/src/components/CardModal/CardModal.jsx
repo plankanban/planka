@@ -98,6 +98,15 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
+    const handleCoverUpdate = useCallback(
+      (newCoverAttachmentId) => {
+        onUpdate({
+          coverAttachmentId: newCoverAttachmentId,
+        });
+      },
+      [onUpdate],
+    );
+
     const handleAttachmentFileSelect = useCallback(
       (file) => {
         onAttachmentCreate({
@@ -278,6 +287,7 @@ const CardModal = React.memo(
                       items={attachments}
                       onUpdate={onAttachmentUpdate}
                       onDelete={onAttachmentDelete}
+                      onCoverUpdate={handleCoverUpdate}
                     />
                   </div>
                 </div>

@@ -7,6 +7,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    card: {
+      type: 'ref',
+      required: true,
+    },
     board: {
       type: 'ref',
       required: true,
@@ -17,6 +21,16 @@ module.exports = {
   },
 
   async fn(inputs, exits) {
+    if (inputs.record.id === inputs.card.coverAttachmentId) {
+      await sails.helpers.updateCard.with({
+        record: inputs.card,
+        values: {
+          coverAttachmentId: null,
+        },
+        request: inputs.request,
+      });
+    }
+
     const attachment = await Attachment.archiveOne(inputs.record.id);
 
     if (attachment) {
