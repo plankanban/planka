@@ -23,6 +23,7 @@ const Card = React.memo(
     name,
     dueDate,
     timer,
+    coverUrl,
     isPersisted,
     notificationsTotal,
     users,
@@ -63,51 +64,60 @@ const Card = React.memo(
 
     const contentNode = (
       <>
-        {labels.length > 0 && (
-          <span className={styles.labels}>
-            {labels.map((label) => (
-              <span key={label.id} className={classNames(styles.attachment, styles.attachmentLeft)}>
-                <Label name={label.name} color={label.color} size="tiny" />
-              </span>
-            ))}
-          </span>
-        )}
-        <div className={styles.name}>{name}</div>
-        {tasks.length > 0 && <Tasks items={tasks} />}
-        {(dueDate || timer || notificationsTotal > 0) && (
-          <span className={styles.attachments}>
-            {notificationsTotal > 0 && (
-              <span
-                className={classNames(
-                  styles.attachment,
-                  styles.attachmentLeft,
-                  styles.notification,
-                )}
-              >
-                {notificationsTotal}
-              </span>
-            )}
-            {dueDate && (
-              <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                <DueDate value={dueDate} size="tiny" />
-              </span>
-            )}
-            {timer && (
-              <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                <Timer startedAt={timer.startedAt} total={timer.total} size="tiny" />
-              </span>
-            )}
-          </span>
-        )}
-        {users.length > 0 && (
-          <span className={classNames(styles.attachments, styles.attachmentsRight)}>
-            {users.map((user) => (
-              <span key={user.id} className={classNames(styles.attachment, styles.attachmentRight)}>
-                <User name={user.name} avatarUrl={user.avatarUrl} size="tiny" />
-              </span>
-            ))}
-          </span>
-        )}
+        {coverUrl && <img src={coverUrl} alt="" className={styles.cover} />}
+        <div className={styles.details}>
+          {labels.length > 0 && (
+            <span className={styles.labels}>
+              {labels.map((label) => (
+                <span
+                  key={label.id}
+                  className={classNames(styles.attachment, styles.attachmentLeft)}
+                >
+                  <Label name={label.name} color={label.color} size="tiny" />
+                </span>
+              ))}
+            </span>
+          )}
+          <div className={styles.name}>{name}</div>
+          {tasks.length > 0 && <Tasks items={tasks} />}
+          {(dueDate || timer || notificationsTotal > 0) && (
+            <span className={styles.attachments}>
+              {notificationsTotal > 0 && (
+                <span
+                  className={classNames(
+                    styles.attachment,
+                    styles.attachmentLeft,
+                    styles.notification,
+                  )}
+                >
+                  {notificationsTotal}
+                </span>
+              )}
+              {dueDate && (
+                <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                  <DueDate value={dueDate} size="tiny" />
+                </span>
+              )}
+              {timer && (
+                <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                  <Timer startedAt={timer.startedAt} total={timer.total} size="tiny" />
+                </span>
+              )}
+            </span>
+          )}
+          {users.length > 0 && (
+            <span className={classNames(styles.attachments, styles.attachmentsRight)}>
+              {users.map((user) => (
+                <span
+                  key={user.id}
+                  className={classNames(styles.attachment, styles.attachmentRight)}
+                >
+                  <User name={user.name} avatarUrl={user.avatarUrl} size="tiny" />
+                </span>
+              ))}
+            </span>
+          )}
+        </div>
       </>
     );
 
@@ -121,7 +131,7 @@ const Card = React.memo(
                 {isPersisted ? (
                   <>
                     <Link
-                      to={isPersisted && Paths.CARDS.replace(':id', id)}
+                      to={Paths.CARDS.replace(':id', id)}
                       className={styles.content}
                       onClick={handleClick}
                     >
@@ -173,6 +183,7 @@ Card.propTypes = {
   name: PropTypes.string.isRequired,
   dueDate: PropTypes.instanceOf(Date),
   timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  coverUrl: PropTypes.string,
   isPersisted: PropTypes.bool.isRequired,
   notificationsTotal: PropTypes.number.isRequired,
   /* eslint-disable react/forbid-prop-types */
@@ -196,6 +207,7 @@ Card.propTypes = {
 Card.defaultProps = {
   dueDate: undefined,
   timer: undefined,
+  coverUrl: undefined,
 };
 
 export default Card;

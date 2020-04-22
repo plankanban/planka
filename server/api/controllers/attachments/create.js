@@ -51,6 +51,7 @@ module.exports = {
 
       const attachment = await sails.helpers.createAttachment(
         card,
+        currentUser,
         {
           dirname: file.extra.dirname,
           filename: file.filename,

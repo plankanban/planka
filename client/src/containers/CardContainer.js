@@ -34,7 +34,7 @@ const makeMapStateToProps = () => {
     const allProjectMemberships = membershipsForCurrentProjectSelector(state);
     const allLabels = labelsForCurrentBoardSelector(state);
 
-    const { name, dueDate, timer, isPersisted } = cardByIdSelector(state, id);
+    const { name, dueDate, timer, coverUrl, isPersisted } = cardByIdSelector(state, id);
 
     const users = usersByCardIdSelector(state, id);
     const labels = labelsByCardIdSelector(state, id);
@@ -47,6 +47,7 @@ const makeMapStateToProps = () => {
       name,
       dueDate,
       timer,
+      coverUrl,
       isPersisted,
       notificationsTotal,
       users,

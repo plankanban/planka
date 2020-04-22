@@ -2,19 +2,43 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Button, Icon, Loader } from 'semantic-ui-react';
+import { Button, Icon, Label, Loader } from 'semantic-ui-react';
 
 import EditPopup from './EditPopup';
 
 import styles from './Item.module.css';
 
 const Item = React.memo(
-  ({ name, url, thumbnailUrl, createdAt, isPersisted, onUpdate, onDelete }) => {
+  ({
+    name,
+    url,
+    coverUrl,
+    createdAt,
+    isCover,
+    isPersisted,
+    onCoverSelect,
+    onCoverDeselect,
+    onUpdate,
+    onDelete,
+  }) => {
     const [t] = useTranslation();
 
     const handleClick = useCallback(() => {
       window.open(url, '_blank');
     }, [url]);
+
+    const handleToggleCoverClick = useCallback(
+      (event) => {
+        event.stopPropagation();
+
+        if (isCover) {
+          onCoverDeselect();
+        } else {
+          onCoverSelect();
+        }
+      },
+      [isCover, onCoverSelect, onCoverDeselect],
+    );
 
     if (!isPersisted) {
       return (
@@ -36,19 +60,46 @@ const Item = React.memo(
         <div
           className={styles.thumbnail}
           style={{
-            backgroundImage: thumbnailUrl && `url(${thumbnailUrl}`,
+            backgroundImage: coverUrl && `url(${coverUrl}`,
           }}
         >
-          {!thumbnailUrl && <span className={styles.extension}>{extension || '-'}</span>}
+          {coverUrl ? (
+            isCover && (
+              <Label corner="left" size="tiny" icon="star" className={styles.thumbnailLabel} />
+            )
+          ) : (
+            <span className={styles.extension}>{extension || '-'}</span>
+          )}
         </div>
         <div className={styles.details}>
           <span className={styles.name}>{name}</span>
-          <span className={styles.options}>
+          <span className={styles.date}>
             {t('format:longDateTime', {
               postProcess: 'formatDate',
               value: createdAt,
             })}
           </span>
+          {coverUrl && (
+            <span className={styles.options}>
+              <button type="button" className={styles.option} onClick={handleToggleCoverClick}>
+                <Icon
+                  name="window maximize outline"
+                  flipped="vertically"
+                  size="small"
+                  className={styles.optionIcon}
+                />
+                <span className={styles.optionText}>
+                  {isCover
+                    ? t('action.removeCover', {
+                        context: 'title',
+                      })
+                    : t('action.makeCover', {
+                        context: 'title',
+                      })}
+                </span>
+              </button>
+            </span>
+          )}
         </div>
         <EditPopup
           defaultData={{
@@ -69,16 +120,19 @@ const Item = React.memo(
 Item.propTypes = {
   name: PropTypes.string.isRequired,
   url: PropTypes.string,
-  thumbnailUrl: PropTypes.string,
+  coverUrl: PropTypes.string,
   createdAt: PropTypes.instanceOf(Date),
+  isCover: PropTypes.bool.isRequired,
   isPersisted: PropTypes.bool.isRequired,
+  onCoverSelect: PropTypes.func.isRequired,
+  onCoverDeselect: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
 Item.defaultProps = {
   url: undefined,
-  thumbnailUrl: undefined,
+  coverUrl: undefined,
   createdAt: undefined,
 };
 

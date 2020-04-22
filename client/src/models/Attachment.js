@@ -8,7 +8,7 @@ export default class extends Model {
   static fields = {
     id: attr(),
     url: attr(),
-    thumbnailUrl: attr(),
+    coverUrl: attr(),
     name: attr(),
     cardId: fk({
       to: 'Card',

@@ -30,28 +30,44 @@ module.exports = {
         Buffer.concat(parts.map((part) => (util.isBuffer(part) ? part : Buffer.from(part)))),
       );
 
-      let thumbnailBuffer;
-
-      try {
-        thumbnailBuffer = await sharp(buffer).resize(240, 240).jpeg().toBuffer();
-      } catch (error) {} // eslint-disable-line no-empty
-
       try {
         const dirname = uuid();
-        const dirPath = path.join(sails.config.custom.attachmentsPath, dirname);
 
-        fs.mkdirSync(dirPath);
+        const rootPath = path.join(sails.config.custom.attachmentsPath, dirname);
+        fs.mkdirSync(rootPath);
 
-        if (thumbnailBuffer) {
-          await writeFile(path.join(dirPath, '240.jpg'), thumbnailBuffer);
+        await writeFile(path.join(rootPath, file.filename), buffer);
+
+        const image = sharp(buffer);
+        let imageMetadata;
+
+        try {
+          imageMetadata = await image.metadata();
+        } catch (error) {} // eslint-disable-line no-empty
+
+        if (imageMetadata) {
+          let cover256Buffer;
+          if (imageMetadata.height > imageMetadata.width) {
+            cover256Buffer = await image.resize(256, 320).jpeg().toBuffer();
+          } else {
+            cover256Buffer = await image
+              .resize({
+                width: 256,
+              })
+              .jpeg()
+              .toBuffer();
+          }
+
+          const thumbnailsPath = path.join(rootPath, 'thumbnails');
+          fs.mkdirSync(thumbnailsPath);
+
+          await writeFile(path.join(thumbnailsPath, 'cover-256.jpg'), cover256Buffer);
         }
-
-        await writeFile(path.join(dirPath, file.filename), buffer);
 
         // eslint-disable-next-line no-param-reassign
         file.extra = {
           dirname,
-          isImage: !!thumbnailBuffer,
+          isImage: !!imageMetadata,
         };
 
         return done();

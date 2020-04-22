@@ -50,6 +50,10 @@ module.exports = {
       required: true,
       columnName: 'board_id',
     },
+    coverAttachmentId: {
+      model: 'Attachment',
+      columnName: 'cover_attachment_id',
+    },
     subscriptionUsers: {
       collection: 'User',
       via: 'cardId',

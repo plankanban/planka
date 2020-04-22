@@ -15,35 +15,43 @@ module.exports = {
     },
     list: {
       type: 'ref',
-      required: true,
     },
     user: {
       type: 'ref',
-      required: true,
     },
     request: {
       type: 'ref',
     },
   },
 
+  exits: {
+    invalidParams: {},
+  },
+
   async fn(inputs, exits) {
     const { isSubscribed, ...values } = inputs.values;
 
-    let listId;
     if (inputs.toList) {
-      listId = inputs.toList.id;
-
-      if (listId !== inputs.list.id) {
-        values.listId = listId;
-      } else {
-        delete inputs.toList; // eslint-disable-line no-param-reassign
+      if (!inputs.list || !inputs.user) {
+        throw 'invalidParams';
       }
-    } else {
-      listId = inputs.list.id;
+
+      if (inputs.toList.id === inputs.list.id) {
+        delete inputs.toList; // eslint-disable-line no-param-reassign
+      } else {
+        values.listId = inputs.toList.id;
+      }
+    }
+
+    if (!_.isUndefined(isSubscribed) && !inputs.user) {
+      throw 'invalidParams';
     }
 
     if (!_.isUndefined(values.position)) {
-      const cards = await sails.helpers.getCardsForList(listId, inputs.record.id);
+      const cards = await sails.helpers.getCardsForList(
+        values.listId || inputs.record.listId,
+        inputs.record.id,
+      );
 
       const { position, repositions } = sails.helpers.insertToPositionables(values.position, cards);
 

@@ -355,6 +355,7 @@ export const attachmentsForCurrentCardSelector = createSelector(
       .toRefArray()
       .map((attachment) => ({
         ...attachment,
+        isCover: attachment.id === cardModel.coverAttachmentId,
         isPersisted: !isLocalId(attachment.id),
       }));
   },

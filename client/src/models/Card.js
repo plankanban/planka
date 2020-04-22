@@ -1,4 +1,4 @@
-import { Model, attr, fk, many } from 'redux-orm';
+import { Model, attr, fk, many, oneToOne } from 'redux-orm';
 
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
@@ -31,6 +31,11 @@ export default class extends Model {
       to: 'Board',
       as: 'board',
       relatedName: 'cards',
+    }),
+    coverAttachmentId: oneToOne({
+      to: 'Attachment',
+      as: 'coverAttachment',
+      relatedName: 'coveredCard',
     }),
     users: many('User', 'cards'),
     labels: many('Label', 'cards'),
