@@ -1,6 +1,6 @@
 # Planka
 
-![David (path)](https://img.shields.io/david/plankanban/planka?path=client) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/plankanban/planka) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
+![David (path)](https://img.shields.io/david/plankanban/planka?path=client) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
 
 A Trello-like kanban board built with React and Redux.
 
