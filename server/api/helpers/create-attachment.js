@@ -12,6 +12,12 @@ module.exports = {
       type: 'json',
       required: true,
     },
+    requestId: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      defaultsTo: null,
+    },
     request: {
       type: 'ref',
     },
@@ -29,6 +35,7 @@ module.exports = {
       'attachmentCreate',
       {
         item: attachment,
+        requestId: inputs.requestId,
       },
       inputs.request,
     );

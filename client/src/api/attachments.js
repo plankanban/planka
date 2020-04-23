@@ -10,8 +10,8 @@ export const transformAttachment = (attachment) => ({
 
 /* Actions */
 
-const createAttachment = (cardId, data, headers) =>
-  http.post(`/cards/${cardId}/attachments`, data, headers).then((body) => ({
+const createAttachment = (cardId, data, requestId, headers) =>
+  http.post(`/cards/${cardId}/attachments?requestId=${requestId}`, data, headers).then((body) => ({
     ...body,
     item: transformAttachment(body.item),
   }));

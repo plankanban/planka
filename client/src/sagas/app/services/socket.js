@@ -5,6 +5,7 @@ import { logoutService } from './login';
 import { closeModalService } from './modal';
 import { deleteNotificationsRequest, fetchUsersRequest } from '../requests';
 import {
+  attachmentWithIdExistsSelector,
   currentModalSelector,
   currentUserIdSelector,
   currentUserSelector,
@@ -208,8 +209,12 @@ export function* deleteTaskReceivedService(task) {
   yield put(deleteTaskReceived(task));
 }
 
-export function* createAttachmentReceivedService(attachment) {
-  yield put(createAttachmentReceived(attachment));
+export function* createAttachmentReceivedService(attachment, requestId) {
+  const exists = yield select(attachmentWithIdExistsSelector, requestId);
+
+  if (!exists) {
+    yield put(createAttachmentReceived(attachment));
+  }
 }
 
 export function* updateAttachmentReceivedService(attachment) {
