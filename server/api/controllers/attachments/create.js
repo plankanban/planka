@@ -11,6 +11,10 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    requestId: {
+      type: 'string',
+      isNotEmptyString: true,
+    },
   },
 
   exits: {
@@ -58,6 +62,7 @@ module.exports = {
           isImage: file.extra.isImage,
           name: file.filename,
         },
+        inputs.requestId,
         this.req,
       );
 

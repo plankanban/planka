@@ -23,7 +23,7 @@ export function* createAttachmentRequest(cardId, localId, data) {
   );
 
   try {
-    const { item } = yield call(request, api.createAttachment, cardId, data);
+    const { item } = yield call(request, api.createAttachment, cardId, data, localId);
 
     const action = createAttachmentSucceeded(localId, item);
     yield put(action);

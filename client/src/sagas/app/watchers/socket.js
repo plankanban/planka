@@ -156,8 +156,8 @@ const createSocketEventsChannel = () =>
       emit([deleteTaskReceivedService, item]);
     };
 
-    const handleAttachmentCreate = api.makeHandleAttachmentCreate(({ item }) => {
-      emit([createAttachmentReceivedService, item]);
+    const handleAttachmentCreate = api.makeHandleAttachmentCreate(({ item, requestId }) => {
+      emit([createAttachmentReceivedService, item, requestId]);
     });
 
     const handleAttachmentUpdate = api.makeHandleAttachmentUpdate(({ item }) => {
