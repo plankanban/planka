@@ -2,10 +2,10 @@
   "name": "planka",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://meltyshev.github.io/planka",
+  "homepage": "https://plankanban.github.io/planka",
   "repository": {
     "type": "git",
-    "url": "https://github.com/meltyshev/planka.git"
+    "url": "https://github.com/plankanban/planka.git"
   },
   "license": "MIT",
   "author": "Maksim Eltyshev"

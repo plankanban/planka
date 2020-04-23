@@ -1,12 +1,12 @@
 # Planka
 
-![David (path)](https://img.shields.io/david/meltyshev/planka?path=client) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/meltyshev/planka)
+![David (path)](https://img.shields.io/david/plankanban/planka?path=client) ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/plankanban/planka) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
 
 A Trello-like kanban board built with React and Redux.
 
-![](https://raw.githubusercontent.com/meltyshev/planka/master/demo.gif)
+![](https://raw.githubusercontent.com/plankanban/planka/master/demo.gif)
 
-[**Client demo**](https://meltyshev.github.io/planka) (without server features).
+[**Client demo**](https://plankanban.github.io/planka) (without server features).
 
 ## Features
 
@@ -27,14 +27,14 @@ A Trello-like kanban board built with React and Redux.
 [![](https://d207aa93qlcgug.cloudfront.net/1.95.5.qa/img/nav/docker-logo-loggedout.png)](https://hub.docker.com/r/meltyshev/planka)
 
 - Make sure you have [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed and operational.
-- Create `docker-compose.yml` based on [the example](https://raw.githubusercontent.com/meltyshev/planka/master/docker-compose.yml). This is the ONLY file you will need. You can create this file on your own machine by copy and pasting the content.
+- Create `docker-compose.yml` based on [the example](https://raw.githubusercontent.com/plankanban/planka/master/docker-compose.yml). This is the ONLY file you will need. You can create this file on your own machine by copy and pasting the content.
 - Edit `BASE_URL` to match your domain name or IP address.
 - Edit `SECRET_KEY` with random value. You can generate it by `openssl rand -hex 64`.
 
 Download the docker-compose.yml:
 
 ```
-curl -L https://raw.githubusercontent.com/meltyshev/planka/master/docker-compose.yml -o docker-compose.yml
+curl -L https://raw.githubusercontent.com/plankanban/planka/master/docker-compose.yml -o docker-compose.yml
 ```
 
 Pull images and start services:
@@ -48,7 +48,7 @@ Demo user: demo@demo.demo demo
 ## Development
 
 ```
-git clone https://github.com/meltyshev/planka.git
+git clone https://github.com/plankanban/planka.git
 ```
 
 Server folder:
@@ -91,4 +91,4 @@ Demo user: demo@demo.demo demo
 
 ## License
 
-Planka is [MIT licensed](https://github.com/meltyshev/planka/blob/master/LICENSE).
+Planka is [MIT licensed](https://github.com/plankanban/planka/blob/master/LICENSE).
