@@ -5,12 +5,11 @@
   "scripts": {
     "console": "dotenv sails console",
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
-    "db:init": "cd db && node init.js",
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "start": "npm run db:init && NODE_ENV=production node app.js",
-    "start:dev": "nodemon",
+    "start": "nodemon",
+    "start:prod": "node app.js --prod",
     "test": "npm run lint && npm run custom-tests && echo 'Done.'"
   },
   "eslintConfig": {

@@ -8,5 +8,22 @@
     "url": "https://github.com/plankanban/planka.git"
   },
   "license": "MIT",
-  "author": "Maksim Eltyshev"
+  "author": "Maksim Eltyshev",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "client/**/*.{js,jsx}": [
+      "npm run lint --prefix client"
+    ],
+    "server/**/*.js": [
+      "npm run lint --prefix server"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^4.2.5",
+    "lint-staged": "^10.1.7"
+  }
 }

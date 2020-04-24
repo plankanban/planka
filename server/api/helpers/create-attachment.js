@@ -46,7 +46,6 @@ module.exports = {
         values: {
           coverAttachmentId: attachment.id,
         },
-        request: inputs.request,
       });
     }
 
