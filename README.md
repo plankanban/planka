@@ -47,34 +47,24 @@ Demo user: demo@demo.demo demo
 
 ## Development
 
+Clone the repository and install dependencies:
+
 ```
 git clone https://github.com/plankanban/planka.git
-```
 
-Root folder:
-
-```
+cd planka
 npm install
 ```
 
-Server folder:
+Create a database and edit `DATABASE_URL` in `.env` file. Then initialize it:
 
 ```
-npm install
-
-# Create a database and edit DATABASE_URL in .env file
-
-npm run db:migrate
-npm run db:seed
-
-npm run start
+npm run server:db:init
 ```
 
-Client folder:
+Start the development server:
 
 ```
-npm install
-
 npm start
 ```
 

@@ -5,6 +5,7 @@
   "scripts": {
     "console": "dotenv sails console",
     "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
+    "db:init": "node db/init.js",
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
