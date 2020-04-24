@@ -10,6 +10,10 @@ module.exports = {
   connection: process.env.DATABASE_URL,
   migrations: {
     tableName: 'migration',
+    directory: path.join(__dirname, 'migrations'),
+  },
+  seeds: {
+    directory: path.join(__dirname, 'seeds'),
   },
   wrapIdentifier: (value, origImpl) => origImpl(_.snakeCase(value)),
 };

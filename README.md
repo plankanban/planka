@@ -51,6 +51,12 @@ Demo user: demo@demo.demo demo
 git clone https://github.com/plankanban/planka.git
 ```
 
+Root folder:
+
+```
+npm install
+```
+
 Server folder:
 
 ```
@@ -61,7 +67,7 @@ npm install
 npm run db:migrate
 npm run db:seed
 
-npm run start:dev
+npm run start
 ```
 
 Client folder:

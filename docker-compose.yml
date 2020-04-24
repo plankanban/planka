@@ -6,7 +6,7 @@ services:
     command: >
       bash -c
         "for i in `seq 1 30`; do
-          npm start &&
+          ./start.sh &&
           s=$$? && break || s=$$?;
           echo \"Tried $$i times. Waiting 5 seconds...\";
           sleep 5;
