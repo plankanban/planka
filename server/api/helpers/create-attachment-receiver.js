@@ -3,6 +3,7 @@ const path = require('path');
 const util = require('util');
 const stream = require('stream');
 const streamToArray = require('stream-to-array');
+const filenamify = require('filenamify');
 const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
 
@@ -33,10 +34,13 @@ module.exports = {
       try {
         const dirname = uuid();
 
+        // FIXME: https://github.com/sindresorhus/filenamify/issues/13
+        const filename = filenamify(file.filename);
+
         const rootPath = path.join(sails.config.custom.attachmentsPath, dirname);
         fs.mkdirSync(rootPath);
 
-        await writeFile(path.join(rootPath, file.filename), buffer);
+        await writeFile(path.join(rootPath, filename), buffer);
 
         const image = sharp(buffer);
         let imageMetadata;
@@ -68,7 +72,11 @@ module.exports = {
         file.extra = {
           dirname,
           isImage: !!imageMetadata,
+          name: file.filename,
         };
+
+        // eslint-disable-next-line no-param-reassign
+        file.filename = filename;
 
         return done();
       } catch (error) {

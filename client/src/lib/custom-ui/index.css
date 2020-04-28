@@ -34694,11 +34694,11 @@ select.ui.dropdown {
   overflow: hidden;
 }
 
-.scrolling.dimmable > .dimmer {
+/* .scrolling.dimmable > .dimmer {
   -webkit-box-pack: start;
   -ms-flex-pack: start;
   justify-content: flex-start;
-}
+} */
 
 .scrolling.dimmable.dimmed > .dimmer {
   overflow: auto;
