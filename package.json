@@ -38,8 +38,8 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^5.1.0",
+    "concurrently": "^5.2.0",
     "husky": "^4.2.5",
-    "lint-staged": "^10.1.7"
+    "lint-staged": "^10.2.0"
   }
 }
