@@ -38,8 +38,11 @@
   font-weight: 700;
   height: 100%;
   line-height: 80px;
+  overflow: hidden;
+  padding: 0 20px 0 20px;
   text-align: center;
   text-decoration: none;
+  text-overflow: ellipsis;
   text-transform: uppercase;
   width: 100%;
 }

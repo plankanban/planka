@@ -1,8 +1,8 @@
+import isEmail from 'validator/lib/isEmail';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import isEmail from 'validator/lib/isEmail';
 import { Form, Grid, Header, Message } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input } from '../../lib/custom-ui';

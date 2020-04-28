@@ -60,7 +60,7 @@ module.exports = {
           dirname: file.extra.dirname,
           filename: file.filename,
           isImage: file.extra.isImage,
-          name: file.filename,
+          name: file.extra.name,
         },
         inputs.requestId,
         this.req,

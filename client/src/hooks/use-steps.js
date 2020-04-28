@@ -14,7 +14,7 @@ const createStep = (type, params = {}) => {
 export default (initialType, initialParams) => {
   const [step, setStep] = useState(() => createStep(initialType, initialParams));
 
-  const openStep = useCallback((type, params) => {
+  const open = useCallback((type, params) => {
     setStep(createStep(type, params));
   }, []);
 
@@ -22,5 +22,5 @@ export default (initialType, initialParams) => {
     setStep(null);
   }, []);
 
-  return [step, openStep, handleBack];
+  return [step, open, handleBack];
 };

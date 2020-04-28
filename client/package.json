@@ -60,6 +60,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-datepicker": "^2.14.1",
     "react-dom": "^16.13.1",
+    "react-dropzone": "^11.0.1",
     "react-i18next": "^11.3.4",
     "react-input-mask": "^2.0.4",
     "react-markdown": "^4.3.1",
