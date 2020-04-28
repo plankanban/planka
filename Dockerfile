@@ -1,4 +1,4 @@
-FROM node:alpine AS server-builder
+FROM node:12-alpine AS server-builder
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY server/package.json server/package-lock.json ./
 
 RUN npm i --prod --silent
 
-FROM node:alpine AS client-builder
+FROM node:12-alpine AS client-builder
 
 WORKDIR /app
 
@@ -22,7 +22,7 @@ COPY client .
 
 RUN npm run build
 
-FROM node:alpine
+FROM node:12-alpine
 
 RUN apk add bash vips --no-cache \
   --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/community/
