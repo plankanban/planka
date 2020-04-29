@@ -1,9 +1,21 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+import { Button } from 'semantic-ui-react';
+import { useToggle } from '../../../lib/hooks';
 
 import Item from './Item';
 
+import styles from './Attachments.module.css';
+
 const Attachments = React.memo(({ items, onUpdate, onDelete, onCoverUpdate }) => {
+  const [t] = useTranslation();
+  const [isOpened, toggleOpened] = useToggle();
+
+  const handleToggleClick = useCallback(() => {
+    toggleOpened();
+  }, [toggleOpened]);
+
   const handleCoverSelect = useCallback(
     (id) => {
       onCoverUpdate(id);
@@ -29,9 +41,11 @@ const Attachments = React.memo(({ items, onUpdate, onDelete, onCoverUpdate }) =>
     [onDelete],
   );
 
+  const visibleItems = isOpened ? items : items.slice(0, 4);
+
   return (
     <>
-      {items.map((item) => (
+      {visibleItems.map((item) => (
         <Item
           key={item.id}
           name={item.name}
@@ -46,6 +60,20 @@ const Attachments = React.memo(({ items, onUpdate, onDelete, onCoverUpdate }) =>
           onDelete={() => handleDelete(item.id)}
         />
       ))}
+      {items.length > 4 && (
+        <Button
+          fluid
+          content={
+            isOpened
+              ? t('action.showFewerAttachments')
+              : t('action.showAllAttachments', {
+                  hidden: items.length - visibleItems.length,
+                })
+          }
+          className={styles.toggleButton}
+          onClick={handleToggleClick}
+        />
+      )}
     </>
   );
 });

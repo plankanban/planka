@@ -15,6 +15,7 @@ export default {
     common: {
       account: 'Учетная запись',
       actions: 'Действия',
+      addAttachment: 'Добавление вложения',
       addComment: 'Добавление комментария',
       addMember: 'Добавление участника',
       addUser: 'Добавление пользователя',
@@ -81,6 +82,7 @@ export default {
       enterTaskDescription: 'Введите описание задачи...',
       filterByLabels: 'Фильтр по меткам',
       filterByMembers: 'Фильтр по участникам',
+      fromComputer: 'С компьютера',
       hours: 'Часы',
       invalidCurrentPassword: 'Неверный текущий пароль',
       labels: 'Метки',
@@ -99,6 +101,8 @@ export default {
       organization: 'Организация',
       phone: 'Телефон',
       preferences: 'Предпочтения',
+      pressPasteShortcutToAddAttachmentFromClipboard:
+        'Совет: нажмите Ctrl-V (Cmd-V на Mac), чтобы добавить вложение из буфера обмена.',
       projectNotFound: 'Доска не найдена',
       refreshPageToLoadLastDataAndReceiveUpdates:
         '<0>Обновите страницу</0>, чтобы загрузить<br />актуальные данные и получать обновления',
@@ -167,6 +171,8 @@ export default {
       removeFromProject: 'Удалить из проекта',
       removeMember: 'Удалить участника',
       save: 'Сохранить',
+      showAllAttachments: 'Показать все вложения ({{hidden}} скрыто)',
+      showFewerAttachments: 'Показать меньше вложений',
       start: 'Начать',
       stop: 'Остановить',
       subscribe: 'Подписаться',
