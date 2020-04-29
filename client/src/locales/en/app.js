@@ -11,6 +11,7 @@ export default {
     common: {
       account: 'Account',
       actions: 'Actions',
+      addAttachment_title: 'Add Attachment',
       addComment: 'Add comment',
       addMember_title: 'Add Member',
       addUser_title: 'Add User',
@@ -77,6 +78,7 @@ export default {
       enterTaskDescription: 'Enter task description...',
       filterByLabels_title: 'Filter By Labels',
       filterByMembers_title: 'Filter By Members',
+      fromComputer_title: 'From Computer',
       hours: 'Hours',
       invalidCurrentPassword: 'Invalid current password',
       labels: 'Labels',
@@ -95,6 +97,8 @@ export default {
       organization: 'Organization',
       phone: 'Phone',
       preferences: 'Preferences',
+      pressPasteShortcutToAddAttachmentFromClipboard:
+        'Tip: press Ctrl-V (Cmd-V on Mac) to add an attachment from the clipboard.',
       projectNotFound_title: 'Project Not Found',
       refreshPageToLoadLastDataAndReceiveUpdates:
         '<0>Refresh the page</0> to load last data<br />and receive updates',
@@ -166,6 +170,8 @@ export default {
       removeFromProject: 'Remove from project',
       removeMember: 'Remove member',
       save: 'Save',
+      showAllAttachments: 'Show all attachments ({{hidden}} hidden)',
+      showFewerAttachments: 'Show fewer attachments',
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Subscribe',

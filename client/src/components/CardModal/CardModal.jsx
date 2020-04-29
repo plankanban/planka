@@ -9,8 +9,8 @@ import NameField from './NameField';
 import EditDescription from './EditDescription';
 import Tasks from './Tasks';
 import Attachments from './Attachments';
-import AddAttachment from './AddAttachment';
 import AddAttachmentZone from './AddAttachmentZone';
+import AddAttachmentPopup from './AddAttachmentPopup';
 import Actions from './Actions';
 import User from '../User';
 import Label from '../Label';
@@ -337,12 +337,12 @@ const CardModal = React.memo(
                       {t('common.timer')}
                     </Button>
                   </EditTimerPopup>
-                  <AddAttachment onCreate={onAttachmentCreate}>
+                  <AddAttachmentPopup onCreate={onAttachmentCreate}>
                     <Button fluid className={styles.actionButton}>
                       <Icon name="attach" className={styles.actionIcon} />
                       {t('common.attachment')}
                     </Button>
-                  </AddAttachment>
+                  </AddAttachmentPopup>
                 </div>
                 <div className={styles.actions}>
                   <span className={styles.actionsTitle}>{t('common.actions')}</span>
