@@ -73,7 +73,7 @@
 
 .tab {
   border-radius: 3px 3px 0 0;
-  min-width: 160px;
+  min-width: 100px;
   position: relative;
   transition: all 0.1s ease;
 }

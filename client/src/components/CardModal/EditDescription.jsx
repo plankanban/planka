@@ -21,19 +21,15 @@ const EditDescription = React.forwardRef(({ children, defaultValue, onUpdate }, 
   }, [defaultValue, setValue]);
 
   const close = useCallback(() => {
-    setIsOpened(false);
-    setValue(null);
-  }, [setValue]);
-
-  const submit = useCallback(() => {
     const cleanValue = value.trim() || null;
 
     if (cleanValue !== defaultValue) {
       onUpdate(cleanValue);
     }
 
-    close();
-  }, [defaultValue, onUpdate, value, close]);
+    setIsOpened(false);
+    setValue(null);
+  }, [defaultValue, onUpdate, value, setValue]);
 
   useImperativeHandle(
     ref,
@@ -53,10 +49,10 @@ const EditDescription = React.forwardRef(({ children, defaultValue, onUpdate }, 
   const handleFieldKeyDown = useCallback(
     (event) => {
       if (event.ctrlKey && event.key === 'Enter') {
-        submit();
+        close();
       }
     },
-    [submit],
+    [close],
   );
 
   const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
@@ -65,8 +61,8 @@ const EditDescription = React.forwardRef(({ children, defaultValue, onUpdate }, 
   );
 
   const handleSubmit = useCallback(() => {
-    submit();
-  }, [submit]);
+    close();
+  }, [close]);
 
   useEffect(() => {
     if (isOpened) {

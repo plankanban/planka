@@ -112,7 +112,7 @@ const Card = React.memo(
                   key={user.id}
                   className={classNames(styles.attachment, styles.attachmentRight)}
                 >
-                  <User name={user.name} avatarUrl={user.avatarUrl} size="tiny" />
+                  <User name={user.name} avatarUrl={user.avatarUrl} size="small" />
                 </span>
               ))}
             </span>
