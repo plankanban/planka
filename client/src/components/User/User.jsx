@@ -16,19 +16,19 @@ const SIZES = {
 // TODO: move to styles
 const STYLES = {
   tiny: {
-    fontSize: '10px',
-    fontWeight: '400',
-    height: '20px',
-    padding: '5.5px 0px 4.5px',
-    width: '20px',
-  },
-  small: {
     fontSize: '12px',
     fontWeight: '400',
     height: '24px',
     lineHeight: '20px',
-    padding: '2px 0px',
+    padding: '2px 0',
     width: '24px',
+  },
+  small: {
+    fontSize: '12px',
+    fontWeight: '400',
+    height: '28px',
+    padding: '8px 0',
+    width: '28px',
   },
   medium: {
     fontSize: '14px',

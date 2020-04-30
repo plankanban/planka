@@ -65,11 +65,13 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onClose }) =>
               context: 'title',
             })}
           </Menu.Item>
-          <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
-            {t('action.deleteList', {
-              context: 'title',
-            })}
-          </Menu.Item>
+          {onDelete && (
+            <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+              {t('action.deleteList', {
+                context: 'title',
+              })}
+            </Menu.Item>
+          )}
         </Menu>
       </Popup.Content>
     </>
@@ -79,8 +81,12 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onClose }) =>
 ActionsStep.propTypes = {
   onNameEdit: PropTypes.func.isRequired,
   onCardAdd: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   onClose: PropTypes.func.isRequired,
+};
+
+ActionsStep.defaultProps = {
+  onDelete: undefined,
 };
 
 export default withPopup(ActionsStep);

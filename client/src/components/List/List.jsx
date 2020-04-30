@@ -114,8 +114,12 @@ List.propTypes = {
   isPersisted: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   onUpdate: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onDelete: PropTypes.func,
   onCardCreate: PropTypes.func.isRequired,
+};
+
+List.defaultProps = {
+  onDelete: undefined,
 };
 
 export default List;

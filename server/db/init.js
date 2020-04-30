@@ -4,9 +4,9 @@ const knex = require('knex')(config); // eslint-disable-line import/order
 
 (async () => {
   try {
-    const exists = await knex.schema.hasTable(config.migrations.tableName);
+    const isExists = await knex.schema.hasTable(config.migrations.tableName);
 
-    if (!exists) {
+    if (!isExists) {
       await knex.migrate.latest();
       await knex.seed.run();
     }

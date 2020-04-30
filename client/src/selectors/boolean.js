@@ -1,9 +1,27 @@
 import { createSelector } from 'redux-orm';
 
 import orm from '../orm';
+import { pathSelector } from './path';
 
-// eslint-disable-next-line import/prefer-default-export
-export const attachmentWithIdExistsSelector = () =>
+export const isAnyFilterActiveForCurrentBoardSelector = createSelector(
+  orm,
+  (state) => pathSelector(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return false;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return false;
+    }
+
+    return boardModel.filterUsers.exists() || boardModel.filterLabels.exists();
+  },
+);
+
+export const isAttachmentWithIdExistsSelector = () =>
   createSelector(
     orm,
     (_, id) => id,

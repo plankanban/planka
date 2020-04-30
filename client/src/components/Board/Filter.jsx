@@ -61,7 +61,7 @@ const Filter = React.memo(
               <User
                 name={user.name}
                 avatarUrl={user.avatarUrl}
-                size="small"
+                size="tiny"
                 onClick={() => handleUserRemoveClick(user.id)}
               />
             </span>
