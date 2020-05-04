@@ -86,10 +86,21 @@ export default class extends Model {
         Card.upsert(payload.card);
 
         break;
-      case ActionTypes.CARD_UPDATE:
-        Card.withId(payload.id).update(payload.data);
+      case ActionTypes.CARD_UPDATE: {
+        const card = Card.withId(payload.id);
+
+        // FIXME: hack
+        if (payload.data.boardId && payload.data.boardId !== card.boardId) {
+          card.isSubscribed = false;
+
+          card.users.clear();
+          card.labels.clear();
+        }
+
+        card.update(payload.data);
 
         break;
+      }
       case ActionTypes.CARD_DELETE:
         Card.withId(payload.id).deleteWithRelated();
 
