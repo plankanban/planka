@@ -11,6 +11,8 @@ import {
   labelsForCurrentBoardSelector,
   labelsForCurrentCardSelector,
   membershipsForCurrentProjectSelector,
+  pathSelector,
+  projectsToListsForCurrentUserSelector,
   tasksForCurrentCardSelector,
   usersForCurrentCardSelector,
 } from '../selectors';
@@ -27,8 +29,11 @@ import {
   deleteLabel,
   deleteTask,
   fetchActionsInCurrentCard,
+  fetchBoard,
+  moveCurrentCard,
   removeLabelFromCurrentCard,
   removeUserFromCurrentCard,
+  transferCurrentCard,
   updateAttachment,
   updateCommentAction,
   updateCurrentCard,
@@ -39,7 +44,9 @@ import Paths from '../constants/Paths';
 import CardModal from '../components/CardModal';
 
 const mapStateToProps = (state) => {
+  const { projectId } = pathSelector(state);
   const { isAdmin } = currentUserSelector(state);
+  const allProjectsToLists = projectsToListsForCurrentUserSelector(state);
   const allProjectMemberships = membershipsForCurrentProjectSelector(state);
   const allLabels = labelsForCurrentBoardSelector(state);
 
@@ -51,6 +58,7 @@ const mapStateToProps = (state) => {
     isSubscribed,
     isActionsFetching,
     isAllActionsFetched,
+    listId,
     boardId,
   } = currentCardSelector(state);
 
@@ -68,14 +76,17 @@ const mapStateToProps = (state) => {
     isSubscribed,
     isActionsFetching,
     isAllActionsFetched,
+    listId,
+    boardId,
+    projectId,
     users,
     labels,
     tasks,
     attachments,
     actions,
+    allProjectsToLists,
     allProjectMemberships,
     allLabels,
-    boardId,
     isEditable: isAdmin,
   };
 };
@@ -84,9 +95,12 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onUpdate: updateCurrentCard,
+      onMove: moveCurrentCard,
+      onTransfer: transferCurrentCard,
       onDelete: deleteCurrentCard,
       onUserAdd: addUserToCurrentCard,
       onUserRemove: removeUserFromCurrentCard,
+      onBoardFetch: fetchBoard,
       onLabelAdd: addLabelToCurrentCard,
       onLabelRemove: removeLabelFromCurrentCard,
       onLabelCreate: createLabelInCurrentBoard,
@@ -108,7 +122,7 @@ const mapDispatchToProps = (dispatch) =>
   );
 
 const mergeProps = (stateProps, dispatchProps) => ({
-  ...omit(stateProps, 'boardId'),
+  ...stateProps,
   ...omit(dispatchProps, 'push'),
   onClose: () => dispatchProps.push(Paths.BOARDS.replace(':id', stateProps.boardId)),
 });

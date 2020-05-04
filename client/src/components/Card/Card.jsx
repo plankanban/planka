@@ -24,17 +24,24 @@ const Card = React.memo(
     dueDate,
     timer,
     coverUrl,
+    listId,
+    boardId,
+    projectId,
     isPersisted,
     notificationsTotal,
     users,
     labels,
     tasks,
+    allProjectsToLists,
     allProjectMemberships,
     allLabels,
     onUpdate,
+    onMove,
+    onTransfer,
     onDelete,
     onUserAdd,
     onUserRemove,
+    onBoardFetch,
     onLabelAdd,
     onLabelRemove,
     onLabelCreate,
@@ -143,17 +150,24 @@ const Card = React.memo(
                         name,
                         dueDate,
                         timer,
+                        listId,
+                        boardId,
+                        projectId,
                         isPersisted,
                       }}
+                      projectsToLists={allProjectsToLists}
                       projectMemberships={allProjectMemberships}
                       currentUserIds={users.map((user) => user.id)}
                       labels={allLabels}
                       currentLabelIds={labels.map((label) => label.id)}
                       onNameEdit={handleNameEdit}
                       onUpdate={onUpdate}
+                      onMove={onMove}
+                      onTransfer={onTransfer}
                       onDelete={onDelete}
                       onUserAdd={onUserAdd}
                       onUserRemove={onUserRemove}
+                      onBoardFetch={onBoardFetch}
                       onLabelAdd={onLabelAdd}
                       onLabelRemove={onLabelRemove}
                       onLabelCreate={onLabelCreate}
@@ -184,19 +198,26 @@ Card.propTypes = {
   dueDate: PropTypes.instanceOf(Date),
   timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   coverUrl: PropTypes.string,
+  listId: PropTypes.string.isRequired,
+  boardId: PropTypes.string.isRequired,
+  projectId: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
   notificationsTotal: PropTypes.number.isRequired,
   /* eslint-disable react/forbid-prop-types */
   users: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
   tasks: PropTypes.array.isRequired,
+  allProjectsToLists: PropTypes.array.isRequired,
   allProjectMemberships: PropTypes.array.isRequired,
   allLabels: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   onUpdate: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  onTransfer: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
+  onBoardFetch: PropTypes.func.isRequired,
   onLabelAdd: PropTypes.func.isRequired,
   onLabelRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,

@@ -17,8 +17,6 @@
     0 0 0 1px rgba(9, 45, 66, 0.08) !important;
   margin-top: 6px !important;
   max-height: calc(100% - 70px);
-  overflow: hidden;
-  overflow-y: auto;
   padding: 0 12px 12px !important;
   width: 304px;
 }

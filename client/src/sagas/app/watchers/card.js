@@ -5,6 +5,9 @@ import {
   deleteCardService,
   deleteCurrentCardService,
   moveCardService,
+  moveCurrentCardService,
+  transferCardService,
+  transferCurrentCardService,
   updateCardService,
   updateCurrentCardService,
 } from '../services';
@@ -23,6 +26,15 @@ export default function* () {
     ),
     takeLatest(EntryActionTypes.CARD_MOVE, ({ payload: { id, listId, index } }) =>
       moveCardService(id, listId, index),
+    ),
+    takeLatest(EntryActionTypes.CURRENT_CARD_MOVE, ({ payload: { listId, index } }) =>
+      moveCurrentCardService(listId, index),
+    ),
+    takeLatest(EntryActionTypes.CARD_TRANSFER, ({ payload: { id, boardId, listId, index } }) =>
+      transferCardService(id, boardId, listId, index),
+    ),
+    takeLatest(EntryActionTypes.CURRENT_CARD_TRANSFER, ({ payload: { boardId, listId, index } }) =>
+      transferCurrentCardService(boardId, listId, index),
     ),
     takeLatest(EntryActionTypes.CARD_DELETE, ({ payload: { id } }) => deleteCardService(id)),
     takeLatest(EntryActionTypes.CURRENT_CARD_DELETE, () => deleteCurrentCardService()),

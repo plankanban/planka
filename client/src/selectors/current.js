@@ -63,6 +63,36 @@ export const projectsForCurrentUserSelector = createSelector(
   },
 );
 
+export const projectsToListsForCurrentUserSelector = createSelector(
+  orm,
+  (state) => currentUserIdSelector(state),
+  ({ User }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const userModel = User.withId(id);
+
+    if (!userModel) {
+      return userModel;
+    }
+
+    return userModel
+      .getOrderedProjectMembershipsQuerySet()
+      .toModelArray()
+      .map(({ project: projectModel }) => ({
+        ...projectModel.ref,
+        boards: projectModel
+          .getOrderedBoardsQuerySet()
+          .toModelArray()
+          .map((boardModel) => ({
+            ...boardModel.ref,
+            lists: boardModel.getOrderedListsQuerySet().toRefArray(),
+          })),
+      }));
+  },
+);
+
 export const notificationsForCurrentUserSelector = createSelector(
   orm,
   (state) => currentUserIdSelector(state),

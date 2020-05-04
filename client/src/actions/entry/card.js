@@ -23,10 +23,37 @@ export const updateCurrentCard = (data) => ({
   },
 });
 
-export const moveCard = (id, listId, index) => ({
+export const moveCard = (id, listId, index = 0) => ({
   type: EntryActionTypes.CARD_MOVE,
   payload: {
     id,
+    listId,
+    index,
+  },
+});
+
+export const moveCurrentCard = (listId, index = 0) => ({
+  type: EntryActionTypes.CURRENT_CARD_MOVE,
+  payload: {
+    listId,
+    index,
+  },
+});
+
+export const transferCard = (id, boardId, listId, index = 0) => ({
+  type: EntryActionTypes.CARD_TRANSFER,
+  payload: {
+    id,
+    boardId,
+    listId,
+    index,
+  },
+});
+
+export const transferCurrentCard = (boardId, listId, index = 0) => ({
+  type: EntryActionTypes.CURRENT_CARD_TRANSFER,
+  payload: {
+    boardId,
     listId,
     index,
   },

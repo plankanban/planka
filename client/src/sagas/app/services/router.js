@@ -34,7 +34,7 @@ export function* runPathActionsService(pathsMatch) {
   switch (pathsMatch.path) {
     case Paths.BOARDS:
     case Paths.CARDS: {
-      const currentBoard = yield select(currentBoardSelector);
+      const currentBoard = yield select(currentBoardSelector); // TODO: move to services
 
       if (currentBoard && currentBoard.isFetching === null) {
         yield call(fetchBoardRequest, currentBoard.id);

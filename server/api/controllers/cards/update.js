@@ -20,6 +20,10 @@ module.exports = {
       type: 'string',
       regex: /^[0-9]+$/,
     },
+    boardId: {
+      type: 'string',
+      regex: /^[0-9]+$/,
+    },
     coverAttachmentId: {
       type: 'string',
       regex: /^[0-9]+$/,
@@ -71,10 +75,10 @@ module.exports = {
       .getCardToProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    let { card } = cardToProjectPath;
-    const { list, project } = cardToProjectPath;
+    let { card, project } = cardToProjectPath;
+    const { list } = cardToProjectPath;
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
+    let isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
       currentUser.id,
     );
@@ -87,11 +91,24 @@ module.exports = {
     if (!_.isUndefined(inputs.listId) && inputs.listId !== list.id) {
       toList = await List.findOne({
         id: inputs.listId,
-        boardId: card.boardId,
+        boardId: inputs.boardId || card.boardId,
       });
 
       if (!toList) {
         throw Errors.LIST_NOT_FOUND;
+      }
+
+      ({ project } = await sails.helpers
+        .getListToProjectPath(toList.id)
+        .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND));
+
+      isUserMemberForProject = await sails.helpers.isUserMemberForProject(
+        project.id,
+        currentUser.id,
+      );
+
+      if (!isUserMemberForProject) {
+        throw Errors.LIST_NOT_FOUND; // Forbidden
       }
     }
 

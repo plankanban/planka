@@ -40,6 +40,10 @@ module.exports = {
         delete inputs.toList; // eslint-disable-line no-param-reassign
       } else {
         values.listId = inputs.toList.id;
+
+        if (inputs.toList.boardId !== inputs.list.boardId) {
+          values.boardId = inputs.toList.boardId;
+        }
       }
     }
 
@@ -92,6 +96,7 @@ module.exports = {
       );
 
       if (inputs.toList) {
+        // TODO: add transfer action
         await sails.helpers.createAction(card, inputs.user, {
           type: 'moveCard',
           data: {

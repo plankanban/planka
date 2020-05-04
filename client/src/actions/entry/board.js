@@ -7,6 +7,13 @@ export const createBoardInCurrentProject = (data) => ({
   },
 });
 
+export const fetchBoard = (id) => ({
+  type: EntryActionTypes.BOARD_FETCH,
+  payload: {
+    id,
+  },
+});
+
 export const updateBoard = (id, data) => ({
   type: EntryActionTypes.BOARD_UPDATE,
   payload: {
