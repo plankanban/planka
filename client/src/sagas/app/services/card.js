@@ -45,6 +45,29 @@ export function* moveCardService(id, listId, index) {
   });
 }
 
+export function* moveCurrentCardService(listId, index) {
+  const { cardId } = yield select(pathSelector);
+
+  yield call(moveCardService, cardId, listId, index);
+}
+
+export function* transferCardService(id, boardId, listId, index) {
+  const position = yield select(nextCardPositionSelector, listId, index, id);
+
+  yield call(updateCardService, id, {
+    boardId,
+    listId,
+    position,
+  });
+}
+
+export function* transferCurrentCardService(boardId, listId, index) {
+  const { cardId, boardId: currentBoardId } = yield select(pathSelector);
+
+  yield call(goToBoardService, currentBoardId);
+  yield call(transferCardService, cardId, boardId, listId, index);
+}
+
 export function* deleteCardService(id) {
   const { cardId, boardId } = yield select(pathSelector);
 

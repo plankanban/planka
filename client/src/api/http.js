@@ -4,7 +4,7 @@ import Config from '../constants/Config';
 
 const http = {};
 
-// TODO: all methods
+// TODO: add all methods
 ['POST'].forEach((method) => {
   http[method.toLowerCase()] = (url, data, headers) => {
     const formData = Object.keys(data).reduce((result, key) => {

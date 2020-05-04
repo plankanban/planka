@@ -3,6 +3,7 @@ import { all, takeLatest } from 'redux-saga/effects';
 import {
   createBoardInCurrentProjectService,
   deleteBoardService,
+  fetchBoard,
   moveBoardService,
   updateBoardService,
 } from '../services';
@@ -13,6 +14,7 @@ export default function* () {
     takeLatest(EntryActionTypes.BOARD_IN_CURRENT_PROJECT_CREATE, ({ payload: { data } }) =>
       createBoardInCurrentProjectService(data),
     ),
+    takeLatest(EntryActionTypes.BOARD_FETCH, ({ payload: { id } }) => fetchBoard(id)),
     takeLatest(EntryActionTypes.BOARD_UPDATE, ({ payload: { id, data } }) =>
       updateBoardService(id, data),
     ),

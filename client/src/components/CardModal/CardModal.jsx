@@ -20,6 +20,7 @@ import ProjectMembershipsPopup from '../ProjectMembershipsPopup';
 import LabelsPopup from '../LabelsPopup';
 import EditDueDatePopup from '../EditDueDatePopup';
 import EditTimerPopup from '../EditTimerPopup';
+import MoveCardPopup from '../MoveCardPopup';
 import DeletePopup from '../DeletePopup';
 
 import styles from './CardModal.module.css';
@@ -33,18 +34,25 @@ const CardModal = React.memo(
     isSubscribed,
     isActionsFetching,
     isAllActionsFetched,
+    listId,
+    boardId,
+    projectId,
     users,
     labels,
     tasks,
     attachments,
     actions,
+    allProjectsToLists,
     allProjectMemberships,
     allLabels,
     isEditable,
     onUpdate,
+    onMove,
+    onTransfer,
     onDelete,
     onUserAdd,
     onUserRemove,
+    onBoardFetch,
     onLabelAdd,
     onLabelRemove,
     onLabelCreate,
@@ -328,7 +336,9 @@ const CardModal = React.memo(
                   <EditDueDatePopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
                     <Button fluid className={styles.actionButton}>
                       <Icon name="calendar check outline" className={styles.actionIcon} />
-                      {t('common.dueDate')}
+                      {t('common.dueDate', {
+                        context: 'title',
+                      })}
                     </Button>
                   </EditDueDatePopup>
                   <EditTimerPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
@@ -354,6 +364,26 @@ const CardModal = React.memo(
                     <Icon name="paper plane outline" className={styles.actionIcon} />
                     {isSubscribed ? t('action.unsubscribe') : t('action.subscribe')}
                   </Button>
+                  <MoveCardPopup
+                    projectsToLists={allProjectsToLists}
+                    defaultPath={{
+                      projectId,
+                      boardId,
+                      listId,
+                    }}
+                    onMove={onMove}
+                    onTransfer={onTransfer}
+                    onBoardFetch={onBoardFetch}
+                  >
+                    <Button
+                      fluid
+                      className={styles.actionButton}
+                      onClick={handleToggleSubscribeClick}
+                    >
+                      <Icon name="share square outline" className={styles.actionIcon} />
+                      {t('action.move')}
+                    </Button>
+                  </MoveCardPopup>
                   <DeletePopup
                     title={t('common.deleteCard', {
                       context: 'title',
@@ -385,20 +415,27 @@ CardModal.propTypes = {
   isSubscribed: PropTypes.bool.isRequired,
   isActionsFetching: PropTypes.bool.isRequired,
   isAllActionsFetched: PropTypes.bool.isRequired,
+  listId: PropTypes.string.isRequired,
+  boardId: PropTypes.string.isRequired,
+  projectId: PropTypes.string.isRequired,
   /* eslint-disable react/forbid-prop-types */
   users: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
   tasks: PropTypes.array.isRequired,
   attachments: PropTypes.array.isRequired,
   actions: PropTypes.array.isRequired,
+  allProjectsToLists: PropTypes.array.isRequired,
   allProjectMemberships: PropTypes.array.isRequired,
   allLabels: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   isEditable: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  onTransfer: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
+  onBoardFetch: PropTypes.func.isRequired,
   onLabelAdd: PropTypes.func.isRequired,
   onLabelRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,

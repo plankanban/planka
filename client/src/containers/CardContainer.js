@@ -9,6 +9,8 @@ import {
   makeTasksByCardIdSelector,
   makeUsersByCardIdSelector,
   membershipsForCurrentProjectSelector,
+  pathSelector,
+  projectsToListsForCurrentUserSelector,
 } from '../selectors';
 import {
   addLabelToCard,
@@ -16,8 +18,11 @@ import {
   createLabelInCurrentBoard,
   deleteCard,
   deleteLabel,
+  fetchBoard,
+  moveCard,
   removeLabelFromCard,
   removeUserFromCard,
+  transferCard,
   updateLabel,
   updateCard,
 } from '../actions/entry';
@@ -31,10 +36,15 @@ const makeMapStateToProps = () => {
   const notificationsTotalByCardIdSelector = makeNotificationsTotalByCardIdSelector();
 
   return (state, { id, index }) => {
+    const { projectId } = pathSelector(state);
+    const allProjectsToLists = projectsToListsForCurrentUserSelector(state);
     const allProjectMemberships = membershipsForCurrentProjectSelector(state);
     const allLabels = labelsForCurrentBoardSelector(state);
 
-    const { name, dueDate, timer, coverUrl, isPersisted } = cardByIdSelector(state, id);
+    const { name, dueDate, timer, coverUrl, listId, boardId, isPersisted } = cardByIdSelector(
+      state,
+      id,
+    );
 
     const users = usersByCardIdSelector(state, id);
     const labels = labelsByCardIdSelector(state, id);
@@ -48,11 +58,15 @@ const makeMapStateToProps = () => {
       dueDate,
       timer,
       coverUrl,
+      listId,
+      boardId,
+      projectId,
       isPersisted,
       notificationsTotal,
       users,
       labels,
       tasks,
+      allProjectsToLists,
       allProjectMemberships,
       allLabels,
     };
@@ -63,9 +77,12 @@ const mapDispatchToProps = (dispatch, { id }) =>
   bindActionCreators(
     {
       onUpdate: (data) => updateCard(id, data),
+      onMove: (listId, index) => moveCard(id, listId, index),
+      onTransfer: (boardId, listId) => transferCard(id, boardId, listId),
       onDelete: () => deleteCard(id),
       onUserAdd: (userId) => addUserToCard(userId, id),
       onUserRemove: (userId) => removeUserFromCard(userId, id),
+      onBoardFetch: fetchBoard,
       onLabelAdd: (labelId) => addLabelToCard(labelId, id),
       onLabelRemove: (labelId) => removeLabelFromCard(labelId, id),
       onLabelCreate: (data) => createLabelInCurrentBoard(data),

@@ -1,3 +1,4 @@
+import pick from 'lodash/pick';
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -10,6 +11,7 @@ import ProjectMembershipsStep from '../ProjectMembershipsStep';
 import LabelsStep from '../LabelsStep';
 import EditDueDateStep from '../EditDueDateStep';
 import EditTimerStep from '../EditTimerStep';
+import MoveCardStep from '../MoveCardStep';
 import DeleteStep from '../DeleteStep';
 
 import styles from './ActionsPopup.module.css';
@@ -19,21 +21,26 @@ const StepTypes = {
   LABELS: 'LABELS',
   EDIT_DUE_DATE: 'EDIT_DUE_DATE',
   EDIT_TIMER: 'EDIT_TIMER',
+  MOVE: 'MOVE',
   DELETE: 'DELETE',
 };
 
 const ActionsStep = React.memo(
   ({
     card,
+    projectsToLists,
     projectMemberships,
     currentUserIds,
     labels,
     currentLabelIds,
     onNameEdit,
     onUpdate,
+    onMove,
+    onTransfer,
     onDelete,
     onUserAdd,
     onUserRemove,
+    onBoardFetch,
     onLabelAdd,
     onLabelRemove,
     onLabelCreate,
@@ -63,6 +70,10 @@ const ActionsStep = React.memo(
 
     const handleEditTimerClick = useCallback(() => {
       openStep(StepTypes.EDIT_TIMER);
+    }, [openStep]);
+
+    const handleMoveClick = useCallback(() => {
+      openStep(StepTypes.MOVE);
     }, [openStep]);
 
     const handleDeleteClick = useCallback(() => {
@@ -130,6 +141,18 @@ const ActionsStep = React.memo(
               onClose={onClose}
             />
           );
+        case StepTypes.MOVE:
+          return (
+            <MoveCardStep
+              projectsToLists={projectsToLists}
+              defaultPath={pick(card, ['projectId', 'boardId', 'listId'])}
+              onMove={onMove}
+              onTransfer={onTransfer}
+              onBoardFetch={onBoardFetch}
+              onBack={handleBack}
+              onClose={onClose}
+            />
+          );
         case StepTypes.DELETE:
           return (
             <DeleteStep
@@ -180,6 +203,11 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleMoveClick}>
+              {t('action.moveCard', {
+                context: 'title',
+              })}
+            </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
               {t('action.deleteCard', {
                 context: 'title',
@@ -195,6 +223,7 @@ const ActionsStep = React.memo(
 ActionsStep.propTypes = {
   /* eslint-disable react/forbid-prop-types */
   card: PropTypes.object.isRequired,
+  projectsToLists: PropTypes.array.isRequired,
   projectMemberships: PropTypes.array.isRequired,
   currentUserIds: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
@@ -202,9 +231,12 @@ ActionsStep.propTypes = {
   /* eslint-enable react/forbid-prop-types */
   onNameEdit: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
+  onTransfer: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
+  onBoardFetch: PropTypes.func.isRequired,
   onLabelAdd: PropTypes.func.isRequired,
   onLabelRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,
