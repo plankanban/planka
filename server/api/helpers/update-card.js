@@ -80,10 +80,30 @@ module.exports = {
 
     let card;
     if (!_.isEmpty(values)) {
+      // FIXME: hack
+      if (inputs.toList && inputs.toList.boardId !== inputs.list.boardId) {
+        await CardSubscription.destroy({
+          cardId: inputs.record.id,
+        });
+
+        await CardMembership.destroy({
+          cardId: inputs.record.id,
+        });
+
+        await CardLabel.destroy({
+          cardId: inputs.record.id,
+        });
+      }
+
       card = await Card.updateOne(inputs.record.id).set(values);
 
       if (!card) {
         return exits.success(card);
+      }
+
+      // FIXME: hack
+      if (inputs.toList && inputs.toList.boardId !== inputs.list.boardId) {
+        card.isSubscribed = false;
       }
 
       sails.sockets.broadcast(
