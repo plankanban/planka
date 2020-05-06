@@ -56,7 +56,16 @@ cd planka
 npm install
 ```
 
-Create a database and edit `DATABASE_URL` in `.env` file. Then initialize it:
+Either use a local db or start the provided development db: `docker-compose -f docker-compose-dev.yml up`
+
+Create a db user by first logging into the db `psql -U postgres -h localhost` and then:
+
+```
+create user [username]; --create a role for your local username
+grant postgres to [username]; --grant all privileges to this user
+```
+
+Finally, create a database and edit `DATABASE_URL` in `.env` file. Then initialize it:
 
 ```
 npm run server:db:init
