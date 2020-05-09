@@ -65,6 +65,12 @@ module.exports = {
       'cardCreate',
       {
         item: card,
+        included: {
+          cardMemberships: [],
+          cardLabels: [],
+          tasks: [],
+          attachments: [],
+        },
       },
       inputs.request,
     );

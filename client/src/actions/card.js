@@ -34,11 +34,22 @@ export const createCardRequested = (localId, data) => ({
   },
 });
 
-export const createCardSucceeded = (localId, card) => ({
+export const createCardSucceeded = (
+  localId,
+  card,
+  cardMemberships,
+  cardLabels,
+  tasks,
+  attachments,
+) => ({
   type: ActionTypes.CARD_CREATE_SUCCEEDED,
   payload: {
     localId,
     card,
+    cardMemberships,
+    cardLabels,
+    tasks,
+    attachments,
   },
 });
 
@@ -50,10 +61,14 @@ export const createCardFailed = (localId, error) => ({
   },
 });
 
-export const createCardReceived = (card) => ({
+export const createCardReceived = (card, cardMemberships, cardLabels, tasks, attachments) => ({
   type: ActionTypes.CARD_CREATE_RECEIVED,
   payload: {
     card,
+    cardMemberships,
+    cardLabels,
+    tasks,
+    attachments,
   },
 });
 

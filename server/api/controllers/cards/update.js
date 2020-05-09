@@ -76,7 +76,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     let { card, project } = cardToProjectPath;
-    const { list } = cardToProjectPath;
+    const { list, board } = cardToProjectPath;
 
     let isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
@@ -88,6 +88,8 @@ module.exports = {
     }
 
     let toList;
+    let toBoard;
+
     if (!_.isUndefined(inputs.listId) && inputs.listId !== list.id) {
       toList = await List.findOne({
         id: inputs.listId,
@@ -98,7 +100,7 @@ module.exports = {
         throw Errors.LIST_NOT_FOUND;
       }
 
-      ({ project } = await sails.helpers
+      ({ board: toBoard, project } = await sails.helpers
         .getListToProjectPath(toList.id)
         .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND));
 
@@ -122,7 +124,16 @@ module.exports = {
       'isSubscribed',
     ]);
 
-    card = await sails.helpers.updateCard(card, values, toList, list, currentUser, this.req);
+    card = await sails.helpers.updateCard(
+      card,
+      values,
+      toList,
+      toBoard,
+      list,
+      board,
+      currentUser,
+      this.req,
+    );
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;

@@ -13,7 +13,13 @@ module.exports = {
     toList: {
       type: 'ref',
     },
+    toBoard: {
+      type: 'ref',
+    },
     list: {
+      type: 'ref',
+    },
+    board: {
       type: 'ref',
     },
     user: {
@@ -41,8 +47,16 @@ module.exports = {
       } else {
         values.listId = inputs.toList.id;
 
-        if (inputs.toList.boardId !== inputs.list.boardId) {
-          values.boardId = inputs.toList.boardId;
+        if (inputs.toBoard) {
+          if (!inputs.board) {
+            throw 'invalidParams';
+          }
+
+          if (inputs.toBoard.id === inputs.board.id) {
+            delete inputs.toList; // eslint-disable-line no-param-reassign
+          } else {
+            values.boardId = inputs.toBoard.id;
+          }
         }
       }
     }
@@ -80,15 +94,29 @@ module.exports = {
 
     let card;
     if (!_.isEmpty(values)) {
-      // FIXME: hack
-      if (inputs.toList && inputs.toList.boardId !== inputs.list.boardId) {
-        await CardSubscription.destroy({
-          cardId: inputs.record.id,
-        });
+      let prevLabels;
+      if (inputs.toList && inputs.toBoard) {
+        if (inputs.toBoard.projectId !== inputs.board.projectId) {
+          const userIds = await sails.helpers.getMembershipUserIdsForProject(
+            inputs.toBoard.projectId,
+          );
 
-        await CardMembership.destroy({
-          cardId: inputs.record.id,
-        });
+          await CardSubscription.destroy({
+            cardId: inputs.record.id,
+            userId: {
+              '!=': userIds,
+            },
+          });
+
+          await CardMembership.destroy({
+            cardId: inputs.record.id,
+            userId: {
+              '!=': userIds,
+            },
+          });
+        }
+
+        prevLabels = await sails.helpers.getLabelsForCard(inputs.record.id);
 
         await CardLabel.destroy({
           cardId: inputs.record.id,
@@ -101,19 +129,88 @@ module.exports = {
         return exits.success(card);
       }
 
-      // FIXME: hack
-      if (inputs.toList && inputs.toList.boardId !== inputs.list.boardId) {
-        card.isSubscribed = false;
-      }
+      if (inputs.toList && inputs.toBoard) {
+        sails.sockets.broadcast(
+          `board:${inputs.board.id}`,
+          'cardDelete',
+          {
+            item: inputs.record,
+          },
+          inputs.request,
+        );
 
-      sails.sockets.broadcast(
-        `board:${card.boardId}`,
-        'cardUpdate',
-        {
-          item: card,
-        },
-        inputs.request,
-      );
+        const labels = await sails.helpers.getLabelsForBoard(card.boardId);
+        const labelByNameMap = _.keyBy(labels, 'name');
+
+        const labelIds = await Promise.all(
+          await prevLabels.map(async (prevLabel) => {
+            if (labelByNameMap[prevLabel.name]) {
+              return labelByNameMap[prevLabel.name].id;
+            }
+
+            const { id } = await sails.helpers.createLabel(
+              inputs.toBoard,
+              _.omit(prevLabel, ['id', 'boardId']),
+            );
+
+            return id;
+          }),
+        );
+
+        labelIds.forEach(async (labelId) => {
+          await CardLabel.create({
+            labelId,
+            cardId: card.id,
+          })
+            .tolerate('E_UNIQUE')
+            .fetch();
+        });
+
+        const cardMemberships = await sails.helpers.getMembershipsForCard(card.id);
+        const cardLabels = await sails.helpers.getCardLabelsForCard(card.id);
+        const tasks = await sails.helpers.getTasksForCard(card.id);
+        const attachments = await sails.helpers.getAttachmentsForCard(card.id);
+
+        sails.sockets.broadcast(
+          `board:${card.boardId}`,
+          'cardCreate',
+          {
+            item: card,
+            included: {
+              cardMemberships,
+              cardLabels,
+              tasks,
+              attachments,
+            },
+          },
+          inputs.request,
+        );
+
+        const userIds = await sails.helpers.getSubscriptionUserIdsForCard(card.id);
+
+        userIds.forEach((userId) => {
+          sails.sockets.broadcast(
+            `user:${userId}`,
+            'cardUpdate',
+            {
+              item: {
+                id: card.id,
+                isSubscribed: true,
+              },
+            },
+            inputs.request,
+          );
+        });
+      } else {
+        sails.sockets.broadcast(
+          `board:${card.boardId}`,
+          'cardUpdate',
+          {
+            item: card,
+          },
+          inputs.request,
+        );
+      }
 
       if (inputs.toList) {
         // TODO: add transfer action

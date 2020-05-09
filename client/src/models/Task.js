@@ -21,6 +21,8 @@ export default class extends Model {
   static reducer({ type, payload }, Task) {
     switch (type) {
       case ActionTypes.BOARD_FETCH_SUCCEEDED:
+      case ActionTypes.CARD_CREATE_SUCCEEDED:
+      case ActionTypes.CARD_CREATE_RECEIVED:
         payload.tasks.forEach((task) => {
           Task.upsert(task);
         });

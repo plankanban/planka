@@ -1,4 +1,5 @@
 import socket from './socket';
+import { transformAttachment } from './attachments';
 
 /* Transformers */
 
@@ -38,6 +39,10 @@ const createCard = (listId, data, headers) =>
   socket.post(`/lists/${listId}/cards`, transformCardData(data), headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
+    included: {
+      ...body.included,
+      attachments: body.included.attachments.map(transformAttachment),
+    },
   }));
 
 const getCard = (id, headers) =>
@@ -64,12 +69,21 @@ const makeHandleCardCreate = (next) => (body) => {
   next({
     ...body,
     item: transformCard(body.item),
+    included: {
+      ...body.included,
+      attachments: body.included.attachments.map(transformAttachment),
+    },
   });
 };
 
-const makeHandleCardUpdate = makeHandleCardCreate;
+const makeHandleCardUpdate = (next) => (body) => {
+  next({
+    ...body,
+    item: transformCard(body.item),
+  });
+};
 
-const makeHandleCardDelete = makeHandleCardCreate;
+const makeHandleCardDelete = makeHandleCardUpdate;
 
 export default {
   createCard,

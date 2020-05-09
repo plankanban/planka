@@ -116,9 +116,11 @@ const createSocketEventsChannel = () =>
       emit([deleteLabelReceivedService, item]);
     };
 
-    const handleCardCreate = api.makeHandleCardCreate(({ item }) => {
-      emit([createCardReceivedService, item]);
-    });
+    const handleCardCreate = api.makeHandleCardCreate(
+      ({ item, included: { cardMemberships, cardLabels, tasks, attachments } }) => {
+        emit([createCardReceivedService, item, cardMemberships, cardLabels, tasks, attachments]);
+      },
+    );
 
     const handleCardUpdate = api.makeHandleCardUpdate(({ item }) => {
       emit([updateCardReceivedService, item]);

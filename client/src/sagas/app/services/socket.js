@@ -163,8 +163,8 @@ export function* deleteLabelReceivedService(label) {
   yield put(deleteLabelReceived(label));
 }
 
-export function* createCardReceivedService(card) {
-  yield put(createCardReceived(card));
+export function* createCardReceivedService(card, cardMemberships, cardLabels, tasks, attachments) {
+  yield put(createCardReceived(card, cardMemberships, cardLabels, tasks, attachments));
 }
 
 export function* updateCardReceivedService(card) {

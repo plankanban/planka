@@ -80,27 +80,15 @@ export default class extends Model {
 
         break;
       case ActionTypes.CARD_CREATE:
-      case ActionTypes.CARD_CREATE_RECEIVED:
       case ActionTypes.CARD_FETCH_SUCCEEDED:
       case ActionTypes.NOTIFICATION_CREATE_RECEIVED:
         Card.upsert(payload.card);
 
         break;
-      case ActionTypes.CARD_UPDATE: {
-        const card = Card.withId(payload.id);
-
-        // FIXME: hack
-        if (payload.data.boardId && payload.data.boardId !== card.boardId) {
-          card.isSubscribed = false;
-
-          card.users.clear();
-          card.labels.clear();
-        }
-
-        card.update(payload.data);
+      case ActionTypes.CARD_UPDATE:
+        Card.withId(payload.id).update(payload.data);
 
         break;
-      }
       case ActionTypes.CARD_DELETE:
         Card.withId(payload.id).deleteWithRelated();
 
@@ -109,11 +97,36 @@ export default class extends Model {
         Card.withId(payload.localId).delete();
         Card.upsert(payload.card);
 
-        break;
-      case ActionTypes.CARD_UPDATE_RECEIVED:
-        Card.withId(payload.card.id).update(payload.card);
+        payload.cardMemberships.forEach(({ cardId, userId }) => {
+          Card.withId(cardId).users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ cardId, labelId }) => {
+          Card.withId(cardId).labels.add(labelId);
+        });
 
         break;
+      case ActionTypes.CARD_CREATE_RECEIVED:
+        Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ cardId, userId }) => {
+          Card.withId(cardId).users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ cardId, labelId }) => {
+          Card.withId(cardId).labels.add(labelId);
+        });
+
+        break;
+      case ActionTypes.CARD_UPDATE_RECEIVED: {
+        const card = Card.withId(payload.card.id);
+
+        if (card) {
+          card.update(payload.card);
+        }
+
+        break;
+      }
       case ActionTypes.CARD_DELETE_RECEIVED:
         Card.withId(payload.card.id).deleteWithRelated();
 
@@ -177,6 +190,7 @@ export default class extends Model {
 
   deleteWithRelated() {
     this.tasks.delete();
+    this.attachments.delete();
     this.actions.delete();
 
     this.delete();
