@@ -26,9 +26,19 @@ export function* createCardRequest(listId, localId, data) {
   );
 
   try {
-    const { item } = yield call(request, api.createCard, listId, data);
+    const {
+      item,
+      included: { cardMemberships, cardLabels, tasks, attachments },
+    } = yield call(request, api.createCard, listId, data);
 
-    const action = createCardSucceeded(localId, item);
+    const action = createCardSucceeded(
+      localId,
+      item,
+      cardMemberships,
+      cardLabels,
+      tasks,
+      attachments,
+    );
     yield put(action);
 
     return {

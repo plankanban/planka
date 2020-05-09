@@ -2,11 +2,19 @@ import { call, put, select } from 'redux-saga/effects';
 
 import { goToBoardService } from './router';
 import { createCardRequest, deleteCardRequest, updateCardRequest } from '../requests';
-import { nextCardPositionSelector, pathSelector } from '../../../selectors';
+import {
+  boardByIdSelector,
+  cardByIdSelector,
+  listByIdSelector,
+  nextCardPositionSelector,
+  pathSelector,
+} from '../../../selectors';
 import { createCard, deleteCard, updateCard } from '../../../actions';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createCardService(listId, data) {
+  const { boardId } = yield select(listByIdSelector, listId);
+
   const nextData = {
     ...data,
     position: yield select(nextCardPositionSelector, listId),
@@ -18,6 +26,7 @@ export function* createCardService(listId, data) {
     createCard({
       ...nextData,
       listId,
+      boardId,
       id: localId,
     }),
   );
@@ -52,19 +61,40 @@ export function* moveCurrentCardService(listId, index) {
 }
 
 export function* transferCardService(id, boardId, listId, index) {
-  const position = yield select(nextCardPositionSelector, listId, index, id);
+  const { cardId: currentCardId, boardId: currentBoardId } = yield select(pathSelector);
 
-  yield call(updateCardService, id, {
-    boardId,
-    listId,
-    position,
-  });
+  if (id === currentCardId) {
+    yield call(goToBoardService, currentBoardId);
+  }
+
+  const card = yield select(cardByIdSelector, id);
+  const board = yield select(boardByIdSelector, boardId);
+
+  yield put(deleteCard(id));
+
+  if (board.isFetching === false) {
+    const position = yield select(nextCardPositionSelector, listId, index, id);
+
+    yield put(
+      createCard({
+        ...card,
+        listId,
+        boardId,
+        position,
+      }),
+    );
+
+    yield call(updateCardRequest, id, {
+      listId,
+      boardId,
+      position,
+    });
+  }
 }
 
 export function* transferCurrentCardService(boardId, listId, index) {
-  const { cardId, boardId: currentBoardId } = yield select(pathSelector);
+  const { cardId } = yield select(pathSelector);
 
-  yield call(goToBoardService, currentBoardId);
   yield call(transferCardService, cardId, boardId, listId, index);
 }
 

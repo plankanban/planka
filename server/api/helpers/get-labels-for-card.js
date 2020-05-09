@@ -8,9 +8,9 @@ module.exports = {
   },
 
   async fn(inputs, exits) {
-    const labels = await sails.helpers.getLabels({
-      boardId: inputs.id,
-    });
+    const labelIds = await sails.helpers.getLabelIdsForCard(inputs.id);
+
+    const labels = await sails.helpers.getLabels(labelIds);
 
     return exits.success(labels);
   },

@@ -68,6 +68,12 @@ module.exports = {
 
     return exits.success({
       item: card,
+      included: {
+        cardMemberships: [],
+        cardLabels: [],
+        tasks: [],
+        attachments: [],
+      },
     });
   },
 };

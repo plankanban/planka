@@ -20,6 +20,8 @@ export default class extends Model {
   static reducer({ type, payload }, Attachment) {
     switch (type) {
       case ActionTypes.BOARD_FETCH_SUCCEEDED:
+      case ActionTypes.CARD_CREATE_SUCCEEDED:
+      case ActionTypes.CARD_CREATE_RECEIVED:
         payload.attachments.forEach((attachment) => {
           Attachment.upsert(attachment);
         });
