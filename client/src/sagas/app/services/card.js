@@ -2,13 +2,7 @@ import { call, put, select } from 'redux-saga/effects';
 
 import { goToBoardService } from './router';
 import { createCardRequest, deleteCardRequest, updateCardRequest } from '../requests';
-import {
-  boardByIdSelector,
-  cardByIdSelector,
-  listByIdSelector,
-  nextCardPositionSelector,
-  pathSelector,
-} from '../../../selectors';
+import { listByIdSelector, nextCardPositionSelector, pathSelector } from '../../../selectors';
 import { createCard, deleteCard, updateCard } from '../../../actions';
 import { createLocalId } from '../../../utils/local-id';
 
@@ -62,34 +56,19 @@ export function* moveCurrentCardService(listId, index) {
 
 export function* transferCardService(id, boardId, listId, index) {
   const { cardId: currentCardId, boardId: currentBoardId } = yield select(pathSelector);
+  const position = yield select(nextCardPositionSelector, listId, index, id);
 
   if (id === currentCardId) {
     yield call(goToBoardService, currentBoardId);
   }
 
-  const card = yield select(cardByIdSelector, id);
-  const board = yield select(boardByIdSelector, boardId);
-
   yield put(deleteCard(id));
 
-  if (board.isFetching === false) {
-    const position = yield select(nextCardPositionSelector, listId, index, id);
-
-    yield put(
-      createCard({
-        ...card,
-        listId,
-        boardId,
-        position,
-      }),
-    );
-
-    yield call(updateCardRequest, id, {
-      listId,
-      boardId,
-      position,
-    });
-  }
+  yield call(updateCardRequest, id, {
+    listId,
+    boardId,
+    position,
+  });
 }
 
 export function* transferCurrentCardService(boardId, listId, index) {

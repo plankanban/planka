@@ -143,7 +143,7 @@ module.exports = {
         const labelByNameMap = _.keyBy(labels, 'name');
 
         const labelIds = await Promise.all(
-          await prevLabels.map(async (prevLabel) => {
+          prevLabels.map(async (prevLabel) => {
             if (labelByNameMap[prevLabel.name]) {
               return labelByNameMap[prevLabel.name].id;
             }
@@ -157,49 +157,41 @@ module.exports = {
           }),
         );
 
-        labelIds.forEach(async (labelId) => {
-          await CardLabel.create({
-            labelId,
-            cardId: card.id,
-          })
-            .tolerate('E_UNIQUE')
-            .fetch();
-        });
+        await Promise.all(
+          labelIds.map(async (labelId) => {
+            await CardLabel.create({
+              labelId,
+              cardId: card.id,
+            })
+              .tolerate('E_UNIQUE')
+              .fetch();
+          }),
+        );
 
         const cardMemberships = await sails.helpers.getMembershipsForCard(card.id);
         const cardLabels = await sails.helpers.getCardLabelsForCard(card.id);
         const tasks = await sails.helpers.getTasksForCard(card.id);
         const attachments = await sails.helpers.getAttachmentsForCard(card.id);
 
-        sails.sockets.broadcast(
-          `board:${card.boardId}`,
-          'cardCreate',
-          {
-            item: card,
-            included: {
-              cardMemberships,
-              cardLabels,
-              tasks,
-              attachments,
-            },
+        sails.sockets.broadcast(`board:${card.boardId}`, 'cardCreate', {
+          item: card,
+          included: {
+            cardMemberships,
+            cardLabels,
+            tasks,
+            attachments,
           },
-          inputs.request,
-        );
+        });
 
         const userIds = await sails.helpers.getSubscriptionUserIdsForCard(card.id);
 
         userIds.forEach((userId) => {
-          sails.sockets.broadcast(
-            `user:${userId}`,
-            'cardUpdate',
-            {
-              item: {
-                id: card.id,
-                isSubscribed: true,
-              },
+          sails.sockets.broadcast(`user:${userId}`, 'cardUpdate', {
+            item: {
+              id: card.id,
+              isSubscribed: true,
             },
-            inputs.request,
-          );
+          });
         });
       } else {
         sails.sockets.broadcast(
