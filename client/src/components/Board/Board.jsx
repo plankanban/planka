@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
@@ -35,6 +35,18 @@ const Board = React.memo(
     onLabelDelete,
   }) => {
     const [t] = useTranslation();
+    const [isAddListOpened, setIsAddListOpened] = useState(false);
+
+    const wrapper = useRef(null);
+    const prevPosition = useRef(null);
+
+    const handleAddListClick = useCallback(() => {
+      setIsAddListOpened(true);
+    }, []);
+
+    const handleAddListClose = useCallback(() => {
+      setIsAddListOpened(false);
+    }, []);
 
     const handleDragStart = useCallback(() => {
       closePopup();
@@ -66,45 +78,110 @@ const Board = React.memo(
       [onListMove, onCardMove],
     );
 
+    const handleMouseDown = useCallback(
+      (event) => {
+        if (event.target !== wrapper.current && !event.target.dataset.dragScroller) {
+          return;
+        }
+
+        prevPosition.current = event.clientX;
+      },
+      [wrapper],
+    );
+
+    const handleWindowMouseMove = useCallback(
+      (event) => {
+        if (!prevPosition.current) {
+          return;
+        }
+
+        event.preventDefault();
+
+        window.scrollBy({
+          left: prevPosition.current - event.clientX,
+        });
+
+        prevPosition.current = event.clientX;
+      },
+      [prevPosition],
+    );
+
+    const handleWindowMouseUp = useCallback(() => {
+      prevPosition.current = null;
+    }, [prevPosition]);
+
+    useEffect(() => {
+      if (isAddListOpened) {
+        window.scroll(document.body.scrollWidth, 0);
+      }
+    }, [listIds, isAddListOpened]);
+
+    useEffect(() => {
+      window.addEventListener('mouseup', handleWindowMouseUp);
+      window.addEventListener('mousemove', handleWindowMouseMove);
+
+      return () => {
+        window.removeEventListener('mouseup', handleWindowMouseUp);
+        window.removeEventListener('mousemove', handleWindowMouseMove);
+      };
+    }, [handleWindowMouseUp, handleWindowMouseMove]);
+
     return (
       <>
-        <Filter
-          users={filterUsers}
-          labels={filterLabels}
-          allProjectMemberships={allProjectMemberships}
-          allLabels={allLabels}
-          onUserAdd={onUserToFilterAdd}
-          onUserRemove={onUserFromFilterRemove}
-          onLabelAdd={onLabelToFilterAdd}
-          onLabelRemove={onLabelFromFilterRemove}
-          onLabelCreate={onLabelCreate}
-          onLabelUpdate={onLabelUpdate}
-          onLabelDelete={onLabelDelete}
-        />
-        <div className={styles.wrapper}>
-          <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-            <Droppable droppableId="board" type={DroppableTypes.LIST} direction="horizontal">
-              {({ innerRef, droppableProps, placeholder }) => (
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                <div {...droppableProps} data-drag-scroller ref={innerRef} className={styles.lists}>
-                  {listIds.map((listId, index) => (
-                    <ListContainer key={listId} id={listId} index={index} />
-                  ))}
-                  {placeholder}
-                  <div data-drag-scroller className={styles.list}>
-                    <AddList onCreate={onListCreate}>
-                      <button type="button" className={styles.addListButton}>
-                        <PlusMathIcon className={styles.addListButtonIcon} />
-                        <span className={styles.addListButtonText}>
-                          {listIds.length > 0 ? t('action.addAnotherList') : t('action.addList')}
-                        </span>
-                      </button>
-                    </AddList>
+        {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+        <div ref={wrapper} className={styles.wrapper} onMouseDown={handleMouseDown}>
+          <Filter
+            users={filterUsers}
+            labels={filterLabels}
+            allProjectMemberships={allProjectMemberships}
+            allLabels={allLabels}
+            onUserAdd={onUserToFilterAdd}
+            onUserRemove={onUserFromFilterRemove}
+            onLabelAdd={onLabelToFilterAdd}
+            onLabelRemove={onLabelFromFilterRemove}
+            onLabelCreate={onLabelCreate}
+            onLabelUpdate={onLabelUpdate}
+            onLabelDelete={onLabelDelete}
+          />
+          <div>
+            <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+              <Droppable droppableId="board" type={DroppableTypes.LIST} direction="horizontal">
+                {({ innerRef, droppableProps, placeholder }) => (
+                  <div
+                    {...droppableProps} // eslint-disable-line react/jsx-props-no-spreading
+                    data-drag-scroller
+                    ref={innerRef}
+                    className={styles.lists}
+                  >
+                    {listIds.map((listId, index) => (
+                      <ListContainer key={listId} id={listId} index={index} />
+                    ))}
+                    {placeholder}
+                    <div data-drag-scroller className={styles.list}>
+                      {isAddListOpened ? (
+                        <AddList
+                          isOpened={isAddListOpened}
+                          onCreate={onListCreate}
+                          onClose={handleAddListClose}
+                        />
+                      ) : (
+                        <button
+                          type="button"
+                          className={styles.addListButton}
+                          onClick={handleAddListClick}
+                        >
+                          <PlusMathIcon className={styles.addListButtonIcon} />
+                          <span className={styles.addListButtonText}>
+                            {listIds.length > 0 ? t('action.addAnotherList') : t('action.addList')}
+                          </span>
+                        </button>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </div>
         </div>
         {isCardModalOpened && <CardModalContainer />}
       </>

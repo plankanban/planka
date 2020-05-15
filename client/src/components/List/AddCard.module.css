@@ -24,3 +24,7 @@
 .wrapper {
   padding-bottom: 8px !important;
 }
+
+.wrapperClosed {
+  display: none;
+}

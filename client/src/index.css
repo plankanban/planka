@@ -5,7 +5,7 @@ body {
 #root {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 }
 
 .react-datepicker {
@@ -99,4 +99,31 @@ body {
   border-width: 7px 9px;
   top: 0;
   margin: 9px 0;
+}
+
+::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  -webkit-transition: color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 135, 139, 0.8);
 }

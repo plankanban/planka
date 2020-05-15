@@ -9,15 +9,6 @@
   background: rgba(34, 36, 38, 0.3) !important;
 }
 
-.board {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  margin: 0 -20px 8px;
-  overflow: auto;
-  padding: 0 20px;
-}
-
 .editButton {
   background: transparent !important;
   color: #fff !important;
@@ -43,32 +34,6 @@
   text-overflow: ellipsis;
   max-width: 400px;
   overflow: hidden;
-}
-
-.message {
-  align-content: space-between;
-  align-items: center;
-  color: #fff;
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.messageIcon {
-  margin-top: -84px;
-}
-
-.messageTitle {
-  font-size: 32px;
-  margin: 24px 0 8px;
-}
-
-.messageContent {
-  font-size: 18px;
-  line-height: 1.4;
-  margin: 4px 0 0;
-  text-align: center;
 }
 
 .tab {
@@ -104,7 +69,6 @@
   display: flex;
   height: 38px;
   flex: 0 0 auto;
-  margin-bottom: 16px;
   white-space: nowrap;
 }
 

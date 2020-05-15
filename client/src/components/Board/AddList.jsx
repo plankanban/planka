@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Input } from 'semantic-ui-react';
@@ -12,48 +12,23 @@ const DEFAULT_DATA = {
   name: '',
 };
 
-const AddList = React.forwardRef(({ children, onCreate }, ref) => {
+const AddList = React.memo(({ onCreate, onClose }) => {
   const [t] = useTranslation();
-  const [isOpened, setIsOpened] = useState(false);
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
   const [selectNameFieldState, selectNameField] = useToggle();
 
   const nameField = useRef(null);
 
-  const open = useCallback(() => {
-    setIsOpened(true);
-  }, []);
-
-  const close = useCallback(() => {
-    setIsOpened(false);
-  }, []);
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      open,
-      close,
-    }),
-    [open, close],
-  );
-
-  const handleChildrenClick = useCallback(() => {
-    open();
-  }, [open]);
-
   const handleFieldKeyDown = useCallback(
     (event) => {
       if (event.key === 'Escape') {
-        close();
+        onClose();
       }
     },
-    [close],
+    [onClose],
   );
 
-  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    isOpened,
-    close,
-  );
+  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(onClose);
 
   const handleSubmit = useCallback(() => {
     const cleanData = {
@@ -73,20 +48,12 @@ const AddList = React.forwardRef(({ children, onCreate }, ref) => {
   }, [onCreate, data, setData, selectNameField]);
 
   useEffect(() => {
-    if (isOpened) {
-      nameField.current.select();
-    }
-  }, [isOpened]);
+    nameField.current.select();
+  }, []);
 
   useDidUpdate(() => {
     nameField.current.select();
   }, [selectNameFieldState]);
-
-  if (!isOpened) {
-    return React.cloneElement(children, {
-      onClick: handleChildrenClick,
-    });
-  }
 
   return (
     <Form className={styles.wrapper} onSubmit={handleSubmit}>
@@ -115,8 +82,8 @@ const AddList = React.forwardRef(({ children, onCreate }, ref) => {
 });
 
 AddList.propTypes = {
-  children: PropTypes.element.isRequired,
   onCreate: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
-export default React.memo(AddList);
+export default AddList;

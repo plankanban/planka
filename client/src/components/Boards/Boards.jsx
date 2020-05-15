@@ -2,16 +2,13 @@ import pick from 'lodash/pick';
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
 import { closePopup } from '../../lib/popup';
-import { DragScroller } from '../../lib/custom-ui';
 
 import Paths from '../../constants/Paths';
 import DroppableTypes from '../../constants/DroppableTypes';
-import BoardWrapperContainer from '../../containers/BoardWrapperContainer';
 import AddPopup from './AddPopup';
 import EditPopup from './EditPopup';
 
@@ -19,8 +16,6 @@ import styles from './Boards.module.css';
 
 const Boards = React.memo(
   ({ items, currentId, isEditable, onCreate, onUpdate, onMove, onDelete }) => {
-    const [t] = useTranslation();
-
     const handleDragStart = useCallback(() => {
       closePopup();
     }, []);
@@ -139,28 +134,6 @@ const Boards = React.memo(
         ) : (
           <div className={styles.tabs}>{renderItems(items)}</div>
         )}
-        <DragScroller className={styles.board}>
-          {currentId ? (
-            <BoardWrapperContainer />
-          ) : (
-            <div className={styles.message}>
-              <Icon
-                inverted
-                name="hand point up outline"
-                size="huge"
-                className={styles.messageIcon}
-              />
-              <h1 className={styles.messageTitle}>
-                {t('common.openBoard', {
-                  context: 'title',
-                })}
-              </h1>
-              <div className={styles.messageContent}>
-                <Trans i18nKey="common.createNewOneOrSelectExistingOne" />
-              </div>
-            </div>
-          )}
-        </DragScroller>
       </div>
     );
   },

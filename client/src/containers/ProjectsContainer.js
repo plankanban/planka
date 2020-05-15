@@ -1,18 +1,16 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { currentUserSelector, pathSelector, projectsForCurrentUserSelector } from '../selectors';
+import { currentUserSelector, projectsForCurrentUserSelector } from '../selectors';
 import { openAddProjectModal } from '../actions/entry';
 import Projects from '../components/Projects';
 
 const mapStateToProps = (state) => {
-  const { projectId } = pathSelector(state);
   const { isAdmin } = currentUserSelector(state);
   const projects = projectsForCurrentUserSelector(state);
 
   return {
     items: projects,
-    currentId: projectId,
     isEditable: isAdmin,
   };
 };

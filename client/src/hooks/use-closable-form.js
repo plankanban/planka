@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-export default (isOpened, close) => {
+export default (close, isOpened = true) => {
   const isClosable = useRef(null);
 
   const handleFieldBlur = useCallback(() => {

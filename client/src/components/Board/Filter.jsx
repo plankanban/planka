@@ -25,14 +25,14 @@ const Filter = React.memo(
   }) => {
     const [t] = useTranslation();
 
-    const handleUserRemoveClick = useCallback(
+    const handleRemoveUserClick = useCallback(
       (id) => {
         onUserRemove(id);
       },
       [onUserRemove],
     );
 
-    const handleLabelRemoveClick = useCallback(
+    const handleRemoveLabelClick = useCallback(
       (id) => {
         onLabelRemove(id);
       },
@@ -62,7 +62,7 @@ const Filter = React.memo(
                 name={user.name}
                 avatarUrl={user.avatarUrl}
                 size="tiny"
-                onClick={() => handleUserRemoveClick(user.id)}
+                onClick={() => handleRemoveUserClick(user.id)}
               />
             </span>
           ))}
@@ -91,7 +91,7 @@ const Filter = React.memo(
                 name={label.name}
                 color={label.color}
                 size="small"
-                onClick={() => handleLabelRemoveClick(label.id)}
+                onClick={() => handleRemoveLabelClick(label.id)}
               />
             </span>
           ))}

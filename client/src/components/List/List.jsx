@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -17,9 +17,10 @@ import styles from './List.module.css';
 const List = React.memo(
   ({ id, index, name, isPersisted, cardIds, onUpdate, onDelete, onCardCreate }) => {
     const [t] = useTranslation();
+    const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
-    const addCard = useRef(null);
     const editName = useRef(null);
+    const listWrapper = useRef(null);
 
     const handleHeaderClick = useCallback(() => {
       if (isPersisted) {
@@ -36,13 +37,27 @@ const List = React.memo(
       [onUpdate],
     );
 
+    const handleAddCardClick = useCallback(() => {
+      setIsAddCardOpened(true);
+    }, []);
+
+    const handleAddCardClose = useCallback(() => {
+      setIsAddCardOpened(false);
+    }, []);
+
     const handleNameEdit = useCallback(() => {
       editName.current.open();
     }, []);
 
     const handleCardAdd = useCallback(() => {
-      addCard.current.open();
+      setIsAddCardOpened(true);
     }, []);
+
+    useEffect(() => {
+      if (isAddCardOpened) {
+        listWrapper.current.scrollTop = listWrapper.current.scrollHeight;
+      }
+    }, [cardIds, isAddCardOpened]);
 
     const cardsNode = (
       <Droppable
@@ -58,15 +73,12 @@ const List = React.memo(
                 <CardContainer key={cardId} id={cardId} index={cardIndex} />
               ))}
               {placeholder}
+              <AddCard
+                isOpened={isAddCardOpened}
+                onCreate={onCardCreate}
+                onClose={handleAddCardClose}
+              />
             </div>
-            <AddCard ref={addCard} onCreate={onCardCreate}>
-              <button type="button" disabled={!isPersisted} className={styles.addCardButton}>
-                <PlusMathIcon className={styles.addCardButtonIcon} />
-                <span className={styles.addCardButtonText}>
-                  {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
-                </span>
-              </button>
-            </AddCard>
           </div>
         )}
       </Droppable>
@@ -99,7 +111,25 @@ const List = React.memo(
                 </ActionsPopup>
               )}
             </div>
-            <div className={styles.list}>{cardsNode}</div>
+            <div
+              ref={listWrapper}
+              className={classNames(styles.listWrapper, isAddCardOpened && styles.listWrapperFull)}
+            >
+              <div className={styles.list}>{cardsNode}</div>
+            </div>
+            {!isAddCardOpened && (
+              <button
+                type="button"
+                disabled={!isPersisted}
+                className={styles.addCardButton}
+                onClick={handleAddCardClick}
+              >
+                <PlusMathIcon className={styles.addCardButtonIcon} />
+                <span className={styles.addCardButtonText}>
+                  {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
+                </span>
+              </button>
+            )}
           </div>
         )}
       </Draggable>
