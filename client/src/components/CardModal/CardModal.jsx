@@ -117,7 +117,7 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
-    const handleToggleSubscribeClick = useCallback(() => {
+    const handleToggleSubscriptionClick = useCallback(() => {
       onUpdate({
         isSubscribed: !isSubscribed,
       });
@@ -359,7 +359,7 @@ const CardModal = React.memo(
                   <Button
                     fluid
                     className={styles.actionButton}
-                    onClick={handleToggleSubscribeClick}
+                    onClick={handleToggleSubscriptionClick}
                   >
                     <Icon name="paper plane outline" className={styles.actionIcon} />
                     {isSubscribed ? t('action.unsubscribe') : t('action.subscribe')}
@@ -378,7 +378,7 @@ const CardModal = React.memo(
                     <Button
                       fluid
                       className={styles.actionButton}
-                      onClick={handleToggleSubscribeClick}
+                      onClick={handleToggleSubscriptionClick}
                     >
                       <Icon name="share square outline" className={styles.actionIcon} />
                       {t('action.move')}

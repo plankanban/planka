@@ -707,7 +707,7 @@ input::selection {
 
 /* Force Simple Scrollbars */
 
-body ::-webkit-scrollbar {
+/* body ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
   height: 10px;
@@ -732,11 +732,11 @@ body ::-webkit-scrollbar-thumb:window-inactive {
 
 body ::-webkit-scrollbar-thumb:hover {
   background: rgba(128, 135, 139, 0.8);
-}
+} */
 
 /* Inverted UI */
 
-body .ui.inverted::-webkit-scrollbar-track {
+/* body .ui.inverted::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -750,7 +750,7 @@ body .ui.inverted::-webkit-scrollbar-thumb:window-inactive {
 
 body .ui.inverted::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.35);
-}
+} */
 
 /*******************************
         Global Overrides

@@ -1,26 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import HeaderContainer from '../containers/HeaderContainer';
-import ProjectsContainer from '../containers/ProjectsContainer';
+import ModalTypes from '../constants/ModalTypes';
+import FixedWrapperContainer from '../containers/FixedWrapperContainer';
+import StaticWrapperContainer from '../containers/StaticWrapperContainer';
 import UsersModalContainer from '../containers/UsersModalContainer';
 import UserSettingsModalContainer from '../containers/UserSettingsModalContainer';
 import AddProjectModalContainer from '../containers/AddProjectModalContainer';
 
-const App = ({ isUsersModalOpened, isUserSettingsModalOpened, isAddProjectModalOpened }) => (
+const App = ({ currentModal }) => (
   <>
-    <HeaderContainer />
-    <ProjectsContainer />
-    {isUsersModalOpened && <UsersModalContainer />}
-    {isUserSettingsModalOpened && <UserSettingsModalContainer />}
-    {isAddProjectModalOpened && <AddProjectModalContainer />}
+    <FixedWrapperContainer />
+    <StaticWrapperContainer />
+    {currentModal === ModalTypes.USERS && <UsersModalContainer />}
+    {currentModal === ModalTypes.USER_SETTINGS && <UserSettingsModalContainer />}
+    {currentModal === ModalTypes.ADD_PROJECT && <AddProjectModalContainer />}
   </>
 );
 
 App.propTypes = {
-  isUsersModalOpened: PropTypes.bool.isRequired,
-  isUserSettingsModalOpened: PropTypes.bool.isRequired,
-  isAddProjectModalOpened: PropTypes.bool.isRequired,
+  currentModal: PropTypes.oneOf(Object.values(ModalTypes)),
+};
+
+App.defaultProps = {
+  currentModal: undefined,
 };
 
 export default App;

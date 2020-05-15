@@ -53,7 +53,7 @@ module.exports = {
           }
 
           if (inputs.toBoard.id === inputs.board.id) {
-            delete inputs.toList; // eslint-disable-line no-param-reassign
+            delete inputs.toBoard; // eslint-disable-line no-param-reassign
           } else {
             values.boardId = inputs.toBoard.id;
           }

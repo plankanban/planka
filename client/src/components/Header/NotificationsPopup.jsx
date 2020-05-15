@@ -111,4 +111,6 @@ NotificationsStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(NotificationsStep);
+export default withPopup(NotificationsStep, {
+  position: 'bottom right',
+});

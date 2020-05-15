@@ -66,8 +66,8 @@ const EditComment = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
   );
 
   const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    isOpened,
     close,
+    isOpened,
   );
 
   const handleSubmit = useCallback(() => {

@@ -18,12 +18,12 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onClose }) =>
   const [t] = useTranslation();
   const [step, openStep, handleBack] = useSteps();
 
-  const handleNameEditClick = useCallback(() => {
+  const handleEditNameClick = useCallback(() => {
     onNameEdit();
     onClose();
   }, [onNameEdit, onClose]);
 
-  const handleCardAddClick = useCallback(() => {
+  const handleAddCardClick = useCallback(() => {
     onCardAdd();
     onClose();
   }, [onCardAdd, onClose]);
@@ -55,12 +55,12 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onClose }) =>
       </Popup.Header>
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
-          <Menu.Item className={styles.menuItem} onClick={handleNameEditClick}>
+          <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
             {t('action.editTitle', {
               context: 'title',
             })}
           </Menu.Item>
-          <Menu.Item className={styles.menuItem} onClick={handleCardAddClick}>
+          <Menu.Item className={styles.menuItem} onClick={handleAddCardClick}>
             {t('action.addCard', {
               context: 'title',
             })}

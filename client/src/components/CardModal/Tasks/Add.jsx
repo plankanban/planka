@@ -71,8 +71,8 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
   );
 
   const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    isOpened,
     close,
+    isOpened,
   );
 
   const handleSubmit = useCallback(() => {

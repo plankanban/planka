@@ -56,8 +56,8 @@ const EditDescription = React.forwardRef(({ children, defaultValue, onUpdate }, 
   );
 
   const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    isOpened,
     close,
+    isOpened,
   );
 
   const handleSubmit = useCallback(() => {

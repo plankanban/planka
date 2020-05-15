@@ -1,5 +1,6 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
@@ -13,21 +14,12 @@ const DEFAULT_DATA = {
   name: '',
 };
 
-const AddCard = React.forwardRef(({ children, onCreate }, ref) => {
+const AddCard = React.memo(({ isOpened, onCreate, onClose }) => {
   const [t] = useTranslation();
-  const [isOpened, setIsOpened] = useState(false);
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
   const [selectNameFieldState, selectNameField] = useToggle();
 
   const nameField = useRef(null);
-
-  const open = useCallback(() => {
-    setIsOpened(true);
-  }, []);
-
-  const close = useCallback(() => {
-    setIsOpened(false);
-  }, []);
 
   const submit = useCallback(() => {
     const cleanData = {
@@ -46,19 +38,6 @@ const AddCard = React.forwardRef(({ children, onCreate }, ref) => {
     selectNameField();
   }, [onCreate, data, setData, selectNameField]);
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      open,
-      close,
-    }),
-    [open, close],
-  );
-
-  const handleChildrenClick = useCallback(() => {
-    open();
-  }, [open]);
-
   const handleFieldKeyDown = useCallback(
     (event) => {
       switch (event.key) {
@@ -69,19 +48,16 @@ const AddCard = React.forwardRef(({ children, onCreate }, ref) => {
 
           break;
         case 'Escape':
-          close();
+          onClose();
 
           break;
         default:
       }
     },
-    [close, submit],
+    [onClose, submit],
   );
 
-  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    isOpened,
-    close,
-  );
+  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(onClose);
 
   const handleSubmit = useCallback(() => {
     submit();
@@ -97,14 +73,11 @@ const AddCard = React.forwardRef(({ children, onCreate }, ref) => {
     nameField.current.ref.current.select();
   }, [selectNameFieldState]);
 
-  if (!isOpened) {
-    return React.cloneElement(children, {
-      onClick: handleChildrenClick,
-    });
-  }
-
   return (
-    <Form className={styles.wrapper} onSubmit={handleSubmit}>
+    <Form
+      className={classNames(styles.wrapper, !isOpened && styles.wrapperClosed)}
+      onSubmit={handleSubmit}
+    >
       <div className={styles.fieldWrapper}>
         <TextArea
           ref={nameField}
@@ -135,8 +108,9 @@ const AddCard = React.forwardRef(({ children, onCreate }, ref) => {
 });
 
 AddCard.propTypes = {
-  children: PropTypes.element.isRequired,
+  isOpened: PropTypes.bool.isRequired,
   onCreate: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
-export default React.memo(AddCard);
+export default AddCard;

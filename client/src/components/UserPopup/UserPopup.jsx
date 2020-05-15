@@ -46,4 +46,6 @@ UserStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(UserStep);
+export default withPopup(UserStep, {
+  position: 'bottom right',
+});

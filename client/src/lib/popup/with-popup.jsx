@@ -4,7 +4,7 @@ import { Button, Popup as SemanticUIPopup } from 'semantic-ui-react';
 
 import styles from './Popup.module.css';
 
-export default (WrappedComponent) => {
+export default (WrappedComponent, defaultProps) => {
   const Popup = React.memo(({ children, ...props }) => {
     const [isOpened, setIsOpened] = useState(false);
 
@@ -49,11 +49,17 @@ export default (WrappedComponent) => {
         on="click"
         open={isOpened}
         position="bottom left"
+        popperModifiers={{
+          preventOverflow: {
+            boundariesElement: 'window',
+          },
+        }}
         className={styles.wrapper}
         onOpen={handleOpen}
         onClose={handleClose}
         onMouseDown={handleMouseDown}
         onClick={handleClick}
+        {...defaultProps} // eslint-disable-line react/jsx-props-no-spreading
       >
         <Button icon="close" onClick={handleClose} className={styles.closeButton} />
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
