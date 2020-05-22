@@ -11,6 +11,7 @@
 
 .editButton {
   background: transparent !important;
+  box-shadow: none !important;
   color: #fff !important;
   line-height: 32px !important;
   margin-right: 0 !important;
@@ -23,7 +24,7 @@
 }
 
 .editButton:hover {
-  background: rgba(34, 36, 38, 0.3) !important;
+  background: hsla(0, 0%, 100%, 0.08) !important;
 }
 
 .link {
@@ -44,7 +45,7 @@
 }
 
 .tab:hover {
-  background: #353a3f !important;
+  background: hsla(0, 0%, 0%, 0.24) !important;
 }
 
 .tab:hover .target {
@@ -52,11 +53,11 @@
 }
 
 .tabActive {
-  background: #2c3035 !important;
+  background: hsla(0, 0%, 0%, 0.24) !important;
 }
 
 .tabActive:hover {
-  background: #353a3f !important;
+  background: hsla(0, 0%, 0%, 0.32) !important;
 }
 
 .tabWrapper {
@@ -65,7 +66,7 @@
 }
 
 .tabs {
-  border-bottom: 2px solid #2c3035;
+  border-bottom: 2px solid hsla(0, 0%, 0%, 0.24);
   display: flex;
   height: 38px;
   flex: 0 0 auto;

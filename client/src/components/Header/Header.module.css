@@ -2,8 +2,11 @@
   background: none !important;
 }
 
+.item:hover {
+  background: hsla(0, 0%, 0%, 0.32) !important;
+}
+
 .logo {
-  background: #2d3035;
   color: #fff !important;
   flex: 0 0 auto;
   font-size: 20px;
@@ -20,7 +23,7 @@
 }
 
 .menu {
-  background: #2d3035 !important;
+  background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
   box-shadow: none !important;
@@ -49,6 +52,7 @@
 }
 
 .wrapper {
+  background: hsla(0, 0%, 0%, 0.24);
   display: flex;
   flex: 0 0 auto;
 }
