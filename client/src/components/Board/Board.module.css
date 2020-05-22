@@ -1,11 +1,11 @@
 .addListButton {
-  background-color: rgba(0, 0, 0, 0.12);
+  background: hsla(0, 0%, 0%, 0.24);
   border: none;
   border-radius: 3px;
-  color: hsla(0, 0%, 100%, 0.7);
+  color: hsla(0, 0%, 100%, 0.72);
   cursor: pointer;
   display: block;
-  fill: hsla(0, 0%, 100%, 0.7);
+  fill: hsla(0, 0%, 100%, 0.72);
   font-weight: normal;
   height: 42px;
   padding: 11px;
@@ -20,7 +20,7 @@
 }
 
 .addListButton:hover {
-  background-color: rgba(0, 0, 0, 0.3);
+  background: hsla(0, 0%, 0%, 0.32);
 }
 
 .addListButtonIcon {

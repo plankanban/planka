@@ -108,6 +108,7 @@
   max-height: calc(100vh - 300px);
   overflow-x: hidden;
   overflow-y: auto;
+  scrollbar-width: thin;
   width: 290px;
 }
 
