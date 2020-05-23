@@ -83,9 +83,11 @@ const AddAttachmentZone = React.memo(({ children, onCreate }) => {
   return (
     <>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <div {...getRootProps()}>
+      <div {...getRootProps()} className={styles.wrapper}>
         {isDragActive && <div className={styles.dropzone}>{t('common.dropFileToUpload')}</div>}
         {children}
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <input {...getInputProps()} />
       </div>
       {modal && (
         <AddTextFileModal
@@ -94,8 +96,6 @@ const AddAttachmentZone = React.memo(({ children, onCreate }) => {
           onClose={handleModalClose}
         />
       )}
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <input {...getInputProps()} />
     </>
   );
 });
