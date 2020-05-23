@@ -213,6 +213,6 @@
   padding: 8px 16px 0 8px !important;
 }
 
-.wrapper {
-  width: 768px !important;
-}
+/* .wrapper {
+  min-width: 768px;
+} */
