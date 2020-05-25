@@ -14,6 +14,13 @@ export const updateCurrentProject = (data) => ({
   },
 });
 
+export const updateCurrentProjectBackgroundImage = (data) => ({
+  type: EntryActionTypes.CURRENT_PROJECT_BACKGROUND_IMAGE_UPDATE,
+  payload: {
+    data,
+  },
+});
+
 export const deleteCurrentProject = () => ({
   type: EntryActionTypes.CURRENT_PROJECT_DELETE,
   payload: {},

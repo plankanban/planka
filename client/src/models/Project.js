@@ -8,6 +8,11 @@ export default class extends Model {
   static fields = {
     id: attr(),
     name: attr(),
+    background: attr(),
+    backgroundImage: attr(),
+    isBackgroundImageUpdating: attr({
+      getDefault: () => false,
+    }),
     users: many({
       to: 'User',
       through: 'ProjectMembership',
@@ -38,6 +43,25 @@ export default class extends Model {
         break;
       case ActionTypes.PROJECT_UPDATE_RECEIVED:
         Project.withId(payload.project.id).update(payload.project);
+
+        break;
+      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_REQUESTED:
+        Project.withId(payload.id).update({
+          isBackgroundImageUpdating: true,
+        });
+
+        break;
+      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_SUCCEEDED:
+        Project.withId(payload.project.id).update({
+          ...payload.project,
+          isBackgroundImageUpdating: false,
+        });
+
+        break;
+      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_FAILED:
+        Project.withId(payload.id).update({
+          isBackgroundImageUpdating: false,
+        });
 
         break;
       case ActionTypes.PROJECT_DELETE_RECEIVED:

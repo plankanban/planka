@@ -68,7 +68,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: null,
+      item: user,
     });
   },
 };

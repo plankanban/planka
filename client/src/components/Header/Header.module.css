@@ -3,7 +3,7 @@
 }
 
 .item:hover {
-  background: hsla(0, 0%, 0%, 0.32) !important;
+  background: rgba(0, 0, 0, 0.32) !important;
 }
 
 .logo {
@@ -52,7 +52,7 @@
 }
 
 .wrapper {
-  background: hsla(0, 0%, 0%, 0.24);
+  background: rgba(0, 0, 0, 0.24);
   display: flex;
   flex: 0 0 auto;
 }

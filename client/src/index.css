@@ -33,7 +33,7 @@ body {
 }
 
 .react-datepicker__header {
-  background-color: #fff;
+  background: #fff;
   border: 0;
   padding: 0;
 }
@@ -57,7 +57,7 @@ body {
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-range {
   border-radius: 0 !important;
-  background-color: #216ba5 !important;
+  background: #216ba5 !important;
   color: #fff !important;
 }
 

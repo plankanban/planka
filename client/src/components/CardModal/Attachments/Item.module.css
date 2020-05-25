@@ -13,7 +13,7 @@
 }
 
 .button:hover {
-  background-color: rgba(9, 30, 66, 0.08) !important;
+  background: rgba(9, 30, 66, 0.08) !important;
 }
 
 .date {
@@ -84,10 +84,7 @@
 
 .thumbnail {
   border-radius: 3px;
-  background-color: rgba(9, 30, 66, 0.04);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: rgba(9, 30, 66, 0.04);
   border-radius: 3px;
   height: 80px;
   left: 0;
@@ -112,7 +109,7 @@
 }
 
 .wrapper:hover .details {
-  background-color: rgba(9, 30, 66, 0.04);
+  background: rgba(9, 30, 66, 0.04);
 }
 
 .wrapper:hover .target {
@@ -120,5 +117,5 @@
 }
 
 .wrapperSubmitting {
-  background-color: rgba(9, 30, 66, 0.04);
+  background: rgba(9, 30, 66, 0.04);
 }

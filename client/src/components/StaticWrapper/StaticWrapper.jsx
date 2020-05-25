@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
@@ -11,10 +11,6 @@ import styles from './StaticWrapper.module.css';
 
 const StaticWrapper = ({ cardId, boardId, projectId }) => {
   const [t] = useTranslation();
-
-  useEffect(() => {
-    document.body.style.overflowX = 'auto'; // TODO: only for board
-  }, []);
 
   if (projectId === undefined) {
     return (

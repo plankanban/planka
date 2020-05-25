@@ -1,7 +1,12 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { goToProjectService, goToRootService } from './router';
-import { createProjectRequest, deleteProjectRequest, updateProjectRequest } from '../requests';
+import {
+  createProjectRequest,
+  deleteProjectRequest,
+  updateProjectBackgroundImageRequest,
+  updateProjectRequest,
+} from '../requests';
 import { pathSelector } from '../../../selectors';
 import { createProject, deleteProject, updateProject } from '../../../actions';
 
@@ -27,6 +32,16 @@ export function* updateCurrentProjectService(data) {
   const { projectId } = yield select(pathSelector);
 
   yield call(updateProjectService, projectId, data);
+}
+
+export function* updateProjectBackgroundImageService(id, data) {
+  yield call(updateProjectBackgroundImageRequest, id, data);
+}
+
+export function* updateCurrentProjectBackgroundImageService(data) {
+  const { projectId } = yield select(pathSelector);
+
+  yield call(updateProjectBackgroundImageService, projectId, data);
 }
 
 export function* deleteProjectService(id) {

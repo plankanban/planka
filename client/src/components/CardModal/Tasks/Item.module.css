@@ -13,7 +13,7 @@
 }
 
 .button:hover {
-  background-color: rgba(9, 30, 66, 0.08) !important;
+  background: rgba(9, 30, 66, 0.08) !important;
 }
 
 .checkboxWrapper {
@@ -30,7 +30,7 @@
 }
 
 .content:hover {
-  background-color: rgba(9, 30, 66, 0.04);
+  background: rgba(9, 30, 66, 0.04);
 }
 
 .content:hover .target {

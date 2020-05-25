@@ -12,9 +12,6 @@
 }
 
 .wrapper {
-  background-position: center center !important;
-  background-repeat: no-repeat !important;
-  background-size: cover !important;
   border: none;
   border-radius: 50%;
   color: #fff;

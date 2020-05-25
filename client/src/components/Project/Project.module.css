@@ -1,5 +1,5 @@
 .addUser {
-  background: hsla(0, 0%, 0%, 0.24) !important;
+  background: rgba(0, 0, 0, 0.24) !important;
   border-radius: 50% !important;
   box-shadow: none !important;
   color: #fff !important;
@@ -12,7 +12,7 @@
 }
 
 .addUser:hover {
-  background: hsla(0, 0%, 0%, 0.32) !important;
+  background: rgba(0, 0, 0, 0.32) !important;
 }
 
 .header {
@@ -46,7 +46,7 @@
 }
 
 .wrapper {
-  background: hsla(0, 0%, 0%, 0.08);
+  background: rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   height: 100%;

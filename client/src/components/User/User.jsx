@@ -75,7 +75,7 @@ const getColor = (name) => {
 const User = React.memo(({ name, avatarUrl, size, isDisabled, onClick }) => {
   const style = {
     ...STYLES[size],
-    background: avatarUrl ? `url("${avatarUrl}")` : getColor(name),
+    background: avatarUrl ? `url("${avatarUrl}") center / cover` : getColor(name),
   };
 
   const contentNode = (

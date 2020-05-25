@@ -31,6 +31,7 @@ module.exports = {
       );
 
       try {
+        const originalBuffer = await sharp(buffer).jpeg().toBuffer();
         const square100Buffer = await sharp(buffer).resize(100, 100).jpeg().toBuffer();
 
         const dirname = uuid();
@@ -38,7 +39,7 @@ module.exports = {
         const rootPath = path.join(sails.config.custom.userAvatarsPath, dirname);
         fs.mkdirSync(rootPath);
 
-        await writeFile(path.join(rootPath, 'original.jpg'), buffer);
+        await writeFile(path.join(rootPath, 'original.jpg'), originalBuffer);
         await writeFile(path.join(rootPath, 'square-100.jpg'), square100Buffer);
 
         // eslint-disable-next-line no-param-reassign

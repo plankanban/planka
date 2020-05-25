@@ -107,7 +107,7 @@ export function* updateUserEmailRequest(id, data) {
   try {
     const { item } = yield call(request, api.updateUserEmail, id, data);
 
-    const action = updateUserEmailSucceeded(id, item);
+    const action = updateUserEmailSucceeded(item);
     yield put(action);
 
     return {
@@ -129,9 +129,9 @@ export function* updateUserPasswordRequest(id, data) {
   yield put(updateUserPasswordRequested(id, data));
 
   try {
-    yield call(request, api.updateUserPassword, id, data);
+    const { item } = yield call(request, api.updateUserPassword, id, data);
 
-    const action = updateUserPasswordSucceeded(id);
+    const action = updateUserPasswordSucceeded(item);
     yield put(action);
 
     return {
@@ -155,7 +155,7 @@ export function* updateUserUsernameRequest(id, data) {
   try {
     const { item } = yield call(request, api.updateUserUsername, id, data);
 
-    const action = updateUserUsernameSucceeded(id, item);
+    const action = updateUserUsernameSucceeded(item);
     yield put(action);
 
     return {
@@ -179,7 +179,7 @@ export function* updateUserAvatarRequest(id, data) {
   try {
     const { item } = yield call(request, api.updateUserAvatar, id, data);
 
-    const action = updateUserAvatarSucceeded(id, item);
+    const action = updateUserAvatarSucceeded(item);
     yield put(action);
 
     return {

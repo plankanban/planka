@@ -25,7 +25,15 @@ const Projects = React.memo(({ items, isEditable, onAdd }) => {
                   : Paths.PROJECTS.replace(':id', item.id)
               }
             >
-              <div className={classNames(styles.card, styles.open)}>
+              <div
+                className={classNames(styles.card, styles.open)}
+                style={{
+                  background:
+                    item.background &&
+                    item.background.type === 'image' &&
+                    `url("${item.backgroundImage.coverUrl}") center / cover`,
+                }}
+              >
                 {item.notificationsTotal > 0 && (
                   <span className={styles.notification}>{item.notificationsTotal}</span>
                 )}

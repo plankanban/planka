@@ -15,6 +15,14 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
     },
+    background: {
+      type: 'json',
+      custom: (value) => _.isNull(value),
+    },
+    backgroundImage: {
+      type: 'json',
+      custom: (value) => _.isNull(value),
+    },
   },
 
   exits: {
@@ -30,7 +38,7 @@ module.exports = {
       throw Errors.PROJECT_NOT_FOUND;
     }
 
-    const values = _.pick(inputs, ['name']);
+    const values = _.pick(inputs, ['name', 'background', 'backgroundImage']);
 
     project = await sails.helpers.updateProject(project, values, this.req);
 

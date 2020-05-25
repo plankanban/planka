@@ -170,11 +170,10 @@ export const updateUserEmailRequested = (id, data) => ({
   },
 });
 
-export const updateUserEmailSucceeded = (id, email) => ({
+export const updateUserEmailSucceeded = (user) => ({
   type: ActionTypes.USER_EMAIL_UPDATE_SUCCEEDED,
   payload: {
-    id,
-    email,
+    user,
   },
 });
 
@@ -194,10 +193,10 @@ export const updateUserPasswordRequested = (id, data) => ({
   },
 });
 
-export const updateUserPasswordSucceeded = (id) => ({
+export const updateUserPasswordSucceeded = (user) => ({
   type: ActionTypes.USER_PASSWORD_UPDATE_SUCCEEDED,
   payload: {
-    id,
+    user,
   },
 });
 
@@ -217,11 +216,10 @@ export const updateUserUsernameRequested = (id, data) => ({
   },
 });
 
-export const updateUserUsernameSucceeded = (id, username) => ({
+export const updateUserUsernameSucceeded = (user) => ({
   type: ActionTypes.USER_USERNAME_UPDATE_SUCCEEDED,
   payload: {
-    id,
-    username,
+    user,
   },
 });
 
@@ -240,11 +238,10 @@ export const updateUserAvatarRequested = (id) => ({
   },
 });
 
-export const updateUserAvatarSucceeded = (id, avatarUrl) => ({
+export const updateUserAvatarSucceeded = (user) => ({
   type: ActionTypes.USER_AVATAR_UPDATE_SUCCEEDED,
   payload: {
-    id,
-    avatarUrl,
+    user,
   },
 });
 

@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Grid } from 'semantic-ui-react';
 
 import BoardsContainer from '../../containers/BoardsContainer';
-import EditPopup from './EditPopup';
+import ActionsPopup from './ActionsPopup';
 import AddMembershipPopup from './AddMembershipPopup';
 import EditMembershipPopup from './EditMembershipPopup';
 import User from '../User';
@@ -13,10 +13,14 @@ import styles from './Project.module.css';
 const Project = React.memo(
   ({
     name,
+    background,
+    backgroundImage,
+    isBackgroundImageUpdating,
     memberships,
     allUsers,
     isEditable,
     onUpdate,
+    onBackgroundImageUpdate,
     onDelete,
     onMembershipCreate,
     onMembershipDelete,
@@ -28,21 +32,41 @@ const Project = React.memo(
       [onMembershipDelete],
     );
 
+    useEffect(() => {
+      return () => {
+        document.body.style.background = null;
+      };
+    }, []);
+
+    useEffect(() => {
+      if (background) {
+        if (background.type === 'image') {
+          document.body.style.background = `url(${backgroundImage.url}) center / cover fixed #22252a`;
+        }
+      } else {
+        document.body.style.background = null;
+      }
+    }, [background, backgroundImage]);
+
     return (
       <div className={styles.wrapper}>
         <Grid className={styles.header}>
           <Grid.Row>
             <Grid.Column>
               {isEditable ? (
-                <EditPopup
-                  defaultData={{
+                <ActionsPopup
+                  project={{
                     name,
+                    background,
+                    backgroundImage,
+                    isBackgroundImageUpdating,
                   }}
                   onUpdate={onUpdate}
+                  onBackgroundImageUpdate={onBackgroundImageUpdate}
                   onDelete={onDelete}
                 >
                   <Button content={name} disabled={!isEditable} className={styles.name} />
-                </EditPopup>
+                </ActionsPopup>
               ) : (
                 <span className={styles.name}>{name}</span>
               )}
@@ -85,14 +109,25 @@ const Project = React.memo(
 Project.propTypes = {
   name: PropTypes.string.isRequired,
   /* eslint-disable react/forbid-prop-types */
+  background: PropTypes.object,
+  backgroundImage: PropTypes.object,
+  /* eslint-enable react/forbid-prop-types */
+  isBackgroundImageUpdating: PropTypes.bool.isRequired,
+  /* eslint-disable react/forbid-prop-types */
   memberships: PropTypes.array.isRequired,
   allUsers: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   isEditable: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onBackgroundImageUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onMembershipCreate: PropTypes.func.isRequired,
   onMembershipDelete: PropTypes.func.isRequired,
+};
+
+Project.defaultProps = {
+  background: undefined,
+  backgroundImage: undefined,
 };
 
 export default Project;

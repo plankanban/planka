@@ -20,7 +20,7 @@
 }
 
 .taskButton:hover {
-  background-color: rgba(9, 30, 66, 0.04);
+  background: rgba(9, 30, 66, 0.04);
   color: #092d42;
 }
 

@@ -15,6 +15,15 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    background: {
+      type: 'json',
+    },
+    backgroundImageDirname: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'background_image_dirname',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -33,5 +42,15 @@ module.exports = {
       collection: 'Board',
       via: 'projectId',
     },
+  },
+
+  customToJSON() {
+    return {
+      ..._.omit(this, ['backgroundImageDirname']),
+      backgroundImage: this.backgroundImageDirname && {
+        url: `${sails.config.custom.projectBackgroundImagesUrl}/${this.backgroundImageDirname}/original.jpg`,
+        coverUrl: `${sails.config.custom.projectBackgroundImagesUrl}/${this.backgroundImageDirname}/cover-336.jpg`,
+      },
+    };
   },
 };

@@ -16,7 +16,7 @@
 }
 
 .addCardButton:hover {
-  background-color: #c3cbd0 !important;
+  background: #c3cbd0 !important;
   color: #17394d !important;
   fill: #17394d !important;
 }
@@ -70,7 +70,7 @@
 }
 
 .headerButton:hover {
-  background-color: rgba(9, 30, 66, 0.13) !important;
+  background: rgba(9, 30, 66, 0.13) !important;
   color: #516b7a !important;
 }
 

@@ -3,6 +3,7 @@ import { all, takeLatest } from 'redux-saga/effects';
 import {
   createProjectService,
   deleteCurrentProjectService,
+  updateCurrentProjectBackgroundImageService,
   updateCurrentProjectService,
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
@@ -14,6 +15,9 @@ export default function* () {
     ),
     takeLatest(EntryActionTypes.CURRENT_PROJECT_UPDATE, ({ payload: { data } }) =>
       updateCurrentProjectService(data),
+    ),
+    takeLatest(EntryActionTypes.CURRENT_PROJECT_BACKGROUND_IMAGE_UPDATE, ({ payload: { data } }) =>
+      updateCurrentProjectBackgroundImageService(data),
     ),
     takeLatest(EntryActionTypes.CURRENT_PROJECT_DELETE, () => deleteCurrentProjectService()),
   ]);

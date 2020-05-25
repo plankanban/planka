@@ -1,0 +1,25 @@
+.action {
+  border: none;
+  display: inline-block;
+  height: 36px;
+  overflow: hidden;
+  position: relative;
+  transition: background 0.3s ease;
+  width: 100%;
+}
+
+.action:hover {
+  background: #e9e9e9 !important;
+}
+
+.actionButton {
+  background: transparent !important;
+  color: #6b808c !important;
+  font-weight: normal !important;
+  height: 36px;
+  line-height: 24px !important;
+  padding: 6px 12px !important;
+  text-align: left !important;
+  text-decoration: underline !important;
+  width: 100%;
+}

@@ -90,6 +90,28 @@ export const updateProjectReceived = (project) => ({
   },
 });
 
+export const updateProjectBackgroundImageRequested = (id) => ({
+  type: ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_REQUESTED,
+  payload: {
+    id,
+  },
+});
+
+export const updateProjectBackgroundImageSucceeded = (project) => ({
+  type: ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_SUCCEEDED,
+  payload: {
+    project,
+  },
+});
+
+export const updateProjectBackgroundImageFailed = (id, error) => ({
+  type: ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_FAILED,
+  payload: {
+    id,
+    error,
+  },
+});
+
 export const deleteProjectRequested = (id) => ({
   type: ActionTypes.PROJECT_DELETE_REQUESTED,
   payload: {
