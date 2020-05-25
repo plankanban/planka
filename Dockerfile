@@ -40,6 +40,7 @@ RUN chmod +x start.sh
 ENV BASE_URL DATABASE_URL
 
 VOLUME /app/public/user-avatars
+VOLUME /app/public/project-background-images
 VOLUME /app/public/attachments
 
 EXPOSE 1337
