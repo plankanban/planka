@@ -10,7 +10,7 @@
 }
 
 .fieldWrapper {
-  background-color: #fff !important;
+  background: #fff !important;
   border-radius: 3px !important;
   box-shadow: 0 1px 0 #ccc !important;
   margin-bottom: 8px !important;

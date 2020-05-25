@@ -79,7 +79,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: user.username,
+      item: user,
     });
   },
 };

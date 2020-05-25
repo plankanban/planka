@@ -38,7 +38,7 @@ module.exports = {
       user = currentUser;
     }
 
-    this.req.file('file').upload(sails.helpers.createAvatarReceiver(), async (error, files) => {
+    this.req.file('file').upload(sails.helpers.createUserAvatarReceiver(), async (error, files) => {
       if (error) {
         return exits.uploadError(error.message);
       }
@@ -60,7 +60,7 @@ module.exports = {
       }
 
       return exits.success({
-        item: user.toJSON().avatarUrl,
+        item: user.toJSON(),
       });
     });
   },

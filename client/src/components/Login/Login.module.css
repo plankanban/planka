@@ -1,6 +1,5 @@
 .cover {
-  background: url("../../assets/images/cover.jpg") no-repeat center center;
-  background-size: cover;
+  background: url("../../assets/images/cover.jpg") center / cover !important;
 }
 
 .descriptionSubtitle {
@@ -20,7 +19,7 @@
 }
 
 .descriptionWrapperOverlay {
-  background-color: rgba(33, 33, 33, 0.5);
+  background: rgba(33, 33, 33, 0.5);
   bottom: 0;
   height: 100%;
   left: 0;
@@ -37,7 +36,7 @@
 }
 
 .fullHeight {
-  background-color: #fff;
+  background: #fff;
   height: 100%;
 }
 

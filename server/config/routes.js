@@ -18,12 +18,13 @@ module.exports.routes = {
   'PATCH /api/users/:id/email': 'users/update-email',
   'PATCH /api/users/:id/password': 'users/update-password',
   'PATCH /api/users/:id/username': 'users/update-username',
-  'POST /api/users/:id/update-avatar': 'users/update-avatar',
+  'POST /api/users/:id/avatar': 'users/update-avatar',
   'DELETE /api/users/:id': 'users/delete',
 
   'GET /api/projects': 'projects/index',
   'POST /api/projects': 'projects/create',
   'PATCH /api/projects/:id': 'projects/update',
+  'POST /api/projects/:id/background-image': 'projects/update-background-image',
   'DELETE /api/projects/:id': 'projects/delete',
 
   'POST /api/projects/:projectId/memberships': 'project-memberships/create',

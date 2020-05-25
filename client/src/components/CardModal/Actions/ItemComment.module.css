@@ -22,7 +22,7 @@
 }
 
 .text {
-  background-color: #fff;
+  background: #fff;
   border-radius: 0px 8px 8px;
   box-shadow: 0 1px 2px -1px rgba(9, 30, 66, 0.25),
     0 0 0 1px rgba(9, 30, 66, 0.08);

@@ -23,7 +23,7 @@
 }
 
 .filterLabel {
-  background: hsla(0, 0%, 0%, 0.24);
+  background: rgba(0, 0, 0, 0.24);
   border-radius: 3px;
   color: #fff;
   display: inline-block;
@@ -33,7 +33,7 @@
 }
 
 .filterLabel:hover {
-  background: hsla(0, 0%, 0%, 0.32);
+  background: rgba(0, 0, 0, 0.32);
 }
 
 .filterTitle {

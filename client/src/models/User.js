@@ -141,8 +141,8 @@ export default class extends Model {
         break;
       }
       case ActionTypes.USER_EMAIL_UPDATE_SUCCEEDED: {
-        User.withId(payload.id).update({
-          email: payload.email,
+        User.withId(payload.user.id).update({
+          ...payload.user,
           emailUpdateForm: DEFAULT_EMAIL_UPDATE_FORM,
         });
 
@@ -175,7 +175,8 @@ export default class extends Model {
         break;
       }
       case ActionTypes.USER_PASSWORD_UPDATE_SUCCEEDED: {
-        User.withId(payload.id).update({
+        User.withId(payload.user.id).update({
+          ...payload.user,
           passwordUpdateForm: DEFAULT_PASSWORD_UPDATE_FORM,
         });
 
@@ -208,8 +209,8 @@ export default class extends Model {
         break;
       }
       case ActionTypes.USER_USERNAME_UPDATE_SUCCEEDED: {
-        User.withId(payload.id).update({
-          username: payload.username,
+        User.withId(payload.user.id).update({
+          ...payload.user,
           usernameUpdateForm: DEFAULT_USERNAME_UPDATE_FORM,
         });
 
@@ -235,8 +236,8 @@ export default class extends Model {
 
         break;
       case ActionTypes.USER_AVATAR_UPDATE_SUCCEEDED:
-        User.withId(payload.id).update({
-          avatarUrl: payload.avatarUrl,
+        User.withId(payload.user.id).update({
+          ...payload.user,
           isAvatarUpdating: false,
         });
 

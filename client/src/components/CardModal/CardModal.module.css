@@ -100,7 +100,7 @@
 }
 
 .descriptionButton:hover {
-  background-color: rgba(9, 30, 66, 0.08);
+  background: rgba(9, 30, 66, 0.08);
   color: #092d42;
 }
 

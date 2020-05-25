@@ -111,6 +111,14 @@ const Board = React.memo(
     }, [prevPosition]);
 
     useEffect(() => {
+      document.body.style.overflowX = 'auto';
+
+      return () => {
+        document.body.style.overflowX = null;
+      };
+    }, []);
+
+    useEffect(() => {
       if (isAddListOpened) {
         window.scroll(document.body.scrollWidth, 0);
       }

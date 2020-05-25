@@ -23,7 +23,7 @@
 }
 
 .wrapper {
-  background-color: #e2e4e6;
+  background: #e2e4e6;
   border-radius: 3px;
   padding: 4px;
   transition: opacity 40ms ease-in;

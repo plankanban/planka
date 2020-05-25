@@ -49,7 +49,7 @@
 }
 
 .card {
-  background-color: #fff;
+  background: #fff;
   border-radius: 3px;
   box-shadow: 0 1px 0 #ccc;
   position: relative;
@@ -57,7 +57,7 @@
 }
 
 .card:hover {
-  background-color: #f5f6f7;
+  background: #f5f6f7;
   border-bottom-color: rgba(9, 30, 66, 0.25);
 }
 

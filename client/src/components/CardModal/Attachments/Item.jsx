@@ -60,7 +60,7 @@ const Item = React.memo(
         <div
           className={styles.thumbnail}
           style={{
-            backgroundImage: coverUrl && `url(${coverUrl}`,
+            background: coverUrl && `url("${coverUrl}") center / cover`,
           }}
         >
           {coverUrl ? (

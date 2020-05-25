@@ -77,7 +77,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: user.email,
+      item: user,
     });
   },
 };
