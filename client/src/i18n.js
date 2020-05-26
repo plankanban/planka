@@ -31,6 +31,10 @@ i18n.dateFns = {
   },
 };
 
+i18n.on('languageChanged', (language) => {
+  setDefaultLocale(language);
+});
+
 const formatDatePostProcessor = {
   type: 'postProcessor',
   name: 'formatDate',
@@ -87,9 +91,5 @@ i18n.loadAppLocale = (language) =>
       }
     });
   });
-
-i18n.on('languageChanged', (language) => {
-  setDefaultLocale(language);
-});
 
 export default i18n;
