@@ -7,12 +7,7 @@ import User from '../../User';
 import styles from './UserItem.module.css';
 
 const UserItem = React.memo(({ name, avatarUrl, isActive, onSelect }) => (
-  <button
-    type="button"
-    disabled={isActive}
-    className={classNames(styles.menuItem, isActive && styles.menuItemActive)}
-    onClick={onSelect}
-  >
+  <button type="button" disabled={isActive} className={styles.menuItem} onClick={onSelect}>
     <span className={styles.user}>
       <User name={name} avatarUrl={avatarUrl} />
     </span>

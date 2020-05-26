@@ -1,5 +1,7 @@
 .menuItem {
+  background: transparent;
   border: none;
+  cursor: pointer;
   display: block;
   margin: 0;
   outline: 0;
@@ -9,15 +11,6 @@
 }
 
 .menuItem:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.menuItemActive {
-  background: transparent;
-  border-width: 0;
-}
-
-.menuItemActive:hover {
   background: rgba(0, 0, 0, 0.05);
 }
 
