@@ -22,7 +22,6 @@
   position: relative;
   text-align: left !important;
   text-overflow: ellipsis;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2) !important;
 }
 
 .labelButton:hover {
@@ -38,7 +37,6 @@
   position: absolute;
   right: 2px;
   text-align: center;
-  text-shadow: -1px 1px 0 rgba(0, 0, 0, 0.2);
   transform: rotate(-135deg);
   width: 36px;
 }

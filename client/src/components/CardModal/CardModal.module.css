@@ -165,7 +165,6 @@
   overflow: hidden;
   padding: 0 12px;
   text-overflow: ellipsis;
-  text-shadow: rgba(0, 0, 0, 0.2) 1px 1px 0;
   white-space: nowrap;
 }
 
