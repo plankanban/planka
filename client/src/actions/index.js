@@ -1,6 +1,6 @@
 export * from './socket';
 export * from './login';
-export * from './app';
+export * from './core';
 export * from './modal';
 export * from './users';
 export * from './user';

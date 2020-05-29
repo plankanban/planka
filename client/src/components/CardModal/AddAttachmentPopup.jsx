@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
 import { FilePicker, Popup } from '../../lib/custom-ui';
 
-import styles from './AddAttachmentPopup.module.css';
+import styles from './AddAttachmentPopup.module.scss';
 
 const AddAttachmentStep = React.memo(({ onCreate, onClose }) => {
   const [t] = useTranslation();

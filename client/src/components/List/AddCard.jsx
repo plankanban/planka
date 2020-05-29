@@ -8,7 +8,7 @@ import { useDidUpdate, useToggle } from '../../lib/hooks';
 
 import { useClosableForm, useForm } from '../../hooks';
 
-import styles from './AddCard.module.css';
+import styles from './AddCard.module.scss';
 
 const DEFAULT_DATA = {
   name: '',

@@ -1,0 +1,32 @@
+:global(#app) {
+  .progress {
+    margin: 0 0 16px;
+  }
+
+  .taskButton {
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    color: #6b808c;
+    cursor: pointer;
+    display: block;
+    margin-top: 6px;
+    min-height: 54px;
+    outline: none;
+    padding: 8px 12px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    width: 100%;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.04);
+      color: #092d42;
+    }
+  }
+
+  .taskButtonText {
+    position: absolute;
+    top: 12px;
+  }
+}

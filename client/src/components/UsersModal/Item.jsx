@@ -5,7 +5,7 @@ import { Button, Radio, Table } from 'semantic-ui-react';
 
 import DeletePopup from '../DeletePopup';
 
-import styles from './Item.module.css';
+import styles from './Item.module.scss';
 
 const Item = React.memo(({ name, username, email, isAdmin, onUpdate, onDelete }) => {
   const [t] = useTranslation();

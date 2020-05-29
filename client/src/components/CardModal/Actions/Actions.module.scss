@@ -1,0 +1,40 @@
+:global(#app) {
+  .contentModule {
+    margin-bottom: 24px;
+  }
+
+  .loader {
+    margin-top: 10px;
+  }
+
+  .moduleHeader {
+    color: #17394d;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    margin: 0 0 4px;
+    padding: 8px 0;
+  }
+
+  .moduleIcon {
+    color: #17394d;
+    font-size: 17px;
+    height: 32px;
+    left: -40px;
+    line-height: 32px;
+    margin-right: 0;
+    position: absolute;
+    top: 2px;
+    width: 32px;
+  }
+
+  .moduleWrapper {
+    margin: 0 0 0 40px;
+    position: relative;
+  }
+
+  .wrapper {
+    margin-left: -40px;
+    margin-top: 12px;
+  }
+}

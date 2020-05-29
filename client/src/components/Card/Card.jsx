@@ -14,7 +14,7 @@ import Label from '../Label';
 import DueDate from '../DueDate';
 import Timer from '../Timer';
 
-import styles from './Card.module.css';
+import styles from './Card.module.scss';
 
 const Card = React.memo(
   ({

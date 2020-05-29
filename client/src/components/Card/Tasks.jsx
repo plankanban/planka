@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { Progress } from 'semantic-ui-react';
 import { useToggle } from '../../lib/hooks';
 
-import styles from './Tasks.module.css';
+import styles from './Tasks.module.scss';
 
 const Tasks = React.memo(({ items }) => {
   const [isOpened, toggleOpened] = useToggle();

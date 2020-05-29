@@ -1,9 +1,11 @@
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import initials from 'initials';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import styles from './User.module.css';
+import styles from './User.module.scss';
 
 const SIZES = {
   TINY: 'tiny',
@@ -13,54 +15,14 @@ const SIZES = {
   MASSIVE: 'massive',
 };
 
-// TODO: move to styles
-const STYLES = {
-  tiny: {
-    fontSize: '12px',
-    fontWeight: '400',
-    height: '24px',
-    lineHeight: '20px',
-    padding: '2px 0',
-    width: '24px',
-  },
-  small: {
-    fontSize: '12px',
-    fontWeight: '400',
-    height: '28px',
-    padding: '8px 0',
-    width: '28px',
-  },
-  medium: {
-    fontSize: '14px',
-    fontWeight: '500',
-    height: '32px',
-    padding: '10px 0',
-    width: '32px',
-  },
-  large: {
-    fontSize: '14px',
-    fontWeight: '500',
-    height: '36px',
-    padding: '12px 0 10px',
-    width: '36px',
-  },
-  massive: {
-    fontSize: '36px',
-    fontWeight: '500',
-    height: '100px',
-    padding: '32px 0 10px',
-    width: '100px',
-  },
-};
-
 const COLORS = [
-  '#2ecc71', // Emerald
-  '#3498db', // Peter river
-  '#8e44ad', // Wisteria
-  '#e67e22', // Carrot
-  '#e74c3c', // Alizarin
-  '#1abc9c', // Turquoise
-  '#2c3e50', // Midnight blue
+  'emerald',
+  'peter-river',
+  'wisteria',
+  'carrot',
+  'alizarin',
+  'turquoise',
+  'midnight-blue',
 ];
 
 const getColor = (name) => {
@@ -73,16 +35,18 @@ const getColor = (name) => {
 };
 
 const User = React.memo(({ name, avatarUrl, size, isDisabled, onClick }) => {
-  const style = {
-    ...STYLES[size],
-    background: avatarUrl ? `url("${avatarUrl}") center / cover` : getColor(name),
-  };
-
   const contentNode = (
     <span
       title={name}
-      className={classNames(styles.wrapper, onClick && styles.hoverable)}
-      style={style}
+      className={classNames(
+        styles.wrapper,
+        styles[`wrapper${upperFirst(size)}`],
+        onClick && styles.wrapperHoverable,
+        !avatarUrl && styles[`background${upperFirst(camelCase(getColor(name)))}`],
+      )}
+      style={{
+        background: avatarUrl && `url("${avatarUrl}") center / cover`,
+      }}
     >
       {!avatarUrl && <span className={styles.initials}>{initials(name)}</span>}
     </span>

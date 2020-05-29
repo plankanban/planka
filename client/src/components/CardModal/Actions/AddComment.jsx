@@ -6,7 +6,7 @@ import { Button, Form, TextArea } from 'semantic-ui-react';
 
 import { useForm } from '../../../hooks';
 
-import styles from './AddComment.module.css';
+import styles from './AddComment.module.scss';
 
 const DEFAULT_DATA = {
   text: '',

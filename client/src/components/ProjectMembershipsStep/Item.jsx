@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react';
 
 import User from '../User';
 
-import styles from './Item.module.css';
+import styles from './Item.module.scss';
 
 const Item = React.memo(({ isPersisted, isActive, user, onUserSelect, onUserDeselect }) => {
   const handleToggleClick = useCallback(() => {

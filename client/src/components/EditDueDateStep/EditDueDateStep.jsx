@@ -8,7 +8,7 @@ import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
-import styles from './EditDueDateStep.module.css';
+import styles from './EditDueDateStep.module.scss';
 
 const EditDueDateStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
   const [t] = useTranslation();

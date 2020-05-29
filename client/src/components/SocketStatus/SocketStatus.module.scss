@@ -1,0 +1,37 @@
+:global(#app) {
+  .button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  .content {
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .header {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .wrapper {
+    background: #eb5a46;
+    border-radius: 4px;
+    bottom: 20px;
+    box-shadow: #b04632 0 1px 0;
+    padding: 12px 18px;
+    position: fixed;
+    right: 20px;
+    width: 390px;
+    z-index: 10001;
+  }
+}

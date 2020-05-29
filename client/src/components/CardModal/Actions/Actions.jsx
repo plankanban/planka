@@ -7,7 +7,7 @@ import { ActionTypes } from '../../../constants/Enums';
 import AddComment from './AddComment';
 import Item from './Item';
 
-import styles from './Actions.module.css';
+import styles from './Actions.module.scss';
 
 const Actions = React.memo(
   ({

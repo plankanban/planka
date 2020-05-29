@@ -1,0 +1,85 @@
+:global(#app) {
+  .button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    line-height: 0;
+    margin: 0 -8px;
+    outline: none;
+    padding: 0px 8px 8px;
+    width: calc(100% + 16px);
+  }
+
+  .count {
+    color: #888;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 12px;
+    text-align: right;
+    vertical-align: top;
+    width: 50px;
+
+    &:after {
+      content: "";
+      opacity: 0.4;
+    }
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .countOpened:after {
+    background: url("data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIPnI+py+0/hJzz0IruwjsVADs=")
+      no-repeat center right;
+    margin-left: 2px;
+    padding: 6px 6px 0px;
+  }
+
+  .countClosed:after {
+    background: url("data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIRnC2nKLnT4or00Puy3rx7VQAAOw==")
+      no-repeat center right;
+    margin-left: 2px;
+    padding: 0 6px 6px;
+  }
+
+  .progress {
+    margin: 0;
+  }
+
+  .progressWrapper {
+    display: inline-block;
+    padding: 3px 0;
+    vertical-align: top;
+    width: calc(100% - 50px);
+  }
+
+  .task {
+    display: block;
+    font-size: 12px;
+    line-height: 14px;
+    padding-bottom: 6px;
+    padding-left: 14px;
+    word-break: break-all;
+
+    &:before {
+      content: "–";
+      position: absolute;
+      left: 10px;
+    }
+  }
+
+  .taskCompleted {
+    color: #aaa;
+    text-decoration: line-through;
+  }
+
+  .tasks {
+    color: #333;
+    cursor: grab;
+    list-style: none;
+    margin: -2px 0 0;
+    padding-left: 0;
+  }
+}

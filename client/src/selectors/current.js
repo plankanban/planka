@@ -4,7 +4,7 @@ import orm from '../orm';
 import { pathSelector } from './path';
 import { isLocalId } from '../utils/local-id';
 
-export const currentModalSelector = ({ app: { currentModal } }) => currentModal;
+export const currentModalSelector = ({ core: { currentModal } }) => currentModal;
 
 export const currentUserIdSelector = ({ auth: { userId } }) => userId;
 

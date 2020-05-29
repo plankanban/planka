@@ -9,7 +9,7 @@ import { Input, Popup } from '../../lib/custom-ui';
 import { useForm } from '../../hooks';
 import { createTimer, getTimerParts, startTimer, stopTimer, updateTimer } from '../../utils/timer';
 
-import styles from './EditTimerStep.module.css';
+import styles from './EditTimerStep.module.scss';
 
 const createData = (timer) => {
   if (!timer) {

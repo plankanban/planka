@@ -8,14 +8,14 @@ import { useForm } from '../../hooks';
 import LabelColors from '../../constants/LabelColors';
 import Editor from './Editor';
 
-import styles from './AddStep.module.css';
+import styles from './AddStep.module.scss';
 
 const AddStep = React.memo(({ onCreate, onBack }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({
     name: '',
-    color: LabelColors.KEYS[0],
+    color: LabelColors[0],
   }));
 
   const handleSubmit = useCallback(() => {

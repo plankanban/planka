@@ -6,7 +6,7 @@ import { Popup } from '../../lib/custom-ui';
 
 import Item from './Item';
 
-import styles from './ProjectMembershipsStep.module.css';
+import styles from './ProjectMembershipsStep.module.scss';
 
 const ProjectMembershipsStep = React.memo(
   ({ items, currentUserIds, title, onUserSelect, onUserDeselect, onBack }) => {

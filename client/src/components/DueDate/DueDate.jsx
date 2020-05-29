@@ -1,32 +1,15 @@
+import upperFirst from 'lodash/upperFirst';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 
-import styles from './DueDate.module.css';
+import styles from './DueDate.module.scss';
 
 const SIZES = {
   TINY: 'tiny',
   SMALL: 'small',
   MEDIUM: 'medium',
-};
-
-// TODO: move to styles
-const STYLES = {
-  tiny: {
-    fontSize: '12px',
-    lineHeight: '20px',
-    padding: '0px 6px',
-  },
-  small: {
-    fontSize: '12px',
-    lineHeight: '20px',
-    padding: '2px 6px',
-  },
-  medium: {
-    lineHeight: '20px',
-    padding: '6px 12px',
-  },
 };
 
 const FORMATS = {
@@ -38,12 +21,14 @@ const FORMATS = {
 const DueDate = React.memo(({ value, size, isDisabled, onClick }) => {
   const [t] = useTranslation();
 
-  const style = {
-    ...STYLES[size],
-  };
-
   const contentNode = (
-    <span className={classNames(styles.wrapper, onClick && styles.hoverable)} style={style}>
+    <span
+      className={classNames(
+        styles.wrapper,
+        styles[`wrapper${upperFirst(size)}`],
+        onClick && styles.wrapperHoverable,
+      )}
+    >
       {t(`format:${FORMATS[size]}`, {
         value,
         postProcess: 'formatDate',

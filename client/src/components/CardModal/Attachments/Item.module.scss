@@ -1,0 +1,125 @@
+:global(#app) {
+  .button {
+    background: transparent;
+    box-shadow: none;
+    line-height: 28px;
+    margin: 0;
+    min-height: auto;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 28px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
+  }
+
+  .date {
+    display: block;
+    color: #6b808c;
+    line-height: 20px;
+    margin-bottom: 6px;
+  }
+
+  .details {
+    box-sizing: border-box;
+    padding: 6px 32px 6px 128px;
+    margin: 0;
+    min-height: 80px;
+    z-index: 0;
+  }
+
+  .extension {
+    color: #5e6c84;
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    height: 100%;
+    line-height: 80px;
+    overflow: hidden;
+    padding: 0 20px 0 20px;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    width: 100%;
+  }
+
+  .name {
+    color: #17394d;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    word-wrap: break-word;
+  }
+
+  .option {
+    background: none;
+    border: none;
+    color: #6b808c;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+
+    &:hover {
+      color: #172b4d;
+    }
+  }
+
+  .optionIcon {
+    margin-right: 6px;
+  }
+
+  .optionText {
+    text-decoration: underline;
+  }
+
+  .options {
+    display: block;
+    color: #6b808c;
+    line-height: 20px;
+  }
+
+  .thumbnail {
+    border-radius: 3px;
+    background: rgba(9, 30, 66, 0.04);
+    border-radius: 3px;
+    height: 80px;
+    left: 0;
+    margin-top: -40px;
+    position: absolute;
+    text-align: center;
+    text-decoration: none;
+    top: 50%;
+    width: 112px;
+    z-index: 1;
+  }
+
+  .thumbnailLabel {
+    border-color: rgba(29, 46, 63, 0.8);
+  }
+
+  .wrapper {
+    cursor: pointer;
+    margin-bottom: 8px;
+    min-height: 80px;
+    position: relative;
+
+    &:hover {
+      .details {
+        background: rgba(9, 30, 66, 0.04);
+      }
+
+      .target {
+        opacity: 1;
+      }
+    }
+  }
+
+  .wrapperSubmitting {
+    background: rgba(9, 30, 66, 0.04);
+  }
+}

@@ -6,7 +6,7 @@ import { useToggle } from '../../../lib/hooks';
 
 import Item from './Item';
 
-import styles from './Attachments.module.css';
+import styles from './Attachments.module.scss';
 
 const Attachments = React.memo(({ items, onUpdate, onDelete, onCoverUpdate }) => {
   const [t] = useTranslation();

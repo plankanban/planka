@@ -10,7 +10,7 @@ import Paths from '../../constants/Paths';
 import { ActionTypes } from '../../constants/Enums';
 import User from '../User';
 
-import styles from './NotificationsPopup.module.css';
+import styles from './NotificationsPopup.module.scss';
 
 const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
   const [t] = useTranslation();

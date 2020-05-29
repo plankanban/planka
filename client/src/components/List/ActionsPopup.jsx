@@ -8,7 +8,7 @@ import { Popup } from '../../lib/custom-ui';
 import { useSteps } from '../../hooks';
 import DeleteStep from '../DeleteStep';
 
-import styles from './ActionsPopup.module.css';
+import styles from './ActionsPopup.module.scss';
 
 const StepTypes = {
   DELETE: 'DELETE',

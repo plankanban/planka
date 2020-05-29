@@ -1,0 +1,75 @@
+:global(#app) {
+  .button {
+    background: transparent;
+    box-shadow: none;
+    line-height: 28px;
+    margin: 0;
+    min-height: auto;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 28px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
+  }
+
+  .checkboxWrapper {
+    display: inline-block;
+    padding: 10px 15px 0px 8px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    left: 0;
+    vertical-align: top;
+    z-index: 2000;
+    line-height: 1;
+    height: 32px;
+  }
+
+  .content:hover {
+    background: rgba(9, 30, 66, 0.04);
+
+    .target {
+      opacity: 1;
+    }
+  }
+
+  .task {
+    display: inline-block;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding: 8px 0;
+    vertical-align: top;
+    width: 100%;
+  }
+
+  .taskCompleted {
+    text-decoration: line-through;
+  }
+
+  .text {
+    background: transparent;
+    border-radius: 3px;
+    color: #17394d;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 32px;
+    padding: 0 32px 0 40px;
+    width: 100%;
+  }
+
+  .wrapper {
+    border-radius: 3px;
+    margin-left: -40px;
+    min-height: 32px;
+    position: relative;
+    transition: all 0.14s ease-in;
+    width: calc(100% + 40px);
+  }
+}

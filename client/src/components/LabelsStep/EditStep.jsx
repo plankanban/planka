@@ -10,7 +10,7 @@ import LabelColors from '../../constants/LabelColors';
 import Editor from './Editor';
 import DeleteStep from '../DeleteStep';
 
-import styles from './EditStep.module.css';
+import styles from './EditStep.module.scss';
 
 const StepTypes = {
   DELETE: 'DELETE',
@@ -20,7 +20,7 @@ const EditStep = React.memo(({ defaultData, onUpdate, onDelete, onBack }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({
-    color: LabelColors.KEYS[0],
+    color: LabelColors[0],
     ...defaultData,
     name: defaultData.name || '',
   }));

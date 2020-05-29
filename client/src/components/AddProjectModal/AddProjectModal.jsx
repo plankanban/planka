@@ -6,7 +6,7 @@ import { Input } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
-import styles from './AddProjectModal.module.css';
+import styles from './AddProjectModal.module.scss';
 
 const AddProjectModal = React.memo(({ defaultData, isSubmitting, onCreate, onClose }) => {
   const [t] = useTranslation();

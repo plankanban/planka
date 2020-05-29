@@ -1,0 +1,46 @@
+:global(#app) {
+  .button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    padding: 0;
+  }
+
+  .wrapper {
+    background: #dce0e4;
+    border: none;
+    border-radius: 3px;
+    color: #6a808b;
+    display: inline-block;
+    outline: none;
+    text-align: left;
+    transition: background 0.3s ease;
+    vertical-align: top;
+  }
+
+  .wrapperHoverable:hover {
+    background: #d2d8dc;
+    color: #17394d;
+  }
+
+  /* Sizes */
+
+  .wrapperTiny {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0px 6px;
+  }
+
+  .wrapperSmall {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 2px 6px;
+  }
+
+  .wrapperMedium {
+    line-height: 20px;
+    padding: 6px 12px;
+  }
+}

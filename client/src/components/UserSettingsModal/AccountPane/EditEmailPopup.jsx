@@ -9,7 +9,7 @@ import { Input, Popup } from '../../../lib/custom-ui';
 
 import { useForm } from '../../../hooks';
 
-import styles from './EditEmailPopup.module.css';
+import styles from './EditEmailPopup.module.scss';
 
 const createMessage = (error) => {
   if (!error) {

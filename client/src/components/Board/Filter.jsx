@@ -7,7 +7,7 @@ import Label from '../Label';
 import ProjectMembershipsPopup from '../ProjectMembershipsPopup';
 import LabelsPopup from '../LabelsPopup';
 
-import styles from './Filter.module.css';
+import styles from './Filter.module.scss';
 
 const Filter = React.memo(
   ({

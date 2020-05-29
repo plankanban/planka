@@ -1,0 +1,62 @@
+:global(#app) {
+  .item {
+    &:before {
+      background: none;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .logo {
+    color: #fff;
+    flex: 0 0 auto;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 3.5px;
+    line-height: 50px;
+    padding: 0 16px;
+    text-transform: uppercase;
+    width: 130px;
+
+    &:before {
+      background: none;
+    }
+  }
+
+  .menu {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: #fff;
+    flex: 1 1 auto;
+    height: 50px;
+    margin: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .notification {
+    background: #eb5a46;
+    border-radius: 8px;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    height: 16px;
+    line-height: 16px;
+    position: absolute;
+    right: 8px;
+    text-align: center;
+    top: 8px;
+    width: 16px;
+  }
+
+  .wrapper {
+    background: rgba(0, 0, 0, 0.24);
+    display: flex;
+    flex: 0 0 auto;
+  }
+}

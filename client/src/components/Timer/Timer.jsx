@@ -1,3 +1,4 @@
+import upperFirst from 'lodash/upperFirst';
 import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -5,31 +6,12 @@ import { useForceUpdate, usePrevious } from '../../lib/hooks';
 
 import { formatTimer } from '../../utils/timer';
 
-import styles from './Timer.module.css';
+import styles from './Timer.module.scss';
 
 const SIZES = {
   TINY: 'tiny',
   SMALL: 'small',
   MEDIUM: 'medium',
-};
-
-// TODO: move to styles
-const STYLES = {
-  tiny: {
-    fontSize: '12px',
-    lineHeight: '20px',
-    padding: '0px 6px',
-  },
-  small: {
-    fontSize: '12px',
-    lineHeight: '20px',
-    padding: '2px 6px',
-  },
-  medium: {
-    lineHeight: '20px',
-    padding: '6px 12px',
-    textDecoration: 'underline',
-  },
 };
 
 const Timer = React.memo(({ startedAt, total, size, isDisabled, onClick }) => {
@@ -66,7 +48,13 @@ const Timer = React.memo(({ startedAt, total, size, isDisabled, onClick }) => {
   );
 
   const contentNode = (
-    <span className={classNames(styles.wrapper, onClick && styles.hoverable)} style={STYLES[size]}>
+    <span
+      className={classNames(
+        styles.wrapper,
+        styles[`wrapper${upperFirst(size)}`],
+        onClick && styles.wrapperHoverable,
+      )}
+    >
       {formatTimer({ startedAt, total })}
     </span>
   );

@@ -1,11 +1,12 @@
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button } from 'semantic-ui-react';
 
-import LabelColors from '../../constants/LabelColors';
-
-import styles from './Item.module.css';
+import styles from './Item.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const Item = React.memo(({ name, color, isPersisted, isActive, onSelect, onDeselect, onEdit }) => {
   const handleToggleClick = useCallback(() => {
@@ -23,10 +24,11 @@ const Item = React.memo(({ name, color, isPersisted, isActive, onSelect, onDesel
         content={name}
         active={isActive}
         disabled={!isPersisted}
-        className={classNames(styles.labelButton, isActive && styles.labelButtonActive)}
-        style={{
-          background: LabelColors.MAP[color],
-        }}
+        className={classNames(
+          styles.labelButton,
+          isActive && styles.labelButtonActive,
+          globalStyles[`background${upperFirst(camelCase(color))}`],
+        )}
         onClick={handleToggleClick}
       />
       <Button

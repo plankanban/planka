@@ -6,7 +6,7 @@ import { Progress } from 'semantic-ui-react';
 import Item from './Item';
 import Add from './Add';
 
-import styles from './Tasks.module.css';
+import styles from './Tasks.module.scss';
 
 const Tasks = React.memo(({ items, onCreate, onUpdate, onDelete }) => {
   const [t] = useTranslation();

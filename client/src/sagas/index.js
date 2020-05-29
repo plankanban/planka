@@ -1,7 +1,7 @@
 import { call, select } from 'redux-saga/effects';
 
 import loginSaga from './login';
-import appSaga from './app';
+import coreSaga from './core';
 import { accessTokenSelector } from '../selectors';
 
 export default function* () {
@@ -11,5 +11,5 @@ export default function* () {
     yield call(loginSaga);
   }
 
-  yield call(appSaga);
+  yield call(coreSaga);
 }

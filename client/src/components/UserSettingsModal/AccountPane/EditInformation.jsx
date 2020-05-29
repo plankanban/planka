@@ -7,7 +7,7 @@ import { Button, Form, Input } from 'semantic-ui-react';
 
 import { useForm } from '../../../hooks';
 
-import styles from './EditInformation.module.css';
+import styles from './EditInformation.module.scss';
 
 const EditInformation = React.memo(({ defaultData, onUpdate }) => {
   const [t] = useTranslation();
