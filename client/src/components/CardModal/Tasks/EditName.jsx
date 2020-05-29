@@ -6,7 +6,7 @@ import { Button, Form, TextArea } from 'semantic-ui-react';
 
 import { useClosableForm, useField } from '../../../hooks';
 
-import styles from './EditName.module.css';
+import styles from './EditName.module.scss';
 
 const EditName = React.forwardRef(({ children, defaultValue, onUpdate }, ref) => {
   const [t] = useTranslation();

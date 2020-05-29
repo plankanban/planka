@@ -6,23 +6,23 @@ import { ConnectedRouter } from 'connected-react-router';
 
 import Paths from '../constants/Paths';
 import LoginContainer from '../containers/LoginContainer';
-import AppWrapperContainer from '../containers/AppWrapperContainer';
+import CoreWrapperContainer from '../containers/CoreWrapperContainer';
 import NotFound from './NotFound';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import '../lib/custom-ui/index.css';
+import '../lib/custom-ui/styles.css';
 
-import '../index.css';
+import '../styles.module.scss';
 
 const Root = ({ store, history }) => (
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <Switch>
         <Route exact path={Paths.LOGIN} component={LoginContainer} />
-        <Route exact path={Paths.ROOT} component={AppWrapperContainer} />
-        <Route exact path={Paths.PROJECTS} component={AppWrapperContainer} />
-        <Route exact path={Paths.BOARDS} component={AppWrapperContainer} />
-        <Route exact path={Paths.CARDS} component={AppWrapperContainer} />
+        <Route exact path={Paths.ROOT} component={CoreWrapperContainer} />
+        <Route exact path={Paths.PROJECTS} component={CoreWrapperContainer} />
+        <Route exact path={Paths.BOARDS} component={CoreWrapperContainer} />
+        <Route exact path={Paths.CARDS} component={CoreWrapperContainer} />
         <Route path="*" component={NotFound} />
       </Switch>
     </ConnectedRouter>

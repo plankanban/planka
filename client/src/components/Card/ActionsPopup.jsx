@@ -14,7 +14,7 @@ import EditTimerStep from '../EditTimerStep';
 import MoveCardStep from '../MoveCardStep';
 import DeleteStep from '../DeleteStep';
 
-import styles from './ActionsPopup.module.css';
+import styles from './ActionsPopup.module.scss';
 
 const StepTypes = {
   USERS: 'USERS',

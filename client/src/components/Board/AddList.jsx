@@ -6,7 +6,7 @@ import { useDidUpdate, useToggle } from '../../lib/hooks';
 
 import { useClosableForm, useForm } from '../../hooks';
 
-import styles from './AddList.module.css';
+import styles from './AddList.module.scss';
 
 const DEFAULT_DATA = {
   name: '',

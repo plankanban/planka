@@ -1,0 +1,25 @@
+:global(#app) {
+  .controls {
+    clear: both;
+    margin-top: 6px;
+  }
+
+  .field {
+    background: #fff;
+    border: 0;
+    box-sizing: border-box;
+    color: #333;
+    display: block;
+    line-height: 1.5;
+    font-size: 14px;
+    margin-bottom: 6px;
+    overflow: hidden;
+    padding: 8px 12px;
+    resize: none;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

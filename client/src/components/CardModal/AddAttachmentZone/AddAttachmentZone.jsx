@@ -7,7 +7,7 @@ import { closePopup } from '../../../lib/popup';
 import { useModal } from '../../../hooks';
 import AddTextFileModal from './AddTextFileModal';
 
-import styles from './AddAttachmentZone.module.css';
+import styles from './AddAttachmentZone.module.scss';
 
 const AddAttachmentZone = React.memo(({ children, onCreate }) => {
   const [t] = useTranslation();

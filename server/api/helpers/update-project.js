@@ -11,7 +11,7 @@ module.exports = {
       type: 'json',
       custom: (value) =>
         _.isPlainObject(value) &&
-        (_.isUndefined(value.background) || _.isNull(value.background)) &&
+        /* _.isUndefined(value.background) || _.isNull(value.background) && */
         (_.isUndefined(value.backgroundImage) || _.isNull(value.backgroundImage)),
       required: true,
     },

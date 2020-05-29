@@ -1,0 +1,122 @@
+:global(#app) {
+  .actionsButton {
+    background: none;
+    box-shadow: none;
+    border-radius: 3px;
+    box-sizing: content-box;
+    color: #798d99;
+    display: inline-block;
+    margin: 0;
+    min-height: auto;
+    opacity: 0;
+    outline: none;
+    padding: 4px;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    transition: background 85ms ease;
+    width: 20px;
+
+    &:hover {
+      background: #ebeef0;
+      color: #516b7a;
+    }
+  }
+
+  .attachment {
+    display: inline-block;
+    line-height: 0;
+    margin: 0 0 6px 0;
+    max-width: 100%;
+    vertical-align: top;
+  }
+
+  .attachmentLeft {
+    margin-right: 4px;
+  }
+
+  .attachmentRight {
+    margin-left: 2px;
+  }
+
+  .attachments {
+    display: inline-block;
+    padding-bottom: 2px;
+  }
+
+  .attachmentsRight {
+    float: right;
+    line-height: 0;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 #ccc;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      background: #f5f6f7;
+      border-bottom-color: rgba(9, 30, 66, 0.25);
+
+      .target {
+        opacity: 1;
+      }
+    }
+  }
+
+  .content {
+    cursor: grab;
+    display: block;
+
+    &:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+
+  .cover {
+    border-radius: 3px 3px 0 0;
+    vertical-align: middle;
+  }
+
+  .details {
+    padding: 6px 8px 0;
+  }
+
+  .labels {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .name {
+    color: #17394d;
+    font-size: 14px;
+    line-height: 18px;
+    padding-bottom: 6px;
+    word-wrap: break-word;
+  }
+
+  .notification {
+    background: #eb5a46;
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0px 6px;
+    border: none;
+    border-radius: 3px;
+    display: inline-block;
+    outline: none;
+    text-align: left;
+    transition: background 0.3s ease;
+    vertical-align: top;
+  }
+
+  .wrapper {
+    display: block;
+    margin-bottom: 8px;
+  }
+}

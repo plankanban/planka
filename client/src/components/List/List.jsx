@@ -12,7 +12,7 @@ import AddCard from './AddCard';
 import ActionsPopup from './ActionsPopup';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
-import styles from './List.module.css';
+import styles from './List.module.scss';
 
 const List = React.memo(
   ({ id, index, name, isPersisted, cardIds, onUpdate, onDelete, onCardCreate }) => {

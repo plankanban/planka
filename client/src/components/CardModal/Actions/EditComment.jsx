@@ -7,7 +7,7 @@ import { Button, Form, TextArea } from 'semantic-ui-react';
 
 import { useClosableForm, useForm } from '../../../hooks';
 
-import styles from './EditComment.module.css';
+import styles from './EditComment.module.scss';
 
 const EditComment = React.forwardRef(({ children, defaultData, onUpdate }, ref) => {
   const [t] = useTranslation();

@@ -6,7 +6,7 @@ import { Popup } from '../../../lib/custom-ui';
 
 import UserItem from './UserItem';
 
-import styles from './AddMembershipPopup.module.css';
+import styles from './AddMembershipPopup.module.scss';
 
 const AddMembershipStep = React.memo(({ users, currentUserIds, onCreate, onClose }) => {
   const [t] = useTranslation();

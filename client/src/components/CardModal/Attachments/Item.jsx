@@ -6,7 +6,7 @@ import { Button, Icon, Label, Loader } from 'semantic-ui-react';
 
 import EditPopup from './EditPopup';
 
-import styles from './Item.module.css';
+import styles from './Item.module.scss';
 
 const Item = React.memo(
   ({

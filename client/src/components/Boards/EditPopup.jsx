@@ -9,7 +9,7 @@ import { Input, Popup } from '../../lib/custom-ui';
 import { useForm, useSteps } from '../../hooks';
 import DeleteStep from '../DeleteStep';
 
-import styles from './EditPopup.module.css';
+import styles from './EditPopup.module.scss';
 
 const StepTypes = {
   DELETE: 'DELETE',

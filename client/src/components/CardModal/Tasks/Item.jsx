@@ -6,7 +6,7 @@ import { Button, Checkbox, Icon } from 'semantic-ui-react';
 import EditName from './EditName';
 import ActionsPopup from './ActionsPopup';
 
-import styles from './Item.module.css';
+import styles from './Item.module.scss';
 
 const Item = React.memo(({ name, isCompleted, isPersisted, onUpdate, onDelete }) => {
   const editName = useRef(null);

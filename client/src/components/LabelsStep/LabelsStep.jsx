@@ -10,7 +10,7 @@ import AddStep from './AddStep';
 import EditStep from './EditStep';
 import Item from './Item';
 
-import styles from './LabelsStep.module.css';
+import styles from './LabelsStep.module.scss';
 
 const StepTypes = {
   ADD: 'ADD',

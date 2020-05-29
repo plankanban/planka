@@ -6,7 +6,7 @@ import { Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
-import styles from './MoveCardStep.module.css';
+import styles from './MoveCardStep.module.scss';
 
 const MoveCardStep = React.memo(
   ({ projectsToLists, defaultPath, onMove, onTransfer, onBoardFetch, onBack, onClose }) => {

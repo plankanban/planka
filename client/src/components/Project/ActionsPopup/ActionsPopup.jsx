@@ -10,7 +10,7 @@ import EditNameStep from './EditNameStep';
 import EditBackgroundStep from './EditBackgroundStep';
 import DeleteStep from '../../DeleteStep';
 
-import styles from './ActionsPopup.module.css';
+import styles from './ActionsPopup.module.scss';
 
 const StepTypes = {
   EDIT_NAME: 'EDIT_NAME',
@@ -54,11 +54,17 @@ const ActionsStep = React.memo(
     );
 
     const handleBackgroundImageDelete = useCallback(() => {
-      onUpdate({
-        background: null,
+      const data = {
         backgroundImage: null,
-      });
-    }, [onUpdate]);
+      };
+
+      // TODO: move to services?
+      if (project.background && project.background.type === 'image') {
+        data.background = null;
+      }
+
+      onUpdate(data);
+    }, [project.background, onUpdate]);
 
     if (step) {
       if (step) {
@@ -76,6 +82,7 @@ const ActionsStep = React.memo(
             return (
               <EditBackgroundStep
                 defaultValue={project.background}
+                imageCoverUrl={project.backgroundImage && project.backgroundImage.coverUrl}
                 isImageUpdating={project.isBackgroundImageUpdating}
                 onUpdate={handleBackgroundUpdate}
                 onImageUpdate={onBackgroundImageUpdate}

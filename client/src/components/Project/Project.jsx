@@ -8,7 +8,7 @@ import AddMembershipPopup from './AddMembershipPopup';
 import EditMembershipPopup from './EditMembershipPopup';
 import User from '../User';
 
-import styles from './Project.module.css';
+import styles from './Project.module.scss';
 
 const Project = React.memo(
   ({
@@ -37,16 +37,6 @@ const Project = React.memo(
         document.body.style.background = null;
       };
     }, []);
-
-    useEffect(() => {
-      if (background) {
-        if (background.type === 'image') {
-          document.body.style.background = `url(${backgroundImage.url}) center / cover fixed #22252a`;
-        }
-      } else {
-        document.body.style.background = null;
-      }
-    }, [background, backgroundImage]);
 
     return (
       <div className={styles.wrapper}>

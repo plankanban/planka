@@ -1,0 +1,17 @@
+:global(#app) {
+  .addButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    font-weight: normal;
+    margin-top: 8px;
+    padding: 6px 11px;
+    text-align: left;
+    text-decoration: underline;
+    transition: background 0.3s ease;
+
+    &:hover {
+      background: #e9e9e9;
+    }
+  }
+}

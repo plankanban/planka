@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react';
 import { withPopup } from '../../../lib/popup';
 import { FilePicker, Popup } from '../../../lib/custom-ui';
 
-import styles from './EditAvatarPopup.module.css';
+import styles from './EditAvatarPopup.module.scss';
 
 const EditAvatarStep = React.memo(({ defaultValue, onUpdate, onDelete, onClose }) => {
   const [t] = useTranslation();

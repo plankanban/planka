@@ -10,7 +10,7 @@ import EditEmailPopup from './EditEmailPopup';
 import EditPasswordPopup from './EditPasswordPopup';
 import User from '../../User';
 
-import styles from './AccountPane.module.css';
+import styles from './AccountPane.module.scss';
 
 const AccountPane = React.memo(
   ({

@@ -10,7 +10,7 @@ import { Input, Popup } from '../../lib/custom-ui';
 import { useForm } from '../../hooks';
 import { isUsername } from '../../utils/validator';
 
-import styles from './AddUserPopup.module.css';
+import styles from './AddUserPopup.module.scss';
 
 const createMessage = (error) => {
   if (!error) {

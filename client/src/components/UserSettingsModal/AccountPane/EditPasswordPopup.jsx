@@ -8,7 +8,7 @@ import { Input, Popup } from '../../../lib/custom-ui';
 
 import { useForm } from '../../../hooks';
 
-import styles from './EditPasswordPopup.module.css';
+import styles from './EditPasswordPopup.module.scss';
 
 const createMessage = (error) => {
   if (!error) {

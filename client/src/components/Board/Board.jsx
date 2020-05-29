@@ -11,7 +11,7 @@ import AddList from './AddList';
 import Filter from './Filter';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
-import styles from './Board.module.css';
+import styles from './Board.module.scss';
 
 const parseDndId = (dndId) => dndId.split(':')[1];
 

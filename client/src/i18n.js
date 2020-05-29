@@ -79,8 +79,8 @@ i18n
     debug: process.env.NODE_ENV !== 'production',
   });
 
-i18n.loadAppLocale = (language) =>
-  import(`./locales/${language}/app`).then((module) => {
+i18n.loadCoreLocale = (language) =>
+  import(`./locales/${language}/core`).then((module) => {
     const locale = module.default;
 
     Object.keys(locale).forEach((namespace) => {

@@ -1,10 +1,13 @@
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import LabelColors from '../../constants/LabelColors';
 
-import styles from './Label.module.css';
+import styles from './Label.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const SIZES = {
   TINY: 'tiny',
@@ -12,39 +15,16 @@ const SIZES = {
   MEDIUM: 'medium',
 };
 
-// TODO: move to styles
-const STYLES = {
-  tiny: {
-    fontSize: '12px',
-    lineHeight: '20px',
-    maxWidth: '176px',
-    padding: '0px 6px',
-  },
-  small: {
-    fontSize: '12px',
-    lineHeight: '20px',
-    maxWidth: '176px',
-    padding: '2px 8px',
-  },
-  medium: {
-    fontSize: '14px',
-    lineHeight: '32px',
-    maxWidth: '230px',
-    padding: '0 12px',
-  },
-};
-
 const Label = React.memo(({ name, color, size, isDisabled, onClick }) => {
-  const style = {
-    ...STYLES[size],
-    background: LabelColors.MAP[color],
-  };
-
   const contentNode = (
     <div
       title={name}
-      className={classNames(styles.wrapper, onClick && styles.hoverable)}
-      style={style}
+      className={classNames(
+        styles.wrapper,
+        styles[`wrapper${upperFirst(size)}`],
+        onClick && styles.wrapperHoverable,
+        globalStyles[`background${upperFirst(camelCase(color))}`],
+      )}
     >
       {name || '\u00A0'}
     </div>
@@ -61,7 +41,7 @@ const Label = React.memo(({ name, color, size, isDisabled, onClick }) => {
 
 Label.propTypes = {
   name: PropTypes.string,
-  color: PropTypes.oneOf(LabelColors.KEYS).isRequired,
+  color: PropTypes.oneOf(LabelColors).isRequired,
   size: PropTypes.oneOf(Object.values(SIZES)),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,

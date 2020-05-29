@@ -12,7 +12,7 @@ import DroppableTypes from '../../constants/DroppableTypes';
 import AddPopup from './AddPopup';
 import EditPopup from './EditPopup';
 
-import styles from './Boards.module.css';
+import styles from './Boards.module.scss';
 
 const Boards = React.memo(
   ({ items, currentId, isEditable, onCreate, onUpdate, onMove, onDelete }) => {

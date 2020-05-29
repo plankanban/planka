@@ -23,7 +23,7 @@ import EditTimerPopup from '../EditTimerPopup';
 import MoveCardPopup from '../MoveCardPopup';
 import DeletePopup from '../DeletePopup';
 
-import styles from './CardModal.module.css';
+import styles from './CardModal.module.scss';
 
 const CardModal = React.memo(
   ({

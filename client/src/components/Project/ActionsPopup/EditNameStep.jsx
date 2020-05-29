@@ -6,7 +6,7 @@ import { Input, Popup } from '../../../lib/custom-ui';
 
 import { useField } from '../../../hooks';
 
-import styles from './EditNameStep.module.css';
+import styles from './EditNameStep.module.scss';
 
 const EditNameStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
   const [t] = useTranslation();

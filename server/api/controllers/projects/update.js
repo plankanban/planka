@@ -15,9 +15,9 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
     },
+    // TODO: add validation
     background: {
       type: 'json',
-      custom: (value) => _.isNull(value),
     },
     backgroundImage: {
       type: 'json',

@@ -7,7 +7,7 @@ import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
-import styles from './AddPopup.module.css';
+import styles from './AddPopup.module.scss';
 
 const AddStep = React.memo(({ onCreate, onClose }) => {
   const [t] = useTranslation();

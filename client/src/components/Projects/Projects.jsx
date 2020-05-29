@@ -1,3 +1,5 @@
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -8,7 +10,8 @@ import { Container, Grid } from 'semantic-ui-react';
 import Paths from '../../constants/Paths';
 import { ReactComponent as PlusIcon } from '../../assets/images/plus-icon.svg';
 
-import styles from './Projects.module.css';
+import styles from './Projects.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const Projects = React.memo(({ items, isEditable, onAdd }) => {
   const [t] = useTranslation();
@@ -26,7 +29,13 @@ const Projects = React.memo(({ items, isEditable, onAdd }) => {
               }
             >
               <div
-                className={classNames(styles.card, styles.open)}
+                className={classNames(
+                  styles.card,
+                  styles.open,
+                  item.background &&
+                    item.background.type === 'gradient' &&
+                    globalStyles[`background${upperFirst(camelCase(item.background.name))}`],
+                )}
                 style={{
                   background:
                     item.background &&

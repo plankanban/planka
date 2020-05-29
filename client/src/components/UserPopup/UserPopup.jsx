@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
 import { Popup } from '../../lib/custom-ui';
 
-import styles from './UserPopup.module.css';
+import styles from './UserPopup.module.scss';
 
 const UserStep = React.memo(({ onSettings, onLogout, onClose }) => {
   const [t] = useTranslation();

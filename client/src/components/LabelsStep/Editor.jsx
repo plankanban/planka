@@ -1,3 +1,5 @@
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -7,7 +9,8 @@ import { Input } from '../../lib/custom-ui';
 
 import LabelColors from '../../constants/LabelColors';
 
-import styles from './Editor.module.css';
+import styles from './Editor.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const Editor = React.memo(({ data, onFieldChange }) => {
   const [t] = useTranslation();
@@ -31,19 +34,17 @@ const Editor = React.memo(({ data, onFieldChange }) => {
       />
       <div className={styles.text}>{t('common.color')}</div>
       <div className={styles.colorButtons}>
-        {LabelColors.PAIRS.map(([name, hex]) => (
+        {LabelColors.map((color) => (
           <Button
-            key={name}
+            key={color}
             type="button"
             name="color"
-            value={name}
+            value={color}
             className={classNames(
               styles.colorButton,
-              name === data.color && styles.colorButtonActive,
+              color === data.color && styles.colorButtonActive,
+              globalStyles[`background${upperFirst(camelCase(color))}`],
             )}
-            style={{
-              background: hex,
-            }}
             onClick={onFieldChange}
           />
         ))}

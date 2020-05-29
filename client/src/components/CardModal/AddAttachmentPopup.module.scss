@@ -1,0 +1,22 @@
+:global(#app) {
+  .divider {
+    background: #eee;
+    border: 0;
+    height: 1px;
+    margin-bottom: 8px;
+  }
+
+  .menu {
+    margin: -7px -12px -5px;
+    width: calc(100% + 24px);
+  }
+
+  .menuItem {
+    margin: 0;
+    padding-left: 14px;
+  }
+
+  .tip {
+    opacity: 0.5;
+  }
+}

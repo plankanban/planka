@@ -7,7 +7,7 @@ import Paths from '../../constants/Paths';
 import NotificationsPopup from './NotificationsPopup';
 import UserPopup from '../UserPopup';
 
-import styles from './Header.module.css';
+import styles from './Header.module.scss';
 
 const Header = React.memo(
   ({

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 
-import styles from './SocketStatus.module.css';
+import styles from './SocketStatus.module.scss';
 
 const SocketStatus = React.memo(({ isDisconnected, isReconnected }) => {
   const [t] = useTranslation();

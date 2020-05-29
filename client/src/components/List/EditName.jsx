@@ -5,7 +5,7 @@ import { TextArea } from 'semantic-ui-react';
 
 import { useField } from '../../hooks';
 
-import styles from './EditName.module.css';
+import styles from './EditName.module.scss';
 
 const EditName = React.forwardRef(({ children, defaultValue, onUpdate }, ref) => {
   const [isOpened, setIsOpened] = useState(false);

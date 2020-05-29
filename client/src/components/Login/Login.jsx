@@ -10,7 +10,7 @@ import { Input } from '../../lib/custom-ui';
 import { useForm } from '../../hooks';
 import { isUsername } from '../../utils/validator';
 
-import styles from './Login.module.css';
+import styles from './Login.module.scss';
 
 const createMessage = (error) => {
   if (!error) {
@@ -111,7 +111,7 @@ const Login = React.memo(
     }, [focusPasswordFieldState]);
 
     return (
-      <div className={styles.fullHeight}>
+      <div className={classNames(styles.wrapper, styles.fullHeight)}>
         <Grid verticalAlign="middle" className={styles.fullHeightPaddingFix}>
           <Grid.Column widescreen={4} largeScreen={5} computer={6} tablet={16} mobile={16}>
             <Grid verticalAlign="middle" className={styles.fullHeightPaddingFix}>

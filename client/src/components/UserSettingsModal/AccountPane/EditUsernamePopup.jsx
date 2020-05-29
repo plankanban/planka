@@ -9,7 +9,7 @@ import { Input, Popup } from '../../../lib/custom-ui';
 import { useForm } from '../../../hooks';
 import { isUsername } from '../../../utils/validator';
 
-import styles from './EditUsernamePopup.module.css';
+import styles from './EditUsernamePopup.module.scss';
 
 const createMessage = (error) => {
   if (!error) {

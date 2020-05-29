@@ -6,7 +6,7 @@ import { Input } from '../../../lib/custom-ui';
 
 import { useForm } from '../../../hooks';
 
-import styles from './AddTextFileModal.module.css';
+import styles from './AddTextFileModal.module.scss';
 
 const AddTextFileModal = React.memo(({ content, onCreate, onClose }) => {
   const [t] = useTranslation();

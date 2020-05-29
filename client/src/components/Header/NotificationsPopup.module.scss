@@ -1,0 +1,47 @@
+:global(#app) {
+  .button {
+    background: transparent;
+    box-shadow: none;
+    float: right;
+    height: 20px;
+    line-height: 20px;
+    margin: 0;
+    min-height: auto;
+    padding: 5px 0;
+    transition: background 0.3s ease;
+    width: 20px;
+
+    &:hover {
+      background: #e9e9e9;
+    }
+  }
+
+  .content {
+    display: inline-block;
+    font-size: 12px;
+    min-height: 36px;
+    overflow: hidden;
+    padding: 0 4px 0 8px;
+    vertical-align: top;
+    width: calc(100% - 56px);
+    word-break: break-word;
+  }
+
+  .deletedContent {
+    display: inline-block;
+    line-height: 20px;
+    min-height: 20px;
+    padding: 0 4px 0 8px;
+    vertical-align: top;
+    width: calc(100% - 20px);
+  }
+
+  .wrapper {
+    margin: 0 -12px;
+    padding: 12px;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+}

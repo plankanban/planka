@@ -8,7 +8,7 @@ import { useSteps } from '../../hooks';
 import User from '../User';
 import DeleteStep from '../DeleteStep';
 
-import styles from './EditMembershipPopup.module.css';
+import styles from './EditMembershipPopup.module.scss';
 
 const StepTypes = {
   DELETE: 'DELETE',

@@ -1,0 +1,367 @@
+:global {
+  #app {
+    background: #22252a;
+
+    .react-datepicker {
+      border: 0;
+      color: #444444;
+      font-size: 14px;
+      font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+      font-weight: 400;
+      width: 100%;
+      padding-bottom: 8px;
+    }
+
+    .react-datepicker__month-container {
+      width: 100%;
+    }
+
+    .react-datepicker__current-month,
+    .react-datepicker-time__header {
+      color: #444;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 32px;
+      padding-bottom: 4px;
+      text-transform: capitalize;
+    }
+
+    .react-datepicker__header {
+      background: #fff;
+      border: 0;
+      padding: 0;
+    }
+
+    .react-datepicker__day-name,
+    .react-datepicker__day,
+    .react-datepicker__time-name {
+      color: #444;
+      display: inline-block;
+      width: 40px;
+      font-weight: 500;
+      line-height: 28px;
+      text-align: center;
+      margin: 0;
+      border-style: solid;
+      border-width: 0 0 1px 1px;
+      border-color: rgba(34, 36, 38, 0.15);
+    }
+
+    .react-datepicker__day--selected,
+    .react-datepicker__day--in-selecting-range,
+    .react-datepicker__day--in-range {
+      border-radius: 0;
+      background: #216ba5;
+      color: #fff;
+    }
+
+    .react-datepicker__day-names,
+    .react-datepicker__week {
+      border-right: 1px solid #c2ccd1;
+    }
+
+    .react-datepicker__day-names {
+      background: #ebeef0;
+      border-top: 1px solid #c2ccd1;
+    }
+
+    .react-datepicker__day--outside-month {
+      color: transparent;
+      background: #f5f6f7;
+    }
+
+    .react-datepicker__month {
+      margin: 0;
+    }
+
+    .react-datepicker__navigation--previous,
+    .react-datepicker__navigation--next {
+      outline: none;
+    }
+
+    .react-datepicker__navigation--previous {
+      left: 0;
+      border-right-color: #999;
+    }
+
+    .react-datepicker__navigation--next {
+      right: 0;
+      border-left-color: #999;
+    }
+
+    .react-datepicker__navigation {
+      border-width: 7px 9px;
+      top: 0;
+      margin: 9px 0;
+    }
+  }
+
+  #root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  ::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    -webkit-appearance: none;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 0px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    -webkit-transition: color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.15);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(128, 135, 139, 0.8);
+  }
+}
+
+:global(#app) {
+  /* Backgrounds */
+
+  .backgroundBerryRed {
+    background: #e04556 !important;
+  }
+
+  .backgroundPumpkinOrange {
+    background: #f0982d !important;
+  }
+
+  .backgroundLagoonBlue {
+    background: #109dc0 !important;
+  }
+
+  .backgroundPinkTulip {
+    background: #f97394 !important;
+  }
+
+  .backgroundLightMud {
+    background: #c7a57b !important;
+  }
+
+  .backgroundOrangePeel {
+    background: #fab623 !important;
+  }
+
+  .backgroundBrightMoss {
+    background: #a5c261 !important;
+  }
+
+  .backgroundAntiqueBlue {
+    background: #6c99bb !important;
+  }
+
+  .backgroundDarkGranite {
+    background: #8b8680 !important;
+  }
+
+  .backgroundLaguneBlue {
+    background: #00b4b1 !important;
+  }
+
+  .backgroundSunnyGrass {
+    background: #bfca02 !important;
+  }
+
+  .backgroundMorningSky {
+    background: #52bad5 !important;
+  }
+
+  .backgroundLightOrange {
+    background: #ffc66d !important;
+  }
+
+  .backgroundMidnightBlue {
+    background: #004d73 !important;
+  }
+
+  .backgroundTankGreen {
+    background: #8aa177 !important;
+  }
+
+  .backgroundGunMetal {
+    background: #355263 !important;
+  }
+
+  .backgroundWetMoss {
+    background: #4a8753 !important;
+  }
+
+  .backgroundRedBurgundy {
+    background: #ad5f7d !important;
+  }
+
+  .backgroundLightConcrete {
+    background: #afb0a4 !important;
+  }
+
+  .backgroundApricotRed {
+    background: #fc736d !important;
+  }
+
+  .backgroundDesertSand {
+    background: #edcb76 !important;
+  }
+
+  .backgroundNavyBlue {
+    background: #166a8f !important;
+  }
+
+  .backgroundEggYellow {
+    background: #f7d036 !important;
+  }
+
+  .backgroundCoralGreen {
+    background: #2b6a6c !important;
+  }
+
+  .backgroundLightCocoa {
+    background: #87564a !important;
+  }
+
+  .backgroundOceanDive {
+    background: linear-gradient(to top, #062e53, #1ad0e0) !important;
+  }
+
+  .backgroundOldLime {
+    background: linear-gradient(to bottom, #7b920a, #add100) !important;
+  }
+
+  .backgroundTzepeschStyle {
+    background: linear-gradient(to bottom, #190a05, #870000) !important;
+  }
+
+  .backgroundJungleMesh {
+    background: linear-gradient(to bottom, #727a17, #414d0b) !important;
+  }
+
+  .backgroundBlueDanube {
+    background: radial-gradient(circle, rgba(9, 9, 121, 1) 0%, rgba(2, 0, 36, 1) 0%, rgba(2, 29, 66, 1) 0%, rgba(2, 41, 78, 1) 0%, rgba(2, 57, 95, 1) 0%, rgba(1, 105, 144, 1) 100%, rgba(1, 151, 192, 1) 100%, rgba(0, 212, 255, 1) 100%) !important;
+  }
+
+  .backgroundSundownStripe {
+    background: linear-gradient(22deg, rgba(31, 30, 30, 1) 0%, rgba(255, 128, 0, 1) 10%, rgba(255, 128, 0, 1) 41%, rgba(0, 0, 0, 1) 41%, rgba(0, 102, 204, 1) 89%) !important;
+  }
+
+  .backgroundMagicalDawn {
+    background: radial-gradient(circle, rgba(0, 107, 141, 1) 0%, rgba(0, 69, 91, 1) 90%) !important;
+  }
+
+  .backgroundStrawberryDust {
+    background: linear-gradient(180deg, rgba(172, 79, 115, 1) 0%, rgba(254, 158, 150, 1) 66%) !important;
+  }
+
+  .backgroundPurpleRose {
+    background: linear-gradient(128deg, rgba(116, 43, 62, 1) 19%, rgba(192, 71, 103, 1) 90%) !important;
+  }
+
+  .backgroundSunScream {
+    background: linear-gradient(112deg, rgba(251, 221, 19, 1) 19%, rgba(255, 153, 1, 1) 62%) !important;
+  }
+
+  .backgroundWarmRust {
+    background: linear-gradient(141deg, rgba(255, 90, 8, 1) 0%, rgba(88, 0, 0, 1) 96%) !important;
+  }
+
+  .backgroundSkyChange {
+    background: linear-gradient(135deg, rgba(0, 52, 89, 1) 0%, rgba(0, 168, 232, 1) 90%) !important;
+  }
+
+  .backgroundGreenEyes {
+    background: linear-gradient(138deg, rgba(19, 170, 82, 1) 0%, rgba(0, 102, 43, 1) 90%) !important;
+  }
+
+  .backgroundBlueXchange {
+    background: radial-gradient(circle, #294f83, #162c4a) !important;
+  }
+
+  .backgroundBloodOrange {
+    background: linear-gradient(360deg, #d64759 10%, #da7352 360%) !important;
+  }
+
+  .backgroundSourPeel {
+    background: linear-gradient(360deg, #fd6f46 10%, #fb9832 360%) !important;
+  }
+
+  .backgroundGreenNinja {
+    background: linear-gradient(360deg, #224e4d 10%, #083023 360%) !important;
+  }
+
+  .backgroundIceBlue {
+    background: linear-gradient(360deg, #38aecc 10%, #347fb9 360%) !important;
+  }
+
+  .backgroundEpicGreen {
+    background: linear-gradient(360deg, #01a99c 10%, #0698b1 360%) !important;
+  }
+
+  .backgroundAlgaeGreen {
+    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(0, 95, 104, 1) 0%, rgba(15, 156, 168, 1) 90%) !important;
+  }
+
+  .backgroundCoralReef {
+    background: linear-gradient(110.3deg, rgba(238, 179, 123, 1) 8.7%, rgba(216, 103, 77, 1) 47.5%, rgba(114, 43, 54, 1) 89.1%) !important;
+  }
+
+  .backgroundSteelGrey {
+    background: radial-gradient(circle farthest-corner at -4% -12.9%, rgba(74, 98, 110, 1) 0.3%, rgba(30, 33, 48, 1) 90.2%) !important;
+  }
+
+  .backgroundHeatWaves {
+    background: linear-gradient(to right, #12c2e9, #c471ed, #f64f59) !important;
+  }
+
+  .backgroundWowBlue {
+    background: linear-gradient(111.8deg, rgba(0, 104, 155, 1) 19.8%, rgba(0, 173, 239, 1) 92.1%) !important;
+  }
+
+  .backgroundVelvetLounge {
+    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(151, 10, 130, 1) 0%, rgba(33, 33, 33, 1) 100.2%) !important;
+  }
+
+  .backgroundLagoon {
+    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(0, 107, 141, 1) 0%, rgba(0, 69, 91, 1) 90%) !important;
+  }
+
+  .backgroundPurpleRain {
+    background: linear-gradient(91.7deg, rgba(50, 25, 79, 1) -4.3%, rgba(122, 101, 149, 1) 101.8%) !important;
+  }
+
+  .backgroundBlueSteel {
+    background: linear-gradient(to top, #09203f 0%, #537895 100%) !important;
+  }
+
+  .backgroundBlueishCurve {
+    background: linear-gradient(171.8deg, rgba(5, 111, 146, 1) 13.5%, rgba(6, 57, 84, 1) 78.6%) !important;
+  }
+
+  .backgroundPrismLight {
+    background: linear-gradient(111.7deg, rgba(251, 198, 6, 1) 2.4%, rgba(224, 82, 95, 1) 28.3%, rgba(194, 78, 154, 1) 46.2%, rgba(32, 173, 190, 1) 79.4%, rgba(22, 158, 95, 1) 100.2%) !important;
+  }
+
+  .backgroundTheBow {
+    background: radial-gradient(circle farthest-corner at -8.9% 51.2%, rgba(255, 124, 0, 1) 0%, rgba(255, 124, 0, 1) 15.9%, rgba(255, 163, 77, 1) 15.9%, rgba(255, 163, 77, 1) 24.4%, rgba(19, 30, 37, 1) 24.5%, rgba(19, 30, 37, 1) 66%) !important;
+  }
+
+  .backgroundGreenMist {
+    background: linear-gradient(180.5deg, rgba(0, 128, 128, 1) 8.5%, rgba(174, 206, 100, 1) 118.2%) !important;
+  }
+
+  .backgroundRedCurtain {
+    background: radial-gradient(circle 371px at 2.9% 14.3%, rgba(255, 0, 102, 1) 0%, rgba(80, 5, 35, 1) 100.7%) !important;
+  }
+}

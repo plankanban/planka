@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Radio, Tab } from 'semantic-ui-react';
 
-import styles from './PreferencesPane.module.css';
+import styles from './PreferencesPane.module.scss';
 
 const PreferencesPane = React.memo(({ subscribeToOwnCards, onUpdate }) => {
   const [t] = useTranslation();

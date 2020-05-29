@@ -6,7 +6,7 @@ import { useDidUpdate, usePrevious } from '../../lib/hooks';
 
 import { useField } from '../../hooks';
 
-import styles from './NameField.module.css';
+import styles from './NameField.module.scss';
 
 const NameField = React.memo(({ defaultValue, onUpdate }) => {
   const prevDefaultValue = usePrevious(defaultValue);

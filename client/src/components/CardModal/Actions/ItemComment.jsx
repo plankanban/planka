@@ -9,7 +9,7 @@ import EditComment from './EditComment';
 import User from '../../User';
 import DeletePopup from '../../DeletePopup';
 
-import styles from './ItemComment.module.css';
+import styles from './ItemComment.module.scss';
 
 const ItemComment = React.memo(
   ({ data, createdAt, isPersisted, user, isEditable, onUpdate, onDelete }) => {
