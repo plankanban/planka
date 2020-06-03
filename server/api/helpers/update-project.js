@@ -11,13 +11,17 @@ module.exports = {
       type: 'json',
       custom: (value) =>
         _.isPlainObject(value) &&
-        /* _.isUndefined(value.background) || _.isNull(value.background) && */
+        (_.isUndefined(value.background) || _.isPlainObject(value.background)) &&
         (_.isUndefined(value.backgroundImage) || _.isNull(value.backgroundImage)),
       required: true,
     },
     request: {
       type: 'ref',
     },
+  },
+
+  exits: {
+    invalidParams: {},
   },
 
   async fn(inputs, exits) {
@@ -33,9 +37,37 @@ module.exports = {
       inputs.values.background = {
         type: 'image',
       };
+    } else if (
+      _.isNull(inputs.values.backgroundImageDirname) &&
+      inputs.record.background &&
+      inputs.record.background.type === 'image'
+    ) {
+      inputs.values.background = null; // eslint-disable-line no-param-reassign
     }
 
-    const project = await Project.updateOne(inputs.record.id).set(inputs.values);
+    let project;
+    if (inputs.values.background && inputs.values.background.type === 'image') {
+      if (_.isNull(inputs.values.backgroundImageDirname)) {
+        throw 'invalidParams';
+      }
+
+      if (_.isUndefined(inputs.values.backgroundImageDirname)) {
+        project = await Project.updateOne({
+          id: inputs.record.id,
+          backgroundImageDirname: {
+            '!=': null,
+          },
+        }).set(inputs.values);
+
+        if (!project) {
+          delete inputs.values.background; // eslint-disable-line no-param-reassign
+        }
+      }
+    }
+
+    if (!project) {
+      project = await Project.updateOne(inputs.record.id).set(inputs.values);
+    }
 
     if (project) {
       if (

@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { Container, Grid } from 'semantic-ui-react';
 
 import Paths from '../../constants/Paths';
+import { ProjectBackgroundTypes } from '../../constants/Enums';
 import { ReactComponent as PlusIcon } from '../../assets/images/plus-icon.svg';
 
 import styles from './Projects.module.scss';
@@ -33,7 +34,7 @@ const Projects = React.memo(({ items, isEditable, onAdd }) => {
                   styles.card,
                   styles.open,
                   item.background &&
-                    item.background.type === 'gradient' &&
+                    item.background.type === ProjectBackgroundTypes.GRADIENT &&
                     globalStyles[`background${upperFirst(camelCase(item.background.name))}`],
                 )}
                 style={{

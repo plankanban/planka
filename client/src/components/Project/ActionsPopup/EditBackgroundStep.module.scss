@@ -66,6 +66,10 @@
   .image {
     cursor: pointer;
     margin-bottom: 8px;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
   .imageLabel {

@@ -1,6 +1,7 @@
 import { Model, attr, many } from 'redux-orm';
 
 import ActionTypes from '../constants/ActionTypes';
+import { ProjectBackgroundTypes } from '../constants/Enums';
 
 export default class extends Model {
   static modelName = 'Project';
@@ -28,10 +29,20 @@ export default class extends Model {
         });
 
         break;
-      case ActionTypes.PROJECT_UPDATE:
-        Project.withId(payload.id).update(payload.data);
+      case ActionTypes.PROJECT_UPDATE: {
+        const project = Project.withId(payload.id);
+        project.update(payload.data);
+
+        if (
+          payload.data.backgroundImage === null &&
+          project.background &&
+          project.background.type === ProjectBackgroundTypes.IMAGE
+        ) {
+          project.background = null;
+        }
 
         break;
+      }
       case ActionTypes.PROJECT_DELETE:
         Project.withId(payload.id).deleteWithRelated();
 

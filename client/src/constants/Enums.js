@@ -1,4 +1,8 @@
-// eslint-disable-next-line import/prefer-default-export
+export const ProjectBackgroundTypes = {
+  GRADIENT: 'gradient',
+  IMAGE: 'image',
+};
+
 export const ActionTypes = {
   CREATE_CARD: 'createCard',
   MOVE_CARD: 'moveCard',

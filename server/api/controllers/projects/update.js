@@ -15,9 +15,35 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
     },
-    // TODO: add validation
     background: {
       type: 'json',
+      custom: (value) => {
+        if (_.isNull(value)) {
+          return true;
+        }
+
+        if (!_.isPlainObject(value)) {
+          return false;
+        }
+
+        if (!Project.BACKGROUND_TYPES.includes(value.type)) {
+          return false;
+        }
+
+        if (
+          value.type === 'gradient' &&
+          _.size(value) === 2 &&
+          Project.BACKGROUND_GRADIENTS.includes(value.name)
+        ) {
+          return true;
+        }
+
+        if (value.type === 'image' && _.size(value) === 1) {
+          return true;
+        }
+
+        return false;
+      },
     },
     backgroundImage: {
       type: 'json',

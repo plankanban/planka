@@ -9,6 +9,7 @@ import { Button, Image } from 'semantic-ui-react';
 import { FilePicker, Popup } from '../../../lib/custom-ui';
 
 import ProjectBackgroundGradients from '../../../constants/ProjectBackgroundGradients';
+import { ProjectBackgroundTypes } from '../../../constants/Enums';
 
 import styles from './EditBackgroundStep.module.scss';
 import globalStyles from '../../../styles.module.scss';
@@ -30,15 +31,12 @@ const EditBackgroundStep = React.memo(
     const handleGradientClick = useCallback(
       (_, { value }) => {
         const background = {
-          type: 'gradient',
+          type: ProjectBackgroundTypes.GRADIENT,
           name: value,
         };
 
         if (!dequal(background, defaultValue)) {
-          onUpdate({
-            type: 'gradient',
-            name: value,
-          });
+          onUpdate(background);
         }
       },
       [defaultValue, onUpdate],
@@ -46,7 +44,7 @@ const EditBackgroundStep = React.memo(
 
     const handleImageClick = useCallback(() => {
       const background = {
-        type: 'image',
+        type: ProjectBackgroundTypes.IMAGE,
       };
 
       if (!dequal(background, defaultValue)) {
@@ -93,7 +91,7 @@ const EditBackgroundStep = React.memo(
                 className={classNames(
                   styles.gradientButton,
                   defaultValue &&
-                    defaultValue.type === 'gradient' &&
+                    defaultValue.type === ProjectBackgroundTypes.GRADIENT &&
                     gradient === defaultValue.name &&
                     styles.gradientButtonActive,
                   globalStyles[`background${upperFirst(camelCase(gradient))}`],

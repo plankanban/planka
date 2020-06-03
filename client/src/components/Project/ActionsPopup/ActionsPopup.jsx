@@ -54,17 +54,10 @@ const ActionsStep = React.memo(
     );
 
     const handleBackgroundImageDelete = useCallback(() => {
-      const data = {
+      onUpdate({
         backgroundImage: null,
-      };
-
-      // TODO: move to services?
-      if (project.background && project.background.type === 'image') {
-        data.background = null;
-      }
-
-      onUpdate(data);
-    }, [project.background, onUpdate]);
+      });
+    }, [onUpdate]);
 
     if (step) {
       if (step) {
