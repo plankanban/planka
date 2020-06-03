@@ -4,6 +4,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { ProjectBackgroundTypes } from '../../constants/Enums';
+
 import styles from './Background.module.scss';
 import globalStyles from '../../styles.module.scss';
 
@@ -11,7 +13,8 @@ const Background = ({ type, name, imageUrl }) => (
   <div
     className={classNames(
       styles.wrapper,
-      type === 'gradient' && globalStyles[`background${upperFirst(camelCase(name))}`],
+      type === ProjectBackgroundTypes.GRADIENT &&
+        globalStyles[`background${upperFirst(camelCase(name))}`],
     )}
     style={{
       background: type === 'image' && `url("${imageUrl}") center / cover`,
