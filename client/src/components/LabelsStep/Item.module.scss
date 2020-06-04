@@ -23,6 +23,7 @@
     position: relative;
     text-align: left;
     text-overflow: ellipsis;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 
     &:hover {
       opacity: 0.9;
