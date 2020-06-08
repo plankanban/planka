@@ -67,16 +67,47 @@
   }
 
   .tabs {
-    border-bottom: 2px solid rgba(0, 0, 0, 0.24);;
     display: flex;
     height: 38px;
     flex: 0 0 auto;
     white-space: nowrap;
   }
 
+  .tabsWrapper {
+    display: flex;
+    flex: 0 0 auto;
+    height: 56px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+
+    &:hover {
+      height: 38px;
+    }
+
+    &::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+    }
+  }
+
   .wrapper {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.24);
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
+    height: 38px;
+    overflow: hidden;
+
+    &:hover {
+      border-bottom: 0;
+    }
   }
 }
