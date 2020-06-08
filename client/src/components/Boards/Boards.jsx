@@ -1,5 +1,5 @@
 import pick from 'lodash/pick';
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
@@ -16,6 +16,14 @@ import styles from './Boards.module.scss';
 
 const Boards = React.memo(
   ({ items, currentId, isEditable, onCreate, onUpdate, onMove, onDelete }) => {
+    const tabsWrapper = useRef(null);
+
+    const handleWheel = useCallback(({ deltaY }) => {
+      tabsWrapper.current.scrollBy({
+        left: deltaY,
+      });
+    }, []);
+
     const handleDragStart = useCallback(() => {
       closePopup();
     }, []);
@@ -115,25 +123,27 @@ const Boards = React.memo(
     );
 
     return (
-      <div className={styles.wrapper}>
-        {isEditable ? (
-          <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-            <Droppable droppableId="boards" type={DroppableTypes.BOARD} direction="horizontal">
-              {({ innerRef, droppableProps, placeholder }) => (
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                <div {...droppableProps} ref={innerRef} className={styles.tabs}>
-                  {renderEditableItems(items)}
-                  {placeholder}
-                  <AddPopup onCreate={onCreate}>
-                    <Button icon="plus" className={styles.addButton} />
-                  </AddPopup>
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        ) : (
-          <div className={styles.tabs}>{renderItems(items)}</div>
-        )}
+      <div className={styles.wrapper} onWheel={handleWheel}>
+        <div ref={tabsWrapper} className={styles.tabsWrapper}>
+          {isEditable ? (
+            <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+              <Droppable droppableId="boards" type={DroppableTypes.BOARD} direction="horizontal">
+                {({ innerRef, droppableProps, placeholder }) => (
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  <div {...droppableProps} ref={innerRef} className={styles.tabs}>
+                    {renderEditableItems(items)}
+                    {placeholder}
+                    <AddPopup onCreate={onCreate}>
+                      <Button icon="plus" className={styles.addButton} />
+                    </AddPopup>
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
+          ) : (
+            <div className={styles.tabs}>{renderItems(items)}</div>
+          )}
+        </div>
       </div>
     );
   },
