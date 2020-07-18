@@ -45,7 +45,7 @@
     "filenamify": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.26.0",
     "rimraf": "^3.0.2",
     "sails": "^1.2.4",
