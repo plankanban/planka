@@ -4,22 +4,31 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    values: {
-      type: 'json',
-      custom: (value) =>
-        _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
-      required: true,
+    toBoard: {
+      type: 'ref',
     },
     toList: {
       type: 'ref',
     },
-    toBoard: {
+    values: {
+      type: 'json',
+      custom: (value) => {
+        if (!_.isPlainObject(value)) {
+          return false;
+        }
+
+        if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
+          return false;
+        }
+
+        return true;
+      },
+      required: true,
+    },
+    board: {
       type: 'ref',
     },
     list: {
-      type: 'ref',
-    },
-    board: {
       type: 'ref',
     },
     user: {
@@ -31,49 +40,78 @@ module.exports = {
   },
 
   exits: {
-    invalidParams: {},
+    boardMustBePresent: {},
+    listMustBePresent: {},
+    toListMustBelongToBoard: {},
+    toListMustBePresent: {},
+    positionMustBeInValues: {},
+    userMustBePresent: {},
   },
 
   async fn(inputs, exits) {
     const { isSubscribed, ...values } = inputs.values;
 
-    if (inputs.toList) {
-      if (!inputs.list || !inputs.user) {
-        throw 'invalidParams';
+    if (inputs.toBoard || inputs.toList || !_.isUndefined(values.position)) {
+      if (!inputs.board) {
+        throw 'boardMustBePresent';
       }
 
-      if (inputs.toList.id === inputs.list.id) {
-        delete inputs.toList; // eslint-disable-line no-param-reassign
-      } else {
-        values.listId = inputs.toList.id;
+      if (inputs.toBoard) {
+        if (inputs.toBoard.id === inputs.board.id) {
+          delete inputs.toBoard; // eslint-disable-line no-param-reassign
+        } else {
+          values.boardId = inputs.toBoard.id;
+        }
+      }
 
-        if (inputs.toBoard) {
-          if (!inputs.board) {
-            throw 'invalidParams';
-          }
+      const board = inputs.toBoard || inputs.board;
 
-          if (inputs.toBoard.id === inputs.board.id) {
-            delete inputs.toBoard; // eslint-disable-line no-param-reassign
-          } else {
-            values.boardId = inputs.toBoard.id;
-          }
+      if (inputs.toList) {
+        if (inputs.board.type === 'kanban' && !inputs.list) {
+          throw 'listMustBePresent';
+        }
+
+        if (inputs.toList.boardId !== board.id) {
+          throw 'toListMustBelongToBoard';
+        }
+
+        if (
+          board.type === 'collection' ||
+          (inputs.board.type === 'kanban' && inputs.toList.id === inputs.list.id)
+        ) {
+          delete inputs.toList; // eslint-disable-line no-param-reassign
+        } else {
+          values.listId = inputs.toList.id;
+        }
+      }
+
+      if (inputs.toList) {
+        if (_.isUndefined(values.position)) {
+          throw 'positionMustBeInValues';
+        }
+      } else if (inputs.toBoard) {
+        if (inputs.toBoard.type === 'kanban') {
+          throw 'toListMustBePresent';
+        }
+
+        if (inputs.board.type === 'kanban') {
+          values.listId = null;
+          values.position = null;
         }
       }
     }
 
-    if (!_.isUndefined(isSubscribed) && !inputs.user) {
-      throw 'invalidParams';
+    if ((!_.isUndefined(isSubscribed) || inputs.toBoard || inputs.toList) && !inputs.user) {
+      throw 'userMustBePresent';
     }
 
-    if (!_.isUndefined(values.position)) {
+    if (!_.isNil(values.position)) {
       const cards = await sails.helpers.getCardsForList(
         values.listId || inputs.record.listId,
         inputs.record.id,
       );
 
       const { position, repositions } = sails.helpers.insertToPositionables(values.position, cards);
-
-      values.position = position;
 
       repositions.forEach(async ({ id, position: nextPosition }) => {
         await Card.update({
@@ -83,19 +121,21 @@ module.exports = {
           position: nextPosition,
         });
 
-        sails.sockets.broadcast(`board:${inputs.record.boardId}`, 'cardUpdate', {
+        sails.sockets.broadcast(`board:${values.boardId || inputs.record.boardId}`, 'cardUpdate', {
           item: {
             id,
             position: nextPosition,
           },
         });
       });
+
+      values.position = position;
     }
 
     let card;
     if (!_.isEmpty(values)) {
       let prevLabels;
-      if (inputs.toList && inputs.toBoard) {
+      if (inputs.toBoard) {
         if (inputs.toBoard.projectId !== inputs.board.projectId) {
           const userIds = await sails.helpers.getMembershipUserIdsForProject(
             inputs.toBoard.projectId,
@@ -129,7 +169,7 @@ module.exports = {
         return exits.success(card);
       }
 
-      if (inputs.toList && inputs.toBoard) {
+      if (inputs.toBoard) {
         sails.sockets.broadcast(
           `board:${inputs.board.id}`,
           'cardDelete',
@@ -204,7 +244,7 @@ module.exports = {
         );
       }
 
-      if (inputs.toList) {
+      if (!inputs.toBoard && inputs.toList) {
         // TODO: add transfer action
         await sails.helpers.createAction(card, inputs.user, {
           type: 'moveCard',

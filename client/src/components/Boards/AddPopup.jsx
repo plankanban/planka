@@ -21,6 +21,7 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
   const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
+      type: 'kanban',
       name: data.name.trim(),
     };
 

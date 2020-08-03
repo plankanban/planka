@@ -6,7 +6,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function* () {
+export default function* projectMembershipWatchers() {
   yield all([
     takeLatest(EntryActionTypes.MEMBERSHIP_IN_CURRENT_PROJECT_CREATE, ({ payload: { data } }) =>
       createMembershipInCurrentProjectService(data),

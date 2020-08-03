@@ -43,7 +43,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name', 'isCompleted']);
-
     const task = await sails.helpers.createTask(card, values, this.req);
 
     return exits.success({

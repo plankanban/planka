@@ -9,12 +9,25 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) =>
-        _.isPlainObject(value) &&
-        (_.isUndefined(value.background) ||
-          _.isNull(value.background) ||
-          _.isPlainObject(value.background)) &&
-        (_.isUndefined(value.backgroundImage) || _.isNull(value.backgroundImage)),
+      custom: (value) => {
+        if (!_.isPlainObject(value)) {
+          return false;
+        }
+
+        if (
+          !_.isUndefined(value.background) &&
+          !_.isNull(value.background) &&
+          !_.isPlainObject(value.background)
+        ) {
+          return false;
+        }
+
+        if (!_.isUndefined(value.backgroundImage) && !_.isNull(value.backgroundImage)) {
+          return false;
+        }
+
+        return true;
+      },
       required: true,
     },
     request: {
@@ -23,7 +36,7 @@ module.exports = {
   },
 
   exits: {
-    invalidParams: {},
+    backgroundImageDirnameMustBeNotNullInValues: {},
   },
 
   async fn(inputs, exits) {
@@ -50,7 +63,7 @@ module.exports = {
     let project;
     if (inputs.values.background && inputs.values.background.type === 'image') {
       if (_.isNull(inputs.values.backgroundImageDirname)) {
-        throw 'invalidParams';
+        throw 'backgroundImageDirnameMustBeNotNullInValues';
       }
 
       if (_.isUndefined(inputs.values.backgroundImageDirname)) {

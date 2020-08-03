@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Comment, Icon, Loader, Visibility } from 'semantic-ui-react';
 
 import { ActionTypes } from '../../../constants/Enums';
-import AddComment from './AddComment';
+import CommentAdd from './CommentAdd';
 import Item from './Item';
 
 import styles from './Actions.module.scss';
@@ -42,7 +42,7 @@ const Actions = React.memo(
           <div className={styles.moduleWrapper}>
             <Icon name="comment outline" className={styles.moduleIcon} />
             <div className={styles.moduleHeader}>{t('common.addComment')}</div>
-            <AddComment onCreate={onCommentCreate} />
+            <CommentAdd onCreate={onCommentCreate} />
           </div>
         </div>
         <div className={styles.contentModule}>

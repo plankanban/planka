@@ -4,11 +4,25 @@ module.exports = {
   inputs: {
     values: {
       type: 'json',
-      custom: (value) =>
-        _.isPlainObject(value) &&
-        _.isString(value.email) &&
-        _.isString(value.password) &&
-        (!value.username || _.isString(value.username)),
+      custom: (value) => {
+        if (!_.isPlainObject(value)) {
+          return false;
+        }
+
+        if (!_.isString(value.email)) {
+          return false;
+        }
+
+        if (!_.isString(value.password)) {
+          return false;
+        }
+
+        if (value.username && !_.isString(value.username)) {
+          return false;
+        }
+
+        return true;
+      },
       required: true,
     },
     request: {

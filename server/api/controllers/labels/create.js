@@ -46,7 +46,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name', 'color']);
-
     const label = await sails.helpers.createLabel(board, values, this.req);
 
     return exits.success({

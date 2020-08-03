@@ -15,10 +15,10 @@ export const openUserSettingsModal = () => ({
   },
 });
 
-export const openAddProjectModal = () => ({
+export const openProjectAddModal = () => ({
   type: EntryActionTypes.MODAL_OPEN,
   payload: {
-    type: ModalTypes.ADD_PROJECT,
+    type: ModalTypes.PROJECT_ADD,
   },
 });
 

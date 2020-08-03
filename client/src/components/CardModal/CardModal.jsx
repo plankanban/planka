@@ -6,11 +6,11 @@ import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
 import { Markdown } from '../../lib/custom-ui';
 
 import NameField from './NameField';
-import EditDescription from './EditDescription';
+import DescriptionEdit from './DescriptionEdit';
 import Tasks from './Tasks';
 import Attachments from './Attachments';
-import AddAttachmentZone from './AddAttachmentZone';
-import AddAttachmentPopup from './AddAttachmentPopup';
+import AttachmentAddZone from './AttachmentAddZone';
+import AttachmentAddPopup from './AttachmentAddPopup';
 import Actions from './Actions';
 import User from '../User';
 import Label from '../Label';
@@ -18,9 +18,9 @@ import DueDate from '../DueDate';
 import Timer from '../Timer';
 import ProjectMembershipsPopup from '../ProjectMembershipsPopup';
 import LabelsPopup from '../LabelsPopup';
-import EditDueDatePopup from '../EditDueDatePopup';
-import EditTimerPopup from '../EditTimerPopup';
-import MoveCardPopup from '../MoveCardPopup';
+import DueDateEditPopup from '../DueDateEditPopup';
+import TimerEditPopup from '../TimerEditPopup';
+import CardMovePopup from '../CardMovePopup';
 import DeletePopup from '../DeletePopup';
 
 import styles from './CardModal.module.scss';
@@ -128,7 +128,7 @@ const CardModal = React.memo(
 
     return (
       <Modal open closeIcon size="small" centered={false} onClose={onClose}>
-        <AddAttachmentZone onCreate={onAttachmentCreate}>
+        <AttachmentAddZone onCreate={onAttachmentCreate}>
           <Grid className={styles.grid}>
             <Grid.Row className={styles.headerPadding}>
               <Grid.Column width={16} className={styles.headerPadding}>
@@ -227,9 +227,9 @@ const CardModal = React.memo(
                           })}
                         </div>
                         <span className={styles.attachment}>
-                          <EditDueDatePopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                          <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
                             <DueDate value={dueDate} />
-                          </EditDueDatePopup>
+                          </DueDateEditPopup>
                         </span>
                       </div>
                     )}
@@ -241,9 +241,9 @@ const CardModal = React.memo(
                           })}
                         </div>
                         <span className={styles.attachment}>
-                          <EditTimerPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
+                          <TimerEditPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
                             <Timer startedAt={timer.startedAt} total={timer.total} />
-                          </EditTimerPopup>
+                          </TimerEditPopup>
                         </span>
                       </div>
                     )}
@@ -253,7 +253,7 @@ const CardModal = React.memo(
                   <div className={styles.moduleWrapper}>
                     <Icon name="align justify" className={styles.moduleIcon} />
                     <div className={styles.moduleHeader}>{t('common.description')}</div>
-                    <EditDescription defaultValue={description} onUpdate={handleDescriptionUpdate}>
+                    <DescriptionEdit defaultValue={description} onUpdate={handleDescriptionUpdate}>
                       {description ? (
                         <button type="button" className={styles.descriptionText}>
                           <Markdown linkStopPropagation source={description} linkTarget="_blank" />
@@ -265,7 +265,7 @@ const CardModal = React.memo(
                           </span>
                         </button>
                       )}
-                    </EditDescription>
+                    </DescriptionEdit>
                   </div>
                 </div>
                 <div className={styles.contentModule}>
@@ -333,26 +333,26 @@ const CardModal = React.memo(
                       {t('common.labels')}
                     </Button>
                   </LabelsPopup>
-                  <EditDueDatePopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                  <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
                     <Button fluid className={styles.actionButton}>
                       <Icon name="calendar check outline" className={styles.actionIcon} />
                       {t('common.dueDate', {
                         context: 'title',
                       })}
                     </Button>
-                  </EditDueDatePopup>
-                  <EditTimerPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
+                  </DueDateEditPopup>
+                  <TimerEditPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
                     <Button fluid className={styles.actionButton}>
                       <Icon name="clock outline" className={styles.actionIcon} />
                       {t('common.timer')}
                     </Button>
-                  </EditTimerPopup>
-                  <AddAttachmentPopup onCreate={onAttachmentCreate}>
+                  </TimerEditPopup>
+                  <AttachmentAddPopup onCreate={onAttachmentCreate}>
                     <Button fluid className={styles.actionButton}>
                       <Icon name="attach" className={styles.actionIcon} />
                       {t('common.attachment')}
                     </Button>
-                  </AddAttachmentPopup>
+                  </AttachmentAddPopup>
                 </div>
                 <div className={styles.actions}>
                   <span className={styles.actionsTitle}>{t('common.actions')}</span>
@@ -364,7 +364,7 @@ const CardModal = React.memo(
                     <Icon name="paper plane outline" className={styles.actionIcon} />
                     {isSubscribed ? t('action.unsubscribe') : t('action.subscribe')}
                   </Button>
-                  <MoveCardPopup
+                  <CardMovePopup
                     projectsToLists={allProjectsToLists}
                     defaultPath={{
                       projectId,
@@ -383,7 +383,7 @@ const CardModal = React.memo(
                       <Icon name="share square outline" className={styles.actionIcon} />
                       {t('action.move')}
                     </Button>
-                  </MoveCardPopup>
+                  </CardMovePopup>
                   <DeletePopup
                     title={t('common.deleteCard', {
                       context: 'title',
@@ -401,7 +401,7 @@ const CardModal = React.memo(
               </Grid.Column>
             </Grid.Row>
           </Grid>
-        </AddAttachmentZone>
+        </AttachmentAddZone>
       </Modal>
     );
   },

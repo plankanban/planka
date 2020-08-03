@@ -4,11 +4,11 @@ module.exports.up = (knex) =>
 
     table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
 
-    table.bigInteger('list_id').notNullable();
     table.bigInteger('board_id').notNullable();
+    table.bigInteger('list_id');
     table.bigInteger('cover_attachment_id');
 
-    table.specificType('position', 'double precision').notNullable();
+    table.specificType('position', 'double precision');
     table.text('name').notNullable();
     table.text('description');
     table.timestamp('dueDate', true);
@@ -20,6 +20,7 @@ module.exports.up = (knex) =>
     /* Indexes */
 
     table.index('list_id');
+    table.index('board_id');
     table.index('position');
   });
 

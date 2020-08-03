@@ -4,8 +4,8 @@ import { Button, Grid } from 'semantic-ui-react';
 
 import BoardsContainer from '../../containers/BoardsContainer';
 import ActionsPopup from './ActionsPopup';
-import AddMembershipPopup from './AddMembershipPopup';
-import EditMembershipPopup from './EditMembershipPopup';
+import MembershipAddPopup from './MembershipAddPopup';
+import MembershipEditPopup from './MembershipEditPopup';
 import User from '../User';
 
 import styles from './Project.module.scss';
@@ -63,7 +63,7 @@ const Project = React.memo(
               <span className={styles.users}>
                 {memberships.map((membership) => (
                   <span key={membership.id} className={styles.user}>
-                    <EditMembershipPopup
+                    <MembershipEditPopup
                       user={membership.user}
                       isEditable={isEditable}
                       onDelete={() => handleMembershipDelete(membership.id)}
@@ -74,18 +74,18 @@ const Project = React.memo(
                         size="large"
                         isDisabled={!membership.isPersisted}
                       />
-                    </EditMembershipPopup>
+                    </MembershipEditPopup>
                   </span>
                 ))}
               </span>
               {isEditable && (
-                <AddMembershipPopup
+                <MembershipAddPopup
                   users={allUsers}
                   currentUserIds={memberships.map((membership) => membership.user.id)}
                   onCreate={onMembershipCreate}
                 >
                   <Button icon="add user" className={styles.addUser} />
-                </AddMembershipPopup>
+                </MembershipAddPopup>
               )}
             </Grid.Column>
           </Grid.Row>

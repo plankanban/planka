@@ -11,7 +11,6 @@ module.exports = {
 
   async fn(inputs, exits) {
     const boards = await sails.helpers.getBoardsForProject(inputs.record.projectId);
-
     const boardIds = sails.helpers.mapRecords(boards);
 
     const cards = await sails.helpers.getCardsForBoard(boardIds);

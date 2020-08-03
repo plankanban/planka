@@ -5,12 +5,21 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const TYPES = ['kanban', 'collection'];
+
 module.exports = {
+  TYPES,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
+    type: {
+      type: 'string',
+      isIn: TYPES,
+      required: true,
+    },
     position: {
       type: 'number',
       required: true,

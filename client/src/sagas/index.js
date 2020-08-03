@@ -4,7 +4,7 @@ import loginSaga from './login';
 import coreSaga from './core';
 import { accessTokenSelector } from '../selectors';
 
-export default function* () {
+export default function* rootSaga() {
   const accessToken = yield select(accessTokenSelector);
 
   if (!accessToken) {

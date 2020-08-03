@@ -11,6 +11,7 @@ export function* createCardService(listId, data) {
 
   const nextData = {
     ...data,
+    listId,
     position: yield select(nextCardPositionSelector, listId),
   };
 
@@ -19,13 +20,12 @@ export function* createCardService(listId, data) {
   yield put(
     createCard({
       ...nextData,
-      listId,
       boardId,
       id: localId,
     }),
   );
 
-  yield call(createCardRequest, listId, localId, nextData);
+  yield call(createCardRequest, boardId, localId, nextData);
 }
 
 export function* updateCardService(id, data) {
@@ -65,8 +65,8 @@ export function* transferCardService(id, boardId, listId, index) {
   yield put(deleteCard(id));
 
   yield call(updateCardRequest, id, {
-    listId,
     boardId,
+    listId,
     position,
   });
 }

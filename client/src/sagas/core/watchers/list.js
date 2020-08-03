@@ -8,7 +8,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function* () {
+export default function* listWatchers() {
   yield all([
     takeLatest(EntryActionTypes.LIST_IN_CURRENT_BOARD_CREATE, ({ payload: { data } }) =>
       createListInCurrentBoardService(data),

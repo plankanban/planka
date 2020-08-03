@@ -9,7 +9,6 @@ module.exports = {
 
   async fn(inputs, exits) {
     const labelIds = await sails.helpers.getLabelIdsForCard(inputs.id);
-
     const labels = await sails.helpers.getLabels(labelIds);
 
     return exits.success(labels);

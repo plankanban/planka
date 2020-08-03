@@ -7,7 +7,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
-import EditName from './EditName';
+import NameEdit from './NameEdit';
 import ActionsPopup from './ActionsPopup';
 import User from '../User';
 import Label from '../Label';
@@ -24,8 +24,8 @@ const Card = React.memo(
     dueDate,
     timer,
     coverUrl,
-    listId,
     boardId,
+    listId,
     projectId,
     isPersisted,
     notificationsTotal,
@@ -48,7 +48,7 @@ const Card = React.memo(
     onLabelUpdate,
     onLabelDelete,
   }) => {
-    const editName = useRef(null);
+    const nameEdit = useRef(null);
 
     const handleClick = useCallback(() => {
       if (document.activeElement) {
@@ -66,7 +66,7 @@ const Card = React.memo(
     );
 
     const handleNameEdit = useCallback(() => {
-      editName.current.open();
+      nameEdit.current.open();
     }, []);
 
     const contentNode = (
@@ -133,7 +133,7 @@ const Card = React.memo(
         {({ innerRef, draggableProps, dragHandleProps }) => (
           // eslint-disable-next-line react/jsx-props-no-spreading
           <div {...draggableProps} {...dragHandleProps} ref={innerRef} className={styles.wrapper}>
-            <EditName ref={editName} defaultValue={name} onUpdate={handleNameUpdate}>
+            <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
               <div className={styles.card}>
                 {isPersisted ? (
                   <>
@@ -150,8 +150,8 @@ const Card = React.memo(
                         name,
                         dueDate,
                         timer,
-                        listId,
                         boardId,
+                        listId,
                         projectId,
                         isPersisted,
                       }}
@@ -183,7 +183,7 @@ const Card = React.memo(
                   <span className={styles.content}>{contentNode}</span>
                 )}
               </div>
-            </EditName>
+            </NameEdit>
           </div>
         )}
       </Draggable>
@@ -198,8 +198,8 @@ Card.propTypes = {
   dueDate: PropTypes.instanceOf(Date),
   timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   coverUrl: PropTypes.string,
-  listId: PropTypes.string.isRequired,
   boardId: PropTypes.string.isRequired,
+  listId: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
   notificationsTotal: PropTypes.number.isRequired,

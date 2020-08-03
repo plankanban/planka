@@ -9,9 +9,9 @@ import { Popup } from '../../lib/custom-ui';
 import { useSteps } from '../../hooks';
 import ProjectMembershipsStep from '../ProjectMembershipsStep';
 import LabelsStep from '../LabelsStep';
-import EditDueDateStep from '../EditDueDateStep';
-import EditTimerStep from '../EditTimerStep';
-import MoveCardStep from '../MoveCardStep';
+import DueDateEditStep from '../DueDateEditStep';
+import TimerEditStep from '../TimerEditStep';
+import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
 
 import styles from './ActionsPopup.module.scss';
@@ -125,7 +125,7 @@ const ActionsStep = React.memo(
           );
         case StepTypes.EDIT_DUE_DATE:
           return (
-            <EditDueDateStep
+            <DueDateEditStep
               defaultValue={card.dueDate}
               onUpdate={handleDueDateUpdate}
               onBack={handleBack}
@@ -134,7 +134,7 @@ const ActionsStep = React.memo(
           );
         case StepTypes.EDIT_TIMER:
           return (
-            <EditTimerStep
+            <TimerEditStep
               defaultValue={card.timer}
               onUpdate={handleTimerUpdate}
               onBack={handleBack}
@@ -143,7 +143,7 @@ const ActionsStep = React.memo(
           );
         case StepTypes.MOVE:
           return (
-            <MoveCardStep
+            <CardMoveStep
               projectsToLists={projectsToLists}
               defaultPath={pick(card, ['projectId', 'boardId', 'listId'])}
               onMove={onMove}

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Comment } from 'semantic-ui-react';
 import { Markdown } from '../../../lib/custom-ui';
 
-import EditComment from './EditComment';
+import CommentEdit from './CommentEdit';
 import User from '../../User';
 import DeletePopup from '../../DeletePopup';
 
@@ -15,10 +15,10 @@ const ItemComment = React.memo(
   ({ data, createdAt, isPersisted, user, isEditable, onUpdate, onDelete }) => {
     const [t] = useTranslation();
 
-    const editComment = useRef(null);
+    const commentEdit = useRef(null);
 
     const handleEditClick = useCallback(() => {
-      editComment.current.open();
+      commentEdit.current.open();
     }, []);
 
     return (
@@ -36,7 +36,7 @@ const ItemComment = React.memo(
               })}
             </span>
           </div>
-          <EditComment ref={editComment} defaultData={data} onUpdate={onUpdate}>
+          <CommentEdit ref={commentEdit} defaultData={data} onUpdate={onUpdate}>
             <>
               <Markdown source={data.text} linkTarget="_blank" className={styles.text} />
               <Comment.Actions>
@@ -66,7 +66,7 @@ const ItemComment = React.memo(
                 )}
               </Comment.Actions>
             </>
-          </EditComment>
+          </CommentEdit>
         </div>
       </Comment>
     );

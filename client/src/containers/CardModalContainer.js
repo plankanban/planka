@@ -58,8 +58,8 @@ const mapStateToProps = (state) => {
     isSubscribed,
     isActionsFetching,
     isAllActionsFetched,
-    listId,
     boardId,
+    listId,
   } = currentCardSelector(state);
 
   const users = usersForCurrentCardSelector(state);

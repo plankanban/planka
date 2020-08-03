@@ -7,7 +7,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function* () {
+export default function* attachmentWatchers() {
   yield all([
     takeLatest(EntryActionTypes.ATTACHMENT_IN_CURRENT_CARD_CREATE, ({ payload: { data } }) =>
       createAttachmentInCurrentCardService(data),

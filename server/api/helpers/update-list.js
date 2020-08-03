@@ -6,8 +6,17 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) =>
-        _.isPlainObject(value) && (_.isUndefined(value.position) || _.isFinite(value.position)),
+      custom: (value) => {
+        if (!_.isPlainObject(value)) {
+          return false;
+        }
+
+        if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
+          return false;
+        }
+
+        return true;
+      },
       required: true,
     },
     request: {

@@ -40,10 +40,10 @@ module.exports = {
       throw Errors.BOARD_NOT_FOUND; // Forbidden
     }
 
-    const lists = await sails.helpers.getListsForBoard(board.id);
     const labels = await sails.helpers.getLabelsForBoard(board.id);
+    const lists = await sails.helpers.getListsForBoard(board.id);
 
-    const cards = await sails.helpers.getCardsForBoard(board.id);
+    const cards = await sails.helpers.getCardsForBoard(board);
     const cardIds = sails.helpers.mapRecords(cards);
 
     const cardSubscriptions = await sails.helpers.getSubscriptionsByUserForCard(
@@ -75,8 +75,8 @@ module.exports = {
     return exits.success({
       item: board,
       included: {
-        lists,
         labels,
+        lists,
         cards,
         cardMemberships,
         cardLabels,

@@ -6,7 +6,7 @@ module.exports = {
     },
     userOrUserId: {
       type: 'ref',
-      custom: (value) => _.isPlainObject(value) || _.isString(value),
+      custom: (value) => _.isObjectLike(value) || _.isString(value),
       required: true,
     },
     request: {

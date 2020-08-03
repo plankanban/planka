@@ -46,7 +46,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name', 'isCompleted']);
-
     task = await sails.helpers.updateTask(task, values, board, this.req);
 
     if (!task) {

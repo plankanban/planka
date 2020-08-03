@@ -22,7 +22,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function* () {
+export default function* userWatchers() {
   yield all([
     takeLatest(EntryActionTypes.USER_CREATE, ({ payload: { data } }) => createUserService(data)),
     takeLatest(EntryActionTypes.USER_CREATE_ERROR_CLEAR, () => clearUserCreateErrorService()),

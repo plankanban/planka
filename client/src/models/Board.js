@@ -7,6 +7,7 @@ export default class extends Model {
 
   static fields = {
     id: attr(),
+    type: attr(),
     position: attr(),
     name: attr(),
     isFetching: attr({

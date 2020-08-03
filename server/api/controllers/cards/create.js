@@ -1,21 +1,33 @@
 const moment = require('moment');
 
 const Errors = {
+  BOARD_NOT_FOUND: {
+    boardNotFound: 'Board not found',
+  },
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
+  },
+  LIST_MUST_BE_PRESENT: {
+    listMustBePresent: 'List must be present',
+  },
+  POSITION_MUST_BE_PRESENT: {
+    positionMustBePresent: 'Position must be present',
   },
 };
 
 module.exports = {
   inputs: {
-    listId: {
+    boardId: {
       type: 'string',
       regex: /^[0-9]+$/,
       required: true,
     },
+    listId: {
+      type: 'string',
+      regex: /^[0-9]+$/,
+    },
     position: {
       type: 'number',
-      required: true,
     },
     name: {
       type: 'string',
@@ -32,26 +44,49 @@ module.exports = {
     },
     timer: {
       type: 'json',
-      custom: (value) =>
-        _.isPlainObject(value) &&
-        _.size(value) === 2 &&
-        (_.isNull(value.startedAt) || moment(value.startedAt, moment.ISO_8601, true).isValid()) &&
-        _.isFinite(value.total),
+      custom: (value) => {
+        if (!_.isPlainObject(value) || _.size(value) !== 2) {
+          return false;
+        }
+
+        if (
+          !_.isNull(value.startedAt) &&
+          _.isString(value.startedAt) &&
+          !moment(value.startedAt, moment.ISO_8601, true).isValid()
+        ) {
+          return false;
+        }
+
+        if (!_.isFinite(value.total)) {
+          return false;
+        }
+
+        return true;
+      },
     },
   },
 
   exits: {
+    boardNotFound: {
+      responseType: 'notFound',
+    },
     listNotFound: {
       responseType: 'notFound',
+    },
+    listMustBePresent: {
+      responseType: 'unprocessableEntity',
+    },
+    positionMustBePresent: {
+      responseType: 'unprocessableEntity',
     },
   },
 
   async fn(inputs, exits) {
     const { currentUser } = this.req;
 
-    const { list, project } = await sails.helpers
-      .getListToProjectPath(inputs.listId)
-      .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
+    const { board, project } = await sails.helpers
+      .getBoardToProjectPath(inputs.boardId)
+      .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
     const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
       project.id,
@@ -62,9 +97,24 @@ module.exports = {
       throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
+    let list;
+    if (!_.isUndefined(inputs.listId)) {
+      list = await List.findOne({
+        id: inputs.listId,
+        boardId: board.id,
+      });
+
+      if (!list) {
+        throw Errors.LIST_NOT_FOUND;
+      }
+    }
+
     const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'timer']);
 
-    const card = await sails.helpers.createCard(list, values, currentUser, this.req);
+    const card = await sails.helpers
+      .createCard(board, list, values, currentUser, this.req)
+      .intercept('listMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
+      .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
 
     return exits.success({
       item: card,

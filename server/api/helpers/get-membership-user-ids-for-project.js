@@ -13,7 +13,6 @@ module.exports = {
 
   async fn(inputs, exits) {
     const projectMemberships = await sails.helpers.getMembershipsForProject(inputs.id);
-
     const userIds = sails.helpers.mapRecords(projectMemberships, 'userId', _.isArray(inputs.id));
 
     return exits.success(

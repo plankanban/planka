@@ -35,15 +35,16 @@ module.exports.routes = {
   'PATCH /api/boards/:id': 'boards/update',
   'DELETE /api/boards/:id': 'boards/delete',
 
-  'POST /api/boards/:boardId/lists': 'lists/create',
-  'PATCH /api/lists/:id': 'lists/update',
-  'DELETE /api/lists/:id': 'lists/delete',
-
   'POST /api/boards/:boardId/labels': 'labels/create',
   'PATCH /api/labels/:id': 'labels/update',
   'DELETE /api/labels/:id': 'labels/delete',
 
-  'POST /api/lists/:listId/cards': 'cards/create',
+  'POST /api/boards/:boardId/lists': 'lists/create',
+  'PATCH /api/lists/:id': 'lists/update',
+  'DELETE /api/lists/:id': 'lists/delete',
+
+  'GET /api/boards/:boardId/cards': 'cards/index',
+  'POST /api/boards/:boardId/cards': 'cards/create',
   'GET /api/cards/:id': 'cards/show',
   'PATCH /api/cards/:id': 'cards/update',
   'DELETE /api/cards/:id': 'cards/delete',

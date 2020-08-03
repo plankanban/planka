@@ -43,7 +43,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name']);
-
     attachment = await sails.helpers.updateAttachment(attachment, values, board, this.req);
 
     if (!attachment) {

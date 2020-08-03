@@ -6,6 +6,7 @@ module.exports.up = (knex) =>
 
     table.bigInteger('project_id').notNullable();
 
+    table.text('type').notNullable();
     table.specificType('position', 'double precision').notNullable();
     table.text('name').notNullable();
 

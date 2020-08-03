@@ -34,7 +34,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-
     board = await sails.helpers.updateBoard(board, values, this.req);
 
     if (!board) {

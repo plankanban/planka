@@ -13,7 +13,7 @@ module.exports = {
 
     position: {
       type: 'number',
-      required: true,
+      allowNull: true,
     },
     name: {
       type: 'string',
@@ -40,15 +40,14 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
-    listId: {
-      model: 'List',
-      required: true,
-      columnName: 'list_id',
-    },
     boardId: {
       model: 'Board',
       required: true,
       columnName: 'board_id',
+    },
+    listId: {
+      model: 'List',
+      columnName: 'list_id',
     },
     coverAttachmentId: {
       model: 'Attachment',

@@ -6,8 +6,8 @@ import { withPopup } from '../../../lib/popup';
 import { Popup } from '../../../lib/custom-ui';
 
 import { useSteps } from '../../../hooks';
-import EditNameStep from './EditNameStep';
-import EditBackgroundStep from './EditBackgroundStep';
+import NameEditStep from './NameEditStep';
+import BackgroundEditStep from './BackgroundEditStep';
 import DeleteStep from '../../DeleteStep';
 
 import styles from './ActionsPopup.module.scss';
@@ -64,7 +64,7 @@ const ActionsStep = React.memo(
         switch (step.type) {
           case StepTypes.EDIT_NAME:
             return (
-              <EditNameStep
+              <NameEditStep
                 defaultValue={project.name}
                 onUpdate={handleNameUpdate}
                 onBack={handleBack}
@@ -73,7 +73,7 @@ const ActionsStep = React.memo(
             );
           case StepTypes.EDIT_BACKGROUND:
             return (
-              <EditBackgroundStep
+              <BackgroundEditStep
                 defaultValue={project.background}
                 imageCoverUrl={project.backgroundImage && project.backgroundImage.coverUrl}
                 isImageUpdating={project.isBackgroundImageUpdating}

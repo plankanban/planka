@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Table } from 'semantic-ui-react';
 
-import AddUserPopupContainer from '../../containers/AddUserPopupContainer';
+import UserAddPopupContainer from '../../containers/UserAddPopupContainer';
 import Item from './Item';
 
 const UsersModal = React.memo(({ items, onUpdate, onDelete, onClose }) => {
@@ -57,9 +57,9 @@ const UsersModal = React.memo(({ items, onUpdate, onDelete, onClose }) => {
         </Table>
       </Modal.Content>
       <Modal.Actions>
-        <AddUserPopupContainer>
+        <UserAddPopupContainer>
           <Button positive content={t('action.addUser')} />
-        </AddUserPopupContainer>
+        </UserAddPopupContainer>
       </Modal.Actions>
     </Modal>
   );

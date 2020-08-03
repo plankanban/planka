@@ -31,11 +31,8 @@ module.exports = {
 
     if (user) {
       const adminUserIds = await sails.helpers.getAdminUserIds();
-
       const projectIds = await sails.helpers.getMembershipProjectIdsForUser(user.id);
-
       const userIdsForProject = await sails.helpers.getMembershipUserIdsForProject(projectIds);
-
       const userIds = _.union([user.id], adminUserIds, userIdsForProject);
 
       userIds.forEach((userId) => {

@@ -10,12 +10,29 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) =>
-        _.isPlainObject(value) &&
-        (_.isUndefined(value.email) || _.isString(value.email)) &&
-        (_.isUndefined(value.password) || _.isString(value.password)) &&
-        (!value.username || _.isString(value.username)) &&
-        (_.isUndefined(value.avatarUrl) || _.isNull(value.avatarUrl)),
+      custom: (value) => {
+        if (!_.isPlainObject(value)) {
+          return false;
+        }
+
+        if (!_.isUndefined(value.email) && !_.isString(value.email)) {
+          return false;
+        }
+
+        if (!_.isUndefined(value.password) && !_.isString(value.password)) {
+          return false;
+        }
+
+        if (value.username && !_.isString(value.username)) {
+          return false;
+        }
+
+        if (!_.isUndefined(value.avatarUrl) && !_.isNull(value.avatarUrl)) {
+          return false;
+        }
+
+        return true;
+      },
       required: true,
     },
     request: {
@@ -88,11 +105,8 @@ module.exports = {
 
       if (!isOnlyPasswordChange) {
         const adminUserIds = await sails.helpers.getAdminUserIds();
-
         const projectIds = await sails.helpers.getMembershipProjectIdsForUser(user.id);
-
         const userIdsForProject = await sails.helpers.getMembershipUserIdsForProject(projectIds);
-
         const userIds = _.union([user.id], adminUserIds, userIdsForProject);
 
         userIds.forEach((userId) => {

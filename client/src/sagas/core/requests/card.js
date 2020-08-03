@@ -17,11 +17,11 @@ import {
 } from '../../../actions';
 import api from '../../../api';
 
-export function* createCardRequest(listId, localId, data) {
+export function* createCardRequest(boardId, localId, data) {
   yield put(
     createCardRequested(localId, {
       ...data,
-      listId,
+      boardId,
     }),
   );
 
@@ -29,7 +29,7 @@ export function* createCardRequest(listId, localId, data) {
     const {
       item,
       included: { cardMemberships, cardLabels, tasks, attachments },
-    } = yield call(request, api.createCard, listId, data);
+    } = yield call(request, api.createCard, boardId, data);
 
     const action = createCardSucceeded(
       localId,
