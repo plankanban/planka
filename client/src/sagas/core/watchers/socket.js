@@ -304,7 +304,7 @@ const createSocketEventsChannel = () =>
     };
   });
 
-export default function* () {
+export default function* socketWatchers() {
   const socketEventsChannel = yield call(createSocketEventsChannel);
 
   try {

@@ -5,7 +5,7 @@ import { goToRootService } from './services';
 import { setAccessToken } from '../../utils/access-token-storage';
 import ActionTypes from '../../constants/ActionTypes';
 
-export default function* () {
+export default function* loginSaga() {
   const watcherTasks = yield all(watchers.map((watcher) => fork(watcher)));
 
   const {

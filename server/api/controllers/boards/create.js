@@ -11,6 +11,11 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    type: {
+      type: 'string',
+      isIn: Board.TYPES,
+      required: true,
+    },
     position: {
       type: 'number',
       required: true,
@@ -39,8 +44,7 @@ module.exports = {
       throw Errors.PROJECT_NOT_FOUND;
     }
 
-    const values = _.pick(inputs, ['position', 'name']);
-
+    const values = _.pick(inputs, ['type', 'position', 'name']);
     const board = await sails.helpers.createBoard(project, values, this.req);
 
     sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed

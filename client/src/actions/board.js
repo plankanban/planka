@@ -70,8 +70,8 @@ export const fetchBoardRequested = (id) => ({
 
 export const fetchBoardSucceeded = (
   board,
-  lists,
   labels,
+  lists,
   cards,
   cardMemberships,
   cardLabels,
@@ -81,8 +81,8 @@ export const fetchBoardSucceeded = (
   type: ActionTypes.BOARD_FETCH_SUCCEEDED,
   payload: {
     board,
-    lists,
     labels,
+    lists,
     cards,
     cardMemberships,
     cardLabels,

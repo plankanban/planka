@@ -46,7 +46,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-
     list = await sails.helpers.updateList(list, values, this.req);
 
     if (!list) {

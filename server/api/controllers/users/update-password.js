@@ -60,7 +60,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['password']);
-
     user = await sails.helpers.updateUser(user, values, this.req);
 
     if (!user) {

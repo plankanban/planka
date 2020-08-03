@@ -47,7 +47,6 @@ module.exports = {
     });
 
     const users = await sails.helpers.getUsers(userIds);
-
     const boards = await sails.helpers.getBoardsForProject(projectMembership.projectId);
 
     sails.sockets.broadcast(`user:${projectMembership.userId}`, 'projectCreate', {

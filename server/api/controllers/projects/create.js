@@ -12,8 +12,8 @@ module.exports = {
     const values = _.pick(inputs, ['name']);
 
     const { project, projectMembership } = await sails.helpers.createProject(
-      values,
       currentUser,
+      values,
       this.req,
       true,
     );

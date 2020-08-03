@@ -4,8 +4,17 @@ const Errors = {
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
   },
+  BOARD_NOT_FOUND: {
+    boardNotFound: 'Board not found',
+  },
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
+  },
+  LIST_MUST_BE_PRESENT: {
+    listMustBePresent: 'List must be present',
+  },
+  POSITION_MUST_BE_PRESENT: {
+    positionMustBePresent: 'Position must be present',
   },
 };
 
@@ -16,11 +25,11 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
-    listId: {
+    boardId: {
       type: 'string',
       regex: /^[0-9]+$/,
     },
-    boardId: {
+    listId: {
       type: 'string',
       regex: /^[0-9]+$/,
     },
@@ -48,11 +57,25 @@ module.exports = {
     },
     timer: {
       type: 'json',
-      custom: (value) =>
-        _.isPlainObject(value) &&
-        _.size(value) === 2 &&
-        (_.isNull(value.startedAt) || moment(value.startedAt, moment.ISO_8601, true).isValid()) &&
-        _.isFinite(value.total),
+      custom: (value) => {
+        if (!_.isPlainObject(value) || _.size(value) !== 2) {
+          return false;
+        }
+
+        if (
+          !_.isNull(value.startedAt) &&
+          _.isString(value.startedAt) &&
+          !moment(value.startedAt, moment.ISO_8601, true).isValid()
+        ) {
+          return false;
+        }
+
+        if (!_.isFinite(value.total)) {
+          return false;
+        }
+
+        return true;
+      },
     },
     isSubscribed: {
       type: 'boolean',
@@ -63,8 +86,17 @@ module.exports = {
     cardNotFound: {
       responseType: 'notFound',
     },
+    boardNotFound: {
+      responseType: 'notFound',
+    },
     listNotFound: {
       responseType: 'notFound',
+    },
+    listMustBePresent: {
+      responseType: 'unprocessableEntity',
+    },
+    positionMustBePresent: {
+      responseType: 'unprocessableEntity',
     },
   },
 
@@ -87,22 +119,11 @@ module.exports = {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
-    let toList;
     let toBoard;
-
-    if (!_.isUndefined(inputs.listId) && inputs.listId !== list.id) {
-      toList = await List.findOne({
-        id: inputs.listId,
-        boardId: inputs.boardId || card.boardId,
-      });
-
-      if (!toList) {
-        throw Errors.LIST_NOT_FOUND;
-      }
-
+    if (!_.isUndefined(inputs.boardId)) {
       ({ board: toBoard, project } = await sails.helpers
-        .getListToProjectPath(toList.id)
-        .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND));
+        .getBoardToProjectPath(inputs.boardId)
+        .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND));
 
       isUserMemberForProject = await sails.helpers.isUserMemberForProject(
         project.id,
@@ -110,6 +131,18 @@ module.exports = {
       );
 
       if (!isUserMemberForProject) {
+        throw Errors.BOARD_NOT_FOUND; // Forbidden
+      }
+    }
+
+    let toList;
+    if (!_.isUndefined(inputs.listId)) {
+      toList = await List.findOne({
+        id: inputs.listId,
+        boardId: (toBoard || board).id,
+      });
+
+      if (!toList) {
         throw Errors.LIST_NOT_FOUND; // Forbidden
       }
     }
@@ -124,16 +157,10 @@ module.exports = {
       'isSubscribed',
     ]);
 
-    card = await sails.helpers.updateCard(
-      card,
-      values,
-      toList,
-      toBoard,
-      list,
-      board,
-      currentUser,
-      this.req,
-    );
+    card = await sails.helpers
+      .updateCard(card, toBoard, toList, values, board, list, currentUser, this.req)
+      .intercept('toListMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
+      .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;

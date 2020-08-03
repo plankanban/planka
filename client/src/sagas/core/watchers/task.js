@@ -3,7 +3,7 @@ import { all, takeLatest } from 'redux-saga/effects';
 import { createTaskInCurrentCardService, deleteTaskService, updateTaskService } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function* () {
+export default function* taskWatchers() {
   yield all([
     takeLatest(EntryActionTypes.TASK_IN_CURRENT_CARD_CREATE, ({ payload: { data } }) =>
       createTaskInCurrentCardService(data),

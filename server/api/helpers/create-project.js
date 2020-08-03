@@ -1,11 +1,11 @@
 module.exports = {
   inputs: {
-    values: {
-      type: 'json',
-      required: true,
-    },
     user: {
       type: 'ref',
+      required: true,
+    },
+    values: {
+      type: 'json',
       required: true,
     },
     request: {

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Header, Tab } from 'semantic-ui-react';
 
-import EditInformation from './EditInformation';
-import EditAvatarPopup from './EditAvatarPopup';
-import EditUsernamePopup from './EditUsernamePopup';
-import EditEmailPopup from './EditEmailPopup';
-import EditPasswordPopup from './EditPasswordPopup';
+import InformationEdit from './InformationEdit';
+import AvatarEditPopup from './AvatarEditPopup';
+import UsernameEditPopup from './UsernameEditPopup';
+import EmailEditPopup from './EmailEditPopup';
+import PasswordEditPopup from './PasswordEditPopup';
 import User from '../../User';
 
 import styles from './AccountPane.module.scss';
@@ -43,16 +43,16 @@ const AccountPane = React.memo(
 
     return (
       <Tab.Pane attached={false} className={styles.wrapper}>
-        <EditAvatarPopup
+        <AvatarEditPopup
           defaultValue={avatarUrl}
           onUpdate={onAvatarUpdate}
           onDelete={handleAvatarDelete}
         >
           <User name={name} avatarUrl={avatarUrl} size="massive" isDisabled={isAvatarUpdating} />
-        </EditAvatarPopup>
+        </AvatarEditPopup>
         <br />
         <br />
-        <EditInformation
+        <InformationEdit
           defaultData={{
             name,
             phone,
@@ -68,7 +68,7 @@ const AccountPane = React.memo(
           </Header>
         </Divider>
         <div className={styles.action}>
-          <EditUsernamePopup
+          <UsernameEditPopup
             defaultData={usernameUpdateForm.data}
             username={username}
             isSubmitting={usernameUpdateForm.isSubmitting}
@@ -81,10 +81,10 @@ const AccountPane = React.memo(
                 context: 'title',
               })}
             </Button>
-          </EditUsernamePopup>
+          </UsernameEditPopup>
         </div>
         <div className={styles.action}>
-          <EditEmailPopup
+          <EmailEditPopup
             defaultData={emailUpdateForm.data}
             email={email}
             isSubmitting={emailUpdateForm.isSubmitting}
@@ -97,10 +97,10 @@ const AccountPane = React.memo(
                 context: 'title',
               })}
             </Button>
-          </EditEmailPopup>
+          </EmailEditPopup>
         </div>
         <div className={styles.action}>
-          <EditPasswordPopup
+          <PasswordEditPopup
             defaultData={passwordUpdateForm.data}
             isSubmitting={passwordUpdateForm.isSubmitting}
             error={passwordUpdateForm.error}
@@ -112,7 +112,7 @@ const AccountPane = React.memo(
                 context: 'title',
               })}
             </Button>
-          </EditPasswordPopup>
+          </PasswordEditPopup>
         </div>
       </Tab.Pane>
     );

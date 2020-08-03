@@ -210,27 +210,6 @@ export const currentBoardSelector = createSelector(
   },
 );
 
-export const listIdsForCurrentBoardSelector = createSelector(
-  orm,
-  (state) => pathSelector(state).boardId,
-  ({ Board }, id) => {
-    if (!id) {
-      return id;
-    }
-
-    const boardModel = Board.withId(id);
-
-    if (!boardModel) {
-      return boardModel;
-    }
-
-    return boardModel
-      .getOrderedListsQuerySet()
-      .toRefArray()
-      .map((list) => list.id);
-  },
-);
-
 export const labelsForCurrentBoardSelector = createSelector(
   orm,
   (state) => pathSelector(state).boardId,
@@ -249,6 +228,27 @@ export const labelsForCurrentBoardSelector = createSelector(
       ...label,
       isPersisted: !isLocalId(label.id),
     }));
+  },
+);
+
+export const listIdsForCurrentBoardSelector = createSelector(
+  orm,
+  (state) => pathSelector(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel
+      .getOrderedListsQuerySet()
+      .toRefArray()
+      .map((list) => list.id);
   },
 );
 

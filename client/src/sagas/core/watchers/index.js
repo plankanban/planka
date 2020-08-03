@@ -6,8 +6,8 @@ import user from './user';
 import project from './project';
 import projectMembership from './project-membership';
 import board from './board';
-import list from './list';
 import label from './label';
+import list from './list';
 import card from './card';
 import task from './task';
 import attachment from './attachment';
@@ -24,8 +24,8 @@ export default [
   project,
   projectMembership,
   board,
-  list,
   label,
+  list,
   card,
   task,
   attachment,

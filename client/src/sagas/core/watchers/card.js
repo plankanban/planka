@@ -13,7 +13,7 @@ import {
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
-export default function* () {
+export default function* cardWatchers() {
   yield all([
     takeLatest(EntryActionTypes.CARD_CREATE, ({ payload: { listId, data } }) =>
       createCardService(listId, data),

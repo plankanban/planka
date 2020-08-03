@@ -65,7 +65,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name', 'background', 'backgroundImage']);
-
     project = await sails.helpers.updateProject(project, values, this.req);
 
     if (!project) {

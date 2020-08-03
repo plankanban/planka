@@ -2,8 +2,8 @@ import User from './User';
 import Project from './Project';
 import ProjectMembership from './ProjectMembership';
 import Board from './Board';
-import List from './List';
 import Label from './Label';
+import List from './List';
 import Card from './Card';
 import Task from './Task';
 import Attachment from './Attachment';
@@ -15,8 +15,8 @@ export {
   Project,
   ProjectMembership,
   Board,
-  List,
   Label,
+  List,
   Card,
   Task,
   Attachment,

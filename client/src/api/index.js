@@ -5,8 +5,8 @@ import users from './users';
 import projects from './projects';
 import projectMemberships from './project-memberships';
 import boards from './boards';
-import lists from './lists';
 import labels from './labels';
+import lists from './lists';
 import cards from './cards';
 import cardMemberships from './card-memberships';
 import cardLabels from './card-labels';
@@ -24,8 +24,8 @@ export default {
   ...projects,
   ...projectMemberships,
   ...boards,
-  ...lists,
   ...labels,
+  ...lists,
   ...cards,
   ...cardMemberships,
   ...cardLabels,

@@ -6,7 +6,7 @@ import FixedContainer from '../containers/FixedContainer';
 import StaticContainer from '../containers/StaticContainer';
 import UsersModalContainer from '../containers/UsersModalContainer';
 import UserSettingsModalContainer from '../containers/UserSettingsModalContainer';
-import AddProjectModalContainer from '../containers/AddProjectModalContainer';
+import ProjectAddModalContainer from '../containers/ProjectAddModalContainer';
 import Background from './Background';
 
 const Core = ({ currentModal, currentProject }) => (
@@ -22,7 +22,7 @@ const Core = ({ currentModal, currentProject }) => (
     <StaticContainer />
     {currentModal === ModalTypes.USERS && <UsersModalContainer />}
     {currentModal === ModalTypes.USER_SETTINGS && <UserSettingsModalContainer />}
-    {currentModal === ModalTypes.ADD_PROJECT && <AddProjectModalContainer />}
+    {currentModal === ModalTypes.ADD_PROJECT && <ProjectAddModalContainer />}
   </>
 );
 

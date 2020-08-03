@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button, Checkbox, Icon } from 'semantic-ui-react';
 
-import EditName from './EditName';
+import NameEdit from './NameEdit';
 import ActionsPopup from './ActionsPopup';
 
 import styles from './Item.module.scss';
 
 const Item = React.memo(({ name, isCompleted, isPersisted, onUpdate, onDelete }) => {
-  const editName = useRef(null);
+  const nameEdit = useRef(null);
 
   const handleClick = useCallback(() => {
     if (isPersisted) {
-      editName.current.open();
+      nameEdit.current.open();
     }
   }, [isPersisted]);
 
@@ -33,7 +33,7 @@ const Item = React.memo(({ name, isCompleted, isPersisted, onUpdate, onDelete })
   }, [isCompleted, onUpdate]);
 
   const handleNameEdit = useCallback(() => {
-    editName.current.open();
+    nameEdit.current.open();
   }, []);
 
   return (
@@ -46,7 +46,7 @@ const Item = React.memo(({ name, isCompleted, isPersisted, onUpdate, onDelete })
           onChange={handleToggleChange}
         />
       </span>
-      <EditName ref={editName} defaultValue={name} onUpdate={handleNameUpdate}>
+      <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
         <div className={styles.content}>
           {/* eslint-disable jsx-a11y/click-events-have-key-events,
                              jsx-a11y/no-static-element-interactions */}
@@ -65,7 +65,7 @@ const Item = React.memo(({ name, isCompleted, isPersisted, onUpdate, onDelete })
             </ActionsPopup>
           )}
         </div>
-      </EditName>
+      </NameEdit>
     </div>
   );
 });

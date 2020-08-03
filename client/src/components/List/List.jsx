@@ -7,8 +7,8 @@ import { Button, Icon } from 'semantic-ui-react';
 
 import DroppableTypes from '../../constants/DroppableTypes';
 import CardContainer from '../../containers/CardContainer';
-import EditName from './EditName';
-import AddCard from './AddCard';
+import NameEdit from './NameEdit';
+import CardAdd from './CardAdd';
 import ActionsPopup from './ActionsPopup';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
@@ -19,12 +19,12 @@ const List = React.memo(
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
-    const editName = useRef(null);
+    const nameEdit = useRef(null);
     const listWrapper = useRef(null);
 
     const handleHeaderClick = useCallback(() => {
       if (isPersisted) {
-        editName.current.open();
+        nameEdit.current.open();
       }
     }, [isPersisted]);
 
@@ -46,7 +46,7 @@ const List = React.memo(
     }, []);
 
     const handleNameEdit = useCallback(() => {
-      editName.current.open();
+      nameEdit.current.open();
     }, []);
 
     const handleCardAdd = useCallback(() => {
@@ -73,7 +73,7 @@ const List = React.memo(
                 <CardContainer key={cardId} id={cardId} index={cardIndex} />
               ))}
               {placeholder}
-              <AddCard
+              <CardAdd
                 isOpened={isAddCardOpened}
                 onCreate={onCardCreate}
                 onClose={handleAddCardClose}
@@ -96,9 +96,9 @@ const List = React.memo(
               {/* eslint-enable jsx-a11y/click-events-have-key-events,
                                 jsx-a11y/no-static-element-interactions,
                                 react/jsx-props-no-spreading */}
-              <EditName ref={editName} defaultValue={name} onUpdate={handleNameUpdate}>
+              <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
                 <div className={styles.headerName}>{name}</div>
-              </EditName>
+              </NameEdit>
               {isPersisted && (
                 <ActionsPopup
                   onNameEdit={handleNameEdit}

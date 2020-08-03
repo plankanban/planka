@@ -44,7 +44,6 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-
     const list = await sails.helpers.createList(board, values, this.req);
 
     return exits.success({

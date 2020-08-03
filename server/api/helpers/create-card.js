@@ -1,12 +1,25 @@
 module.exports = {
   inputs: {
-    list: {
+    board: {
       type: 'ref',
       required: true,
     },
+    list: {
+      type: 'ref',
+    },
     values: {
       type: 'json',
-      custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
+      custom: (value) => {
+        if (!_.isPlainObject(value)) {
+          return false;
+        }
+
+        if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
+          return false;
+        }
+
+        return true;
+      },
       required: true,
     },
     user: {
@@ -18,36 +31,61 @@ module.exports = {
     },
   },
 
+  exits: {
+    listMustBePresent: {},
+    listMustBelongToBoard: {},
+    positionMustBeInValues: {},
+  },
+
   async fn(inputs, exits) {
-    const cards = await sails.helpers.getCardsForList(inputs.list.id);
+    const { values } = inputs;
 
-    const { position, repositions } = sails.helpers.insertToPositionables(
-      inputs.values.position,
-      cards,
-    );
+    values.boardId = inputs.board.id;
 
-    repositions.forEach(async ({ id, position: nextPosition }) => {
-      await Card.update({
-        id,
-        listId: inputs.list.id,
-      }).set({
-        position: nextPosition,
-      });
+    if (inputs.board.type === 'kanban') {
+      if (!inputs.list) {
+        throw 'listMustBePresent';
+      }
 
-      sails.sockets.broadcast(`board:${list.boardId}`, 'cardUpdate', {
-        item: {
+      if (inputs.list.boardId !== inputs.board.id) {
+        throw 'listMustBelongToBoard';
+      }
+
+      values.listId = inputs.list.id;
+
+      if (_.isUndefined(values.position)) {
+        throw 'positionMustBeInValues';
+      }
+
+      const cards = await sails.helpers.getCardsForList(inputs.list.id);
+
+      const { position, repositions } = sails.helpers.insertToPositionables(
+        inputs.values.position,
+        cards,
+      );
+
+      repositions.forEach(async ({ id, position: nextPosition }) => {
+        await Card.update({
           id,
+          listId: inputs.list.id,
+        }).set({
           position: nextPosition,
-        },
-      });
-    });
+        });
 
-    const card = await Card.create({
-      ...inputs.values,
-      position,
-      listId: inputs.list.id,
-      boardId: inputs.list.boardId,
-    }).fetch();
+        sails.sockets.broadcast(`board:${inputs.board.id}`, 'cardUpdate', {
+          item: {
+            id,
+            position: nextPosition,
+          },
+        });
+      });
+
+      values.position = position;
+    } else if (inputs.board.type === 'collection') {
+      delete values.position;
+    }
+
+    const card = await Card.create(values).fetch();
 
     if (inputs.user.subscribeToOwnCards) {
       await CardSubscription.create({
@@ -60,6 +98,7 @@ module.exports = {
       card.isSubscribed = false;
     }
 
+    // FIXME: broadcast subscription separately
     sails.sockets.broadcast(
       `board:${card.boardId}`,
       'cardCreate',
@@ -75,14 +114,12 @@ module.exports = {
       inputs.request,
     );
 
-    const values = {
+    await sails.helpers.createAction(card, inputs.user, {
       type: 'createCard',
       data: {
         list: _.pick(inputs.list, ['id', 'name']),
       },
-    };
-
-    await sails.helpers.createAction(card, inputs.user, values);
+    });
 
     return exits.success(card);
   },

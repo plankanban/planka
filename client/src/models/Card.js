@@ -22,14 +22,14 @@ export default class extends Model {
     isAllActionsFetched: attr({
       getDefault: () => false,
     }),
-    listId: fk({
-      to: 'List',
-      as: 'list',
-      relatedName: 'cards',
-    }),
     boardId: fk({
       to: 'Board',
       as: 'board',
+      relatedName: 'cards',
+    }),
+    listId: fk({
+      to: 'List',
+      as: 'list',
       relatedName: 'cards',
     }),
     coverAttachmentId: oneToOne({
