@@ -44,7 +44,7 @@
     "dotenv-cli": "^3.2.0",
     "filenamify": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.2",
+    "knex": "^0.21.4",
     "lodash": "^4.17.19",
     "moment": "^2.27.0",
     "rimraf": "^3.0.2",

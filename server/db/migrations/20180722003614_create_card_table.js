@@ -19,8 +19,8 @@ module.exports.up = (knex) =>
 
     /* Indexes */
 
-    table.index('list_id');
     table.index('board_id');
+    table.index('list_id');
     table.index('position');
   });
 
