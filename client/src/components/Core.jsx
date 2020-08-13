@@ -22,7 +22,7 @@ const Core = ({ currentModal, currentProject }) => (
     <StaticContainer />
     {currentModal === ModalTypes.USERS && <UsersModalContainer />}
     {currentModal === ModalTypes.USER_SETTINGS && <UserSettingsModalContainer />}
-    {currentModal === ModalTypes.ADD_PROJECT && <ProjectAddModalContainer />}
+    {currentModal === ModalTypes.PROJECT_ADD && <ProjectAddModalContainer />}
   </>
 );
 
