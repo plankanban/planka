@@ -18,7 +18,7 @@ module.exports.session = {
    *
    */
 
-  secret: '8b5b32787a446caa57c0a5abbb4ed6fe',
+  secret: process.env.SECRET_KEY,
 
   /**
    *

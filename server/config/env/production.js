@@ -20,8 +20,6 @@
  */
 
 const url = require('url');
-const path = require('path');
-const sails = require('sails');
 
 module.exports = {
   /**
@@ -50,9 +48,8 @@ module.exports = {
      */
 
     default: {
-      adapter: 'sails-postgresql',
-      url: process.env.DATABASE_URL,
-
+      // adapter: 'sails-mysql',
+      // url: 'mysql://user:password@host:port/database',
       /**
        *
        * More adapter-specific options
@@ -64,7 +61,6 @@ module.exports = {
        * https://sailsjs.com/config/datastores
        *
        */
-
       // ssl: true,
     },
   },
@@ -80,9 +76,7 @@ module.exports = {
      * https://sailsjs.com/docs/concepts/models-and-orm/model-settings#?migrate
      *
      */
-
-    migrate: 'safe',
-
+    // migrate: 'safe',
     /**
      *
      * If, in production, this app has access to physical-layer CASCADE
@@ -92,7 +86,6 @@ module.exports = {
      * choose to keep this enabled.)
      *
      */
-
     // cascadeOnDestroy: false,
   },
 
@@ -107,7 +100,7 @@ module.exports = {
    */
 
   blueprints: {
-    shortcuts: false,
+    // shortcuts: false,
   },
 
   /**
@@ -199,8 +192,6 @@ module.exports = {
       // secure: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     },
-
-    secret: process.env.SECRET_KEY,
   },
 
   /**
@@ -327,15 +318,7 @@ module.exports = {
    */
 
   custom: {
-    baseUrl: process.env.BASE_URL,
-
-    userAvatarsPath: path.join(sails.config.paths.public, 'user-avatars'),
-    userAvatarsUrl: `${process.env.BASE_URL}/user-avatars`,
-
-    projectBackgroundImagesPath: path.join(sails.config.paths.public, 'project-background-images'),
-    projectBackgroundImagesUrl: `${process.env.BASE_URL}/project-background-images`,
-
-    attachmentsPath: path.join(sails.config.paths.public, 'attachments'),
-    attachmentsUrl: `${process.env.BASE_URL}/attachments`,
+    // baseUrl: 'https://example.com',
+    // internalEmailAddress: 'support@example.com',
   },
 };

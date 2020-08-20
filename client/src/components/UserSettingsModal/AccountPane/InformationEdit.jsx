@@ -1,4 +1,4 @@
-import dequal from 'dequal';
+import { dequal } from 'dequal';
 import pickBy from 'lodash/pickBy';
 import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';

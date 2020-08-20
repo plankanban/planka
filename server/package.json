@@ -4,14 +4,13 @@
   "main": "app.js",
   "scripts": {
     "console": "dotenv sails console",
-    "custom-tests": "echo \"(No other custom tests yet.)\" && echo",
     "db:init": "node db/init.js",
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "start": "nodemon",
     "start:prod": "node app.js --prod",
-    "test": "npm run lint && npm run custom-tests && echo 'Done.'"
+    "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js"
   },
   "eslintConfig": {
     "plugins": [
@@ -44,8 +43,8 @@
     "dotenv-cli": "^3.2.0",
     "filenamify": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.4",
-    "lodash": "^4.17.19",
+    "knex": "^0.21.5",
+    "lodash": "^4.17.20",
     "moment": "^2.27.0",
     "rimraf": "^3.0.2",
     "sails": "^1.2.4",
@@ -58,13 +57,16 @@
     "validator": "^13.1.1"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "mocha": "^8.1.1",
     "nodemon": "^2.0.4",
-    "prettier": "2.0.5"
+    "prettier": "2.0.5",
+    "supertest": "^4.0.2"
   },
   "engines": {
     "node": "^12.10"
