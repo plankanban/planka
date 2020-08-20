@@ -13,6 +13,7 @@
     "client:build": "npm run build --prefix client",
     "client:lint": "npm run lint --prefix client",
     "client:start": "npm start --prefix client",
+    "client:test": "npm test --prefix client",
     "lint": "npm run server:lint && npm run client:lint",
     "postinstall": "npm i --prefix server && npm i --prefix client",
     "server:console": "npm run console --prefix server",
@@ -22,7 +23,9 @@
     "server:lint": "npm run lint --prefix server",
     "server:start": "npm start --prefix server",
     "server:start:prod": "npm run start:prod --prefix server",
-    "start": "concurrently -n server,client \"npm run server:start\" \"npm run client:start\""
+    "server:test": "npm test --prefix server",
+    "start": "concurrently -n server,client \"npm run server:start\" \"npm run client:start\"",
+    "test": "npm run server:test && npm run client:test"
   },
   "husky": {
     "hooks": {

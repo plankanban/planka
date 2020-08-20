@@ -1,4 +1,4 @@
-import dequal from 'dequal';
+import { dequal } from 'dequal';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import React, { useCallback, useEffect, useRef } from 'react';
