@@ -94,6 +94,14 @@
       top: 0;
       margin: 9px 0;
     }
+
+    .react-datepicker__day {
+      outline: none;
+
+      &:hover {
+        border-radius: 0;
+      }
+    }
   }
 
   #root {
