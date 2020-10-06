@@ -6,7 +6,9 @@ A Trello-like kanban board built with React and Redux.
 
 ![](https://raw.githubusercontent.com/plankanban/planka/master/demo.gif)
 
-[**Client demo**](https://plankanban.github.io/planka) (without server features).
+<a href="https://plankanban.github.io/planka" target="_blank">**Client demo**</a> (without server features).
+
+<a href="https://ko-fi.com/meltyshev" target="_blank"><img src="https://cdn.ko-fi.com/cdn/kofi3.png?v=2" alt="Buy Me a Coffee at ko-fi.com" border="0" height="36" style="border:0px;height:36px;" /></a>
 
 ## Features
 
@@ -25,10 +27,10 @@ A Trello-like kanban board built with React and Redux.
 
 ### Docker Compose
 
-[![](https://d207aa93qlcgug.cloudfront.net/1.95.5.qa/img/nav/docker-logo-loggedout.png)](https://hub.docker.com/r/meltyshev/planka)
+<a href="https://hub.docker.com/r/meltyshev/planka" target="_blank"><img src="https://d207aa93qlcgug.cloudfront.net/1.95.5.qa/img/nav/docker-logo-loggedout.png" /></a>
 
-- Make sure you have [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/) installed and operational.
-- Create `docker-compose.yml` based on [the example](https://raw.githubusercontent.com/plankanban/planka/master/docker-compose.yml). This is the ONLY file you will need. You can create this file on your own machine by copy and pasting the content.
+- Make sure you have <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a> and <a href="https://docs.docker.com/compose/install/" target="_blank">Docker Compose</a> installed and operational.
+- Create `docker-compose.yml` based on <a href="https://raw.githubusercontent.com/plankanban/planka/master/docker-compose.yml" target="_blank">the example</a>. This is the ONLY file you will need. You can create this file on your own machine by copy and pasting the content.
 - Edit `BASE_URL` to match your domain name or IP address.
 - Edit `SECRET_KEY` with random value. You can generate it by `openssl rand -hex 64`.
 
@@ -94,4 +96,4 @@ Demo user: demo@demo.demo demo
 
 ## License
 
-Planka is [MIT licensed](https://github.com/plankanban/planka/blob/master/LICENSE).
+Planka is <a href="https://github.com/plankanban/planka/blob/master/LICENSE" target="_blank">MIT licensed</a>.
