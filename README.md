@@ -21,6 +21,19 @@ A Trello-like kanban board built with React and Redux.
 - User notifications
 - Internationalization
 
+## Roadmap
+
+### Current task
+
+Projects should have Managers who have the ability to create/edit/delete boards. Boards should have their own Members, so members won't see all boards, just those they belong to. Planka will be released after this breaking change.
+
+### Future tasks
+
+- Fetch last data after reconnection
+- Custom fields
+- Public boards
+- Automatic actions
+
 ## Deploy
 
 **Please note that Planka is NOT released yet, API and database structure may be changed!**
@@ -84,15 +97,6 @@ Demo user: demo@demo.demo demo
 - React, Redux, Redux-Saga, Redux-ORM, Semantic UI React, react-beautiful-dnd
 - Sails.js, Knex.js
 - PostgreSQL
-
-## Roadmap
-
-- [x] File attachments
-- [ ] Member permissions
-- [ ] Fetch last data after reconnection
-- [ ] Custom fields
-- [ ] Public boards
-- [ ] Automatic actions
 
 ## License
 
