@@ -49,11 +49,14 @@ export default (WrappedComponent, defaultProps) => {
         on="click"
         open={isOpened}
         position="bottom left"
-        popperModifiers={{
-          preventOverflow: {
-            boundariesElement: 'window',
+        popperModifiers={[
+          {
+            name: 'preventOverflow',
+            options: {
+              boundariesElement: 'window',
+            },
           },
-        }}
+        ]}
         className={styles.wrapper}
         onOpen={handleOpen}
         onClose={handleClose}

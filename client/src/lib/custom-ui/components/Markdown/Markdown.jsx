@@ -12,7 +12,7 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
                       jsx-a11y/click-events-have-key-events,
                       jsx-a11y/no-static-element-interactions,
                       react/jsx-props-no-spreading */
-    (linkProps) => <a {...linkProps} onClick={handleLinkClick} />,
+    ({ node, ...linkProps }) => <a {...linkProps} onClick={handleLinkClick} />,
     /* eslint-enable jsx-a11y/anchor-has-content,
                      jsx-a11y/click-events-have-key-events,
                      jsx-a11y/no-static-element-interactions,
