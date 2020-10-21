@@ -56,6 +56,14 @@ export default (WrappedComponent, defaultProps) => {
               boundariesElement: 'window',
             },
           },
+          {
+            name: 'zIndex',
+            enabled: true,
+            phase: 'write',
+            fn: ({ state }) => {
+              state.styles.popper.zIndex = 1899; // eslint-disable-line no-param-reassign
+            },
+          },
         ]}
         className={styles.wrapper}
         onOpen={handleOpen}
