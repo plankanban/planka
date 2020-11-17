@@ -1,43 +1,53 @@
-FROM node:12-alpine AS server-builder
-
-WORKDIR /app
-
-RUN apk add vips-dev fftw-dev build-base python --no-cache \
-  --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/community/ \
-  --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/main/
-
-COPY server/package.json server/package-lock.json ./
-
-RUN npm i --prod --silent
-
-FROM node:12-alpine AS client-builder
+FROM node:14 AS client-builder
 
 WORKDIR /app
 
 COPY client/package.json client/package-lock.json ./
 
-RUN npm i --silent
+RUN npm install
 
 COPY client .
 
 RUN npm run build
 
-FROM node:12-alpine
-
-RUN apk add bash vips --no-cache \
-  --repository https://alpine.global.ssl.fastly.net/alpine/v3.10/community/
+FROM node:14-alpine
 
 WORKDIR /app
 
-COPY --from=server-builder /app/node_modules node_modules
 COPY server .
-COPY --from=client-builder /app/build public
-COPY --from=client-builder /app/build/index.html views
 COPY docker-start.sh start.sh
 
-RUN chmod +x start.sh
+ARG VIPS_VERSION=8.10.2
 
-ENV BASE_URL DATABASE_URL
+RUN apk -U upgrade \
+  && apk add \
+  bash giflib glib lcms2 libexif \
+  libgsf libjpeg-turbo libpng librsvg libwebp \
+  orc pango tiff \
+  --repository https://alpine.global.ssl.fastly.net/alpine/latest-stable/community/ \
+  --repository https://alpine.global.ssl.fastly.net/alpine/latest-stable/main/ \
+  --no-cache \
+  && apk add \
+  build-base giflib-dev glib-dev lcms2-dev libexif-dev \
+  libgsf-dev libjpeg-turbo-dev libpng-dev librsvg-dev libwebp-dev \
+  orc-dev pango-dev tiff-dev \
+  --virtual vips-dependencies \
+  --repository https://alpine.global.ssl.fastly.net/alpine/latest-stable/community/ \
+  --repository https://alpine.global.ssl.fastly.net/alpine/latest-stable/main/ \
+  --no-cache \
+  && wget -O- https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz | tar xzC /tmp \
+  && cd /tmp/vips-${VIPS_VERSION} \
+  && ./configure \
+  && make \
+  && make install-strip \
+  && cd $OLDPWD \
+  && rm -rf /tmp/vips-${VIPS_VERSION} \
+  && npm install --production \
+  && apk del vips-dependencies --purge \
+  && chmod +x start.sh
+
+COPY --from=client-builder /app/build public
+COPY --from=client-builder /app/build/index.html views
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
