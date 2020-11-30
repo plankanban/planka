@@ -1,8 +1,8 @@
 export default {
   translation: {
     common: {
-      emailOrUsername: 'E-Mail oder Benutzername',
-      invalidEmailOrUsername: 'Ungültige E-Mail oder Benutzername',
+      emailOrUsername: 'E-mail oder Benutzername',
+      invalidEmailOrUsername: 'Ungültige E-mail oder Benutzername',
       invalidPassword: 'Ungültiges Passwort',
       logInToPlanka: 'Einloggen',
       noInternetConnection: 'Keine Internetverbindung',

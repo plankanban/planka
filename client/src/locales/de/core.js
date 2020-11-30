@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/de';
+
 export default {
+  dateFns,
+
   format: {
     date: 'd/M/yyyy',
     time: 'p',
@@ -19,15 +23,19 @@ export default {
       all: 'Alle',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Alle Änderungen werden automatisch gespeichert.<br />nach Wiederherstellung der Verbindung',
-      areYouSureYouWantToDeleteThisAttachment: 'Sind Sie sicher, dass Sie diesen Anhang löschen möchten?',
+      areYouSureYouWantToDeleteThisAttachment:
+        'Sind Sie sicher, dass Sie diesen Anhang löschen möchten?',
       areYouSureYouWantToDeleteThisBoard: 'Sind Sie sicher, dass Sie dieses Board löschen möchten?',
       areYouSureYouWantToDeleteThisCard: 'Sind Sie sicher, dass Sie diese Karte löschen möchten?',
-      areYouSureYouWantToDeleteThisComment: 'Sind Sie sicher, dass Sie diesen Kommentar löschen möchten?',
+      areYouSureYouWantToDeleteThisComment:
+        'Sind Sie sicher, dass Sie diesen Kommentar löschen möchten?',
       areYouSureYouWantToDeleteThisLabel: 'Sind Sie sicher, dass Sie dieses Label löschen möchten?',
       areYouSureYouWantToDeleteThisList: 'Sind Sie sicher, dass Sie diese Liste löschen möchten?',
-      areYouSureYouWantToDeleteThisProject: 'Sind Sie sicher, dass Sie dieses Projekt löschen möchten?',
+      areYouSureYouWantToDeleteThisProject:
+        'Sind Sie sicher, dass Sie dieses Projekt löschen möchten?',
       areYouSureYouWantToDeleteThisTask: 'Sind Sie sicher, dass Sie diese Aufgabe löschen möchten?',
-      areYouSureYouWantToDeleteThisUser: 'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?',
+      areYouSureYouWantToDeleteThisUser:
+        'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?',
       areYouSureYouWantToRemoveThisMemberFromProject:
         'Sind Sie sicher, dass Sie dieses Mitglied aus dem Projekt entfernen möchten??',
       attachment: 'Anhang',
@@ -64,7 +72,7 @@ export default {
       editBackground_title: 'Hintergrund ändern',
       editBoard_title: 'Board bearbeiten',
       editDueDate_title: 'Änderung Fälligkeitsdatum',
-      editEmail_title: 'E-Mail bearbeiten',
+      editEmail_title: 'E-mail bearbeiten',
       editLabel_title: 'Label bearbeiten',
       editPassword_title: 'Passwort ändern',
       editTimer_title: 'Timer bearbeiten',
@@ -90,7 +98,7 @@ export default {
       minutes: 'Minuten',
       moveCard_title: 'Karte verschieben',
       name: 'Name',
-      newEmail: 'Neue E-Mail',
+      newEmail: 'Neue E-mail',
       newPassword: 'Neues Passwort',
       newUsername: 'Neuer Benutzername',
       noConnectionToServer: 'Keine Verbindung zum Server',
@@ -125,8 +133,10 @@ export default {
       title: 'Titel',
       userActions_title: 'Benutzerraktionen',
       userAddedThisCardToList: '<0>{{user}}</0><1> hat diese Karte hinzugefügt zu {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} hat einen neuen Kommentar verfasst «{{comment}}» to <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} bewegte <2>{{card}}</2> von {{fromList}} zu {{toList}}',
+      userLeftNewCommentToCard:
+        '{{user}} hat einen neuen Kommentar verfasst «{{comment}}» to <2>{{card}}</2>',
+      userMovedCardFromListToList:
+        '{{user}} bewegte <2>{{card}}</2> von {{fromList}} zu {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> bewegte diese Karte von {{fromList}} zu {{toList}}</1>',
       username: 'Benutzername',
