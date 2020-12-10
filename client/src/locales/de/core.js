@@ -50,7 +50,7 @@ export default {
       connectionRestored_title: 'Verbindung wiederhergestellt',
       createBoard_title: 'Board erstellen',
       createLabel_title: 'Label erstellen',
-      createNewOneOrSelectExistingOne: 'Eine Neue erstlelen, oder <br />eine bestehende auswählen',
+      createNewOneOrSelectExistingOne: 'Eine Neue erstellen, oder <br />eine bestehende auswählen',
       createProject_title: 'Projekt erstellen',
       createTextFile_title: 'Textdatei erstellen',
       currentPassword: 'derzeitiges Password',
