@@ -42,7 +42,7 @@ module.exports = {
     const actions = await sails.helpers.getActionsForCard(inputs.cardId, inputs.beforeId);
 
     const userIds = sails.helpers.mapRecords(actions, 'userId', true);
-    const users = await sails.helpers.getUsers(userIds);
+    const users = await sails.helpers.getUsers(userIds, true);
 
     return exits.success({
       items: actions,
