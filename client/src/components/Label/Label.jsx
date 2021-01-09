@@ -21,6 +21,7 @@ const Label = React.memo(({ name, color, size, isDisabled, onClick }) => {
       title={name}
       className={classNames(
         styles.wrapper,
+        !name && styles.wrapperNameless,
         styles[`wrapper${upperFirst(size)}`],
         onClick && styles.wrapperHoverable,
         globalStyles[`background${upperFirst(camelCase(color))}`],
