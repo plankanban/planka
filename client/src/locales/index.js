@@ -2,6 +2,7 @@ import fromPairs from 'lodash/fromPairs';
 
 import en from './en/embed';
 import de from './de/embed';
+import pl from './pl/embed';
 import ru from './ru/embed';
 import pl from './pl/embed';
 
