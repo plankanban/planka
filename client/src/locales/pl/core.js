@@ -8,7 +8,7 @@ export default {
     time: 'p',
     dateTime: '$t(format:date) $t(format:time)',
     longDate: 'd MMM',
-    longDateTime: "d MMMM 'at' p",
+    longDateTime: "d MMMM 'o' p",
   },
 
   translation: {
@@ -18,11 +18,11 @@ export default {
       addAttachment_title: 'Dodaj Załącznik',
       addComment: 'Dodaj komentarz',
       addMember_title: 'Dodaj Członka',
-      addUser_title: 'Dodaj Uytkownika',
+      addUser_title: 'Dodaj Użytkownika',
       administrator: 'Administrator',
       all: 'Wszyscy',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
-        'Wszystkie zmiany zostaną automatycznie zapisne<br />po przywróceniu połączenia',
+        'Wszystkie zmiany zostaną automatycznie zapisane<br />po przywróceniu połączenia',
       areYouSureYouWantToDeleteThisAttachment: 'Jesteś pewien że chcesz usunąć ten załącznik?',
       areYouSureYouWantToDeleteThisBoard: 'Jesteś pewien że chcesz usunąć tę tablicę?',
       areYouSureYouWantToDeleteThisCard: 'Jesteś pewien że chcesz usunąć tę kartę?',
@@ -52,7 +52,7 @@ export default {
       currentPassword: 'Aktualne hasło',
       date: 'Data',
       dueDate_title: 'Termin',
-      deleteAttachment_title: 'Usuń Attachment',
+      deleteAttachment_title: 'Usuń Załącznik',
       deleteBoard_title: 'Usuń Tablicę',
       deleteCard_title: 'Usuń Kartę',
       deleteComment_title: 'Usuń Komentarz',
@@ -130,14 +130,13 @@ export default {
       userActions_title: 'Akcje użytkownika',
       userAddedThisCardToList: '<0>{{user}}</0><1> dodał tę kartę w {{list}}</1>',
       userLeftNewCommentToCard: '{{user}} zamieścił nowy komentarz «{{comment}}» w <2>{{card}}</2>',
-      userMovedCardFromListToList:
-        '{{user}} przeniósł <2>{{card}}</2> z {{fromList}} do {{toList}}',
+      userMovedCardFromListToList: '{{user}} przeniósł <2>{{card}}</2> z {{fromList}} do {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> przeniósł tę kartę z {{fromList}} do {{toList}}</1>',
       username: 'Nazwa Użytkownika',
       usernameAlreadyInUse: 'Nazwa użytkownika jest już używana',
       users: 'Użytkownicy',
-      writeComment: 'NApisz komentarz...',
+      writeComment: 'Napisz komentarz...',
     },
 
     action: {
