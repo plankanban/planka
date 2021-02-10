@@ -106,11 +106,10 @@ module.exports = {
     }
 
     if (!_.isNil(values.position)) {
-      const cards = await sails.helpers.getCardsForList(
-        values.listId || inputs.record.listId,
-        inputs.record.id,
-      );
+      const boardId = values.boardId || inputs.record.boardId;
+      const listId = values.listId || inputs.record.listId;
 
+      const cards = await sails.helpers.getCardsForList(listId, inputs.record.id);
       const { position, repositions } = sails.helpers.insertToPositionables(values.position, cards);
 
       repositions.forEach(async ({ id, position: nextPosition }) => {
@@ -121,7 +120,7 @@ module.exports = {
           position: nextPosition,
         });
 
-        sails.sockets.broadcast(`board:${values.boardId || inputs.record.boardId}`, 'cardUpdate', {
+        sails.sockets.broadcast(`board:${boardId}`, 'cardUpdate', {
           item: {
             id,
             position: nextPosition,
