@@ -45,7 +45,18 @@ const AttachmentAddZone = React.memo(({ children, onCreate }) => {
 
   useEffect(() => {
     const handlePaste = (event) => {
-      const item = event.clipboardData && event.clipboardData.items[0];
+      if (!event.clipboardData) {
+        return;
+      }
+
+      const file = event.clipboardData.files[0];
+
+      if (file) {
+        submit(file);
+        return;
+      }
+
+      const item = event.clipboardData.items[0];
 
       if (!item) {
         return;

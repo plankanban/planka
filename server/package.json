@@ -51,7 +51,7 @@
     "sails-hook-orm": "^3.0.1",
     "sails-hook-sockets": "^2.0.0",
     "sails-postgresql-redacted": "^1.0.2-9",
-    "sharp": "^0.27.1",
+    "sharp": "^0.26.3",
     "stream-to-array": "^2.3.0",
     "uuid": "^8.3.2",
     "validator": "^13.5.2"

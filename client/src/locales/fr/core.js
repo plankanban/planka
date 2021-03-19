@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/fr';
+
 export default {
+  dateFns,
+
   format: {
     date: 'P',
     time: 'HH:mm',
