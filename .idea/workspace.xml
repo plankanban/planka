@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1caf0577-5a29-440e-83bc-e061a28fd9bd" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/assets/images/import-icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/controllers/projects/import.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/helpers/download-import-data.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/helpers/get-color-from-trello.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/api/helpers/import-attachment-receiver.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/actions/entry/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/actions/entry/project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/actions/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/actions/project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/api/projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/api/projects.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Projects/Projects.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Projects/Projects.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/constants/ActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/constants/ActionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/constants/EntryActionTypes.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/constants/EntryActionTypes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/containers/ProjectsContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/containers/ProjectsContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/locales/en/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/locales/en/core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/sagas/core/requests/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/sagas/core/requests/project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/sagas/core/services/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/sagas/core/services/project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/sagas/core/watchers/project.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/sagas/core/watchers/project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/api/helpers/create-project.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/api/helpers/create-project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/config/policies.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/config/policies.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/config/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/config/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="ProjectId" id="1nKo8aaBkVIUrr6v0k4kbcQNnFj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="javascript.nodejs.core.library.configured.version" value="14.15.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="14.14.22" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Documents/fr.dic" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="web.server" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RunManager" selected="npm.start">
+    <configuration name="postinstall" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="postinstall" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="server:db:init" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="server:db:init" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="server:db:migrate" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="server:db:migrate" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="server:db:seed" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="server:db:seed" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.server:db:seed" />
+        <item itemvalue="npm.server:db:migrate" />
+        <item itemvalue="npm.server:db:init" />
+        <item itemvalue="npm.postinstall" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="1" Folder0="$USER_HOME$/Documents" CustomDictionaries="1" CustomDictionary0="$USER_HOME$/Documents/fr.dic" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1caf0577-5a29-440e-83bc-e061a28fd9bd" name="Default Changelist" comment="" />
+      <created>1611147987113</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1611147987113</updated>
+      <workItem from="1611147990942" duration="24000" />
+      <workItem from="1611148027002" duration="59000" />
+      <workItem from="1611148112754" duration="1608000" />
+      <workItem from="1611152887492" duration="1828000" />
+      <workItem from="1616688042421" duration="3772000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

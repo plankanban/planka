@@ -42,6 +42,7 @@
     "dotenv": "^8.2.0",
     "dotenv-cli": "^4.0.0",
     "filenamify": "^4.2.0",
+    "got": "^11.8.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.17",
     "lodash": "^4.17.20",

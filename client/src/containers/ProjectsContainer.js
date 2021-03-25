@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { currentUserSelector, projectsForCurrentUserSelector } from '../selectors';
-import { openProjectAddModal } from '../actions/entry';
+import { openProjectAddModal, importProject } from '../actions/entry';
 import Projects from '../components/Projects';
 
 const mapStateToProps = (state) => {
@@ -19,6 +19,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onAdd: openProjectAddModal,
+      onImport: importProject,
     },
     dispatch,
   );
