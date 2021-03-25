@@ -8,6 +8,9 @@ import {
   deleteProjectFailed,
   deleteProjectRequested,
   deleteProjectSucceeded,
+  importProjectFailed,
+  importProjectRequested,
+  importProjectSucceeded,
   updateProjectBackgroundImageFailed,
   updateProjectBackgroundImageRequested,
   updateProjectBackgroundImageSucceeded,
@@ -35,6 +38,33 @@ export function* createProjectRequest(data) {
     };
   } catch (error) {
     const action = createProjectFailed(error);
+    yield put(action);
+
+    return {
+      success: false,
+      payload: action.payload,
+    };
+  }
+}
+
+export function* importProjectRequest(data) {
+  yield put(importProjectRequested(data));
+
+  try {
+    const {
+      item,
+      included: { users, projectMemberships, boards },
+    } = yield call(request, api.importProject, { file: data });
+
+    const action = importProjectSucceeded(item, users, projectMemberships, boards);
+    yield put(action);
+
+    return {
+      success: true,
+      payload: action.payload,
+    };
+  } catch (error) {
+    const action = importProjectFailed(error);
     yield put(action);
 
     return {

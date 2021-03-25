@@ -10,11 +10,13 @@ import { Container, Grid } from 'semantic-ui-react';
 import Paths from '../../constants/Paths';
 import { ProjectBackgroundTypes } from '../../constants/Enums';
 import { ReactComponent as PlusIcon } from '../../assets/images/plus-icon.svg';
+import { ReactComponent as UploadIcon } from '../../assets/images/import-icon.svg';
 
 import styles from './Projects.module.scss';
 import globalStyles from '../../styles.module.scss';
+import { FilePicker } from '../../lib/custom-ui';
 
-const Projects = React.memo(({ items, isEditable, onAdd }) => {
+const Projects = React.memo(({ items, isEditable, onAdd, onImport }) => {
   const [t] = useTranslation();
 
   return (
@@ -65,6 +67,20 @@ const Projects = React.memo(({ items, isEditable, onAdd }) => {
             </button>
           </Grid.Column>
         )}
+        {isEditable && (
+          <Grid.Column mobile={8} computer={4}>
+            <FilePicker onSelect={onImport}>
+              <button type="button" className={classNames(styles.card, styles.add)}>
+                <div className={styles.addTitleWrapper}>
+                  <div className={styles.addTitle}>
+                    <UploadIcon className={styles.addGridIcon} />
+                    {t('action.uploadProject')}
+                  </div>
+                </div>
+              </button>
+            </FilePicker>
+          </Grid.Column>
+        )}
       </Grid>
     </Container>
   );
@@ -74,6 +90,7 @@ Projects.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   isEditable: PropTypes.bool.isRequired,
   onAdd: PropTypes.func.isRequired,
+  onImport: PropTypes.func.isRequired,
 };
 
 export default Projects;

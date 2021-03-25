@@ -147,6 +147,7 @@ export default {
       addTask: 'Add task',
       addToCard: 'Add to card',
       addUser: 'Add user',
+      uploadProject: 'Import a project',
       createBoard: 'Create board',
       createFile: 'Create file',
       createLabel: 'Create label',

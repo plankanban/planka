@@ -9,6 +9,8 @@ const createProject = (data, headers) => socket.post('/projects', data, headers)
 
 const updateProject = (id, data, headers) => socket.patch(`/projects/${id}`, data, headers);
 
+const importProject = (data, headers) => http.post(`/projects/import`, data, headers);
+
 const updateProjectBackgroundImage = (id, data, headers) =>
   http.post(`/projects/${id}/background-image`, data, headers);
 
@@ -20,4 +22,5 @@ export default {
   updateProject,
   updateProjectBackgroundImage,
   deleteProject,
+  importProject,
 };

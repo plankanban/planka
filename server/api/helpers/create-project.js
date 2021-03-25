@@ -15,6 +15,10 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
     },
+    withBroadcast: {
+      type: 'boolean',
+      defaultsTo: true,
+    },
   },
 
   async fn(inputs, exits) {
@@ -25,19 +29,20 @@ module.exports = {
       userId: inputs.user.id,
     }).fetch();
 
-    sails.sockets.broadcast(
-      `user:${projectMembership.userId}`,
-      'projectCreate',
-      {
-        item: project,
-        included: {
-          users: [inputs.user],
-          projectMemberships: [projectMembership],
-          boards: [],
+    if (inputs.withBroadcast)
+      sails.sockets.broadcast(
+        `user:${projectMembership.userId}`,
+        'projectCreate',
+        {
+          item: project,
+          included: {
+            users: [inputs.user],
+            projectMemberships: [projectMembership],
+            boards: [],
+          },
         },
-      },
-      inputs.request,
-    );
+        inputs.request,
+      );
 
     return exits.success(
       inputs.withProjectMembership

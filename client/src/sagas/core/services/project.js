@@ -3,12 +3,13 @@ import { call, put, select } from 'redux-saga/effects';
 import { goToProjectService, goToRootService } from './router';
 import {
   createProjectRequest,
+  importProjectRequest,
   deleteProjectRequest,
   updateProjectBackgroundImageRequest,
   updateProjectRequest,
 } from '../requests';
 import { pathSelector } from '../../../selectors';
-import { createProject, deleteProject, updateProject } from '../../../actions';
+import { createProject, deleteProject, importProject, updateProject } from '../../../actions';
 
 export function* createProjectService(data) {
   yield put(createProject(data));
@@ -17,6 +18,19 @@ export function* createProjectService(data) {
     success,
     payload: { project },
   } = yield call(createProjectRequest, data);
+
+  if (success) {
+    yield call(goToProjectService, project.id);
+  }
+}
+
+export function* importProjectService(file) {
+  yield put(importProject(file));
+
+  const {
+    success,
+    payload: { project },
+  } = yield call(importProjectRequest, file);
 
   if (success) {
     yield call(goToProjectService, project.id);

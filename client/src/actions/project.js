@@ -9,6 +9,13 @@ export const createProject = (data) => ({
   },
 });
 
+export const importProject = (file) => ({
+  type: ActionTypes.IMPORT_PROJECT,
+  payload: {
+    file,
+  },
+});
+
 export const updateProject = (id, data) => ({
   type: ActionTypes.PROJECT_UPDATE,
   payload: {
@@ -52,6 +59,40 @@ export const createProjectFailed = (error) => ({
 
 export const createProjectReceived = (project, users, projectMemberships, boards) => ({
   type: ActionTypes.PROJECT_CREATE_RECEIVED,
+  payload: {
+    project,
+    users,
+    projectMemberships,
+    boards,
+  },
+});
+
+export const importProjectSucceeded = (project, users, projectMemberships, boards) => ({
+  type: ActionTypes.PROJECT_IMPORT_SUCCEEDED,
+  payload: {
+    project,
+    users,
+    projectMemberships,
+    boards,
+  },
+});
+
+export const importProjectRequested = (file) => ({
+  type: ActionTypes.PROJECT_IMPORT_REQUESTED,
+  payload: {
+    file,
+  },
+});
+
+export const importProjectFailed = (error) => ({
+  type: ActionTypes.PROJECT_IMPORT_FAILED,
+  payload: {
+    error,
+  },
+});
+
+export const importProjectReceived = (project, users, projectMemberships, boards) => ({
+  type: ActionTypes.PROJECT_IMPORT_RECEIVED,
   payload: {
     project,
     users,

@@ -26,6 +26,7 @@ module.exports.policies = {
   'projects/update': ['is-authenticated', 'is-admin'],
   'projects/update-background-image': ['is-authenticated', 'is-admin'],
   'projects/delete': ['is-authenticated', 'is-admin'],
+  'projects/import': ['is-authenticated', 'is-admin'],
 
   'project-memberships/create': ['is-authenticated', 'is-admin'],
   'project-memberships/delete': ['is-authenticated', 'is-admin'],
