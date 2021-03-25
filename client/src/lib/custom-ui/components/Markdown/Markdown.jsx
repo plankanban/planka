@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
+import gfm from 'remark-gfm';
 
 const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
   const handleLinkClick = useCallback((event) => {
@@ -29,7 +30,7 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
   }
 
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <ReactMarkdown {...props} renderers={renderers} />;
+  return <ReactMarkdown {...props} plugins={[gfm]} renderers={renderers} />;
 });
 
 Markdown.propTypes = {
