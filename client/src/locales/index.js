@@ -1,17 +1,19 @@
 import fromPairs from 'lodash/fromPairs';
 
-import en from './en/embed';
+import cs from './cs/embed';
 import de from './de/embed';
+import en from './en/embed';
+import fr from './fr/embed';
 import pl from './pl/embed';
 import ru from './ru/embed';
-import fr from './fr/embed';
 
 const localePairs = [
-  ['en', en],
+  ['cs', cs],
   ['de', de],
-  ['ru', ru],
-  ['pl', pl],
+  ['en', en],
   ['fr', fr],
+  ['pl', pl],
+  ['ru', ru],
 ];
 
 export const languages = localePairs.map((locale) => locale[0]);
