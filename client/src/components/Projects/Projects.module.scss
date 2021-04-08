@@ -95,6 +95,8 @@
     line-height: 1.1;
     padding: 24px 20px;
     position: absolute;
+    hyphens: auto;
+    word-break: break-word;
   }
 
   .project {
