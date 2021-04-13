@@ -52,13 +52,22 @@ module.exports = {
         if (imageMetadata) {
           let cover256Buffer;
           if (imageMetadata.height > imageMetadata.width) {
-            cover256Buffer = await image.resize(256, 320).jpeg().toBuffer();
+            cover256Buffer = await image
+              .resize(256, 320)
+              .jpeg({
+                quality: 100,
+                chromaSubsampling: '4:4:4',
+              })
+              .toBuffer();
           } else {
             cover256Buffer = await image
               .resize({
                 width: 256,
               })
-              .jpeg()
+              .jpeg({
+                quality: 100,
+                chromaSubsampling: '4:4:4',
+              })
               .toBuffer();
           }
 

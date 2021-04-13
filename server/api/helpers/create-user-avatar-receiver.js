@@ -31,8 +31,20 @@ module.exports = {
       );
 
       try {
-        const originalBuffer = await sharp(buffer).jpeg().toBuffer();
-        const square100Buffer = await sharp(buffer).resize(100, 100).jpeg().toBuffer();
+        const originalBuffer = await sharp(buffer)
+          .jpeg({
+            quality: 100,
+            chromaSubsampling: '4:4:4',
+          })
+          .toBuffer();
+
+        const square100Buffer = await sharp(buffer)
+          .resize(100, 100)
+          .jpeg({
+            quality: 100,
+            chromaSubsampling: '4:4:4',
+          })
+          .toBuffer();
 
         const dirname = uuid();
 
