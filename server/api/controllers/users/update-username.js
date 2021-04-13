@@ -23,7 +23,7 @@ module.exports = {
       isNotEmptyString: true,
       minLength: 3,
       maxLength: 16,
-      regex: /^[a-zA-Z0-9]+(_?[a-zA-Z0-9])*$/,
+      regex: /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/,
       allowNull: true,
     },
     currentPassword: {
