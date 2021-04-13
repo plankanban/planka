@@ -91,10 +91,12 @@
   .openTitle {
     bottom: 0;
     font-size: 24px;
+    hyphens: auto;
     left: 0;
     line-height: 1.1;
     padding: 24px 20px;
     position: absolute;
+    word-break: break-word;
   }
 
   .project {
