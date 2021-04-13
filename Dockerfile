@@ -2,13 +2,11 @@ FROM node AS client-builder
 
 WORKDIR /app
 
-COPY client/package.json client/package-lock.json ./
-
-RUN npm install
-
 COPY client .
 
-RUN npm install npm@latest --global && npm run build
+RUN npm install npm@latest --global \
+  && npm install \
+  && npm run build
 
 FROM node:alpine
 
