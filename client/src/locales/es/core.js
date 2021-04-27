@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/es';
+
 export default {
+  dateFns,
+
   format: {
     date: 'M/d/yyyy',
     time: 'p',
@@ -125,7 +129,8 @@ export default {
       title: 'Título',
       userActions_title: 'Acciones de Usuario',
       userAddedThisCardToList: '<0>{{user}}</0><1> añadido a esta tarjeta en {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} dejó un nuevo comentario «{{comment}}» en <2>{{card}}</2>',
+      userLeftNewCommentToCard:
+        '{{user}} dejó un nuevo comentario «{{comment}}» en <2>{{card}}</2>',
       userMovedCardFromListToList: '{{user}} movió <2>{{card}}</2> de {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> movió esta tarjeta de {{fromList}} a {{toList}}</1>',
