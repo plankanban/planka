@@ -8,7 +8,7 @@ export default {
       noInternetConnection: 'Bez připojení k internetu',
       pageNotFound_title: 'Stránka nenalezena',
       password: 'Heslo',
-      projectManagment: 'Správa projektu',
+      projectManagement: 'Správa projektu',
       serverConnectionFailed: 'Připojení k serveru selhalo',
       unknownError: 'Neznámá chyba, zkuste to později',
     },
