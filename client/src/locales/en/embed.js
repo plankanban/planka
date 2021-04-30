@@ -8,7 +8,7 @@ export default {
       noInternetConnection: 'No internet connection',
       pageNotFound_title: 'Page Not Found',
       password: 'Password',
-      projectManagment: 'Project managment',
+      projectManagement: 'Project management',
       serverConnectionFailed: 'Server connection failed',
       unknownError: 'Unknown error, try again later',
     },
