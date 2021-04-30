@@ -8,7 +8,7 @@ export default {
       noInternetConnection: 'Нет соединения',
       pageNotFound: 'Страница не найдена',
       password: 'Пароль',
-      projectManagment: 'Управление проектами',
+      projectManagement: 'Управление проектами',
       serverConnectionFailed: 'Не могу подключиться к серверу',
       unknownError: 'Что-то пошло не так, попробуйте позже',
     },

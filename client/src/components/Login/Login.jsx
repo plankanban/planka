@@ -189,7 +189,7 @@ const Login = React.memo(
               <Header
                 inverted
                 as="h2"
-                content={t('common.projectManagment')}
+                content={t('common.projectManagement')}
                 className={styles.descriptionSubtitle}
               />
             </div>
