@@ -6,7 +6,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx src",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "test:webui": "cucumber-js --require tests/cucumber.conf.js --require tests/acceptance/stepDefinitions -f @cucumber/pretty-formatter"
   },
   "browserslist": {
     "production": [
@@ -92,6 +93,8 @@
   },
   "devDependencies": {
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
+    "@cucumber/cucumber": "^7.3.0",
+    "@cucumber/pretty-formatter": "^1.0.0-alpha.1",
     "chai": "^4.3.0",
     "enzyme": "^3.11.0",
     "eslint": "^7.32.0",
@@ -103,6 +106,8 @@
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "jest-enzyme": "^7.1.2",
+    "nightwatch": "^1.7.6",
+    "nightwatch-api": "^3.0.2",
     "prettier": "2.3.2",
     "react-test-renderer": "^17.0.1"
   }
