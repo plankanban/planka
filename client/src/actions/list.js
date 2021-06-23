@@ -1,9 +1,30 @@
 import ActionTypes from '../constants/ActionTypes';
 
-/* Actions */
-
 export const createList = (list) => ({
   type: ActionTypes.LIST_CREATE,
+  payload: {
+    list,
+  },
+});
+
+createList.success = (localId, list) => ({
+  type: ActionTypes.LIST_CREATE__SUCCESS,
+  payload: {
+    localId,
+    list,
+  },
+});
+
+createList.failure = (localId, error) => ({
+  type: ActionTypes.LIST_CREATE__FAILURE,
+  payload: {
+    localId,
+    error,
+  },
+});
+
+export const handleListCreate = (list) => ({
+  type: ActionTypes.LIST_CREATE_HANDLE,
   payload: {
     list,
   },
@@ -17,6 +38,28 @@ export const updateList = (id, data) => ({
   },
 });
 
+updateList.success = (list) => ({
+  type: ActionTypes.LIST_UPDATE__SUCCESS,
+  payload: {
+    list,
+  },
+});
+
+updateList.failure = (id, error) => ({
+  type: ActionTypes.LIST_UPDATE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+export const handleListUpdate = (list) => ({
+  type: ActionTypes.LIST_UPDATE_HANDLE,
+  payload: {
+    list,
+  },
+});
+
 export const deleteList = (id) => ({
   type: ActionTypes.LIST_DELETE,
   payload: {
@@ -24,93 +67,23 @@ export const deleteList = (id) => ({
   },
 });
 
-/* Events */
-
-export const createListRequested = (localId, data) => ({
-  type: ActionTypes.LIST_CREATE_REQUESTED,
-  payload: {
-    localId,
-    data,
-  },
-});
-
-export const createListSucceeded = (localId, list) => ({
-  type: ActionTypes.LIST_CREATE_SUCCEEDED,
-  payload: {
-    localId,
-    list,
-  },
-});
-
-export const createListFailed = (localId, error) => ({
-  type: ActionTypes.LIST_CREATE_FAILED,
-  payload: {
-    localId,
-    error,
-  },
-});
-
-export const createListReceived = (list) => ({
-  type: ActionTypes.LIST_CREATE_RECEIVED,
+deleteList.success = (list) => ({
+  type: ActionTypes.LIST_DELETE__SUCCESS,
   payload: {
     list,
   },
 });
 
-export const updateListRequested = (id, data) => ({
-  type: ActionTypes.LIST_UPDATE_REQUESTED,
-  payload: {
-    id,
-    data,
-  },
-});
-
-export const updateListSucceeded = (list) => ({
-  type: ActionTypes.LIST_UPDATE_SUCCEEDED,
-  payload: {
-    list,
-  },
-});
-
-export const updateListFailed = (id, error) => ({
-  type: ActionTypes.LIST_UPDATE_FAILED,
+deleteList.failure = (id, error) => ({
+  type: ActionTypes.LIST_DELETE__FAILURE,
   payload: {
     id,
     error,
   },
 });
 
-export const updateListReceived = (list) => ({
-  type: ActionTypes.LIST_UPDATE_RECEIVED,
-  payload: {
-    list,
-  },
-});
-
-export const deleteListRequested = (id) => ({
-  type: ActionTypes.LIST_DELETE_REQUESTED,
-  payload: {
-    id,
-  },
-});
-
-export const deleteListSucceeded = (list) => ({
-  type: ActionTypes.LIST_DELETE_SUCCEEDED,
-  payload: {
-    list,
-  },
-});
-
-export const deleteListFailed = (id, error) => ({
-  type: ActionTypes.LIST_DELETE_FAILED,
-  payload: {
-    id,
-    error,
-  },
-});
-
-export const deleteListReceived = (list) => ({
-  type: ActionTypes.LIST_DELETE_RECEIVED,
+export const handleListDelete = (list) => ({
+  type: ActionTypes.LIST_DELETE_HANDLE,
   payload: {
     list,
   },

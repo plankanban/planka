@@ -29,23 +29,53 @@ export default class extends Model {
 
   static reducer({ type, payload }, Action) {
     switch (type) {
-      case ActionTypes.ACTIONS_FETCH_SUCCEEDED:
+      case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        Action.all().delete();
+
+        payload.actions.forEach((action) => {
+          Action.upsert({
+            ...action,
+            isInCard: false,
+          });
+        });
+
+        break;
+      case ActionTypes.CORE_INITIALIZE:
+        payload.actions.forEach((action) => {
+          Action.upsert({
+            ...action,
+            isInCard: false,
+          });
+        });
+
+        break;
+      case ActionTypes.ACTIONS_FETCH__SUCCESS:
+      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
         payload.actions.forEach((action) => {
           Action.upsert(action);
         });
 
         break;
-      case ActionTypes.ACTION_CREATE_RECEIVED:
+      case ActionTypes.ACTION_CREATE_HANDLE:
+      case ActionTypes.ACTION_UPDATE_HANDLE:
       case ActionTypes.COMMENT_ACTION_CREATE:
+      case ActionTypes.COMMENT_ACTION_UPDATE__SUCCESS:
         Action.upsert(payload.action);
 
         break;
-      case ActionTypes.ACTION_UPDATE_RECEIVED:
-        Action.withId(payload.action.id).update(payload.action);
+      case ActionTypes.ACTION_DELETE_HANDLE:
+      case ActionTypes.COMMENT_ACTION_DELETE__SUCCESS: {
+        const actionModel = Action.withId(payload.action.id);
+
+        if (actionModel) {
+          actionModel.delete();
+        }
 
         break;
-      case ActionTypes.ACTION_DELETE_RECEIVED:
-        Action.withId(payload.action.id).delete();
+      }
+      case ActionTypes.COMMENT_ACTION_CREATE__SUCCESS:
+        Action.withId(payload.localId).delete();
+        Action.upsert(payload.action);
 
         break;
       case ActionTypes.COMMENT_ACTION_UPDATE:
@@ -58,30 +88,6 @@ export default class extends Model {
         Action.withId(payload.id).delete();
 
         break;
-      case ActionTypes.COMMENT_ACTION_CREATE_SUCCEEDED:
-        Action.withId(payload.localId).delete();
-        Action.upsert(payload.action);
-
-        break;
-      case ActionTypes.NOTIFICATIONS_FETCH_SUCCEEDED:
-        payload.actions.forEach((action) => {
-          Action.upsert({
-            ...action,
-            isInCard: false,
-          });
-        });
-
-        break;
-      case ActionTypes.NOTIFICATION_CREATE_RECEIVED: {
-        const actionModel = Action.withId(payload.action.id);
-
-        Action.upsert({
-          ...payload.action,
-          isInCard: actionModel ? actionModel.isInCard : false,
-        });
-
-        break;
-      }
       default:
     }
   }

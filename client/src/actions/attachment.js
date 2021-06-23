@@ -1,9 +1,30 @@
 import ActionTypes from '../constants/ActionTypes';
 
-/* Actions */
-
 export const createAttachment = (attachment) => ({
   type: ActionTypes.ATTACHMENT_CREATE,
+  payload: {
+    attachment,
+  },
+});
+
+createAttachment.success = (localId, attachment) => ({
+  type: ActionTypes.ATTACHMENT_CREATE__SUCCESS,
+  payload: {
+    localId,
+    attachment,
+  },
+});
+
+createAttachment.failure = (localId, error) => ({
+  type: ActionTypes.ATTACHMENT_CREATE__FAILURE,
+  payload: {
+    localId,
+    error,
+  },
+});
+
+export const handleAttachmentCreate = (attachment) => ({
+  type: ActionTypes.ATTACHMENT_CREATE_HANDLE,
   payload: {
     attachment,
   },
@@ -17,6 +38,28 @@ export const updateAttachment = (id, data) => ({
   },
 });
 
+updateAttachment.success = (attachment) => ({
+  type: ActionTypes.ATTACHMENT_UPDATE__SUCCESS,
+  payload: {
+    attachment,
+  },
+});
+
+updateAttachment.failure = (id, error) => ({
+  type: ActionTypes.ATTACHMENT_UPDATE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+export const handleAttachmentUpdate = (attachment) => ({
+  type: ActionTypes.ATTACHMENT_UPDATE_HANDLE,
+  payload: {
+    attachment,
+  },
+});
+
 export const deleteAttachment = (id) => ({
   type: ActionTypes.ATTACHMENT_DELETE,
   payload: {
@@ -24,93 +67,23 @@ export const deleteAttachment = (id) => ({
   },
 });
 
-/* Events */
-
-export const createAttachmentRequested = (localId, data) => ({
-  type: ActionTypes.ATTACHMENT_CREATE_REQUESTED,
-  payload: {
-    localId,
-    data,
-  },
-});
-
-export const createAttachmentSucceeded = (localId, attachment) => ({
-  type: ActionTypes.ATTACHMENT_CREATE_SUCCEEDED,
-  payload: {
-    localId,
-    attachment,
-  },
-});
-
-export const createAttachmentFailed = (localId, error) => ({
-  type: ActionTypes.ATTACHMENT_CREATE_FAILED,
-  payload: {
-    localId,
-    error,
-  },
-});
-
-export const createAttachmentReceived = (attachment) => ({
-  type: ActionTypes.ATTACHMENT_CREATE_RECEIVED,
+deleteAttachment.success = (attachment) => ({
+  type: ActionTypes.ATTACHMENT_DELETE__SUCCESS,
   payload: {
     attachment,
   },
 });
 
-export const updateAttachmentRequested = (id, data) => ({
-  type: ActionTypes.ATTACHMENT_UPDATE_REQUESTED,
-  payload: {
-    id,
-    data,
-  },
-});
-
-export const updateAttachmentSucceeded = (attachment) => ({
-  type: ActionTypes.ATTACHMENT_UPDATE_SUCCEEDED,
-  payload: {
-    attachment,
-  },
-});
-
-export const updateAttachmentFailed = (id, error) => ({
-  type: ActionTypes.ATTACHMENT_UPDATE_FAILED,
+deleteAttachment.failure = (id, error) => ({
+  type: ActionTypes.ATTACHMENT_DELETE__FAILURE,
   payload: {
     id,
     error,
   },
 });
 
-export const updateAttachmentReceived = (attachment) => ({
-  type: ActionTypes.ATTACHMENT_UPDATE_RECEIVED,
-  payload: {
-    attachment,
-  },
-});
-
-export const deleteAttachmentRequested = (id) => ({
-  type: ActionTypes.ATTACHMENT_DELETE_REQUESTED,
-  payload: {
-    id,
-  },
-});
-
-export const deleteAttachmentSucceeded = (attachment) => ({
-  type: ActionTypes.ATTACHMENT_DELETE_SUCCEEDED,
-  payload: {
-    attachment,
-  },
-});
-
-export const deleteAttachmentFailed = (id, error) => ({
-  type: ActionTypes.ATTACHMENT_DELETE_FAILED,
-  payload: {
-    id,
-    error,
-  },
-});
-
-export const deleteAttachmentReceived = (attachment) => ({
-  type: ActionTypes.ATTACHMENT_DELETE_RECEIVED,
+export const handleAttachmentDelete = (attachment) => ({
+  type: ActionTypes.ATTACHMENT_DELETE_HANDLE,
   payload: {
     attachment,
   },

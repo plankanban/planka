@@ -54,7 +54,7 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const values = _.pick(inputs, [
       'email',
       'password',
@@ -65,13 +65,13 @@ module.exports = {
       'subscribeToOwnCards',
     ]);
 
-    const user = await sails.helpers
-      .createUser(values, this.req)
+    const user = await sails.helpers.users
+      .createOne(values, this.req)
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);
 
-    return exits.success({
+    return {
       item: user,
-    });
+    };
   },
 };

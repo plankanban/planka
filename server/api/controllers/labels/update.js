@@ -29,30 +29,24 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const labelToProjectPath = await sails.helpers
-      .getLabelToProjectPath(inputs.id)
+    let { label } = await sails.helpers.labels
+      .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.LABEL_NOT_FOUND);
 
-    let { label } = labelToProjectPath;
-    const { project } = labelToProjectPath;
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, label.boardId);
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
-
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.LABEL_NOT_FOUND; // Forbidden
     }
 
     const values = _.pick(inputs, ['name', 'color']);
-    label = await sails.helpers.updateLabel(label, values, this.req);
+    label = await sails.helpers.labels.updateOne(label, values, this.req);
 
-    return exits.success({
+    return {
       item: label,
-    });
+    };
   },
 };

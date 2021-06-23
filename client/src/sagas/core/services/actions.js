@@ -1,12 +1,31 @@
-import { call, select } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
-import { fetchActionsRequest } from '../requests';
+import request from '../request';
 import { lastActionIdByCardIdSelector, pathSelector } from '../../../selectors';
+import { fetchActions } from '../../../actions';
+import api from '../../../api';
 
 export function* fetchActionsService(cardId) {
   const lastId = yield select(lastActionIdByCardIdSelector, cardId);
 
-  yield call(fetchActionsRequest, cardId, lastId);
+  yield put(fetchActions(cardId));
+
+  let actions;
+  let users;
+
+  try {
+    ({
+      items: actions,
+      included: { users },
+    } = yield call(request, api.getActions, cardId, {
+      beforeId: lastId,
+    }));
+  } catch (error) {
+    yield put(fetchActions.failure(cardId, error));
+    return;
+  }
+
+  yield put(fetchActions.success(cardId, actions, users));
 }
 
 export function* fetchActionsInCurrentCardService() {

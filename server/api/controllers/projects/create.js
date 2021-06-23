@@ -6,25 +6,22 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
     const values = _.pick(inputs, ['name']);
 
-    const { project, projectMembership } = await sails.helpers.createProject(
-      currentUser,
+    const { project, projectManager } = await sails.helpers.projects.createOne(
       values,
+      currentUser,
       this.req,
-      true,
     );
 
-    return exits.success({
+    return {
       item: project,
       included: {
-        users: [currentUser],
-        projectMemberships: [projectMembership],
-        boards: [],
+        projectManagers: [projectManager],
       },
-    });
+    };
   },
 };

@@ -19,16 +19,53 @@ export default class extends Model {
 
   static reducer({ type, payload }, Attachment) {
     switch (type) {
-      case ActionTypes.BOARD_FETCH_SUCCEEDED:
-      case ActionTypes.CARD_CREATE_SUCCEEDED:
-      case ActionTypes.CARD_CREATE_RECEIVED:
+      case ActionTypes.LOCATION_CHANGE_HANDLE:
+      case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+        if (payload.attachments) {
+          payload.attachments.forEach((attachment) => {
+            Attachment.upsert(attachment);
+          });
+        }
+
+        break;
+      case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        if (payload.attachments) {
+          // FIXME: bug with oneToOne relation in Redux-ORM
+          const attachmentIds = payload.attachments.map((attachment) => attachment.id);
+
+          Attachment.all()
+            .toModelArray()
+            .forEach((attachmentModel) => {
+              if (!attachmentIds.includes(attachmentModel.id)) {
+                attachmentModel.delete();
+              }
+            });
+
+          payload.attachments.forEach((attachment) => {
+            Attachment.upsert(attachment);
+          });
+        } else {
+          Attachment.all().delete();
+        }
+
+        break;
+      case ActionTypes.BOARD_FETCH__SUCCESS:
         payload.attachments.forEach((attachment) => {
           Attachment.upsert(attachment);
         });
 
         break;
       case ActionTypes.ATTACHMENT_CREATE:
-      case ActionTypes.ATTACHMENT_CREATE_RECEIVED:
+      case ActionTypes.ATTACHMENT_CREATE_HANDLE:
+      case ActionTypes.ATTACHMENT_UPDATE__SUCCESS:
+      case ActionTypes.ATTACHMENT_UPDATE_HANDLE:
+        Attachment.upsert(payload.attachment);
+
+        break;
+      case ActionTypes.ATTACHMENT_CREATE__SUCCESS:
+        Attachment.withId(payload.localId).delete();
         Attachment.upsert(payload.attachment);
 
         break;
@@ -40,19 +77,16 @@ export default class extends Model {
         Attachment.withId(payload.id).delete();
 
         break;
-      case ActionTypes.ATTACHMENT_CREATE_SUCCEEDED:
-        Attachment.withId(payload.localId).delete();
-        Attachment.upsert(payload.attachment);
+      case ActionTypes.ATTACHMENT_DELETE__SUCCESS:
+      case ActionTypes.ATTACHMENT_DELETE_HANDLE: {
+        const attachmentModel = Attachment.withId(payload.attachment.id);
+
+        if (attachmentModel) {
+          attachmentModel.delete();
+        }
 
         break;
-      case ActionTypes.ATTACHMENT_UPDATE_RECEIVED:
-        Attachment.withId(payload.attachment.id).update(payload.attachment);
-
-        break;
-      case ActionTypes.ATTACHMENT_DELETE_RECEIVED:
-        Attachment.withId(payload.attachment.id).delete();
-
-        break;
+      }
       default:
     }
   }

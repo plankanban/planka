@@ -1,0 +1,46 @@
+:global(#app) {
+  .filter {
+    margin-right: 10px;
+  }
+
+  .filterButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    padding: 0;
+  }
+
+  .filterItem {
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+    margin-right: 4px;
+    max-width: 190px;
+    vertical-align: top;
+  }
+
+  .filterLabel {
+    background: rgba(0, 0, 0, 0.24);
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 2px 8px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .filterTitle {
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 2px 12px;
+  }
+}

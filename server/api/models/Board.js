@@ -5,10 +5,13 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
-const TYPES = ['kanban', 'collection'];
+const Types = {
+  KANBAN: 'kanban',
+  COLLECTION: 'collection',
+};
 
 module.exports = {
-  TYPES,
+  Types,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -17,7 +20,7 @@ module.exports = {
 
     type: {
       type: 'string',
-      isIn: TYPES,
+      isIn: Object.values(Types),
       required: true,
     },
     position: {
@@ -41,6 +44,11 @@ module.exports = {
       model: 'Project',
       required: true,
       columnName: 'project_id',
+    },
+    memberUsers: {
+      collection: 'User',
+      via: 'boardId',
+      through: 'BoardMembership',
     },
     lists: {
       collection: 'List',

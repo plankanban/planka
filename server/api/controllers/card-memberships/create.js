@@ -36,34 +36,31 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card, project } = await sails.helpers
-      .getCardToProjectPath(inputs.cardId)
+    const { card } = await sails.helpers.cards
+      .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    let isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    let isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
 
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
-    isUserMemberForProject = await sails.helpers.isUserMemberForProject(project.id, inputs.userId);
+    isBoardMember = await sails.helpers.users.isBoardMember(inputs.userId, card.boardId);
 
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.USER_NOT_FOUND;
     }
 
-    const cardMembership = await sails.helpers
-      .createCardMembership(card, inputs.userId, this.req)
+    const cardMembership = await sails.helpers.cardMemberships
+      .createOne(inputs.userId, card, this.req)
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
 
-    return exits.success({
+    return {
       item: cardMembership,
-    });
+    };
   },
 };

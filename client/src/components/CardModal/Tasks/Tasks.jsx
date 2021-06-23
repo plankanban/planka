@@ -8,7 +8,7 @@ import Add from './Add';
 
 import styles from './Tasks.module.scss';
 
-const Tasks = React.memo(({ items, onCreate, onUpdate, onDelete }) => {
+const Tasks = React.memo(({ items, canEdit, onCreate, onUpdate, onDelete }) => {
   const [t] = useTranslation();
 
   const handleUpdate = useCallback(
@@ -45,23 +45,27 @@ const Tasks = React.memo(({ items, onCreate, onUpdate, onDelete }) => {
           name={item.name}
           isCompleted={item.isCompleted}
           isPersisted={item.isPersisted}
+          canEdit={canEdit}
           onUpdate={(data) => handleUpdate(item.id, data)}
           onDelete={() => handleDelete(item.id)}
         />
       ))}
-      <Add onCreate={onCreate}>
-        <button type="button" className={styles.taskButton}>
-          <span className={styles.taskButtonText}>
-            {items.length > 0 ? t('action.addAnotherTask') : t('action.addTask')}
-          </span>
-        </button>
-      </Add>
+      {canEdit && (
+        <Add onCreate={onCreate}>
+          <button type="button" className={styles.taskButton}>
+            <span className={styles.taskButtonText}>
+              {items.length > 0 ? t('action.addAnotherTask') : t('action.addTask')}
+            </span>
+          </button>
+        </Add>
+      )}
     </>
   );
 });
 
 Tasks.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  canEdit: PropTypes.bool.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

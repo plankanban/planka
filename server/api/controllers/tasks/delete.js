@@ -19,33 +19,30 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const taskToProjectPath = await sails.helpers
-      .getTaskToProjectPath(inputs.id)
+    const path = await sails.helpers.tasks
+      .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.TASK_NOT_FOUND);
 
-    let { task } = taskToProjectPath;
-    const { board, project } = taskToProjectPath;
+    let { task } = path;
+    const { board } = path;
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
 
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.TASK_NOT_FOUND; // Forbidden
     }
 
-    task = await sails.helpers.deleteTask(task, board, this.req);
+    task = await sails.helpers.tasks.deleteOne(task, board, this.req);
 
     if (!task) {
       throw Errors.TASK_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: task,
-    });
+    };
   },
 };

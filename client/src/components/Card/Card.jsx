@@ -33,8 +33,9 @@ const Card = React.memo(
     labels,
     tasks,
     allProjectsToLists,
-    allProjectMemberships,
+    allBoardMemberships,
     allLabels,
+    canEdit,
     onUpdate,
     onMove,
     onTransfer,
@@ -129,7 +130,7 @@ const Card = React.memo(
     );
 
     return (
-      <Draggable draggableId={`card:${id}`} index={index} isDragDisabled={!isPersisted}>
+      <Draggable draggableId={`card:${id}`} index={index} isDragDisabled={!isPersisted || !canEdit}>
         {({ innerRef, draggableProps, dragHandleProps }) => (
           // eslint-disable-next-line react/jsx-props-no-spreading
           <div {...draggableProps} {...dragHandleProps} ref={innerRef} className={styles.wrapper}>
@@ -144,40 +145,42 @@ const Card = React.memo(
                     >
                       {contentNode}
                     </Link>
-                    <ActionsPopup
-                      card={{
-                        id,
-                        name,
-                        dueDate,
-                        timer,
-                        boardId,
-                        listId,
-                        projectId,
-                        isPersisted,
-                      }}
-                      projectsToLists={allProjectsToLists}
-                      projectMemberships={allProjectMemberships}
-                      currentUserIds={users.map((user) => user.id)}
-                      labels={allLabels}
-                      currentLabelIds={labels.map((label) => label.id)}
-                      onNameEdit={handleNameEdit}
-                      onUpdate={onUpdate}
-                      onMove={onMove}
-                      onTransfer={onTransfer}
-                      onDelete={onDelete}
-                      onUserAdd={onUserAdd}
-                      onUserRemove={onUserRemove}
-                      onBoardFetch={onBoardFetch}
-                      onLabelAdd={onLabelAdd}
-                      onLabelRemove={onLabelRemove}
-                      onLabelCreate={onLabelCreate}
-                      onLabelUpdate={onLabelUpdate}
-                      onLabelDelete={onLabelDelete}
-                    >
-                      <Button className={classNames(styles.actionsButton, styles.target)}>
-                        <Icon fitted name="pencil" size="small" />
-                      </Button>
-                    </ActionsPopup>
+                    {canEdit && (
+                      <ActionsPopup
+                        card={{
+                          id,
+                          name,
+                          dueDate,
+                          timer,
+                          boardId,
+                          listId,
+                          projectId,
+                          isPersisted,
+                        }}
+                        projectsToLists={allProjectsToLists}
+                        boardMemberships={allBoardMemberships}
+                        currentUserIds={users.map((user) => user.id)}
+                        labels={allLabels}
+                        currentLabelIds={labels.map((label) => label.id)}
+                        onNameEdit={handleNameEdit}
+                        onUpdate={onUpdate}
+                        onMove={onMove}
+                        onTransfer={onTransfer}
+                        onDelete={onDelete}
+                        onUserAdd={onUserAdd}
+                        onUserRemove={onUserRemove}
+                        onBoardFetch={onBoardFetch}
+                        onLabelAdd={onLabelAdd}
+                        onLabelRemove={onLabelRemove}
+                        onLabelCreate={onLabelCreate}
+                        onLabelUpdate={onLabelUpdate}
+                        onLabelDelete={onLabelDelete}
+                      >
+                        <Button className={classNames(styles.actionsButton, styles.target)}>
+                          <Icon fitted name="pencil" size="small" />
+                        </Button>
+                      </ActionsPopup>
+                    )}
                   </>
                 ) : (
                   <span className={styles.content}>{contentNode}</span>
@@ -208,9 +211,10 @@ Card.propTypes = {
   labels: PropTypes.array.isRequired,
   tasks: PropTypes.array.isRequired,
   allProjectsToLists: PropTypes.array.isRequired,
-  allProjectMemberships: PropTypes.array.isRequired,
+  allBoardMemberships: PropTypes.array.isRequired,
   allLabels: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
+  canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,

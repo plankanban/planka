@@ -1,9 +1,30 @@
 import ActionTypes from '../constants/ActionTypes';
 
-/* Actions */
-
 export const createTask = (task) => ({
   type: ActionTypes.TASK_CREATE,
+  payload: {
+    task,
+  },
+});
+
+createTask.success = (localId, task) => ({
+  type: ActionTypes.TASK_CREATE__SUCCESS,
+  payload: {
+    localId,
+    task,
+  },
+});
+
+createTask.failure = (localId, error) => ({
+  type: ActionTypes.TASK_CREATE__FAILURE,
+  payload: {
+    localId,
+    error,
+  },
+});
+
+export const handleTaskCreate = (task) => ({
+  type: ActionTypes.TASK_CREATE_HANDLE,
   payload: {
     task,
   },
@@ -17,6 +38,28 @@ export const updateTask = (id, data) => ({
   },
 });
 
+updateTask.success = (task) => ({
+  type: ActionTypes.TASK_UPDATE__SUCCESS,
+  payload: {
+    task,
+  },
+});
+
+updateTask.failure = (id, error) => ({
+  type: ActionTypes.TASK_UPDATE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+export const handleTaskUpdate = (task) => ({
+  type: ActionTypes.TASK_UPDATE_HANDLE,
+  payload: {
+    task,
+  },
+});
+
 export const deleteTask = (id) => ({
   type: ActionTypes.TASK_DELETE,
   payload: {
@@ -24,93 +67,23 @@ export const deleteTask = (id) => ({
   },
 });
 
-/* Events */
-
-export const createTaskRequested = (localId, data) => ({
-  type: ActionTypes.TASK_CREATE_REQUESTED,
-  payload: {
-    localId,
-    data,
-  },
-});
-
-export const createTaskSucceeded = (localId, task) => ({
-  type: ActionTypes.TASK_CREATE_SUCCEEDED,
-  payload: {
-    localId,
-    task,
-  },
-});
-
-export const createTaskFailed = (localId, error) => ({
-  type: ActionTypes.TASK_CREATE_FAILED,
-  payload: {
-    localId,
-    error,
-  },
-});
-
-export const createTaskReceived = (task) => ({
-  type: ActionTypes.TASK_CREATE_RECEIVED,
+deleteTask.success = (task) => ({
+  type: ActionTypes.TASK_DELETE__SUCCESS,
   payload: {
     task,
   },
 });
 
-export const updateTaskRequested = (id, data) => ({
-  type: ActionTypes.TASK_UPDATE_REQUESTED,
-  payload: {
-    id,
-    data,
-  },
-});
-
-export const updateTaskSucceeded = (task) => ({
-  type: ActionTypes.TASK_UPDATE_SUCCEEDED,
-  payload: {
-    task,
-  },
-});
-
-export const updateTaskFailed = (id, error) => ({
-  type: ActionTypes.TASK_UPDATE_FAILED,
+deleteTask.failure = (id, error) => ({
+  type: ActionTypes.TASK_DELETE__FAILURE,
   payload: {
     id,
     error,
   },
 });
 
-export const updateTaskReceived = (task) => ({
-  type: ActionTypes.TASK_UPDATE_RECEIVED,
-  payload: {
-    task,
-  },
-});
-
-export const deleteTaskRequested = (id) => ({
-  type: ActionTypes.TASK_DELETE_REQUESTED,
-  payload: {
-    id,
-  },
-});
-
-export const deleteTaskSucceeded = (task) => ({
-  type: ActionTypes.TASK_DELETE_SUCCEEDED,
-  payload: {
-    task,
-  },
-});
-
-export const deleteTaskFailed = (id, error) => ({
-  type: ActionTypes.TASK_DELETE_FAILED,
-  payload: {
-    id,
-    error,
-  },
-});
-
-export const deleteTaskReceived = (task) => ({
-  type: ActionTypes.TASK_DELETE_RECEIVED,
+export const handleTaskDelete = (task) => ({
+  type: ActionTypes.TASK_DELETE_HANDLE,
   payload: {
     task,
   },

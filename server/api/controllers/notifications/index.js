@@ -1,25 +1,25 @@
 module.exports = {
-  async fn(inputs, exits) {
+  async fn() {
     const { currentUser } = this.req;
 
-    const notifications = await sails.helpers.getNotificationsForUser(currentUser.id);
+    const notifications = await sails.helpers.users.getNotifications(currentUser.id);
 
-    const actionIds = sails.helpers.mapRecords(notifications, 'actionId');
-    const actions = await sails.helpers.getActions(actionIds);
+    const actionIds = sails.helpers.utils.mapRecords(notifications, 'actionId');
+    const actions = await sails.helpers.actions.getMany(actionIds);
 
-    const cardIds = sails.helpers.mapRecords(notifications, 'cardId');
-    const cards = await sails.helpers.getCards(cardIds);
+    const userIds = sails.helpers.utils.mapRecords(actions, 'userId', true);
+    const users = await sails.helpers.users.getMany(userIds, true);
 
-    const userIds = sails.helpers.mapRecords(actions, 'userId', true);
-    const users = await sails.helpers.getUsers(userIds);
+    const cardIds = sails.helpers.utils.mapRecords(notifications, 'cardId');
+    const cards = await sails.helpers.cards.getMany(cardIds);
 
-    return exits.success({
+    return {
       items: notifications,
       included: {
         users,
         cards,
         actions,
       },
-    });
+    };
   },
 };

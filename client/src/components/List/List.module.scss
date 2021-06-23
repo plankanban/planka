@@ -2,7 +2,6 @@
   .addCardButton {
     background: #dfe3e6;
     border: none;
-    border-radius: 0 0 3px 3px;
     color: #6b808c;
     cursor: pointer;
     display: block;
@@ -37,76 +36,11 @@
   }
 
   .cards {
-    flex: 1 1 auto;
     min-height: 1px;
   }
 
-  .header {
-    background: #dfe3e6;
-    border-radius: 3px 3px 0 0;
-    box-sizing: none;
-    flex: 0 0 auto;
-    margin-bottom: 0;
-    outline: none;
-    padding: 6px 36px 4px 8px;
-    position: relative;
-
-    &:hover .target {
-      opacity: 1;
-    }
-  }
-
-  .headerButton {
-    background: none;
-    box-shadow: none;
-    color: #798d99;
-    line-height: 32px;
-    margin: 0;
-    opacity: 0;
-    padding: 0;
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    width: 32px;
-
-    &:hover {
-      background: rgba(9, 30, 66, 0.13);
-      color: #516b7a;
-    }
-  }
-
-  .headerName {
-    background: transparent;
-    border-color: transparent;
-    border-radius: 3px;
-    color: #17394d;
-    font-weight: bold;
-    line-height: 20px;
-    margin: 0;
-    max-height: 256px;
-    outline: none;
-    overflow: hidden;
-    overflow-wrap: break-word;
-    padding: 4px 8px;
-    resize: none;
-    width: 100%;
-    word-break: break-word;
-  }
-
-  .list {
-    background: #dfe3e6;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    padding: 0 8px;
-    position: relative;
-    white-space: normal;
-    width: 272px;
-  }
-
-  .listWrapper {
-    background: #dfe3e6;
-    max-height: calc(100vh - 300px);
+  .cardsInnerWrapper {
+    max-height: calc(100vh - 268px);
     overflow-x: hidden;
     overflow-y: auto;
     scrollbar-width: thin;
@@ -129,16 +63,69 @@
     }
   }
 
-  .listWrapperFull {
-    max-height: calc(100vh - 264px);
+  .cardsInnerWrapperFull {
+    max-height: calc(100vh - 232px);
   }
 
-  .wrapper {
-    border-radius: 3px;
-    flex: 0 0 auto;
-    margin: 0 4px;
-    overflow: hidden;
-    vertical-align: top;
+  .cardsOuterWrapper {
+    padding: 0 8px;
+    white-space: normal;
     width: 272px;
+  }
+
+  .header {
+    outline: none;
+    padding: 6px 36px 4px 8px;
+    position: relative;
+
+    &:hover .target {
+      opacity: 1;
+    }
+  }
+
+  .headerEditable {
+    cursor: pointer;
+  }
+
+  .headerButton {
+    background: none;
+    box-shadow: none;
+    color: #798d99;
+    line-height: 32px;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 32px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.13);
+      color: #516b7a;
+    }
+  }
+
+  .headerName {
+    color: #17394d;
+    font-weight: bold;
+    line-height: 20px;
+    max-height: 256px;
+    outline: none;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding: 4px 8px;
+    word-break: break-word;
+  }
+
+  .innerWrapper {
+    margin-right: 8px;
+    width: 272px;
+  }
+
+  .outerWrapper {
+    background: #dfe3e6;
+    border-radius: 3px;
+    overflow: hidden;
   }
 }

@@ -8,7 +8,6 @@ import DroppableTypes from '../../constants/DroppableTypes';
 import ListContainer from '../../containers/ListContainer';
 import CardModalContainer from '../../containers/CardModalContainer';
 import ListAdd from './ListAdd';
-import Filter from './Filter';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
 import styles from './BoardKanban.module.scss';
@@ -16,36 +15,19 @@ import styles from './BoardKanban.module.scss';
 const parseDndId = (dndId) => dndId.split(':')[1];
 
 const BoardKanban = React.memo(
-  ({
-    listIds,
-    filterUsers,
-    filterLabels,
-    allProjectMemberships,
-    allLabels,
-    isCardModalOpened,
-    onListCreate,
-    onListMove,
-    onCardMove,
-    onUserToFilterAdd,
-    onUserFromFilterRemove,
-    onLabelToFilterAdd,
-    onLabelFromFilterRemove,
-    onLabelCreate,
-    onLabelUpdate,
-    onLabelDelete,
-  }) => {
+  ({ listIds, isCardModalOpened, canEdit, onListCreate, onListMove, onCardMove }) => {
     const [t] = useTranslation();
-    const [isAddListOpened, setIsAddListOpened] = useState(false);
+    const [isListAddOpened, setIsListAddOpened] = useState(false);
 
     const wrapper = useRef(null);
     const prevPosition = useRef(null);
 
     const handleAddListClick = useCallback(() => {
-      setIsAddListOpened(true);
+      setIsListAddOpened(true);
     }, []);
 
     const handleAddListClose = useCallback(() => {
-      setIsAddListOpened(false);
+      setIsListAddOpened(false);
     }, []);
 
     const handleDragStart = useCallback(() => {
@@ -119,10 +101,10 @@ const BoardKanban = React.memo(
     }, []);
 
     useEffect(() => {
-      if (isAddListOpened) {
+      if (isListAddOpened) {
         window.scroll(document.body.scrollWidth, 0);
       }
-    }, [listIds, isAddListOpened]);
+    }, [listIds, isListAddOpened]);
 
     useEffect(() => {
       window.addEventListener('mouseup', handleWindowMouseUp);
@@ -138,19 +120,6 @@ const BoardKanban = React.memo(
       <>
         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
         <div ref={wrapper} className={styles.wrapper} onMouseDown={handleMouseDown}>
-          <Filter
-            users={filterUsers}
-            labels={filterLabels}
-            allProjectMemberships={allProjectMemberships}
-            allLabels={allLabels}
-            onUserAdd={onUserToFilterAdd}
-            onUserRemove={onUserFromFilterRemove}
-            onLabelAdd={onLabelToFilterAdd}
-            onLabelRemove={onLabelFromFilterRemove}
-            onLabelCreate={onLabelCreate}
-            onLabelUpdate={onLabelUpdate}
-            onLabelDelete={onLabelDelete}
-          />
           <div>
             <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <Droppable droppableId="board" type={DroppableTypes.LIST} direction="horizontal">
@@ -165,26 +134,26 @@ const BoardKanban = React.memo(
                       <ListContainer key={listId} id={listId} index={index} />
                     ))}
                     {placeholder}
-                    <div data-drag-scroller className={styles.list}>
-                      {isAddListOpened ? (
-                        <ListAdd
-                          isOpened={isAddListOpened}
-                          onCreate={onListCreate}
-                          onClose={handleAddListClose}
-                        />
-                      ) : (
-                        <button
-                          type="button"
-                          className={styles.addListButton}
-                          onClick={handleAddListClick}
-                        >
-                          <PlusMathIcon className={styles.addListButtonIcon} />
-                          <span className={styles.addListButtonText}>
-                            {listIds.length > 0 ? t('action.addAnotherList') : t('action.addList')}
-                          </span>
-                        </button>
-                      )}
-                    </div>
+                    {canEdit && (
+                      <div data-drag-scroller className={styles.list}>
+                        {isListAddOpened ? (
+                          <ListAdd onCreate={onListCreate} onClose={handleAddListClose} />
+                        ) : (
+                          <button
+                            type="button"
+                            className={styles.addListButton}
+                            onClick={handleAddListClick}
+                          >
+                            <PlusMathIcon className={styles.addListButtonIcon} />
+                            <span className={styles.addListButtonText}>
+                              {listIds.length > 0
+                                ? t('action.addAnotherList')
+                                : t('action.addList')}
+                            </span>
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </Droppable>
@@ -198,24 +167,12 @@ const BoardKanban = React.memo(
 );
 
 BoardKanban.propTypes = {
-  /* eslint-disable react/forbid-prop-types */
-  listIds: PropTypes.array.isRequired,
-  filterUsers: PropTypes.array.isRequired,
-  filterLabels: PropTypes.array.isRequired,
-  allProjectMemberships: PropTypes.array.isRequired,
-  allLabels: PropTypes.array.isRequired,
-  /* eslint-enable react/forbid-prop-types */
+  listIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   isCardModalOpened: PropTypes.bool.isRequired,
+  canEdit: PropTypes.bool.isRequired,
   onListCreate: PropTypes.func.isRequired,
   onListMove: PropTypes.func.isRequired,
   onCardMove: PropTypes.func.isRequired,
-  onUserToFilterAdd: PropTypes.func.isRequired,
-  onUserFromFilterRemove: PropTypes.func.isRequired,
-  onLabelToFilterAdd: PropTypes.func.isRequired,
-  onLabelFromFilterRemove: PropTypes.func.isRequired,
-  onLabelCreate: PropTypes.func.isRequired,
-  onLabelUpdate: PropTypes.func.isRequired,
-  onLabelDelete: PropTypes.func.isRequired,
 };
 
 export default BoardKanban;

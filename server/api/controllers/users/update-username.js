@@ -44,7 +44,7 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
     if (inputs.id === currentUser.id) {
@@ -55,7 +55,7 @@ module.exports = {
       throw Errors.USER_NOT_FOUND; // Forbidden
     }
 
-    let user = await sails.helpers.getUser(inputs.id);
+    let user = await sails.helpers.users.getOne(inputs.id);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
@@ -70,16 +70,16 @@ module.exports = {
 
     const values = _.pick(inputs, ['username']);
 
-    user = await sails.helpers
-      .updateUser(user, values, this.req)
+    user = await sails.helpers.users
+      .update(user, values, this.req)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: user,
-    });
+    };
   },
 };

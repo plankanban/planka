@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 import { clearUserCreateError, createUser } from '../actions/entry';
 import UserAddPopup from '../components/UserAddPopup';
 
-const mapStateToProps = ({ userCreateForm: { data: defaultData, isSubmitting, error } }) => ({
+const mapStateToProps = ({
+  ui: {
+    userCreateForm: { data: defaultData, isSubmitting, error },
+  },
+}) => ({
   defaultData,
   isSubmitting,
   error,

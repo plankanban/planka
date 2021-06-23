@@ -26,34 +26,28 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const listToProjectPath = await sails.helpers
-      .getListToProjectPath(inputs.id)
+    let { list } = await sails.helpers.lists
+      .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
-    let { list } = listToProjectPath;
-    const { project } = listToProjectPath;
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, list.boardId);
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
-
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-    list = await sails.helpers.updateList(list, values, this.req);
+    list = await sails.helpers.lists.updateOne(list, values, this.req);
 
     if (!list) {
       throw Errors.LIST_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: list,
-    });
+    };
   },
 };

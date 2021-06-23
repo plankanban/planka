@@ -1,15 +1,20 @@
 import ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
-  status: null,
+  isDisconnected: false,
 };
 
-export default (state = initialState, { type, payload }) => {
+export default (state = initialState, { type }) => {
   switch (type) {
-    case ActionTypes.SOCKET_STATUS_CHANGED:
+    case ActionTypes.SOCKET_DISCONNECT_HANDLE:
       return {
         ...state,
-        status: payload.status,
+        isDisconnected: true,
+      };
+    case ActionTypes.SOCKET_RECONNECT_HANDLE:
+      return {
+        ...state,
+        isDisconnected: false,
       };
     default:
       return state;

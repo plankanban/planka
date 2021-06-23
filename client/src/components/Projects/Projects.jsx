@@ -14,7 +14,7 @@ import { ReactComponent as PlusIcon } from '../../assets/images/plus-icon.svg';
 import styles from './Projects.module.scss';
 import globalStyles from '../../styles.module.scss';
 
-const Projects = React.memo(({ items, isEditable, onAdd }) => {
+const Projects = React.memo(({ items, canAdd, onAdd }) => {
   const [t] = useTranslation();
 
   return (
@@ -53,7 +53,7 @@ const Projects = React.memo(({ items, isEditable, onAdd }) => {
             </Link>
           </Grid.Column>
         ))}
-        {isEditable && (
+        {canAdd && (
           <Grid.Column mobile={8} computer={4}>
             <button type="button" className={classNames(styles.card, styles.add)} onClick={onAdd}>
               <div className={styles.addTitleWrapper}>
@@ -72,7 +72,7 @@ const Projects = React.memo(({ items, isEditable, onAdd }) => {
 
 Projects.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  isEditable: PropTypes.bool.isRequired,
+  canAdd: PropTypes.bool.isRequired,
   onAdd: PropTypes.func.isRequired,
 };
 

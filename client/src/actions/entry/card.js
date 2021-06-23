@@ -8,6 +8,13 @@ export const createCard = (listId, data) => ({
   },
 });
 
+export const handleCardCreate = (card) => ({
+  type: EntryActionTypes.CARD_CREATE_HANDLE,
+  payload: {
+    card,
+  },
+});
+
 export const updateCard = (id, data) => ({
   type: EntryActionTypes.CARD_UPDATE,
   payload: {
@@ -20,6 +27,13 @@ export const updateCurrentCard = (data) => ({
   type: EntryActionTypes.CURRENT_CARD_UPDATE,
   payload: {
     data,
+  },
+});
+
+export const handleCardUpdate = (card) => ({
+  type: EntryActionTypes.CARD_UPDATE_HANDLE,
+  payload: {
+    card,
   },
 });
 
@@ -69,4 +83,11 @@ export const deleteCard = (id) => ({
 export const deleteCurrentCard = () => ({
   type: EntryActionTypes.CURRENT_CARD_DELETE,
   payload: {},
+});
+
+export const handleCardDelete = (card) => ({
+  type: EntryActionTypes.CARD_DELETE_HANDLE,
+  payload: {
+    card,
+  },
 });

@@ -30,19 +30,16 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board, project } = await sails.helpers
-      .getCardToProjectPath(inputs.cardId)
+    const { board } = await sails.helpers.cards
+      .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
 
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
@@ -55,14 +52,14 @@ module.exports = {
       throw Errors.LABEL_NOT_IN_CARD;
     }
 
-    cardLabel = await sails.helpers.deleteCardLabel(cardLabel, board, this.req);
+    cardLabel = await sails.helpers.cardLabels.deleteOne(cardLabel, board, this.req);
 
     if (!cardLabel) {
       throw Errors.LABEL_NOT_IN_CARD;
     }
 
-    return exits.success({
+    return {
       item: cardLabel,
-    });
+    };
   },
 };

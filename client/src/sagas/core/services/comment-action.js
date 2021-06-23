@@ -1,12 +1,9 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import {
-  createCommentActionRequest,
-  deleteCommentActionRequest,
-  updateCommentActionRequest,
-} from '../requests';
+import request from '../request';
 import { currentUserIdSelector, pathSelector } from '../../../selectors';
 import { createCommentAction, deleteCommentAction, updateCommentAction } from '../../../actions';
+import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 import { ActionTypes } from '../../../constants/Enums';
 
@@ -24,7 +21,15 @@ export function* createCommentActionService(cardId, data) {
     }),
   );
 
-  yield call(createCommentActionRequest, cardId, localId, data);
+  let action;
+  try {
+    ({ item: action } = yield call(request, api.createCommentAction, cardId, data));
+  } catch (error) {
+    yield put(createCommentAction.failure(localId, error));
+    return;
+  }
+
+  yield put(createCommentAction.success(localId, action));
 }
 
 export function* createCommentActionInCurrentCardService(data) {
@@ -35,10 +40,28 @@ export function* createCommentActionInCurrentCardService(data) {
 
 export function* updateCommentActionService(id, data) {
   yield put(updateCommentAction(id, data));
-  yield call(updateCommentActionRequest, id, data);
+
+  let action;
+  try {
+    ({ item: action } = yield call(request, api.updateCommentAction, id, data));
+  } catch (error) {
+    yield put(updateCommentAction.failure(id, error));
+    return;
+  }
+
+  yield put(updateCommentAction.success(action));
 }
 
 export function* deleteCommentActionService(id) {
   yield put(deleteCommentAction(id));
-  yield call(deleteCommentActionRequest, id);
+
+  let action;
+  try {
+    ({ item: action } = yield call(request, api.deleteCommentAction, id));
+  } catch (error) {
+    yield put(deleteCommentAction.failure(id, error));
+    return;
+  }
+
+  yield put(deleteCommentAction.success(action));
 }

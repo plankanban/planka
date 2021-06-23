@@ -14,7 +14,8 @@ const Actions = React.memo(
     items,
     isFetching,
     isAllFetched,
-    isEditable,
+    canEdit,
+    canEditAllComments,
     onFetch,
     onCommentCreate,
     onCommentUpdate,
@@ -38,13 +39,15 @@ const Actions = React.memo(
 
     return (
       <>
-        <div className={styles.contentModule}>
-          <div className={styles.moduleWrapper}>
-            <Icon name="comment outline" className={styles.moduleIcon} />
-            <div className={styles.moduleHeader}>{t('common.addComment')}</div>
-            <CommentAdd onCreate={onCommentCreate} />
+        {canEdit && (
+          <div className={styles.contentModule}>
+            <div className={styles.moduleWrapper}>
+              <Icon name="comment outline" className={styles.moduleIcon} />
+              <div className={styles.moduleHeader}>{t('common.addComment')}</div>
+              <CommentAdd onCreate={onCommentCreate} />
+            </div>
           </div>
-        </div>
+        )}
         <div className={styles.contentModule}>
           <div className={styles.moduleWrapper}>
             <Icon name="list ul" className={styles.moduleIcon} />
@@ -59,7 +62,7 @@ const Actions = React.memo(
                       createdAt={item.createdAt}
                       isPersisted={item.isPersisted}
                       user={item.user}
-                      isEditable={isEditable}
+                      canEdit={(item.user.isCurrent && canEdit) || canEditAllComments}
                       onUpdate={(data) => handleCommentUpdate(item.id, data)}
                       onDelete={() => handleCommentDelete(item.id)}
                     />
@@ -91,7 +94,8 @@ Actions.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   isFetching: PropTypes.bool.isRequired,
   isAllFetched: PropTypes.bool.isRequired,
-  isEditable: PropTypes.bool.isRequired,
+  canEdit: PropTypes.bool.isRequired,
+  canEditAllComments: PropTypes.bool.isRequired,
   onFetch: PropTypes.func.isRequired,
   onCommentCreate: PropTypes.func.isRequired,
   onCommentUpdate: PropTypes.func.isRequired,

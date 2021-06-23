@@ -1,56 +1,9 @@
 :global(#app) {
-  .addUser {
-    background: rgba(0, 0, 0, 0.24);
-    border-radius: 50%;
-    box-shadow: none;
-    color: #fff;
-    line-height: 36px;
-    margin: 0;
-    padding: 0;
-    transition: all 0.1s ease 0s;
-    vertical-align: top;
-    width: 36px;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.32);
-    }
-  }
-
-  .header {
-    flex: 0 0 auto;
-    margin: 0 -1rem;
-  }
-
-  .name {
-    background: transparent;
-    box-shadow: none;
-    color: #fff;
-    display: inline-block;
-    font-size: 32px;
-    font-weight: bold;
-    line-height: 36px;
-    margin-right: 8px;
-    padding: 0;
-  }
-
-  .user {
-    display: inline-block;
-    margin: 0 -4px 0 0;
-    vertical-align: top;
-    line-height: 0;
-  }
-
-  .users {
-    display: inline-block;
-    margin-left: 8px;
-    vertical-align: top;
-  }
-
   .wrapper {
     background: rgba(0, 0, 0, 0.16);
     display: flex;
     flex-direction: column;
     height: 100%;
-    padding: 0 20px;
+    padding: 10px 20px 0;
   }
 }

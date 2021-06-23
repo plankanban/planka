@@ -15,7 +15,7 @@ import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-ic
 import styles from './List.module.scss';
 
 const List = React.memo(
-  ({ id, index, name, isPersisted, cardIds, onUpdate, onDelete, onCardCreate }) => {
+  ({ id, index, name, isPersisted, cardIds, canEdit, onUpdate, onDelete, onCardCreate }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
@@ -23,10 +23,10 @@ const List = React.memo(
     const listWrapper = useRef(null);
 
     const handleHeaderClick = useCallback(() => {
-      if (isPersisted) {
+      if (isPersisted && canEdit) {
         nameEdit.current.open();
       }
-    }, [isPersisted]);
+    }, [isPersisted, canEdit]);
 
     const handleNameUpdate = useCallback(
       (newName) => {
@@ -73,11 +73,13 @@ const List = React.memo(
                 <CardContainer key={cardId} id={cardId} index={cardIndex} />
               ))}
               {placeholder}
-              <CardAdd
-                isOpened={isAddCardOpened}
-                onCreate={onCardCreate}
-                onClose={handleAddCardClose}
-              />
+              {canEdit && (
+                <CardAdd
+                  isOpened={isAddCardOpened}
+                  onCreate={onCardCreate}
+                  onClose={handleAddCardClose}
+                />
+              )}
             </div>
           </div>
         )}
@@ -85,51 +87,64 @@ const List = React.memo(
     );
 
     return (
-      <Draggable draggableId={`list:${id}`} index={index} isDragDisabled={!isPersisted}>
+      <Draggable draggableId={`list:${id}`} index={index} isDragDisabled={!isPersisted || !canEdit}>
         {({ innerRef, draggableProps, dragHandleProps }) => (
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <div {...draggableProps} data-drag-scroller ref={innerRef} className={styles.wrapper}>
+          <div
+            {...draggableProps} // eslint-disable-line react/jsx-props-no-spreading
+            data-drag-scroller
+            ref={innerRef}
+            className={styles.innerWrapper}
+          >
             {/* eslint-disable jsx-a11y/click-events-have-key-events,
                                jsx-a11y/no-static-element-interactions,
                                react/jsx-props-no-spreading */}
-            <div {...dragHandleProps} className={styles.header} onClick={handleHeaderClick}>
-              {/* eslint-enable jsx-a11y/click-events-have-key-events,
+            <div className={styles.outerWrapper}>
+              <div
+                {...dragHandleProps}
+                className={classNames(styles.header, canEdit && styles.headerEditable)}
+                onClick={handleHeaderClick}
+              >
+                {/* eslint-enable jsx-a11y/click-events-have-key-events,
                                 jsx-a11y/no-static-element-interactions,
                                 react/jsx-props-no-spreading */}
-              <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
-                <div className={styles.headerName}>{name}</div>
-              </NameEdit>
-              {isPersisted && (
-                <ActionsPopup
-                  onNameEdit={handleNameEdit}
-                  onCardAdd={handleCardAdd}
-                  onDelete={onDelete}
+                <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
+                  <div className={styles.headerName}>{name}</div>
+                </NameEdit>
+                {isPersisted && canEdit && (
+                  <ActionsPopup
+                    onNameEdit={handleNameEdit}
+                    onCardAdd={handleCardAdd}
+                    onDelete={onDelete}
+                  >
+                    <Button className={classNames(styles.headerButton, styles.target)}>
+                      <Icon fitted name="pencil" size="small" />
+                    </Button>
+                  </ActionsPopup>
+                )}
+              </div>
+              <div
+                ref={listWrapper}
+                className={classNames(
+                  styles.cardsInnerWrapper,
+                  (isAddCardOpened || !canEdit) && styles.cardsInnerWrapperFull,
+                )}
+              >
+                <div className={styles.cardsOuterWrapper}>{cardsNode}</div>
+              </div>
+              {!isAddCardOpened && canEdit && (
+                <button
+                  type="button"
+                  disabled={!isPersisted}
+                  className={classNames(styles.addCardButton)}
+                  onClick={handleAddCardClick}
                 >
-                  <Button className={classNames(styles.headerButton, styles.target)}>
-                    <Icon fitted name="pencil" size="small" />
-                  </Button>
-                </ActionsPopup>
+                  <PlusMathIcon className={styles.addCardButtonIcon} />
+                  <span className={styles.addCardButtonText}>
+                    {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
+                  </span>
+                </button>
               )}
             </div>
-            <div
-              ref={listWrapper}
-              className={classNames(styles.listWrapper, isAddCardOpened && styles.listWrapperFull)}
-            >
-              <div className={styles.list}>{cardsNode}</div>
-            </div>
-            {!isAddCardOpened && (
-              <button
-                type="button"
-                disabled={!isPersisted}
-                className={styles.addCardButton}
-                onClick={handleAddCardClick}
-              >
-                <PlusMathIcon className={styles.addCardButtonIcon} />
-                <span className={styles.addCardButtonText}>
-                  {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
-                </span>
-              </button>
-            )}
           </div>
         )}
       </Draggable>
@@ -143,13 +158,10 @@ List.propTypes = {
   name: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onDelete: PropTypes.func,
+  onDelete: PropTypes.func.isRequired,
   onCardCreate: PropTypes.func.isRequired,
-};
-
-List.defaultProps = {
-  onDelete: undefined,
 };
 
 export default List;

@@ -113,8 +113,6 @@ export default {
       project: 'Проект',
       projectActions: 'Действия с проектом',
       projectNotFound: 'Проект не найден',
-      refreshPageToLoadLastDataAndReceiveUpdates:
-        '<0>Обновите страницу</0>, чтобы загрузить<br />актуальные данные и получать обновления',
       removeMember: 'Удаление участника',
       seconds: 'Секунды',
       selectBoard: 'Выберите доску',
@@ -159,7 +157,6 @@ export default {
       delete: 'Удалить',
       deleteAttachment: 'Удалить вложение',
       deleteAvatar: 'Удалить аватар',
-      deleteBackground: 'Удалить фон',
       deleteBoard: 'Удалить доску',
       deleteCard: 'Удалить карточку',
       deleteComment: 'Удалить комментарий',

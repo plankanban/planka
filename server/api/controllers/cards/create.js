@@ -81,20 +81,17 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board, project } = await sails.helpers
-      .getBoardToProjectPath(inputs.boardId)
+    const { board } = await sails.helpers.boards
+      .getProjectPath(inputs.boardId)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
 
-    if (!isUserMemberForProject) {
-      throw Errors.LIST_NOT_FOUND; // Forbidden
+    if (!isBoardMember) {
+      throw Errors.BOARD_NOT_FOUND; // Forbidden
     }
 
     let list;
@@ -111,19 +108,13 @@ module.exports = {
 
     const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'timer']);
 
-    const card = await sails.helpers
-      .createCard(board, list, values, currentUser, this.req)
+    const card = await sails.helpers.cards
+      .createOne(values, currentUser, board, list, this.req)
       .intercept('listMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
 
-    return exits.success({
+    return {
       item: card,
-      included: {
-        cardMemberships: [],
-        cardLabels: [],
-        tasks: [],
-        attachments: [],
-      },
-    });
+    };
   },
 };

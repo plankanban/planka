@@ -1,15 +1,15 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { allUsersExceptCurrentSelector } from '../selectors';
+import { usersExceptCurrentSelector } from '../selectors';
 import { closeModal, deleteUser, updateUser } from '../actions/entry';
 import UsersModal from '../components/UsersModal';
 
 const mapStateToProps = (state) => {
-  const items = allUsersExceptCurrentSelector(state);
+  const users = usersExceptCurrentSelector(state);
 
   return {
-    items,
+    items: users,
   };
 };
 

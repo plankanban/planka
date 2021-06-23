@@ -1,19 +1,39 @@
 import ActionTypes from '../constants/ActionTypes';
 
-/* Events */
-
-export const createNotificationReceived = (notification, user, card, action) => ({
-  type: ActionTypes.NOTIFICATION_CREATE_RECEIVED,
+export const handleNotificationCreate = (notification, users, cards, actions) => ({
+  type: ActionTypes.NOTIFICATION_CREATE_HANDLE,
   payload: {
     notification,
-    user,
-    card,
-    action,
+    users,
+    cards,
+    actions,
   },
 });
 
-export const deleteNotificationReceived = (notification) => ({
-  type: ActionTypes.NOTIFICATION_DELETE_RECEIVED,
+export const deleteNotification = (id) => ({
+  type: ActionTypes.NOTIFICATION_DELETE,
+  payload: {
+    id,
+  },
+});
+
+deleteNotification.success = (notification) => ({
+  type: ActionTypes.NOTIFICATION_DELETE__SUCCESS,
+  payload: {
+    notification,
+  },
+});
+
+deleteNotification.failure = (id, error) => ({
+  type: ActionTypes.NOTIFICATION_DELETE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+export const handleNotificationDelete = (notification) => ({
+  type: ActionTypes.NOTIFICATION_DELETE_HANDLE,
   payload: {
     notification,
   },

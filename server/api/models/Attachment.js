@@ -42,10 +42,10 @@ module.exports = {
       required: true,
       columnName: 'card_id',
     },
-    userId: {
+    creatorUserId: {
       model: 'User',
       required: true,
-      columnName: 'user_id',
+      columnName: 'creator_user_id',
     },
   },
 

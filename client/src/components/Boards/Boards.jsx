@@ -14,145 +14,117 @@ import EditPopup from './EditPopup';
 
 import styles from './Boards.module.scss';
 
-const Boards = React.memo(
-  ({ items, currentId, isEditable, onCreate, onUpdate, onMove, onDelete }) => {
-    const tabsWrapper = useRef(null);
+const Boards = React.memo(({ items, currentId, canEdit, onCreate, onUpdate, onMove, onDelete }) => {
+  const tabsWrapper = useRef(null);
 
-    const handleWheel = useCallback(({ deltaY }) => {
-      tabsWrapper.current.scrollBy({
-        left: deltaY,
-      });
-    }, []);
+  const handleWheel = useCallback(({ deltaY }) => {
+    tabsWrapper.current.scrollBy({
+      left: deltaY,
+    });
+  }, []);
 
-    const handleDragStart = useCallback(() => {
-      closePopup();
-    }, []);
+  const handleDragStart = useCallback(() => {
+    closePopup();
+  }, []);
 
-    const handleDragEnd = useCallback(
-      ({ draggableId, source, destination }) => {
-        if (!destination || source.index === destination.index) {
-          return;
-        }
+  const handleDragEnd = useCallback(
+    ({ draggableId, source, destination }) => {
+      if (!destination || source.index === destination.index) {
+        return;
+      }
 
-        onMove(draggableId, destination.index);
-      },
-      [onMove],
-    );
+      onMove(draggableId, destination.index);
+    },
+    [onMove],
+  );
 
-    const handleUpdate = useCallback(
-      (id, data) => {
-        onUpdate(id, data);
-      },
-      [onUpdate],
-    );
+  const handleUpdate = useCallback(
+    (id, data) => {
+      onUpdate(id, data);
+    },
+    [onUpdate],
+  );
 
-    const handleDelete = useCallback(
-      (id) => {
-        onDelete(id);
-      },
-      [onDelete],
-    );
+  const handleDelete = useCallback(
+    (id) => {
+      onDelete(id);
+    },
+    [onDelete],
+  );
 
-    const renderItems = useCallback(
-      (safeItems) =>
-        safeItems.map((item) => (
-          <div key={item.id} className={styles.tabWrapper}>
-            <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
-              {item.isPersisted ? (
+  const itemsNode = items.map((item, index) => (
+    <Draggable
+      key={item.id}
+      draggableId={item.id}
+      index={index}
+      isDragDisabled={!item.isPersisted || !canEdit}
+    >
+      {({ innerRef, draggableProps, dragHandleProps }) => (
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <div {...draggableProps} ref={innerRef} className={styles.tabWrapper}>
+          <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
+            {item.isPersisted ? (
+              <>
                 <Link
+                  {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
                   to={Paths.BOARDS.replace(':id', item.id)}
                   title={item.name}
                   className={styles.link}
                 >
                   {item.name}
                 </Link>
-              ) : (
-                <span className={styles.link}>{item.name}</span>
-              )}
-            </div>
-          </div>
-        )),
-      [currentId],
-    );
-
-    const renderEditableItems = useCallback(
-      (safeItems) =>
-        safeItems.map((item, index) => (
-          <Draggable
-            key={item.id}
-            draggableId={item.id}
-            index={index}
-            isDragDisabled={!item.isPersisted}
-          >
-            {({ innerRef, draggableProps, dragHandleProps }) => (
+                {canEdit && (
+                  <EditPopup
+                    defaultData={pick(item, 'name')}
+                    onUpdate={(data) => handleUpdate(item.id, data)}
+                    onDelete={() => handleDelete(item.id)}
+                  >
+                    <Button className={classNames(styles.editButton, styles.target)}>
+                      <Icon fitted name="pencil" size="small" />
+                    </Button>
+                  </EditPopup>
+                )}
+              </>
+            ) : (
               // eslint-disable-next-line react/jsx-props-no-spreading
-              <div {...draggableProps} ref={innerRef} className={styles.tabWrapper}>
-                <div className={classNames(styles.tab, item.id === currentId && styles.tabActive)}>
-                  {item.isPersisted ? (
-                    <Link
-                      {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
-                      to={Paths.BOARDS.replace(':id', item.id)}
-                      title={item.name}
-                      className={styles.link}
-                    >
-                      {item.name}
-                    </Link>
-                  ) : (
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    <span {...dragHandleProps} className={styles.link}>
-                      {item.name}
-                    </span>
-                  )}
-                  {item.isPersisted && (
-                    <EditPopup
-                      defaultData={pick(item, 'name')}
-                      onUpdate={(data) => handleUpdate(item.id, data)}
-                      onDelete={() => handleDelete(item.id)}
-                    >
-                      <Button className={classNames(styles.editButton, styles.target)}>
-                        <Icon fitted name="pencil" size="small" />
-                      </Button>
-                    </EditPopup>
-                  )}
-                </div>
+              <span {...dragHandleProps} className={styles.link}>
+                {item.name}
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+    </Draggable>
+  ));
+
+  return (
+    <div className={styles.wrapper} onWheel={handleWheel}>
+      <div ref={tabsWrapper} className={styles.tabsWrapper}>
+        <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+          <Droppable droppableId="boards" type={DroppableTypes.BOARD} direction="horizontal">
+            {({ innerRef, droppableProps, placeholder }) => (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <div {...droppableProps} ref={innerRef} className={styles.tabs}>
+                {itemsNode}
+                {placeholder}
+                {canEdit && (
+                  <AddPopup onCreate={onCreate}>
+                    <Button icon="plus" className={styles.addButton} />
+                  </AddPopup>
+                )}
               </div>
             )}
-          </Draggable>
-        )),
-      [currentId, handleUpdate, handleDelete],
-    );
-
-    return (
-      <div className={styles.wrapper} onWheel={handleWheel}>
-        <div ref={tabsWrapper} className={styles.tabsWrapper}>
-          {isEditable ? (
-            <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-              <Droppable droppableId="boards" type={DroppableTypes.BOARD} direction="horizontal">
-                {({ innerRef, droppableProps, placeholder }) => (
-                  // eslint-disable-next-line react/jsx-props-no-spreading
-                  <div {...droppableProps} ref={innerRef} className={styles.tabs}>
-                    {renderEditableItems(items)}
-                    {placeholder}
-                    <AddPopup onCreate={onCreate}>
-                      <Button icon="plus" className={styles.addButton} />
-                    </AddPopup>
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          ) : (
-            <div className={styles.tabs}>{renderItems(items)}</div>
-          )}
-        </div>
+          </Droppable>
+        </DragDropContext>
       </div>
-    );
-  },
-);
+    </div>
+  );
+});
 
 Boards.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   currentId: PropTypes.string,
-  isEditable: PropTypes.bool.isRequired,
+  canEdit: PropTypes.bool.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,

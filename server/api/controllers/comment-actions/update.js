@@ -23,41 +23,45 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const actionToProjectPath = await sails.helpers
-      .getActionToProjectPath({
+    const path = await sails.helpers.actions
+      .getProjectPath({
         id: inputs.id,
-        type: 'commentCard',
-        userId: currentUser.id,
+        type: Action.Types.COMMENT_CARD,
       })
       .intercept('pathNotFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
 
-    let { action } = actionToProjectPath;
-    const { board, project } = actionToProjectPath;
+    let { action } = path;
+    const { board, project } = path;
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
-    if (!isUserMemberForProject) {
-      throw Errors.COMMENT_ACTION_NOT_FOUND; // Forbidden
+    if (!isProjectManager) {
+      if (action.userId !== currentUser.id) {
+        throw Errors.COMMENT_ACTION_NOT_FOUND; // Forbidden
+      }
+
+      const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+
+      if (!isBoardMember) {
+        throw Errors.COMMENT_ACTION_NOT_FOUND; // Forbidden
+      }
     }
 
     const values = {
       data: _.pick(inputs, ['text']),
     };
 
-    action = await sails.helpers.updateAction(action, values, board, this.req);
+    action = await sails.helpers.actions.updateOne(action, values, board, this.req);
 
     if (!action) {
       throw Errors.COMMENT_ACTION_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: action,
-    });
+    };
   },
 };

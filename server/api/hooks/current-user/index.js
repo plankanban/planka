@@ -13,12 +13,12 @@ module.exports = function defineCurrentUserHook(sails) {
     let id;
 
     try {
-      id = sails.helpers.verifyToken(accessToken);
+      id = sails.helpers.utils.verifyToken(accessToken);
     } catch (error) {
       return null;
     }
 
-    return sails.helpers.getUser(id);
+    return sails.helpers.users.getOne(id);
   };
 
   return {

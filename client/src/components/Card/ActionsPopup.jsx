@@ -7,7 +7,7 @@ import { withPopup } from '../../lib/popup';
 import { Popup } from '../../lib/custom-ui';
 
 import { useSteps } from '../../hooks';
-import ProjectMembershipsStep from '../ProjectMembershipsStep';
+import BoardMembershipsStep from '../BoardMembershipsStep';
 import LabelsStep from '../LabelsStep';
 import DueDateEditStep from '../DueDateEditStep';
 import TimerEditStep from '../TimerEditStep';
@@ -29,7 +29,7 @@ const ActionsStep = React.memo(
   ({
     card,
     projectsToLists,
-    projectMemberships,
+    boardMemberships,
     currentUserIds,
     labels,
     currentLabelIds,
@@ -102,8 +102,8 @@ const ActionsStep = React.memo(
       switch (step.type) {
         case StepTypes.USERS:
           return (
-            <ProjectMembershipsStep
-              items={projectMemberships}
+            <BoardMembershipsStep
+              items={boardMemberships}
               currentUserIds={currentUserIds}
               onUserSelect={onUserAdd}
               onUserDeselect={onUserRemove}
@@ -224,7 +224,7 @@ ActionsStep.propTypes = {
   /* eslint-disable react/forbid-prop-types */
   card: PropTypes.object.isRequired,
   projectsToLists: PropTypes.array.isRequired,
-  projectMemberships: PropTypes.array.isRequired,
+  boardMemberships: PropTypes.array.isRequired,
   currentUserIds: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
   currentLabelIds: PropTypes.array.isRequired,

@@ -19,33 +19,30 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const attachmentToProjectPath = await sails.helpers
-      .getAttachmentToProjectPath(inputs.id)
+    const path = await sails.helpers.attachments
+      .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.ATTACHMENT_NOT_FOUND);
 
-    let { attachment } = attachmentToProjectPath;
-    const { card, board, project } = attachmentToProjectPath;
+    let { attachment } = path;
+    const { card, board } = path;
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
 
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.ATTACHMENT_NOT_FOUND; // Forbidden
     }
 
-    attachment = await sails.helpers.deleteAttachment(attachment, card, board, this.req);
+    attachment = await sails.helpers.attachments.deleteOne(attachment, board, card, this.req);
 
     if (!attachment) {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: attachment,
-    });
+    };
   },
 };

@@ -1,9 +1,17 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { goToBoardService } from './router';
-import { createCardRequest, deleteCardRequest, updateCardRequest } from '../requests';
+import request from '../request';
 import { listByIdSelector, nextCardPositionSelector, pathSelector } from '../../../selectors';
-import { createCard, deleteCard, updateCard } from '../../../actions';
+import {
+  createCard,
+  deleteCard,
+  handleCardCreate,
+  handleCardDelete,
+  handleCardUpdate,
+  updateCard,
+} from '../../../actions';
+import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createCardService(listId, data) {
@@ -25,12 +33,33 @@ export function* createCardService(listId, data) {
     }),
   );
 
-  yield call(createCardRequest, boardId, localId, nextData);
+  let card;
+  try {
+    ({ item: card } = yield call(request, api.createCard, boardId, nextData));
+  } catch (error) {
+    yield put(createCard.failure(localId, error));
+    return;
+  }
+
+  yield put(createCard.success(localId, card));
+}
+
+export function* handleCardCreateService(card) {
+  yield put(handleCardCreate(card));
 }
 
 export function* updateCardService(id, data) {
   yield put(updateCard(id, data));
-  yield call(updateCardRequest, id, data);
+
+  let card;
+  try {
+    ({ item: card } = yield call(request, api.updateCard, id, data));
+  } catch (error) {
+    yield put(updateCard.failure(id, error));
+    return;
+  }
+
+  yield put(updateCard.success(card));
 }
 
 export function* updateCurrentCardService(data) {
@@ -62,9 +91,7 @@ export function* transferCardService(id, boardId, listId, index) {
     yield call(goToBoardService, currentBoardId);
   }
 
-  yield put(deleteCard(id));
-
-  yield call(updateCardRequest, id, {
+  yield call(updateCardService, id, {
     boardId,
     listId,
     position,
@@ -77,6 +104,10 @@ export function* transferCurrentCardService(boardId, listId, index) {
   yield call(transferCardService, cardId, boardId, listId, index);
 }
 
+export function* handleCardUpdateService(card) {
+  yield put(handleCardUpdate(card)); // TODO: handle card transfer
+}
+
 export function* deleteCardService(id) {
   const { cardId, boardId } = yield select(pathSelector);
 
@@ -85,11 +116,30 @@ export function* deleteCardService(id) {
   }
 
   yield put(deleteCard(id));
-  yield call(deleteCardRequest, id);
+
+  let card;
+  try {
+    ({ item: card } = yield call(request, api.deleteCard, id));
+  } catch (error) {
+    yield put(deleteCard.failure(id, error));
+    return;
+  }
+
+  yield put(deleteCard.success(card));
 }
 
 export function* deleteCurrentCardService() {
   const { cardId } = yield select(pathSelector);
 
   yield call(deleteCardService, cardId);
+}
+
+export function* handleCardDeleteService(card) {
+  const { cardId, boardId } = yield select(pathSelector);
+
+  if (card.id === cardId) {
+    yield call(goToBoardService, boardId);
+  }
+
+  yield put(handleCardDelete(card));
 }

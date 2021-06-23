@@ -19,24 +19,41 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card, project } = await sails.helpers
-      .getCardToProjectPath(inputs.id)
+    const { card, project } = await sails.helpers.cards
+      .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
 
-    if (!isUserMemberForProject) {
-      throw Errors.CARD_NOT_FOUND; // Forbidden
+    if (!isBoardMember) {
+      const isProjectManager = await sails.helpers.users.isProjectManager(
+        currentUser.id,
+        project.id,
+      );
+
+      if (!isProjectManager) {
+        throw Errors.CARD_NOT_FOUND; // Forbidden
+      }
     }
 
-    return exits.success({
+    card.isSubscribed = await sails.helpers.users.isCardSubscriber(currentUser.id, card.id);
+
+    const cardMemberships = await sails.helpers.cards.getCardMemberships(card.id);
+    const cardLabels = await sails.helpers.cards.getCardLabels(card.id);
+    const tasks = await sails.helpers.cards.getTasks(card.id);
+    const attachments = await sails.helpers.cards.getAttachments(card.id);
+
+    return {
       item: card,
-    });
+      included: {
+        cardMemberships,
+        cardLabels,
+        tasks,
+        attachments,
+      },
+    };
   },
 };

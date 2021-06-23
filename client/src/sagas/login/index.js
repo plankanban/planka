@@ -10,7 +10,7 @@ export default function* loginSaga() {
 
   const {
     payload: { accessToken },
-  } = yield take(ActionTypes.AUTHENTICATE_SUCCEEDED);
+  } = yield take(ActionTypes.AUTHENTICATE__SUCCESS);
 
   yield cancel(watcherTasks);
 

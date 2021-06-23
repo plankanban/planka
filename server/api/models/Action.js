@@ -5,10 +5,14 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
-const TYPES = ['createCard', 'moveCard', 'commentCard'];
+const Types = {
+  CREATE_CARD: 'createCard',
+  MOVE_CARD: 'moveCard',
+  COMMENT_CARD: 'commentCard',
+};
 
 module.exports = {
-  TYPES,
+  Types,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -17,7 +21,7 @@ module.exports = {
 
     type: {
       type: 'string',
-      isIn: TYPES,
+      isIn: Object.values(Types),
       required: true,
     },
     data: {

@@ -43,7 +43,7 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
     if (!currentUser.isAdmin) {
@@ -54,7 +54,7 @@ module.exports = {
       delete inputs.isAdmin; // eslint-disable-line no-param-reassign
     }
 
-    let user = await sails.helpers.getUser(inputs.id);
+    let user = await sails.helpers.users.getOne(inputs.id);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
@@ -69,14 +69,14 @@ module.exports = {
       'subscribeToOwnCards',
     ]);
 
-    user = await sails.helpers.updateUser(user, values, this.req);
+    user = await sails.helpers.users.updateOne(user, values, this.req);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: user,
-    });
+    };
   },
 };

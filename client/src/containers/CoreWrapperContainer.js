@@ -8,6 +8,7 @@ const mapStateToProps = (state) => {
 
   return {
     isInitializing: isCoreInitializing,
+    isSocketDisconnected: state.socket.isDisconnected,
   };
 };
 

@@ -19,21 +19,21 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
-    let user = await sails.helpers.getUser(inputs.id);
+  async fn(inputs) {
+    let user = await sails.helpers.users.getOne(inputs.id);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
-    user = await sails.helpers.deleteUser(user, this.req);
+    user = await sails.helpers.users.deleteOne(user, this.req);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: user,
-    });
+    };
   },
 };

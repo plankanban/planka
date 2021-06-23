@@ -7,10 +7,11 @@ import {
   actionsForCurrentCardSelector,
   attachmentsForCurrentCardSelector,
   currentCardSelector,
-  currentUserSelector,
+  isCurrentUserManagerForCurrentProjectSelector,
+  isCurrentUserMemberForCurrentBoardSelector,
   labelsForCurrentBoardSelector,
   labelsForCurrentCardSelector,
-  membershipsForCurrentProjectSelector,
+  membershipsForCurrentBoardSelector,
   pathSelector,
   projectsToListsForCurrentUserSelector,
   tasksForCurrentCardSelector,
@@ -45,10 +46,11 @@ import CardModal from '../components/CardModal';
 
 const mapStateToProps = (state) => {
   const { projectId } = pathSelector(state);
-  const { isAdmin } = currentUserSelector(state);
   const allProjectsToLists = projectsToListsForCurrentUserSelector(state);
-  const allProjectMemberships = membershipsForCurrentProjectSelector(state);
+  const isCurrentUserManager = isCurrentUserManagerForCurrentProjectSelector(state);
+  const allBoardMemberships = membershipsForCurrentBoardSelector(state);
   const allLabels = labelsForCurrentBoardSelector(state);
+  const isCurrentUserMember = isCurrentUserMemberForCurrentBoardSelector(state);
 
   const {
     name,
@@ -85,9 +87,10 @@ const mapStateToProps = (state) => {
     attachments,
     actions,
     allProjectsToLists,
-    allProjectMemberships,
+    allBoardMemberships,
     allLabels,
-    isEditable: isAdmin,
+    canEdit: isCurrentUserMember,
+    canEditAllCommentActions: isCurrentUserManager,
   };
 };
 

@@ -7,13 +7,13 @@ import { Popup } from '../../lib/custom-ui';
 
 import styles from './UserPopup.module.scss';
 
-const UserStep = React.memo(({ onSettings, onLogout, onClose }) => {
+const UserStep = React.memo(({ onSettingsClick, onLogout, onClose }) => {
   const [t] = useTranslation();
 
   const handleSettingsClick = useCallback(() => {
-    onSettings();
+    onSettingsClick();
     onClose();
-  }, [onSettings, onClose]);
+  }, [onSettingsClick, onClose]);
 
   return (
     <>
@@ -41,7 +41,7 @@ const UserStep = React.memo(({ onSettings, onLogout, onClose }) => {
 });
 
 UserStep.propTypes = {
-  onSettings: PropTypes.func.isRequired,
+  onSettingsClick: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
