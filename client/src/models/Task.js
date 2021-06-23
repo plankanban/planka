@@ -20,16 +20,42 @@ export default class extends Model {
 
   static reducer({ type, payload }, Task) {
     switch (type) {
-      case ActionTypes.BOARD_FETCH_SUCCEEDED:
-      case ActionTypes.CARD_CREATE_SUCCEEDED:
-      case ActionTypes.CARD_CREATE_RECEIVED:
+      case ActionTypes.LOCATION_CHANGE_HANDLE:
+      case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+        if (payload.tasks) {
+          payload.tasks.forEach((task) => {
+            Task.upsert(task);
+          });
+        }
+
+        break;
+      case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        Task.all().delete();
+
+        if (payload.tasks) {
+          payload.tasks.forEach((task) => {
+            Task.upsert(task);
+          });
+        }
+
+        break;
+      case ActionTypes.BOARD_FETCH__SUCCESS:
         payload.tasks.forEach((task) => {
           Task.upsert(task);
         });
 
         break;
       case ActionTypes.TASK_CREATE:
-      case ActionTypes.TASK_CREATE_RECEIVED:
+      case ActionTypes.TASK_CREATE_HANDLE:
+      case ActionTypes.TASK_UPDATE__SUCCESS:
+      case ActionTypes.TASK_UPDATE_HANDLE:
+        Task.upsert(payload.task);
+
+        break;
+      case ActionTypes.TASK_CREATE__SUCCESS:
+        Task.withId(payload.localId).delete();
         Task.upsert(payload.task);
 
         break;
@@ -41,19 +67,16 @@ export default class extends Model {
         Task.withId(payload.id).delete();
 
         break;
-      case ActionTypes.TASK_CREATE_SUCCEEDED:
-        Task.withId(payload.localId).delete();
-        Task.upsert(payload.task);
+      case ActionTypes.TASK_DELETE__SUCCESS:
+      case ActionTypes.TASK_DELETE_HANDLE: {
+        const taskModel = Task.withId(payload.task.id);
+
+        if (taskModel) {
+          taskModel.delete();
+        }
 
         break;
-      case ActionTypes.TASK_UPDATE_RECEIVED:
-        Task.withId(payload.task.id).update(payload.task);
-
-        break;
-      case ActionTypes.TASK_DELETE_RECEIVED:
-        Task.withId(payload.task.id).delete();
-
-        break;
+      }
       default:
     }
   }

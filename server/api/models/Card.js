@@ -49,6 +49,10 @@ module.exports = {
       model: 'List',
       columnName: 'list_id',
     },
+    creatorUserId: {
+      model: 'User',
+      columnName: 'creator_user_id',
+    },
     coverAttachmentId: {
       model: 'Attachment',
       columnName: 'cover_attachment_id',
@@ -58,7 +62,7 @@ module.exports = {
       via: 'cardId',
       through: 'CardSubscription',
     },
-    membershipUsers: {
+    memberUsers: {
       collection: 'User',
       via: 'cardId',
       through: 'CardMembership',

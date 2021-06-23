@@ -1,8 +1,16 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import { createListRequest, deleteListRequest, updateListRequest } from '../requests';
+import request from '../request';
 import { listByIdSelector, nextListPositionSelector, pathSelector } from '../../../selectors';
-import { createList, deleteList, updateList } from '../../../actions';
+import {
+  createList,
+  deleteList,
+  handleListCreate,
+  handleListDelete,
+  handleListUpdate,
+  updateList,
+} from '../../../actions';
+import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createListService(boardId, data) {
@@ -21,7 +29,15 @@ export function* createListService(boardId, data) {
     }),
   );
 
-  yield call(createListRequest, boardId, localId, nextData);
+  let list;
+  try {
+    ({ item: list } = yield call(request, api.createList, boardId, nextData));
+  } catch (error) {
+    yield put(createList.failure(localId, error));
+    return;
+  }
+
+  yield put(createList.success(localId, list));
 }
 
 export function* createListInCurrentBoardService(data) {
@@ -30,9 +46,22 @@ export function* createListInCurrentBoardService(data) {
   yield call(createListService, boardId, data);
 }
 
+export function* handleListCreateService(label) {
+  yield put(handleListCreate(label));
+}
+
 export function* updateListService(id, data) {
   yield put(updateList(id, data));
-  yield call(updateListRequest, id, data);
+
+  let list;
+  try {
+    ({ item: list } = yield call(request, api.updateList, id, data));
+  } catch (error) {
+    yield put(updateList.failure(id, error));
+    return;
+  }
+
+  yield put(updateList.success(list));
 }
 
 export function* moveListService(id, index) {
@@ -44,7 +73,24 @@ export function* moveListService(id, index) {
   });
 }
 
+export function* handleListUpdateService(label) {
+  yield put(handleListUpdate(label));
+}
+
 export function* deleteListService(id) {
   yield put(deleteList(id));
-  yield call(deleteListRequest, id);
+
+  let list;
+  try {
+    ({ item: list } = yield call(request, api.deleteList, id));
+  } catch (error) {
+    yield put(deleteList.failure(id, error));
+    return;
+  }
+
+  yield put(deleteList.success(list));
+}
+
+export function* handleListDeleteService(label) {
+  yield put(handleListDelete(label));
 }

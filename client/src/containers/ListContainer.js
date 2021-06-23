@@ -1,9 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import omit from 'lodash/omit';
 
 import {
-  isAnyFilterActiveForCurrentBoardSelector,
+  isCurrentUserMemberForCurrentBoardSelector,
   makeCardIdsByListIdSelector,
   makeListByIdSelector,
 } from '../selectors';
@@ -17,7 +16,7 @@ const makeMapStateToProps = () => {
   return (state, { id, index }) => {
     const { name, isPersisted } = listByIdSelector(state, id);
     const cardIds = cardIdsByListIdSelector(state, id);
-    const isAnyFilterActive = isAnyFilterActiveForCurrentBoardSelector(state);
+    const isCurrentUserMember = isCurrentUserMemberForCurrentBoardSelector(state);
 
     return {
       id,
@@ -25,7 +24,7 @@ const makeMapStateToProps = () => {
       name,
       isPersisted,
       cardIds,
-      isDeletable: !isAnyFilterActive,
+      canEdit: isCurrentUserMember,
     };
   };
 };
@@ -40,9 +39,4 @@ const mapDispatchToProps = (dispatch, { id }) =>
     dispatch,
   );
 
-const mergeProps = (stateProps, dispatchProps) => ({
-  ...omit(stateProps, 'isDeletable'),
-  ...(stateProps.isDeletable ? dispatchProps : omit(dispatchProps, 'onDelete')),
-});
-
-export default connect(makeMapStateToProps, mapDispatchToProps, mergeProps)(List);
+export default connect(makeMapStateToProps, mapDispatchToProps)(List);

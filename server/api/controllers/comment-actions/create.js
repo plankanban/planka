@@ -23,31 +23,28 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card, project } = await sails.helpers
-      .getCardToProjectPath(inputs.cardId)
+    const { card } = await sails.helpers.cards
+      .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
 
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
     const values = {
-      type: 'commentCard',
+      type: Action.Types.COMMENT_CARD,
       data: _.pick(inputs, ['text']),
     };
 
-    const action = await sails.helpers.createAction(card, currentUser, values, this.req);
+    const action = await sails.helpers.actions.createOne(values, currentUser, card, this.req);
 
-    return exits.success({
+    return {
       item: action,
-    });
+    };
   },
 };

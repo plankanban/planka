@@ -2,7 +2,6 @@
   .button {
     background: transparent;
     border: none;
-    cursor: pointer;
     line-height: 0;
     margin: 0 -8px;
     outline: none;
@@ -12,7 +11,6 @@
 
   .count {
     color: #888;
-    cursor: pointer;
     display: inline-block;
     font-size: 12px;
     line-height: 12px;
@@ -77,7 +75,6 @@
 
   .tasks {
     color: #333;
-    cursor: grab;
     list-style: none;
     margin: -2px 0 0;
     padding-left: 0;

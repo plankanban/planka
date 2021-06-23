@@ -19,21 +19,29 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
+    const { currentUser } = this.req;
+
     let project = await Project.findOne(inputs.id);
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;
     }
 
-    project = await sails.helpers.deleteProject(project, this.req);
+    const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
+
+    if (!isProjectManager) {
+      throw Errors.PROJECT_NOT_FOUND; // Forbidden
+    }
+
+    project = await sails.helpers.projects.deleteOne(project, this.req);
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: project,
-    });
+    };
   },
 };

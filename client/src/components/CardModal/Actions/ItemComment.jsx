@@ -12,7 +12,7 @@ import DeletePopup from '../../DeletePopup';
 import styles from './ItemComment.module.scss';
 
 const ItemComment = React.memo(
-  ({ data, createdAt, isPersisted, user, isEditable, onUpdate, onDelete }) => {
+  ({ data, createdAt, isPersisted, user, canEdit, onUpdate, onDelete }) => {
     const [t] = useTranslation();
 
     const commentEdit = useRef(null);
@@ -38,17 +38,17 @@ const ItemComment = React.memo(
           </div>
           <CommentEdit ref={commentEdit} defaultData={data} onUpdate={onUpdate}>
             <>
-              <Markdown source={data.text} linkTarget="_blank" className={styles.text} />
-              <Comment.Actions>
-                {user.isCurrent && (
+              <Markdown linkTarget="_blank" className={styles.text}>
+                {data.text}
+              </Markdown>
+              {canEdit && (
+                <Comment.Actions>
                   <Comment.Action
                     as="button"
                     content={t('action.edit')}
                     disabled={!isPersisted}
                     onClick={handleEditClick}
                   />
-                )}
-                {(user.isCurrent || isEditable) && (
                   <DeletePopup
                     title={t('common.deleteComment', {
                       context: 'title',
@@ -63,8 +63,8 @@ const ItemComment = React.memo(
                       disabled={!isPersisted}
                     />
                   </DeletePopup>
-                )}
-              </Comment.Actions>
+                </Comment.Actions>
+              )}
             </>
           </CommentEdit>
         </div>
@@ -78,7 +78,7 @@ ItemComment.propTypes = {
   createdAt: PropTypes.instanceOf(Date).isRequired,
   isPersisted: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  isEditable: PropTypes.bool.isRequired,
+  canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };

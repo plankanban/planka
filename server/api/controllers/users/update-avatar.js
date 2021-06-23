@@ -27,7 +27,7 @@ module.exports = {
 
     let user;
     if (currentUser.isAdmin) {
-      user = await sails.helpers.getUser(inputs.id);
+      user = await sails.helpers.users.getOne(inputs.id);
 
       if (!user) {
         throw Errors.USER_NOT_FOUND;
@@ -38,30 +38,32 @@ module.exports = {
       user = currentUser;
     }
 
-    this.req.file('file').upload(sails.helpers.createUserAvatarReceiver(), async (error, files) => {
-      if (error) {
-        return exits.uploadError(error.message);
-      }
+    this.req
+      .file('file')
+      .upload(sails.helpers.utils.createUserAvatarReceiver(), async (error, files) => {
+        if (error) {
+          return exits.uploadError(error.message);
+        }
 
-      if (files.length === 0) {
-        return exits.uploadError('No file was uploaded');
-      }
+        if (files.length === 0) {
+          return exits.uploadError('No file was uploaded');
+        }
 
-      user = await sails.helpers.updateUser(
-        user,
-        {
-          avatarDirname: files[0].extra.dirname,
-        },
-        this.req,
-      );
+        user = await sails.helpers.users.updateOne(
+          user,
+          {
+            avatarDirname: files[0].extra.dirname,
+          },
+          this.req,
+        );
 
-      if (!user) {
-        throw Errors.USER_NOT_FOUND;
-      }
+        if (!user) {
+          throw Errors.USER_NOT_FOUND;
+        }
 
-      return exits.success({
-        item: user.toJSON(),
+        return exits.success({
+          item: user.toJSON(),
+        });
       });
-    });
   },
 };

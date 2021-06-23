@@ -22,6 +22,13 @@ export const openProjectAddModal = () => ({
   },
 });
 
+export const openProjectSettingsModal = () => ({
+  type: EntryActionTypes.MODAL_OPEN,
+  payload: {
+    type: ModalTypes.PROJECT_SETTINGS,
+  },
+});
+
 export const closeModal = () => ({
   type: EntryActionTypes.MODAL_CLOSE,
   payload: {},

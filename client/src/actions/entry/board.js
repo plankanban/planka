@@ -7,6 +7,13 @@ export const createBoardInCurrentProject = (data) => ({
   },
 });
 
+export const handleBoardCreate = (board) => ({
+  type: EntryActionTypes.BOARD_CREATE_HANDLE,
+  payload: {
+    board,
+  },
+});
+
 export const fetchBoard = (id) => ({
   type: EntryActionTypes.BOARD_FETCH,
   payload: {
@@ -22,6 +29,13 @@ export const updateBoard = (id, data) => ({
   },
 });
 
+export const handleBoardUpdate = (board) => ({
+  type: EntryActionTypes.BOARD_UPDATE_HANDLE,
+  payload: {
+    board,
+  },
+});
+
 export const moveBoard = (id, index) => ({
   type: EntryActionTypes.BOARD_MOVE,
   payload: {
@@ -34,5 +48,12 @@ export const deleteBoard = (id) => ({
   type: EntryActionTypes.BOARD_DELETE,
   payload: {
     id,
+  },
+});
+
+export const handleBoardDelete = (board) => ({
+  type: EntryActionTypes.BOARD_DELETE_HANDLE,
+  payload: {
+    board,
   },
 });

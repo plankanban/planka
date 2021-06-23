@@ -100,49 +100,43 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const cardToProjectPath = await sails.helpers
-      .getCardToProjectPath(inputs.id)
+    const path = await sails.helpers.cards
+      .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    let { card, project } = cardToProjectPath;
-    const { list, board } = cardToProjectPath;
+    let { card } = path;
+    const { list, board } = path;
 
-    let isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    let isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
 
-    if (!isUserMemberForProject) {
+    if (!isBoardMember) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
-    let toBoard;
+    let nextBoard;
     if (!_.isUndefined(inputs.boardId)) {
-      ({ board: toBoard, project } = await sails.helpers
-        .getBoardToProjectPath(inputs.boardId)
+      ({ board: nextBoard } = await sails.helpers.boards
+        .getProjectPath(inputs.boardId)
         .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND));
 
-      isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-        project.id,
-        currentUser.id,
-      );
+      isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, nextBoard.id);
 
-      if (!isUserMemberForProject) {
+      if (!isBoardMember) {
         throw Errors.BOARD_NOT_FOUND; // Forbidden
       }
     }
 
-    let toList;
+    let nextList;
     if (!_.isUndefined(inputs.listId)) {
-      toList = await List.findOne({
+      nextList = await List.findOne({
         id: inputs.listId,
-        boardId: (toBoard || board).id,
+        boardId: (nextBoard || board).id,
       });
 
-      if (!toList) {
+      if (!nextList) {
         throw Errors.LIST_NOT_FOUND; // Forbidden
       }
     }
@@ -157,17 +151,17 @@ module.exports = {
       'isSubscribed',
     ]);
 
-    card = await sails.helpers
-      .updateCard(card, toBoard, toList, values, board, list, currentUser, this.req)
-      .intercept('toListMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
+    card = await sails.helpers.cards
+      .updateOne(card, values, nextBoard, nextList, currentUser, board, list, this.req)
+      .intercept('nextListMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: card,
-    });
+    };
   },
 };

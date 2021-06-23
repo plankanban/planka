@@ -3,8 +3,9 @@ import socket from './socket';
 import accessTokens from './access-tokens';
 import users from './users';
 import projects from './projects';
-import projectMemberships from './project-memberships';
+import projectManagers from './project-managers';
 import boards from './boards';
+import boardMemberships from './board-memberships';
 import labels from './labels';
 import lists from './lists';
 import cards from './cards';
@@ -22,8 +23,9 @@ export default {
   ...accessTokens,
   ...users,
   ...projects,
-  ...projectMemberships,
+  ...projectManagers,
   ...boards,
+  ...boardMemberships,
   ...labels,
   ...lists,
   ...cards,

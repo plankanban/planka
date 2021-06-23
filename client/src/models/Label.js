@@ -18,16 +18,42 @@ export default class extends Model {
 
   static reducer({ type, payload }, Label) {
     switch (type) {
-      case ActionTypes.BOARD_CREATE_SUCCEEDED:
-      case ActionTypes.BOARD_CREATE_RECEIVED:
-      case ActionTypes.BOARD_FETCH_SUCCEEDED:
+      case ActionTypes.LOCATION_CHANGE_HANDLE:
+      case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+        if (payload.labels) {
+          payload.labels.forEach((label) => {
+            Label.upsert(label);
+          });
+        }
+
+        break;
+      case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        Label.all().delete();
+
+        if (payload.labels) {
+          payload.labels.forEach((label) => {
+            Label.upsert(label);
+          });
+        }
+
+        break;
+      case ActionTypes.BOARD_FETCH__SUCCESS:
         payload.labels.forEach((label) => {
           Label.upsert(label);
         });
 
         break;
       case ActionTypes.LABEL_CREATE:
-      case ActionTypes.LABEL_CREATE_RECEIVED:
+      case ActionTypes.LABEL_CREATE_HANDLE:
+      case ActionTypes.LABEL_UPDATE__SUCCESS:
+      case ActionTypes.LABEL_UPDATE_HANDLE:
+        Label.upsert(payload.label);
+
+        break;
+      case ActionTypes.LABEL_CREATE__SUCCESS:
+        Label.withId(payload.localId).delete();
         Label.upsert(payload.label);
 
         break;
@@ -39,19 +65,16 @@ export default class extends Model {
         Label.withId(payload.id).delete();
 
         break;
-      case ActionTypes.LABEL_CREATE_SUCCEEDED:
-        Label.withId(payload.localId).delete();
-        Label.upsert(payload.label);
+      case ActionTypes.LABEL_DELETE__SUCCESS:
+      case ActionTypes.LABEL_DELETE_HANDLE: {
+        const labelModel = Label.withId(payload.label.id);
+
+        if (labelModel) {
+          labelModel.delete();
+        }
 
         break;
-      case ActionTypes.LABEL_UPDATE_RECEIVED:
-        Label.withId(payload.label.id).update(payload.label);
-
-        break;
-      case ActionTypes.LABEL_DELETE_RECEIVED:
-        Label.withId(payload.label.id).delete();
-
-        break;
+      }
       default:
     }
   }

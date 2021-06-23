@@ -1,206 +1,211 @@
 import { eventChannel } from 'redux-saga';
-import { call, cancelled, take } from 'redux-saga/effects';
+import { all, call, cancelled, put, take, takeEvery } from 'redux-saga/effects';
 
+import { handleSocketDisconnectService, handleSocketReconnectService } from '../services';
 import {
-  createActionReceivedService,
-  createAttachmentReceivedService,
-  createBoardReceivedService,
-  createCardLabelReceivedService,
-  createCardMembershipReceivedService,
-  createCardReceivedService,
-  createLabelReceivedService,
-  createListReceivedService,
-  createNotificationReceivedService,
-  createProjectMembershipReceivedService,
-  createProjectReceivedService,
-  createTaskReceivedService,
-  createUserReceivedService,
-  deleteActionReceivedService,
-  deleteAttachmentReceivedService,
-  deleteCardLabelReceivedService,
-  deleteCardMembershipReceivedService,
-  deleteCardReceivedService,
-  deleteBoardReceivedService,
-  deleteLabelReceivedService,
-  deleteListReceivedService,
-  deleteNotificationReceivedService,
-  deleteProjectMembershipReceivedService,
-  deleteProjectReceivedService,
-  deleteTaskReceivedService,
-  deleteUserReceivedService,
-  socketDisconnectedService,
-  socketReconnectedService,
-  updateActionReceivedService,
-  updateAttachmentReceivedService,
-  updateBoardReceivedService,
-  updateCardReceivedService,
-  updateLabelReceivedService,
-  updateListReceivedService,
-  updateProjectReceivedService,
-  updateTaskReceivedService,
-  updateUserReceivedService,
-} from '../services';
+  handleProjectManagerCreate as handleProjectManagerCreateAction,
+  handleProjectManagerDelete as handleProjectManagerDeleteAction,
+  handleBoardCreate as handleBoardCreateAction,
+  handleBoardUpdate as handleBoardUpdateAction,
+  handleBoardDelete as handleBoardDeleteAction,
+  handleBoardMembershipCreate as handleBoardMembershipCreateAction,
+  handleBoardMembershipDelete as handleBoardMembershipDeleteAction,
+  handleListCreate as handleListCreateAction,
+  handleListUpdate as handleListUpdateAction,
+  handleListDelete as handleListDeleteAction,
+  handleLabelCreate as handleLabelCreateAction,
+  handleLabelUpdate as handleLabelUpdateAction,
+  handleLabelDelete as handleLabelDeleteAction,
+  handleCardCreate as handleCardCreateAction,
+  handleCardUpdate as handleCardUpdateAction,
+  handleCardDelete as handleCardDeleteAction,
+  handleUserToCardAdd as handleUserToCardAddAction,
+  handleUserFromCardRemove as handleUserFromCardRemoveAction,
+  handleLabelToCardAdd as handleLabelToCardAddAction,
+  handleLabelFromCardRemove as handleLabelFromCardRemoveAction,
+  handleTaskCreate as handleTaskCreateAction,
+  handleTaskUpdate as handleTaskUpdateAction,
+  handleTaskDelete as handleTaskDeleteAction,
+  handleAttachmentCreate as handleAttachmentCreateAction,
+  handleAttachmentUpdate as handleAttachmentUpdateAction,
+  handleAttachmentDelete as handleAttachmentDeleteAction,
+  handleActionCreate as handleActionCreateAction,
+  handleActionUpdate as handleActionUpdateAction,
+  handleActionDelete as handleActionDeleteAction,
+  handleNotificationCreate as handleNotificationCreateAction,
+  handleNotificationDelete as handleNotificationDeleteAction,
+  handleSocketDisconnect as handleSocketDisconnectAction,
+  handleUserCreate as handleUserCreateAction,
+  handleUserUpdate as handleUserUpdateAction,
+  handleUserDelete as handleUserDeleteAction,
+  handleProjectCreate as handleProjectCreateAction,
+  handleProjectUpdate as handleProjectUpdateAction,
+  handleProjectDelete as handleProjectDeleteAction,
+  handleSocketReconnect as handleSocketReconnectAction,
+} from '../../../actions/entry';
 import api, { socket } from '../../../api';
+import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 const createSocketEventsChannel = () =>
   eventChannel((emit) => {
+    const handleDisconnect = () => {
+      emit(handleSocketDisconnectAction());
+    };
+
     const handleReconnect = () => {
-      emit([socketReconnectedService]);
+      emit(handleSocketReconnectAction());
     };
 
     const handleUserCreate = ({ item }) => {
-      emit([createUserReceivedService, item]);
+      emit(handleUserCreateAction(item));
     };
 
     const handleUserUpdate = ({ item }) => {
-      emit([updateUserReceivedService, item]);
+      emit(handleUserUpdateAction(item));
     };
 
     const handleUserDelete = ({ item }) => {
-      emit([deleteUserReceivedService, item]);
+      emit(handleUserDeleteAction(item));
     };
 
-    const handleProjectCreate = ({ item, included: { users, projectMemberships, boards } }) => {
-      emit([createProjectReceivedService, item, users, projectMemberships, boards]);
+    const handleProjectCreate = ({ item }) => {
+      emit(handleProjectCreateAction(item));
     };
 
     const handleProjectUpdate = ({ item }) => {
-      emit([updateProjectReceivedService, item]);
+      emit(handleProjectUpdateAction(item));
     };
 
     const handleProjectDelete = ({ item }) => {
-      emit([deleteProjectReceivedService, item]);
+      emit(handleProjectDeleteAction(item));
     };
 
-    const handleProjectMembershipCreate = ({ item, included: { users } }) => {
-      emit([createProjectMembershipReceivedService, item, users[0]]);
+    const handleProjectManagerCreate = ({ item }) => {
+      emit(handleProjectManagerCreateAction(item));
     };
 
-    const handleProjectMembershipDelete = ({ item }) => {
-      emit([deleteProjectMembershipReceivedService, item]);
+    const handleProjectManagerDelete = ({ item }) => {
+      emit(handleProjectManagerDeleteAction(item));
     };
 
-    const handleBoardCreate = ({ item, included: { lists, labels } }) => {
-      emit([createBoardReceivedService, item, lists, labels]);
+    const handleBoardCreate = ({ item }) => {
+      emit(handleBoardCreateAction(item));
     };
 
     const handleBoardUpdate = ({ item }) => {
-      emit([updateBoardReceivedService, item]);
+      emit(handleBoardUpdateAction(item));
     };
 
     const handleBoardDelete = ({ item }) => {
-      emit([deleteBoardReceivedService, item]);
+      emit(handleBoardDeleteAction(item));
+    };
+
+    const handleBoardMembershipCreate = ({ item }) => {
+      emit(handleBoardMembershipCreateAction(item));
+    };
+
+    const handleBoardMembershipDelete = ({ item }) => {
+      emit(handleBoardMembershipDeleteAction(item));
     };
 
     const handleListCreate = ({ item }) => {
-      emit([createListReceivedService, item]);
+      emit(handleListCreateAction(item));
     };
 
     const handleListUpdate = ({ item }) => {
-      emit([updateListReceivedService, item]);
+      emit(handleListUpdateAction(item));
     };
 
     const handleListDelete = ({ item }) => {
-      emit([deleteListReceivedService, item]);
+      emit(handleListDeleteAction(item));
     };
 
     const handleLabelCreate = ({ item }) => {
-      emit([createLabelReceivedService, item]);
+      emit(handleLabelCreateAction(item));
     };
 
     const handleLabelUpdate = ({ item }) => {
-      emit([updateLabelReceivedService, item]);
+      emit(handleLabelUpdateAction(item));
     };
 
     const handleLabelDelete = ({ item }) => {
-      emit([deleteLabelReceivedService, item]);
+      emit(handleLabelDeleteAction(item));
     };
 
-    const handleCardCreate = api.makeHandleCardCreate(
-      ({ item, included: { cardMemberships, cardLabels, tasks, attachments } }) => {
-        emit([createCardReceivedService, item, cardMemberships, cardLabels, tasks, attachments]);
-      },
-    );
+    const handleCardCreate = api.makeHandleCardCreate(({ item }) => {
+      emit(handleCardCreateAction(item));
+    });
 
     const handleCardUpdate = api.makeHandleCardUpdate(({ item }) => {
-      emit([updateCardReceivedService, item]);
+      emit(handleCardUpdateAction(item));
     });
 
     const handleCardDelete = api.makeHandleCardDelete(({ item }) => {
-      emit([deleteCardReceivedService, item]);
+      emit(handleCardDeleteAction(item));
     });
 
-    const handleCardMembershipCreate = ({ item }) => {
-      emit([createCardMembershipReceivedService, item]);
+    const handleUserToCardAdd = ({ item }) => {
+      emit(handleUserToCardAddAction(item));
     };
 
-    const handleCardMembershipDelete = ({ item }) => {
-      emit([deleteCardMembershipReceivedService, item]);
+    const handleUserFromCardRemove = ({ item }) => {
+      emit(handleUserFromCardRemoveAction(item));
     };
 
-    const handleCardLabelCreate = ({ item }) => {
-      emit([createCardLabelReceivedService, item]);
+    const handleLabelToCardAdd = ({ item }) => {
+      emit(handleLabelToCardAddAction(item));
     };
 
-    const handleCardLabelDelete = ({ item }) => {
-      emit([deleteCardLabelReceivedService, item]);
+    const handleLabelFromCardRemove = ({ item }) => {
+      emit(handleLabelFromCardRemoveAction(item));
     };
 
     const handleTaskCreate = ({ item }) => {
-      emit([createTaskReceivedService, item]);
+      emit(handleTaskCreateAction(item));
     };
 
     const handleTaskUpdate = ({ item }) => {
-      emit([updateTaskReceivedService, item]);
+      emit(handleTaskUpdateAction(item));
     };
 
     const handleTaskDelete = ({ item }) => {
-      emit([deleteTaskReceivedService, item]);
+      emit(handleTaskDeleteAction(item));
     };
 
     const handleAttachmentCreate = api.makeHandleAttachmentCreate(({ item, requestId }) => {
-      emit([createAttachmentReceivedService, item, requestId]);
+      emit(handleAttachmentCreateAction(item, requestId));
     });
 
     const handleAttachmentUpdate = api.makeHandleAttachmentUpdate(({ item }) => {
-      emit([updateAttachmentReceivedService, item]);
+      emit(handleAttachmentUpdateAction(item));
     });
 
     const handleAttachmentDelete = api.makeHandleAttachmentDelete(({ item }) => {
-      emit([deleteAttachmentReceivedService, item]);
+      emit(handleAttachmentDeleteAction(item));
     });
 
     const handleActionCreate = api.makeHandleActionCreate(({ item }) => {
-      emit([createActionReceivedService, item]);
+      emit(handleActionCreateAction(item));
     });
 
     const handleActionUpdate = api.makeHandleActionUpdate(({ item }) => {
-      emit([updateActionReceivedService, item]);
+      emit(handleActionUpdateAction(item));
     });
 
     const handleActionDelete = api.makeHandleActionDelete(({ item }) => {
-      emit([deleteActionReceivedService, item]);
+      emit(handleActionDeleteAction(item));
     });
 
-    const handleNotificationCreate = api.makeHandleNotificationCreate(
-      ({ item, included: { users, cards, actions } }) => {
-        emit([createNotificationReceivedService, item, users[0], cards[0], actions[0]]);
-      },
-    );
-
-    const handleNotificationDelete = ({ item }) => {
-      emit([deleteNotificationReceivedService, item]);
+    const handleNotificationCreate = ({ item }) => {
+      emit(handleNotificationCreateAction(item));
     };
 
-    const handleDisconnect = () => {
-      socket.off('disconnect', handleDisconnect);
-
-      emit([socketDisconnectedService]);
-
-      socket.on('reconnect', handleReconnect);
+    const handleNotificationDelete = ({ item }) => {
+      emit(handleNotificationDeleteAction(item));
     };
 
     socket.on('disconnect', handleDisconnect);
+    socket.on('reconnect', handleReconnect);
 
     socket.on('userCreate', handleUserCreate);
     socket.on('userUpdate', handleUserUpdate);
@@ -210,12 +215,15 @@ const createSocketEventsChannel = () =>
     socket.on('projectUpdate', handleProjectUpdate);
     socket.on('projectDelete', handleProjectDelete);
 
-    socket.on('projectMembershipCreate', handleProjectMembershipCreate);
-    socket.on('projectMembershipDelete', handleProjectMembershipDelete);
+    socket.on('projectManagerCreate', handleProjectManagerCreate);
+    socket.on('projectManagerDelete', handleProjectManagerDelete);
 
     socket.on('boardCreate', handleBoardCreate);
     socket.on('boardUpdate', handleBoardUpdate);
     socket.on('boardDelete', handleBoardDelete);
+
+    socket.on('boardMembershipCreate', handleBoardMembershipCreate);
+    socket.on('boardMembershipDelete', handleBoardMembershipDelete);
 
     socket.on('listCreate', handleListCreate);
     socket.on('listUpdate', handleListUpdate);
@@ -229,11 +237,11 @@ const createSocketEventsChannel = () =>
     socket.on('cardUpdate', handleCardUpdate);
     socket.on('cardDelete', handleCardDelete);
 
-    socket.on('cardMembershipCreate', handleCardMembershipCreate);
-    socket.on('cardMembershipDelete', handleCardMembershipDelete);
+    socket.on('cardMembershipCreate', handleUserToCardAdd);
+    socket.on('cardMembershipDelete', handleUserFromCardRemove);
 
-    socket.on('cardLabelCreate', handleCardLabelCreate);
-    socket.on('cardLabelDelete', handleCardLabelDelete);
+    socket.on('cardLabelCreate', handleLabelToCardAdd);
+    socket.on('cardLabelDelete', handleLabelFromCardRemove);
 
     socket.on('taskCreate', handleTaskCreate);
     socket.on('taskUpdate', handleTaskUpdate);
@@ -262,12 +270,15 @@ const createSocketEventsChannel = () =>
       socket.off('projectUpdate', handleProjectUpdate);
       socket.off('projectDelete', handleProjectDelete);
 
-      socket.off('projectMembershipCreate', handleProjectMembershipCreate);
-      socket.off('projectMembershipDelete', handleProjectMembershipDelete);
+      socket.off('projectManagerCreate', handleProjectManagerCreate);
+      socket.off('projectManagerDelete', handleProjectManagerDelete);
 
       socket.off('boardCreate', handleBoardCreate);
       socket.off('boardUpdate', handleBoardUpdate);
       socket.off('boardDelete', handleBoardDelete);
+
+      socket.off('boardMembershipCreate', handleBoardMembershipCreate);
+      socket.off('boardMembershipDelete', handleBoardMembershipDelete);
 
       socket.off('listCreate', handleListCreate);
       socket.off('listUpdate', handleListUpdate);
@@ -281,11 +292,11 @@ const createSocketEventsChannel = () =>
       socket.off('cardUpdate', handleCardUpdate);
       socket.off('cardDelete', handleCardDelete);
 
-      socket.off('cardMembershipCreate', handleCardMembershipCreate);
-      socket.off('cardMembershipDelete', handleCardMembershipDelete);
+      socket.off('cardMembershipCreate', handleUserToCardAdd);
+      socket.off('cardMembershipDelete', handleUserFromCardRemove);
 
-      socket.off('cardLabelCreate', handleCardLabelCreate);
-      socket.off('cardLabelDelete', handleCardLabelDelete);
+      socket.off('cardLabelCreate', handleLabelToCardAdd);
+      socket.off('cardLabelDelete', handleLabelFromCardRemove);
 
       socket.off('taskCreate', handleTaskCreate);
       socket.off('taskUpdate', handleTaskUpdate);
@@ -305,13 +316,20 @@ const createSocketEventsChannel = () =>
   });
 
 export default function* socketWatchers() {
+  yield all([
+    yield takeEvery(EntryActionTypes.SOCKET_DISCONNECT_HANDLE, () =>
+      handleSocketDisconnectService(),
+    ),
+    yield takeEvery(EntryActionTypes.SOCKET_RECONNECT_HANDLE, () => handleSocketReconnectService()),
+  ]);
+
   const socketEventsChannel = yield call(createSocketEventsChannel);
 
   try {
     while (true) {
-      const args = yield take(socketEventsChannel);
+      const action = yield take(socketEventsChannel);
 
-      yield call(...args);
+      yield put(action);
     }
   } finally {
     if (yield cancelled()) {

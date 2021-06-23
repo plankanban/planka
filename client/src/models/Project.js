@@ -14,19 +14,43 @@ export default class extends Model {
     isBackgroundImageUpdating: attr({
       getDefault: () => false,
     }),
-    users: many({
+    managerUsers: many({
       to: 'User',
-      through: 'ProjectMembership',
+      through: 'ProjectManager',
       relatedName: 'projects',
     }),
   };
 
   static reducer({ type, payload }, Project) {
     switch (type) {
-      case ActionTypes.PROJECTS_FETCH_SUCCEEDED:
+      case ActionTypes.LOCATION_CHANGE_HANDLE:
+        if (payload.projects) {
+          payload.projects.forEach((project) => {
+            Project.upsert(project);
+          });
+        }
+
+        break;
+      case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        Project.all().delete();
+
         payload.projects.forEach((project) => {
           Project.upsert(project);
         });
+
+        break;
+      case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.BOARD_FETCH__SUCCESS:
+        payload.projects.forEach((project) => {
+          Project.upsert(project);
+        });
+
+        break;
+      case ActionTypes.PROJECT_CREATE__SUCCESS:
+      case ActionTypes.PROJECT_CREATE_HANDLE:
+      case ActionTypes.PROJECT_UPDATE__SUCCESS:
+      case ActionTypes.PROJECT_UPDATE_HANDLE:
+        Project.upsert(payload.project);
 
         break;
       case ActionTypes.PROJECT_UPDATE: {
@@ -43,59 +67,118 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.PROJECT_DELETE:
-        Project.withId(payload.id).deleteWithRelated();
-
-        break;
-      case ActionTypes.PROJECT_CREATE_SUCCEEDED:
-      case ActionTypes.PROJECT_CREATE_RECEIVED:
-        Project.upsert(payload.project);
-
-        break;
-      case ActionTypes.PROJECT_UPDATE_RECEIVED:
-        Project.withId(payload.project.id).update(payload.project);
-
-        break;
-      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_REQUESTED:
+      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE:
         Project.withId(payload.id).update({
           isBackgroundImageUpdating: true,
         });
 
         break;
-      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_SUCCEEDED:
+      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE__SUCCESS:
         Project.withId(payload.project.id).update({
           ...payload.project,
           isBackgroundImageUpdating: false,
         });
 
         break;
-      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE_FAILED:
+      case ActionTypes.PROJECT_BACKGROUND_IMAGE_UPDATE__FAILURE:
         Project.withId(payload.id).update({
           isBackgroundImageUpdating: false,
         });
 
         break;
-      case ActionTypes.PROJECT_DELETE_RECEIVED:
-        Project.withId(payload.project.id).deleteWithRelated();
+      case ActionTypes.PROJECT_DELETE:
+        Project.withId(payload.id).deleteWithRelated();
 
         break;
+      case ActionTypes.PROJECT_DELETE__SUCCESS:
+      case ActionTypes.PROJECT_DELETE_HANDLE: {
+        const projectModel = Project.withId(payload.project.id);
+
+        if (projectModel) {
+          projectModel.deleteWithRelated();
+        }
+
+        break;
+      }
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+        if (payload.project) {
+          const projectModel = Project.withId(payload.project.id);
+
+          if (projectModel) {
+            projectModel.deleteWithRelated();
+          }
+
+          Project.upsert(payload.project);
+        }
+
+        break;
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE__PROJECT_FETCH:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE__PROJECT_FETCH: {
+        const projectModel = Project.withId(payload.id);
+
+        if (projectModel) {
+          projectModel.boards.toModelArray().forEach((boardModel) => {
+            if (boardModel.id !== payload.currentBoardId) {
+              boardModel.update({
+                isFetching: null,
+              });
+
+              boardModel.deleteRelated(payload.currentUserId);
+            }
+          });
+        }
+
+        break;
+      }
       default:
     }
   }
 
-  getOrderedMembershipsQuerySet() {
-    return this.memberships.orderBy('id');
+  getOrderedManagersQuerySet() {
+    return this.managers.orderBy('id');
   }
 
   getOrderedBoardsQuerySet() {
     return this.boards.orderBy('position');
   }
 
-  deleteWithRelated() {
+  getOrderedMemberBoardsModelArray(userId) {
+    return this.getOrderedBoardsQuerySet()
+      .toModelArray()
+      .filter((boardModel) => boardModel.hasMemberUser(userId));
+  }
+
+  getOrderedAvailableBoardsModelArray(userId) {
+    if (this.hasManagerUser(userId)) {
+      return this.getOrderedBoardsQuerySet().toModelArray();
+    }
+
+    return this.getOrderedMemberBoardsModelArray(userId);
+  }
+
+  hasManagerUser(userId) {
+    return this.managers
+      .filter({
+        userId,
+      })
+      .exists();
+  }
+
+  hasMemberUserForAnyBoard(userId) {
+    return this.boards.toModelArray().some((boardModel) => boardModel.hasMemberUser(userId));
+  }
+
+  deleteRelated() {
+    this.managers.delete();
+
     this.boards.toModelArray().forEach((boardModel) => {
       boardModel.deleteWithRelated();
     });
+  }
 
+  deleteWithRelated() {
+    this.deleteRelated();
     this.delete();
   }
 }

@@ -1,6 +1,7 @@
 import { LOCATION_CHANGE } from 'connected-react-router';
 
 import ActionTypes from '../constants/ActionTypes';
+import ModalTypes from '../constants/ModalTypes';
 
 const initialState = {
   isInitializing: true,
@@ -15,7 +16,7 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         currentModal: null,
       };
-    case ActionTypes.CORE_INITIALIZED:
+    case ActionTypes.CORE_INITIALIZE:
       return {
         ...state,
         isInitializing: false,
@@ -25,6 +26,29 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         currentModal: payload.type,
       };
+    case ActionTypes.USER_UPDATE_HANDLE:
+      if (state.currentModal === ModalTypes.USERS && payload.isCurrent && !payload.user.isAdmin) {
+        return {
+          ...state,
+          currentModal: null,
+        };
+      }
+
+      return state;
+    case ActionTypes.PROJECT_MANAGER_DELETE:
+    case ActionTypes.PROJECT_MANAGER_DELETE_HANDLE:
+      if (
+        state.currentModal === ModalTypes.PROJECT_SETTINGS &&
+        payload.isCurrentUser &&
+        payload.isCurrentProject
+      ) {
+        return {
+          ...state,
+          currentModal: null,
+        };
+      }
+
+      return state;
     default:
       return state;
   }

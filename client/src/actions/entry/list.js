@@ -7,11 +7,25 @@ export const createListInCurrentBoard = (data) => ({
   },
 });
 
+export const handleListCreate = (list) => ({
+  type: EntryActionTypes.LIST_CREATE_HANDLE,
+  payload: {
+    list,
+  },
+});
+
 export const updateList = (id, data) => ({
   type: EntryActionTypes.LIST_UPDATE,
   payload: {
     id,
     data,
+  },
+});
+
+export const handleListUpdate = (list) => ({
+  type: EntryActionTypes.LIST_UPDATE_HANDLE,
+  payload: {
+    list,
   },
 });
 
@@ -27,5 +41,12 @@ export const deleteList = (id) => ({
   type: EntryActionTypes.LIST_DELETE,
   payload: {
     id,
+  },
+});
+
+export const handleListDelete = (list) => ({
+  type: EntryActionTypes.LIST_DELETE_HANDLE,
+  payload: {
+    list,
   },
 });

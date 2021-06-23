@@ -26,19 +26,19 @@ module.exports = {
           return false;
         }
 
-        if (!Project.BACKGROUND_TYPES.includes(value.type)) {
+        if (!Object.values(Project.BackgroundTypes).includes(value.type)) {
           return false;
         }
 
         if (
-          value.type === 'gradient' &&
+          value.type === Project.BackgroundTypes.GRADIENT &&
           _.size(value) === 2 &&
           Project.BACKGROUND_GRADIENTS.includes(value.name)
         ) {
           return true;
         }
 
-        if (value.type === 'image' && _.size(value) === 1) {
+        if (value.type === Project.BackgroundTypes.IMAGE && _.size(value) === 1) {
           return true;
         }
 
@@ -57,22 +57,30 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
+    const { currentUser } = this.req;
+
     let project = await Project.findOne(inputs.id);
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;
     }
 
+    const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
+
+    if (!isProjectManager) {
+      throw Errors.PROJECT_NOT_FOUND; // Forbidden
+    }
+
     const values = _.pick(inputs, ['name', 'background', 'backgroundImage']);
-    project = await sails.helpers.updateProject(project, values, this.req);
+    project = await sails.helpers.projects.updateOne(project, values, this.req);
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: project,
-    });
+    };
   },
 };

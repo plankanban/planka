@@ -1,16 +1,15 @@
 import ActionTypes from '../constants/ActionTypes';
 
-/* Events */
-
-export const fetchActionsRequested = (cardId) => ({
-  type: ActionTypes.ACTIONS_FETCH_REQUESTED,
+// eslint-disable-next-line import/prefer-default-export
+export const fetchActions = (cardId) => ({
+  type: ActionTypes.ACTIONS_FETCH,
   payload: {
     cardId,
   },
 });
 
-export const fetchActionsSucceeded = (cardId, actions, users) => ({
-  type: ActionTypes.ACTIONS_FETCH_SUCCEEDED,
+fetchActions.success = (cardId, actions, users) => ({
+  type: ActionTypes.ACTIONS_FETCH__SUCCESS,
   payload: {
     cardId,
     actions,
@@ -18,8 +17,8 @@ export const fetchActionsSucceeded = (cardId, actions, users) => ({
   },
 });
 
-export const fetchActionsFailed = (cardId, error) => ({
-  type: ActionTypes.ACTIONS_FETCH_FAILED,
+fetchActions.failure = (cardId, error) => ({
+  type: ActionTypes.ACTIONS_FETCH__FAILURE,
   payload: {
     cardId,
     error,

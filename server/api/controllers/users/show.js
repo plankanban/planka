@@ -1,16 +1,44 @@
+const Errors = {
+  USER_NOT_FOUND: {
+    userNotFound: 'User not found',
+  },
+};
+
+const CURRENT_USER_ID = 'me';
+
 module.exports = {
-  async fn(inputs, exits) {
-    // TODO: allow over HTTP without subscription
-    if (!this.req.isSocket) {
-      return this.res.badRequest();
+  inputs: {
+    id: {
+      type: 'string',
+      regex: /^[0-9]+|me$/,
+      required: true,
+    },
+  },
+
+  exits: {
+    boardNotFound: {
+      responseType: 'notFound',
+    },
+  },
+
+  async fn(inputs) {
+    let user;
+    if (inputs.id === CURRENT_USER_ID) {
+      ({ currentUser: user } = this.req);
+
+      if (this.req.isSocket) {
+        sails.sockets.join(this.req, `user:${user.id}`); // TODO: only when subscription needed
+      }
+    } else {
+      user = await sails.helpers.users.getOne(inputs.id);
+
+      if (!user) {
+        throw Errors.USER_NOT_FOUND;
+      }
     }
 
-    const { currentUser } = this.req;
-
-    sails.sockets.join(this.req, `user:${currentUser.id}`); // TODO: only when subscription needed
-
-    return exits.success({
-      item: currentUser,
-    });
+    return {
+      item: user,
+    };
   },
 };

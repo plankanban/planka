@@ -1,18 +1,53 @@
 import ActionTypes from '../constants/ActionTypes';
-import SocketStatuses from '../constants/SocketStatuses';
 
-/* Events */
+export const handleSocketDisconnect = () => ({
+  type: ActionTypes.SOCKET_DISCONNECT_HANDLE,
+  payload: {},
+});
 
-export const socketDisconnected = () => ({
-  type: ActionTypes.SOCKET_STATUS_CHANGED,
+export const handleSocketReconnect = (
+  user,
+  board,
+  users,
+  projects,
+  projectManagers,
+  boards,
+  boardMemberships,
+  labels,
+  lists,
+  cards,
+  cardMemberships,
+  cardLabels,
+  tasks,
+  attachments,
+  actions,
+  notifications,
+) => ({
+  type: ActionTypes.SOCKET_RECONNECT_HANDLE,
   payload: {
-    status: SocketStatuses.DISCONNECTED,
+    user,
+    board,
+    users,
+    projects,
+    projectManagers,
+    boards,
+    boardMemberships,
+    labels,
+    lists,
+    cards,
+    cardMemberships,
+    cardLabels,
+    tasks,
+    attachments,
+    actions,
+    notifications,
   },
 });
 
-export const socketReconnected = () => ({
-  type: ActionTypes.SOCKET_STATUS_CHANGED,
+handleSocketReconnect.fetchCore = (currentUserId, currentBoardId) => ({
+  type: ActionTypes.SOCKET_RECONNECT_HANDLE__CORE_FETCH,
   payload: {
-    status: SocketStatuses.RECONNECTED,
+    currentUserId,
+    currentBoardId,
   },
 });

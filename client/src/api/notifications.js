@@ -14,24 +14,21 @@ const getNotifications = (headers) =>
     },
   }));
 
-const updateNotifications = (ids, data, headers) =>
-  socket.patch(`/notifications/${ids.join(',')}`, data, headers);
-
-/* Event handlers */
-
-const makeHandleNotificationCreate = (next) => (body) => {
-  next({
+const getNotification = (id, headers) =>
+  socket.get(`/notifications/${id}`, undefined, headers).then((body) => ({
     ...body,
     included: {
       ...body.included,
       cards: body.included.cards.map(transformCard),
       actions: body.included.actions.map(transformAction),
     },
-  });
-};
+  }));
+
+const updateNotifications = (ids, data, headers) =>
+  socket.patch(`/notifications/${ids.join(',')}`, data, headers);
 
 export default {
   getNotifications,
+  getNotification,
   updateNotifications,
-  makeHandleNotificationCreate,
 };

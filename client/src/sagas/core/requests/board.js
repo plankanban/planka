@@ -1,134 +1,69 @@
-import { call, put } from 'redux-saga/effects';
+import { call, select } from 'redux-saga/effects';
 
-import request from './request';
-import {
-  createBoardFailed,
-  createBoardRequested,
-  createBoardSucceeded,
-  deleteBoardFailed,
-  deleteBoardRequested,
-  deleteBoardSucceeded,
-  fetchBoardFailed,
-  fetchBoardRequested,
-  fetchBoardSucceeded,
-  updateBoardFailed,
-  updateBoardRequested,
-  updateBoardSucceeded,
-} from '../../../actions';
+import request from '../request';
+import { pathsMatchSelector } from '../../../selectors';
 import api from '../../../api';
+import Paths from '../../../constants/Paths';
 
-export function* createBoardRequest(projectId, localId, data) {
-  yield put(
-    createBoardRequested(localId, {
-      ...data,
-      projectId,
-    }),
-  );
+// eslint-disable-next-line import/prefer-default-export
+export function* fetchBoardByCurrentPathRequest() {
+  const pathsMatch = yield select(pathsMatchSelector);
 
-  try {
-    const {
-      item,
-      included: { lists, labels },
-    } = yield call(request, api.createBoard, projectId, data);
+  let board;
+  let card;
+  let users;
+  let projects;
+  let boardMemberships;
+  let labels;
+  let lists;
+  let cards;
+  let cardMemberships;
+  let cardLabels;
+  let tasks;
+  let attachments;
 
-    const action = createBoardSucceeded(localId, item, lists, labels);
-    yield put(action);
+  if (pathsMatch) {
+    let boardId;
+    if (pathsMatch.path === Paths.BOARDS) {
+      boardId = pathsMatch.params.id;
+    } else if (pathsMatch.path === Paths.CARDS) {
+      ({
+        item: card,
+        item: { boardId },
+      } = yield call(request, api.getCard, pathsMatch.params.id));
+    }
 
-    return {
-      success: true,
-      payload: action.payload,
-    };
-  } catch (error) {
-    const action = createBoardFailed(localId, error);
-    yield put(action);
-
-    return {
-      success: false,
-      payload: action.payload,
-    };
+    if (boardId) {
+      ({
+        item: board,
+        included: {
+          users,
+          projects,
+          boardMemberships,
+          labels,
+          lists,
+          cards,
+          cardMemberships,
+          cardLabels,
+          tasks,
+          attachments,
+        },
+      } = yield call(request, api.getBoard, boardId));
+    }
   }
-}
 
-export function* fetchBoardRequest(id) {
-  yield put(fetchBoardRequested(id));
-
-  try {
-    const {
-      item,
-      included: { labels, lists, cards, cardMemberships, cardLabels, tasks, attachments },
-    } = yield call(request, api.getBoard, id);
-
-    const action = fetchBoardSucceeded(
-      item,
-      labels,
-      lists,
-      cards,
-      cardMemberships,
-      cardLabels,
-      tasks,
-      attachments,
-    );
-    yield put(action);
-
-    return {
-      success: true,
-      payload: action.payload,
-    };
-  } catch (error) {
-    const action = fetchBoardFailed(id, error);
-    yield put(action);
-
-    return {
-      success: false,
-      payload: action.payload,
-    };
-  }
-}
-
-export function* updateBoardRequest(id, data) {
-  yield put(updateBoardRequested(id, data));
-
-  try {
-    const { item } = yield call(request, api.updateBoard, id, data);
-
-    const action = updateBoardSucceeded(item);
-    yield put(action);
-
-    return {
-      success: true,
-      payload: action.payload,
-    };
-  } catch (error) {
-    const action = updateBoardFailed(error);
-    yield put(action);
-
-    return {
-      success: false,
-      payload: action.payload,
-    };
-  }
-}
-
-export function* deleteBoardRequest(id) {
-  yield put(deleteBoardRequested(id));
-
-  try {
-    const { item } = yield call(request, api.deleteBoard, id);
-
-    const action = deleteBoardSucceeded(item);
-    yield put(action);
-
-    return {
-      success: true,
-      payload: action.payload,
-    };
-  } catch (error) {
-    const action = deleteBoardFailed(error);
-    yield put(action);
-
-    return {
-      success: false,
-      payload: action.payload,
-    };
-  }
+  return {
+    board,
+    card,
+    users,
+    boardMemberships,
+    labels,
+    lists,
+    cards,
+    cardMemberships,
+    cardLabels,
+    tasks,
+    attachments,
+    project: projects[0],
+  };
 }

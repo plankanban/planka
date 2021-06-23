@@ -60,74 +60,53 @@ export default class extends Model {
 
   static reducer({ type, payload }, User) {
     switch (type) {
-      case ActionTypes.USER_CREATE_SUCCEEDED:
-      case ActionTypes.USER_CREATE_RECEIVED:
-      case ActionTypes.CURRENT_USER_FETCH_SUCCEEDED:
-      case ActionTypes.PROJECT_MEMBERSHIP_CREATE_RECEIVED:
-      case ActionTypes.NOTIFICATION_CREATE_RECEIVED:
-        User.upsert(payload.user);
+      case ActionTypes.LOCATION_CHANGE_HANDLE:
+        if (payload.users) {
+          payload.users.forEach((user) => {
+            User.upsert(user);
+          });
+        }
 
         break;
-      case ActionTypes.USERS_FETCH_SUCCEEDED:
-      case ActionTypes.PROJECTS_FETCH_SUCCEEDED:
-      case ActionTypes.PROJECT_CREATE_SUCCEEDED:
-      case ActionTypes.PROJECT_CREATE_RECEIVED:
-      case ActionTypes.ACTIONS_FETCH_SUCCEEDED:
-      case ActionTypes.NOTIFICATIONS_FETCH_SUCCEEDED:
+      case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        User.all().delete();
+
+        User.upsert(payload.user);
+
         payload.users.forEach((user) => {
           User.upsert(user);
         });
+
+        break;
+      case ActionTypes.CORE_INITIALIZE:
+        User.upsert(payload.user);
+
+        payload.users.forEach((user) => {
+          User.upsert(user);
+        });
+
+        break;
+      case ActionTypes.USER_CREATE__SUCCESS:
+      case ActionTypes.USER_CREATE_HANDLE:
+      case ActionTypes.USER_UPDATE__SUCCESS:
+        User.upsert(payload.user);
 
         break;
       case ActionTypes.USER_UPDATE:
         User.withId(payload.id).update(payload.data);
 
         break;
-      case ActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR: {
-        const userModel = User.withId(payload.id);
+      case ActionTypes.USER_UPDATE_HANDLE:
+        User.upsert(payload.user);
 
-        userModel.update({
-          emailUpdateForm: {
-            ...userModel.emailUpdateForm,
-            error: null,
-          },
-        });
-
-        break;
-      }
-      case ActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR: {
-        const userModel = User.withId(payload.id);
-
-        userModel.update({
-          passwordUpdateForm: {
-            ...userModel.passwordUpdateForm,
-            error: null,
-          },
-        });
+        if (payload.users) {
+          payload.users.forEach((user) => {
+            User.upsert(user);
+          });
+        }
 
         break;
-      }
-      case ActionTypes.USER_USERNAME_UPDATE_ERROR_CLEAR: {
-        const userModel = User.withId(payload.id);
-
-        userModel.update({
-          usernameUpdateForm: {
-            ...userModel.usernameUpdateForm,
-            error: null,
-          },
-        });
-
-        break;
-      }
-      case ActionTypes.USER_DELETE:
-        User.withId(payload.id).deleteWithRelated();
-
-        break;
-      case ActionTypes.USER_UPDATE_RECEIVED:
-        User.withId(payload.user.id).update(payload.user);
-
-        break;
-      case ActionTypes.USER_EMAIL_UPDATE_REQUESTED: {
+      case ActionTypes.USER_EMAIL_UPDATE: {
         const userModel = User.withId(payload.id);
 
         userModel.update({
@@ -140,7 +119,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_EMAIL_UPDATE_SUCCEEDED: {
+      case ActionTypes.USER_EMAIL_UPDATE__SUCCESS: {
         User.withId(payload.user.id).update({
           ...payload.user,
           emailUpdateForm: DEFAULT_EMAIL_UPDATE_FORM,
@@ -148,7 +127,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_EMAIL_UPDATE_FAILED: {
+      case ActionTypes.USER_EMAIL_UPDATE__FAILURE: {
         const userModel = User.withId(payload.id);
 
         userModel.update({
@@ -161,7 +140,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_PASSWORD_UPDATE_REQUESTED: {
+      case ActionTypes.USER_PASSWORD_UPDATE: {
         const userModel = User.withId(payload.id);
 
         userModel.update({
@@ -174,7 +153,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_PASSWORD_UPDATE_SUCCEEDED: {
+      case ActionTypes.USER_PASSWORD_UPDATE__SUCCESS: {
         User.withId(payload.user.id).update({
           ...payload.user,
           passwordUpdateForm: DEFAULT_PASSWORD_UPDATE_FORM,
@@ -182,7 +161,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_PASSWORD_UPDATE_FAILED: {
+      case ActionTypes.USER_PASSWORD_UPDATE__FAILURE: {
         const userModel = User.withId(payload.id);
 
         userModel.update({
@@ -195,7 +174,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_USERNAME_UPDATE_REQUESTED: {
+      case ActionTypes.USER_USERNAME_UPDATE: {
         const userModel = User.withId(payload.id);
 
         userModel.update({
@@ -208,7 +187,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_USERNAME_UPDATE_SUCCEEDED: {
+      case ActionTypes.USER_USERNAME_UPDATE__SUCCESS: {
         User.withId(payload.user.id).update({
           ...payload.user,
           usernameUpdateForm: DEFAULT_USERNAME_UPDATE_FORM,
@@ -216,7 +195,7 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_USERNAME_UPDATE_FAILED: {
+      case ActionTypes.USER_USERNAME_UPDATE__FAILURE: {
         const userModel = User.withId(payload.id);
 
         userModel.update({
@@ -229,28 +208,43 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.USER_AVATAR_UPDATE_REQUESTED:
+      case ActionTypes.USER_AVATAR_UPDATE:
         User.withId(payload.id).update({
           isAvatarUpdating: true,
         });
 
         break;
-      case ActionTypes.USER_AVATAR_UPDATE_SUCCEEDED:
+      case ActionTypes.USER_AVATAR_UPDATE__SUCCESS:
         User.withId(payload.user.id).update({
           ...payload.user,
           isAvatarUpdating: false,
         });
 
         break;
-      case ActionTypes.USER_AVATAR_UPDATE_FAILED:
+      case ActionTypes.USER_AVATAR_UPDATE__FAILURE:
         User.withId(payload.id).update({
           isAvatarUpdating: false,
         });
 
         break;
-      case ActionTypes.USER_DELETE_SUCCEEDED:
-      case ActionTypes.USER_DELETE_RECEIVED:
+      case ActionTypes.USER_DELETE:
+        User.withId(payload.id).deleteWithRelated();
+
+        break;
+      case ActionTypes.USER_DELETE__SUCCESS:
+      case ActionTypes.USER_DELETE_HANDLE:
         User.withId(payload.user.id).deleteWithRelated(payload.user);
+
+        break;
+      case ActionTypes.PROJECT_CREATE_HANDLE:
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
+      case ActionTypes.BOARD_FETCH__SUCCESS:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+      case ActionTypes.ACTIONS_FETCH__SUCCESS:
+      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
+        payload.users.forEach((user) => {
+          User.upsert(user);
+        });
 
         break;
       default:
@@ -263,8 +257,12 @@ export default class extends Model {
     }).orderBy('id');
   }
 
-  getOrderedProjectMembershipsQuerySet() {
-    return this.projectMemberships.orderBy('id');
+  getOrderedProjectManagersQuerySet() {
+    return this.projectManagers.orderBy('id');
+  }
+
+  getOrderedBoardMembershipsQuerySet() {
+    return this.boardMemberships.orderBy('id');
   }
 
   getOrderedUnreadNotificationsQuerySet() {
@@ -275,10 +273,41 @@ export default class extends Model {
       .orderBy('id', false);
   }
 
-  deleteWithRelated(user) {
-    this.projectMemberships.toModelArray().forEach((projectMembershipModel) => {
-      projectMembershipModel.deleteWithRelated();
+  getOrderedAvailableProjectsModelArray() {
+    const projectIds = [];
+
+    const projectModels = this.getOrderedProjectManagersQuerySet()
+      .toModelArray()
+      .map(({ project: projectModel }) => {
+        projectIds.push(projectModel.id);
+
+        return projectModel;
+      });
+
+    this.getOrderedBoardMembershipsQuerySet()
+      .toModelArray()
+      .forEach(({ board: { project: projectModel } }) => {
+        if (projectIds.includes(projectModel.id)) {
+          return;
+        }
+
+        projectIds.push(projectModel.id);
+        projectModels.push(projectModel);
+      });
+
+    return projectModels;
+  }
+
+  deleteRelated() {
+    this.projectManagers.delete();
+
+    this.boardMemberships.toModelArray().forEach((boardMembershipModel) => {
+      boardMembershipModel.deleteWithRelated();
     });
+  }
+
+  deleteWithRelated(user) {
+    this.deleteRelated();
 
     this.update(
       user || {

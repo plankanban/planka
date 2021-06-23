@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
   const { logger } = require('redux-logger'); // eslint-disable-line global-require
   middlewares.push(logger);
 
-  // enable Redux Devtools in development
+  // Enable Redux Devtools in development
   // https://github.com/zalmoxisus/redux-devtools-extension
   if (typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ !== 'undefined') {
     compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;

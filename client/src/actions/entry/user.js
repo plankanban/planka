@@ -7,6 +7,13 @@ export const createUser = (data) => ({
   },
 });
 
+export const handleUserCreate = (user) => ({
+  type: EntryActionTypes.USER_CREATE_HANDLE,
+  payload: {
+    user,
+  },
+});
+
 export const clearUserCreateError = () => ({
   type: EntryActionTypes.USER_CREATE_ERROR_CLEAR,
   payload: {},
@@ -24,6 +31,13 @@ export const updateCurrentUser = (data) => ({
   type: EntryActionTypes.CURRENT_USER_UPDATE,
   payload: {
     data,
+  },
+});
+
+export const handleUserUpdate = (user) => ({
+  type: EntryActionTypes.USER_UPDATE_HANDLE,
+  payload: {
+    user,
   },
 });
 
@@ -77,6 +91,13 @@ export const deleteUser = (id) => ({
   },
 });
 
+export const handleUserDelete = (user) => ({
+  type: EntryActionTypes.USER_DELETE_HANDLE,
+  payload: {
+    user,
+  },
+});
+
 export const addUserToCard = (id, cardId) => ({
   type: EntryActionTypes.USER_TO_CARD_ADD,
   payload: {
@@ -92,6 +113,13 @@ export const addUserToCurrentCard = (id) => ({
   },
 });
 
+export const handleUserToCardAdd = (cardMembership) => ({
+  type: EntryActionTypes.USER_TO_CARD_ADD_HANDLE,
+  payload: {
+    cardMembership,
+  },
+});
+
 export const removeUserFromCard = (id, cardId) => ({
   type: EntryActionTypes.USER_FROM_CARD_REMOVE,
   payload: {
@@ -104,6 +132,13 @@ export const removeUserFromCurrentCard = (id) => ({
   type: EntryActionTypes.USER_FROM_CURRENT_CARD_REMOVE,
   payload: {
     id,
+  },
+});
+
+export const handleUserFromCardRemove = (cardMembership) => ({
+  type: EntryActionTypes.USER_FROM_CARD_REMOVE_HANDLE,
+  payload: {
+    cardMembership,
   },
 });
 

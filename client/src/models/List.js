@@ -18,16 +18,42 @@ export default class extends Model {
 
   static reducer({ type, payload }, List) {
     switch (type) {
-      case ActionTypes.BOARD_CREATE_SUCCEEDED:
-      case ActionTypes.BOARD_CREATE_RECEIVED:
-      case ActionTypes.BOARD_FETCH_SUCCEEDED:
+      case ActionTypes.LOCATION_CHANGE_HANDLE:
+      case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+        if (payload.lists) {
+          payload.lists.forEach((list) => {
+            List.upsert(list);
+          });
+        }
+
+        break;
+      case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        List.all().delete();
+
+        if (payload.lists) {
+          payload.lists.forEach((list) => {
+            List.upsert(list);
+          });
+        }
+
+        break;
+      case ActionTypes.BOARD_FETCH__SUCCESS:
         payload.lists.forEach((list) => {
           List.upsert(list);
         });
 
         break;
       case ActionTypes.LIST_CREATE:
-      case ActionTypes.LIST_CREATE_RECEIVED:
+      case ActionTypes.LIST_CREATE_HANDLE:
+      case ActionTypes.LIST_UPDATE__SUCCESS:
+      case ActionTypes.LIST_UPDATE_HANDLE:
+        List.upsert(payload.list);
+
+        break;
+      case ActionTypes.LIST_CREATE__SUCCESS:
+        List.withId(payload.localId).delete();
         List.upsert(payload.list);
 
         break;
@@ -39,19 +65,16 @@ export default class extends Model {
         List.withId(payload.id).deleteWithRelated();
 
         break;
-      case ActionTypes.LIST_CREATE_SUCCEEDED:
-        List.withId(payload.localId).delete();
-        List.upsert(payload.list);
+      case ActionTypes.LIST_DELETE__SUCCESS:
+      case ActionTypes.LIST_DELETE_HANDLE: {
+        const listModel = List.withId(payload.list.id);
+
+        if (listModel) {
+          listModel.deleteWithRelated();
+        }
 
         break;
-      case ActionTypes.LIST_UPDATE_RECEIVED:
-        List.withId(payload.list.id).update(payload.list);
-
-        break;
-      case ActionTypes.LIST_DELETE_RECEIVED:
-        List.withId(payload.list.id).deleteWithRelated();
-
-        break;
+      }
       default:
     }
   }
@@ -85,11 +108,14 @@ export default class extends Model {
     return cardModels;
   }
 
-  deleteWithRelated() {
+  deleteRelated() {
     this.cards.toModelArray().forEach((cardModel) => {
       cardModel.deleteWithRelated();
     });
+  }
 
+  deleteWithRelated() {
+    this.deleteRelated();
     this.delete();
   }
 }

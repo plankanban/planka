@@ -10,20 +10,20 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
     const values = _.pick(inputs, ['isRead']);
 
-    const notifications = await sails.helpers.updateNotificationsForUser(
+    const notifications = await sails.helpers.notifications.updateMany(
       inputs.ids.split(','),
-      currentUser,
       values,
+      currentUser,
       this.req,
     );
 
-    return exits.success({
+    return {
       items: notifications,
-    });
+    };
   },
 };

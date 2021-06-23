@@ -49,10 +49,6 @@ const createCard = (boardId, data, headers) =>
   socket.post(`/boards/${boardId}/cards`, transformCardData(data), headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
-    included: {
-      ...body.included,
-      attachments: body.included.attachments.map(transformAttachment),
-    },
   }));
 
 const getCard = (id, headers) =>
@@ -79,10 +75,6 @@ const makeHandleCardCreate = (next) => (body) => {
   next({
     ...body,
     item: transformCard(body.item),
-    included: {
-      ...body.included,
-      attachments: body.included.attachments.map(transformAttachment),
-    },
   });
 };
 

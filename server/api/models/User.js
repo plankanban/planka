@@ -71,10 +71,15 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
-    membershipProjects: {
+    managerProjects: {
       collection: 'Project',
       via: 'userId',
-      through: 'ProjectMembership',
+      through: 'ProjectManager',
+    },
+    membershipBoards: {
+      collection: 'Board',
+      via: 'userId',
+      through: 'BoardMembership',
     },
     subscriptionCards: {
       collection: 'Card',

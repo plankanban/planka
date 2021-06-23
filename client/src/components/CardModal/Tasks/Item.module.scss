@@ -30,7 +30,7 @@
     height: 32px;
   }
 
-  .content:hover {
+  .contentHoverable:hover {
     background: rgba(9, 30, 66, 0.04);
 
     .target {
@@ -55,13 +55,16 @@
     background: transparent;
     border-radius: 3px;
     color: #17394d;
-    cursor: pointer;
     display: inline-block;
     font-size: 15px;
     line-height: 1.5;
     min-height: 32px;
     padding: 0 32px 0 40px;
     width: 100%;
+  }
+
+  .textEditable {
+    cursor: pointer;
   }
 
   .wrapper {

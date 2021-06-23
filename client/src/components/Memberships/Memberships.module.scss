@@ -1,0 +1,30 @@
+:global(#app) {
+  .addUser {
+    background: rgba(0, 0, 0, 0.24);
+    border-radius: 50%;
+    box-shadow: none;
+    color: #fff;
+    line-height: 36px;
+    margin: 0;
+    padding: 0;
+    transition: all 0.1s ease 0s;
+    vertical-align: top;
+    width: 36px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .user {
+    display: inline-block;
+    margin: 0 -4px 0 0;
+    vertical-align: top;
+    line-height: 0;
+  }
+
+  .users {
+    display: inline-block;
+    vertical-align: top;
+  }
+}

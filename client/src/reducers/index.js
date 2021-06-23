@@ -5,9 +5,7 @@ import socket from './socket';
 import orm from './orm';
 import auth from './auth';
 import core from './core';
-import authenticateForm from './forms/authenticate';
-import userCreateForm from './forms/user-create';
-import projectCreateForm from './forms/project-create';
+import ui from './ui';
 
 export default combineReducers({
   router,
@@ -15,7 +13,5 @@ export default combineReducers({
   orm,
   auth,
   core,
-  authenticateForm,
-  userCreateForm,
-  projectCreateForm,
+  ui,
 });

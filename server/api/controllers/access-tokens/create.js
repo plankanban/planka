@@ -37,8 +37,8 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
-    const user = await sails.helpers.getUserByEmailOrUsername(inputs.emailOrUsername);
+  async fn(inputs) {
+    const user = await sails.helpers.users.getOneByEmailOrUsername(inputs.emailOrUsername);
 
     if (!user) {
       throw Errors.INVALID_EMAIL_OR_USERNAME;
@@ -48,8 +48,8 @@ module.exports = {
       throw Errors.INVALID_PASSWORD;
     }
 
-    return exits.success({
-      item: sails.helpers.signToken(user.id),
-    });
+    return {
+      item: sails.helpers.utils.signToken(user.id),
+    };
   },
 };

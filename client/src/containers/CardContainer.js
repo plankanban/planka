@@ -2,13 +2,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import {
+  isCurrentUserMemberForCurrentBoardSelector,
   labelsForCurrentBoardSelector,
   makeCardByIdSelector,
   makeLabelsByCardIdSelector,
   makeNotificationsTotalByCardIdSelector,
   makeTasksByCardIdSelector,
   makeUsersByCardIdSelector,
-  membershipsForCurrentProjectSelector,
+  membershipsForCurrentBoardSelector,
   pathSelector,
   projectsToListsForCurrentUserSelector,
 } from '../selectors';
@@ -38,8 +39,9 @@ const makeMapStateToProps = () => {
   return (state, { id, index }) => {
     const { projectId } = pathSelector(state);
     const allProjectsToLists = projectsToListsForCurrentUserSelector(state);
-    const allProjectMemberships = membershipsForCurrentProjectSelector(state);
+    const allBoardMemberships = membershipsForCurrentBoardSelector(state);
     const allLabels = labelsForCurrentBoardSelector(state);
+    const isCurrentUserMember = isCurrentUserMemberForCurrentBoardSelector(state);
 
     const { name, dueDate, timer, coverUrl, boardId, listId, isPersisted } = cardByIdSelector(
       state,
@@ -67,8 +69,9 @@ const makeMapStateToProps = () => {
       labels,
       tasks,
       allProjectsToLists,
-      allProjectMemberships,
+      allBoardMemberships,
       allLabels,
+      canEdit: isCurrentUserMember,
     };
   };
 };

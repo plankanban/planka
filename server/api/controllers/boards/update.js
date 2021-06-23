@@ -26,22 +26,35 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
-    let board = await Board.findOne(inputs.id);
+  async fn(inputs) {
+    const { currentUser } = this.req;
+
+    let { board } = await sails.helpers.boards
+      .getProjectPath(inputs.id)
+      .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
     if (!board) {
       throw Errors.BOARD_NOT_FOUND;
+    }
+
+    const isProjectManager = await sails.helpers.users.isProjectManager(
+      currentUser.id,
+      board.projectId,
+    );
+
+    if (!isProjectManager) {
+      throw Errors.BOARD_NOT_FOUND; // Forbidden
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-    board = await sails.helpers.updateBoard(board, values, this.req);
+    board = await sails.helpers.boards.updateOne(board, values, this.req);
 
     if (!board) {
       throw Errors.BOARD_NOT_FOUND;
     }
 
-    return exits.success({
+    return {
       item: board,
-    });
+    };
   },
 };

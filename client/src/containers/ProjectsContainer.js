@@ -7,11 +7,11 @@ import Projects from '../components/Projects';
 
 const mapStateToProps = (state) => {
   const { isAdmin } = currentUserSelector(state);
-  const projects = projectsForCurrentUserSelector(state);
+  const project = projectsForCurrentUserSelector(state);
 
   return {
-    items: projects,
-    isEditable: isAdmin,
+    items: project,
+    canAdd: isAdmin,
   };
 };
 

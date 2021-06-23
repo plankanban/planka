@@ -1,9 +1,9 @@
 module.exports = {
-  async fn(inputs, exits) {
-    const users = await sails.helpers.getUsers();
+  async fn() {
+    const users = await sails.helpers.users.getMany();
 
-    return exits.success({
+    return {
       items: users,
-    });
+    };
   },
 };

@@ -23,32 +23,36 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { project } = await sails.helpers
-      .getCardToProjectPath(inputs.cardId)
+    const { card, project } = await sails.helpers.cards
+      .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isUserMemberForProject = await sails.helpers.isUserMemberForProject(
-      project.id,
-      currentUser.id,
-    );
+    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
 
-    if (!isUserMemberForProject) {
-      throw Errors.CARD_NOT_FOUND; // Forbidden
+    if (!isBoardMember) {
+      const isProjectManager = await sails.helpers.users.isProjectManager(
+        currentUser.id,
+        project.id,
+      );
+
+      if (!isProjectManager) {
+        throw Errors.BOARD_NOT_FOUND; // Forbidden
+      }
     }
 
-    const actions = await sails.helpers.getActionsForCard(inputs.cardId, inputs.beforeId);
+    const actions = await sails.helpers.cards.getActions(card.id, inputs.beforeId);
 
-    const userIds = sails.helpers.mapRecords(actions, 'userId', true);
-    const users = await sails.helpers.getUsers(userIds, true);
+    const userIds = sails.helpers.utils.mapRecords(actions, 'userId', true);
+    const users = await sails.helpers.users.getMany(userIds, true);
 
-    return exits.success({
+    return {
       items: actions,
       included: {
         users,
       },
-    });
+    };
   },
 };

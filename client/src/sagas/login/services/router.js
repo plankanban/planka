@@ -12,7 +12,7 @@ export function* goToRootService() {
   yield put(push(Paths.ROOT));
 }
 
-export function* locationChangedService() {
+export function* handleLocationChangeService() {
   const pathsMatch = yield select(pathsMatchSelector);
 
   if (!pathsMatch) {
