@@ -125,6 +125,10 @@
     text-align: left;
     width: 100%;
 
+    p {
+      white-space: pre-line;
+    }
+
     img {
       max-width: 100%;
     }
