@@ -8,7 +8,7 @@ RUN npm install npm@latest --global \
   && npm install \
   && npm run build
 
-FROM node:alpine
+FROM node:lts-alpine
 
 WORKDIR /app
 
