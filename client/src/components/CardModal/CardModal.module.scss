@@ -123,8 +123,11 @@
     overflow-wrap: break-word;
     padding: 0;
     text-align: left;
-    white-space: pre-line;
     width: 100%;
+
+    p {
+      white-space: pre-line;
+    }
 
     img {
       max-width: 100%;
