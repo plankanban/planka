@@ -10,6 +10,10 @@ module.exports = {
   },
 
   async fn(inputs) {
+    await BoardMembership.destroy({
+      boardId: inputs.record.id,
+    }).fetch();
+
     const board = await Board.archiveOne(inputs.record.id);
 
     if (board) {
