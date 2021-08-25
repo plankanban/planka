@@ -1,0 +1,47 @@
+---
+kind: pipeline
+type: docker
+name: webUITest
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: start-planka
+    image: node
+    commands:
+      - npm ci
+      - npm run server:db:init
+      - npm start
+      - until curl -s http://localhost:3000; do sleep 5; done
+      - until curl -s http://localhost:1337; do sleep 5; done
+
+  - name: ui-tests
+    image: node
+    commands:
+      - cd client
+      - npm ci
+      - npm run test:webui tests/acceptance/features
+
+services:
+  - name: postgres
+    image: postgres
+    volumes:
+      - name: data-path
+        path: /var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: planka
+      POSTGRES_HOST_AUTH_METHOD: trust
+
+  - name: selenium
+    image: selenium/standalone-chrome-debug
+
+volumes:
+  - name: data-path
+    host:
+      path: /var/lib/postgresql/data
+
+trigger:
+  branch:
+    - master
