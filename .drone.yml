@@ -17,22 +17,22 @@ steps:
       - until curl -s http://localhost:3000; do sleep 5; done
       - until curl -s http://localhost:1337; do sleep 5; done
 
-  - name: ui-tests
-    image: node
-    commands:
-      - cd client
-      - npm ci
-      - npm run test:webui tests/acceptance/features
+  # - name: ui-tests
+  #   image: node
+  #   commands:
+  #     - cd client
+  #     - npm ci
+  #     - npm run test:webui tests/acceptance/features
 
 services:
-  - name: postgres
-    image: postgres
-    volumes:
-      - name: data-path
-        path: /var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: planka
-      POSTGRES_HOST_AUTH_METHOD: trust
+  # - name: postgres
+  #   image: postgres
+  #   volumes:
+  #     - name: data-path
+  #       path: /var/lib/postgresql/data
+  #   environment:
+  #     POSTGRES_DB: planka
+  #     POSTGRES_HOST_AUTH_METHOD: trust
 
   - name: selenium
     image: selenium/standalone-chrome-debug
