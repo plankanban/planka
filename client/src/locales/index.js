@@ -5,6 +5,7 @@ import de from './de/embed';
 import en from './en/embed';
 import es from './es/embed';
 import fr from './fr/embed';
+import ja from './ja/embed';
 import pl from './pl/embed';
 import ru from './ru/embed';
 
@@ -14,6 +15,7 @@ const localePairs = [
   ['en', en],
   ['es', es],
   ['fr', fr],
+  ['ja', ja],
   ['pl', pl],
   ['ru', ru],
 ];
