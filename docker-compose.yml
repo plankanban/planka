@@ -20,7 +20,7 @@ services:
       - 3000:1337
     environment:
       - BASE_URL=http://localhost:3000
-      - TRUST_PROXY=false
+      - TRUST_PROXY=0
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=notsecretkey
     depends_on:
