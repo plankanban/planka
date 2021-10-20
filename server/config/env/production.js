@@ -273,7 +273,7 @@ module.exports = {
      *
      */
 
-    // trustProxy: true,
+    trustProxy: process.env.TRUST_PROXY,
   },
 
   /**
