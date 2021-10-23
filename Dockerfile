@@ -12,9 +12,6 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY server .
-COPY docker-start.sh start.sh
-
 ARG ALPINE_VERSION=3.12
 ARG VIPS_VERSION=8.10.2
 
@@ -41,9 +38,12 @@ RUN apk -U upgrade \
   && make install-strip \
   && cd $OLDPWD \
   && rm -rf /tmp/vips-${VIPS_VERSION} \
-  && npm install npm@latest --global \
+  && apk del vips-dependencies --purge 
+
+COPY server .
+COPY docker-start.sh start.sh
+RUN npm install npm@latest --global \
   && npm install --production \
-  && apk del vips-dependencies --purge \
   && chmod +x start.sh
 
 COPY --from=client-builder /app/build public
