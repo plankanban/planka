@@ -54,7 +54,7 @@
     "sharp": "^0.28.3",
     "stream-to-array": "^2.3.0",
     "uuid": "^8.3.2",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "chai": "^4.3.4",
