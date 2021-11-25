@@ -22,7 +22,7 @@ export default {
       administrator: 'Administrator',
       all: 'Alle',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
-        'Alle Änderungen werden automatisch gespeichert.<br />nach Wiederherstellung der Verbindung',
+        'Alle Änderungen werden automatisch gespeichert,<br />sobald die Verbindung wiederhergestellt wurde.',
       areYouSureYouWantToDeleteThisAttachment:
         'Sind Sie sicher, dass Sie diesen Anhang löschen möchten?',
       areYouSureYouWantToDeleteThisBoard: 'Sind Sie sicher, dass Sie dieses Board löschen möchten?',
@@ -49,7 +49,7 @@ export default {
       color: 'Farbe',
       createBoard_title: 'Board erstellen',
       createLabel_title: 'Label erstellen',
-      createNewOneOrSelectExistingOne: 'Eine Neue erstellen, oder <br />eine bestehende auswählen',
+      createNewOneOrSelectExistingOne: 'Eine Neue erstellen, oder <br />eine Bestehende auswählen',
       createProject_title: 'Projekt erstellen',
       createTextFile_title: 'Textdatei erstellen',
       currentPassword: 'Derzeitiges Password',
@@ -65,7 +65,7 @@ export default {
       deleteTask_title: 'Aufgabe löschen',
       deleteUser_title: 'Benutzer löschen',
       description: 'Beschreibung',
-      dropFileToUpload: 'Datei ablegen um hochzuladen',
+      dropFileToUpload: 'Datei ablegen, um hochzuladen',
       editAttachment_title: 'Anhang bearbieten',
       editAvatar_title: 'Avatar bearbeiten',
       editBoard_title: 'Board bearbeiten',
@@ -130,9 +130,9 @@ export default {
       userLeftNewCommentToCard:
         '{{user}} hat einen neuen Kommentar verfasst «{{comment}}» to <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} bewegte <2>{{card}}</2> von {{fromList}} zu {{toList}}',
+        '{{user}} bewegte <2>{{card}}</2> von {{fromList}} nach {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> bewegte diese Karte von {{fromList}} zu {{toList}}</1>',
+        '<0>{{user}}</0><1> bewegte diese Karte von {{fromList}} nach {{toList}}</1>',
       username: 'Benutzername',
       usernameAlreadyInUse: 'Benutzername wird bereits verwendet',
       users: 'Benutzer',
@@ -147,7 +147,7 @@ export default {
       addCard_title: 'Karte hinzufügen',
       addComment: 'Kommentar hinzufügen',
       addList: 'Liste hinzufügen',
-      addMoreDetailedDescription: 'Eine detaillierte Beschriebung hinzufügen',
+      addMoreDetailedDescription: 'Eine detaillierte Beschreibung hinzufügen',
       addTask: 'Aufgabe hinzufügen',
       addToCard: 'Zu Karte hinzufügen',
       addUser: 'Benutzer hinzufügen',
@@ -174,7 +174,7 @@ export default {
       deleteUser: 'Benutzer löschen',
       edit: 'Bearbeiten',
       editDueDate_title: 'Fälligkeitsdatum bearbeiten',
-      editDescription_title: 'Beschriebung ändern',
+      editDescription_title: 'Beschreibung ändern',
       editEmail_title: 'E-Mail bearbeiten',
       editPassword_title: 'Passwort ändern',
       editTimer_title: 'Timer bearbeiten',
