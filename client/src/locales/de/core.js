@@ -49,7 +49,7 @@ export default {
       color: 'Farbe',
       createBoard_title: 'Board erstellen',
       createLabel_title: 'Label erstellen',
-      createNewOneOrSelectExistingOne: 'Eine Neue erstellen, oder <br />eine bestehende auswählen',
+      createNewOneOrSelectExistingOne: 'Ein Neues erstellen, oder <br />ein Bestehendes auswählen',
       createProject_title: 'Projekt erstellen',
       createTextFile_title: 'Textdatei erstellen',
       currentPassword: 'Derzeitiges Password',
