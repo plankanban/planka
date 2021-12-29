@@ -1,4 +1,4 @@
-FROM node AS client-builder
+FROM node:lts AS client-builder
 
 WORKDIR /app
 
