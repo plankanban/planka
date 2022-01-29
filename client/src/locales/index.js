@@ -1,6 +1,7 @@
 import fromPairs from 'lodash/fromPairs';
 
 import cs from './cs/embed';
+import da from './da/embed';
 import de from './de/embed';
 import en from './en/embed';
 import es from './es/embed';
@@ -12,6 +13,7 @@ import uz from './uz/embed';
 
 const localePairs = [
   ['cs', cs],
+  ['da', da],
   ['de', de],
   ['en', en],
   ['es', es],
