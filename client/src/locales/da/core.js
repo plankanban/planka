@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/da';
+
 export default {
+  dateFns,
+
   format: {
     date: 'd/M/yyyy',
     time: 'p',
@@ -33,8 +37,7 @@ export default {
       areYouSureYouWantToLeaveProject: 'Vil du forlade dette projekt?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Vil du slette denne projektleder fra projektet?',
-      areYouSureYouWantToRemoveThisMemberFromBoard:
-        'Vil du slette dette medlem fra projektet?',
+      areYouSureYouWantToRemoveThisMemberFromBoard: 'Vil du slette dette medlem fra projektet?',
       attachment: 'Vedhæftede fil',
       attachments: 'Vedhæftede filer',
       authentication: 'Brugervalidering',
@@ -113,7 +116,6 @@ export default {
       phone: 'Telefon',
       preferences: 'Præferencer',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tip: press Ctrl-V (Cmd-V on Mac) to add an attachment from the clipboard.',
         'Tip: Tryk Ctrl-V (Cmd-V på Mac) for at vedhæfte direkte fra udklipsholder',
       project: 'Projekt',
       projectNotFound_title: 'Projekt ej fundet',
@@ -133,7 +135,8 @@ export default {
       userActions_title: 'Brugerhandlinger',
       userAddedThisCardToList: '<0>{{user}}</0><1> tilføjede kortet til {{list}}</1>',
       userLeftNewCommentToCard: '{{user}} skrevet en ny kommentar «{{comment}}» på <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} flyttede <2>{{card}}</2> fra {{fromList}} til {{toList}}',
+      userMovedCardFromListToList:
+        '{{user}} flyttede <2>{{card}}</2> fra {{fromList}} til {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> flyttede kortet fra {{fromList}} til {{toList}}</1>',
       username: 'Brugernavn',
