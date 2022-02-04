@@ -35,4 +35,5 @@ module.exports.policies = {
   // 'boards/delete': ['is-authenticated', 'is-admin'],
 
   'access-tokens/create': true,
+  'access-tokens/exchange': true,
 };

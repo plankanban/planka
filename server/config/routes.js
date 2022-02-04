@@ -10,6 +10,7 @@
 
 module.exports.routes = {
   'POST /api/access-tokens': 'access-tokens/create',
+  'POST /api/access-tokens/exchange': 'access-tokens/exchange',
 
   'GET /api/users': 'users/index',
   'POST /api/users': 'users/create',
