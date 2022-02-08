@@ -2,21 +2,22 @@ FROM node:lts AS client-builder
 
 WORKDIR /app
 
-COPY client .
+COPY client/package.json client/package-lock.json ./
 
 RUN npm install npm@latest --global \
-  && npm install \
-  && npm run build
+  && npm install
+
+COPY client .
+RUN npm run build
 
 FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY server .
-COPY docker-start.sh start.sh
+COPY server/.npmrc server/package.json server/package-lock.json ./
 
-ARG ALPINE_VERSION=3.12
-ARG VIPS_VERSION=8.10.2
+ARG ALPINE_VERSION=3.15
+ARG VIPS_VERSION=8.12.2
 
 RUN apk -U upgrade \
   && apk add \
@@ -43,8 +44,11 @@ RUN apk -U upgrade \
   && rm -rf /tmp/vips-${VIPS_VERSION} \
   && npm install npm@latest --global \
   && npm install --production \
-  && apk del vips-dependencies --purge \
-  && chmod +x start.sh
+  && apk del vips-dependencies --purge
+
+COPY docker-start.sh start.sh
+RUN chmod +x start.sh
+COPY server .
 
 COPY --from=client-builder /app/build public
 COPY --from=client-builder /app/build/index.html views
