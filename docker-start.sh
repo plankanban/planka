@@ -1,4 +1,4 @@
 #!/bin/bash
-
-node db/init.js \
-  && node app.js --prod $@
+set -e
+node db/init.js
+exec node app.js --prod $@
