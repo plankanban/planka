@@ -41,8 +41,8 @@
     ]
   },
   "dependencies": {
-    "concurrently": "^6.2.0",
-    "husky": "^7.0.1",
-    "lint-staged": "^11.1.1"
+    "concurrently": "^7.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.3"
   }
 }

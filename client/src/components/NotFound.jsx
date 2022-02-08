@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-const NotFound = () => {
+function NotFound() {
   const [t] = useTranslation();
 
   return (
@@ -11,6 +11,6 @@ const NotFound = () => {
       })}
     </h1>
   );
-};
+}
 
 export default NotFound;

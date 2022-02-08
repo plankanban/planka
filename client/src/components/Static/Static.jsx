@@ -9,7 +9,7 @@ import BoardWrapperContainer from '../../containers/BoardWrapperContainer';
 
 import styles from './Static.module.scss';
 
-const Static = ({ cardId, boardId, projectId }) => {
+function Static({ cardId, boardId, projectId }) {
   const [t] = useTranslation();
 
   if (projectId === undefined) {
@@ -85,7 +85,7 @@ const Static = ({ cardId, boardId, projectId }) => {
       <BoardWrapperContainer />
     </div>
   );
-};
+}
 
 Static.propTypes = {
   cardId: PropTypes.string,
