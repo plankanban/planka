@@ -9,22 +9,24 @@ import UserSettingsModalContainer from '../containers/UserSettingsModalContainer
 import ProjectAddModalContainer from '../containers/ProjectAddModalContainer';
 import Background from './Background';
 
-const Core = ({ currentModal, currentProject }) => (
-  <>
-    {currentProject && currentProject.background && (
-      <Background
-        type={currentProject.background.type}
-        name={currentProject.background.name}
-        imageUrl={currentProject.backgroundImage && currentProject.backgroundImage.url}
-      />
-    )}
-    <FixedContainer />
-    <StaticContainer />
-    {currentModal === ModalTypes.USERS && <UsersModalContainer />}
-    {currentModal === ModalTypes.USER_SETTINGS && <UserSettingsModalContainer />}
-    {currentModal === ModalTypes.PROJECT_ADD && <ProjectAddModalContainer />}
-  </>
-);
+function Core({ currentModal, currentProject }) {
+  return (
+    <>
+      {currentProject && currentProject.background && (
+        <Background
+          type={currentProject.background.type}
+          name={currentProject.background.name}
+          imageUrl={currentProject.backgroundImage && currentProject.backgroundImage.url}
+        />
+      )}
+      <FixedContainer />
+      <StaticContainer />
+      {currentModal === ModalTypes.USERS && <UsersModalContainer />}
+      {currentModal === ModalTypes.USER_SETTINGS && <UserSettingsModalContainer />}
+      {currentModal === ModalTypes.PROJECT_ADD && <ProjectAddModalContainer />}
+    </>
+  );
+}
 
 Core.propTypes = {
   currentModal: PropTypes.oneOf(Object.values(ModalTypes)),

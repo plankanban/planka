@@ -40,9 +40,7 @@ const Tasks = React.memo(({ items }) => {
         <span
           className={classNames(styles.count, isOpened ? styles.countOpened : styles.countClosed)}
         >
-          {completedItems.length}
-          {'/'}
-          {items.length}
+          {completedItems.length}/{items.length}
         </span>
       </div>
       {isOpened && (

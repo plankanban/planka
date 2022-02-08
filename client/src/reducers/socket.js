@@ -4,6 +4,7 @@ const initialState = {
   isDisconnected: false,
 };
 
+// eslint-disable-next-line default-param-last
 export default (state = initialState, { type }) => {
   switch (type) {
     case ActionTypes.SOCKET_DISCONNECT_HANDLE:

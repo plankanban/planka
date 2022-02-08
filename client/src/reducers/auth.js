@@ -6,6 +6,7 @@ const initialState = {
   userId: null,
 };
 
+// eslint-disable-next-line default-param-last
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.AUTHENTICATE__SUCCESS:

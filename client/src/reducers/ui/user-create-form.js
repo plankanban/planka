@@ -10,6 +10,7 @@ const initialState = {
   error: null,
 };
 
+// eslint-disable-next-line default-param-last
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.USER_CREATE:
