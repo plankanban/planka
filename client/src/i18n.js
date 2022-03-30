@@ -14,7 +14,7 @@ i18n.dateFns = {
 
     registerLocale(language, locale);
   },
-  getLocale(language = i18n.language) {
+  getLocale(language = i18n.resolvedLanguage) {
     return this.locales[language];
   },
   format(date, format, { language, ...options } = {}) {
@@ -31,8 +31,8 @@ i18n.dateFns = {
   },
 };
 
-i18n.on('languageChanged', (language) => {
-  setDefaultLocale(language);
+i18n.on('languageChanged', () => {
+  setDefaultLocale(i18n.resolvedLanguage);
 });
 
 const formatDatePostProcessor = {
@@ -59,8 +59,8 @@ i18n
   .init({
     resources: embedLocales,
     fallbackLng: false,
-    whitelist: languages,
-    load: 'currentOnly',
+    supportedLngs: languages,
+    load: 'languageOnly',
     interpolation: {
       escapeValue: false,
       format(value, format, language) {
