@@ -10,6 +10,7 @@ import ja from './ja/embed';
 import pl from './pl/embed';
 import ru from './ru/embed';
 import uz from './uz/embed';
+import zh from './zh/embed';
 
 const localePairs = [
   ['cs', cs],
@@ -22,6 +23,7 @@ const localePairs = [
   ['pl', pl],
   ['ru', ru],
   ['uz', uz],
+  ['zh', zh],
 ];
 
 export const languages = localePairs.map((locale) => locale[0]);
