@@ -83,7 +83,7 @@
     "react-input-mask": "^2.0.4",
     "react-markdown": "^8.0.2",
     "react-redux": "^7.2.8",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^5.3.1",
     "react-scripts": "5.0.1",
     "react-textarea-autosize": "^8.3.3",
     "redux": "^4.1.2",
