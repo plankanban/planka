@@ -1,14 +1,12 @@
 # Planka
 
-![David (path)](https://img.shields.io/david/plankanban/planka?path=client) ![Docker Pulls](https://img.shields.io/docker/pulls/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
+![David (path)](https://img.shields.io/github/package-json/v/plankanban/planka) ![Docker Pulls](https://img.shields.io/docker/pulls/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
 
 A Trello-like kanban board built with React and Redux.
 
 ![](https://raw.githubusercontent.com/plankanban/planka/master/demo.gif)
 
 [**Client demo**](https://plankanban.github.io/planka) (without server features).
-
-<a href="https://ko-fi.com/meltyshev" target="_blank"><img src="https://cdn.ko-fi.com/cdn/kofi4.png?v=2" alt="Buy Me a Coffee at ko-fi.com" border="0" height="36" style="border:0px;height:36px;" /></a>
 
 ## Features
 
@@ -21,22 +19,7 @@ A Trello-like kanban board built with React and Redux.
 - User notifications
 - Internationalization
 
-## Roadmap
-
-### Current task
-
-Projects should have Managers who have the ability to create/edit/delete boards. Boards should have their own Members, so members won't see all boards, just those they belong to. Planka will be released after this breaking change.
-
-### Future tasks
-
-- Fetch last data after reconnection
-- Custom fields
-- Public boards
-- Automatic actions
-
 ## Deploy
-
-**Please note that Planka is NOT released yet, API and database structure may be changed!**
 
 ### Docker Compose
 
