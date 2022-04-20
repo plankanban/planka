@@ -25,7 +25,7 @@ export function* initializeCoreService() {
     notifications,
   } = yield call(fetchCoreRequest); // TODO: handle error
 
-  yield call(i18n.loadCoreLocale, i18n.resolvedLanguage);
+  yield call(i18n.loadCoreLocale);
 
   yield put(
     initializeCore(

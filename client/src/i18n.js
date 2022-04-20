@@ -58,7 +58,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources: embedLocales,
-    fallbackLng: false,
+    fallbackLng: 'en',
     supportedLngs: languages,
     load: 'languageOnly',
     interpolation: {
@@ -79,7 +79,11 @@ i18n
     debug: process.env.NODE_ENV !== 'production',
   });
 
-i18n.loadCoreLocale = (language) =>
+i18n.loadCoreLocale = (language = i18n.resolvedLanguage) => {
+  if (language === 'en') {
+    return;
+  }
+
   import(`./locales/${language}/core`).then((module) => {
     const locale = module.default;
 
@@ -91,5 +95,6 @@ i18n.loadCoreLocale = (language) =>
       }
     });
   });
+};
 
 export default i18n;
