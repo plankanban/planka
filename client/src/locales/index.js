@@ -1,9 +1,11 @@
+import merge from 'lodash/merge';
 import fromPairs from 'lodash/fromPairs';
 
 import csLogin from './cs/login';
 import daLogin from './da/login';
 import deLogin from './de/login';
 import enLogin from './en/login';
+import enCore from './en/core';
 import esLogin from './es/login';
 import frLogin from './fr/login';
 import jaLogin from './ja/login';
@@ -16,7 +18,7 @@ const localePairs = [
   ['cs', csLogin],
   ['da', daLogin],
   ['de', deLogin],
-  ['en', enLogin],
+  ['en', merge(enLogin, enCore)],
   ['es', esLogin],
   ['fr', frLogin],
   ['ja', jaLogin],
