@@ -1,7 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
+import remarkGfm from 'remark-gfm';
+
+import './Markdown.module.scss'; // FIXME: import as styles?
 
 const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
   const handleLinkClick = useCallback((event) => {
@@ -21,16 +23,23 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
     [handleLinkClick],
   );
 
-  let renderers;
-
+  let components;
   if (linkStopPropagation) {
-    renderers = {
-      link: linkRenderer,
+    components = {
+      a: linkRenderer,
     };
   }
 
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <ReactMarkdown {...props} plugins={[gfm]} renderers={renderers} />;
+  return (
+    /* eslint-disable react/jsx-props-no-spreading */
+    <ReactMarkdown
+      {...props}
+      components={components}
+      remarkPlugins={[remarkGfm]}
+      className="markdown-body"
+    />
+    /* eslint-enable react/jsx-props-no-spreading */
+  );
 });
 
 Markdown.propTypes = {
