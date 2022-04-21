@@ -115,23 +115,13 @@
     border: none;
     color: #17394d;
     cursor: pointer;
-    line-height: 1.5;
     font-size: 15px;
     margin-bottom: 8px;
     outline: none;
     overflow: hidden;
-    overflow-wrap: break-word;
     padding: 0;
     text-align: left;
     width: 100%;
-
-    p {
-      white-space: pre-line;
-    }
-
-    img {
-      max-width: 100%;
-    }
   }
 
   .grid {

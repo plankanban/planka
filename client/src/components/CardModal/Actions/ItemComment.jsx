@@ -38,9 +38,9 @@ const ItemComment = React.memo(
           </div>
           <CommentEdit ref={commentEdit} defaultData={data} onUpdate={onUpdate}>
             <>
-              <Markdown linkTarget="_blank" className={styles.text}>
-                {data.text}
-              </Markdown>
+              <div className={styles.text}>
+                <Markdown linkTarget="_blank">{data.text}</Markdown>
+              </div>
               {canEdit && (
                 <Comment.Actions>
                   <Comment.Action
