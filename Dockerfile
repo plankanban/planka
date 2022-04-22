@@ -47,8 +47,10 @@ RUN apk -U upgrade \
   && apk del vips-dependencies --purge
 
 COPY docker-start.sh start.sh
-RUN chmod +x start.sh
 COPY server .
+
+RUN chmod +x start.sh \
+  && cp .env.sample .env
 
 COPY --from=client-builder /app/build public
 COPY --from=client-builder /app/build/index.html views
