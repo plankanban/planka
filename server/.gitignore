@@ -135,9 +135,11 @@ public/user-avatars/*
 !public/project-background-images
 public/project-background-images/*
 !public/project-background-images/.gitkeep
-!public/attachments
-public/attachments/*
-!public/attachments/.gitkeep
+
+private/*
+!private/attachments
+private/attachments/*
+!private/attachments/.gitkeep
 
 views/*
 !views/.gitkeep

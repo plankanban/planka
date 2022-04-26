@@ -57,7 +57,7 @@ COPY --from=client-builder /app/build/index.html views
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
-VOLUME /app/public/attachments
+VOLUME /app/private/attachments
 
 EXPOSE 1337
 
