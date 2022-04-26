@@ -34,11 +34,16 @@ module.exports = function defineCurrentUserHook(sails) {
       before: {
         '/*': {
           async fn(req, res, next) {
-            const { authorization: authorizationHeader } = req.headers;
+            let accessToken;
+            if (req.headers.authorization) {
+              if (TOKEN_PATTERN.test(req.headers.authorization)) {
+                accessToken = req.headers.authorization.replace(TOKEN_PATTERN, '');
+              }
+            } else if (req.cookies.accessToken) {
+              accessToken = req.cookies.accessToken;
+            }
 
-            if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
-              const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
-
+            if (accessToken) {
               req.currentUser = await getUser(accessToken);
             }
 

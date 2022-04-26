@@ -9,8 +9,8 @@ export const transformAction = (action) => ({
 
 /* Actions */
 
-const getActions = (cardId, data, headers) =>
-  socket.get(`/cards/${cardId}/actions`, data, headers).then((body) => ({
+const getActions = (cardId, data) =>
+  socket.get(`/cards/${cardId}/actions`, data).then((body) => ({
     ...body,
     items: body.items.map(transformAction),
   }));

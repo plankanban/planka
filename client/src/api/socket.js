@@ -16,13 +16,12 @@ const { socket } = io;
 socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
 
 ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach((method) => {
-  socket[method.toLowerCase()] = (url, data, headers) =>
+  socket[method.toLowerCase()] = (url, data) =>
     new Promise((resolve, reject) => {
       socket.request(
         {
           method,
           data,
-          headers,
           url: `/api${url}`,
         },
         (_, { body, error }) => {

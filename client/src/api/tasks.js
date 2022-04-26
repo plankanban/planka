@@ -2,11 +2,11 @@ import socket from './socket';
 
 /* Actions */
 
-const createTask = (cardId, data, headers) => socket.post(`/cards/${cardId}/tasks`, data, headers);
+const createTask = (cardId, data) => socket.post(`/cards/${cardId}/tasks`, data);
 
-const updateTask = (id, data, headers) => socket.patch(`/tasks/${id}`, data, headers);
+const updateTask = (id, data) => socket.patch(`/tasks/${id}`, data);
 
-const deleteTask = (id, headers) => socket.delete(`/tasks/${id}`, undefined, headers);
+const deleteTask = (id) => socket.delete(`/tasks/${id}`);
 
 export default {
   createTask,

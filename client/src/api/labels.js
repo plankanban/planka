@@ -2,12 +2,11 @@ import socket from './socket';
 
 /* Actions */
 
-const createLabel = (boardId, data, headers) =>
-  socket.post(`/boards/${boardId}/labels`, data, headers);
+const createLabel = (boardId, data) => socket.post(`/boards/${boardId}/labels`, data);
 
-const updateLabel = (id, data, headers) => socket.patch(`/labels/${id}`, data, headers);
+const updateLabel = (id, data) => socket.patch(`/labels/${id}`, data);
 
-const deleteLabel = (id, headers) => socket.delete(`/labels/${id}`, undefined, headers);
+const deleteLabel = (id) => socket.delete(`/labels/${id}`);
 
 export default {
   createLabel,
