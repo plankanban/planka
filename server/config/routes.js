@@ -75,6 +75,16 @@ module.exports.routes = {
   'GET /api/notifications/:id': 'notifications/show',
   'PATCH /api/notifications/:ids': 'notifications/update',
 
+  'GET /attachments/:id/download/:filename': {
+    action: 'attachments/download',
+    skipAssets: false,
+  },
+
+  'GET /attachments/:id/download/thumbnails/:filename': {
+    action: 'attachments/download-thumbnail',
+    skipAssets: false,
+  },
+
   'GET /*': {
     view: 'index',
     skipAssets: true,
