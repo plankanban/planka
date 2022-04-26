@@ -3,20 +3,20 @@ import { transformAction } from './actions';
 
 /* Actions */
 
-const createCommentAction = (cardId, data, headers) =>
-  socket.post(`/cards/${cardId}/comment-actions`, data, headers).then((body) => ({
+const createCommentAction = (cardId, data) =>
+  socket.post(`/cards/${cardId}/comment-actions`, data).then((body) => ({
     ...body,
     item: transformAction(body.item),
   }));
 
-const updateCommentAction = (id, data, headers) =>
-  socket.patch(`/comment-actions/${id}`, data, headers).then((body) => ({
+const updateCommentAction = (id, data) =>
+  socket.patch(`/comment-actions/${id}`, data).then((body) => ({
     ...body,
     item: transformAction(body.item),
   }));
 
-const deleteCommentAction = (id, headers) =>
-  socket.delete(`/comment-actions/${id}`, undefined, headers).then((body) => ({
+const deleteCommentAction = (id) =>
+  socket.delete(`/comment-actions/${id}`).then((body) => ({
     ...body,
     item: transformAction(body.item),
   }));

@@ -1,19 +1,12 @@
-import { getAccessToken } from '../utils/access-token-storage';
 import ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
-  accessToken: getAccessToken(),
   userId: null,
 };
 
 // eslint-disable-next-line default-param-last
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case ActionTypes.AUTHENTICATE__SUCCESS:
-      return {
-        ...state,
-        accessToken: payload.accessToken,
-      };
     case ActionTypes.SOCKET_RECONNECT_HANDLE:
     case ActionTypes.CORE_INITIALIZE:
       return {

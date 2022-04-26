@@ -2,11 +2,10 @@ import socket from './socket';
 
 /* Actions */
 
-const createProjectManager = (projectId, data, headers) =>
-  socket.post(`/projects/${projectId}/managers`, data, headers);
+const createProjectManager = (projectId, data) =>
+  socket.post(`/projects/${projectId}/managers`, data);
 
-const deleteProjectManager = (id, headers) =>
-  socket.delete(`/project-managers/${id}`, undefined, headers);
+const deleteProjectManager = (id) => socket.delete(`/project-managers/${id}`);
 
 export default {
   createProjectManager,
