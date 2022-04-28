@@ -13,7 +13,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: planka
-          archs: amd64, arm/v7, arm64
+          archs: amd64, arm, arm64
           tags: ${{ github.event.release.tag_name }} latest
           containerfiles: |
             ./Dockerfile
