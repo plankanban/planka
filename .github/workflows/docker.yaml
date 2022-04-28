@@ -28,4 +28,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/thelonkarrde/planka:latest
-            ghcr.io/thelonkarrde/planka:${{ steps.build-image.outputs.tags }}
+            ghcr.io/thelonkarrde/planka:${{ github.event.release.tag_name }}
