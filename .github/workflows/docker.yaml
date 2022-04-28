@@ -1,4 +1,4 @@
-name: release-docker-image
+name: Build and Publish docker image to ghcr
 
 on:
   release:
