@@ -7,26 +7,24 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Install qemu dependency
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static
-      - uses: actions/checkout@v2
-      - name: Build Image
-        id: build-image
-        uses: redhat-actions/buildah-build@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1 
         with:
-          image: planka
-          archs: amd64, arm, arm64
-          tags: ${{ github.event.release.tag_name }} latest
-          containerfiles: |
-            ./Dockerfile
-      - name: Push to registry
-        id: push-to-registry
-        uses: redhat-actions/push-to-registry@v2
-        with:
-          image: ${{ steps.build-image.outputs.image }}
-          tags: ${{ steps.build-image.outputs.tags }} latest
-          registry: ghcr.io/ThelonKarrde
-          username: ThelonKarrde
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/planka:latest
+            ghcr.io/${{ github.repository_owner }}/planka:${{ steps.build-image.outputs.tags }}
