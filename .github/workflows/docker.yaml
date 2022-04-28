@@ -1,7 +1,8 @@
 name: Build and Publish docker image to ghcr
 
 on:
-  workflow_dispatch:
+  release:
+    types: [created]
 
 jobs:
   docker:
