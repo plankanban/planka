@@ -24,6 +24,6 @@ jobs:
         with:
           image: ${{ steps.build-image.outputs.image }}
           tags: ${{ steps.build-image.outputs.tags }} latest
-          registry: ghcr.io/plankanban
-          username: planka
+          registry: ghcr.io/ThelonKarrde
+          username: ThelonKarrde
           password: ${{ secrets.GITHUB_TOKEN }}
