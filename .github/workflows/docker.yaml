@@ -26,5 +26,5 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/planka:latest
-            ghcr.io/${{ github.repository_owner }}/planka:${{ steps.build-image.outputs.tags }}
+            ghcr.io/thelonkarrde/planka:latest
+            ghcr.io/thelonkarrde/planka:${{ steps.build-image.outputs.tags }}
