@@ -10,20 +10,20 @@ export const transformAttachment = (attachment) => ({
 
 /* Actions */
 
-const createAttachment = (cardId, data, requestId, headers) =>
-  http.post(`/cards/${cardId}/attachments?requestId=${requestId}`, data, headers).then((body) => ({
+const createAttachment = (cardId, data, requestId) =>
+  http.post(`/cards/${cardId}/attachments?requestId=${requestId}`, data).then((body) => ({
     ...body,
     item: transformAttachment(body.item),
   }));
 
-const updateAttachment = (id, data, headers) =>
-  socket.patch(`/attachments/${id}`, data, headers).then((body) => ({
+const updateAttachment = (id, data) =>
+  socket.patch(`/attachments/${id}`, data).then((body) => ({
     ...body,
     item: transformAttachment(body.item),
   }));
 
-const deleteAttachment = (id, headers) =>
-  socket.delete(`/attachments/${id}`, undefined, headers).then((body) => ({
+const deleteAttachment = (id) =>
+  socket.delete(`/attachments/${id}`).then((body) => ({
     ...body,
     item: transformAttachment(body.item),
   }));

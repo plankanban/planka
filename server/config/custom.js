@@ -26,6 +26,6 @@ module.exports.custom = {
   projectBackgroundImagesPath: path.join(sails.config.paths.public, 'project-background-images'),
   projectBackgroundImagesUrl: `${process.env.BASE_URL}/project-background-images`,
 
-  attachmentsPath: path.join(sails.config.paths.public, 'attachments'),
+  attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
   attachmentsUrl: `${process.env.BASE_URL}/attachments`,
 };

@@ -3,25 +3,36 @@ module.exports = {
     const { currentUser } = this.req;
 
     const managerProjectIds = await sails.helpers.users.getManagerProjectIds(currentUser.id);
+    const managerProjects = await sails.helpers.projects.getMany(managerProjectIds);
 
-    const boardMemberships = await sails.helpers.users.getBoardMemberships(currentUser.id);
-    const membershipBoardIds = await sails.helpers.utils.mapRecords(boardMemberships, 'boardId');
+    let boardMemberships = await sails.helpers.users.getBoardMemberships(currentUser.id);
 
-    const membershipBoards = await sails.helpers.boards.getMany({
+    let membershipBoardIds = sails.helpers.utils.mapRecords(boardMemberships, 'boardId');
+
+    let membershipBoards = await sails.helpers.boards.getMany({
       id: membershipBoardIds,
       projectId: {
         '!=': managerProjectIds,
       },
     });
 
-    const membershipProjectIds = sails.helpers.utils.mapRecords(
-      membershipBoards,
-      'projectId',
-      true,
+    let membershipProjectIds = sails.helpers.utils.mapRecords(membershipBoards, 'projectId', true);
+    const membershipProjects = await sails.helpers.projects.getMany(membershipProjectIds);
+
+    membershipProjectIds = sails.helpers.utils.mapRecords(membershipProjects);
+
+    membershipBoards = membershipBoards.filter((membershipBoard) =>
+      membershipProjectIds.includes(membershipBoard.projectId),
+    );
+
+    membershipBoardIds = sails.helpers.utils.mapRecords(membershipBoards);
+
+    boardMemberships = boardMemberships.filter((boardMembership) =>
+      membershipBoardIds.includes(boardMembership.boardId),
     );
 
     const projectIds = [...managerProjectIds, ...membershipProjectIds];
-    const projects = await sails.helpers.projects.getMany(projectIds);
+    const projects = [...managerProjects, ...membershipProjects];
 
     const projectManagers = await sails.helpers.projects.getProjectManagers(projectIds);
 

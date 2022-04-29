@@ -16,4 +16,4 @@ module.exports.up = (knex) =>
     table.index('user_id');
   });
 
-module.exports.down = (knex) => knex.schema.dropTable('project_membership');
+module.exports.down = (knex) => knex.schema.dropTable('project_manager');

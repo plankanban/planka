@@ -47,15 +47,17 @@ RUN apk -U upgrade \
   && apk del vips-dependencies --purge
 
 COPY docker-start.sh start.sh
-RUN chmod +x start.sh
 COPY server .
+
+RUN chmod +x start.sh \
+  && cp .env.sample .env
 
 COPY --from=client-builder /app/build public
 COPY --from=client-builder /app/build/index.html views
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
-VOLUME /app/public/attachments
+VOLUME /app/private/attachments
 
 EXPOSE 1337
 

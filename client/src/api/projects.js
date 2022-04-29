@@ -3,18 +3,18 @@ import socket from './socket';
 
 /* Actions */
 
-const getProjects = (headers) => socket.get('/projects', undefined, headers);
+const getProjects = () => socket.get('/projects');
 
-const createProject = (data, headers) => socket.post('/projects', data, headers);
+const createProject = (data) => socket.post('/projects', data);
 
-const getProject = (id, headers) => socket.get(`/projects/${id}`, undefined, headers);
+const getProject = (id) => socket.get(`/projects/${id}`);
 
-const updateProject = (id, data, headers) => socket.patch(`/projects/${id}`, data, headers);
+const updateProject = (id, data) => socket.patch(`/projects/${id}`, data);
 
-const updateProjectBackgroundImage = (id, data, headers) =>
-  http.post(`/projects/${id}/background-image`, data, headers);
+const updateProjectBackgroundImage = (id, data) =>
+  http.post(`/projects/${id}/background-image`, data);
 
-const deleteProject = (id, headers) => socket.delete(`/projects/${id}`, undefined, headers);
+const deleteProject = (id) => socket.delete(`/projects/${id}`);
 
 export default {
   getProjects,

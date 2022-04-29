@@ -52,9 +52,9 @@ module.exports = {
   customToJSON() {
     return {
       ..._.omit(this, ['dirname', 'filename', 'isImage']),
-      url: `${sails.config.custom.attachmentsUrl}/${this.dirname}/${this.filename}`,
+      url: `${sails.config.custom.attachmentsUrl}/${this.id}/download/${this.filename}`,
       coverUrl: this.isImage
-        ? `${sails.config.custom.attachmentsUrl}/${this.dirname}/thumbnails/cover-256.jpg`
+        ? `${sails.config.custom.attachmentsUrl}/${this.id}/download/thumbnails/cover-256.jpg`
         : null,
     };
   },

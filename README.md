@@ -61,7 +61,7 @@ Either use a local database or start the provided development database:
 docker-compose -f docker-compose-dev.yml up
 ```
 
-Edit `DATABASE_URL` in `.env` file if needed, then initialize the database:
+Create `server/.env` based on `server/.env.sample` and edit `DATABASE_URL` if needed, then initialize the database:
 
 ```
 npm run server:db:init

@@ -15,7 +15,7 @@ services:
     volumes:
       - user-avatars:/app/public/user-avatars
       - project-background-images:/app/public/project-background-images
-      - attachments:/app/public/attachments
+      - attachments:/app/private/attachments
     ports:
       - 3000:1337
     environment:
