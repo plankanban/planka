@@ -14,10 +14,6 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
-    filename: {
-      type: 'string',
-      required: true,
-    },
   },
 
   exits: {
@@ -56,14 +52,12 @@ module.exports = {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 
-    let contentDisposition;
-    if (attachment.isImage || path.extname(attachment.filename) === '.pdf') {
-      contentDisposition = 'inline';
-    } else {
-      contentDisposition = `attachment; ${inputs.filename}`;
+    this.res.type(attachment.filename);
+    if (!attachment.isImage && path.extname(attachment.filename) !== '.pdf') {
+      this.res.set('Content-Disposition', 'attachment');
     }
+    this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
 
-    this.res.setHeader('Content-Disposition', contentDisposition);
     return exits.success(fs.createReadStream(filePath));
   },
 };

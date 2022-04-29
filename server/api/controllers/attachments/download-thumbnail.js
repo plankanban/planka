@@ -61,7 +61,9 @@ module.exports = {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 
-    this.res.setHeader('Content-Disposition', `inline; ${inputs.filename}`);
+    this.res.type(attachment.filename);
+    this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
+
     return exits.success(fs.createReadStream(filePath));
   },
 };
