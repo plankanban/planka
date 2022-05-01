@@ -1,31 +1,44 @@
-name: Build and Publish docker image to ghcr
+name: Build and push base docker image
 
 on:
-  release:
-    types: [created]
+  push:
+    paths:
+      - ./Dockerfile.base
+    branches:
+      - master
+
+env:
+  alpine_version: 3.15
 
 jobs:
-  docker:
+  build-and-push-base-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1 
+        uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
+          file: Dockerfile.base
+          build_args:
+            - ALPINE_VERSION=${{ env.alpine_version }}
           push: true
           tags: |
-            ghcr.io/thelonkarrde/planka:latest
-            ghcr.io/thelonkarrde/planka:${{ github.event.release.tag_name }}
+            ghcr.io/plankanban/planka:build-base-latest
+            ghcr.io/plankanban/planka:build-base-${{ env.alpine_version }}
