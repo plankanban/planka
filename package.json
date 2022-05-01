@@ -28,7 +28,7 @@
     "start": "concurrently -n server,client \"npm run server:start\" \"npm run client:start\"",
     "test": "npm run server:test && npm run client:test",
     "docker-build-base": "docker build -t ghcr.io/plankanban/planka:build-base -f Dockerfile.base .",
-    "docker-build": "docker build -t ghcr.io/plankanban/planka:build-base -f Dockerfile ."
+    "docker-build": "docker build -t ghcr.io/plankanban/planka:test -f Dockerfile ."
   },
   "lint-staged": {
     "client/**/*.{js,jsx}": [
