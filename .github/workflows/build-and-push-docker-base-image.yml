@@ -6,6 +6,7 @@ on:
       - ./Dockerfile.base
     branches:
       - master
+  workflow_dispatch:
 
 env:
   ALPINE_VERSION: 3.15
