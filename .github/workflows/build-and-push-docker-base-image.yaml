@@ -1,4 +1,4 @@
-name: Build and push base docker image
+name: Build and push Docker base image
 
 on:
   push:
@@ -8,10 +8,10 @@ on:
       - master
 
 env:
-  alpine_version: 3.15
+  ALPINE_VERSION: 3.15
 
 jobs:
-  build-and-push-base-image:
+  build-and-push-docker-base-image:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -37,8 +37,8 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           file: Dockerfile.base
           build_args:
-            - ALPINE_VERSION=${{ env.alpine_version }}
+            - ALPINE_VERSION=${{ env.ALPINE_VERSION }}
           push: true
           tags: |
-            ghcr.io/plankanban/planka:build-base-latest
-            ghcr.io/plankanban/planka:build-base-${{ env.alpine_version }}
+            ghcr.io/plankanban/planka:base-latest
+            ghcr.io/plankanban/planka:base-${{ env.ALPINE_VERSION }}
