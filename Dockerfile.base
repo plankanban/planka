@@ -24,5 +24,4 @@ RUN apk -U upgrade \
   && ./configure \
   && make \
   && make install-strip \
-  && rm -rf /tmp/vips-${VIPS_VERSION} \
-  && apk del vips-dependencies --purge
+  && rm -rf /tmp/vips-${VIPS_VERSION}
