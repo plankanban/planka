@@ -1,4 +1,4 @@
-import dateFns from 'date-fns/locale/se';
+import dateFns from 'date-fns/locale/sv';
 
 export default {
   dateFns,
@@ -24,10 +24,12 @@ export default {
       all: 'Alla',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Alla ändringar kommer att sparas automatiskt<br />så fort anslutningen är återställd',
-      areYouSureYouWantToDeleteThisAttachment: 'Är du säker på att du vill ta bort den här bilagan?',
+      areYouSureYouWantToDeleteThisAttachment:
+        'Är du säker på att du vill ta bort den här bilagan?',
       areYouSureYouWantToDeleteThisBoard: 'Är du säker på att du vill ta bort den här tavlan?',
       areYouSureYouWantToDeleteThisCard: 'Är du säker på att du vill ta bort det här kortet?',
-      areYouSureYouWantToDeleteThisComment: 'Är du säker på att du vill ta bort den här kommentaren?',
+      areYouSureYouWantToDeleteThisComment:
+        'Är du säker på att du vill ta bort den här kommentaren?',
       areYouSureYouWantToDeleteThisLabel: 'Är du säker på att du vill ta bort den här etiketten?',
       areYouSureYouWantToDeleteThisList: 'Är du säker på att du vill ta bort den här listan?',
       areYouSureYouWantToDeleteThisProject: 'Är du säker på att du vill ta bort det här projektet?',
@@ -136,7 +138,8 @@ export default {
       userActions_title: 'Användaråtgärder',
       userAddedThisCardToList: '<0>{{user}}</0><1> lade till detta kort i {{list}}</1>',
       userLeftNewCommentToCard: '{{user}} lämnade en ny kommentar «{{comment}}» på <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} flyttade <2>{{card}}</2> från {{fromList}} till {{toList}}',
+      userMovedCardFromListToList:
+        '{{user}} flyttade <2>{{card}}</2> från {{fromList}} till {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> flyttade detta kort från {{fromList}} till {{toList}}</1>',
       username: 'Användarnamn',
