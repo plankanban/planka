@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks';
 
 import './Markdown.module.scss'; // FIXME: import as styles?
 
@@ -35,7 +36,7 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
     <ReactMarkdown
       {...props}
       components={components}
-      remarkPlugins={[remarkGfm]}
+      remarkPlugins={[remarkGfm, remarkBreaks]}
       className="markdown-body"
     />
     /* eslint-enable react/jsx-props-no-spreading */
