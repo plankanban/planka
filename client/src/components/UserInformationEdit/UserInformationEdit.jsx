@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Input } from 'semantic-ui-react';
 
-import { useForm } from '../../../hooks';
+import { useForm } from '../../hooks';
 
-import styles from './InformationEdit.module.scss';
+import styles from './UserInformationEdit.module.scss';
 
-const InformationEdit = React.memo(({ defaultData, onUpdate }) => {
+const UserInformationEdit = React.memo(({ defaultData, onUpdate }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({
@@ -72,9 +72,9 @@ const InformationEdit = React.memo(({ defaultData, onUpdate }) => {
   );
 });
 
-InformationEdit.propTypes = {
+UserInformationEdit.propTypes = {
   defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   onUpdate: PropTypes.func.isRequired,
 };
 
-export default InformationEdit;
+export default UserInformationEdit;

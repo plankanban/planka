@@ -41,6 +41,14 @@ export const handleUserUpdate = (user) => ({
   },
 });
 
+export const updateUserEmail = (id, data) => ({
+  type: EntryActionTypes.USER_EMAIL_UPDATE,
+  payload: {
+    id,
+    data,
+  },
+});
+
 export const updateCurrentUserEmail = (data) => ({
   type: EntryActionTypes.CURRENT_USER_EMAIL_UPDATE,
   payload: {
@@ -48,9 +56,24 @@ export const updateCurrentUserEmail = (data) => ({
   },
 });
 
+export const clearUserEmailUpdateError = (id) => ({
+  type: EntryActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR,
+  payload: {
+    id,
+  },
+});
+
 export const clearCurrentUserEmailUpdateError = () => ({
   type: EntryActionTypes.CURRENT_USER_EMAIL_UPDATE_ERROR_CLEAR,
   payload: {},
+});
+
+export const updateUserPassword = (id, data) => ({
+  type: EntryActionTypes.USER_PASSWORD_UPDATE,
+  payload: {
+    id,
+    data,
+  },
 });
 
 export const updateCurrentUserPassword = (data) => ({
@@ -60,15 +83,37 @@ export const updateCurrentUserPassword = (data) => ({
   },
 });
 
+export const clearUserPasswordUpdateError = (id) => ({
+  type: EntryActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR,
+  payload: {
+    id,
+  },
+});
+
 export const clearCurrentUserPasswordUpdateError = () => ({
   type: EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE_ERROR_CLEAR,
   payload: {},
+});
+
+export const updateUserUsername = (id, data) => ({
+  type: EntryActionTypes.USER_USERNAME_UPDATE,
+  payload: {
+    id,
+    data,
+  },
 });
 
 export const updateCurrentUserUsername = (data) => ({
   type: EntryActionTypes.CURRENT_USER_USERNAME_UPDATE,
   payload: {
     data,
+  },
+});
+
+export const clearUserUsernameUpdateError = (id) => ({
+  type: EntryActionTypes.USER_USERNAME_UPDATE_ERROR_CLEAR,
+  payload: {
+    id,
   },
 });
 

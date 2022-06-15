@@ -1,14 +1,15 @@
+import omit from 'lodash/omit';
+import isEmail from 'validator/lib/isEmail';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
-import { useDidUpdate, usePrevious, useToggle } from '../../../lib/hooks';
-import { withPopup } from '../../../lib/popup';
-import { Input, Popup } from '../../../lib/custom-ui';
+import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
+import { Input, Popup } from '../../lib/custom-ui';
 
-import { useForm } from '../../../hooks';
+import { useForm } from '../../hooks';
 
-import styles from './PasswordEditPopup.module.scss';
+import styles from './UserEmailEditStep.module.scss';
 
 const createMessage = (error) => {
   if (!error) {
@@ -16,6 +17,11 @@ const createMessage = (error) => {
   }
 
   switch (error.message) {
+    case 'Email already in use':
+      return {
+        type: 'error',
+        content: 'common.emailAlreadyInUse',
+      };
     case 'Invalid current password':
       return {
         type: 'error',
@@ -29,13 +35,23 @@ const createMessage = (error) => {
   }
 };
 
-const PasswordEditStep = React.memo(
-  ({ defaultData, isSubmitting, error, onUpdate, onMessageDismiss, onClose }) => {
+const UserEmailEditStep = React.memo(
+  ({
+    defaultData,
+    email,
+    isSubmitting,
+    error,
+    usePasswordConfirmation,
+    onUpdate,
+    onMessageDismiss,
+    onBack,
+    onClose,
+  }) => {
     const [t] = useTranslation();
     const wasSubmitting = usePrevious(isSubmitting);
 
     const [data, handleFieldChange, setData] = useForm({
-      password: '',
+      email: '',
       currentPassword: '',
       ...defaultData,
     });
@@ -43,37 +59,57 @@ const PasswordEditStep = React.memo(
     const message = useMemo(() => createMessage(error), [error]);
     const [focusCurrentPasswordFieldState, focusCurrentPasswordField] = useToggle();
 
-    const passwordField = useRef(null);
+    const emailField = useRef(null);
     const currentPasswordField = useRef(null);
 
     const handleSubmit = useCallback(() => {
-      if (!data.password) {
-        passwordField.current.select();
+      const cleanData = {
+        ...data,
+        email: data.email.trim(),
+      };
+
+      if (!isEmail(cleanData.email)) {
+        emailField.current.select();
         return;
       }
 
-      if (!data.currentPassword) {
+      if (cleanData.email === email) {
+        onClose();
+        return;
+      }
+
+      if (usePasswordConfirmation && !cleanData.currentPassword) {
         currentPasswordField.current.focus();
         return;
       }
 
-      onUpdate(data);
-    }, [onUpdate, data]);
+      onUpdate(usePasswordConfirmation ? cleanData : omit(cleanData, 'currentPassword'));
+    }, [email, usePasswordConfirmation, onUpdate, onClose, data]);
 
     useEffect(() => {
-      passwordField.current.select();
+      emailField.current.select();
     }, []);
 
     useEffect(() => {
       if (wasSubmitting && !isSubmitting) {
-        if (!error) {
+        if (error) {
+          switch (error.message) {
+            case 'Email already in use':
+              emailField.current.select();
+
+              break;
+            case 'Invalid current password':
+              setData((prevData) => ({
+                ...prevData,
+                currentPassword: '',
+              }));
+              focusCurrentPasswordField();
+
+              break;
+            default:
+          }
+        } else {
           onClose();
-        } else if (error.message === 'Invalid current password') {
-          setData((prevData) => ({
-            ...prevData,
-            currentPassword: '',
-          }));
-          focusCurrentPasswordField();
         }
       }
     }, [isSubmitting, wasSubmitting, error, onClose, setData, focusCurrentPasswordField]);
@@ -84,8 +120,8 @@ const PasswordEditStep = React.memo(
 
     return (
       <>
-        <Popup.Header>
-          {t('common.editPassword', {
+        <Popup.Header onBack={onBack}>
+          {t('common.editEmail', {
             context: 'title',
           })}
         </Popup.Header>
@@ -102,24 +138,29 @@ const PasswordEditStep = React.memo(
             />
           )}
           <Form onSubmit={handleSubmit}>
-            <div className={styles.text}>{t('common.newPassword')}</div>
-            <Input.Password
+            <div className={styles.text}>{t('common.newEmail')}</div>
+            <Input
               fluid
-              ref={passwordField}
-              name="password"
-              value={data.password}
+              ref={emailField}
+              name="email"
+              value={data.email}
+              placeholder={email}
               className={styles.field}
               onChange={handleFieldChange}
             />
-            <div className={styles.text}>{t('common.currentPassword')}</div>
-            <Input.Password
-              fluid
-              ref={currentPasswordField}
-              name="currentPassword"
-              value={data.currentPassword}
-              className={styles.field}
-              onChange={handleFieldChange}
-            />
+            {usePasswordConfirmation && (
+              <>
+                <div className={styles.text}>{t('common.currentPassword')}</div>
+                <Input.Password
+                  fluid
+                  ref={currentPasswordField}
+                  name="currentPassword"
+                  value={data.currentPassword}
+                  className={styles.field}
+                  onChange={handleFieldChange}
+                />
+              </>
+            )}
             <Button
               positive
               content={t('action.save')}
@@ -133,17 +174,22 @@ const PasswordEditStep = React.memo(
   },
 );
 
-PasswordEditStep.propTypes = {
+UserEmailEditStep.propTypes = {
   defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  email: PropTypes.string.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  usePasswordConfirmation: PropTypes.bool,
   onUpdate: PropTypes.func.isRequired,
   onMessageDismiss: PropTypes.func.isRequired,
+  onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
-PasswordEditStep.defaultProps = {
+UserEmailEditStep.defaultProps = {
   error: undefined,
+  usePasswordConfirmation: false,
+  onBack: undefined,
 };
 
-export default withPopup(PasswordEditStep);
+export default UserEmailEditStep;

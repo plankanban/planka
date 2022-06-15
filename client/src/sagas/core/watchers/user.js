@@ -8,8 +8,16 @@ import {
   clearCurrentUserPasswordUpdateErrorService,
   clearCurrentUserUsernameUpdateErrorService,
   clearUserCreateErrorService,
+  clearUserEmailUpdateErrorService,
+  clearUserPasswordUpdateErrorService,
+  clearUserUsernameUpdateErrorService,
   createUserService,
   deleteUserService,
+  handleUserCreateService,
+  handleUserDeleteService,
+  handleUserFromCardRemoveService,
+  handleUserToCardAddService,
+  handleUserUpdateService,
   removeUserFromCardService,
   removeUserFromCurrentCardService,
   removeUserFromFilterInCurrentBoardService,
@@ -19,11 +27,9 @@ import {
   updateCurrentUserPasswordService,
   updateCurrentUserService,
   updateCurrentUserUsernameService,
-  handleUserCreateService,
-  handleUserUpdateService,
-  handleUserDeleteService,
-  handleUserToCardAddService,
-  handleUserFromCardRemoveService,
+  updateUserEmailService,
+  updateUserPasswordService,
+  updateUserUsernameService,
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
@@ -43,20 +49,38 @@ export default function* userWatchers() {
     takeEvery(EntryActionTypes.USER_UPDATE_HANDLE, ({ payload: { user } }) =>
       handleUserUpdateService(user),
     ),
+    takeEvery(EntryActionTypes.USER_EMAIL_UPDATE, ({ payload: { id, data } }) =>
+      updateUserEmailService(id, data),
+    ),
     takeEvery(EntryActionTypes.CURRENT_USER_EMAIL_UPDATE, ({ payload: { data } }) =>
       updateCurrentUserEmailService(data),
+    ),
+    takeEvery(EntryActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR, ({ payload: { id } }) =>
+      clearUserEmailUpdateErrorService(id),
     ),
     takeEvery(EntryActionTypes.CURRENT_USER_EMAIL_UPDATE_ERROR_CLEAR, () =>
       clearCurrentUserEmailUpdateErrorService(),
     ),
+    takeEvery(EntryActionTypes.USER_PASSWORD_UPDATE, ({ payload: { id, data } }) =>
+      updateUserPasswordService(id, data),
+    ),
     takeEvery(EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE, ({ payload: { data } }) =>
       updateCurrentUserPasswordService(data),
+    ),
+    takeEvery(EntryActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR, ({ payload: { id } }) =>
+      clearUserPasswordUpdateErrorService(id),
     ),
     takeEvery(EntryActionTypes.CURRENT_USER_PASSWORD_UPDATE_ERROR_CLEAR, () =>
       clearCurrentUserPasswordUpdateErrorService(),
     ),
+    takeEvery(EntryActionTypes.USER_USERNAME_UPDATE, ({ payload: { id, data } }) =>
+      updateUserUsernameService(id, data),
+    ),
     takeEvery(EntryActionTypes.CURRENT_USER_USERNAME_UPDATE, ({ payload: { data } }) =>
       updateCurrentUserUsernameService(data),
+    ),
+    takeEvery(EntryActionTypes.USER_USERNAME_UPDATE_ERROR_CLEAR, ({ payload: { id } }) =>
+      clearUserUsernameUpdateErrorService(id),
     ),
     takeEvery(EntryActionTypes.CURRENT_USER_USERNAME_UPDATE_ERROR_CLEAR, () =>
       clearCurrentUserUsernameUpdateErrorService(),

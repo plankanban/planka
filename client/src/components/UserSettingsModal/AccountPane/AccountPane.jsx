@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Header, Tab } from 'semantic-ui-react';
 
-import InformationEdit from './InformationEdit';
 import AvatarEditPopup from './AvatarEditPopup';
-import UsernameEditPopup from './UsernameEditPopup';
-import EmailEditPopup from './EmailEditPopup';
-import PasswordEditPopup from './PasswordEditPopup';
 import User from '../../User';
+import UserInformationEdit from '../../UserInformationEdit';
+import UserUsernameEditPopup from '../../UserUsernameEditPopup';
+import UserEmailEditPopup from '../../UserEmailEditPopup';
+import UserPasswordEditPopup from '../../UserPasswordEditPopup';
 
 import styles from './AccountPane.module.scss';
 
@@ -52,7 +52,7 @@ const AccountPane = React.memo(
         </AvatarEditPopup>
         <br />
         <br />
-        <InformationEdit
+        <UserInformationEdit
           defaultData={{
             name,
             phone,
@@ -68,7 +68,8 @@ const AccountPane = React.memo(
           </Header>
         </Divider>
         <div className={styles.action}>
-          <UsernameEditPopup
+          <UserUsernameEditPopup
+            usePasswordConfirmation
             defaultData={usernameUpdateForm.data}
             username={username}
             isSubmitting={usernameUpdateForm.isSubmitting}
@@ -81,10 +82,11 @@ const AccountPane = React.memo(
                 context: 'title',
               })}
             </Button>
-          </UsernameEditPopup>
+          </UserUsernameEditPopup>
         </div>
         <div className={styles.action}>
-          <EmailEditPopup
+          <UserEmailEditPopup
+            usePasswordConfirmation
             defaultData={emailUpdateForm.data}
             email={email}
             isSubmitting={emailUpdateForm.isSubmitting}
@@ -97,10 +99,11 @@ const AccountPane = React.memo(
                 context: 'title',
               })}
             </Button>
-          </EmailEditPopup>
+          </UserEmailEditPopup>
         </div>
         <div className={styles.action}>
-          <PasswordEditPopup
+          <UserPasswordEditPopup
+            usePasswordConfirmation
             defaultData={passwordUpdateForm.data}
             isSubmitting={passwordUpdateForm.isSubmitting}
             error={passwordUpdateForm.error}
@@ -112,7 +115,7 @@ const AccountPane = React.memo(
                 context: 'title',
               })}
             </Button>
-          </PasswordEditPopup>
+          </UserPasswordEditPopup>
         </div>
       </Tab.Pane>
     );
