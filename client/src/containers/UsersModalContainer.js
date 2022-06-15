@@ -2,7 +2,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { usersExceptCurrentSelector } from '../selectors';
-import { closeModal, deleteUser, updateUser } from '../actions/entry';
+import {
+  clearUserEmailUpdateError,
+  clearUserPasswordUpdateError,
+  clearUserUsernameUpdateError,
+  closeModal,
+  deleteUser,
+  updateUser,
+  updateUserEmail,
+  updateUserPassword,
+  updateUserUsername,
+} from '../actions/entry';
 import UsersModal from '../components/UsersModal';
 
 const mapStateToProps = (state) => {
@@ -17,6 +27,12 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onUpdate: updateUser,
+      onUsernameUpdate: updateUserUsername,
+      onUsernameUpdateMessageDismiss: clearUserUsernameUpdateError,
+      onEmailUpdate: updateUserEmail,
+      onEmailUpdateMessageDismiss: clearUserEmailUpdateError,
+      onPasswordUpdate: updateUserPassword,
+      onPasswordUpdateMessageDismiss: clearUserPasswordUpdateError,
       onDelete: deleteUser,
       onClose: closeModal,
     },

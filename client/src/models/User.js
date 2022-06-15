@@ -35,6 +35,7 @@ export default class extends Model {
   static fields = {
     id: attr(),
     email: attr(),
+    username: attr(),
     name: attr(),
     avatarUrl: attr(),
     phone: attr(),
@@ -140,6 +141,18 @@ export default class extends Model {
 
         break;
       }
+      case ActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          emailUpdateForm: {
+            ...userModel.emailUpdateForm,
+            error: null,
+          },
+        });
+
+        break;
+      }
       case ActionTypes.USER_PASSWORD_UPDATE: {
         const userModel = User.withId(payload.id);
 
@@ -174,6 +187,18 @@ export default class extends Model {
 
         break;
       }
+      case ActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          passwordUpdateForm: {
+            ...userModel.passwordUpdateForm,
+            error: null,
+          },
+        });
+
+        break;
+      }
       case ActionTypes.USER_USERNAME_UPDATE: {
         const userModel = User.withId(payload.id);
 
@@ -203,6 +228,18 @@ export default class extends Model {
             ...userModel.usernameUpdateForm,
             isSubmitting: false,
             error: payload.error,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_USERNAME_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          usernameUpdateForm: {
+            ...userModel.usernameUpdateForm,
+            error: null,
           },
         });
 

@@ -1,0 +1,11 @@
+:global(#app) {
+  .menu {
+    margin: -7px -12px -5px;
+    width: calc(100% + 24px);
+  }
+
+  .menuItem {
+    margin: 0;
+    padding-left: 14px;
+  }
+}
