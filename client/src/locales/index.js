@@ -11,6 +11,7 @@ import frLogin from './fr/login';
 import jaLogin from './ja/login';
 import plLogin from './pl/login';
 import ruLogin from './ru/login';
+import skLogin from './sk/login';
 import svLogin from './sv/login';
 import uzLogin from './uz/login';
 import zhLogin from './zh/login';
@@ -25,6 +26,7 @@ const localePairs = [
   ['ja', jaLogin],
   ['pl', plLogin],
   ['ru', ruLogin],
+  ['sk', skLogin],
   ['sv', svLogin],
   ['uz', uzLogin],
   ['zh', zhLogin],
