@@ -127,6 +127,8 @@ export default {
       subscribeToMyOwnCardsByDefault: 'Subscribe to my own cards by default',
       taskActions_title: 'Task Actions',
       tasks: 'Tasks',
+      thereIsNoPreviewAvailableForThisAttachment:
+        'There is no preview available for this attachment',
       time: 'Time',
       timer: 'Timer',
       title: 'Title',

@@ -1,7 +1,8 @@
 const path = require('path');
+const dotenv = require('dotenv');
 const _ = require('lodash');
 
-require('dotenv').config({
+dotenv.config({
   path: path.resolve(__dirname, '../.env'),
 });
 

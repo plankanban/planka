@@ -1,10 +1,12 @@
-const config = require('./knexfile');
+const initKnex = require('knex');
 
-const knex = require('knex')(config); // eslint-disable-line import/order
+const knexfile = require('./knexfile');
+
+const knex = initKnex(knexfile);
 
 (async () => {
   try {
-    const isExists = await knex.schema.hasTable(config.migrations.tableName);
+    const isExists = await knex.schema.hasTable(knexfile.migrations.tableName);
 
     await knex.migrate.latest();
     if (!isExists) {

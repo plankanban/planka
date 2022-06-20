@@ -1,4 +1,14 @@
 :global(#app) {
+  .content {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .contentWrapper {
+    height: 100%;
+  }
+
   .toggleButton {
     background: transparent;
     box-shadow: none;

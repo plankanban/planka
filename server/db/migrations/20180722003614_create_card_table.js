@@ -1,5 +1,5 @@
 module.exports.up = (knex) =>
-  knex.schema.createTable('card', (table) => {
+  knex.schema.createTable('card', async (table) => {
     /* Columns */
 
     table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
@@ -12,7 +12,7 @@ module.exports.up = (knex) =>
     table.specificType('position', 'double precision');
     table.text('name').notNullable();
     table.text('description');
-    table.timestamp('dueDate', true);
+    table.timestamp('due_date', true);
     table.jsonb('timer');
 
     table.timestamp('created_at', true);

@@ -321,4 +321,11 @@ module.exports = {
     // baseUrl: 'https://example.com',
     // internalEmailAddress: 'support@example.com',
   },
+
+  routes: {
+    'GET /*': {
+      view: 'index',
+      skipAssets: true,
+    },
+  },
 };

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -73,6 +73,8 @@ const CardModal = React.memo(
   }) => {
     const [t] = useTranslation();
 
+    const isGalleryOpened = useRef(false);
+
     const handleNameUpdate = useCallback(
       (newName) => {
         onUpdate({
@@ -123,6 +125,22 @@ const CardModal = React.memo(
         isSubscribed: !isSubscribed,
       });
     }, [isSubscribed, onUpdate]);
+
+    const handleGalleryOpen = useCallback(() => {
+      isGalleryOpened.current = true;
+    }, []);
+
+    const handleGalleryClose = useCallback(() => {
+      isGalleryOpened.current = false;
+    }, []);
+
+    const handleClose = useCallback(() => {
+      if (isGalleryOpened.current) {
+        return;
+      }
+
+      onClose();
+    }, [onClose]);
 
     const userIds = users.map((user) => user.id);
     const labelIds = labels.map((label) => label.id);
@@ -328,6 +346,8 @@ const CardModal = React.memo(
                     onUpdate={onAttachmentUpdate}
                     onDelete={onAttachmentDelete}
                     onCoverUpdate={handleCoverUpdate}
+                    onGalleryOpen={handleGalleryOpen}
+                    onGalleryClose={handleGalleryClose}
                   />
                 </div>
               </div>
@@ -445,7 +465,7 @@ const CardModal = React.memo(
     );
 
     return (
-      <Modal open closeIcon size="small" centered={false} onClose={onClose}>
+      <Modal open closeIcon size="small" centered={false} onClose={handleClose}>
         {canEdit ? (
           <AttachmentAddZone onCreate={onAttachmentCreate}>{contentNode}</AttachmentAddZone>
         ) : (

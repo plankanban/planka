@@ -32,7 +32,7 @@ const createData = (timer) => {
 const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
   const [t] = useTranslation();
   const [data, handleFieldChange, setData] = useForm(() => createData(defaultValue));
-  const [isEditing, toggleEdit] = useToggle();
+  const [isEditing, toggleEditing] = useToggle();
 
   const hoursField = useRef(null);
   const minutesField = useRef(null);
@@ -55,10 +55,10 @@ const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) =
     onClose();
   }, [defaultValue, onUpdate, onClose]);
 
-  const handleToggleEditClick = useCallback(() => {
+  const handleToggleEditingClick = useCallback(() => {
     setData(createData(defaultValue));
-    toggleEdit();
-  }, [defaultValue, setData, toggleEdit]);
+    toggleEditing();
+  }, [defaultValue, setData, toggleEditing]);
 
   const handleSubmit = useCallback(() => {
     const parts = {
@@ -149,7 +149,7 @@ const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) =
               type="button"
               icon={isEditing ? 'close' : 'edit'}
               className={styles.iconButton}
-              onClick={handleToggleEditClick}
+              onClick={handleToggleEditingClick}
             />
           </div>
           {isEditing && <Button positive content={t('action.save')} />}
