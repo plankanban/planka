@@ -85,10 +85,8 @@ module.exports.routes = {
     skipAssets: false,
   },
 
-  routes: {
-    'GET /*': {
-      view: 'index',
-      skipAssets: true,
-    },
+  'GET /*': {
+    view: 'index',
+    skipAssets: true,
   },
 };
