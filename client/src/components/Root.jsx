@@ -10,6 +10,7 @@ import CoreWrapperContainer from '../containers/CoreWrapperContainer';
 import NotFound from './NotFound';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import 'photoswipe/dist/photoswipe.css';
 import '../lib/custom-ui/styles.css';
 
 import '../styles.module.scss';

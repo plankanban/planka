@@ -134,6 +134,7 @@ export default {
       subscribeToMyOwnCardsByDefault: 'Standardmäßig meine eigenen Karten abonnieren',
       taskActions_title: 'Aufgabenaktionen',
       tasks: 'Aufgaben',
+      thereIsNoPreviewAvailableForThisAttachment: 'Für diesen Anhang ist keine Vorschau verfügbar',
       time: 'Zeit',
       timer: 'Timer',
       title: 'Titel',

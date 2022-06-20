@@ -24,6 +24,16 @@ module.exports = {
       required: true,
       columnName: 'is_image',
     },
+    imageWidth: {
+      type: 'number',
+      allowNull: true,
+      columnName: 'image_width',
+    },
+    imageHeight: {
+      type: 'number',
+      allowNull: true,
+      columnName: 'image_height',
+    },
     name: {
       type: 'string',
       required: true,

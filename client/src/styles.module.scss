@@ -101,6 +101,10 @@
         border-radius: 0;
       }
     }
+
+    .pswp .pswp__img--placeholder {
+      display: none !important;
+    }
   }
 
   #root {

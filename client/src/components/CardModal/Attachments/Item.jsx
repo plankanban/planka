@@ -8,24 +8,32 @@ import EditPopup from './EditPopup';
 
 import styles from './Item.module.scss';
 
-const Item = React.memo(
-  ({
-    name,
-    url,
-    coverUrl,
-    createdAt,
-    isCover,
-    isPersisted,
-    onCoverSelect,
-    onCoverDeselect,
-    onUpdate,
-    onDelete,
-  }) => {
+const Item = React.forwardRef(
+  (
+    {
+      name,
+      url,
+      coverUrl,
+      createdAt,
+      isCover,
+      isPersisted,
+      onCoverSelect,
+      onCoverDeselect,
+      onClick,
+      onUpdate,
+      onDelete,
+    },
+    ref,
+  ) => {
     const [t] = useTranslation();
 
     const handleClick = useCallback(() => {
-      window.open(url, '_blank');
-    }, [url]);
+      if (onClick) {
+        onClick();
+      } else {
+        window.open(url, '_blank');
+      }
+    }, [url, onClick]);
 
     const handleToggleCoverClick = useCallback(
       (event) => {
@@ -54,7 +62,7 @@ const Item = React.memo(
     return (
       /* eslint-disable jsx-a11y/click-events-have-key-events,
                         jsx-a11y/no-static-element-interactions */
-      <div className={styles.wrapper} onClick={handleClick}>
+      <div ref={ref} className={styles.wrapper} onClick={handleClick}>
         {/* eslint-enable jsx-a11y/click-events-have-key-events,
                           jsx-a11y/no-static-element-interactions */}
         <div
@@ -133,6 +141,7 @@ Item.propTypes = {
   createdAt: PropTypes.instanceOf(Date),
   isCover: PropTypes.bool.isRequired,
   isPersisted: PropTypes.bool.isRequired,
+  onClick: PropTypes.func,
   onCoverSelect: PropTypes.func.isRequired,
   onCoverDeselect: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
@@ -143,6 +152,7 @@ Item.defaultProps = {
   url: undefined,
   coverUrl: undefined,
   createdAt: undefined,
+  onClick: undefined,
 };
 
-export default Item;
+export default React.memo(Item);

@@ -122,6 +122,7 @@ export default {
       subscribeToMyOwnCardsByDefault: 'По умолчанию подписаться на мои собственные карточки',
       taskActions: 'Действия с задачей',
       tasks: 'Задачи',
+      thereIsNoPreviewAvailableForThisAttachment: 'Предпросмотр для этого вложения недоступен',
       time: 'Время',
       timer: 'Таймер',
       title: 'Название',
