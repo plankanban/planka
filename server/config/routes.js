@@ -84,4 +84,11 @@ module.exports.routes = {
     action: 'attachments/download-thumbnail',
     skipAssets: false,
   },
+
+  routes: {
+    'GET /*': {
+      view: 'index',
+      skipAssets: true,
+    },
+  },
 };
