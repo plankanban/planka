@@ -9,6 +9,7 @@ export default class extends Model {
     id: attr(),
     url: attr(),
     coverUrl: attr(),
+    image: attr(),
     name: attr(),
     cardId: fk({
       to: 'Card',

@@ -54,10 +54,8 @@ module.exports = {
 
         const attachment = await sails.helpers.attachments.createOne(
           {
-            dirname: file.extra.dirname,
+            ...file.extra,
             filename: file.filename,
-            isImage: file.extra.isImage,
-            name: file.extra.name,
           },
           currentUser,
           card,

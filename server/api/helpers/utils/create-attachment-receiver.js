@@ -43,15 +43,20 @@ module.exports = {
         await writeFile(path.join(rootPath, filename), buffer);
 
         const image = sharp(buffer);
-        let imageMetadata;
+        let metadata;
 
         try {
-          imageMetadata = await image.metadata();
+          metadata = await image.metadata();
         } catch (error) {} // eslint-disable-line no-empty
 
-        if (imageMetadata) {
+        const extra = {
+          dirname,
+          name: file.filename,
+        };
+
+        if (metadata && !['svg', 'pdf'].includes(metadata.format)) {
           let cover256Buffer;
-          if (imageMetadata.height > imageMetadata.width) {
+          if (metadata.height > metadata.width) {
             cover256Buffer = await image
               .resize(256, 320)
               .jpeg({
@@ -75,17 +80,16 @@ module.exports = {
           fs.mkdirSync(thumbnailsPath);
 
           await writeFile(path.join(thumbnailsPath, 'cover-256.jpg'), cover256Buffer);
+
+          extra.image = _.pick(metadata, ['width', 'height']);
+        } else {
+          extra.image = null;
         }
 
-        // eslint-disable-next-line no-param-reassign
-        file.extra = {
-          dirname,
-          isImage: !!imageMetadata,
-          name: file.filename,
-        };
-
-        // eslint-disable-next-line no-param-reassign
-        file.filename = filename;
+        Object.assign(file, {
+          filename,
+          extra,
+        });
 
         return done();
       } catch (error) {

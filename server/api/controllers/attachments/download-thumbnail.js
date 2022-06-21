@@ -46,7 +46,7 @@ module.exports = {
       }
     }
 
-    if (!attachment.isImage) {
+    if (!attachment.image) {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 

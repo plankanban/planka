@@ -38,7 +38,7 @@ module.exports = {
       inputs.request,
     );
 
-    if (!inputs.card.coverAttachmentId && attachment.isImage) {
+    if (!inputs.card.coverAttachmentId && attachment.image) {
       await sails.helpers.cards.updateOne(inputs.card, {
         coverAttachmentId: attachment.id,
       });
