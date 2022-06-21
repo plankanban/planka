@@ -57,11 +57,8 @@ const Attachments = React.memo(
     }, [toggleAllVisible]);
 
     const galleryItemsNode = items.map((item, index) => {
-      const props = item.coverUrl
-        ? {
-            width: item.imageWidth,
-            height: item.imageHeight,
-          }
+      const props = item.image
+        ? item.image
         : {
             content: (
               <Grid verticalAlign="middle" className={styles.contentWrapper}>
@@ -91,7 +88,7 @@ const Attachments = React.memo(
                 createdAt={item.createdAt}
                 isCover={item.isCover}
                 isPersisted={item.isPersisted}
-                onClick={item.coverUrl ? open : undefined}
+                onClick={item.image ? open : undefined}
                 onCoverSelect={() => handleCoverSelect(item.id)}
                 onCoverDeselect={handleCoverDeselect}
                 onUpdate={(data) => handleUpdate(item.id, data)}

@@ -53,7 +53,7 @@ module.exports = {
     }
 
     this.res.type(attachment.filename);
-    if (!attachment.isImage && path.extname(attachment.filename) !== '.pdf') {
+    if (!attachment.image && path.extname(attachment.filename) !== '.pdf') {
       this.res.set('Content-Disposition', 'attachment');
     }
     this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
