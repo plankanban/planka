@@ -1,12 +1,24 @@
 :global(#app) {
   .content {
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .contentPdf {
+    height: 100%;
+    width: 1120px;
+  }
+
+  .contentError {
     color: #fff;
     font-size: 20px;
     font-weight: 700;
-  }
-
-  .contentWrapper {
-    height: 100%;
+    height: 20px;
+    width: 470px;
   }
 
   .toggleButton {

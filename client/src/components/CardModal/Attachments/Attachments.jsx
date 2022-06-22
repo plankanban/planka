@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Gallery, Item as GalleryItem } from 'react-photoswipe-gallery';
-import { Button, Grid } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { useToggle } from '../../../lib/hooks';
 
 import Item from './Item';
@@ -57,17 +58,27 @@ const Attachments = React.memo(
     }, [toggleAllVisible]);
 
     const galleryItemsNode = items.map((item, index) => {
-      const props = item.image
-        ? item.image
-        : {
-            content: (
-              <Grid verticalAlign="middle" className={styles.contentWrapper}>
-                <Grid.Column textAlign="center" className={styles.content}>
-                  {t('common.thereIsNoPreviewAvailableForThisAttachment')}
-                </Grid.Column>
-              </Grid>
-            ),
-          };
+      const isPdf = item.url.endsWith('.pdf');
+
+      let props;
+      if (item.image) {
+        props = item.image;
+      } else {
+        props = {
+          content: isPdf ? (
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <object
+              data={item.url}
+              type="application/pdf"
+              className={classNames(styles.content, styles.contentPdf)}
+            />
+          ) : (
+            <span className={classNames(styles.content, styles.contentError)}>
+              {t('common.thereIsNoPreviewAvailableForThisAttachment')}
+            </span>
+          ),
+        };
+      }
 
       const isVisible = isAllVisible || index < INITIALLY_VISIBLE;
 
@@ -88,7 +99,7 @@ const Attachments = React.memo(
                 createdAt={item.createdAt}
                 isCover={item.isCover}
                 isPersisted={item.isPersisted}
-                onClick={item.image ? open : undefined}
+                onClick={item.image || isPdf ? open : undefined}
                 onCoverSelect={() => handleCoverSelect(item.id)}
                 onCoverDeselect={handleCoverDeselect}
                 onUpdate={(data) => handleUpdate(item.id, data)}
