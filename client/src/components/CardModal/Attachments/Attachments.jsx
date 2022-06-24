@@ -58,7 +58,7 @@ const Attachments = React.memo(
     }, [toggleAllVisible]);
 
     const galleryItemsNode = items.map((item, index) => {
-      const isPdf = item.url.endsWith('.pdf');
+      const isPdf = item.url && item.url.endsWith('.pdf');
 
       let props;
       if (item.image) {
