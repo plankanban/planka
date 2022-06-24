@@ -33,11 +33,6 @@ module.exports = {
   },
 
   async fn(inputs) {
-    // TODO: allow over HTTP without subscription
-    if (!this.req.isSocket) {
-      return this.res.badRequest();
-    }
-
     const { currentUser } = this.req;
 
     const project = await Project.findOne(inputs.projectId);
@@ -61,7 +56,9 @@ module.exports = {
       this.req,
     );
 
-    sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed
+    if (this.req.isSocket) {
+      sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed
+    }
 
     return {
       item: board,
