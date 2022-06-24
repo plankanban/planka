@@ -20,11 +20,6 @@ module.exports = {
   },
 
   async fn(inputs) {
-    // TODO: allow over HTTP without subscription
-    if (!this.req.isSocket) {
-      return this.res.badRequest();
-    }
-
     const { currentUser } = this.req;
 
     const { board, project } = await sails.helpers.boards
@@ -77,7 +72,9 @@ module.exports = {
       card.isSubscribed = isSubscribedByCardId[card.id] || false; // eslint-disable-line no-param-reassign
     });
 
-    sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed
+    if (this.req.isSocket) {
+      sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed
+    }
 
     return {
       item: board,
