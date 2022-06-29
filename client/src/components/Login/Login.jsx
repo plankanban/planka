@@ -28,6 +28,11 @@ const createMessage = (error) => {
         type: 'error',
         content: 'common.invalidPassword',
       };
+    case 'Ldap authentication failed':
+      return {
+        type: 'error',
+        content: 'common.invalidLdap',
+      };
     case 'Failed to fetch':
       return {
         type: 'warning',

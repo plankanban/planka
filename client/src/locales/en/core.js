@@ -88,6 +88,7 @@ export default {
       fromComputer_title: 'From Computer',
       general: 'General',
       hours: 'Hours',
+      impossibleAction: 'Action not possible',
       invalidCurrentPassword: 'Invalid current password',
       labels: 'Labels',
       leaveBoard_title: 'Leave Board',

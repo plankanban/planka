@@ -83,6 +83,7 @@ export default {
       filterByMembers_title: 'Filtrer par membres',
       fromComputer_title: "Depuis l'ordinateur",
       hours: 'Les heures',
+      impossibleAction: 'Action impossible',
       invalidCurrentPassword: 'Mot de passe actuel invalide',
       labels: 'Étiquettes',
       list: 'Lister',

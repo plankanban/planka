@@ -3,6 +3,7 @@ export default {
     common: {
       emailOrUsername: "Email ou nom d'utilisateur",
       invalidEmailOrUsername: "Email ou nom d'utilisateur invalide",
+      invalidLdap: "Connexion à l'AD échouée",
       invalidPassword: 'Mot de passe invalide',
       logInToPlanka: 'Se connecter à Planka',
       noInternetConnection: 'Aucune connection internet',

@@ -63,7 +63,8 @@ module.exports = {
 
     if (
       inputs.id === currentUser.id &&
-      !bcrypt.compareSync(inputs.currentPassword, user.password)
+      !bcrypt.compareSync(inputs.currentPassword, user.password) &&
+      !process.env.LDAP_SERVER
     ) {
       throw Errors.INVALID_CURRENT_PASSWORD;
     }

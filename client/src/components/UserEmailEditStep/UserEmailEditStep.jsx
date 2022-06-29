@@ -27,6 +27,11 @@ const createMessage = (error) => {
         type: 'error',
         content: 'common.invalidCurrentPassword',
       };
+    case 'Action not possible':
+      return {
+        type: 'error',
+        content: 'common.impossibleAction',
+      };
     default:
       return {
         type: 'warning',

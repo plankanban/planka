@@ -39,8 +39,18 @@
     ]
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "concurrently": "^7.1.0",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.8"
+    "knex": "^2.1.0",
+    "ldap-authentication": "^2.2.9",
+    "ldapjs": "^2.3.2",
+    "lint-staged": "^12.3.8",
+    "net": "^1.0.2",
+    "node": "^17.7.2",
+    "node-sass": "^7.0.1",
+    "path": "^0.12.7",
+    "stream-browserify": "^3.0.0",
+    "url": "^0.11.0"
   }
 }

@@ -7,6 +7,9 @@ const Errors = {
   INVALID_CURRENT_PASSWORD: {
     invalidCurrentPassword: 'Invalid current password',
   },
+  IMPOSSIBLE_ACTION: {
+    impossibleAction: 'Action not possible',
+  },
 };
 
 module.exports = {
@@ -33,41 +36,47 @@ module.exports = {
     invalidCurrentPassword: {
       responseType: 'forbidden',
     },
+    impossibleAction: {
+      responseType: 'forbidden',
+    },
   },
 
   async fn(inputs) {
-    const { currentUser } = this.req;
+    if(!process.env.LDAP_SERVER){
+      const { currentUser } = this.req;
 
-    if (inputs.id === currentUser.id) {
-      if (!inputs.currentPassword) {
+      if (inputs.id === currentUser.id) {
+        if (!inputs.currentPassword) {
+          throw Errors.INVALID_CURRENT_PASSWORD;
+        }
+      } else if (!currentUser.isAdmin) {
+        throw Errors.USER_NOT_FOUND; // Forbidden
+      }
+
+      let user = await sails.helpers.users.getOne(inputs.id);
+
+      if (!user) {
+        throw Errors.USER_NOT_FOUND;
+      }
+
+      if (
+        inputs.id === currentUser.id &&
+        !bcrypt.compareSync(inputs.currentPassword, user.password)
+      ) {
         throw Errors.INVALID_CURRENT_PASSWORD;
       }
-    } else if (!currentUser.isAdmin) {
-      throw Errors.USER_NOT_FOUND; // Forbidden
+
+      const values = _.pick(inputs, ['password']);
+      user = await sails.helpers.users.updateOne(user, values, this.req);
+
+      if (!user) {
+        throw Errors.USER_NOT_FOUND;
+      }
+
+      return {
+        item: user,
+      };
     }
-
-    let user = await sails.helpers.users.getOne(inputs.id);
-
-    if (!user) {
-      throw Errors.USER_NOT_FOUND;
-    }
-
-    if (
-      inputs.id === currentUser.id &&
-      !bcrypt.compareSync(inputs.currentPassword, user.password)
-    ) {
-      throw Errors.INVALID_CURRENT_PASSWORD;
-    }
-
-    const values = _.pick(inputs, ['password']);
-    user = await sails.helpers.users.updateOne(user, values, this.req);
-
-    if (!user) {
-      throw Errors.USER_NOT_FOUND;
-    }
-
-    return {
-      item: user,
-    };
+    throw Errors.IMPOSSIBLE_ACTION; 
   },
 };
