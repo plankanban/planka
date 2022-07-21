@@ -32,14 +32,12 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
   }
 
   return (
-    /* eslint-disable react/jsx-props-no-spreading */
     <ReactMarkdown
-      {...props}
+      {...props} // eslint-disable-line react/jsx-props-no-spreading
       components={components}
       remarkPlugins={[remarkGfm, remarkBreaks]}
       className="markdown-body"
     />
-    /* eslint-enable react/jsx-props-no-spreading */
   );
 });
 

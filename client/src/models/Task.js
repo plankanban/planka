@@ -7,6 +7,7 @@ export default class extends Model {
 
   static fields = {
     id: attr(),
+    position: attr(),
     name: attr(),
     isCompleted: attr({
       getDefault: () => false,

@@ -10,4 +10,5 @@ export * from './board';
 export * from './board-membership';
 export * from './list';
 export * from './card';
+export * from './task';
 export * from './attachment';

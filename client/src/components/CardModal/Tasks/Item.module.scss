@@ -27,7 +27,7 @@
     vertical-align: top;
     z-index: 2000;
     line-height: 1;
-    height: 32px;
+    height: 100%;
   }
 
   .contentHoverable:hover {
@@ -69,10 +69,10 @@
 
   .wrapper {
     border-radius: 3px;
+    cursor: auto;
     margin-left: -40px;
     min-height: 32px;
     position: relative;
-    transition: all 0.14s ease-in;
     width: calc(100% + 40px);
   }
 }

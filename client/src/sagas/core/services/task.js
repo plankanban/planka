@@ -1,7 +1,7 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import request from '../request';
-import { pathSelector } from '../../../selectors';
+import { nextTaskPositionSelector, pathSelector, taskByIdSelector } from '../../../selectors';
 import {
   createTask,
   deleteTask,
@@ -14,11 +14,16 @@ import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createTaskService(cardId, data) {
+  const nextData = {
+    ...data,
+    position: yield select(nextTaskPositionSelector, cardId),
+  };
+
   const localId = yield call(createLocalId);
 
   yield put(
     createTask({
-      ...data,
+      ...nextData,
       cardId,
       id: localId,
     }),
@@ -26,7 +31,7 @@ export function* createTaskService(cardId, data) {
 
   let task;
   try {
-    ({ item: task } = yield call(request, api.createTask, cardId, data));
+    ({ item: task } = yield call(request, api.createTask, cardId, nextData));
   } catch (error) {
     yield put(createTask.failure(localId, error));
     return;
@@ -61,6 +66,15 @@ export function* updateTaskService(id, data) {
 
 export function* handleTaskUpdateService(task) {
   yield put(handleTaskUpdate(task));
+}
+
+export function* moveTaskService(id, index) {
+  const { cardId } = yield select(taskByIdSelector, id);
+  const position = yield select(nextTaskPositionSelector, cardId, index, id);
+
+  yield call(updateTaskService, id, {
+    position,
+  });
 }
 
 export function* deleteTaskService(id) {

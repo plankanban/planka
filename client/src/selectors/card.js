@@ -71,7 +71,7 @@ export const makeTasksByCardIdSelector = () =>
         return cardModel;
       }
 
-      return cardModel.tasks.toRefArray();
+      return cardModel.getOrderedTasksQuerySet().toRefArray();
     },
   );
 
