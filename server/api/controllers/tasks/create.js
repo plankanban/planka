@@ -11,6 +11,10 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    position: {
+      type: 'number',
+      required: true,
+    },
     name: {
       type: 'string',
       required: true,
@@ -39,7 +43,7 @@ module.exports = {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['name', 'isCompleted']);
+    const values = _.pick(inputs, ['position', 'name', 'isCompleted']);
     const task = await sails.helpers.tasks.createOne(values, card, this.req);
 
     return {

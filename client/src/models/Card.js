@@ -206,7 +206,7 @@ export default class extends Model {
   }
 
   getOrderedTasksQuerySet() {
-    return this.tasks.orderBy('id');
+    return this.tasks.orderBy('position');
   }
 
   getOrderedAttachmentsQuerySet() {

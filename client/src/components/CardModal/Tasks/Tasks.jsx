@@ -1,15 +1,33 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Progress } from 'semantic-ui-react';
+import { closePopup } from '../../../lib/popup';
 
+import DroppableTypes from '../../../constants/DroppableTypes';
 import Item from './Item';
 import Add from './Add';
 
 import styles from './Tasks.module.scss';
 
-const Tasks = React.memo(({ items, canEdit, onCreate, onUpdate, onDelete }) => {
+const Tasks = React.memo(({ items, canEdit, onCreate, onUpdate, onMove, onDelete }) => {
   const [t] = useTranslation();
+
+  const handleDragStart = useCallback(() => {
+    closePopup();
+  }, []);
+
+  const handleDragEnd = useCallback(
+    ({ draggableId, source, destination }) => {
+      if (!destination || source.index === destination.index) {
+        return;
+      }
+
+      onMove(draggableId, destination.index);
+    },
+    [onMove],
+  );
 
   const handleUpdate = useCallback(
     (id, data) => {
@@ -39,26 +57,38 @@ const Tasks = React.memo(({ items, canEdit, onCreate, onUpdate, onDelete }) => {
           className={styles.progress}
         />
       )}
-      {items.map((item) => (
-        <Item
-          key={item.id}
-          name={item.name}
-          isCompleted={item.isCompleted}
-          isPersisted={item.isPersisted}
-          canEdit={canEdit}
-          onUpdate={(data) => handleUpdate(item.id, data)}
-          onDelete={() => handleDelete(item.id)}
-        />
-      ))}
-      {canEdit && (
-        <Add onCreate={onCreate}>
-          <button type="button" className={styles.taskButton}>
-            <span className={styles.taskButtonText}>
-              {items.length > 0 ? t('action.addAnotherTask') : t('action.addTask')}
-            </span>
-          </button>
-        </Add>
-      )}
+      <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+        <Droppable droppableId="tasks" type={DroppableTypes.TASK}>
+          {({ innerRef, droppableProps, placeholder }) => (
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            <div {...droppableProps} ref={innerRef}>
+              {items.map((item, index) => (
+                <Item
+                  key={item.id}
+                  id={item.id}
+                  index={index}
+                  name={item.name}
+                  isCompleted={item.isCompleted}
+                  isPersisted={item.isPersisted}
+                  canEdit={canEdit}
+                  onUpdate={(data) => handleUpdate(item.id, data)}
+                  onDelete={() => handleDelete(item.id)}
+                />
+              ))}
+              {placeholder}
+              {canEdit && (
+                <Add onCreate={onCreate}>
+                  <button type="button" className={styles.taskButton}>
+                    <span className={styles.taskButtonText}>
+                      {items.length > 0 ? t('action.addAnotherTask') : t('action.addTask')}
+                    </span>
+                  </button>
+                </Add>
+              )}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
     </>
   );
 });
@@ -68,6 +98,7 @@ Tasks.propTypes = {
   canEdit: PropTypes.bool.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 

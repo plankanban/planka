@@ -6,6 +6,7 @@ import {
   handleTaskCreateService,
   handleTaskDeleteService,
   handleTaskUpdateService,
+  moveTaskService,
   updateTaskService,
 } from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
@@ -23,6 +24,9 @@ export default function* taskWatchers() {
     ),
     takeEvery(EntryActionTypes.TASK_UPDATE_HANDLE, ({ payload: { task } }) =>
       handleTaskUpdateService(task),
+    ),
+    takeEvery(EntryActionTypes.TASK_MOVE, ({ payload: { id, index } }) =>
+      moveTaskService(id, index),
     ),
     takeEvery(EntryActionTypes.TASK_DELETE, ({ payload: { id } }) => deleteTaskService(id)),
     takeEvery(EntryActionTypes.TASK_DELETE_HANDLE, ({ payload: { task } }) =>

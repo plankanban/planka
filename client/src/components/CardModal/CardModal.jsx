@@ -61,6 +61,7 @@ const CardModal = React.memo(
     onLabelDelete,
     onTaskCreate,
     onTaskUpdate,
+    onTaskMove,
     onTaskDelete,
     onAttachmentCreate,
     onAttachmentUpdate,
@@ -331,6 +332,7 @@ const CardModal = React.memo(
                     canEdit={canEdit}
                     onCreate={onTaskCreate}
                     onUpdate={onTaskUpdate}
+                    onMove={onTaskMove}
                     onDelete={onTaskDelete}
                   />
                 </div>
@@ -513,6 +515,7 @@ CardModal.propTypes = {
   onLabelDelete: PropTypes.func.isRequired,
   onTaskCreate: PropTypes.func.isRequired,
   onTaskUpdate: PropTypes.func.isRequired,
+  onTaskMove: PropTypes.func.isRequired,
   onTaskDelete: PropTypes.func.isRequired,
   onAttachmentCreate: PropTypes.func.isRequired,
   onAttachmentUpdate: PropTypes.func.isRequired,

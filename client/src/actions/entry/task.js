@@ -29,6 +29,14 @@ export const handleTaskUpdate = (task) => ({
   },
 });
 
+export const moveTask = (id, index) => ({
+  type: EntryActionTypes.TASK_MOVE,
+  payload: {
+    id,
+    index,
+  },
+});
+
 export const deleteTask = (id) => ({
   type: EntryActionTypes.TASK_DELETE,
   payload: {

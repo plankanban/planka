@@ -11,6 +11,9 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    position: {
+      type: 'number',
+    },
     name: {
       type: 'string',
       isNotEmptyString: true,
@@ -42,7 +45,7 @@ module.exports = {
       throw Errors.TASK_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['name', 'isCompleted']);
+    const values = _.pick(inputs, ['position', 'name', 'isCompleted']);
     task = await sails.helpers.tasks.updateOne(task, values, board, this.req);
 
     if (!task) {

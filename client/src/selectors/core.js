@@ -76,3 +76,19 @@ export const nextCardPositionSelector = createSelector(
     return nextPosition(listModel.getOrderedFilteredCardsModelArray(), index, excludedId);
   },
 );
+
+export const nextTaskPositionSelector = createSelector(
+  orm,
+  (_, cardId) => cardId,
+  (_, __, index) => index,
+  (_, __, ___, excludedId) => excludedId,
+  ({ Card }, cardId, index, excludedId) => {
+    const cardModel = Card.withId(cardId);
+
+    if (!cardModel) {
+      return cardModel;
+    }
+
+    return nextPosition(cardModel.getOrderedTasksQuerySet().toRefArray(), index, excludedId);
+  },
+);
