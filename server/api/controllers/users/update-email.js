@@ -10,6 +10,9 @@ const Errors = {
   EMAIL_ALREADY_IN_USE: {
     emailAlreadyInUse: 'Email already in use',
   },
+  IMPOSSIBLE_ACTION: {
+    impossibleAction: 'Action not possible',
+  },
 };
 
 module.exports = {
@@ -40,44 +43,52 @@ module.exports = {
     emailAlreadyInUse: {
       responseType: 'conflict',
     },
+    impossibleAction: {
+      responseType: 'forbidden',
+    },
   },
 
   async fn(inputs) {
-    const { currentUser } = this.req;
 
-    if (inputs.id === currentUser.id) {
-      if (!inputs.currentPassword) {
+    if(!process.env.LDAP_SERVER){
+      const { currentUser } = this.req;
+
+      if (inputs.id === currentUser.id) {
+        if (!inputs.currentPassword) {
+          throw Errors.INVALID_CURRENT_PASSWORD;
+        }
+      } else if (!currentUser.isAdmin) {
+        throw Errors.USER_NOT_FOUND; // Forbidden
+      }
+
+      let user = await sails.helpers.users.getOne(inputs.id);
+
+      if (!user) {
+        throw Errors.USER_NOT_FOUND;
+      }
+
+      if (
+        inputs.id === currentUser.id &&
+        !bcrypt.compareSync(inputs.currentPassword, user.password)
+      ) {
         throw Errors.INVALID_CURRENT_PASSWORD;
       }
-    } else if (!currentUser.isAdmin) {
-      throw Errors.USER_NOT_FOUND; // Forbidden
+
+      const values = _.pick(inputs, ['email']);
+
+      user = await sails.helpers.users
+        .updateOne(user, values, this.req)
+        .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE);
+
+      if (!user) {
+        throw Errors.USER_NOT_FOUND;
+      }
+
+      return {
+        item: user,
+      };
     }
-
-    let user = await sails.helpers.users.getOne(inputs.id);
-
-    if (!user) {
-      throw Errors.USER_NOT_FOUND;
-    }
-
-    if (
-      inputs.id === currentUser.id &&
-      !bcrypt.compareSync(inputs.currentPassword, user.password)
-    ) {
-      throw Errors.INVALID_CURRENT_PASSWORD;
-    }
-
-    const values = _.pick(inputs, ['email']);
-
-    user = await sails.helpers.users
-      .updateOne(user, values, this.req)
-      .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE);
-
-    if (!user) {
-      throw Errors.USER_NOT_FOUND;
-    }
-
-    return {
-      item: user,
-    };
+    throw Errors.IMPOSSIBLE_ACTION;
+    
   },
 };

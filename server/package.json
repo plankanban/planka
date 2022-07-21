@@ -44,6 +44,8 @@
     "filenamify": "^4.3.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^1.0.7",
+    "ldap-authentication": "^2.2.9",
+    "ldapjs": "^2.3.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "rimraf": "^3.0.2",
