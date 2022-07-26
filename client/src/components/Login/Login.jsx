@@ -83,7 +83,7 @@ const Login = React.memo(
     }, [onAuthenticate, data]);
 
     useEffect(() => {
-      emailOrUsernameField.current.select();
+      emailOrUsernameField.current.focus();
     }, []);
 
     useEffect(() => {

@@ -76,7 +76,7 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
 
   useEffect(() => {
     if (isOpened) {
-      textField.current.ref.current.select();
+      textField.current.ref.current.focus();
     }
   }, [isOpened]);
 

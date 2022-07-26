@@ -70,7 +70,7 @@ const UserPasswordEditStep = React.memo(
     }, [usePasswordConfirmation, onUpdate, data]);
 
     useEffect(() => {
-      passwordField.current.select();
+      passwordField.current.focus();
     }, []);
 
     useEffect(() => {

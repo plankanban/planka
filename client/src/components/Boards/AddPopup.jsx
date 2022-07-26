@@ -35,7 +35,7 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
   }, [onCreate, onClose, data]);
 
   useEffect(() => {
-    nameField.current.select();
+    nameField.current.focus();
   }, []);
 
   return (

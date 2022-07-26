@@ -65,12 +65,12 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
 
   useEffect(() => {
     if (isOpened) {
-      nameField.current.ref.current.select();
+      nameField.current.ref.current.focus();
     }
   }, [isOpened]);
 
   useDidUpdate(() => {
-    nameField.current.ref.current.select();
+    nameField.current.ref.current.focus();
   }, [selectNameFieldState]);
 
   return (
