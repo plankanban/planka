@@ -88,7 +88,7 @@ const UserAddStep = React.memo(
     }, [onCreate, data]);
 
     useEffect(() => {
-      emailField.current.select();
+      emailField.current.focus();
     }, []);
 
     useEffect(() => {

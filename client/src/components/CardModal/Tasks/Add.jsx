@@ -81,12 +81,12 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
 
   useEffect(() => {
     if (isOpened) {
-      nameField.current.ref.current.select();
+      nameField.current.ref.current.focus();
     }
   }, [isOpened]);
 
   useDidUpdate(() => {
-    nameField.current.ref.current.select();
+    nameField.current.ref.current.focus();
   }, [selectNameFieldState]);
 
   if (!isOpened) {

@@ -48,11 +48,11 @@ const ListAdd = React.memo(({ onCreate, onClose }) => {
   }, [onCreate, data, setData, selectNameField]);
 
   useEffect(() => {
-    nameField.current.select();
+    nameField.current.focus();
   }, []);
 
   useDidUpdate(() => {
-    nameField.current.select();
+    nameField.current.focus();
   }, [selectNameFieldState]);
 
   return (
