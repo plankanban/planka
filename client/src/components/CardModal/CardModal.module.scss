@@ -193,4 +193,14 @@
     margin: 0 8px 4px 0;
     text-transform: uppercase;
   }
+
+  .wrapper {
+    width: 880px;
+  }
+
+  @media (max-width: 926px) {
+    .wrapper {
+      width: 95%;
+    }
+  }
 }
