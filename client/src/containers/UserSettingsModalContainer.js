@@ -10,6 +10,7 @@ import {
   updateCurrentUser,
   updateCurrentUserAvatar,
   updateCurrentUserEmail,
+  updateCurrentUserLanguage,
   updateCurrentUserPassword,
   updateCurrentUserUsername,
 } from '../actions/entry';
@@ -23,6 +24,7 @@ const mapStateToProps = (state) => {
     avatarUrl,
     phone,
     organization,
+    language,
     subscribeToOwnCards,
     isAvatarUpdating,
     emailUpdateForm,
@@ -37,6 +39,7 @@ const mapStateToProps = (state) => {
     avatarUrl,
     phone,
     organization,
+    language,
     subscribeToOwnCards,
     isAvatarUpdating,
     emailUpdateForm,
@@ -50,6 +53,7 @@ const mapDispatchToProps = (dispatch) =>
     {
       onUpdate: updateCurrentUser,
       onAvatarUpdate: updateCurrentUserAvatar,
+      onLanguageUpdate: updateCurrentUserLanguage,
       onUsernameUpdate: updateCurrentUserUsername,
       onUsernameUpdateMessageDismiss: clearCurrentUserUsernameUpdateError,
       onEmailUpdate: updateCurrentUserEmail,

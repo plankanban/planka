@@ -41,6 +41,13 @@ export const handleUserUpdate = (user) => ({
   },
 });
 
+export const updateCurrentUserLanguage = (language) => ({
+  type: EntryActionTypes.CURRENT_USER_LANGUAGE_UPDATE,
+  payload: {
+    language,
+  },
+});
+
 export const updateUserEmail = (id, data) => ({
   type: EntryActionTypes.USER_EMAIL_UPDATE,
   payload: {

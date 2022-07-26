@@ -1,6 +1,7 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { logoutService } from './login';
+import { changeCoreLanguageService } from './core';
 import request from '../request';
 import { currentUserIdSelector, currentUserSelector, pathSelector } from '../../../selectors';
 import {
@@ -79,6 +80,21 @@ export function* handleUserUpdateService(user) {
   }
 
   yield put(handleUserUpdate(user, users, isCurrent));
+}
+
+// TODO: add loading state
+export function* updateUserLanguageService(id, language) {
+  yield call(changeCoreLanguageService, language);
+
+  yield call(updateUserService, id, {
+    language,
+  });
+}
+
+export function* updateCurrentUserLanguageService(language) {
+  const id = yield select(currentUserIdSelector);
+
+  yield call(updateUserLanguageService, id, language);
 }
 
 export function* updateUserEmailService(id, data) {

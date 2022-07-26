@@ -1,37 +1,27 @@
-import merge from 'lodash/merge';
-import fromPairs from 'lodash/fromPairs';
+import cs from './cs';
+import da from './da';
+import de from './de';
+import en from './en';
+import es from './es';
+import fr from './fr';
+import ja from './ja';
+import pl from './pl';
+import ru from './ru';
+import sk from './sk';
+import sv from './sv';
+import uz from './uz';
+import zh from './zh';
 
-import csLogin from './cs/login';
-import daLogin from './da/login';
-import deLogin from './de/login';
-import enLogin from './en/login';
-import enCore from './en/core';
-import esLogin from './es/login';
-import frLogin from './fr/login';
-import jaLogin from './ja/login';
-import plLogin from './pl/login';
-import ruLogin from './ru/login';
-import skLogin from './sk/login';
-import svLogin from './sv/login';
-import uzLogin from './uz/login';
-import zhLogin from './zh/login';
+const locales = [cs, da, de, en, es, fr, ja, pl, ru, sk, sv, uz, zh];
 
-const localePairs = [
-  ['cs', csLogin],
-  ['da', daLogin],
-  ['de', deLogin],
-  ['en', merge(enLogin, enCore)],
-  ['es', esLogin],
-  ['fr', frLogin],
-  ['ja', jaLogin],
-  ['pl', plLogin],
-  ['ru', ruLogin],
-  ['sk', skLogin],
-  ['sv', svLogin],
-  ['uz', uzLogin],
-  ['zh', zhLogin],
-];
+export default locales;
 
-export const languages = localePairs.map((locale) => locale[0]);
+export const languages = locales.map((locale) => locale.language);
 
-export const embedLocales = fromPairs(localePairs);
+export const embeddedLocales = locales.reduce(
+  (result, locale) => ({
+    ...result,
+    [locale.language]: locale.embeddedLocale,
+  }),
+  {},
+);
