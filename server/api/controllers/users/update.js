@@ -32,6 +32,11 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
     },
+    language: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
     subscribeToOwnCards: {
       type: 'boolean',
     },
@@ -66,6 +71,7 @@ module.exports = {
       'avatarUrl',
       'phone',
       'organization',
+      'language',
       'subscribeToOwnCards',
     ]);
 

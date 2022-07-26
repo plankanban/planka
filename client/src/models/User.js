@@ -40,6 +40,7 @@ export default class extends Model {
     avatarUrl: attr(),
     phone: attr(),
     organization: attr(),
+    language: attr(),
     subscribeToOwnCards: attr(),
     deletedAt: attr(),
     isAdmin: attr({

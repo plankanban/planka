@@ -24,6 +24,7 @@ import {
   updateUserService,
   updateCurrentUserAvatarService,
   updateCurrentUserEmailService,
+  updateCurrentUserLanguageService,
   updateCurrentUserPasswordService,
   updateCurrentUserService,
   updateCurrentUserUsernameService,
@@ -48,6 +49,9 @@ export default function* userWatchers() {
     ),
     takeEvery(EntryActionTypes.USER_UPDATE_HANDLE, ({ payload: { user } }) =>
       handleUserUpdateService(user),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_USER_LANGUAGE_UPDATE, ({ payload: { language } }) =>
+      updateCurrentUserLanguageService(language),
     ),
     takeEvery(EntryActionTypes.USER_EMAIL_UPDATE, ({ payload: { id, data } }) =>
       updateUserEmailService(id, data),

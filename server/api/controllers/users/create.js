@@ -40,6 +40,11 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
     },
+    language: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
     subscribeToOwnCards: {
       type: 'boolean',
     },
@@ -62,6 +67,7 @@ module.exports = {
       'username',
       'phone',
       'organization',
+      'language',
       'subscribeToOwnCards',
     ]);
 
