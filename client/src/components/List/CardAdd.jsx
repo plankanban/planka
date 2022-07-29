@@ -17,7 +17,7 @@ const DEFAULT_DATA = {
 const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
   const [t] = useTranslation();
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
-  const [selectNameFieldState, selectNameField] = useToggle();
+  const [focusNameFieldState, focusNameField] = useToggle();
 
   const nameField = useRef(null);
 
@@ -35,8 +35,8 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
     onCreate(cleanData);
 
     setData(DEFAULT_DATA);
-    selectNameField();
-  }, [onCreate, data, setData, selectNameField]);
+    focusNameField();
+  }, [onCreate, data, setData, focusNameField]);
 
   const handleFieldKeyDown = useCallback(
     (event) => {
@@ -71,7 +71,7 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
 
   useDidUpdate(() => {
     nameField.current.ref.current.focus();
-  }, [selectNameFieldState]);
+  }, [focusNameFieldState]);
 
   return (
     <Form

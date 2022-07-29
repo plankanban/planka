@@ -15,7 +15,7 @@ const DEFAULT_DATA = {
 const ListAdd = React.memo(({ onCreate, onClose }) => {
   const [t] = useTranslation();
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
-  const [selectNameFieldState, selectNameField] = useToggle();
+  const [focusNameFieldState, focusNameField] = useToggle();
 
   const nameField = useRef(null);
 
@@ -44,8 +44,8 @@ const ListAdd = React.memo(({ onCreate, onClose }) => {
     onCreate(cleanData);
 
     setData(DEFAULT_DATA);
-    selectNameField();
-  }, [onCreate, data, setData, selectNameField]);
+    focusNameField();
+  }, [onCreate, data, setData, focusNameField]);
 
   useEffect(() => {
     nameField.current.focus();
@@ -53,7 +53,7 @@ const ListAdd = React.memo(({ onCreate, onClose }) => {
 
   useDidUpdate(() => {
     nameField.current.focus();
-  }, [selectNameFieldState]);
+  }, [focusNameFieldState]);
 
   return (
     <Form className={styles.wrapper} onSubmit={handleSubmit}>
