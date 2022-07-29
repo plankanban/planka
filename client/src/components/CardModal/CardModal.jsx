@@ -34,6 +34,8 @@ const CardModal = React.memo(
     isSubscribed,
     isActionsFetching,
     isAllActionsFetched,
+    isActionsDetailsVisible,
+    isActionsDetailsFetching,
     listId,
     boardId,
     projectId,
@@ -67,6 +69,7 @@ const CardModal = React.memo(
     onAttachmentUpdate,
     onAttachmentDelete,
     onActionsFetch,
+    onActionsDetailsToggle,
     onCommentActionCreate,
     onCommentActionUpdate,
     onCommentActionDelete,
@@ -358,9 +361,12 @@ const CardModal = React.memo(
               items={actions}
               isFetching={isActionsFetching}
               isAllFetched={isAllActionsFetched}
+              isDetailsVisible={isActionsDetailsVisible}
+              isDetailsFetching={isActionsDetailsFetching}
               canEdit={canEdit}
               canEditAllComments={canEditAllCommentActions}
               onFetch={onActionsFetch}
+              onDetailsToggle={onActionsDetailsToggle}
               onCommentCreate={onCommentActionCreate}
               onCommentUpdate={onCommentActionUpdate}
               onCommentDelete={onCommentActionDelete}
@@ -486,6 +492,8 @@ CardModal.propTypes = {
   isSubscribed: PropTypes.bool.isRequired,
   isActionsFetching: PropTypes.bool.isRequired,
   isAllActionsFetched: PropTypes.bool.isRequired,
+  isActionsDetailsVisible: PropTypes.bool.isRequired,
+  isActionsDetailsFetching: PropTypes.bool.isRequired,
   listId: PropTypes.string.isRequired,
   boardId: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
@@ -521,6 +529,7 @@ CardModal.propTypes = {
   onAttachmentUpdate: PropTypes.func.isRequired,
   onAttachmentDelete: PropTypes.func.isRequired,
   onActionsFetch: PropTypes.func.isRequired,
+  onActionsDetailsToggle: PropTypes.func.isRequired,
   onCommentActionCreate: PropTypes.func.isRequired,
   onCommentActionUpdate: PropTypes.func.isRequired,
   onCommentActionDelete: PropTypes.func.isRequired,

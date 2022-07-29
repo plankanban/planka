@@ -50,6 +50,7 @@ export default class extends Model {
 
         break;
       case ActionTypes.ACTIONS_FETCH__SUCCESS:
+      case ActionTypes.ACTIONS_DETAILS_TOGGLE__SUCCESS:
       case ActionTypes.NOTIFICATION_CREATE_HANDLE:
         payload.actions.forEach((action) => {
           Action.upsert(action);

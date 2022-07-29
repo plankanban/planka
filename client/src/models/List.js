@@ -83,7 +83,7 @@ export default class extends Model {
     return this.cards.orderBy('position');
   }
 
-  getOrderedFilteredCardsModelArray() {
+  getFilteredOrderedCardsModelArray() {
     let cardModels = this.getOrderedCardsQuerySet().toModelArray();
 
     const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);

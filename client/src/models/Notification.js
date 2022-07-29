@@ -1,4 +1,4 @@
-import { Model, attr, fk } from 'redux-orm';
+import { Model, attr, fk, oneToOne } from 'redux-orm';
 
 import ActionTypes from '../constants/ActionTypes';
 
@@ -15,15 +15,14 @@ export default class extends Model {
       as: 'user',
       relatedName: 'notifications',
     }),
-    actionId: fk({
-      to: 'Action',
-      as: 'action',
-      relatedName: 'notifications',
-    }),
     cardId: fk({
       to: 'Card',
       as: 'card',
       relatedName: 'notifications',
+    }),
+    actionId: oneToOne({
+      to: 'Action',
+      as: 'action',
     }),
   };
 
