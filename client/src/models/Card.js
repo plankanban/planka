@@ -2,6 +2,7 @@ import { Model, attr, fk, many, oneToOne } from 'redux-orm';
 
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
+import { ActionTypes as ActionTypesEnum } from '../constants/Enums';
 
 export default class extends Model {
   static modelName = 'Card';
@@ -20,6 +21,12 @@ export default class extends Model {
       getDefault: () => false,
     }),
     isAllActionsFetched: attr({
+      getDefault: () => false,
+    }),
+    isActionsDetailsVisible: attr({
+      getDefault: () => false,
+    }),
+    isActionsDetailsFetching: attr({
       getDefault: () => false,
     }),
     boardId: fk({
@@ -195,6 +202,36 @@ export default class extends Model {
         });
 
         break;
+      case ActionTypes.ACTIONS_DETAILS_TOGGLE: {
+        const cardModel = Card.withId(payload.cardId);
+        cardModel.isActionsDetailsVisible = payload.isVisible;
+
+        if (payload.isVisible) {
+          cardModel.isActionsDetailsFetching = true;
+        }
+
+        break;
+      }
+      case ActionTypes.ACTIONS_DETAILS_TOGGLE__SUCCESS: {
+        const cardModel = Card.withId(payload.cardId);
+
+        cardModel.update({
+          isAllActionsFetched: payload.actions.length < Config.ACTIONS_LIMIT,
+          isActionsDetailsFetching: false,
+        });
+
+        cardModel.actions.toModelArray().forEach((actionModel) => {
+          if (actionModel.notification) {
+            actionModel.update({
+              isInCard: false,
+            });
+          } else {
+            actionModel.delete();
+          }
+        });
+
+        break;
+      }
       case ActionTypes.NOTIFICATION_CREATE_HANDLE:
         payload.cards.forEach((card) => {
           Card.upsert(card);
@@ -213,8 +250,16 @@ export default class extends Model {
     return this.attachments.orderBy('id', false);
   }
 
-  getOrderedInCardActionsQuerySet() {
-    return this.actions.orderBy('id', false);
+  getFilteredOrderedInCardActionsQuerySet() {
+    const filter = {
+      isInCard: true,
+    };
+
+    if (!this.isActionsDetailsVisible) {
+      filter.type = ActionTypesEnum.COMMENT_CARD;
+    }
+
+    return this.actions.filter(filter).orderBy('id', false);
   }
 
   getUnreadNotificationsQuerySet() {

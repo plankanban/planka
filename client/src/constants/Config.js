@@ -13,7 +13,7 @@ const ACCESS_TOKEN_KEY = 'accessToken';
 const ACCESS_TOKEN_EXPIRES = 365;
 
 const POSITION_GAP = 65535;
-const ACTIONS_LIMIT = 10;
+const ACTIONS_LIMIT = 50;
 
 export default {
   SERVER_BASE_URL,

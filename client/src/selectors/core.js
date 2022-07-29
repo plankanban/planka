@@ -73,7 +73,7 @@ export const nextCardPositionSelector = createSelector(
       return listModel;
     }
 
-    return nextPosition(listModel.getOrderedFilteredCardsModelArray(), index, excludedId);
+    return nextPosition(listModel.getFilteredOrderedCardsModelArray(), index, excludedId);
   },
 );
 

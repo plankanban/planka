@@ -88,7 +88,7 @@ export const makeLastActionIdByCardIdSelector = () =>
         return cardModel;
       }
 
-      const lastActionModel = cardModel.getOrderedInCardActionsQuerySet().last();
+      const lastActionModel = cardModel.getFilteredOrderedInCardActionsQuerySet().last();
 
       return lastActionModel && lastActionModel.id;
     },
@@ -249,7 +249,7 @@ export const actionsForCurrentCardSelector = createSelector(
     }
 
     return cardModel
-      .getOrderedInCardActionsQuerySet()
+      .getFilteredOrderedInCardActionsQuerySet()
       .toModelArray()
       .map((actionModel) => ({
         ...actionModel.ref,
