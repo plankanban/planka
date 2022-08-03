@@ -14,10 +14,6 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
-    filename: {
-      type: 'string',
-      required: true,
-    },
   },
 
   exits: {
@@ -54,14 +50,14 @@ module.exports = {
       sails.config.custom.attachmentsPath,
       attachment.dirname,
       'thumbnails',
-      inputs.filename,
+      'cover-256.jpg',
     );
 
     if (!fs.existsSync(filePath)) {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 
-    this.res.type(attachment.filename);
+    this.res.type('image/jpeg');
     this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
 
     return exits.success(fs.createReadStream(filePath));
