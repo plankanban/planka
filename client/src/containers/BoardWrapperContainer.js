@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
 
-import { currentBoardSelector } from '../selectors';
+import selectors from '../selectors';
 import BoardWrapper from '../components/BoardWrapper';
 
 const mapStateToProps = (state) => {
-  const { type, isFetching } = currentBoardSelector(state);
+  const { type, isFetching } = selectors.selectCurrentBoard(state);
 
   return {
     type,

@@ -1,7 +1,7 @@
 import { all, call, cancel, fork, take } from 'redux-saga/effects';
 
 import watchers from './watchers';
-import { goToRootService } from './services';
+import services from './services';
 import { setAccessToken } from '../../utils/access-token-storage';
 import ActionTypes from '../../constants/ActionTypes';
 
@@ -15,5 +15,5 @@ export default function* loginSaga() {
   yield cancel(watcherTasks);
 
   yield call(setAccessToken, accessToken);
-  yield call(goToRootService);
+  yield call(services.goToRoot);
 }

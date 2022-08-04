@@ -1,14 +1,29 @@
-export * from './router';
-export * from './auth';
-export * from './core';
-export * from './modal';
-export * from './user';
-export * from './users';
-export * from './project';
-export * from './project-manager';
-export * from './board';
-export * from './board-membership';
-export * from './list';
-export * from './card';
-export * from './task';
-export * from './attachment';
+import router from './router';
+import auth from './auth';
+import core from './core';
+import modals from './modals';
+import users from './users';
+import projects from './projects';
+import projectManagers from './project-managers';
+import boards from './boards';
+import boardMemberships from './board-memberships';
+import lists from './lists';
+import cards from './cards';
+import tasks from './tasks';
+import attachments from './attachments';
+
+export default {
+  ...router,
+  ...auth,
+  ...core,
+  ...modals,
+  ...users,
+  ...projects,
+  ...projectManagers,
+  ...boards,
+  ...boardMemberships,
+  ...lists,
+  ...cards,
+  ...tasks,
+  ...attachments,
+};

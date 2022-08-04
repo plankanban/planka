@@ -7,7 +7,7 @@ import { withPopup } from '../../lib/popup';
 import { Popup } from '../../lib/custom-ui';
 
 import Paths from '../../constants/Paths';
-import { ActionTypes } from '../../constants/Enums';
+import { ActivityTypes } from '../../constants/Enums';
 import User from '../User';
 
 import styles from './NotificationsPopup.module.scss';
@@ -23,42 +23,42 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
   );
 
   const renderItemContent = useCallback(
-    ({ action, card }) => {
-      switch (action.type) {
-        case ActionTypes.MOVE_CARD:
+    ({ activity, card }) => {
+      switch (activity.type) {
+        case ActivityTypes.MOVE_CARD:
           return (
             <Trans
               i18nKey="common.userMovedCardFromListToList"
               values={{
-                user: action.user.name,
+                user: activity.user.name,
                 card: card.name,
-                fromList: action.data.fromList.name,
-                toList: action.data.toList.name,
+                fromList: activity.data.fromList.name,
+                toList: activity.data.toList.name,
               }}
             >
-              {action.user.name}
+              {activity.user.name}
               {' moved '}
               <Link to={Paths.CARDS.replace(':id', card.id)} onClick={onClose}>
                 {card.name}
               </Link>
               {' from '}
-              {action.data.fromList.name}
+              {activity.data.fromList.name}
               {' to '}
-              {action.data.toList.name}
+              {activity.data.toList.name}
             </Trans>
           );
-        case ActionTypes.COMMENT_CARD:
+        case ActivityTypes.COMMENT_CARD:
           return (
             <Trans
               i18nKey="common.userLeftNewCommentToCard"
               values={{
-                user: action.user.name,
-                comment: action.data.text,
+                user: activity.user.name,
+                comment: activity.data.text,
                 card: card.name,
               }}
             >
-              {action.user.name}
-              {` left a new comment «${action.data.text}» to `}
+              {activity.user.name}
+              {` left a new comment «${activity.data.text}» to `}
               <Link to={Paths.CARDS.replace(':id', card.id)} onClick={onClose}>
                 {card.name}
               </Link>
@@ -79,11 +79,11 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
         {items.length > 0
           ? items.map((item) => (
               <div key={item.id} className={styles.wrapper}>
-                {item.card && item.action ? (
+                {item.card && item.activity ? (
                   <>
                     <User
-                      name={item.action.user.name}
-                      avatarUrl={item.action.user.avatarUrl}
+                      name={item.activity.user.name}
+                      avatarUrl={item.activity.user.avatarUrl}
                       size="large"
                     />
                     <span className={styles.content}>{renderItemContent(item)}</span>

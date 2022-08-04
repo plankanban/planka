@@ -1,6 +1,6 @@
 import { call, fork, join, put, take } from 'redux-saga/effects';
 
-import { logout } from '../../actions';
+import actions from '../../actions';
 import ErrorCodes from '../../constants/ErrorCodes';
 
 let lastRequestTask;
@@ -16,7 +16,7 @@ function* queueRequest(method, ...args) {
     return yield call(method, ...args);
   } catch (error) {
     if (error.code === ErrorCodes.UNAUTHORIZED) {
-      yield put(logout()); // TODO: next url
+      yield put(actions.logout()); // TODO: next url
       yield take();
     }
 

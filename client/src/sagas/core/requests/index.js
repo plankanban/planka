@@ -1,2 +1,7 @@
-export * from './core';
-export * from './board';
+import core from './core';
+import boards from './boards';
+
+export default {
+  ...core,
+  ...boards,
+};

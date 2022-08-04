@@ -2,7 +2,7 @@ import { Model, attr, fk, many, oneToOne } from 'redux-orm';
 
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
-import { ActionTypes as ActionTypesEnum } from '../constants/Enums';
+import { ActivityTypes } from '../constants/Enums';
 
 export default class extends Model {
   static modelName = 'Card';
@@ -17,16 +17,16 @@ export default class extends Model {
     isSubscribed: attr({
       getDefault: () => false,
     }),
-    isActionsFetching: attr({
+    isActivitiesFetching: attr({
       getDefault: () => false,
     }),
-    isAllActionsFetched: attr({
+    isAllActivitiesFetched: attr({
       getDefault: () => false,
     }),
-    isActionsDetailsVisible: attr({
+    isActivitiesDetailsVisible: attr({
       getDefault: () => false,
     }),
-    isActionsDetailsFetching: attr({
+    isActivitiesDetailsFetching: attr({
       getDefault: () => false,
     }),
     boardId: fk({
@@ -189,44 +189,44 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.ACTIONS_FETCH:
+      case ActionTypes.ACTIVITIES_FETCH:
         Card.withId(payload.cardId).update({
-          isActionsFetching: true,
+          isActivitiesFetching: true,
         });
 
         break;
-      case ActionTypes.ACTIONS_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_FETCH__SUCCESS:
         Card.withId(payload.cardId).update({
-          isActionsFetching: false,
-          isAllActionsFetched: payload.actions.length < Config.ACTIONS_LIMIT,
+          isActivitiesFetching: false,
+          isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
         });
 
         break;
-      case ActionTypes.ACTIONS_DETAILS_TOGGLE: {
+      case ActionTypes.ACTIVITIES_DETAILS_TOGGLE: {
         const cardModel = Card.withId(payload.cardId);
-        cardModel.isActionsDetailsVisible = payload.isVisible;
+        cardModel.isActivitiesDetailsVisible = payload.isVisible;
 
         if (payload.isVisible) {
-          cardModel.isActionsDetailsFetching = true;
+          cardModel.isActivitiesDetailsFetching = true;
         }
 
         break;
       }
-      case ActionTypes.ACTIONS_DETAILS_TOGGLE__SUCCESS: {
+      case ActionTypes.ACTIVITIES_DETAILS_TOGGLE__SUCCESS: {
         const cardModel = Card.withId(payload.cardId);
 
         cardModel.update({
-          isAllActionsFetched: payload.actions.length < Config.ACTIONS_LIMIT,
-          isActionsDetailsFetching: false,
+          isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
+          isActivitiesDetailsFetching: false,
         });
 
-        cardModel.actions.toModelArray().forEach((actionModel) => {
-          if (actionModel.notification) {
-            actionModel.update({
+        cardModel.activities.toModelArray().forEach((activityModel) => {
+          if (activityModel.notification) {
+            activityModel.update({
               isInCard: false,
             });
           } else {
-            actionModel.delete();
+            activityModel.delete();
           }
         });
 
@@ -250,16 +250,16 @@ export default class extends Model {
     return this.attachments.orderBy('id', false);
   }
 
-  getFilteredOrderedInCardActionsQuerySet() {
+  getFilteredOrderedInCardActivitiesQuerySet() {
     const filter = {
       isInCard: true,
     };
 
-    if (!this.isActionsDetailsVisible) {
-      filter.type = ActionTypesEnum.COMMENT_CARD;
+    if (!this.isActivitiesDetailsVisible) {
+      filter.type = ActivityTypes.COMMENT_CARD;
     }
 
-    return this.actions.filter(filter).orderBy('id', false);
+    return this.activities.filter(filter).orderBy('id', false);
   }
 
   getUnreadNotificationsQuerySet() {
@@ -271,7 +271,7 @@ export default class extends Model {
   deleteRelated() {
     this.tasks.delete();
     this.attachments.delete();
-    this.actions.delete();
+    this.activities.delete();
   }
 
   deleteWithRelated() {
