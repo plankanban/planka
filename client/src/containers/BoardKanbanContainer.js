@@ -1,18 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  isCurrentUserMemberForCurrentBoardSelector,
-  listIdsForCurrentBoardSelector,
-  pathSelector,
-} from '../selectors';
-import { createListInCurrentBoard, moveCard, moveList } from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import BoardKanban from '../components/BoardKanban';
 
 const mapStateToProps = (state) => {
-  const { cardId } = pathSelector(state);
-  const isCurrentUserMember = isCurrentUserMemberForCurrentBoardSelector(state);
-  const listIds = listIdsForCurrentBoardSelector(state);
+  const { cardId } = selectors.selectPath(state);
+  const isCurrentUserMember = selectors.selectIsCurrentUserMemberForCurrentBoard(state);
+  const listIds = selectors.selectListIdsForCurrentBoard(state);
 
   return {
     listIds,
@@ -24,9 +20,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onListCreate: createListInCurrentBoard,
-      onListMove: moveList,
-      onCardMove: moveCard,
+      onListCreate: entryActions.createListInCurrentBoard,
+      onListMove: entryActions.moveList,
+      onCardMove: entryActions.moveCard,
     },
     dispatch,
   );

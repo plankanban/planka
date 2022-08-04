@@ -1,12 +1,11 @@
 import { call } from 'redux-saga/effects';
 
-import { fetchBoardByCurrentPathRequest } from './board';
+import { fetchBoardByCurrentPath } from './boards';
 import request from '../request';
 import api from '../../../api';
 import mergeRecords from '../../../utils/merge-records';
 
-// eslint-disable-next-line import/prefer-default-export
-export function* fetchCoreRequest() {
+export function* fetchCore() {
   const { item: user } = yield call(request, api.getCurrentUser);
   const { items: users1 } = yield call(request, api.getUsers);
 
@@ -42,7 +41,7 @@ export function* fetchCoreRequest() {
       cardLabels,
       tasks,
       attachments,
-    } = yield call(fetchBoardByCurrentPathRequest));
+    } = yield call(fetchBoardByCurrentPath));
   } catch {} // eslint-disable-line no-empty
 
   const body = yield call(request, api.getNotifications);
@@ -50,7 +49,7 @@ export function* fetchCoreRequest() {
   let { items: notifications } = body;
 
   const {
-    included: { users: users3, cards: cards2, actions },
+    included: { users: users3, cards: cards2, activities },
   } = body;
 
   if (card) {
@@ -80,7 +79,7 @@ export function* fetchCoreRequest() {
     cardLabels,
     tasks,
     attachments,
-    actions,
+    activities,
     notifications,
     users: mergeRecords(users1, users2, users3),
     projects: mergeRecords(projects1, projects2),
@@ -88,3 +87,7 @@ export function* fetchCoreRequest() {
     cards: mergeRecords(cards1, cards2),
   };
 }
+
+export default {
+  fetchCore,
+};

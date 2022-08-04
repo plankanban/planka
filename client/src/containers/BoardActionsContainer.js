@@ -1,34 +1,17 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  filterLabelsForCurrentBoardSelector,
-  filterUsersForCurrentBoardSelector,
-  isCurrentUserManagerForCurrentProjectSelector,
-  labelsForCurrentBoardSelector,
-  membershipsForCurrentBoardSelector,
-  usersSelector,
-} from '../selectors';
-import {
-  addLabelToFilterInCurrentBoard,
-  addUserToFilterInCurrentBoard,
-  createLabelInCurrentBoard,
-  createMembershipInCurrentBoard,
-  deleteBoardMembership,
-  deleteLabel,
-  removeLabelFromFilterInCurrentBoard,
-  removeUserFromFilterInCurrentBoard,
-  updateLabel,
-} from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import BoardActions from '../components/BoardActions';
 
 const mapStateToProps = (state) => {
-  const allUsers = usersSelector(state);
-  const isCurrentUserManager = isCurrentUserManagerForCurrentProjectSelector(state);
-  const memberships = membershipsForCurrentBoardSelector(state);
-  const labels = labelsForCurrentBoardSelector(state);
-  const filterUsers = filterUsersForCurrentBoardSelector(state);
-  const filterLabels = filterLabelsForCurrentBoardSelector(state);
+  const allUsers = selectors.selectUsers(state);
+  const isCurrentUserManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
+  const memberships = selectors.selectMembershipsForCurrentBoard(state);
+  const labels = selectors.selectLabelsForCurrentBoard(state);
+  const filterUsers = selectors.selectFilterUsersForCurrentBoard(state);
+  const filterLabels = selectors.selectFilterLabelsForCurrentBoard(state);
 
   return {
     memberships,
@@ -43,15 +26,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onMembershipCreate: createMembershipInCurrentBoard,
-      onMembershipDelete: deleteBoardMembership,
-      onUserToFilterAdd: addUserToFilterInCurrentBoard,
-      onUserFromFilterRemove: removeUserFromFilterInCurrentBoard,
-      onLabelToFilterAdd: addLabelToFilterInCurrentBoard,
-      onLabelFromFilterRemove: removeLabelFromFilterInCurrentBoard,
-      onLabelCreate: createLabelInCurrentBoard,
-      onLabelUpdate: updateLabel,
-      onLabelDelete: deleteLabel,
+      onMembershipCreate: entryActions.createMembershipInCurrentBoard,
+      onMembershipDelete: entryActions.deleteBoardMembership,
+      onUserToFilterAdd: entryActions.addUserToFilterInCurrentBoard,
+      onUserFromFilterRemove: entryActions.removeUserFromFilterInCurrentBoard,
+      onLabelToFilterAdd: entryActions.addLabelToFilterInCurrentBoard,
+      onLabelFromFilterRemove: entryActions.removeLabelFromFilterInCurrentBoard,
+      onLabelCreate: entryActions.createLabelInCurrentBoard,
+      onLabelUpdate: entryActions.updateLabel,
+      onLabelDelete: entryActions.deleteLabel,
     },
     dispatch,
   );

@@ -1,22 +1,27 @@
 import { call, put } from 'redux-saga/effects';
 
-import { authenticate, clearAuthenticateError } from '../../../actions';
+import actions from '../../../actions';
 import api from '../../../api';
 
-export function* authenticateService(data) {
-  yield put(authenticate(data));
+export function* authenticate(data) {
+  yield put(actions.authenticate(data));
 
   let accessToken;
   try {
     ({ item: accessToken } = yield call(api.createAccessToken, data));
   } catch (error) {
-    yield put(authenticate.failure(error));
+    yield put(actions.authenticate.failure(error));
     return;
   }
 
-  yield put(authenticate.success(accessToken));
+  yield put(actions.authenticate.success(accessToken));
 }
 
-export function* clearAuthenticateErrorService() {
-  yield put(clearAuthenticateError());
+export function* clearAuthenticateError() {
+  yield put(actions.clearAuthenticateError());
 }
+
+export default {
+  authenticate,
+  clearAuthenticateError,
+};

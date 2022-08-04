@@ -1,18 +1,18 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import { fetchCoreRequest } from '../requests';
-import { currentUserIdSelector, pathSelector } from '../../../selectors';
-import { handleSocketDisconnect, handleSocketReconnect } from '../../../actions';
+import requests from '../requests';
+import selectors from '../../../selectors';
+import actions from '../../../actions';
 
-export function* handleSocketDisconnectService() {
-  yield put(handleSocketDisconnect());
+export function* handleSocketDisconnect() {
+  yield put(actions.handleSocketDisconnect());
 }
 
-export function* handleSocketReconnectService() {
-  const currentUserId = yield select(currentUserIdSelector);
-  const { boardId } = yield select(pathSelector);
+export function* handleSocketReconnect() {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  const { boardId } = yield select(selectors.selectPath);
 
-  yield put(handleSocketReconnect.fetchCore(currentUserId, boardId));
+  yield put(actions.handleSocketReconnect.fetchCore(currentUserId, boardId));
 
   const {
     user,
@@ -29,12 +29,12 @@ export function* handleSocketReconnectService() {
     cardLabels,
     tasks,
     attachments,
-    actions,
+    activities,
     notifications,
-  } = yield call(fetchCoreRequest); // TODO: handle error
+  } = yield call(requests.fetchCore); // TODO: handle error
 
   yield put(
-    handleSocketReconnect(
+    actions.handleSocketReconnect(
       user,
       board,
       users,
@@ -49,8 +49,13 @@ export function* handleSocketReconnectService() {
       cardLabels,
       tasks,
       attachments,
-      actions,
+      activities,
       notifications,
     ),
   );
 }
+
+export default {
+  handleSocketDisconnect,
+  handleSocketReconnect,
+};

@@ -13,8 +13,8 @@ import cardMemberships from './card-memberships';
 import cardLabels from './card-labels';
 import tasks from './tasks';
 import attachments from './attachments';
-import actions from './actions';
-import commentActions from './comment-actions';
+import activities from './activities';
+import commentActivities from './comment-activities';
 import notifications from './notifications';
 
 export { http, socket };
@@ -33,7 +33,7 @@ export default {
   ...cardLabels,
   ...tasks,
   ...attachments,
-  ...actions,
-  ...commentActions,
+  ...activities,
+  ...commentActivities,
   ...notifications,
 };

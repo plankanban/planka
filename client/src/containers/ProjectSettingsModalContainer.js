@@ -1,28 +1,17 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  currentProjectSelector,
-  managersForCurrentProjectSelector,
-  usersSelector,
-} from '../selectors';
-import {
-  closeModal,
-  createManagerInCurrentProject,
-  deleteCurrentProject,
-  deleteProjectManager,
-  updateCurrentProject,
-  updateCurrentProjectBackgroundImage,
-} from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import ProjectSettingsModal from '../components/ProjectSettingsModal';
 
 const mapStateToProps = (state) => {
-  const users = usersSelector(state);
+  const users = selectors.selectUsers(state);
 
   const { name, background, backgroundImage, isBackgroundImageUpdating } =
-    currentProjectSelector(state);
+    selectors.selectCurrentProject(state);
 
-  const managers = managersForCurrentProjectSelector(state);
+  const managers = selectors.selectManagersForCurrentProject(state);
 
   return {
     name,
@@ -37,12 +26,12 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onUpdate: updateCurrentProject,
-      onBackgroundImageUpdate: updateCurrentProjectBackgroundImage,
-      onDelete: deleteCurrentProject,
-      onManagerCreate: createManagerInCurrentProject,
-      onManagerDelete: deleteProjectManager,
-      onClose: closeModal,
+      onUpdate: entryActions.updateCurrentProject,
+      onBackgroundImageUpdate: entryActions.updateCurrentProjectBackgroundImage,
+      onDelete: entryActions.deleteCurrentProject,
+      onManagerCreate: entryActions.createManagerInCurrentProject,
+      onManagerDelete: entryActions.deleteProjectManager,
+      onClose: entryActions.closeModal,
     },
     dispatch,
   );

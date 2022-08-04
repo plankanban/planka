@@ -2,35 +2,30 @@ import { call, put, select, take } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 
 import request from '../request';
-import {
-  currentBoardSelector,
-  isCoreInitializingSelector,
-  notificationIdsForCurrentCardSelector,
-  pathsMatchSelector,
-} from '../../../selectors';
-import { handleLocationChange } from '../../../actions';
+import selectors from '../../../selectors';
+import actions from '../../../actions';
 import api from '../../../api';
 import ActionTypes from '../../../constants/ActionTypes';
 import Paths from '../../../constants/Paths';
 
-export function* goToRootService() {
+export function* goToRoot() {
   yield put(push(Paths.ROOT));
 }
 
-export function* goToProjectService(projectId) {
+export function* goToProject(projectId) {
   yield put(push(Paths.PROJECTS.replace(':id', projectId)));
 }
 
-export function* goToBoardService(boardId) {
+export function* goToBoard(boardId) {
   yield put(push(Paths.BOARDS.replace(':id', boardId)));
 }
 
-export function* goToCardService(cardId) {
+export function* goToCard(cardId) {
   yield put(push(Paths.CARDS.replace(':id', cardId)));
 }
 
-export function* handleLocationChangeService() {
-  const pathsMatch = yield select(pathsMatchSelector);
+export function* handleLocationChange() {
+  const pathsMatch = yield select(selectors.selectPathsMatch);
 
   if (!pathsMatch) {
     return;
@@ -38,13 +33,13 @@ export function* handleLocationChangeService() {
 
   switch (pathsMatch.path) {
     case Paths.LOGIN:
-      yield call(goToRootService);
+      yield call(goToRoot);
 
       break;
     default:
   }
 
-  const isCoreInitializing = yield select(isCoreInitializingSelector);
+  const isCoreInitializing = yield select(selectors.selectIsCoreInitializing);
 
   if (isCoreInitializing) {
     yield take(ActionTypes.CORE_INITIALIZE);
@@ -61,15 +56,15 @@ export function* handleLocationChangeService() {
   let cardLabels;
   let tasks;
   let attachments;
-  let notifications;
+  let deletedNotifications;
 
   switch (pathsMatch.path) {
     case Paths.BOARDS:
     case Paths.CARDS: {
-      const currentBoard = yield select(currentBoardSelector);
+      const currentBoard = yield select(selectors.selectCurrentBoard);
 
       if (currentBoard && currentBoard.isFetching === null) {
-        yield put(handleLocationChange.fetchBoard(currentBoard.id));
+        yield put(actions.handleLocationChange.fetchBoard(currentBoard.id));
 
         try {
           ({
@@ -91,11 +86,11 @@ export function* handleLocationChangeService() {
       }
 
       if (pathsMatch.path === Paths.CARDS) {
-        const notificationIds = yield select(notificationIdsForCurrentCardSelector);
+        const notificationIds = yield select(selectors.selectNotificationIdsForCurrentCard);
 
         if (notificationIds && notificationIds.length > 0) {
           try {
-            ({ items: notifications } = yield call(
+            ({ items: deletedNotifications } = yield call(
               request,
               api.updateNotifications,
               notificationIds,
@@ -113,7 +108,7 @@ export function* handleLocationChangeService() {
   }
 
   yield put(
-    handleLocationChange(
+    actions.handleLocationChange(
       board,
       users,
       projects,
@@ -125,7 +120,15 @@ export function* handleLocationChangeService() {
       cardLabels,
       tasks,
       attachments,
-      notifications,
+      deletedNotifications,
     ),
   );
 }
+
+export default {
+  goToRoot,
+  goToProject,
+  goToBoard,
+  goToCard,
+  handleLocationChange,
+};

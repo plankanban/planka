@@ -1,19 +1,8 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { currentUserSelector } from '../selectors';
-import {
-  clearCurrentUserEmailUpdateError,
-  clearCurrentUserPasswordUpdateError,
-  clearCurrentUserUsernameUpdateError,
-  closeModal,
-  updateCurrentUser,
-  updateCurrentUserAvatar,
-  updateCurrentUserEmail,
-  updateCurrentUserLanguage,
-  updateCurrentUserPassword,
-  updateCurrentUserUsername,
-} from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import UserSettingsModal from '../components/UserSettingsModal';
 
 const mapStateToProps = (state) => {
@@ -30,7 +19,7 @@ const mapStateToProps = (state) => {
     emailUpdateForm,
     passwordUpdateForm,
     usernameUpdateForm,
-  } = currentUserSelector(state);
+  } = selectors.selectCurrentUser(state);
 
   return {
     email,
@@ -51,16 +40,16 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onUpdate: updateCurrentUser,
-      onAvatarUpdate: updateCurrentUserAvatar,
-      onLanguageUpdate: updateCurrentUserLanguage,
-      onUsernameUpdate: updateCurrentUserUsername,
-      onUsernameUpdateMessageDismiss: clearCurrentUserUsernameUpdateError,
-      onEmailUpdate: updateCurrentUserEmail,
-      onEmailUpdateMessageDismiss: clearCurrentUserEmailUpdateError,
-      onPasswordUpdate: updateCurrentUserPassword,
-      onPasswordUpdateMessageDismiss: clearCurrentUserPasswordUpdateError,
-      onClose: closeModal,
+      onUpdate: entryActions.updateCurrentUser,
+      onAvatarUpdate: entryActions.updateCurrentUserAvatar,
+      onLanguageUpdate: entryActions.updateCurrentUserLanguage,
+      onUsernameUpdate: entryActions.updateCurrentUserUsername,
+      onUsernameUpdateMessageDismiss: entryActions.clearCurrentUserUsernameUpdateError,
+      onEmailUpdate: entryActions.updateCurrentUserEmail,
+      onEmailUpdateMessageDismiss: entryActions.clearCurrentUserEmailUpdateError,
+      onPasswordUpdate: entryActions.updateCurrentUserPassword,
+      onPasswordUpdateMessageDismiss: entryActions.clearCurrentUserPasswordUpdateError,
+      onClose: entryActions.closeModal,
     },
     dispatch,
   );

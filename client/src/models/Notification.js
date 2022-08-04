@@ -20,9 +20,9 @@ export default class extends Model {
       as: 'card',
       relatedName: 'notifications',
     }),
-    actionId: oneToOne({
-      to: 'Action',
-      as: 'action',
+    activityId: oneToOne({
+      to: 'Activity',
+      as: 'activity',
     }),
   };
 
@@ -31,8 +31,8 @@ export default class extends Model {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
-        if (payload.notifications) {
-          payload.notifications.forEach((notification) => {
+        if (payload.deletedNotifications) {
+          payload.deletedNotifications.forEach((notification) => {
             Notification.withId(notification.id).deleteWithRelated();
           });
         }

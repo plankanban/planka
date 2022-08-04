@@ -78,14 +78,9 @@ const makeHandleCardCreate = (next) => (body) => {
   });
 };
 
-const makeHandleCardUpdate = (next) => (body) => {
-  next({
-    ...body,
-    item: transformCard(body.item),
-  });
-};
+const makeHandleCardUpdate = makeHandleCardCreate;
 
-const makeHandleCardDelete = makeHandleCardUpdate;
+const makeHandleCardDelete = makeHandleCardCreate;
 
 export default {
   getCards,

@@ -1,22 +1,18 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  isCurrentUserMemberForCurrentBoardSelector,
-  makeCardIdsByListIdSelector,
-  makeListByIdSelector,
-} from '../selectors';
-import { createCard, deleteList, updateList } from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import List from '../components/List';
 
 const makeMapStateToProps = () => {
-  const listByIdSelector = makeListByIdSelector();
-  const cardIdsByListIdSelector = makeCardIdsByListIdSelector();
+  const selectListById = selectors.makeSelectListById();
+  const selectCardIdsByListId = selectors.makeSelectCardIdsByListId();
 
   return (state, { id, index }) => {
-    const { name, isPersisted } = listByIdSelector(state, id);
-    const cardIds = cardIdsByListIdSelector(state, id);
-    const isCurrentUserMember = isCurrentUserMemberForCurrentBoardSelector(state);
+    const { name, isPersisted } = selectListById(state, id);
+    const cardIds = selectCardIdsByListId(state, id);
+    const isCurrentUserMember = selectors.selectIsCurrentUserMemberForCurrentBoard(state);
 
     return {
       id,
@@ -32,9 +28,9 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = (dispatch, { id }) =>
   bindActionCreators(
     {
-      onUpdate: (data) => updateList(id, data),
-      onDelete: () => deleteList(id),
-      onCardCreate: (data) => createCard(id, data),
+      onUpdate: (data) => entryActions.updateList(id, data),
+      onDelete: () => entryActions.deleteList(id),
+      onCardCreate: (data) => entryActions.createCard(id, data),
     },
     dispatch,
   );

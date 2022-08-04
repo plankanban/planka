@@ -8,18 +8,7 @@ export const setAccessToken = (accessToken) => {
   });
 };
 
-export const getAccessToken = () => {
-  // TODO: remove migration
-  const accessToken = localStorage.getItem(Config.ACCESS_TOKEN_KEY);
-  if (accessToken) {
-    localStorage.removeItem(Config.ACCESS_TOKEN_KEY);
-
-    setAccessToken(accessToken);
-    return accessToken;
-  }
-
-  return Cookies.get(Config.ACCESS_TOKEN_KEY);
-};
+export const getAccessToken = () => Cookies.get(Config.ACCESS_TOKEN_KEY);
 
 export const removeAccessToken = () => {
   Cookies.remove(Config.ACCESS_TOKEN_KEY);

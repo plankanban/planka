@@ -1,6 +1,6 @@
 import ActionTypes from '../constants/ActionTypes';
 
-export const authenticate = (data) => ({
+const authenticate = (data) => ({
   type: ActionTypes.AUTHENTICATE,
   payload: {
     data,
@@ -21,12 +21,12 @@ authenticate.failure = (error) => ({
   },
 });
 
-export const clearAuthenticateError = () => ({
+const clearAuthenticateError = () => ({
   type: ActionTypes.AUTHENTICATE_ERROR_CLEAR,
   payload: {},
 });
 
-export const logout = () => ({
-  type: ActionTypes.LOGOUT,
-  payload: {},
-});
+export default {
+  authenticate,
+  clearAuthenticateError,
+};

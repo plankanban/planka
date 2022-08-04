@@ -1,10 +1,10 @@
-import { call, put } from 'redux-saga/effects';
+import { call, put, take } from 'redux-saga/effects';
 
-import { fetchCoreRequest } from '../requests';
-import { initializeCore } from '../../../actions';
+import requests from '../requests';
+import actions from '../../../actions';
 import i18n from '../../../i18n';
 
-export function* initializeCoreService() {
+export function* initializeCore() {
   const {
     user,
     board,
@@ -20,15 +20,15 @@ export function* initializeCoreService() {
     cardLabels,
     tasks,
     attachments,
-    actions,
+    activities,
     notifications,
-  } = yield call(fetchCoreRequest); // TODO: handle error
+  } = yield call(requests.fetchCore); // TODO: handle error
 
   yield call(i18n.changeLanguage, user.language);
   yield call(i18n.loadCoreLocale);
 
   yield put(
-    initializeCore(
+    actions.initializeCore(
       user,
       board,
       users,
@@ -43,13 +43,13 @@ export function* initializeCoreService() {
       cardLabels,
       tasks,
       attachments,
-      actions,
+      activities,
       notifications,
     ),
   );
 }
 
-export function* changeCoreLanguageService(language) {
+export function* changeCoreLanguage(language) {
   if (language === null) {
     yield call(i18n.detectLanguage);
     yield call(i18n.loadCoreLocale);
@@ -59,3 +59,14 @@ export function* changeCoreLanguageService(language) {
     yield call(i18n.changeLanguage, language);
   }
 }
+
+export function* logout() {
+  yield put(actions.logout());
+  yield take();
+}
+
+export default {
+  initializeCore,
+  changeCoreLanguage,
+  logout,
+};

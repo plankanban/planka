@@ -1,11 +1,11 @@
 import ActionTypes from '../constants/ActionTypes';
 
-export const handleSocketDisconnect = () => ({
+const handleSocketDisconnect = () => ({
   type: ActionTypes.SOCKET_DISCONNECT_HANDLE,
   payload: {},
 });
 
-export const handleSocketReconnect = (
+const handleSocketReconnect = (
   user,
   board,
   users,
@@ -20,7 +20,7 @@ export const handleSocketReconnect = (
   cardLabels,
   tasks,
   attachments,
-  actions,
+  activities,
   notifications,
 ) => ({
   type: ActionTypes.SOCKET_RECONNECT_HANDLE,
@@ -39,7 +39,7 @@ export const handleSocketReconnect = (
     cardLabels,
     tasks,
     attachments,
-    actions,
+    activities,
     notifications,
   },
 });
@@ -51,3 +51,8 @@ handleSocketReconnect.fetchCore = (currentUserId, currentBoardId) => ({
     currentBoardId,
   },
 });
+
+export default {
+  handleSocketDisconnect,
+  handleSocketReconnect,
+};

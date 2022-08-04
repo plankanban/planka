@@ -101,7 +101,7 @@ const ActionsStep = React.memo(
             <UserPasswordEditStep
               defaultData={user.passwordUpdateForm.data}
               isSubmitting={user.passwordUpdateForm.isSubmitting}
-              error={user.emailUpdateForm.error}
+              error={user.passwordUpdateForm.error}
               onUpdate={onPasswordUpdate}
               onMessageDismiss={onPasswordUpdateMessageDismiss}
               onBack={handleBack}

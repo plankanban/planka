@@ -1,33 +1,61 @@
+import omit from 'lodash/omit';
+
 import socket from './socket';
 import { transformCard } from './cards';
-import { transformAction } from './actions';
+import { transformActivity } from './activities';
+
+/* Transformers */
+
+export const transformNotification = (notification) => ({
+  ...omit(notification, 'actionId'),
+  activityId: notification.actionId,
+});
 
 /* Actions */
 
 const getNotifications = () =>
   socket.get('/notifications').then((body) => ({
     ...body,
+    items: body.items.map(transformNotification),
     included: {
-      ...body.included,
+      ...omit(body.included, 'actions'),
       cards: body.included.cards.map(transformCard),
-      actions: body.included.actions.map(transformAction),
+      activities: body.included.actions.map(transformActivity),
     },
   }));
 
 const getNotification = (id) =>
   socket.get(`/notifications/${id}`).then((body) => ({
     ...body,
+    item: transformNotification(body.item),
     included: {
-      ...body.included,
+      ...omit(body.included, 'actions'),
       cards: body.included.cards.map(transformCard),
-      actions: body.included.actions.map(transformAction),
+      activities: body.included.actions.map(transformActivity),
     },
   }));
 
-const updateNotifications = (ids, data) => socket.patch(`/notifications/${ids.join(',')}`, data);
+const updateNotifications = (ids, data) =>
+  socket.patch(`/notifications/${ids.join(',')}`, data).then((body) => ({
+    ...body,
+    items: body.items.map(transformNotification),
+  }));
+
+/* Event handlers */
+
+const makeHandleNotificationCreate = (next) => (body) => {
+  next({
+    ...body,
+    item: transformNotification(body.item),
+  });
+};
+
+const makeHandleNotificationUpdate = makeHandleNotificationCreate;
 
 export default {
   getNotifications,
   getNotification,
   updateNotifications,
+  makeHandleNotificationCreate,
+  makeHandleNotificationUpdate,
 };

@@ -278,7 +278,7 @@ export default class extends Model {
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_FETCH__SUCCESS:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
-      case ActionTypes.ACTIONS_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_FETCH__SUCCESS:
       case ActionTypes.NOTIFICATION_CREATE_HANDLE:
         payload.users.forEach((user) => {
           User.upsert(user);

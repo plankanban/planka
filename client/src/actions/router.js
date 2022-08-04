@@ -1,7 +1,6 @@
 import ActionTypes from '../constants/ActionTypes';
 
-// eslint-disable-next-line import/prefer-default-export
-export const handleLocationChange = (
+const handleLocationChange = (
   board,
   users,
   projects,
@@ -13,7 +12,7 @@ export const handleLocationChange = (
   cardLabels,
   tasks,
   attachments,
-  notifications,
+  deletedNotifications,
 ) => ({
   type: ActionTypes.LOCATION_CHANGE_HANDLE,
   payload: {
@@ -28,7 +27,7 @@ export const handleLocationChange = (
     cardLabels,
     tasks,
     attachments,
-    notifications,
+    deletedNotifications,
   },
 });
 
@@ -38,3 +37,7 @@ handleLocationChange.fetchBoard = (id) => ({
     id,
   },
 });
+
+export default {
+  handleLocationChange,
+};

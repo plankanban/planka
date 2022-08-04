@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { authenticate, clearAuthenticateError } from '../actions/entry';
+import entryActions from '../entry-actions';
 import Login from '../components/Login';
 
 const mapStateToProps = ({
@@ -17,8 +17,8 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onAuthenticate: authenticate,
-      onMessageDismiss: clearAuthenticateError,
+      onAuthenticate: entryActions.authenticate,
+      onMessageDismiss: entryActions.clearAuthenticateError,
     },
     dispatch,
   );

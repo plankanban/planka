@@ -27,7 +27,7 @@ module.exports = {
       firstFileHandled = true;
 
       const buffer = await streamToArray(file).then((parts) =>
-        Buffer.concat(parts.map((part) => (util.isBuffer(part) ? part : Buffer.from(part)))),
+        Buffer.concat(parts.map((part) => (Buffer.isBuffer(part) ? part : Buffer.from(part)))),
       );
 
       try {

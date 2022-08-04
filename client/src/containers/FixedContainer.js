@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
-import { currentBoardSelector, pathSelector } from '../selectors';
+import selectors from '../selectors';
 import Fixed from '../components/Fixed';
 
 const mapStateToProps = (state) => {
-  const { projectId } = pathSelector(state);
-  const currentBoard = currentBoardSelector(state);
+  const { projectId } = selectors.selectPath(state);
+  const currentBoard = selectors.selectCurrentBoard(state);
 
   return {
     projectId,

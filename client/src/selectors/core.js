@@ -4,7 +4,7 @@ import isUndefined from 'lodash/isUndefined';
 import orm from '../orm';
 import Config from '../constants/Config';
 
-export const isCoreInitializingSelector = ({ core: { isInitializing } }) => isInitializing;
+export const selectIsCoreInitializing = ({ core: { isInitializing } }) => isInitializing;
 
 const nextPosition = (items, index, excludedId) => {
   const filteredItems = isUndefined(excludedId)
@@ -29,7 +29,7 @@ const nextPosition = (items, index, excludedId) => {
   return prevPosition + (nextItem.position - prevPosition) / 2;
 };
 
-export const nextBoardPositionSelector = createSelector(
+export const selectNextBoardPosition = createSelector(
   orm,
   (_, projectId) => projectId,
   (_, __, index) => index,
@@ -45,7 +45,7 @@ export const nextBoardPositionSelector = createSelector(
   },
 );
 
-export const nextListPositionSelector = createSelector(
+export const selectNextListPosition = createSelector(
   orm,
   (_, boardId) => boardId,
   (_, __, index) => index,
@@ -61,7 +61,7 @@ export const nextListPositionSelector = createSelector(
   },
 );
 
-export const nextCardPositionSelector = createSelector(
+export const selectNextCardPosition = createSelector(
   orm,
   (_, listId) => listId,
   (_, __, index) => index,
@@ -77,7 +77,7 @@ export const nextCardPositionSelector = createSelector(
   },
 );
 
-export const nextTaskPositionSelector = createSelector(
+export const selectNextTaskPosition = createSelector(
   orm,
   (_, cardId) => cardId,
   (_, __, index) => index,
@@ -92,3 +92,11 @@ export const nextTaskPositionSelector = createSelector(
     return nextPosition(cardModel.getOrderedTasksQuerySet().toRefArray(), index, excludedId);
   },
 );
+
+export default {
+  selectIsCoreInitializing,
+  selectNextBoardPosition,
+  selectNextListPosition,
+  selectNextCardPosition,
+  selectNextTaskPosition,
+};

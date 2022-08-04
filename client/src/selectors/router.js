@@ -2,24 +2,24 @@ import { createSelector as createReselectSelector } from 'reselect';
 import { createSelector as createReduxOrmSelector } from 'redux-orm';
 
 import orm from '../orm';
-import { currentUserIdSelector } from './user';
+import { selectCurrentUserId } from './users';
 import matchPaths from '../utils/match-paths';
 import Paths from '../constants/Paths';
 
-export const pathnameSelector = ({
+export const selectPathname = ({
   router: {
     location: { pathname },
   },
 }) => pathname;
 
-export const pathsMatchSelector = createReselectSelector(pathnameSelector, (pathname) =>
+export const selectPathsMatch = createReselectSelector(selectPathname, (pathname) =>
   matchPaths(pathname, Object.values(Paths)),
 );
 
-export const pathSelector = createReduxOrmSelector(
+export const selectPath = createReduxOrmSelector(
   orm,
-  pathsMatchSelector,
-  (state) => currentUserIdSelector(state),
+  selectPathsMatch,
+  (state) => selectCurrentUserId(state),
   ({ Project, Board, Card }, pathsMatch, currentUserId) => {
     if (pathsMatch) {
       switch (pathsMatch.path) {
@@ -105,3 +105,9 @@ export const pathSelector = createReduxOrmSelector(
     return {};
   },
 );
+
+export default {
+  selectPathname,
+  selectPathsMatch,
+  selectPath,
+};
