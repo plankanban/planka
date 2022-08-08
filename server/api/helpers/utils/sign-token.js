@@ -11,6 +11,6 @@ module.exports = {
   },
 
   fn(inputs) {
-    return jwt.sign(inputs.payload, sails.config.session.secret);
+    return jwt.sign({ sub: inputs.payload }, sails.config.session.secret);
   },
 };

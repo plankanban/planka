@@ -66,6 +66,27 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
+    // Disconnect all sockets from this user except the current one
+    const tempRoom = `temp:${user.id}`;
+    sails.sockets.addRoomMembersToRooms(`user:${user.id}`, tempRoom, () => {
+      if (currentUser.id === user.id && this.req.isSocket) {
+        sails.sockets.leave(this.req, tempRoom, () => {
+          sails.sockets.leaveAll(tempRoom);
+        });
+      } else {
+        sails.sockets.leaveAll(tempRoom);
+      }
+    });
+
+    if (currentUser.id === user.id) {
+      const accessToken = sails.helpers.utils.signToken(user.id);
+
+      return {
+        accessToken,
+        item: user,
+      };
+    }
+
     return {
       item: user,
     };

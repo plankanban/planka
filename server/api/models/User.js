@@ -67,6 +67,11 @@ module.exports = {
       type: 'ref',
       columnName: 'deleted_at',
     },
+    passwordChangedAt: {
+      type: 'ref',
+      columnName: 'password_changed_at',
+      defaultsTo: new Date(0).toUTCString(),
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

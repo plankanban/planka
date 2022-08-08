@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 
 import Config from '../constants/Config';
+import socket from '../api/socket';
 
 export const setAccessToken = (accessToken) => {
   Cookies.set(Config.ACCESS_TOKEN_KEY, accessToken, {
@@ -11,6 +12,8 @@ export const setAccessToken = (accessToken) => {
   Cookies.set(Config.ACCESS_TOKEN_VERSION_KEY, Config.ACCESS_TOKEN_VERSION, {
     expires: Config.ACCESS_TOKEN_EXPIRES,
   });
+
+  socket.headers = { Cookie: document.cookie };
 };
 
 export const getAccessToken = () => {

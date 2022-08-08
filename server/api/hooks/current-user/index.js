@@ -11,14 +11,27 @@ module.exports = function defineCurrentUserHook(sails) {
 
   const getUser = async (accessToken) => {
     let id;
+    let iat;
+    let decodedToken;
 
     try {
-      id = sails.helpers.utils.verifyToken(accessToken);
+      decodedToken = sails.helpers.utils.verifyToken(accessToken);
     } catch (error) {
       return null;
     }
 
-    return sails.helpers.users.getOne(id);
+    if (_.isString(decodedToken)) {
+      id = decodedToken;
+      iat = 1;
+    } else {
+      id = decodedToken.sub;
+      iat = decodedToken.iat;
+    }
+
+    return sails.helpers.users.getOne({
+      id,
+      passwordChangedAt: { '<=': new Date((iat + 1) * 1000) },
+    });
   };
 
   return {
