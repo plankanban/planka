@@ -11,6 +11,8 @@ module.exports = {
   },
 
   fn(inputs) {
-    return jwt.sign({ sub: inputs.payload }, sails.config.session.secret);
+    return jwt.sign({ sub: inputs.payload }, sails.config.session.secret, {
+      expiresIn: `${process.env.ACCESS_TOKEN_EXPIRES}d`,
+    });
   },
 };

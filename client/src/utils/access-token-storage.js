@@ -1,16 +1,20 @@
 import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 
 import Config from '../constants/Config';
 import socket from '../api/socket';
 
 export const setAccessToken = (accessToken) => {
+  const { exp } = jwtDecode(accessToken);
+  const expires = exp !== undefined ? new Date(exp * 1000) : 365;
+
   Cookies.set(Config.ACCESS_TOKEN_KEY, accessToken, {
-    expires: Config.ACCESS_TOKEN_EXPIRES,
+    expires,
     secure: window.location.protocol === 'https:',
     sameSite: 'strict',
   });
   Cookies.set(Config.ACCESS_TOKEN_VERSION_KEY, Config.ACCESS_TOKEN_VERSION, {
-    expires: Config.ACCESS_TOKEN_EXPIRES,
+    expires,
   });
 
   socket.headers = { Cookie: document.cookie };
