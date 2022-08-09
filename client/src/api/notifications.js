@@ -13,8 +13,8 @@ export const transformNotification = (notification) => ({
 
 /* Actions */
 
-const getNotifications = () =>
-  socket.get('/notifications').then((body) => ({
+const getNotifications = (headers) =>
+  socket.get('/notifications', undefined, headers).then((body) => ({
     ...body,
     items: body.items.map(transformNotification),
     included: {
@@ -24,8 +24,8 @@ const getNotifications = () =>
     },
   }));
 
-const getNotification = (id) =>
-  socket.get(`/notifications/${id}`).then((body) => ({
+const getNotification = (id, headers) =>
+  socket.get(`/notifications/${id}`, undefined, headers).then((body) => ({
     ...body,
     item: transformNotification(body.item),
     included: {
@@ -35,8 +35,8 @@ const getNotification = (id) =>
     },
   }));
 
-const updateNotifications = (ids, data) =>
-  socket.patch(`/notifications/${ids.join(',')}`, data).then((body) => ({
+const updateNotifications = (ids, data, headers) =>
+  socket.patch(`/notifications/${ids.join(',')}`, data, headers).then((body) => ({
     ...body,
     items: body.items.map(transformNotification),
   }));

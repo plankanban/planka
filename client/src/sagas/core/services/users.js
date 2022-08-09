@@ -5,6 +5,7 @@ import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
+import { setAccessToken } from '../../../utils/access-token-storage';
 
 export function* createUser(data) {
   yield put(actions.createUser(data));
@@ -109,11 +110,17 @@ export function* updateUserPassword(id, data) {
   yield put(actions.updateUserPassword(id, data));
 
   let user;
+  let accessToken;
+
   try {
-    ({ item: user } = yield call(request, api.updateUserPassword, id, data));
+    ({ item: user, accessToken } = yield call(request, api.updateUserPassword, id, data));
   } catch (error) {
     yield put(actions.updateUserPassword.failure(id, error));
     return;
+  }
+
+  if (accessToken) {
+    yield call(setAccessToken, accessToken);
   }
 
   yield put(actions.updateUserPassword.success(user));

@@ -69,7 +69,7 @@ module.exports = {
     const values = _.pick(inputs, ['email']);
 
     user = await sails.helpers.users
-      .updateOne(user, values, this.req)
+      .updateOne(user, values, currentUser, this.req)
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE);
 
     if (!user) {

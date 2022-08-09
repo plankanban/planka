@@ -54,6 +54,7 @@ module.exports = {
           {
             avatarDirname: files[0].extra.dirname,
           },
+          currentUser,
           this.req,
         );
 
