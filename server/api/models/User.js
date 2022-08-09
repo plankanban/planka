@@ -67,6 +67,10 @@ module.exports = {
       type: 'ref',
       columnName: 'deleted_at',
     },
+    passwordChangedAt: {
+      type: 'ref',
+      columnName: 'password_changed_at',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -102,7 +106,7 @@ module.exports = {
 
   customToJSON() {
     return {
-      ..._.omit(this, ['password', 'avatarDirname']),
+      ..._.omit(this, ['password', 'avatarDirname', 'passwordChangedAt']),
       avatarUrl:
         this.avatarDirname &&
         `${sails.config.custom.userAvatarsUrl}/${this.avatarDirname}/square-100.jpg`,

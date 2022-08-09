@@ -6,7 +6,7 @@ const http = {};
 
 // TODO: add all methods
 ['POST'].forEach((method) => {
-  http[method.toLowerCase()] = (url, data) => {
+  http[method.toLowerCase()] = (url, data, headers) => {
     const formData = Object.keys(data).reduce((result, key) => {
       result.append(key, data[key]);
 
@@ -15,8 +15,8 @@ const http = {};
 
     return fetch(`${Config.SERVER_BASE_URL}/api${url}`, {
       method,
+      headers,
       body: formData,
-      ...Config.FETCH_OPTIONS,
     })
       .then((response) =>
         response.json().then((body) => ({

@@ -10,15 +10,20 @@ module.exports = function defineCurrentUserHook(sails) {
   const TOKEN_PATTERN = /^Bearer /;
 
   const getUser = async (accessToken) => {
-    let id;
-
+    let payload;
     try {
-      id = sails.helpers.utils.verifyToken(accessToken);
+      payload = sails.helpers.utils.verifyToken(accessToken);
     } catch (error) {
       return null;
     }
 
-    return sails.helpers.users.getOne(id);
+    const user = await sails.helpers.users.getOne(payload.subject);
+
+    if (user && user.passwordChangedAt > payload.issuedAt) {
+      return null;
+    }
+
+    return user;
   };
 
   return {
@@ -32,19 +37,23 @@ module.exports = function defineCurrentUserHook(sails) {
 
     routes: {
       before: {
-        '/*': {
+        '/api/*': {
           async fn(req, res, next) {
-            let accessToken;
-            if (req.headers.authorization) {
-              if (TOKEN_PATTERN.test(req.headers.authorization)) {
-                accessToken = req.headers.authorization.replace(TOKEN_PATTERN, '');
-              }
-            } else if (req.cookies.accessToken) {
-              accessToken = req.cookies.accessToken;
+            const { authorization: authorizationHeader } = req.headers;
+
+            if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
+              const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
+
+              req.currentUser = await getUser(accessToken);
             }
 
-            if (accessToken) {
-              req.currentUser = await getUser(accessToken);
+            return next();
+          },
+        },
+        '/attachments/*': {
+          async fn(req, res, next) {
+            if (req.cookies.accessToken) {
+              req.currentUser = await getUser(req.cookies.accessToken);
             }
 
             return next();

@@ -20,6 +20,8 @@ module.exports.custom = {
 
   baseUrl: process.env.BASE_URL,
 
+  tokenExpiresIn: process.env.TOKEN_EXPIRES_IN,
+
   userAvatarsPath: path.join(sails.config.paths.public, 'user-avatars'),
   userAvatarsUrl: `${process.env.BASE_URL}/user-avatars`,
 

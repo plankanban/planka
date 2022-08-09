@@ -35,8 +35,8 @@ export const transformCardData = (data) => ({
 
 /* Actions */
 
-const getCards = (boardId, data) =>
-  socket.get(`/board/${boardId}/cards`, data).then((body) => ({
+const getCards = (boardId, data, headers) =>
+  socket.get(`/board/${boardId}/cards`, data, headers).then((body) => ({
     ...body,
     items: body.items.map(transformCard),
     included: {
@@ -45,26 +45,26 @@ const getCards = (boardId, data) =>
     },
   }));
 
-const createCard = (boardId, data) =>
-  socket.post(`/boards/${boardId}/cards`, transformCardData(data)).then((body) => ({
+const createCard = (boardId, data, headers) =>
+  socket.post(`/boards/${boardId}/cards`, transformCardData(data), headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));
 
-const getCard = (id) =>
-  socket.get(`/cards/${id}`).then((body) => ({
+const getCard = (id, headers) =>
+  socket.get(`/cards/${id}`, undefined, headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));
 
-const updateCard = (id, data) =>
-  socket.patch(`/cards/${id}`, transformCardData(data)).then((body) => ({
+const updateCard = (id, data, headers) =>
+  socket.patch(`/cards/${id}`, transformCardData(data), headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));
 
-const deleteCard = (id) =>
-  socket.delete(`/cards/${id}`).then((body) => ({
+const deleteCard = (id, headers) =>
+  socket.delete(`/cards/${id}`, undefined, headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));

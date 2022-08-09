@@ -72,6 +72,7 @@
     "i18next-browser-languagedetector": "^6.1.4",
     "initials": "^3.1.2",
     "js-cookie": "^3.0.1",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "node-sass": "^7.0.1",
     "photoswipe": "^5.3.0",

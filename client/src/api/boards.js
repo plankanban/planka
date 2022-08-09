@@ -4,10 +4,11 @@ import { transformAttachment } from './attachments';
 
 /* Actions */
 
-const createBoard = (projectId, data) => socket.post(`/projects/${projectId}/boards`, data);
+const createBoard = (projectId, data, headers) =>
+  socket.post(`/projects/${projectId}/boards`, data, headers);
 
-const getBoard = (id) =>
-  socket.get(`/boards/${id}`).then((body) => ({
+const getBoard = (id, headers) =>
+  socket.get(`/boards/${id}`, undefined, headers).then((body) => ({
     ...body,
     included: {
       ...body.included,
@@ -16,9 +17,9 @@ const getBoard = (id) =>
     },
   }));
 
-const updateBoard = (id, data) => socket.patch(`/boards/${id}`, data);
+const updateBoard = (id, data, headers) => socket.patch(`/boards/${id}`, data, headers);
 
-const deleteBoard = (id) => socket.delete(`/boards/${id}`);
+const deleteBoard = (id, headers) => socket.delete(`/boards/${id}`, undefined, headers);
 
 export default {
   createBoard,
