@@ -110,17 +110,22 @@ export function* updateUserPassword(id, data) {
   yield put(actions.updateUserPassword(id, data));
 
   let user;
-  let accessToken;
+  let accessTokens;
 
   try {
-    ({ item: user, accessToken } = yield call(request, api.updateUserPassword, id, data));
+    ({ item: user, included: { accessTokens } = {} } = yield call(
+      request,
+      api.updateUserPassword,
+      id,
+      data,
+    ));
   } catch (error) {
     yield put(actions.updateUserPassword.failure(id, error));
     return;
   }
 
-  if (accessToken) {
-    yield call(setAccessToken, accessToken);
+  if (accessTokens && accessTokens[0]) {
+    yield call(setAccessToken, accessTokens[0]);
   }
 
   yield put(actions.updateUserPassword.success(user));

@@ -70,8 +70,10 @@ module.exports = {
       const accessToken = sails.helpers.utils.createToken(user.id, user.passwordUpdatedAt);
 
       return {
-        accessToken,
         item: user,
+        included: {
+          accessTokens: [accessToken],
+        },
       };
     }
 
