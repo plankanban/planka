@@ -15,10 +15,16 @@ module.exports = {
   },
 
   fn(inputs) {
+    let payload;
     try {
-      return jwt.verify(inputs.token, sails.config.session.secret);
+      payload = jwt.verify(inputs.token, sails.config.session.secret);
     } catch (error) {
       throw 'invalidToken';
     }
+
+    return {
+      subject: payload.sub,
+      issuedAt: new Date(payload.iat * 1000),
+    };
   },
 };

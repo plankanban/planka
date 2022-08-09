@@ -3,25 +3,27 @@ import socket from './socket';
 
 /* Actions */
 
-const getUsers = () => socket.get('/users');
+const getUsers = (headers) => socket.get('/users', undefined, headers);
 
-const createUser = (data) => socket.post('/users', data);
+const createUser = (data, headers) => socket.post('/users', data, headers);
 
-const getUser = (id) => socket.get(`/users/${id}`);
+const getUser = (id, headers) => socket.get(`/users/${id}`, undefined, headers);
 
-const getCurrentUser = () => socket.get('/users/me');
+const getCurrentUser = (headers) => socket.get('/users/me', undefined, headers);
 
-const updateUser = (id, data) => socket.patch(`/users/${id}`, data);
+const updateUser = (id, data, headers) => socket.patch(`/users/${id}`, data, headers);
 
-const updateUserEmail = (id, data) => socket.patch(`/users/${id}/email`, data);
+const updateUserEmail = (id, data, headers) => socket.patch(`/users/${id}/email`, data, headers);
 
-const updateUserPassword = (id, data) => socket.patch(`/users/${id}/password`, data);
+const updateUserPassword = (id, data, headers) =>
+  socket.patch(`/users/${id}/password`, data, headers);
 
-const updateUserUsername = (id, data) => socket.patch(`/users/${id}/username`, data);
+const updateUserUsername = (id, data, headers) =>
+  socket.patch(`/users/${id}/username`, data, headers);
 
-const updateUserAvatar = (id, data) => http.post(`/users/${id}/avatar`, data);
+const updateUserAvatar = (id, data, headers) => http.post(`/users/${id}/avatar`, data, headers);
 
-const deleteUser = (id) => socket.delete(`/users/${id}`);
+const deleteUser = (id, headers) => socket.delete(`/users/${id}`, undefined, headers);
 
 export default {
   getUsers,

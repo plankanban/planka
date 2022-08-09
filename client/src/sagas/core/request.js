@@ -1,6 +1,7 @@
 import { call, fork, join, put, take } from 'redux-saga/effects';
 
 import actions from '../../actions';
+import { getAccessToken } from '../../utils/access-token-storage';
 import ErrorCodes from '../../constants/ErrorCodes';
 
 let lastRequestTask;
@@ -12,8 +13,12 @@ function* queueRequest(method, ...args) {
     } catch {} // eslint-disable-line no-empty
   }
 
+  const accessToken = yield call(getAccessToken);
+
   try {
-    return yield call(method, ...args);
+    return yield call(method, ...args, {
+      Authorization: `Bearer ${accessToken}`,
+    });
   } catch (error) {
     if (error.code === ErrorCodes.UNAUTHORIZED) {
       yield put(actions.logout()); // TODO: next url

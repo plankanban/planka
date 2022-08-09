@@ -1,6 +1,7 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 const rimraf = require('rimraf');
+const { v4: uuid } = require('uuid');
 
 module.exports = {
   inputs: {
@@ -35,6 +36,10 @@ module.exports = {
       },
       required: true,
     },
+    user: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -54,10 +59,10 @@ module.exports = {
     let isOnlyPasswordChange = false;
 
     if (!_.isUndefined(inputs.values.password)) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.password = bcrypt.hashSync(inputs.values.password, 10);
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.passwordChangedAt = new Date();
+      Object.assign(inputs.values, {
+        password: bcrypt.hashSync(inputs.values.password, 10),
+        passwordChangedAt: new Date().toUTCString(),
+      });
 
       if (Object.keys(inputs.values).length === 1) {
         isOnlyPasswordChange = true;
@@ -102,6 +107,29 @@ module.exports = {
           rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatarDirname));
         } catch (error) {
           console.warn(error.stack); // eslint-disable-line no-console
+        }
+      }
+
+      if (!_.isUndefined(inputs.values.password)) {
+        sails.sockets.broadcast(
+          `user:${user.id}`,
+          'userDelete', // TODO: introduce separate event
+          {
+            item: user,
+          },
+          inputs.request,
+        );
+
+        if (user.id === inputs.user.id && inputs.request && inputs.request.isSocket) {
+          const tempRoom = uuid();
+
+          sails.sockets.addRoomMembersToRooms(`user:${user.id}`, tempRoom, () => {
+            sails.sockets.leave(inputs.request, tempRoom, () => {
+              sails.sockets.leaveAll(tempRoom);
+            });
+          });
+        } else {
+          sails.sockets.leaveAll(`user:${user.id}`);
         }
       }
 

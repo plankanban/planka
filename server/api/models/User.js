@@ -70,7 +70,6 @@ module.exports = {
     passwordChangedAt: {
       type: 'ref',
       columnName: 'password_changed_at',
-      defaultsTo: new Date(0).toUTCString(),
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -107,7 +106,7 @@ module.exports = {
 
   customToJSON() {
     return {
-      ..._.omit(this, ['password', 'avatarDirname']),
+      ..._.omit(this, ['password', 'avatarDirname', 'passwordChangedAt']),
       avatarUrl:
         this.avatarDirname &&
         `${sails.config.custom.userAvatarsUrl}/${this.avatarDirname}/square-100.jpg`,

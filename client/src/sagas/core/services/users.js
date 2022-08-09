@@ -111,6 +111,7 @@ export function* updateUserPassword(id, data) {
 
   let user;
   let accessToken;
+
   try {
     ({ item: user, accessToken } = yield call(request, api.updateUserPassword, id, data));
   } catch (error) {
@@ -118,7 +119,7 @@ export function* updateUserPassword(id, data) {
     return;
   }
 
-  if (accessToken !== undefined) {
+  if (accessToken) {
     yield call(setAccessToken, accessToken);
   }
 

@@ -60,26 +60,14 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['password']);
-    user = await sails.helpers.users.updateOne(user, values, this.req);
+    user = await sails.helpers.users.updateOne(user, values, currentUser, this.req);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
-    // Disconnect all sockets from this user except the current one
-    const tempRoom = `temp:${user.id}`;
-    sails.sockets.addRoomMembersToRooms(`user:${user.id}`, tempRoom, () => {
-      if (currentUser.id === user.id && this.req.isSocket) {
-        sails.sockets.leave(this.req, tempRoom, () => {
-          sails.sockets.leaveAll(tempRoom);
-        });
-      } else {
-        sails.sockets.leaveAll(tempRoom);
-      }
-    });
-
-    if (currentUser.id === user.id) {
-      const accessToken = sails.helpers.utils.signToken(user.id);
+    if (user.id === currentUser.id) {
+      const accessToken = sails.helpers.utils.createToken(user.id, user.passwordUpdatedAt);
 
       return {
         accessToken,

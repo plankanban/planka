@@ -10,28 +10,20 @@ module.exports = function defineCurrentUserHook(sails) {
   const TOKEN_PATTERN = /^Bearer /;
 
   const getUser = async (accessToken) => {
-    let id;
-    let iat;
-    let decodedToken;
-
+    let payload;
     try {
-      decodedToken = sails.helpers.utils.verifyToken(accessToken);
+      payload = sails.helpers.utils.verifyToken(accessToken);
     } catch (error) {
       return null;
     }
 
-    if (_.isString(decodedToken)) {
-      id = decodedToken;
-      iat = 1;
-    } else {
-      id = decodedToken.sub;
-      iat = decodedToken.iat;
+    const user = await sails.helpers.users.getOne(payload.subject);
+
+    if (user && user.passwordChangedAt > payload.issuedAt) {
+      return null;
     }
 
-    return sails.helpers.users.getOne({
-      id,
-      passwordChangedAt: { '<=': new Date((iat + 1) * 1000) },
-    });
+    return user;
   };
 
   return {
@@ -45,19 +37,23 @@ module.exports = function defineCurrentUserHook(sails) {
 
     routes: {
       before: {
-        '/*': {
+        '/api/*': {
           async fn(req, res, next) {
-            let accessToken;
-            if (req.headers.authorization) {
-              if (TOKEN_PATTERN.test(req.headers.authorization)) {
-                accessToken = req.headers.authorization.replace(TOKEN_PATTERN, '');
-              }
-            } else if (req.cookies.accessToken) {
-              accessToken = req.cookies.accessToken;
+            const { authorization: authorizationHeader } = req.headers;
+
+            if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
+              const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
+
+              req.currentUser = await getUser(accessToken);
             }
 
-            if (accessToken) {
-              req.currentUser = await getUser(accessToken);
+            return next();
+          },
+        },
+        '/attachments/*': {
+          async fn(req, res, next) {
+            if (req.cookies.accessToken) {
+              req.currentUser = await getUser(req.cookies.accessToken);
             }
 
             return next();

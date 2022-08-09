@@ -49,7 +49,7 @@ module.exports = {
     }
 
     return {
-      item: sails.helpers.utils.signToken(user.id),
+      item: sails.helpers.utils.createToken(user.id),
     };
   },
 };

@@ -75,7 +75,7 @@ module.exports = {
       'subscribeToOwnCards',
     ]);
 
-    user = await sails.helpers.users.updateOne(user, values, this.req);
+    user = await sails.helpers.users.updateOne(user, values, currentUser, this.req);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
