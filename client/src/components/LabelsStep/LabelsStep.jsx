@@ -1,11 +1,11 @@
 import pick from 'lodash/pick';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
-import { Popup } from '../../lib/custom-ui';
+import { Input, Popup } from '../../lib/custom-ui';
 
-import { useSteps } from '../../hooks';
+import { useField, useSteps } from '../../hooks';
 import AddStep from './AddStep';
 import EditStep from './EditStep';
 import Item from './Item';
@@ -21,6 +21,20 @@ const LabelsStep = React.memo(
   ({ items, currentIds, title, onSelect, onDeselect, onCreate, onUpdate, onDelete, onBack }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
+    const [searchValue, handleSearchFieldChange] = useField('');
+    const search = useMemo(() => searchValue.trim().toLowerCase(), [searchValue]);
+
+    const filteredItems = useMemo(
+      () =>
+        items.filter(
+          (label) =>
+            (label.name && label.name.toLowerCase().includes(search)) ||
+            label.color.includes(search),
+        ),
+      [items, search],
+    );
+
+    const searchField = useRef(null);
 
     const handleAddClick = useCallback(() => {
       openStep(StepTypes.ADD);
@@ -63,6 +77,10 @@ const LabelsStep = React.memo(
       [onDelete],
     );
 
+    useEffect(() => {
+      searchField.current.focus();
+    }, []);
+
     if (step) {
       switch (step.type) {
         case StepTypes.ADD:
@@ -93,18 +111,30 @@ const LabelsStep = React.memo(
       <>
         <Popup.Header onBack={onBack}>{t(title)}</Popup.Header>
         <Popup.Content>
-          {items.map((item) => (
-            <Item
-              key={item.id}
-              name={item.name}
-              color={item.color}
-              isPersisted={item.isPersisted}
-              isActive={currentIds.includes(item.id)}
-              onSelect={() => handleSelect(item.id)}
-              onDeselect={() => handleDeselect(item.id)}
-              onEdit={() => handleEdit(item.id)}
-            />
-          ))}
+          <Input
+            fluid
+            ref={searchField}
+            value={searchValue}
+            placeholder={t('common.searchLabels')}
+            icon="search"
+            onChange={handleSearchFieldChange}
+          />
+          {filteredItems.length > 0 && (
+            <div className={styles.items}>
+              {filteredItems.map((item) => (
+                <Item
+                  key={item.id}
+                  name={item.name}
+                  color={item.color}
+                  isPersisted={item.isPersisted}
+                  isActive={currentIds.includes(item.id)}
+                  onSelect={() => handleSelect(item.id)}
+                  onDeselect={() => handleDeselect(item.id)}
+                  onEdit={() => handleEdit(item.id)}
+                />
+              ))}
+            </div>
+          )}
           <Button
             fluid
             content={t('action.createNewLabel')}

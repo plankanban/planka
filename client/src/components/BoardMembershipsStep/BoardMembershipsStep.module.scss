@@ -1,6 +1,22 @@
 :global(#app) {
   .menu {
-    margin: -7px auto -5px;
+    margin: 8px auto 0;
+    max-height: 320px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
     width: 100%;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+    }
   }
 }
