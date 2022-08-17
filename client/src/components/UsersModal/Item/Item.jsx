@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Icon, Radio, Table } from 'semantic-ui-react';
 
 import ActionsPopup from './ActionsPopup';
+import User from '../../User';
 
 import styles from './Item.module.scss';
 
@@ -11,6 +12,7 @@ const Item = React.memo(
     email,
     username,
     name,
+    avatarUrl,
     organization,
     phone,
     isAdmin,
@@ -34,13 +36,16 @@ const Item = React.memo(
 
     return (
       <Table.Row>
+        <Table.Cell>
+          <User name={name} avatarUrl={avatarUrl} />
+        </Table.Cell>
         <Table.Cell>{name}</Table.Cell>
         <Table.Cell>{username || '-'}</Table.Cell>
         <Table.Cell>{email}</Table.Cell>
-        <Table.Cell collapsing>
+        <Table.Cell>
           <Radio toggle checked={isAdmin} onChange={handleIsAdminChange} />
         </Table.Cell>
-        <Table.Cell collapsing>
+        <Table.Cell textAlign="right">
           <ActionsPopup
             user={{
               email,
@@ -76,6 +81,7 @@ Item.propTypes = {
   email: PropTypes.string.isRequired,
   username: PropTypes.string,
   name: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string,
   organization: PropTypes.string,
   phone: PropTypes.string,
   isAdmin: PropTypes.bool.isRequired,
@@ -96,6 +102,7 @@ Item.propTypes = {
 
 Item.defaultProps = {
   username: undefined,
+  avatarUrl: undefined,
   organization: undefined,
   phone: undefined,
 };
