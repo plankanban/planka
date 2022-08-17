@@ -84,10 +84,11 @@ const UsersModal = React.memo(
             context: 'title',
           })}
         </Modal.Header>
-        <Modal.Content>
-          <Table basic="very">
+        <Modal.Content scrolling>
+          <Table unstackable basic="very">
             <Table.Header>
               <Table.Row>
+                <Table.HeaderCell />
                 <Table.HeaderCell width={4}>{t('common.name')}</Table.HeaderCell>
                 <Table.HeaderCell width={4}>{t('common.username')}</Table.HeaderCell>
                 <Table.HeaderCell width={4}>{t('common.email')}</Table.HeaderCell>
@@ -102,6 +103,7 @@ const UsersModal = React.memo(
                   email={item.email}
                   username={item.username}
                   name={item.name}
+                  avatarUrl={item.avatarUrl}
                   organization={item.organization}
                   phone={item.phone}
                   isAdmin={item.isAdmin}
