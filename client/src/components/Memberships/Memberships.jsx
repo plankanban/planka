@@ -12,6 +12,7 @@ const Memberships = React.memo(
   ({
     items,
     allUsers,
+    permissionsSelectStep,
     addTitle,
     leaveButtonContent,
     leaveConfirmationTitle,
@@ -24,6 +25,7 @@ const Memberships = React.memo(
     canEdit,
     canLeaveIfLast,
     onCreate,
+    onUpdate,
     onDelete,
   }) => {
     return (
@@ -32,7 +34,8 @@ const Memberships = React.memo(
           {items.map((item) => (
             <span key={item.id} className={styles.user}>
               <ActionsPopup
-                user={item.user}
+                membership={item}
+                permissionsSelectStep={permissionsSelectStep}
                 leaveButtonContent={leaveButtonContent}
                 leaveConfirmationTitle={leaveConfirmationTitle}
                 leaveConfirmationContent={leaveConfirmationContent}
@@ -42,7 +45,8 @@ const Memberships = React.memo(
                 deleteConfirmationContent={deleteConfirmationContent}
                 deleteConfirmationButtonContent={deleteConfirmationButtonContent}
                 canLeave={items.length > 1 || canLeaveIfLast}
-                canDelete={canEdit}
+                canEdit={canEdit}
+                onUpdate={(data) => onUpdate(item.id, data)}
                 onDelete={() => onDelete(item.id)}
               >
                 <User
@@ -59,6 +63,7 @@ const Memberships = React.memo(
           <AddPopup
             users={allUsers}
             currentUserIds={items.map((item) => item.user.id)}
+            permissionsSelectStep={permissionsSelectStep}
             title={addTitle}
             onCreate={onCreate}
           >
@@ -75,6 +80,7 @@ Memberships.propTypes = {
   items: PropTypes.array.isRequired,
   allUsers: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
+  permissionsSelectStep: PropTypes.elementType,
   addTitle: PropTypes.string,
   leaveButtonContent: PropTypes.string,
   leaveConfirmationTitle: PropTypes.string,
@@ -87,10 +93,12 @@ Memberships.propTypes = {
   canEdit: PropTypes.bool,
   canLeaveIfLast: PropTypes.bool,
   onCreate: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func,
   onDelete: PropTypes.func.isRequired,
 };
 
 Memberships.defaultProps = {
+  permissionsSelectStep: undefined,
   addTitle: undefined,
   leaveButtonContent: undefined,
   leaveConfirmationTitle: undefined,
@@ -102,6 +110,7 @@ Memberships.defaultProps = {
   deleteConfirmationButtonContent: undefined,
   canEdit: true,
   canLeaveIfLast: true,
+  onUpdate: undefined,
 };
 
 export default Memberships;

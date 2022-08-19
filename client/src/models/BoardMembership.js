@@ -7,6 +7,8 @@ export default class extends Model {
 
   static fields = {
     id: attr(),
+    role: attr(),
+    canComment: attr(),
     boardId: fk({
       to: 'Board',
       as: 'board',
@@ -64,6 +66,15 @@ export default class extends Model {
             BoardMembership.upsert(boardMembership);
           });
         }
+
+        break;
+      case ActionTypes.BOARD_MEMBERSHIP_UPDATE:
+        BoardMembership.withId(payload.id).update(payload.data);
+
+        break;
+      case ActionTypes.BOARD_MEMBERSHIP_UPDATE__SUCCESS:
+      case ActionTypes.BOARD_MEMBERSHIP_UPDATE_HANDLE:
+        BoardMembership.upsert(payload.boardMembership);
 
         break;
       case ActionTypes.BOARD_MEMBERSHIP_DELETE:

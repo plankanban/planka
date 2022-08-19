@@ -147,22 +147,28 @@ export const selectFilterLabelsForCurrentBoard = createSelector(
   },
 );
 
-export const selectIsCurrentUserMemberForCurrentBoard = createSelector(
+export const selectCurrentUserMembershipForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
   (state) => selectCurrentUserId(state),
   ({ Board }, id, currentUserId) => {
     if (!id) {
-      return false;
+      return id;
     }
 
     const boardModel = Board.withId(id);
 
     if (!boardModel) {
-      return false;
+      return boardModel;
     }
 
-    return boardModel.hasMemberUser(currentUserId);
+    const boardMembershipModel = boardModel.getMembershipModel(currentUserId);
+
+    if (!boardMembershipModel) {
+      return boardMembershipModel;
+    }
+
+    return boardMembershipModel.ref;
   },
 );
 
@@ -175,5 +181,5 @@ export default {
   selectListIdsForCurrentBoard,
   selectFilterUsersForCurrentBoard,
   selectFilterLabelsForCurrentBoard,
-  selectIsCurrentUserMemberForCurrentBoard,
+  selectCurrentUserMembershipForCurrentBoard,
 };

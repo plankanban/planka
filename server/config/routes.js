@@ -37,6 +37,7 @@ module.exports.routes = {
   'DELETE /api/boards/:id': 'boards/delete',
 
   'POST /api/boards/:boardId/memberships': 'board-memberships/create',
+  'PATCH /api/board-memberships/:id': 'board-memberships/update',
   'DELETE /api/board-memberships/:id': 'board-memberships/delete',
 
   'POST /api/boards/:boardId/labels': 'labels/create',

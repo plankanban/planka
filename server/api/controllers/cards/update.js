@@ -1,6 +1,9 @@
 const moment = require('moment');
 
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
   },
@@ -83,6 +86,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     cardNotFound: {
       responseType: 'notFound',
     },
@@ -110,10 +116,17 @@ module.exports = {
     let { card } = path;
     const { list, board } = path;
 
-    let isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    let boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
+    }
+
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     let nextBoard;
@@ -122,10 +135,17 @@ module.exports = {
         .getProjectPath(inputs.boardId)
         .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND));
 
-      isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, nextBoard.id);
+      boardMembership = await BoardMembership.findOne({
+        boardId: nextBoard.id,
+        userId: currentUser.id,
+      });
 
-      if (!isBoardMember) {
+      if (!boardMembership) {
         throw Errors.BOARD_NOT_FOUND; // Forbidden
+      }
+
+      if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
       }
     }
 

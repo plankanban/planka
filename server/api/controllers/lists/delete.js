@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
   },
@@ -14,6 +17,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     listNotFound: {
       responseType: 'notFound',
     },
@@ -26,10 +32,17 @@ module.exports = {
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, list.boardId);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: list.boardId,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.LIST_NOT_FOUND; // Forbidden
+    }
+
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     list = await sails.helpers.lists.deleteOne(list, this.req);

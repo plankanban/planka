@@ -48,6 +48,7 @@ const CardModal = React.memo(
     allBoardMemberships,
     allLabels,
     canEdit,
+    canEditCommentActivities,
     canEditAllCommentActivities,
     onUpdate,
     onMove,
@@ -302,7 +303,10 @@ const CardModal = React.memo(
                   {canEdit ? (
                     <DescriptionEdit defaultValue={description} onUpdate={handleDescriptionUpdate}>
                       {description ? (
-                        <button type="button" className={styles.descriptionText}>
+                        <button
+                          type="button"
+                          className={classNames(styles.descriptionText, styles.cursorPointer)}
+                        >
                           <Markdown linkStopPropagation linkTarget="_blank">
                             {description}
                           </Markdown>
@@ -348,6 +352,7 @@ const CardModal = React.memo(
                   <div className={styles.moduleHeader}>{t('common.attachments')}</div>
                   <Attachments
                     items={attachments}
+                    canEdit={canEdit}
                     onUpdate={onAttachmentUpdate}
                     onDelete={onAttachmentDelete}
                     onCoverUpdate={handleCoverUpdate}
@@ -363,7 +368,7 @@ const CardModal = React.memo(
               isAllFetched={isAllActivitiesFetched}
               isDetailsVisible={isActivitiesDetailsVisible}
               isDetailsFetching={isActivitiesDetailsFetching}
-              canEdit={canEdit}
+              canEdit={canEditCommentActivities}
               canEditAllComments={canEditAllCommentActivities}
               onFetch={onActivitiesFetch}
               onDetailsToggle={onActivitiesDetailsToggle}
@@ -508,6 +513,7 @@ CardModal.propTypes = {
   allLabels: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   canEdit: PropTypes.bool.isRequired,
+  canEditCommentActivities: PropTypes.bool.isRequired,
   canEditAllCommentActivities: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,

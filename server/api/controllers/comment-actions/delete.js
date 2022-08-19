@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   COMMENT_ACTION_NOT_FOUND: {
     commentActionNotFound: 'Comment action not found',
   },
@@ -14,6 +17,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     commentActionNotFound: {
       responseType: 'notFound',
     },
@@ -39,10 +45,17 @@ module.exports = {
         throw Errors.COMMENT_ACTION_NOT_FOUND; // Forbidden
       }
 
-      const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+      const boardMembership = await BoardMembership.findOne({
+        boardId: board.id,
+        userId: currentUser.id,
+      });
 
-      if (!isBoardMember) {
+      if (!boardMembership) {
         throw Errors.COMMENT_ACTION_NOT_FOUND; // Forbidden
+      }
+
+      if (boardMembership.role !== BoardMembership.Roles.EDITOR && !boardMembership.canComment) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
       }
     }
 

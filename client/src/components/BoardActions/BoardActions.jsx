@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Filters from './Filters';
 import Memberships from '../Memberships';
+import BoardMembershipPermissionsSelectStep from '../BoardMembershipPermissionsSelectStep';
 
 import styles from './BoardActions.module.scss';
 
@@ -15,6 +16,7 @@ const BoardActions = React.memo(
     allUsers,
     canEditMemberships,
     onMembershipCreate,
+    onMembershipUpdate,
     onMembershipDelete,
     onUserToFilterAdd,
     onUserFromFilterRemove,
@@ -30,8 +32,10 @@ const BoardActions = React.memo(
           <Memberships
             items={memberships}
             allUsers={allUsers}
+            permissionsSelectStep={BoardMembershipPermissionsSelectStep}
             canEdit={canEditMemberships}
             onCreate={onMembershipCreate}
+            onUpdate={onMembershipUpdate}
             onDelete={onMembershipDelete}
           />
         </div>
@@ -65,6 +69,7 @@ BoardActions.propTypes = {
   /* eslint-enable react/forbid-prop-types */
   canEditMemberships: PropTypes.bool.isRequired,
   onMembershipCreate: PropTypes.func.isRequired,
+  onMembershipUpdate: PropTypes.func.isRequired,
   onMembershipDelete: PropTypes.func.isRequired,
   onUserToFilterAdd: PropTypes.func.isRequired,
   onUserFromFilterRemove: PropTypes.func.isRequired,

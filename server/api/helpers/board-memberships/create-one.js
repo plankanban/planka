@@ -1,5 +1,9 @@
 module.exports = {
   inputs: {
+    values: {
+      type: 'json',
+      required: true,
+    },
     user: {
       type: 'ref',
       required: true,
@@ -18,7 +22,16 @@ module.exports = {
   },
 
   async fn(inputs) {
+    if (inputs.values.role === BoardMembership.Roles.EDITOR) {
+      delete inputs.values.canComment; // eslint-disable-line no-param-reassign
+    } else if (inputs.values.role === BoardMembership.Roles.VIEWER) {
+      if (_.isNil(inputs.values.canComment)) {
+        inputs.values.canComment = false; // eslint-disable-line no-param-reassign
+      }
+    }
+
     const boardMembership = await BoardMembership.create({
+      ...inputs.values,
       boardId: inputs.board.id,
       userId: inputs.user.id,
     })
