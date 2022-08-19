@@ -3,17 +3,18 @@ import { connect } from 'react-redux';
 
 import selectors from '../selectors';
 import entryActions from '../entry-actions';
+import { BoardMembershipRoles } from '../constants/Enums';
 import BoardKanban from '../components/BoardKanban';
 
 const mapStateToProps = (state) => {
   const { cardId } = selectors.selectPath(state);
-  const isCurrentUserMember = selectors.selectIsCurrentUserMemberForCurrentBoard(state);
+  const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
   const listIds = selectors.selectListIdsForCurrentBoard(state);
 
   return {
     listIds,
     isCardModalOpened: !!cardId,
-    canEdit: isCurrentUserMember,
+    canEdit: !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR,
   };
 };
 

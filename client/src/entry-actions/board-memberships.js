@@ -14,6 +14,21 @@ const handleBoardMembershipCreate = (boardMembership) => ({
   },
 });
 
+const updateBoardMembership = (id, data) => ({
+  type: EntryActionTypes.BOARD_MEMBERSHIP_UPDATE,
+  payload: {
+    id,
+    data,
+  },
+});
+
+const handleBoardMembershipUpdate = (boardMembership) => ({
+  type: EntryActionTypes.BOARD_MEMBERSHIP_UPDATE_HANDLE,
+  payload: {
+    boardMembership,
+  },
+});
+
 const deleteBoardMembership = (id) => ({
   type: EntryActionTypes.BOARD_MEMBERSHIP_DELETE,
   payload: {
@@ -31,6 +46,8 @@ const handleBoardMembershipDelete = (boardMembership) => ({
 export default {
   createMembershipInCurrentBoard,
   handleBoardMembershipCreate,
+  updateBoardMembership,
+  handleBoardMembershipUpdate,
   deleteBoardMembership,
   handleBoardMembershipDelete,
 };

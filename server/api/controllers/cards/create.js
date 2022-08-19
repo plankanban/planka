@@ -1,6 +1,9 @@
 const moment = require('moment');
 
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   BOARD_NOT_FOUND: {
     boardNotFound: 'Board not found',
   },
@@ -67,6 +70,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     boardNotFound: {
       responseType: 'notFound',
     },
@@ -88,10 +94,17 @@ module.exports = {
       .getProjectPath(inputs.boardId)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.BOARD_NOT_FOUND; // Forbidden
+    }
+
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     let list;

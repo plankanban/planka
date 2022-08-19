@@ -57,6 +57,7 @@ module.exports = {
     const boardMembership = await BoardMembership.create({
       boardId: board.id,
       userId: inputs.user.id,
+      role: BoardMembership.Roles.EDITOR,
     }).fetch();
 
     managerUserIds.forEach((userId) => {

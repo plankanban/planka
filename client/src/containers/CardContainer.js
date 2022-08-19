@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import selectors from '../selectors';
 import entryActions from '../entry-actions';
+import { BoardMembershipRoles } from '../constants/Enums';
 import Card from '../components/Card';
 
 const makeMapStateToProps = () => {
@@ -17,7 +18,7 @@ const makeMapStateToProps = () => {
     const allProjectsToLists = selectors.selectProjectsToListsForCurrentUser(state);
     const allBoardMemberships = selectors.selectMembershipsForCurrentBoard(state);
     const allLabels = selectors.selectLabelsForCurrentBoard(state);
-    const isCurrentUserMember = selectors.selectIsCurrentUserMemberForCurrentBoard(state);
+    const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
     const { name, dueDate, timer, coverUrl, boardId, listId, isPersisted } = selectCardById(
       state,
@@ -47,7 +48,8 @@ const makeMapStateToProps = () => {
       allProjectsToLists,
       allBoardMemberships,
       allLabels,
-      canEdit: isCurrentUserMember,
+      canEdit:
+        !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR,
     };
   };
 };

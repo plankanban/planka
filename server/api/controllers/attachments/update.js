@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   ATTACHMENT_NOT_FOUND: {
     attachmentNotFound: 'Attachment not found',
   },
@@ -18,6 +21,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     attachmentNotFound: {
       responseType: 'notFound',
     },
@@ -33,10 +39,17 @@ module.exports = {
     let { attachment } = path;
     const { board } = path;
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.ATTACHMENT_NOT_FOUND; // Forbidden
+    }
+
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     const values = _.pick(inputs, ['name']);

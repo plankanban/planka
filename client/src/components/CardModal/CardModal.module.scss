@@ -64,6 +64,10 @@
     padding: 8px 8px 0 16px;
   }
 
+  .cursorPointer {
+    cursor: pointer;
+  }
+
   .dueDate {
     background: rgba(9, 30, 66, 0.04);
     border: none;
@@ -114,7 +118,6 @@
     background: transparent;
     border: none;
     color: #17394d;
-    cursor: pointer;
     font-size: 15px;
     margin-bottom: 8px;
     outline: none;

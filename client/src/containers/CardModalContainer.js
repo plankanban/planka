@@ -6,6 +6,7 @@ import omit from 'lodash/omit';
 import selectors from '../selectors';
 import entryActions from '../entry-actions';
 import Paths from '../constants/Paths';
+import { BoardMembershipRoles } from '../constants/Enums';
 import CardModal from '../components/CardModal';
 
 const mapStateToProps = (state) => {
@@ -14,7 +15,7 @@ const mapStateToProps = (state) => {
   const isCurrentUserManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
   const allBoardMemberships = selectors.selectMembershipsForCurrentBoard(state);
   const allLabels = selectors.selectLabelsForCurrentBoard(state);
-  const isCurrentUserMember = selectors.selectIsCurrentUserMemberForCurrentBoard(state);
+  const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
   const {
     name,
@@ -57,7 +58,11 @@ const mapStateToProps = (state) => {
     allProjectsToLists,
     allBoardMemberships,
     allLabels,
-    canEdit: isCurrentUserMember,
+    canEdit: !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR,
+    canEditCommentActivities:
+      !!currentUserMembership &&
+      (currentUserMembership.role === BoardMembershipRoles.EDITOR ||
+        currentUserMembership.canComment),
     canEditAllCommentActivities: isCurrentUserManager,
   };
 };

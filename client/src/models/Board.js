@@ -175,6 +175,14 @@ export default class extends Model {
     return this.lists.orderBy('position');
   }
 
+  getMembershipModel(userId) {
+    return this.memberships
+      .filter({
+        userId,
+      })
+      .first();
+  }
+
   hasMemberUser(userId) {
     return this.memberships
       .filter({

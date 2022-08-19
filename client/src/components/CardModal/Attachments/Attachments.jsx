@@ -13,7 +13,7 @@ import styles from './Attachments.module.scss';
 const INITIALLY_VISIBLE = 4;
 
 const Attachments = React.memo(
-  ({ items, onUpdate, onDelete, onCoverUpdate, onGalleryOpen, onGalleryClose }) => {
+  ({ items, canEdit, onUpdate, onDelete, onCoverUpdate, onGalleryOpen, onGalleryClose }) => {
     const [t] = useTranslation();
     const [isAllVisible, toggleAllVisible] = useToggle();
 
@@ -99,6 +99,7 @@ const Attachments = React.memo(
                 createdAt={item.createdAt}
                 isCover={item.isCover}
                 isPersisted={item.isPersisted}
+                canEdit={canEdit}
                 onClick={item.image || isPdf ? open : undefined}
                 onCoverSelect={() => handleCoverSelect(item.id)}
                 onCoverDeselect={handleCoverDeselect}
@@ -151,6 +152,7 @@ const Attachments = React.memo(
 
 Attachments.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCoverUpdate: PropTypes.func.isRequired,

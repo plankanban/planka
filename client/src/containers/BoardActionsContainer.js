@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onMembershipCreate: entryActions.createMembershipInCurrentBoard,
+      onMembershipUpdate: entryActions.updateBoardMembership,
       onMembershipDelete: entryActions.deleteBoardMembership,
       onUserToFilterAdd: entryActions.addUserToFilterInCurrentBoard,
       onUserFromFilterRemove: entryActions.removeUserFromFilterInCurrentBoard,

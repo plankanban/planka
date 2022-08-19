@@ -17,6 +17,7 @@ const Item = React.forwardRef(
       createdAt,
       isCover,
       isPersisted,
+      canEdit,
       onCoverSelect,
       onCoverDeselect,
       onClick,
@@ -96,7 +97,7 @@ const Item = React.forwardRef(
               value: createdAt,
             })}
           </span>
-          {coverUrl && (
+          {coverUrl && canEdit && (
             <span className={styles.options}>
               <button type="button" className={styles.option} onClick={handleToggleCoverClick}>
                 <Icon
@@ -118,17 +119,19 @@ const Item = React.forwardRef(
             </span>
           )}
         </div>
-        <EditPopup
-          defaultData={{
-            name,
-          }}
-          onUpdate={onUpdate}
-          onDelete={onDelete}
-        >
-          <Button className={classNames(styles.button, styles.target)}>
-            <Icon fitted name="pencil" size="small" />
-          </Button>
-        </EditPopup>
+        {canEdit && (
+          <EditPopup
+            defaultData={{
+              name,
+            }}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          >
+            <Button className={classNames(styles.button, styles.target)}>
+              <Icon fitted name="pencil" size="small" />
+            </Button>
+          </EditPopup>
+        )}
       </div>
     );
   },
@@ -141,6 +144,7 @@ Item.propTypes = {
   createdAt: PropTypes.instanceOf(Date),
   isCover: PropTypes.bool.isRequired,
   isPersisted: PropTypes.bool.isRequired,
+  canEdit: PropTypes.bool.isRequired,
   onClick: PropTypes.func,
   onCoverSelect: PropTypes.func.isRequired,
   onCoverDeselect: PropTypes.func.isRequired,

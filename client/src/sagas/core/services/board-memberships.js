@@ -135,6 +135,24 @@ export function* handleBoardMembershipCreate(boardMembership) {
   );
 }
 
+export function* updateBoardMembership(id, data) {
+  yield put(actions.updateBoardMembership(id, data));
+
+  let boardMembership;
+  try {
+    ({ item: boardMembership } = yield call(request, api.updateBoardMembership, id, data));
+  } catch (error) {
+    yield put(actions.updateBoardMembership.failure(id, error));
+    return;
+  }
+
+  yield put(actions.updateBoardMembership.success(boardMembership));
+}
+
+export function* handleBoardMembershipUpdate(boardMembership) {
+  yield put(actions.handleBoardMembershipUpdate(boardMembership));
+}
+
 export function* deleteBoardMembership(id) {
   let boardMembership = yield select(selectors.selectBoardMembershipById, id);
 
@@ -184,6 +202,8 @@ export default {
   createBoardMembership,
   createMembershipInCurrentBoard,
   handleBoardMembershipCreate,
+  updateBoardMembership,
+  handleBoardMembershipUpdate,
   deleteBoardMembership,
   handleBoardMembershipDelete,
 };

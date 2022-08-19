@@ -64,6 +64,10 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleBoardMembershipCreate(item));
     };
 
+    const handleBoardMembershipUpdate = ({ item }) => {
+      emit(entryActions.handleBoardMembershipUpdate(item));
+    };
+
     const handleBoardMembershipDelete = ({ item }) => {
       emit(entryActions.handleBoardMembershipDelete(item));
     };
@@ -183,6 +187,7 @@ const createSocketEventsChannel = () =>
     socket.on('boardDelete', handleBoardDelete);
 
     socket.on('boardMembershipCreate', handleBoardMembershipCreate);
+    socket.on('boardMembershipUpdate', handleBoardMembershipUpdate);
     socket.on('boardMembershipDelete', handleBoardMembershipDelete);
 
     socket.on('listCreate', handleListCreate);
@@ -238,6 +243,7 @@ const createSocketEventsChannel = () =>
       socket.off('boardDelete', handleBoardDelete);
 
       socket.off('boardMembershipCreate', handleBoardMembershipCreate);
+      socket.off('boardMembershipUpdate', handleBoardMembershipUpdate);
       socket.off('boardMembershipDelete', handleBoardMembershipDelete);
 
       socket.off('listCreate', handleListCreate);

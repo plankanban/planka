@@ -5,11 +5,29 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const Roles = {
+  EDITOR: 'editor',
+  VIEWER: 'viewer',
+};
+
 module.exports = {
+  Roles,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
+
+    role: {
+      type: 'string',
+      isIn: Object.values(Roles),
+      required: true,
+    },
+    canComment: {
+      type: 'boolean',
+      allowNull: true,
+      columnName: 'can_comment',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
