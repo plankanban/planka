@@ -143,3 +143,5 @@ private/attachments/*
 
 views/*
 !views/.gitkeep
+
+logs

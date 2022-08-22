@@ -7,4 +7,5 @@
 
 server/public/*
 server/views/*
+server/logs
 client/build
