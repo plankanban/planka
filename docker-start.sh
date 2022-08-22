@@ -1,4 +1,9 @@
 #!/bin/bash
 set -e
+
+# db
 node db/init.js
-exec node app.js --prod $@
+
+# app
+export NODE_ENV=production
+exec node app.js
