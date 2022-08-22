@@ -50,13 +50,13 @@ Planka currently allows you to expose the applciation's logfile directory to the
 
 To expose the logfile director to the host machine, add the item `./logs/:/app/logs/` under `services.planka.volumes`.
 
-Note that the directory to the left of the semicolon is regarding the host machine while the directory to hte right of the semicolon is regarding the Docker container.
+Note that the directory to the left of the semicolon is regarding the host machine while the directory to the right of the semicolon is regarding the Docker container.
 
 For example, in the above step, `./logs/:/app/logs/` will create the folder `logs` in the same directory where the `docker-compose.yml` file lives.
 
 ### Rotating Logs
 
-logrotate is designed to ease administration of systems that generate large numbers of log files. It allows automatic rotation, compression, removal, and mailing of log files. Each log file may be handled daily, weekly, monthly, or when it grows too large.
+Logrotate is designed to ease administration of systems that generate large numbers of log files. It allows automatic rotation, compression, removal, and mailing of log files. Each log file may be handled daily, weekly, monthly, or when it grows too large.
 
 #### Setup logrotate for Planka logs
 
@@ -91,8 +91,8 @@ Create a file in `/etc/fail2ban/filter.d` named `planka.conf` with the following
 
 ```conf
 [Definition]
-failregex=^(.*) Invalid (email or username:|password!) (\"(.*)\"!)? ?\(IP: <ADDR>\)$
-ignoreregex=
+failregex = ^(.*) Invalid (email or username:|password!) (\"(.*)\"!)? ?\(IP: <ADDR>\)$
+ignoreregex =
 ```
 
 The jail file defines how to handle the failed authentication attempts found by the Planka filter.
