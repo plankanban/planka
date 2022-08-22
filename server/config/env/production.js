@@ -243,9 +243,7 @@ module.exports = {
    *
    */
 
-  log: {
-    level: 'debug',
-  },
+  log: {},
 
   http: {
     /**

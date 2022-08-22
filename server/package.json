@@ -10,7 +10,7 @@
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
     "start": "nodemon",
     "start:prod": "node app.js --prod",
-    "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js"
+    "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
   },
   "eslintConfig": {
     "plugins": [
@@ -54,7 +54,8 @@
     "sharp": "^0.30.7",
     "stream-to-array": "^2.3.0",
     "uuid": "^8.3.2",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "winston": "^3.8.1"
   },
   "devDependencies": {
     "chai": "^4.3.6",
