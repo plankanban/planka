@@ -84,7 +84,7 @@ export function* handleBoardMembershipCreate(boardMembership) {
 
     let body;
     try {
-      body = yield call(requests.fetchBoardByCurrentPathRequest);
+      body = yield call(requests.fetchBoardByCurrentPath);
     } catch {} // eslint-disable-line no-empty
 
     if (body && body.project && body.project.id === board2.projectId) {
