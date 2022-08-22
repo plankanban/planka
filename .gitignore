@@ -1,7 +1,5 @@
 node_modules
 docker-compose.override.yml
 
-/logs
-
 .idea
 .DS_Store
