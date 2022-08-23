@@ -64,5 +64,7 @@ module.exports = {
     },
   },
 
-  log: {},
+  log: {
+    level: 'warn',
+  },
 };

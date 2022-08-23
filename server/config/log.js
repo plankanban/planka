@@ -10,8 +10,6 @@
  * https://sailsjs.com/docs/concepts/logging
  */
 
-const { customLogger } = require('../utils/logger');
-
 module.exports.log = {
   /**
    *
@@ -24,20 +22,5 @@ module.exports.log = {
    * You may also set the level to "silent" to suppress all logs.
    *
    */
-
-  /**
-   * Passthrough plain log message(s) to
-   * custom Winston console and file logger.
-   *
-   * Note that Winston's log levels override Sails' log levels.
-   * Refer: https://github.com/winstonjs/winston#logging
-   */
-  custom: customLogger,
-  inspect: false,
-
-  /**
-   * Removes the Sail.js init success logs
-   * (ASCII ship art) for production instances.
-   */
-  noShip: process.env.NODE_ENV === 'production',
+  // level: 'info',
 };
