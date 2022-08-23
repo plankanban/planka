@@ -17,18 +17,18 @@ const AddStep = React.memo(
   ({ users, currentUserIds, permissionsSelectStep, title, onCreate, onClose }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
-    const [searchValue, handleSearchFieldChange] = useField('');
-    const search = useMemo(() => searchValue.trim().toLowerCase(), [searchValue]);
+    const [search, handleSearchChange] = useField('');
+    const cleanSearch = useMemo(() => search.trim().toLowerCase(), [search]);
 
     const filteredUsers = useMemo(
       () =>
         users.filter(
           (user) =>
-            user.email.includes(search) ||
-            user.name.toLowerCase().includes(search) ||
-            (user.username && user.username.includes(search)),
+            user.email.includes(cleanSearch) ||
+            user.name.toLowerCase().includes(cleanSearch) ||
+            (user.username && user.username.includes(cleanSearch)),
         ),
-      [users, search],
+      [users, cleanSearch],
     );
 
     const searchField = useRef(null);
@@ -102,10 +102,10 @@ const AddStep = React.memo(
           <Input
             fluid
             ref={searchField}
-            value={searchValue}
+            value={search}
             placeholder={t('common.searchUsers')}
             icon="search"
-            onChange={handleSearchFieldChange}
+            onChange={handleSearchChange}
           />
           {filteredUsers.length > 0 && (
             <div className={styles.users}>

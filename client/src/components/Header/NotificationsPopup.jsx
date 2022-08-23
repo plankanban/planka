@@ -74,7 +74,11 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
 
   return (
     <>
-      <Popup.Header>{t('common.notifications')}</Popup.Header>
+      <Popup.Header>
+        {t('common.notifications', {
+          context: 'title',
+        })}
+      </Popup.Header>
       <Popup.Content>
         {items.length > 0
           ? items.map((item) => (
