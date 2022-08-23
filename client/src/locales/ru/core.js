@@ -137,7 +137,7 @@ export default {
       time: 'Время',
       timer: 'Таймер',
       title: 'Название',
-      userActions_title: 'Действия с пользователем',
+      userActions: 'Действия с пользователем',
       userAddedThisCardToList: '<0>{{user}}</0><1> добавил(а) эту карточку в {{list}}</1>',
       userLeftNewCommentToCard: '{{user}} оставил(а) комментарий «{{comment}}» к <2>{{card}}</2>',
       userMovedCardFromListToList:

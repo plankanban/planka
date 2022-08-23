@@ -21,17 +21,17 @@ const LabelsStep = React.memo(
   ({ items, currentIds, title, onSelect, onDeselect, onCreate, onUpdate, onDelete, onBack }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
-    const [searchValue, handleSearchFieldChange] = useField('');
-    const search = useMemo(() => searchValue.trim().toLowerCase(), [searchValue]);
+    const [search, handleSearchChange] = useField('');
+    const cleanSearch = useMemo(() => search.trim().toLowerCase(), [search]);
 
     const filteredItems = useMemo(
       () =>
         items.filter(
           (label) =>
-            (label.name && label.name.toLowerCase().includes(search)) ||
-            label.color.includes(search),
+            (label.name && label.name.toLowerCase().includes(cleanSearch)) ||
+            label.color.includes(cleanSearch),
         ),
-      [items, search],
+      [items, cleanSearch],
     );
 
     const searchField = useRef(null);
@@ -109,15 +109,19 @@ const LabelsStep = React.memo(
 
     return (
       <>
-        <Popup.Header onBack={onBack}>{t(title)}</Popup.Header>
+        <Popup.Header onBack={onBack}>
+          {t(title, {
+            context: 'title',
+          })}
+        </Popup.Header>
         <Popup.Content>
           <Input
             fluid
             ref={searchField}
-            value={searchValue}
+            value={search}
             placeholder={t('common.searchLabels')}
             icon="search"
-            onChange={handleSearchFieldChange}
+            onChange={handleSearchChange}
           />
           {filteredItems.length > 0 && (
             <div className={styles.items}>

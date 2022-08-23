@@ -12,18 +12,18 @@ import styles from './BoardMembershipsStep.module.scss';
 const BoardMembershipsStep = React.memo(
   ({ items, currentUserIds, title, onUserSelect, onUserDeselect, onBack }) => {
     const [t] = useTranslation();
-    const [searchValue, handleSearchFieldChange] = useField('');
-    const search = useMemo(() => searchValue.trim().toLowerCase(), [searchValue]);
+    const [search, handleSearchChange] = useField('');
+    const cleanSearch = useMemo(() => search.trim().toLowerCase(), [search]);
 
     const filteredItems = useMemo(
       () =>
         items.filter(
           ({ user }) =>
-            user.email.includes(search) ||
-            user.name.toLowerCase().includes(search) ||
-            (user.username && user.username.includes(search)),
+            user.email.includes(cleanSearch) ||
+            user.name.toLowerCase().includes(cleanSearch) ||
+            (user.username && user.username.includes(cleanSearch)),
         ),
-      [items, search],
+      [items, cleanSearch],
     );
 
     const searchField = useRef(null);
@@ -48,15 +48,19 @@ const BoardMembershipsStep = React.memo(
 
     return (
       <>
-        <Popup.Header onBack={onBack}>{t(title)}</Popup.Header>
+        <Popup.Header onBack={onBack}>
+          {t(title, {
+            context: 'title',
+          })}
+        </Popup.Header>
         <Popup.Content>
           <Input
             fluid
             ref={searchField}
-            value={searchValue}
+            value={search}
             placeholder={t('common.searchMembers')}
             icon="search"
-            onChange={handleSearchFieldChange}
+            onChange={handleSearchChange}
           />
           {filteredItems.length > 0 && (
             <Menu secondary vertical className={styles.menu}>
