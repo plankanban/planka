@@ -16,6 +16,8 @@ module.exports = {
     },
     password: {
       type: 'string',
+      minLength: 6,
+      regex: /^(?=.*[A-Za-z])(?=.*\d).+$/,
       required: true,
     },
     name: {
