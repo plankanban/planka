@@ -1,6 +1,16 @@
+const util = require('util');
+const rimraf = require('rimraf');
+const { v4: uuid } = require('uuid');
+
 const Errors = {
   PROJECT_NOT_FOUND: {
     projectNotFound: 'Project not found',
+  },
+  NO_FILE_WAS_UPLOADED: {
+    noFileWasUploaded: 'No file was uploaded',
+  },
+  FILE_IS_NOT_IMAGE: {
+    fileIsNotImage: 'File is not image',
   },
 };
 
@@ -16,6 +26,12 @@ module.exports = {
   exits: {
     projectNotFound: {
       responseType: 'notFound',
+    },
+    noFileWasUploaded: {
+      responseType: 'unprocessableEntity',
+    },
+    fileIsNotImage: {
+      responseType: 'unprocessableEntity',
     },
     uploadError: {
       responseType: 'unprocessableEntity',
@@ -37,32 +53,52 @@ module.exports = {
       throw Errors.PROJECT_NOT_FOUND; // Forbidden
     }
 
-    this.req
-      .file('file')
-      .upload(sails.helpers.utils.createProjectBackgroundImageReceiver(), async (error, files) => {
-        if (error) {
-          return exits.uploadError(error.message);
-        }
+    const upload = util.promisify((options, callback) =>
+      this.req.file('file').upload(options, (error, files) => callback(error, files)),
+    );
 
-        if (files.length === 0) {
-          return exits.uploadError('No file was uploaded');
-        }
-
-        project = await sails.helpers.projects.updateOne(
-          project,
-          {
-            backgroundImageDirname: files[0].extra.dirname,
-          },
-          this.req,
-        );
-
-        if (!project) {
-          throw Errors.PROJECT_NOT_FOUND;
-        }
-
-        return exits.success({
-          item: project.toJSON(),
-        });
+    let files;
+    try {
+      files = await upload({
+        saveAs: uuid(),
+        maxBytes: null,
       });
+    } catch (error) {
+      return exits.uploadError(error.message); // TODO: add error
+    }
+
+    if (files.length === 0) {
+      throw Errors.NO_FILE_WAS_UPLOADED;
+    }
+
+    const file = _.last(files);
+
+    const fileData = await sails.helpers.projects
+      .processUploadedBackgroundImageFile(file)
+      .intercept('fileIsNotImage', () => {
+        try {
+          rimraf.sync(file.fd);
+        } catch (error) {
+          console.warn(error.stack); // eslint-disable-line no-console
+        }
+
+        return Errors.FILE_IS_NOT_IMAGE;
+      });
+
+    project = await sails.helpers.projects.updateOne(
+      project,
+      {
+        backgroundImageDirname: fileData.dirname,
+      },
+      this.req,
+    );
+
+    if (!project) {
+      throw Errors.PROJECT_NOT_FOUND;
+    }
+
+    return exits.success({
+      item: project,
+    });
   },
 };
