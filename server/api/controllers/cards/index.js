@@ -23,7 +23,7 @@ module.exports = {
     },
   },
 
-  async fn(inputs, exits) {
+  async fn(inputs) {
     const { currentUser } = this.req;
 
     const { board } = await sails.helpers.boards
@@ -61,7 +61,7 @@ module.exports = {
     const tasks = await sails.helpers.cards.getTasks(cardIds);
     const attachments = await sails.helpers.cards.getAttachments(cardIds);
 
-    return exits.success({
+    return {
       items: cards,
       included: {
         cardMemberships,
@@ -69,6 +69,6 @@ module.exports = {
         tasks,
         attachments,
       },
-    });
+    };
   },
 };
