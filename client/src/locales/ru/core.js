@@ -118,7 +118,7 @@ export default {
       phone: 'Телефон',
       preferences: 'Предпочтения',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Совет: нажмите Ctrl-V (Cmd-V на Mac), чтобы добавить вложение из буфера обмена.',
+        'Совет: нажмите Ctrl-V (Cmd-V на Mac), чтобы добавить вложение из буфера обмена',
       project: 'Проект',
       projectActions: 'Действия с проектом',
       projectNotFound: 'Проект не найден',

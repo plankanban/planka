@@ -106,7 +106,7 @@ export default {
       phone: 'Telefon',
       preferences: 'Preferencje',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Podpowiedź: naciśnij Ctrl-V (Cmd-V na Macu) aby dodać załącznik ze schowka.',
+        'Podpowiedź: naciśnij Ctrl-V (Cmd-V na Macu) aby dodać załącznik ze schowka',
       project: 'Projekt',
       projectNotFound_title: 'Projekt Nie Znaleziony',
       removeMember_title: 'Usuń Członka',

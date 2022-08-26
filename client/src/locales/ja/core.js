@@ -117,7 +117,7 @@ export default {
       phone: '電話番号',
       preferences: '環境設定',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'ヒント: Ctrl-V(MacではCmd-V)を押して、クリップボードから添付ファイルを追加します。',
+        'ヒント: Ctrl-V(MacではCmd-V)を押して、クリップボードから添付ファイルを追加します',
       project: 'プロジェクト',
       projectNotFound_title: 'プロジェクトがありません',
       removeManager_title: 'マネージャーを削除',

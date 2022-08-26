@@ -106,7 +106,7 @@ export default {
       phone: 'Teléfono',
       preferences: 'Preferencias',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tip: presiona Ctrl-V (Cmd-V en Mac) para añadir adjuntos desde el portapapeles.',
+        'Tip: presiona Ctrl-V (Cmd-V en Mac) para añadir adjuntos desde el portapapeles',
       project: 'Proyecto',
       projectNotFound_title: 'Proyecto no encontrado',
       removeMember_title: 'Remover Miembro',
@@ -115,7 +115,7 @@ export default {
       selectList: 'Seleccionar Lista',
       selectProject: 'Seleccionar Proyecto',
       settings: 'Configuraciones',
-      subscribeToMyOwnCardsByDefault: 'Suscribirme a mis propias tarjetas por defecto.',
+      subscribeToMyOwnCardsByDefault: 'Suscribirme a mis propias tarjetas por defecto',
       taskActions_title: 'Acciones de Tareas',
       tasks: 'Tareas',
       time: 'Tiempo',

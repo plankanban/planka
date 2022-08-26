@@ -123,7 +123,7 @@ export default {
       phone: 'Phone',
       preferences: 'Preferences',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tip: press Ctrl-V (Cmd-V on Mac) to add an attachment from the clipboard.',
+        'Tip: press Ctrl-V (Cmd-V on Mac) to add an attachment from the clipboard',
       project: 'Project',
       projectNotFound_title: 'Project Not Found',
       removeManager_title: 'Remove Manager',

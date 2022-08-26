@@ -121,7 +121,7 @@ export default {
       phone: 'Telefono',
       preferences: 'Preferenze',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tip: prmi Ctrl-V (Cmd-V on Mac) per aggiungere un allegato dalla clipboard.',
+        'Tip: prmi Ctrl-V (Cmd-V on Mac) per aggiungere un allegato dalla clipboard',
       project: 'Progetto',
       projectNotFound_title: 'Progetto non trovato',
       removeManager_title: 'Rimuovi Manager',

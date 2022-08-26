@@ -23,7 +23,7 @@ export default {
       administrator: 'Administrator',
       all: 'Alle',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
-        'Alle Änderungen werden automatisch gespeichert,<br />sobald die Verbindung wiederhergestellt wurde.',
+        'Alle Änderungen werden automatisch gespeichert,<br />sobald die Verbindung wiederhergestellt wurde',
       areYouSureYouWantToDeleteThisAttachment:
         'Sind Sie sicher, dass Sie diesen Anhang löschen möchten?',
       areYouSureYouWantToDeleteThisBoard: 'Sind Sie sicher, dass Sie dieses Board löschen möchten?',
@@ -123,7 +123,7 @@ export default {
       phone: 'Telefon',
       preferences: 'Voreinstellungen',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tipp: Drücken Sie STRG-V (Cmd-V auf Mac), um einen Anhang aus der Zwischenablage hinzuzufügen.',
+        'Tipp: Drücken Sie STRG-V (Cmd-V auf Mac), um einen Anhang aus der Zwischenablage hinzuzufügen',
       project: 'Projekt',
       projectNotFound_title: 'Projekt nicht gefunden',
       removeManager_title: 'Manager entfernen',

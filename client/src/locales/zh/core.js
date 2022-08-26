@@ -110,7 +110,7 @@ export default {
       phone: '电话',
       preferences: '偏好',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        '提示: 点击 Ctrl-V (Mac: Cmd-V) 从剪切板添加附件.',
+        '提示: 点击 Ctrl-V (Mac: Cmd-V) 从剪切板添加附件',
       project: '项目',
       projectNotFound_title: '项目未找到',
       removeManager_title: '删除管理员',
