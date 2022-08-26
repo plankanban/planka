@@ -118,7 +118,7 @@ export default {
       phone: 'Telefón',
       preferences: 'Voľby',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tip: stlačte Ctrl-V (Cmd-V na Mac) pre vloženie prílohy zo schránky.',
+        'Tip: stlačte Ctrl-V (Cmd-V na Mac) pre vloženie prílohy zo schránky',
       project: 'Projekt',
       projectNotFound_title: 'Projekt neexistuje',
       removeManager_title: 'Odstrániť správcu',

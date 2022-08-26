@@ -112,7 +112,7 @@ export default {
       phone: 'Telefon',
       preferences: 'Afzalliklar',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        "Tip: Buferdan ilova qo'shish uchun Ctrl-V (Mac da Cmd-V) ni bosing.",
+        "Tip: Buferdan ilova qo'shish uchun Ctrl-V (Mac da Cmd-V) ni bosing",
       project: 'Loyiha',
       projectNotFound_title: 'Loyiha Topilmadi',
       removeManager_title: "Boshqaruvchini O'chirish",

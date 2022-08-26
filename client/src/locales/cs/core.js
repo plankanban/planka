@@ -117,7 +117,7 @@ export default {
       phone: 'Telefon',
       preferences: 'Volby',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tip: dejte Ctrl-V (Cmd-V na Mac) pro vložení přílohy ze schránky.',
+        'Tip: dejte Ctrl-V (Cmd-V na Mac) pro vložení přílohy ze schránky',
       project: 'Projekt',
       projectNotFound_title: 'Projekt nenalezen',
       removeManager_title: 'Odstranit vedoucího',

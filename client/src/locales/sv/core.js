@@ -119,7 +119,7 @@ export default {
       phone: 'Telefon',
       preferences: 'Preferenser',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tips: tryck på Ctrl-V (Cmd-V på Mac) för att lägga till en bilaga från urklipp.',
+        'Tips: tryck på Ctrl-V (Cmd-V på Mac) för att lägga till en bilaga från urklipp',
       project: 'Projekt',
       projectNotFound_title: 'Projekt Ej Funnet',
       removeManager_title: 'Ta Bort Projektledare',
