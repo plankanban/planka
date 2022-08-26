@@ -46,6 +46,7 @@
     "knex": "^2.2.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "move-file": "^2.1.0",
     "rimraf": "^3.0.2",
     "sails": "^1.5.2",
     "sails-hook-orm": "^4.0.1",

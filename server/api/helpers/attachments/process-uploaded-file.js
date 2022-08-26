@@ -1,12 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const util = require('util');
 const rimraf = require('rimraf');
+const moveFile = require('move-file');
 const filenamify = require('filenamify');
 const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
-
-const rename = util.promisify(fs.rename);
 
 module.exports = {
   inputs: {
@@ -26,7 +24,7 @@ module.exports = {
     const filePath = path.join(rootPath, filename);
 
     fs.mkdirSync(rootPath);
-    await rename(inputs.file.fd, filePath);
+    await moveFile(inputs.file.fd, filePath);
 
     const image = sharp(filePath);
     let metadata;
