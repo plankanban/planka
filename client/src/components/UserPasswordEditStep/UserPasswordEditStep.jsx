@@ -7,6 +7,7 @@ import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
+import { isPassword } from '../../utils/validator';
 
 import styles from './UserPasswordEditStep.module.scss';
 
@@ -56,7 +57,7 @@ const UserPasswordEditStep = React.memo(
     const currentPasswordField = useRef(null);
 
     const handleSubmit = useCallback(() => {
-      if (!data.password) {
+      if (!data.password || !isPassword(data.password)) {
         passwordField.current.select();
         return;
       }
@@ -112,14 +113,18 @@ const UserPasswordEditStep = React.memo(
           )}
           <Form onSubmit={handleSubmit}>
             <div className={styles.text}>{t('common.newPassword')}</div>
-            <Input.Password
-              fluid
-              ref={passwordField}
-              name="password"
-              value={data.password}
-              className={styles.field}
-              onChange={handleFieldChange}
-            />
+            <div className={styles.field}>
+              <Input.Password
+                fluid
+                ref={passwordField}
+                name="password"
+                value={data.password}
+                onChange={handleFieldChange}
+              />
+              <div className={styles.note}>
+                {t('common.mustBeAtLeast6CharactersLongAndContainAtLeastOneLetterAndNumber')}
+              </div>
+            </div>
             {usePasswordConfirmation && (
               <>
                 <div className={styles.text}>{t('common.currentPassword')}</div>
