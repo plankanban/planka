@@ -142,15 +142,20 @@ const UserAddStep = React.memo(
               onChange={handleFieldChange}
             />
             <div className={styles.text}>{t('common.password')}</div>
-            <Input.Password
-              fluid
-              ref={passwordField}
-              name="password"
-              value={data.password}
-              readOnly={isSubmitting}
-              className={styles.field}
-              onChange={handleFieldChange}
-            />
+            <div className={styles.field}>
+              <Input.Password
+                fluid
+                ref={passwordField}
+                name="password"
+                value={data.password}
+                readOnly={isSubmitting}
+                className={styles.field}
+                onChange={handleFieldChange}
+              />
+              <div className={styles.note}>
+                {t('common.mustBeAtLeast6CharactersLongAndContainAtLeastOneLetterAndNumber')}
+              </div>
+            </div>
             <div className={styles.text}>{t('common.name')}</div>
             <Input
               fluid
