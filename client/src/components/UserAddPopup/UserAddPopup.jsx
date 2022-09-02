@@ -8,7 +8,7 @@ import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
-import { isUsername } from '../../utils/validator';
+import { isPassword, isUsername } from '../../utils/validator';
 
 import styles from './UserAddPopup.module.scss';
 
@@ -69,7 +69,7 @@ const UserAddStep = React.memo(
         return;
       }
 
-      if (!cleanData.password) {
+      if (!cleanData.password || !isPassword(cleanData.password)) {
         passwordField.current.focus();
         return;
       }
@@ -149,7 +149,6 @@ const UserAddStep = React.memo(
                 name="password"
                 value={data.password}
                 readOnly={isSubmitting}
-                className={styles.field}
                 onChange={handleFieldChange}
               />
               <div className={styles.note}>
