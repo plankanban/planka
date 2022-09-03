@@ -1,3 +1,5 @@
+const zxcvbn = require('zxcvbn');
+
 const Errors = {
   EMAIL_ALREADY_IN_USE: {
     emailAlreadyInUse: 'Email already in use',
@@ -16,8 +18,7 @@ module.exports = {
     },
     password: {
       type: 'string',
-      minLength: 6,
-      regex: /^(?=.*[A-Za-z])(?=.*\d).+$/,
+      custom: (value) => zxcvbn(value).score >= 2, // TODO: move to config
       required: true,
     },
     name: {

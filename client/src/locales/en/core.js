@@ -105,8 +105,6 @@ export default {
       members: 'Members',
       minutes: 'Minutes',
       moveCard_title: 'Move Card',
-      mustBeAtLeast6CharactersLongAndContainAtLeastOneLetterAndNumber:
-        'Must be at least 6 characters long and contain at least one letter and number',
       name: 'Name',
       newEmail: 'New e-mail',
       newPassword: 'New password',

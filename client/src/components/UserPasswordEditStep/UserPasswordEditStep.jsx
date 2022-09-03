@@ -113,18 +113,15 @@ const UserPasswordEditStep = React.memo(
           )}
           <Form onSubmit={handleSubmit}>
             <div className={styles.text}>{t('common.newPassword')}</div>
-            <div className={styles.field}>
-              <Input.Password
-                fluid
-                ref={passwordField}
-                name="password"
-                value={data.password}
-                onChange={handleFieldChange}
-              />
-              <div className={styles.note}>
-                {t('common.mustBeAtLeast6CharactersLongAndContainAtLeastOneLetterAndNumber')}
-              </div>
-            </div>
+            <Input.Password
+              withStrengthBar
+              fluid
+              ref={passwordField}
+              name="password"
+              value={data.password}
+              className={styles.field}
+              onChange={handleFieldChange}
+            />
             {usePasswordConfirmation && (
               <>
                 <div className={styles.text}>{t('common.currentPassword')}</div>

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const zxcvbn = require('zxcvbn');
 
 const Errors = {
   USER_NOT_FOUND: {
@@ -18,8 +19,7 @@ module.exports = {
     },
     password: {
       type: 'string',
-      minLength: 6,
-      regex: /^(?=.*[A-Za-z])(?=.*\d).+$/,
+      custom: (value) => zxcvbn(value).score >= 2, // TODO: move to config
       required: true,
     },
     currentPassword: {
