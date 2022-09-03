@@ -14453,11 +14453,11 @@ img.ui.bordered.image {
 ---------------------*/
 
 .ui.input.error > input {
-  background-color: #fff6f6;
-  border-color: #e0b4b4;
-  color: #9f3a38;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+  background-color: #fff6f6 !important;
+  border-color: #e0b4b4 !important;
+  color: #9f3a38 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 /* Error Placeholder */

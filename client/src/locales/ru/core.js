@@ -100,8 +100,6 @@ export default {
       members: 'Участники',
       minutes: 'Минуты',
       moveCard: 'Перемещение карточки',
-      mustBeAtLeast6CharactersLongAndContainAtLeastOneLetterAndNumber:
-        'Должен быть не менее 6 символов и содержать хотя бы одну букву и цифру',
       name: 'Имя',
       newEmail: 'Новый e-mail',
       newPassword: 'Новый пароль',
