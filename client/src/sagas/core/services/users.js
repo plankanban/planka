@@ -124,11 +124,13 @@ export function* updateUserPassword(id, data) {
     return;
   }
 
-  if (accessTokens && accessTokens[0]) {
-    yield call(setAccessToken, accessTokens[0]);
+  const accessToken = accessTokens && accessTokens[0];
+
+  if (accessToken) {
+    yield call(setAccessToken, accessToken);
   }
 
-  yield put(actions.updateUserPassword.success(user));
+  yield put(actions.updateUserPassword.success(user, accessToken));
 }
 
 export function* updateCurrentUserPassword(data) {
@@ -215,7 +217,7 @@ export function* handleUserDelete(user) {
   const currentUserId = yield select(selectors.selectCurrentUserId);
 
   if (user.id === currentUserId) {
-    yield call(logout);
+    yield call(logout, false);
   }
 
   yield put(actions.handleUserDelete(user));

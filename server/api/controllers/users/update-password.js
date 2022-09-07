@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const zxcvbn = require('zxcvbn');
 
+const { getRemoteAddress } = require('../../../utils/remoteAddress');
+
 const Errors = {
   USER_NOT_FOUND: {
     userNotFound: 'User not found',
@@ -70,6 +72,13 @@ module.exports = {
 
     if (user.id === currentUser.id) {
       const accessToken = sails.helpers.utils.createToken(user.id, user.passwordUpdatedAt);
+
+      await Session.create({
+        accessToken,
+        userId: user.id,
+        remoteAddress: getRemoteAddress(this.req),
+        userAgent: this.req.headers['user-agent'],
+      });
 
       return {
         item: user,

@@ -40,24 +40,33 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const remoteAddress = getRemoteAddress(this.req);
+
     const user = await sails.helpers.users.getOneByEmailOrUsername(inputs.emailOrUsername);
 
     if (!user) {
       sails.log.warn(
-        `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${getRemoteAddress(
-          this.req,
-        )})`,
+        `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
       );
       throw Errors.INVALID_EMAIL_OR_USERNAME;
     }
 
     if (!bcrypt.compareSync(inputs.password, user.password)) {
-      sails.log.warn(`Invalid password! (IP: ${getRemoteAddress(this.req)})`);
+      sails.log.warn(`Invalid password! (IP: ${remoteAddress})`);
       throw Errors.INVALID_PASSWORD;
     }
 
+    const accessToken = sails.helpers.utils.createToken(user.id);
+
+    await Session.create({
+      accessToken,
+      remoteAddress,
+      userId: user.id,
+      userAgent: this.req.headers['user-agent'],
+    });
+
     return {
-      item: sails.helpers.utils.createToken(user.id),
+      item: accessToken,
     };
   },
 };

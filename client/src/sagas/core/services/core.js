@@ -1,8 +1,11 @@
 import { call, put, take } from 'redux-saga/effects';
 
+import request from '../request';
 import requests from '../requests';
 import actions from '../../../actions';
+import api from '../../../api';
 import i18n from '../../../i18n';
+import { removeAccessToken } from '../../../utils/access-token-storage';
 
 export function* initializeCore() {
   const {
@@ -60,7 +63,17 @@ export function* changeCoreLanguage(language) {
   }
 }
 
-export function* logout() {
+export function* logout(invalidateAccessToken = true) {
+  yield call(removeAccessToken);
+
+  if (invalidateAccessToken) {
+    yield put(actions.logout.invalidateAccessToken());
+
+    try {
+      yield call(request, api.deleteCurrentAccessToken);
+    } catch (error) {} // eslint-disable-line no-empty
+  }
+
   yield put(actions.logout());
   yield take();
 }

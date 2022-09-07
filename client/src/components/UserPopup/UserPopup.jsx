@@ -1,19 +1,30 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Menu } from 'semantic-ui-react';
+import { Button, Menu } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
 import { Popup } from '../../lib/custom-ui';
 
 import styles from './UserPopup.module.scss';
 
-const UserStep = React.memo(({ onSettingsClick, onLogout, onClose }) => {
+const UserStep = React.memo(({ isLogouting, onSettingsClick, onLogout, onClose }) => {
   const [t] = useTranslation();
 
   const handleSettingsClick = useCallback(() => {
     onSettingsClick();
     onClose();
   }, [onSettingsClick, onClose]);
+
+  let logoutMenuItemProps;
+  if (isLogouting) {
+    logoutMenuItemProps = {
+      as: Button,
+      fluid: true,
+      basic: true,
+      loading: true,
+      disabled: true,
+    };
+  }
 
   return (
     <>
@@ -29,7 +40,11 @@ const UserStep = React.memo(({ onSettingsClick, onLogout, onClose }) => {
               context: 'title',
             })}
           </Menu.Item>
-          <Menu.Item className={styles.menuItem} onClick={onLogout}>
+          <Menu.Item
+            {...logoutMenuItemProps} // eslint-disable-line react/jsx-props-no-spreading
+            className={styles.menuItem}
+            onClick={onLogout}
+          >
             {t('action.logOut', {
               context: 'title',
             })}
@@ -41,6 +56,7 @@ const UserStep = React.memo(({ onSettingsClick, onLogout, onClose }) => {
 });
 
 UserStep.propTypes = {
+  isLogouting: PropTypes.bool.isRequired,
   onSettingsClick: PropTypes.func.isRequired,
   onLogout: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,

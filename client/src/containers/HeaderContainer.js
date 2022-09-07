@@ -6,6 +6,7 @@ import entryActions from '../entry-actions';
 import Header from '../components/Header';
 
 const mapStateToProps = (state) => {
+  const isLogouting = selectors.selectIsLogouting(state);
   const currentUser = selectors.selectCurrentUser(state);
   const currentProject = selectors.selectCurrentProject(state);
   const notifications = selectors.selectNotificationsForCurrentUser(state);
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => {
 
   return {
     notifications,
+    isLogouting,
     project: currentProject,
     user: currentUser,
     canEditProject: isCurrentUserManager,

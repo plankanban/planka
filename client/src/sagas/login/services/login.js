@@ -2,6 +2,7 @@ import { call, put } from 'redux-saga/effects';
 
 import actions from '../../../actions';
 import api from '../../../api';
+import { setAccessToken } from '../../../utils/access-token-storage';
 
 export function* authenticate(data) {
   yield put(actions.authenticate(data));
@@ -14,6 +15,7 @@ export function* authenticate(data) {
     return;
   }
 
+  yield call(setAccessToken, accessToken);
   yield put(actions.authenticate.success(accessToken));
 }
 
