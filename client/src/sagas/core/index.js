@@ -1,9 +1,8 @@
-import { all, apply, call, fork, take } from 'redux-saga/effects';
+import { all, apply, fork, take } from 'redux-saga/effects';
 
 import watchers from './watchers';
 import services from './services';
 import { socket } from '../../api';
-import { removeAccessToken } from '../../utils/access-token-storage';
 import ActionTypes from '../../constants/ActionTypes';
 import Paths from '../../constants/Paths';
 
@@ -15,6 +14,5 @@ export default function* coreSaga() {
 
   yield take(ActionTypes.LOGOUT);
 
-  yield call(removeAccessToken);
   window.location.href = Paths.LOGIN;
 }

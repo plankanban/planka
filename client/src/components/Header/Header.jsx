@@ -15,6 +15,7 @@ const Header = React.memo(
     project,
     user,
     notifications,
+    isLogouting,
     canEditProject,
     canEditUsers,
     onProjectSettingsClick,
@@ -75,7 +76,11 @@ const Header = React.memo(
                 )}
               </Menu.Item>
             </NotificationsPopup>
-            <UserPopup onSettingsClick={onUserSettingsClick} onLogout={onLogout}>
+            <UserPopup
+              isLogouting={isLogouting}
+              onSettingsClick={onUserSettingsClick}
+              onLogout={onLogout}
+            >
               <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
                 {user.name}
               </Menu.Item>
@@ -93,6 +98,7 @@ Header.propTypes = {
   user: PropTypes.object.isRequired,
   notifications: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
+  isLogouting: PropTypes.bool.isRequired,
   canEditProject: PropTypes.bool.isRequired,
   canEditUsers: PropTypes.bool.isRequired,
   onProjectSettingsClick: PropTypes.func.isRequired,

@@ -44,6 +44,11 @@ const logout = () => ({
   payload: {},
 });
 
+logout.invalidateAccessToken = () => ({
+  type: ActionTypes.LOGOUT__ACCESS_TOKEN_INVALIDATE,
+  payload: {},
+});
+
 export default {
   initializeCore,
   logout,

@@ -1,3 +1,4 @@
+const { v4: uuid } = require('uuid');
 const jwt = require('jsonwebtoken');
 
 module.exports = {
@@ -24,6 +25,9 @@ module.exports = {
         exp: iat + sails.config.custom.tokenExpiresIn * 24 * 60 * 60,
       },
       sails.config.session.secret,
+      {
+        keyid: uuid(),
+      },
     );
   },
 };

@@ -17,6 +17,15 @@ module.exports = function defineCurrentUserHook(sails) {
       return null;
     }
 
+    const session = await Session.findOne({
+      accessToken,
+      deletedAt: null,
+    });
+
+    if (!session) {
+      return null;
+    }
+
     const user = await sails.helpers.users.getOne(payload.subject);
 
     if (user && user.passwordChangedAt > payload.issuedAt) {
@@ -43,8 +52,14 @@ module.exports = function defineCurrentUserHook(sails) {
 
             if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
               const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
+              const currentUser = await getUser(accessToken);
 
-              req.currentUser = await getUser(accessToken);
+              if (currentUser) {
+                Object.assign(req, {
+                  accessToken,
+                  currentUser,
+                });
+              }
             }
 
             return next();
@@ -52,8 +67,17 @@ module.exports = function defineCurrentUserHook(sails) {
         },
         '/attachments/*': {
           async fn(req, res, next) {
-            if (req.cookies.accessToken) {
-              req.currentUser = await getUser(req.cookies.accessToken);
+            const { accessToken } = req.cookies;
+
+            if (accessToken) {
+              const currentUser = await getUser(accessToken);
+
+              if (currentUser) {
+                Object.assign(req, {
+                  accessToken,
+                  currentUser,
+                });
+              }
             }
 
             return next();
