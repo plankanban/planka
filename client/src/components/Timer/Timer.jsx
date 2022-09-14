@@ -14,7 +14,7 @@ const SIZES = {
   MEDIUM: 'medium',
 };
 
-const Timer = React.memo(({ startedAt, total, size, isDisabled, onClick }) => {
+const Timer = React.memo(({ as, startedAt, total, size, isDisabled, onClick }) => {
   const prevStartedAt = usePrevious(startedAt);
   const forceUpdate = useForceUpdate();
 
@@ -52,6 +52,7 @@ const Timer = React.memo(({ startedAt, total, size, isDisabled, onClick }) => {
       className={classNames(
         styles.wrapper,
         styles[`wrapper${upperFirst(size)}`],
+        startedAt && styles.wrapperActive,
         onClick && styles.wrapperHoverable,
       )}
     >
@@ -59,16 +60,19 @@ const Timer = React.memo(({ startedAt, total, size, isDisabled, onClick }) => {
     </span>
   );
 
+  const ElementType = as;
+
   return onClick ? (
-    <button type="button" disabled={isDisabled} className={styles.button} onClick={onClick}>
+    <ElementType type="button" disabled={isDisabled} className={styles.button} onClick={onClick}>
       {contentNode}
-    </button>
+    </ElementType>
   ) : (
     contentNode
   );
 });
 
 Timer.propTypes = {
+  as: PropTypes.elementType,
   startedAt: PropTypes.instanceOf(Date),
   total: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
   size: PropTypes.oneOf(Object.values(SIZES)),
@@ -77,6 +81,7 @@ Timer.propTypes = {
 };
 
 Timer.defaultProps = {
+  as: 'button',
   startedAt: undefined,
   size: SIZES.MEDIUM,
   isDisabled: false,
