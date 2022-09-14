@@ -5,6 +5,7 @@ import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 
+import { startTimer, stopTimer } from '../../utils/timer';
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
 import NameEdit from './NameEdit';
@@ -57,6 +58,17 @@ const Card = React.memo(
       }
     }, []);
 
+    const handleToggleTimerClick = useCallback(
+      (event) => {
+        event.preventDefault();
+
+        onUpdate({
+          timer: timer.startedAt ? stopTimer(timer) : startTimer(timer),
+        });
+      },
+      [timer, onUpdate],
+    );
+
     const handleNameUpdate = useCallback(
       (newName) => {
         onUpdate({
@@ -108,7 +120,13 @@ const Card = React.memo(
               )}
               {timer && (
                 <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                  <Timer startedAt={timer.startedAt} total={timer.total} size="tiny" />
+                  <Timer
+                    as="span"
+                    startedAt={timer.startedAt}
+                    total={timer.total}
+                    size="tiny"
+                    onClick={handleToggleTimerClick}
+                  />
                 </span>
               )}
             </span>

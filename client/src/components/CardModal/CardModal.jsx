@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
 import { Markdown } from '../../lib/custom-ui';
 
+import { startTimer, stopTimer } from '../../utils/timer';
 import NameField from './NameField';
 import DescriptionEdit from './DescriptionEdit';
 import Tasks from './Tasks';
@@ -79,6 +80,12 @@ const CardModal = React.memo(
     const [t] = useTranslation();
 
     const isGalleryOpened = useRef(false);
+
+    const handleToggleTimerClick = useCallback(() => {
+      onUpdate({
+        timer: timer.startedAt ? stopTimer(timer) : startTimer(timer),
+      });
+    }, [timer, onUpdate]);
 
     const handleNameUpdate = useCallback(
       (newName) => {
@@ -291,6 +298,17 @@ const CardModal = React.memo(
                         <Timer startedAt={timer.startedAt} total={timer.total} />
                       )}
                     </span>
+                    <button
+                      onClick={handleToggleTimerClick}
+                      type="button"
+                      className={classNames(styles.attachment, styles.dueDate)}
+                    >
+                      <Icon
+                        name={timer.startedAt ? 'pause' : 'play'}
+                        size="small"
+                        className={styles.addAttachment}
+                      />
+                    </button>
                   </div>
                 )}
               </div>

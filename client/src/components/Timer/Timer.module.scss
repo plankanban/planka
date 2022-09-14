@@ -9,16 +9,26 @@
   }
 
   .wrapper {
-    background: #f3f4f6;
+    background: #dce0e4;
     border: none;
     border-radius: 3px;
-    color: #7e8ea3;
+    color: #6a808b;
     display: inline-block;
     font-variant-numeric: tabular-nums;
     outline: none;
     text-align: left;
     transition: background 0.3s ease;
     vertical-align: top;
+  }
+
+  .wrapperActive {
+    background: #21ba45;
+    color: #fff;
+
+    &.wrapperHoverable:hover {
+      background: #16ab39;
+      color: #fff;
+    }
   }
 
   .wrapperHoverable:hover {
@@ -43,6 +53,5 @@
   .wrapperMedium {
     line-height: 20px;
     padding: 6px 12px;
-    text-decoration: underline;
   }
 }
