@@ -5,6 +5,7 @@ import { Modal, Tab } from 'semantic-ui-react';
 
 import AccountPane from './AccountPane';
 import PreferencesPane from './PreferencesPane';
+import AboutPane from './AboutPane';
 
 const UserSettingsModal = React.memo(
   ({
@@ -70,6 +71,10 @@ const UserSettingsModal = React.memo(
         render: () => (
           <PreferencesPane subscribeToOwnCards={subscribeToOwnCards} onUpdate={onUpdate} />
         ),
+      },
+      {
+        menuItem: 'About Planka',
+        render: () => <AboutPane />,
       },
     ];
 
