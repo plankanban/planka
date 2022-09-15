@@ -5,7 +5,7 @@ import core from './core';
 
 export default {
   language: 'en',
-  country: 'us',
+  country: 'gb',
   name: 'English',
   embeddedLocale: merge(login, core),
 };
