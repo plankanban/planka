@@ -63,6 +63,7 @@
     }
   },
   "dependencies": {
+    "@juggle/resize-observer": "^3.4.0",
     "classnames": "^2.3.1",
     "connected-react-router": "^6.9.3",
     "date-fns": "^2.29.1",
