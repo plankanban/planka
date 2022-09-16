@@ -4,7 +4,7 @@ import { Image, Tab } from 'semantic-ui-react';
 
 import logo from '../../assets/images/logo.png';
 
-import styles from './AccountPane.module.scss';
+import styles from './AboutPane.module.scss';
 
 const AboutPane = React.memo(() => {
   // const [t] = useTranslation();
