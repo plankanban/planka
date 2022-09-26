@@ -26,7 +26,7 @@ COPY server .
 RUN cp .env.sample .env
 
 COPY --from=client-builder /app/build public
-COPY --from=client-builder /app/build/index.html views
+COPY --from=client-builder /app/build/index.html views/index.ejs
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images

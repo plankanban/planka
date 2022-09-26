@@ -5,7 +5,7 @@ import Config from '../constants/Config';
 
 const io = sailsIOClient(socketIOClient);
 
-io.sails.url = Config.SERVER_BASE_URL;
+io.sails.url = Config.HOST_NAME;
 io.sails.autoConnect = false;
 io.sails.reconnection = true;
 io.sails.useCORSRouteToGetCookie = false;
@@ -13,6 +13,7 @@ io.sails.environment = process.env.NODE_ENV;
 
 const { socket } = io;
 
+socket.path = `${Config.BASE_PATH}/socket.io`;
 socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
 
 ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach((method) => {
