@@ -19,7 +19,7 @@ const BoardMembershipPermissionsSelectStep = React.memo(
       ...defaultData,
     }));
 
-    const handleRoleSelectClick = useCallback((role) => {
+    const handleSelectRoleClick = useCallback((role) => {
       setData((prevData) => ({
         ...prevData,
         role,
@@ -50,7 +50,7 @@ const BoardMembershipPermissionsSelectStep = React.memo(
             <Menu secondary vertical className={styles.menu}>
               <Menu.Item
                 active={data.role === BoardMembershipRoles.EDITOR}
-                onClick={() => handleRoleSelectClick(BoardMembershipRoles.EDITOR)}
+                onClick={() => handleSelectRoleClick(BoardMembershipRoles.EDITOR)}
               >
                 <div className={styles.menuItemTitle}>{t('common.editor')}</div>
                 <div className={styles.menuItemDescription}>
@@ -59,7 +59,7 @@ const BoardMembershipPermissionsSelectStep = React.memo(
               </Menu.Item>
               <Menu.Item
                 active={data.role === BoardMembershipRoles.VIEWER}
-                onClick={() => handleRoleSelectClick(BoardMembershipRoles.VIEWER)}
+                onClick={() => handleSelectRoleClick(BoardMembershipRoles.VIEWER)}
               >
                 <div className={styles.menuItemTitle}>{t('common.viewer')}</div>
                 <div className={styles.menuItemDescription}>{t('common.canOnlyViewBoard')}</div>

@@ -166,14 +166,11 @@ const Card = React.memo(
                     {canEdit && (
                       <ActionsPopup
                         card={{
-                          id,
-                          name,
                           dueDate,
                           timer,
                           boardId,
                           listId,
                           projectId,
-                          isPersisted,
                         }}
                         projectsToLists={allProjectsToLists}
                         boardMemberships={allBoardMemberships}
