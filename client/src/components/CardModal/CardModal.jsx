@@ -298,17 +298,19 @@ const CardModal = React.memo(
                         <Timer startedAt={timer.startedAt} total={timer.total} />
                       )}
                     </span>
-                    <button
-                      onClick={handleToggleTimerClick}
-                      type="button"
-                      className={classNames(styles.attachment, styles.dueDate)}
-                    >
-                      <Icon
-                        name={timer.startedAt ? 'pause' : 'play'}
-                        size="small"
-                        className={styles.addAttachment}
-                      />
-                    </button>
+                    {canEdit && (
+                      <button
+                        onClick={handleToggleTimerClick}
+                        type="button"
+                        className={classNames(styles.attachment, styles.dueDate)}
+                      >
+                        <Icon
+                          name={timer.startedAt ? 'pause' : 'play'}
+                          size="small"
+                          className={styles.addAttachment}
+                        />
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

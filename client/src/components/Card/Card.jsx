@@ -125,7 +125,7 @@ const Card = React.memo(
                     startedAt={timer.startedAt}
                     total={timer.total}
                     size="tiny"
-                    onClick={handleToggleTimerClick}
+                    onClick={canEdit ? handleToggleTimerClick : undefined}
                   />
                 </span>
               )}
