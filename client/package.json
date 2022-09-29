@@ -4,7 +4,7 @@
   "scripts": {
     "build": "react-app-rewired build",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext js,jsx src",
+    "lint": "eslint --ext js,jsx src config-overrides.js",
     "start": "react-app-rewired start",
     "test": "react-app-rewired test"
   },

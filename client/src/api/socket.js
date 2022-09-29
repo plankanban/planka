@@ -5,7 +5,7 @@ import Config from '../constants/Config';
 
 const io = sailsIOClient(socketIOClient);
 
-io.sails.url = Config.HOST_NAME;
+io.sails.url = Config.SERVER_HOST_NAME;
 io.sails.autoConnect = false;
 io.sails.reconnection = true;
 io.sails.useCORSRouteToGetCookie = false;
