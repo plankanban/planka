@@ -24,7 +24,7 @@ module.exports.views = {
    *
    */
 
-  extension: 'html',
+  extension: 'ejs',
 
   /**
    *
@@ -36,4 +36,5 @@ module.exports.views = {
    */
 
   layout: false,
+  locals: { BASE_URL: process.env.BASE_URL },
 };

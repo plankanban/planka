@@ -2,11 +2,11 @@
   "name": "planka-client",
   "private": true,
   "scripts": {
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext js,jsx src",
-    "start": "react-scripts start",
-    "test": "react-scripts test"
+    "lint": "eslint --ext js,jsx src config-overrides.js",
+    "start": "react-app-rewired start",
+    "test": "react-app-rewired test"
   },
   "browserslist": {
     "production": [
@@ -120,6 +120,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest-enzyme": "^7.1.2",
     "prettier": "2.7.1",
+    "react-app-rewired": "^2.2.1",
     "react-test-renderer": "^17.0.2"
   }
 }
