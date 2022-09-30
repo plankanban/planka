@@ -1,14 +1,14 @@
 export default {
   translation: {
     common: {
-      emailOrUsername: 'E-mail oder Benutzername',
-      invalidEmailOrUsername: 'Ungültige E-mail oder Benutzername',
+      emailOrUsername: 'E-Mail-Adresse oder Benutzername',
+      invalidEmailOrUsername: 'Ungültige E-Mail-Adresse oder Benutzername',
       invalidPassword: 'Ungültiges Passwort',
       logInToPlanka: 'Einloggen',
       noInternetConnection: 'Keine Internetverbindung',
       pageNotFound_title: 'Seite nicht gefunden',
       password: 'Passwort',
-      projectManagement: 'Projekt Management',
+      projectManagement: 'Projekt-Management',
       serverConnectionFailed: 'Serververbindung fehlgeschlagen',
       unknownError: 'Unbekannter Fehler, bitte später erneut versuchen',
     },
