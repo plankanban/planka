@@ -84,7 +84,7 @@ const LabelsStep = React.memo(
     if (step) {
       switch (step.type) {
         case StepTypes.ADD:
-          return <AddStep onCreate={onCreate} onBack={handleBack} />;
+          return <AddStep onCreate={onCreate} onBack={handleBack} initialValue={search} />;
         case StepTypes.EDIT: {
           const currentItem = items.find((item) => item.id === step.params.id);
 
