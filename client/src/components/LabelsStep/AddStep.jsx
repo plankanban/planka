@@ -10,11 +10,11 @@ import Editor from './Editor';
 
 import styles from './AddStep.module.scss';
 
-const AddStep = React.memo(({ onCreate, onBack }) => {
+const AddStep = React.memo(({ onCreate, onBack, initialValue }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({
-    name: '',
+    name: initialValue,
     color: LabelColors[0],
   }));
 
@@ -48,6 +48,7 @@ const AddStep = React.memo(({ onCreate, onBack }) => {
 AddStep.propTypes = {
   onCreate: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
+  initialValue: PropTypes.func.isRequired,
 };
 
 export default AddStep;
