@@ -1,3 +1,5 @@
+const { v4: uuid } = require('uuid');
+
 module.exports = {
   inputs: {
     record: {
@@ -29,18 +31,9 @@ module.exports = {
     const boardMembership = await BoardMembership.destroyOne(inputs.record.id);
 
     if (boardMembership) {
-      sails.sockets.broadcast(
-        `user:${boardMembership.userId}`,
-        'boardMembershipDelete',
-        {
-          item: boardMembership,
-        },
-        inputs.request,
-      );
-
-      const notifyBoard = () => {
+      const notify = (room) => {
         sails.sockets.broadcast(
-          `board:${boardMembership.boardId}`,
+          room,
           'boardMembershipDelete',
           {
             item: boardMembership,
@@ -54,15 +47,31 @@ module.exports = {
         inputs.project.id,
       );
 
-      if (isProjectManager) {
-        notifyBoard();
-      } else {
-        // TODO: also remove if unsubscribed to user
+      if (!isProjectManager) {
         sails.sockets.removeRoomMembersFromRooms(
-          `user:${boardMembership.userId}`,
+          `@user:${boardMembership.userId}`,
           `board:${boardMembership.boardId}`,
-          notifyBoard,
+          () => {
+            notify(`board:${boardMembership.boardId}`);
+          },
         );
+      }
+
+      notify(`user:${boardMembership.userId}`);
+
+      if (isProjectManager) {
+        const tempRoom = uuid();
+
+        sails.sockets.addRoomMembersToRooms(`board:${boardMembership.boardId}`, tempRoom, () => {
+          sails.sockets.removeRoomMembersFromRooms(
+            `user:${boardMembership.userId}`,
+            tempRoom,
+            () => {
+              notify(tempRoom);
+              sails.sockets.removeRoomMembersFromRooms(tempRoom, tempRoom);
+            },
+          );
+        });
       }
     }
 

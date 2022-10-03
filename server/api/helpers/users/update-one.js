@@ -123,13 +123,13 @@ module.exports = {
         if (user.id === inputs.user.id && inputs.request && inputs.request.isSocket) {
           const tempRoom = uuid();
 
-          sails.sockets.addRoomMembersToRooms(`user:${user.id}`, tempRoom, () => {
+          sails.sockets.addRoomMembersToRooms(`@user:${user.id}`, tempRoom, () => {
             sails.sockets.leave(inputs.request, tempRoom, () => {
               sails.sockets.leaveAll(tempRoom);
             });
           });
         } else {
-          sails.sockets.leaveAll(`user:${user.id}`);
+          sails.sockets.leaveAll(`@user:${user.id}`);
         }
       }
 

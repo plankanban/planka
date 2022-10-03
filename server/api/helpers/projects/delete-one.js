@@ -26,7 +26,7 @@ module.exports = {
       const userIds = _.union(managerUserIds, memberUserIds);
 
       userIds.forEach((userId) => {
-        sails.sockets.removeRoomMembersFromRooms(`user:${userId}`, boardRooms);
+        sails.sockets.removeRoomMembersFromRooms(`@user:${userId}`, boardRooms);
 
         sails.sockets.broadcast(
           `user:${userId}`,
