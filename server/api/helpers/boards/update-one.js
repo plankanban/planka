@@ -25,9 +25,10 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const userIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
-      inputs.record.projectId,
-    );
+    const managerUserIds = await sails.helpers.projects.getManagerUserIds(inputs.record.projectId);
+    const memberUserIds = await sails.helpers.boards.getMemberUserIds(inputs.record.id);
+
+    const userIds = _.union(managerUserIds, memberUserIds);
 
     if (!_.isUndefined(inputs.values.position)) {
       const boards = await sails.helpers.projects.getBoards(
