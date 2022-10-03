@@ -10,12 +10,13 @@ import Editor from './Editor';
 
 import styles from './AddStep.module.scss';
 
-const AddStep = React.memo(({ onCreate, onBack, initialValue }) => {
+const AddStep = React.memo(({ defaultData, onCreate, onBack }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({
-    name: initialValue,
+    name: '',
     color: LabelColors[0],
+    ...defaultData,
   }));
 
   const handleSubmit = useCallback(() => {
@@ -46,9 +47,9 @@ const AddStep = React.memo(({ onCreate, onBack, initialValue }) => {
 });
 
 AddStep.propTypes = {
+  defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   onCreate: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
-  initialValue: PropTypes.func.isRequired,
 };
 
 export default AddStep;
