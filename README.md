@@ -46,7 +46,7 @@ Demo user: demo@demo.demo demo
 
 ### Logging
 
-Planka currently allows you to expose the applciation's logfile directory to the host machine via a shared volume. This feature is not enabled by default.
+Planka currently allows you to expose the application's logfile directory to the host machine via a shared volume. This feature is not enabled by default.
 
 To expose the logfile director to the host machine, add the item `./logs/:/app/logs/` under `services.planka.volumes`.
 
