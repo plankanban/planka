@@ -31,6 +31,10 @@ module.exports = {
       type: 'ref',
       columnName: 'deleted_at',
     },
+    ssoId: {
+      type: 'string',
+      columnName: 'sso_id',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

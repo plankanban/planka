@@ -10,6 +10,9 @@ const Errors = {
   INVALID_PASSWORD: {
     invalidPassword: 'Invalid password',
   },
+  LOCAL_AUTH_DISABLED: {
+    localAuthDisabled: 'Local authentication is disabled',
+  },
 };
 
 module.exports = {
@@ -37,9 +40,16 @@ module.exports = {
     invalidPassword: {
       responseType: 'unauthorized',
     },
+    localAuthDisabled: {
+      responseType: 'unauthorized',
+    },
   },
 
   async fn(inputs) {
+    if (!sails.config.custom.localAuth) {
+      throw Errors.LOCAL_AUTH_DISABLED;
+    }
+
     const remoteAddress = getRemoteAddress(this.req);
 
     const user = await sails.helpers.users.getOneByEmailOrUsername(inputs.emailOrUsername);

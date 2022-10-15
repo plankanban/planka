@@ -30,4 +30,7 @@ module.exports.custom = {
 
   attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
   attachmentsUrl: `${process.env.BASE_URL}/attachments`,
+
+  samlConfig: JSON.parse(process.env.SAML_CONFIG || '[]'),
+  localAuth: !process.env.DISABLE_LOCAL_ENV,
 };

@@ -24,4 +24,8 @@ module.exports.policies = {
   'projects/create': ['is-authenticated', 'is-admin'],
 
   'access-tokens/create': true,
+  'authentication/saml/login-request': true,
+  'authentication/saml/metadata': true,
+  'authentication/saml/acs': true,
+  'authentication/index': true,
 };
