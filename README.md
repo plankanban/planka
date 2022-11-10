@@ -75,6 +75,7 @@ npm run build
 
 ```bash
 cp -r build ../server/public
+cp build/index.html ../server/views/index.ejs
 ```
 
 4. Install dependencies for server.
