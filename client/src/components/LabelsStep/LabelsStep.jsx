@@ -18,7 +18,18 @@ const StepTypes = {
 };
 
 const LabelsStep = React.memo(
-  ({ items, currentIds, title, onSelect, onDeselect, onCreate, onUpdate, onDelete, onBack }) => {
+  ({
+    items,
+    currentIds,
+    title,
+    canEdit,
+    onSelect,
+    onDeselect,
+    onCreate,
+    onUpdate,
+    onDelete,
+    onBack,
+  }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
     const [search, handleSearchChange] = useField('');
@@ -140,6 +151,7 @@ const LabelsStep = React.memo(
                   color={item.color}
                   isPersisted={item.isPersisted}
                   isActive={currentIds.includes(item.id)}
+                  canEdit={canEdit}
                   onSelect={() => handleSelect(item.id)}
                   onDeselect={() => handleDeselect(item.id)}
                   onEdit={() => handleEdit(item.id)}
@@ -147,12 +159,14 @@ const LabelsStep = React.memo(
               ))}
             </div>
           )}
-          <Button
-            fluid
-            content={t('action.createNewLabel')}
-            className={styles.addButton}
-            onClick={handleAddClick}
-          />
+          {canEdit && (
+            <Button
+              fluid
+              content={t('action.createNewLabel')}
+              className={styles.addButton}
+              onClick={handleAddClick}
+            />
+          )}
         </Popup.Content>
       </>
     );
@@ -165,6 +179,7 @@ LabelsStep.propTypes = {
   currentIds: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   title: PropTypes.string,
+  canEdit: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
@@ -175,6 +190,7 @@ LabelsStep.propTypes = {
 
 LabelsStep.defaultProps = {
   title: 'common.labels',
+  canEdit: true,
   onBack: undefined,
 };
 

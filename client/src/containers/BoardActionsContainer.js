@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import selectors from '../selectors';
 import entryActions from '../entry-actions';
+import { BoardMembershipRoles } from '../constants/Enums';
 import BoardActions from '../components/BoardActions';
 
 const mapStateToProps = (state) => {
@@ -12,6 +13,7 @@ const mapStateToProps = (state) => {
   const labels = selectors.selectLabelsForCurrentBoard(state);
   const filterUsers = selectors.selectFilterUsersForCurrentBoard(state);
   const filterLabels = selectors.selectFilterLabelsForCurrentBoard(state);
+  const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
   return {
     memberships,
@@ -19,6 +21,7 @@ const mapStateToProps = (state) => {
     filterUsers,
     filterLabels,
     allUsers,
+    canEdit: !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR,
     canEditMemberships: isCurrentUserManager,
   };
 };
