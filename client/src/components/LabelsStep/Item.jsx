@@ -8,45 +8,51 @@ import { Button } from 'semantic-ui-react';
 import styles from './Item.module.scss';
 import globalStyles from '../../styles.module.scss';
 
-const Item = React.memo(({ name, color, isPersisted, isActive, onSelect, onDeselect, onEdit }) => {
-  const handleToggleClick = useCallback(() => {
-    if (isActive) {
-      onDeselect();
-    } else {
-      onSelect();
-    }
-  }, [isActive, onSelect, onDeselect]);
+const Item = React.memo(
+  ({ name, color, isPersisted, isActive, canEdit, onSelect, onDeselect, onEdit }) => {
+    const handleToggleClick = useCallback(() => {
+      if (isActive) {
+        onDeselect();
+      } else {
+        onSelect();
+      }
+    }, [isActive, onSelect, onDeselect]);
 
-  return (
-    <div className={styles.wrapper}>
-      <Button
-        fluid
-        content={name}
-        active={isActive}
-        disabled={!isPersisted}
-        className={classNames(
-          styles.labelButton,
-          isActive && styles.labelButtonActive,
-          globalStyles[`background${upperFirst(camelCase(color))}`],
+    return (
+      <div className={styles.wrapper}>
+        <Button
+          fluid
+          content={name}
+          active={isActive}
+          disabled={!isPersisted}
+          className={classNames(
+            styles.labelButton,
+            isActive && styles.labelButtonActive,
+            globalStyles[`background${upperFirst(camelCase(color))}`],
+          )}
+          onClick={handleToggleClick}
+        />
+        {canEdit && (
+          <Button
+            icon="pencil"
+            size="small"
+            floated="right"
+            disabled={!isPersisted}
+            className={styles.editButton}
+            onClick={onEdit}
+          />
         )}
-        onClick={handleToggleClick}
-      />
-      <Button
-        icon="pencil"
-        size="small"
-        disabled={!isPersisted}
-        className={styles.editButton}
-        onClick={onEdit}
-      />
-    </div>
-  );
-});
+      </div>
+    );
+  },
+);
 
 Item.propTypes = {
   name: PropTypes.string,
   color: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
   isActive: PropTypes.bool.isRequired,
+  canEdit: PropTypes.bool.isRequired,
   onSelect: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,

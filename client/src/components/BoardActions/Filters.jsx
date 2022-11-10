@@ -15,6 +15,7 @@ const Filters = React.memo(
     labels,
     allBoardMemberships,
     allLabels,
+    canEdit,
     onUserAdd,
     onUserRemove,
     onLabelAdd,
@@ -74,6 +75,7 @@ const Filters = React.memo(
             title={t('common.filterByLabels', {
               context: 'title',
             })}
+            canEdit={canEdit}
             onSelect={onLabelAdd}
             onDeselect={onLabelRemove}
             onCreate={onLabelCreate}
@@ -108,6 +110,7 @@ Filters.propTypes = {
   allBoardMemberships: PropTypes.array.isRequired,
   allLabels: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
+  canEdit: PropTypes.bool.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
   onLabelAdd: PropTypes.func.isRequired,
