@@ -8,6 +8,7 @@
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+	"lint-fix": "eslint . --max-warnings=0 --report-unused-disable-directives --fix && echo 'looks good'",
     "start": "nodemon",
     "start:prod": "node app.js --prod",
     "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
@@ -52,6 +53,7 @@
     "sails-hook-orm": "^4.0.1",
     "sails-hook-sockets": "^2.0.1",
     "sails-postgresql-redacted": "^1.0.2-9",
+    "saml2-js": "^3.0.1",
     "sharp": "^0.30.7",
     "stream-to-array": "^2.3.0",
     "uuid": "^8.3.2",

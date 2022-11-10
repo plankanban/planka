@@ -9,6 +9,8 @@
  */
 
 module.exports.routes = {
+  'GET /api/auth': 'authentication/index',
+
   'POST /api/access-tokens': 'access-tokens/create',
   'DELETE /api/access-tokens/me': 'access-tokens/delete',
 
@@ -76,6 +78,10 @@ module.exports.routes = {
   'GET /api/notifications': 'notifications/index',
   'GET /api/notifications/:id': 'notifications/show',
   'PATCH /api/notifications/:ids': 'notifications/update',
+
+  'GET /api/saml/:id/login': 'authentication/saml/login-request',
+  'GET /api/saml/:id/metadata': 'authentication/saml/metadata',
+  'POST /api/saml/:id/acs': 'authentication/saml/acs',
 
   'GET /attachments/:id/download/:filename': {
     action: 'attachments/download',
