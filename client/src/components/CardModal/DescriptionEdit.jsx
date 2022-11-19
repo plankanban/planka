@@ -1,19 +1,19 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useCallback, useImperativeHandle, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Form, TextArea } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
+import SimpleMDE from 'react-simplemde-editor';
 
 import { useClosableForm, useField } from '../../hooks';
 
 import styles from './DescriptionEdit.module.scss';
+import 'easymde/dist/easymde.min.css';
 
 const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) => {
   const [t] = useTranslation();
   const [isOpened, setIsOpened] = useState(false);
-  const [value, handleFieldChange, setValue] = useField(null);
-
-  const field = useRef(null);
+  const [value, , setValue] = useField(null);
 
   const open = useCallback(() => {
     setIsOpened(true);
@@ -55,20 +55,18 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
     [close],
   );
 
-  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    close,
-    isOpened,
-  );
+  const [, handleControlMouseOver, handleControlMouseOut] = useClosableForm(close, isOpened);
 
   const handleSubmit = useCallback(() => {
     close();
   }, [close]);
 
-  useEffect(() => {
-    if (isOpened) {
-      field.current.ref.current.focus();
-    }
-  }, [isOpened]);
+  const mdEditorOptions = useMemo(() => {
+    return {
+      autofocus: true,
+      spellChecker: false,
+    };
+  }, []);
 
   if (!isOpened) {
     return React.cloneElement(children, {
@@ -78,18 +76,16 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
 
   return (
     <Form onSubmit={handleSubmit}>
-      <TextArea
-        ref={field}
+      <SimpleMDE
         as={TextareaAutosize}
         value={value}
         placeholder={t('common.enterDescription')}
-        minRows={3}
-        spellCheck={false}
         className={styles.field}
+        options={mdEditorOptions}
         onKeyDown={handleFieldKeyDown}
-        onChange={handleFieldChange}
-        onBlur={handleFieldBlur}
+        onChange={setValue}
       />
+
       <div className={styles.controls}>
         {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
         <Button
