@@ -3,3 +3,10 @@ docker-compose.override.yml
 
 .idea
 .DS_Store
+
+# Prevent another lockfile than package-lock.json (npm) from being created
+# If some case you are using pnpm or yarn, don't forget to generate npm lockfile
+# before commiting your code by running:
+# `npm i --package-lock-only`
+pnpm-lock.yaml
+yarn.lock
