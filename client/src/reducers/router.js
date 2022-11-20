@@ -1,5 +1,3 @@
-import { connectRouter } from 'connected-react-router';
+import { routerReducer } from '../redux-history-context';
 
-import history from '../history';
-
-export default connectRouter(history);
+export default routerReducer;
