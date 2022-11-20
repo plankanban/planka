@@ -46,7 +46,6 @@
       "plugin:prettier/recommended"
     ],
     "rules": {
-      "no-throw-literal": "off",
       "no-undef": "off",
       "prettier/prettier": "error"
     }
@@ -54,8 +53,7 @@
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
-    "trailingComma": "all",
-    "endOfLine": "lf"
+    "trailingComma": "all"
   },
   "dependencies": {
     "concurrently": "^7.3.0",
