@@ -64,6 +64,28 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
     return {
       autofocus: true,
       spellChecker: false,
+      status: false,
+      toolbar: [
+        'bold',
+        'italic',
+        'heading',
+        'strikethrough',
+        '|',
+        'quote',
+        'unordered-list',
+        'ordered-list',
+        'table',
+        '|',
+        'link',
+        'image',
+        '|',
+        'fullscreen',
+        '|',
+        'undo',
+        'redo',
+        '|',
+        'guide',
+      ],
     };
   }, []);
 
