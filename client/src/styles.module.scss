@@ -2,11 +2,15 @@
   #app {
     background: #22252a;
 
+    .szh-menu-container {
+      position: fixed !important;
+    }
+
     .react-datepicker {
       border: 0;
       color: #444444;
       font-size: 14px;
-      font-family: "Museo Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
+      font-family: 'Museo Sans', 'Helvetica Neue', Arial, Helvetica, sans-serif;
       font-weight: 400;
       width: 100%;
       padding-bottom: 8px;
@@ -261,11 +265,28 @@
   }
 
   .backgroundBlueDanube {
-    background: radial-gradient(circle, rgba(9, 9, 121, 1) 0%, rgba(2, 0, 36, 1) 0%, rgba(2, 29, 66, 1) 0%, rgba(2, 41, 78, 1) 0%, rgba(2, 57, 95, 1) 0%, rgba(1, 105, 144, 1) 100%, rgba(1, 151, 192, 1) 100%, rgba(0, 212, 255, 1) 100%) !important;
+    background: radial-gradient(
+      circle,
+      rgba(9, 9, 121, 1) 0%,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(2, 29, 66, 1) 0%,
+      rgba(2, 41, 78, 1) 0%,
+      rgba(2, 57, 95, 1) 0%,
+      rgba(1, 105, 144, 1) 100%,
+      rgba(1, 151, 192, 1) 100%,
+      rgba(0, 212, 255, 1) 100%
+    ) !important;
   }
 
   .backgroundSundownStripe {
-    background: linear-gradient(22deg, rgba(31, 30, 30, 1) 0%, rgba(255, 128, 0, 1) 10%, rgba(255, 128, 0, 1) 41%, rgba(0, 0, 0, 1) 41%, rgba(0, 102, 204, 1) 89%) !important;
+    background: linear-gradient(
+      22deg,
+      rgba(31, 30, 30, 1) 0%,
+      rgba(255, 128, 0, 1) 10%,
+      rgba(255, 128, 0, 1) 41%,
+      rgba(0, 0, 0, 1) 41%,
+      rgba(0, 102, 204, 1) 89%
+    ) !important;
   }
 
   .backgroundMagicalDawn {
@@ -273,15 +294,27 @@
   }
 
   .backgroundStrawberryDust {
-    background: linear-gradient(180deg, rgba(172, 79, 115, 1) 0%, rgba(254, 158, 150, 1) 66%) !important;
+    background: linear-gradient(
+      180deg,
+      rgba(172, 79, 115, 1) 0%,
+      rgba(254, 158, 150, 1) 66%
+    ) !important;
   }
 
   .backgroundPurpleRose {
-    background: linear-gradient(128deg, rgba(116, 43, 62, 1) 19%, rgba(192, 71, 103, 1) 90%) !important;
+    background: linear-gradient(
+      128deg,
+      rgba(116, 43, 62, 1) 19%,
+      rgba(192, 71, 103, 1) 90%
+    ) !important;
   }
 
   .backgroundSunScream {
-    background: linear-gradient(112deg, rgba(251, 221, 19, 1) 19%, rgba(255, 153, 1, 1) 62%) !important;
+    background: linear-gradient(
+      112deg,
+      rgba(251, 221, 19, 1) 19%,
+      rgba(255, 153, 1, 1) 62%
+    ) !important;
   }
 
   .backgroundWarmRust {
@@ -293,7 +326,11 @@
   }
 
   .backgroundGreenEyes {
-    background: linear-gradient(138deg, rgba(19, 170, 82, 1) 0%, rgba(0, 102, 43, 1) 90%) !important;
+    background: linear-gradient(
+      138deg,
+      rgba(19, 170, 82, 1) 0%,
+      rgba(0, 102, 43, 1) 90%
+    ) !important;
   }
 
   .backgroundBlueXchange {
@@ -321,15 +358,28 @@
   }
 
   .backgroundAlgaeGreen {
-    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(0, 95, 104, 1) 0%, rgba(15, 156, 168, 1) 90%) !important;
+    background: radial-gradient(
+      circle farthest-corner at 10% 20%,
+      rgba(0, 95, 104, 1) 0%,
+      rgba(15, 156, 168, 1) 90%
+    ) !important;
   }
 
   .backgroundCoralReef {
-    background: linear-gradient(110.3deg, rgba(238, 179, 123, 1) 8.7%, rgba(216, 103, 77, 1) 47.5%, rgba(114, 43, 54, 1) 89.1%) !important;
+    background: linear-gradient(
+      110.3deg,
+      rgba(238, 179, 123, 1) 8.7%,
+      rgba(216, 103, 77, 1) 47.5%,
+      rgba(114, 43, 54, 1) 89.1%
+    ) !important;
   }
 
   .backgroundSteelGrey {
-    background: radial-gradient(circle farthest-corner at -4% -12.9%, rgba(74, 98, 110, 1) 0.3%, rgba(30, 33, 48, 1) 90.2%) !important;
+    background: radial-gradient(
+      circle farthest-corner at -4% -12.9%,
+      rgba(74, 98, 110, 1) 0.3%,
+      rgba(30, 33, 48, 1) 90.2%
+    ) !important;
   }
 
   .backgroundHeatWaves {
@@ -337,19 +387,35 @@
   }
 
   .backgroundWowBlue {
-    background: linear-gradient(111.8deg, rgba(0, 104, 155, 1) 19.8%, rgba(0, 173, 239, 1) 92.1%) !important;
+    background: linear-gradient(
+      111.8deg,
+      rgba(0, 104, 155, 1) 19.8%,
+      rgba(0, 173, 239, 1) 92.1%
+    ) !important;
   }
 
   .backgroundVelvetLounge {
-    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(151, 10, 130, 1) 0%, rgba(33, 33, 33, 1) 100.2%) !important;
+    background: radial-gradient(
+      circle farthest-corner at 10% 20%,
+      rgba(151, 10, 130, 1) 0%,
+      rgba(33, 33, 33, 1) 100.2%
+    ) !important;
   }
 
   .backgroundLagoon {
-    background: radial-gradient(circle farthest-corner at 10% 20%, rgba(0, 107, 141, 1) 0%, rgba(0, 69, 91, 1) 90%) !important;
+    background: radial-gradient(
+      circle farthest-corner at 10% 20%,
+      rgba(0, 107, 141, 1) 0%,
+      rgba(0, 69, 91, 1) 90%
+    ) !important;
   }
 
   .backgroundPurpleRain {
-    background: linear-gradient(91.7deg, rgba(50, 25, 79, 1) -4.3%, rgba(122, 101, 149, 1) 101.8%) !important;
+    background: linear-gradient(
+      91.7deg,
+      rgba(50, 25, 79, 1) -4.3%,
+      rgba(122, 101, 149, 1) 101.8%
+    ) !important;
   }
 
   .backgroundBlueSteel {
@@ -357,22 +423,49 @@
   }
 
   .backgroundBlueishCurve {
-    background: linear-gradient(171.8deg, rgba(5, 111, 146, 1) 13.5%, rgba(6, 57, 84, 1) 78.6%) !important;
+    background: linear-gradient(
+      171.8deg,
+      rgba(5, 111, 146, 1) 13.5%,
+      rgba(6, 57, 84, 1) 78.6%
+    ) !important;
   }
 
   .backgroundPrismLight {
-    background: linear-gradient(111.7deg, rgba(251, 198, 6, 1) 2.4%, rgba(224, 82, 95, 1) 28.3%, rgba(194, 78, 154, 1) 46.2%, rgba(32, 173, 190, 1) 79.4%, rgba(22, 158, 95, 1) 100.2%) !important;
+    background: linear-gradient(
+      111.7deg,
+      rgba(251, 198, 6, 1) 2.4%,
+      rgba(224, 82, 95, 1) 28.3%,
+      rgba(194, 78, 154, 1) 46.2%,
+      rgba(32, 173, 190, 1) 79.4%,
+      rgba(22, 158, 95, 1) 100.2%
+    ) !important;
   }
 
   .backgroundTheBow {
-    background: radial-gradient(circle farthest-corner at -8.9% 51.2%, rgba(255, 124, 0, 1) 0%, rgba(255, 124, 0, 1) 15.9%, rgba(255, 163, 77, 1) 15.9%, rgba(255, 163, 77, 1) 24.4%, rgba(19, 30, 37, 1) 24.5%, rgba(19, 30, 37, 1) 66%) !important;
+    background: radial-gradient(
+      circle farthest-corner at -8.9% 51.2%,
+      rgba(255, 124, 0, 1) 0%,
+      rgba(255, 124, 0, 1) 15.9%,
+      rgba(255, 163, 77, 1) 15.9%,
+      rgba(255, 163, 77, 1) 24.4%,
+      rgba(19, 30, 37, 1) 24.5%,
+      rgba(19, 30, 37, 1) 66%
+    ) !important;
   }
 
   .backgroundGreenMist {
-    background: linear-gradient(180.5deg, rgba(0, 128, 128, 1) 8.5%, rgba(174, 206, 100, 1) 118.2%) !important;
+    background: linear-gradient(
+      180.5deg,
+      rgba(0, 128, 128, 1) 8.5%,
+      rgba(174, 206, 100, 1) 118.2%
+    ) !important;
   }
 
   .backgroundRedCurtain {
-    background: radial-gradient(circle 371px at 2.9% 14.3%, rgba(255, 0, 102, 1) 0%, rgba(80, 5, 35, 1) 100.7%) !important;
+    background: radial-gradient(
+      circle 371px at 2.9% 14.3%,
+      rgba(255, 0, 102, 1) 0%,
+      rgba(80, 5, 35, 1) 100.7%
+    ) !important;
   }
 }
