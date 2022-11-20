@@ -23,9 +23,9 @@ export function* fetchBoardByCurrentPath() {
 
   if (pathsMatch) {
     let boardId;
-    if (pathsMatch.path === Paths.BOARDS) {
+    if (pathsMatch.pattern.path === Paths.BOARDS) {
       boardId = pathsMatch.params.id;
-    } else if (pathsMatch.path === Paths.CARDS) {
+    } else if (pathsMatch.pattern.path === Paths.CARDS) {
       ({
         item: card,
         item: { boardId },

@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import { push } from 'redux-first-history';
 
 import request from '../request';
 import selectors from '../../../selectors';
@@ -31,7 +31,7 @@ export function* handleLocationChange() {
     return;
   }
 
-  switch (pathsMatch.path) {
+  switch (pathsMatch.pattern.path) {
     case Paths.LOGIN:
       yield call(goToRoot);
 
@@ -58,7 +58,7 @@ export function* handleLocationChange() {
   let attachments;
   let deletedNotifications;
 
-  switch (pathsMatch.path) {
+  switch (pathsMatch.pattern.path) {
     case Paths.BOARDS:
     case Paths.CARDS: {
       const currentBoard = yield select(selectors.selectCurrentBoard);
@@ -85,7 +85,7 @@ export function* handleLocationChange() {
         } catch (error) {} // eslint-disable-line no-empty
       }
 
-      if (pathsMatch.path === Paths.CARDS) {
+      if (pathsMatch.pattern.path === Paths.CARDS) {
         const notificationIds = yield select(selectors.selectNotificationIdsForCurrentCard);
 
         if (notificationIds && notificationIds.length > 0) {
