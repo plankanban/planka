@@ -13,24 +13,13 @@
     "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
   },
   "eslintConfig": {
-    "plugins": [
-      "prettier"
-    ],
     "extends": [
       "airbnb-base",
-      "plugin:prettier/recommended"
+      "../package.json"
     ],
     "rules": {
       "no-throw-literal": "off",
-      "no-undef": "off",
-      "prettier/prettier": [
-        "error",
-        {
-          "printWidth": 100,
-          "singleQuote": true,
-          "trailingComma": "all"
-        }
-      ]
+      "no-undef": "off"
     },
     "globals": {
       "_": true,
@@ -63,12 +52,9 @@
     "chai": "^4.3.6",
     "eslint": "^8.20.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.2.1",
     "mocha": "^9.2.2",
     "nodemon": "^2.0.19",
-    "prettier": "2.7.1",
     "supertest": "^6.2.4"
   },
   "engines": {
