@@ -1,7 +1,6 @@
 import React, { useCallback, useImperativeHandle, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form } from 'semantic-ui-react';
 import SimpleMDE from 'react-simplemde-editor';
 
@@ -77,7 +76,6 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
   return (
     <Form onSubmit={handleSubmit}>
       <SimpleMDE
-        as={TextareaAutosize}
         value={value}
         placeholder={t('common.enterDescription')}
         className={styles.field}
