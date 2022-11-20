@@ -1,11 +1,10 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { ControlledMenu, MenuItem, useMenuState } from '@szhsin/react-menu';
 import { startTimer, stopTimer } from '../../utils/timer';
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
@@ -17,8 +16,6 @@ import DueDate from '../DueDate';
 import Timer from '../Timer';
 
 import styles from './Card.module.scss';
-
-import '@szhsin/react-menu/dist/index.css';
 
 const Card = React.memo(
   ({
@@ -55,22 +52,11 @@ const Card = React.memo(
   }) => {
     const nameEdit = useRef(null);
 
-    const [menuProps, toggleMenu] = useMenuState();
-    const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
-
-    const handleClick = useCallback(
-      (e) => {
-        if (menuProps.state === 'open') {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-
-        if (document.activeElement) {
-          document.activeElement.blur();
-        }
-      },
-      [menuProps.state],
-    );
+    const handleClick = useCallback(() => {
+      if (document.activeElement) {
+        document.activeElement.blur();
+      }
+    }, []);
 
     const handleToggleTimerClick = useCallback(
       (event) => {
@@ -99,15 +85,7 @@ const Card = React.memo(
     const contentNode = (
       <>
         {coverUrl && <img src={coverUrl} alt="" className={styles.cover} />}
-
-        <div
-          className={styles.details}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            setAnchorPoint({ x: e.clientX, y: e.clientY });
-            toggleMenu(true);
-          }}
-        >
+        <div className={styles.details}>
           {labels.length > 0 && (
             <span className={styles.labels}>
               {labels.map((label) => (
@@ -120,11 +98,8 @@ const Card = React.memo(
               ))}
             </span>
           )}
-
           <div className={styles.name}>{name}</div>
-
           {tasks.length > 0 && <Tasks items={tasks} />}
-
           {(dueDate || timer || notificationsTotal > 0) && (
             <span className={styles.attachments}>
               {notificationsTotal > 0 && (
@@ -156,7 +131,6 @@ const Card = React.memo(
               )}
             </span>
           )}
-
           {users.length > 0 && (
             <span className={classNames(styles.attachments, styles.attachmentsRight)}>
               {users.map((user) => (
@@ -169,16 +143,6 @@ const Card = React.memo(
               ))}
             </span>
           )}
-
-          <ControlledMenu
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...menuProps}
-            anchorPoint={anchorPoint}
-            direction="right"
-            onClose={() => toggleMenu(false)}
-          >
-            <MenuItem onClick={onDelete}>Delete Card</MenuItem>
-          </ControlledMenu>
         </div>
       </>
     );
@@ -199,7 +163,6 @@ const Card = React.memo(
                     >
                       {contentNode}
                     </Link>
-
                     {canEdit && (
                       <ActionsPopup
                         card={{
