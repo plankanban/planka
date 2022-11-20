@@ -28,33 +28,35 @@ const BoardActions = React.memo(
     onLabelDelete,
   }) => {
     return (
-      <div className={styles.actions}>
-        <div className={styles.action}>
-          <Memberships
-            items={memberships}
-            allUsers={allUsers}
-            permissionsSelectStep={BoardMembershipPermissionsSelectStep}
-            canEdit={canEditMemberships}
-            onCreate={onMembershipCreate}
-            onUpdate={onMembershipUpdate}
-            onDelete={onMembershipDelete}
-          />
-        </div>
-        <div className={styles.action}>
-          <Filters
-            users={filterUsers}
-            labels={filterLabels}
-            allBoardMemberships={memberships}
-            allLabels={labels}
-            canEdit={canEdit}
-            onUserAdd={onUserToFilterAdd}
-            onUserRemove={onUserFromFilterRemove}
-            onLabelAdd={onLabelToFilterAdd}
-            onLabelRemove={onLabelFromFilterRemove}
-            onLabelCreate={onLabelCreate}
-            onLabelUpdate={onLabelUpdate}
-            onLabelDelete={onLabelDelete}
-          />
+      <div className={styles.wrapper}>
+        <div className={styles.actions}>
+          <div className={styles.action}>
+            <Memberships
+              items={memberships}
+              allUsers={allUsers}
+              permissionsSelectStep={BoardMembershipPermissionsSelectStep}
+              canEdit={canEditMemberships}
+              onCreate={onMembershipCreate}
+              onUpdate={onMembershipUpdate}
+              onDelete={onMembershipDelete}
+            />
+          </div>
+          <div className={styles.action}>
+            <Filters
+              users={filterUsers}
+              labels={filterLabels}
+              allBoardMemberships={memberships}
+              allLabels={labels}
+              canEdit={canEdit}
+              onUserAdd={onUserToFilterAdd}
+              onUserRemove={onUserFromFilterRemove}
+              onLabelAdd={onLabelToFilterAdd}
+              onLabelRemove={onLabelFromFilterRemove}
+              onLabelCreate={onLabelCreate}
+              onLabelUpdate={onLabelUpdate}
+              onLabelDelete={onLabelDelete}
+            />
+          </div>
         </div>
       </div>
     );
