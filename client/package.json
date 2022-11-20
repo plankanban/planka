@@ -40,6 +40,8 @@
       "../package.json"
     ],
     "rules": {
+      "no-unused-vars": "warn",
+      "no-shadow": "off",
       "import/no-extraneous-dependencies": [
         "error",
         {
