@@ -1,3 +1,4 @@
+import truncate from 'lodash/truncate';
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
@@ -47,23 +48,26 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
               {activity.data.toList.name}
             </Trans>
           );
-        case ActivityTypes.COMMENT_CARD:
+        case ActivityTypes.COMMENT_CARD: {
+          const commentText = truncate(activity.data.text);
+
           return (
             <Trans
               i18nKey="common.userLeftNewCommentToCard"
               values={{
                 user: activity.user.name,
-                comment: activity.data.text,
+                comment: commentText,
                 card: card.name,
               }}
             >
               {activity.user.name}
-              {` left a new comment «${activity.data.text}» to `}
+              {` left a new comment «${commentText}» to `}
               <Link to={Paths.CARDS.replace(':id', card.id)} onClick={onClose}>
                 {card.name}
               </Link>
             </Trans>
           );
+        }
         default:
       }
 
@@ -80,9 +84,10 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
         })}
       </Popup.Header>
       <Popup.Content>
-        {items.length > 0
-          ? items.map((item) => (
-              <div key={item.id} className={styles.wrapper}>
+        {items.length > 0 ? (
+          <div className={styles.wrapper}>
+            {items.map((item) => (
+              <div key={item.id} className={styles.item}>
                 {item.card && item.activity ? (
                   <>
                     <User
@@ -90,20 +95,23 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
                       avatarUrl={item.activity.user.avatarUrl}
                       size="large"
                     />
-                    <span className={styles.content}>{renderItemContent(item)}</span>
+                    <span className={styles.itemContent}>{renderItemContent(item)}</span>
                   </>
                 ) : (
-                  <div className={styles.deletedContent}>{t('common.cardOrActionAreDeleted')}</div>
+                  <div className={styles.itemDeleted}>{t('common.cardOrActionAreDeleted')}</div>
                 )}
                 <Button
                   type="button"
-                  icon="close"
-                  className={styles.button}
+                  icon="trash alternate outline"
+                  className={styles.itemButton}
                   onClick={() => handleDelete(item.id)}
                 />
               </div>
-            ))
-          : t('common.noUnreadNotifications')}
+            ))}
+          </div>
+        ) : (
+          t('common.noUnreadNotifications')
+        )}
       </Popup.Content>
     </>
   );

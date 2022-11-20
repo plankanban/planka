@@ -1,5 +1,13 @@
 :global(#app) {
-  .button {
+  .item {
+    padding: 12px;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+
+  .itemButton {
     background: transparent;
     box-shadow: none;
     float: right;
@@ -7,7 +15,7 @@
     line-height: 20px;
     margin: 0;
     min-height: auto;
-    padding: 5px 0;
+    padding: 0;
     transition: background 0.3s ease;
     width: 20px;
 
@@ -16,7 +24,7 @@
     }
   }
 
-  .content {
+  .itemContent {
     display: inline-block;
     font-size: 12px;
     min-height: 36px;
@@ -27,7 +35,7 @@
     word-break: break-word;
   }
 
-  .deletedContent {
+  .itemDeleted {
     display: inline-block;
     line-height: 20px;
     min-height: 20px;
@@ -38,10 +46,21 @@
 
   .wrapper {
     margin: 0 -12px;
-    padding: 12px;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: thin;
 
-    &:hover {
-      background: #f0f0f0;
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
     }
   }
 }
