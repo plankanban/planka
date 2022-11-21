@@ -8,7 +8,7 @@ RUN npm install npm@latest --global \
   && npm install
 
 COPY client .
-RUN npm run build
+RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
 FROM ghcr.io/plankanban/planka:base-latest
 
