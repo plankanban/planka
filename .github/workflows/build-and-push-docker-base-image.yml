@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  ALPINE_VERSION: 3.15
+  ALPINE_VERSION: 3.16
 
 jobs:
   build-and-push-docker-base-image:
