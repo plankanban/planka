@@ -1,16 +1,17 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { ControlledMenu, useMenuState } from '@szhsin/react-menu';
+import BoardMembershipsStep from '../BoardMembershipsStep';
+
+import usePopupMenu from '../../lib/hooks/use-popup-menu';
 import { startTimer, stopTimer } from '../../utils/timer';
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
 import NameEdit from './NameEdit';
-import { ActionsStep } from './ActionsPopup';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
@@ -53,8 +54,6 @@ const Card = React.memo(
     onLabelDelete,
   }) => {
     const nameEdit = useRef(null);
-    const [menuProps, toggleMenu] = useMenuState();
-    const [anchorPoint, setAnchorPoint] = useState({ x: 0, y: 0 });
 
     const handleClick = useCallback(() => {
       if (document.activeElement) {
@@ -86,14 +85,33 @@ const Card = React.memo(
       nameEdit.current.open();
     }, []);
 
-    const handleContextMenu = useCallback(
-      (e) => {
-        e.preventDefault();
-        setAnchorPoint({ x: e.clientX, y: e.clientY });
-        toggleMenu(true);
+    const {
+      handleContextMenu,
+      element: popupElement,
+      setElement,
+      toggleMenu,
+    } = usePopupMenu('test', [
+      {
+        title: 'Edit Title',
+        onClick: () => {
+          handleNameEdit();
+          toggleMenu(false);
+        },
       },
-      [toggleMenu],
-    );
+      {
+        title: 'Edit Members',
+        onClick: () => {
+          setElement(
+            <BoardMembershipsStep
+              items={allBoardMemberships}
+              currentUserIds={users.map((user) => user.id)}
+              onUserSelect={onUserAdd}
+              onUserDeselect={onUserRemove}
+            />,
+          );
+        },
+      },
+    ]);
 
     const contentNode = (
       <>
@@ -191,43 +209,7 @@ const Card = React.memo(
                       <Icon fitted name="pencil" size="small" />
                     </Button>
 
-                    {canEdit && (
-                      <ControlledMenu
-                        // eslint-disable-next-line react/jsx-props-no-spreading
-                        {...menuProps}
-                        anchorPoint={anchorPoint}
-                        direction="right"
-                        onClose={() => toggleMenu(false)}
-                      >
-                        <ActionsStep
-                          card={{
-                            dueDate,
-                            timer,
-                            boardId,
-                            listId,
-                            projectId,
-                          }}
-                          projectsToLists={allProjectsToLists}
-                          boardMemberships={allBoardMemberships}
-                          currentUserIds={users.map((user) => user.id)}
-                          labels={allLabels}
-                          currentLabelIds={labels.map((label) => label.id)}
-                          onNameEdit={handleNameEdit}
-                          onUpdate={onUpdate}
-                          onMove={onMove}
-                          onTransfer={onTransfer}
-                          onDelete={onDelete}
-                          onUserAdd={onUserAdd}
-                          onUserRemove={onUserRemove}
-                          onBoardFetch={onBoardFetch}
-                          onLabelAdd={onLabelAdd}
-                          onLabelRemove={onLabelRemove}
-                          onLabelCreate={onLabelCreate}
-                          onLabelUpdate={onLabelUpdate}
-                          onLabelDelete={onLabelDelete}
-                        />
-                      </ControlledMenu>
-                    )}
+                    {canEdit && popupElement}
                   </>
                 ) : (
                   <span className={styles.content}>{contentNode}</span>
