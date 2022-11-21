@@ -22,6 +22,6 @@ module.exports = {
       };
     }
 
-    return sails.helpers.cards.getMany(criteria);
+    return sails.helpers.cards.getMany(criteria, 'position');
   },
 };
