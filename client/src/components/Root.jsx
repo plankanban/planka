@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
+import { Route, Routes } from 'react-router-dom';
+import { HistoryRouter as Router } from 'redux-first-history/rr6';
 
 import Paths from '../constants/Paths';
 import LoginContainer from '../containers/LoginContainer';
@@ -19,16 +19,16 @@ import '../styles.module.scss';
 function Root({ store, history }) {
   return (
     <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Switch>
-          <Route exact path={Paths.LOGIN} component={LoginContainer} />
-          <Route exact path={Paths.ROOT} component={CoreWrapperContainer} />
-          <Route exact path={Paths.PROJECTS} component={CoreWrapperContainer} />
-          <Route exact path={Paths.BOARDS} component={CoreWrapperContainer} />
-          <Route exact path={Paths.CARDS} component={CoreWrapperContainer} />
-          <Route path="*" component={NotFound} />
-        </Switch>
-      </ConnectedRouter>
+      <Router history={history}>
+        <Routes>
+          <Route path={Paths.LOGIN} element={<LoginContainer />} />
+          <Route path={Paths.ROOT} element={<CoreWrapperContainer />} />
+          <Route path={Paths.PROJECTS} element={<CoreWrapperContainer />} />
+          <Route path={Paths.BOARDS} element={<CoreWrapperContainer />} />
+          <Route path={Paths.CARDS} element={<CoreWrapperContainer />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </Provider>
   );
 }

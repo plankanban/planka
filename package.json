@@ -38,6 +38,11 @@
       "npm run server:lint"
     ]
   },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
   "eslintConfig": {
     "plugins": [
       "prettier"
@@ -50,14 +55,9 @@
       "prettier/prettier": "error"
     }
   },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "trailingComma": "all"
-  },
   "dependencies": {
-    "concurrently": "^7.3.0",
-    "husky": "^8.0.1",
+    "concurrently": "^7.6.0",
+    "husky": "^8.0.2",
     "lint-staged": "^13.0.3"
   },
   "devDependencies": {

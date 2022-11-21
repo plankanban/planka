@@ -1,5 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import { push } from 'redux-first-history';
 
 import selectors from '../../../selectors';
 import Paths from '../../../constants/Paths';
@@ -19,7 +19,7 @@ export function* handleLocationChange() {
     return;
   }
 
-  switch (pathsMatch.path) {
+  switch (pathsMatch.pattern.path) {
     case Paths.ROOT:
     case Paths.PROJECTS:
     case Paths.BOARDS:
