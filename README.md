@@ -259,6 +259,10 @@ Restart the fail2ban service. You can check the status of your Planka jail by ru
 fail2ban-client status planka
 ```
 
+### Import from Trello
+
+It is not yet implemented inside Planka, but for now you can use the great tool [trello2planka](https://github.com/christophenne/trello2planka) to do the import.
+
 ## Development
 
 Clone the repository and install dependencies:
