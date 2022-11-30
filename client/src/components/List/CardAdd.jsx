@@ -3,17 +3,14 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Form, TextArea } from 'semantic-ui-react';
+import { Button, Form, TextArea, Icon } from 'semantic-ui-react';
 import { useDidUpdate, useToggle } from '../../lib/hooks';
-
 import { useClosableForm, useForm } from '../../hooks';
-
 import styles from './CardAdd.module.scss';
 
 const DEFAULT_DATA = {
   name: '',
 };
-
 const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
   const [t] = useTranslation();
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
@@ -62,17 +59,17 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
   const handleSubmit = useCallback(() => {
     submit();
   }, [submit]);
-
   useEffect(() => {
     if (isOpened) {
       nameField.current.ref.current.focus();
     }
   }, [isOpened]);
-
   useDidUpdate(() => {
     nameField.current.ref.current.focus();
   }, [focusNameFieldState]);
-
+  const copyfun = () => {
+    navigator.clipboard.writeText(data.name);
+  };
   return (
     <Form
       className={classNames(styles.wrapper, !isOpened && styles.wrapperClosed)}
@@ -94,6 +91,13 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
         />
       </div>
       <div className={styles.controls}>
+        <Button
+          onClick={copyfun}
+          onMouseOver={handleControlMouseOver}
+          onMouseOut={handleControlMouseOut}
+        >
+          <Icon fitted name="copy" size="small" />
+        </Button>
         {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
         <Button
           positive
