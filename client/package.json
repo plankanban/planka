@@ -69,6 +69,7 @@
     "photoswipe": "^5.3.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
@@ -110,7 +111,6 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "react-app-rewired": "^2.2.1",
     "react-test-renderer": "^18.2.0"
   }
 }
