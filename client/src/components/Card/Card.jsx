@@ -5,17 +5,20 @@ import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 
+import BoardMembershipsStep from '../BoardMembershipsStep';
+
+import usePopupMenu from '../../lib/hooks/use-popup-menu';
 import { startTimer, stopTimer } from '../../utils/timer';
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
 import NameEdit from './NameEdit';
-import ActionsPopup from './ActionsPopup';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
 import Timer from '../Timer';
 
 import styles from './Card.module.scss';
+import '@szhsin/react-menu/dist/index.css';
 
 const Card = React.memo(
   ({
@@ -81,6 +84,34 @@ const Card = React.memo(
     const handleNameEdit = useCallback(() => {
       nameEdit.current.open();
     }, []);
+
+    const {
+      handleContextMenu,
+      element: popupElement,
+      setElement,
+      toggleMenu,
+    } = usePopupMenu('test', [
+      {
+        title: 'Edit Title',
+        onClick: () => {
+          handleNameEdit();
+          toggleMenu(false);
+        },
+      },
+      {
+        title: 'Edit Members',
+        onClick: () => {
+          setElement(
+            <BoardMembershipsStep
+              items={allBoardMemberships}
+              currentUserIds={users.map((user) => user.id)}
+              onUserSelect={onUserAdd}
+              onUserDeselect={onUserRemove}
+            />,
+          );
+        },
+      },
+    ]);
 
     const contentNode = (
       <>
@@ -150,8 +181,15 @@ const Card = React.memo(
     return (
       <Draggable draggableId={`card:${id}`} index={index} isDragDisabled={!isPersisted || !canEdit}>
         {({ innerRef, draggableProps, dragHandleProps }) => (
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <div {...draggableProps} {...dragHandleProps} ref={innerRef} className={styles.wrapper}>
+          <div
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...draggableProps}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...dragHandleProps}
+            ref={innerRef}
+            className={styles.wrapper}
+            onContextMenu={handleContextMenu}
+          >
             <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
               <div className={styles.card}>
                 {isPersisted ? (
@@ -163,39 +201,15 @@ const Card = React.memo(
                     >
                       {contentNode}
                     </Link>
-                    {canEdit && (
-                      <ActionsPopup
-                        card={{
-                          dueDate,
-                          timer,
-                          boardId,
-                          listId,
-                          projectId,
-                        }}
-                        projectsToLists={allProjectsToLists}
-                        boardMemberships={allBoardMemberships}
-                        currentUserIds={users.map((user) => user.id)}
-                        labels={allLabels}
-                        currentLabelIds={labels.map((label) => label.id)}
-                        onNameEdit={handleNameEdit}
-                        onUpdate={onUpdate}
-                        onMove={onMove}
-                        onTransfer={onTransfer}
-                        onDelete={onDelete}
-                        onUserAdd={onUserAdd}
-                        onUserRemove={onUserRemove}
-                        onBoardFetch={onBoardFetch}
-                        onLabelAdd={onLabelAdd}
-                        onLabelRemove={onLabelRemove}
-                        onLabelCreate={onLabelCreate}
-                        onLabelUpdate={onLabelUpdate}
-                        onLabelDelete={onLabelDelete}
-                      >
-                        <Button className={classNames(styles.actionsButton, styles.target)}>
-                          <Icon fitted name="pencil" size="small" />
-                        </Button>
-                      </ActionsPopup>
-                    )}
+
+                    <Button
+                      className={classNames(styles.actionsButton, styles.target)}
+                      onClick={handleContextMenu}
+                    >
+                      <Icon fitted name="pencil" size="small" />
+                    </Button>
+
+                    {canEdit && popupElement}
                   </>
                 ) : (
                   <span className={styles.content}>{contentNode}</span>

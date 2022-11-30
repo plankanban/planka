@@ -245,4 +245,6 @@ ActionsStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
+export { ActionsStep };
+
 export default withPopup(ActionsStep);
