@@ -1,32 +1,40 @@
-FROM node:lts AS client-builder
+FROM ghcr.io/plankanban/planka:base-latest as server-dependencies
 
 WORKDIR /app
 
-COPY client/package.json client/package-lock.json ./
+COPY server/package.json server/package-lock.json .
 
 RUN npm install npm@latest --global \
-  && npm install
+  && npm clean-install --omit=development
+
+FROM node:lts AS client
+
+WORKDIR /app
+
+COPY client/package.json client/package-lock.json .
+
+RUN npm install npm@latest --global \
+  && npm clean-install --omit=development
 
 COPY client .
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
 FROM ghcr.io/plankanban/planka:base-latest
 
+RUN apk del vips-dependencies --purge
+
+USER node
 WORKDIR /app
 
-COPY server/.npmrc server/package.json server/package-lock.json ./
+COPY --chown=node:node docker-start.sh start.sh
+COPY --chown=node:node server .
 
-RUN npm install npm@latest --global \
-  && npm install --production \
-  && apk del vips-dependencies --purge
+RUN mv .env.sample .env
 
-COPY docker-start.sh start.sh
-COPY server .
+COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
 
-RUN cp .env.sample .env
-
-COPY --from=client-builder /app/build public
-COPY --from=client-builder /app/build/index.html views/index.ejs
+COPY --from=client --chown=node:node /app/build public
+COPY --from=client --chown=node:node /app/build/index.html views/index.ejs
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
