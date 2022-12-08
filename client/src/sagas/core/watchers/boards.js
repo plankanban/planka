@@ -8,6 +8,9 @@ export default function* boardsWatchers() {
     takeEvery(EntryActionTypes.BOARD_IN_CURRENT_PROJECT_CREATE, ({ payload: { data } }) =>
       services.createBoardInCurrentProject(data),
     ),
+    takeEvery(EntryActionTypes.TRELLO_BOARD_IN_CURRENT_PROJECT_IMPORT, ({ payload: { data } }) =>
+      services.importTrelloBoardInCurrentProject(data),
+    ),
     takeEvery(EntryActionTypes.BOARD_CREATE_HANDLE, ({ payload: { board } }) =>
       services.handleBoardCreate(board),
     ),

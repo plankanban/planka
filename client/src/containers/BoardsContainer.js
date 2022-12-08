@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onCreate: entryActions.createBoardInCurrentProject,
+      onImport: entryActions.importTrelloBoardInCurrentProject,
       onUpdate: entryActions.updateBoard,
       onMove: entryActions.moveBoard,
       onDelete: entryActions.deleteBoard,

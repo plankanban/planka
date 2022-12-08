@@ -1,20 +1,23 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Divider, Menu } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
-import { Input, Popup } from '../../lib/custom-ui';
+import { Input, Popup, FilePicker } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
 import styles from './AddPopup.module.scss';
 
-const AddStep = React.memo(({ onCreate, onClose }) => {
+const AddStep = React.memo(({ onCreate, onImport, onClose }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm({
     name: '',
+    file: null,
   });
+
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const nameField = useRef(null);
 
@@ -30,9 +33,25 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
       return;
     }
 
-    onCreate(cleanData);
+    if (data.file) {
+      onImport(cleanData);
+    } else {
+      onCreate(cleanData);
+    }
+
     onClose();
-  }, [onCreate, onClose, data]);
+  }, [onClose, data, onImport, onCreate]);
+
+  const handleFileSelect = useCallback(
+    (file) => {
+      handleFieldChange(null, {
+        name: 'file',
+        value: file,
+      });
+      setSelectedFile(file);
+    },
+    [handleFieldChange, setSelectedFile],
+  );
 
   useEffect(() => {
     nameField.current.focus();
@@ -55,7 +74,21 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
             className={styles.field}
             onChange={handleFieldChange}
           />
-          <Button positive content={t('action.createBoard')} />
+          <Divider />
+          <FilePicker onSelect={handleFileSelect} accept=".json">
+            <Menu.Item className={styles.menuItem}>
+              {selectedFile
+                ? selectedFile.name
+                : t('common.uploadTrelloFile', {
+                    context: 'title',
+                  })}
+            </Menu.Item>
+          </FilePicker>
+          <Divider />
+          <Button
+            positive
+            content={selectedFile ? t('action.importTrelloBoard') : t('action.createBoard')}
+          />
         </Form>
       </Popup.Content>
     </>
@@ -64,6 +97,7 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
 
 AddStep.propTypes = {
   onCreate: PropTypes.func.isRequired,
+  onImport: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

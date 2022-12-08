@@ -46,6 +46,46 @@ export function* createBoardInCurrentProject(data) {
   yield call(createBoard, projectId, data);
 }
 
+export function* importBoard(projectId, data) {
+  const nextData = {
+    ...data,
+    position: yield select(selectors.selectNextBoardPosition, projectId),
+  };
+
+  const localId = yield call(createLocalId);
+
+  yield put(
+    actions.createBoard({
+      ...nextData,
+      projectId,
+      id: localId,
+    }),
+  );
+
+  let board;
+  let boardMemberships;
+
+  try {
+    ({
+      item: board,
+      included: { boardMemberships },
+    } = yield call(request, api.importBoard, projectId, nextData));
+  } catch (error) {
+    yield put(actions.createBoard.failure(localId, error));
+    return;
+  }
+
+  yield put(actions.createBoard.success(localId, board, boardMemberships));
+  yield put(actions.fetchBoard(board.id));
+  yield call(goToBoard, board.id);
+}
+
+export function* importTrelloBoardInCurrentProject(data) {
+  const { projectId } = yield select(selectors.selectPath);
+
+  yield call(importBoard, projectId, data);
+}
+
 export function* handleBoardCreate(board) {
   yield put(actions.handleBoardCreate(board));
 }
@@ -163,6 +203,7 @@ export function* handleBoardDelete(board) {
 export default {
   createBoard,
   createBoardInCurrentProject,
+  importTrelloBoardInCurrentProject,
   handleBoardCreate,
   fetchBoard,
   updateBoard,
