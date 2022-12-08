@@ -22,7 +22,7 @@ async function importFromTrello(inputs) {
 
   const loadTrelloFile = async () =>
     new Promise((resolve, reject) => {
-      fs.readFile(inputs.trelloFile.fd, (err, data) => {
+      fs.readFile(inputs.file.fd, (err, data) => {
         const exp = data && JSON.parse(data);
         if (err) {
           reject(err);
@@ -126,7 +126,7 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    trelloFile: {
+    file: {
       type: 'json',
       required: true,
     },
