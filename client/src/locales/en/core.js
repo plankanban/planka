@@ -143,7 +143,7 @@ export default {
       time: 'Time',
       timer: 'Timer',
       title: 'Title',
-      uploadTrelloFile_title: 'Import Trello JSON File',
+      uploadTrelloFile_title: 'Import Board from Trello',
       userActions_title: 'User Actions',
       userAddedThisCardToList: '<0>{{user}}</0><1> added this card to {{list}}</1>',
       userLeftNewCommentToCard: '{{user}} left a new comment «{{comment}}» to <2>{{card}}</2>',

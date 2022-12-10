@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { Button, Form, Divider, Menu } from 'semantic-ui-react';
+import { Button, Form, Menu } from 'semantic-ui-react';
 import { withPopup } from '../../lib/popup';
 import { Input, Popup, FilePicker } from '../../lib/custom-ui';
 
@@ -74,17 +74,17 @@ const AddStep = React.memo(({ onCreate, onImport, onClose }) => {
             className={styles.field}
             onChange={handleFieldChange}
           />
-          <Divider />
-          <FilePicker onSelect={handleFileSelect} accept=".json">
-            <Menu.Item className={styles.menuItem}>
-              {selectedFile
-                ? selectedFile.name
-                : t('common.uploadTrelloFile', {
-                    context: 'title',
-                  })}
-            </Menu.Item>
-          </FilePicker>
-          <Divider />
+          <Menu secondary vertical className={styles.menu}>
+            <FilePicker onSelect={handleFileSelect} accept=".json">
+              <Menu.Item className={styles.menuItem}>
+                {selectedFile
+                  ? selectedFile.name
+                  : t('common.uploadTrelloFile', {
+                      context: 'title',
+                    })}
+              </Menu.Item>
+            </FilePicker>
+          </Menu>
           <Button
             positive
             content={selectedFile ? t('action.importTrelloBoard') : t('action.createBoard')}
