@@ -1,5 +1,17 @@
 async function importFromTrello(inputs) {
+  const trelloToPlankaLabels = {};
+
   const getTrelloLists = () => inputs.trelloBoard.lists.filter((list) => !list.closed);
+  const getUsedTrelloLabels = () => {
+    const result = {};
+    inputs.trelloBoard.cards
+      .map((card) => card.labels)
+      .flat()
+      .forEach((label) => {
+        result[label.id] = label;
+      });
+    return Object.values(result);
+  };
   const getTrelloCardsOfList = (listId) =>
     inputs.trelloBoard.cards.filter((l) => l.idList === listId && !l.closed);
   const getAllTrelloCheckItemsOfCard = (cardId) =>
@@ -15,6 +27,8 @@ async function importFromTrello(inputs) {
         action.data.card &&
         action.data.card.id === cardId,
     );
+  const getPlankaLabelColor = (trelloLabelColor) =>
+    Label.COLORS.find((c) => c.indexOf(trelloLabelColor) !== -1) || 'desert-sand';
 
   const importComments = async (trelloCard, plankaCard) => {
     const trelloComments = getTrelloCommentsOfCard(trelloCard.id);
@@ -56,6 +70,18 @@ async function importFromTrello(inputs) {
     );
   };
 
+  const importCardLabels = async (trelloCard, plankaCard) => {
+    return Promise.all(
+      trelloCard.labels.map(async (trelloLabel) => {
+        return sails.helpers.cardLabels.createOne(
+          trelloToPlankaLabels[trelloLabel.id],
+          plankaCard,
+          inputs.request,
+        );
+      }),
+    );
+  };
+
   const importCards = async (trelloList, plankaList) => {
     return Promise.all(
       getTrelloCardsOfList(trelloList.id).map(async (trelloCard) => {
@@ -72,6 +98,7 @@ async function importFromTrello(inputs) {
           inputs.request,
         );
 
+        await importCardLabels(trelloCard, plankaCard);
         await importTasks(trelloCard, plankaCard);
         await importComments(trelloCard, plankaCard);
         return plankaCard;
@@ -95,6 +122,23 @@ async function importFromTrello(inputs) {
     );
   };
 
+  const importLabels = async () => {
+    return Promise.all(
+      getUsedTrelloLabels().map(async (trelloLabel) => {
+        const plankaLabel = await sails.helpers.labels.createOne(
+          {
+            name: trelloLabel.name || null,
+            color: getPlankaLabelColor(trelloLabel.color),
+          },
+          inputs.board,
+          inputs.request,
+        );
+        trelloToPlankaLabels[trelloLabel.id] = plankaLabel;
+      }),
+    );
+  };
+
+  await importLabels();
   await importLists();
 }
 
