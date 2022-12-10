@@ -1,37 +1,20 @@
-const fs = require('fs');
-
 async function importFromTrello(inputs) {
-  let trelloBoard;
-
-  const getTrelloLists = () => trelloBoard.lists.filter((list) => !list.closed);
+  const getTrelloLists = () => inputs.trelloBoard.lists.filter((list) => !list.closed);
   const getTrelloCardsOfList = (listId) =>
-    trelloBoard.cards.filter((l) => l.idList === listId && !l.closed);
+    inputs.trelloBoard.cards.filter((l) => l.idList === listId && !l.closed);
   const getAllTrelloCheckItemsOfCard = (cardId) =>
-    trelloBoard.checklists
+    inputs.trelloBoard.checklists
       .filter((c) => c.idCard === cardId)
       .map((checklist) => checklist.checkItems)
       .flat();
   const getTrelloCommentsOfCard = (cardId) =>
-    trelloBoard.actions.filter(
+    inputs.trelloBoard.actions.filter(
       (action) =>
         action.type === 'commentCard' &&
         action.data &&
         action.data.card &&
         action.data.card.id === cardId,
     );
-
-  const loadTrelloFile = async () =>
-    new Promise((resolve, reject) => {
-      fs.readFile(inputs.file.fd, (err, data) => {
-        const exp = data && JSON.parse(data);
-        if (err) {
-          reject(err);
-          return;
-        }
-        trelloBoard = exp;
-        resolve(exp);
-      });
-    });
 
   const importComments = async (trelloCard, plankaCard) => {
     const trelloComments = getTrelloCommentsOfCard(trelloCard.id);
@@ -112,7 +95,6 @@ async function importFromTrello(inputs) {
     );
   };
 
-  await loadTrelloFile();
   await importLists();
 }
 
@@ -126,7 +108,7 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    file: {
+    trelloBoard: {
       type: 'json',
       required: true,
     },
@@ -136,11 +118,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    // TODO some validations or something? check if the input file is ok?
-
     await importFromTrello(inputs);
-
-    // TODO handle errors properly
 
     return {
       board: inputs.board,
