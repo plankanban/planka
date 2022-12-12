@@ -28,6 +28,12 @@ const Label = React.memo(({ name, color, size, isDisabled, onClick }) => {
       )}
     >
       {name || '\u00A0'}
+      <Button>
+        icon="shuffle"
+        size="tiny"
+        className={styles.editButton}
+        onClick={console.log('Hello')}
+      </Button>
     </div>
   );
 
@@ -56,3 +62,12 @@ Label.defaultProps = {
 };
 
 export default Label;
+const filteredItems = useMemo(
+  () =>
+    items.filter(
+      (label) =>
+        (label.name && label.name.toLowerCase().includes(cleanSearch)) ||
+        label.color.includes(cleanSearch),
+    ),
+  [items, cleanSearch],
+);
