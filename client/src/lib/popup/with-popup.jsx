@@ -80,8 +80,10 @@ export default (WrappedComponent, defaultProps) => {
         popperModifiers={[
           {
             name: 'preventOverflow',
+            enabled: true,
             options: {
-              boundariesElement: 'window',
+              altAxis: true,
+              padding: 20,
             },
           },
         ]}
