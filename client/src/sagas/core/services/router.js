@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects';
-import { push } from 'redux-first-history';
+import { push } from '../../../lib/redux-router';
 
 import request from '../request';
 import selectors from '../../../selectors';

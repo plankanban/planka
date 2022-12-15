@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import { HistoryRouter as Router } from 'redux-first-history/rr6';
+import { ReduxRouter } from '../lib/redux-router';
 
 import Paths from '../constants/Paths';
 import LoginContainer from '../containers/LoginContainer';
@@ -19,7 +19,7 @@ import '../styles.module.scss';
 function Root({ store, history }) {
   return (
     <Provider store={store}>
-      <Router history={history}>
+      <ReduxRouter history={history}>
         <Routes>
           <Route path={Paths.LOGIN} element={<LoginContainer />} />
           <Route path={Paths.ROOT} element={<CoreWrapperContainer />} />
@@ -28,7 +28,7 @@ function Root({ store, history }) {
           <Route path={Paths.CARDS} element={<CoreWrapperContainer />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </Router>
+      </ReduxRouter>
     </Provider>
   );
 }

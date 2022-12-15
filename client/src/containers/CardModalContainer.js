@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'redux-first-history';
 import omit from 'lodash/omit';
+import { push } from '../lib/redux-router';
 
 import selectors from '../selectors';
 import entryActions from '../entry-actions';

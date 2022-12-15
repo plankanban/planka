@@ -1,4 +1,4 @@
-import { LOCATION_CHANGE } from 'redux-first-history';
+import { LOCATION_CHANGE_HANDLE } from '../lib/redux-router';
 
 import ActionTypes from '../constants/ActionTypes';
 import ModalTypes from '../constants/ModalTypes';
@@ -12,7 +12,7 @@ const initialState = {
 // eslint-disable-next-line default-param-last
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case LOCATION_CHANGE:
+    case LOCATION_CHANGE_HANDLE:
     case ActionTypes.MODAL_CLOSE:
       return {
         ...state,
