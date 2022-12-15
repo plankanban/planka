@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
-import store, { history } from './store';
+import store from './store';
+import history from './history';
 import Root from './components/Root';
 
 import './i18n';

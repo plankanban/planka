@@ -1,13 +1,14 @@
 import { applyMiddleware, legacy_createStore as createStore, compose as reduxCompose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { createRouterMiddleware } from './lib/redux-router';
 
 import rootReducer from './reducers';
 import rootSaga from './sagas';
-import { createReduxHistory, routerMiddleware } from './redux-history-context';
+import history from './history';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [sagaMiddleware, routerMiddleware];
+const middlewares = [sagaMiddleware, createRouterMiddleware(history)];
 
 let compose = reduxCompose;
 
@@ -22,10 +23,6 @@ if (process.env.NODE_ENV !== 'production') {
   }
 }
 
-const store = createStore(rootReducer, compose(applyMiddleware(...middlewares)));
+export default createStore(rootReducer, compose(applyMiddleware(...middlewares)));
 
 sagaMiddleware.run(rootSaga);
-
-export default store;
-
-export const history = createReduxHistory(store);

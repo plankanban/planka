@@ -1,3 +1,5 @@
-import { routerReducer } from '../redux-history-context';
+import { createRouterReducer } from '../lib/redux-router';
 
-export default routerReducer;
+import history from '../history';
+
+export default createRouterReducer(history);
