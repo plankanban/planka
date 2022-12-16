@@ -33,7 +33,6 @@ module.exports.routes = {
   'DELETE /api/project-managers/:id': 'project-managers/delete',
 
   'POST /api/projects/:projectId/boards': 'boards/create',
-  'POST /api/projects/:projectId/imports/boards': 'boards/import',
   'GET /api/boards/:id': 'boards/show',
   'PATCH /api/boards/:id': 'boards/update',
   'DELETE /api/boards/:id': 'boards/delete',

@@ -8,15 +8,8 @@ import { transformAttachment } from './attachments';
 const createBoard = (projectId, data, headers) =>
   socket.post(`/projects/${projectId}/boards`, data, headers);
 
-// TODO: remove and use createBoard instead
-const importBoard = (projectId, data, headers) =>
-  http.post(
-    `/projects/${projectId}/imports/boards?name=${data.name}&position=${data.position}`,
-    {
-      file: data.import.file,
-    },
-    headers,
-  );
+const createBoardWithImport = (projectId, data, requestId, headers) =>
+  http.post(`/projects/${projectId}/boards?requestId=${requestId}`, data, headers);
 
 const getBoard = (id, headers) =>
   socket.get(`/boards/${id}`, undefined, headers).then((body) => ({
@@ -34,7 +27,7 @@ const deleteBoard = (id, headers) => socket.delete(`/boards/${id}`, undefined, h
 
 export default {
   createBoard,
-  importBoard,
+  createBoardWithImport,
   getBoard,
   updateBoard,
   deleteBoard,

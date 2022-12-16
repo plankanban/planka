@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import { call, put, select } from 'redux-saga/effects';
 
 import { goToBoard, goToProject } from './router';
@@ -8,9 +7,7 @@ import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
-export function* createBoard(projectId, data) {
-  const isImport = !!data.import;
-
+export function* createBoard(projectId, { import: boardImport, ...data }) {
   const nextData = {
     ...data,
     position: yield select(selectors.selectNextBoardPosition, projectId),
@@ -20,7 +17,7 @@ export function* createBoard(projectId, data) {
 
   yield put(
     actions.createBoard({
-      ...(isImport ? omit(nextData, 'import') : nextData),
+      ...nextData,
       projectId,
       id: localId,
     }),
@@ -33,7 +30,19 @@ export function* createBoard(projectId, data) {
     ({
       item: board,
       included: { boardMemberships },
-    } = yield call(request, isImport ? api.importBoard : api.createBoard, projectId, nextData));
+    } = yield boardImport
+      ? call(
+          request,
+          api.createBoardWithImport,
+          projectId,
+          {
+            ...nextData,
+            importType: boardImport.type,
+            importFile: boardImport.file,
+          },
+          localId,
+        )
+      : call(request, api.createBoard, projectId, nextData));
   } catch (error) {
     yield put(actions.createBoard.failure(localId, error));
     return;
@@ -49,8 +58,12 @@ export function* createBoardInCurrentProject(data) {
   yield call(createBoard, projectId, data);
 }
 
-export function* handleBoardCreate(board) {
-  yield put(actions.handleBoardCreate(board));
+export function* handleBoardCreate(board, requestId) {
+  const isExists = yield select(selectors.selectIsBoardWithIdExists, requestId);
+
+  if (!isExists) {
+    yield put(actions.handleBoardCreate(board));
+  }
 }
 
 export function* fetchBoard(id) {

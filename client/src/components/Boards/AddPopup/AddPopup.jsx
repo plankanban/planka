@@ -92,14 +92,16 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
             className={styles.field}
             onChange={handleFieldChange}
           />
-          <Button positive content={t('action.createBoard')} />
-          <Button type="button" className={styles.importButton} onClick={handleImportClick}>
-            <Icon
-              name={data.import ? data.import.type : 'arrow down'}
-              className={styles.importButtonIcon}
-            />
-            {data.import ? data.import.file.name : t('action.import')}
-          </Button>
+          <div className={styles.controls}>
+            <Button positive content={t('action.createBoard')} className={styles.createButton} />
+            <Button type="button" className={styles.importButton} onClick={handleImportClick}>
+              <Icon
+                name={data.import ? data.import.type : 'arrow down'}
+                className={styles.importButtonIcon}
+              />
+              {data.import ? data.import.file.name : t('action.import')}
+            </Button>
+          </div>
         </Form>
       </Popup.Content>
     </>

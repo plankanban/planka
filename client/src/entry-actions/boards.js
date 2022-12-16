@@ -7,10 +7,11 @@ const createBoardInCurrentProject = (data) => ({
   },
 });
 
-const handleBoardCreate = (board) => ({
+const handleBoardCreate = (board, requestId) => ({
   type: EntryActionTypes.BOARD_CREATE_HANDLE,
   payload: {
     board,
+    requestId,
   },
 });
 

@@ -8,8 +8,8 @@ export default function* boardsWatchers() {
     takeEvery(EntryActionTypes.BOARD_IN_CURRENT_PROJECT_CREATE, ({ payload: { data } }) =>
       services.createBoardInCurrentProject(data),
     ),
-    takeEvery(EntryActionTypes.BOARD_CREATE_HANDLE, ({ payload: { board } }) =>
-      services.handleBoardCreate(board),
+    takeEvery(EntryActionTypes.BOARD_CREATE_HANDLE, ({ payload: { board, requestId } }) =>
+      services.handleBoardCreate(board, requestId),
     ),
     takeEvery(EntryActionTypes.BOARD_FETCH, ({ payload: { id } }) => services.fetchBoard(id)),
     takeEvery(EntryActionTypes.BOARD_UPDATE, ({ payload: { id, data } }) =>
