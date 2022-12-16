@@ -172,6 +172,12 @@ export const selectCurrentUserMembershipForCurrentBoard = createSelector(
   },
 );
 
+export const selectIsBoardWithIdExists = createSelector(
+  orm,
+  (_, id) => id,
+  ({ Board }, id) => Board.idExists(id),
+);
+
 export default {
   makeSelectBoardById,
   selectBoardById,
@@ -182,4 +188,5 @@ export default {
   selectFilterUsersForCurrentBoard,
   selectFilterLabelsForCurrentBoard,
   selectCurrentUserMembershipForCurrentBoard,
+  selectIsBoardWithIdExists,
 };

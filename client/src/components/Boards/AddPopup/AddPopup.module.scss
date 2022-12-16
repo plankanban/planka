@@ -1,0 +1,42 @@
+:global(#app) {
+  .controls {
+    display: flex;
+    max-width: 280px;
+
+    @media only screen and (max-width: 767px) {
+      max-width: 226px;
+    }
+  }
+
+  .createButton {
+    white-space: nowrap;
+  }
+
+  .field {
+    margin-bottom: 8px;
+  }
+
+  .importButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    font-weight: normal;
+    margin-left: auto;
+    margin-right: 0;
+    overflow: hidden;
+    text-align: left;
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    transition: none;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #092d42;
+    }
+  }
+
+  .importButtonIcon {
+    text-decoration: none;
+  }
+}

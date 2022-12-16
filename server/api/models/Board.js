@@ -10,8 +10,13 @@ const Types = {
   COLLECTION: 'collection',
 };
 
+const ImportTypes = {
+  TRELLO: 'trello',
+};
+
 module.exports = {
   Types,
+  ImportTypes,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
