@@ -5,6 +5,13 @@ module.exports = {
       custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
       required: true,
     },
+    import: {
+      type: 'json',
+      custom: (value) =>
+        value.type &&
+        Object.values(Board.ImportTypes).includes(value.type) &&
+        _.isPlainObject(value.board),
+    },
     user: {
       type: 'ref',
       required: true,
@@ -12,6 +19,10 @@ module.exports = {
     project: {
       type: 'ref',
       required: true,
+    },
+    requestId: {
+      type: 'string',
+      isNotEmptyString: true,
     },
     request: {
       type: 'ref',
@@ -54,6 +65,10 @@ module.exports = {
       projectId: inputs.project.id,
     }).fetch();
 
+    if (inputs.import && inputs.import.type === Board.ImportTypes.TRELLO) {
+      await sails.helpers.boards.importFromTrello(inputs.user, board, inputs.import.board);
+    }
+
     const boardMembership = await BoardMembership.create({
       boardId: board.id,
       userId: inputs.user.id,
@@ -66,6 +81,7 @@ module.exports = {
         'boardCreate',
         {
           item: board,
+          requestId: inputs.requestId,
         },
         inputs.request,
       );

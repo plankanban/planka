@@ -125,11 +125,7 @@ export default class extends Model {
         break;
       case ActionTypes.BOARD_CREATE__SUCCESS:
         Board.withId(payload.localId).delete();
-
-        Board.upsert({
-          ...payload.board,
-          isFetching: false,
-        });
+        Board.upsert(payload.board);
 
         break;
       case ActionTypes.BOARD_FETCH__SUCCESS:

@@ -1,6 +1,15 @@
+const util = require('util');
+const { v4: uuid } = require('uuid');
+
 const Errors = {
   PROJECT_NOT_FOUND: {
     projectNotFound: 'Project not found',
+  },
+  NO_IMPORT_FILE_WAS_UPLOADED: {
+    noImportFileWasUploaded: 'No import file was uploaded',
+  },
+  INVALID_IMPORT_FILE: {
+    invalidImportFile: 'Invalid import file',
   },
 };
 
@@ -24,11 +33,25 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    importType: {
+      type: 'string',
+      isIn: Object.values(Board.ImportTypes),
+    },
+    requestId: {
+      type: 'string',
+      isNotEmptyString: true,
+    },
   },
 
   exits: {
     projectNotFound: {
       responseType: 'notFound',
+    },
+    noImportFileWasUploaded: {
+      responseType: 'unprocessableEntity',
+    },
+    uploadError: {
+      responseType: 'unprocessableEntity',
     },
   },
 
@@ -49,10 +72,42 @@ module.exports = {
 
     const values = _.pick(inputs, ['type', 'position', 'name']);
 
+    let boardImport;
+    if (inputs.importType && Object.values(Board.ImportTypes).includes(inputs.importType)) {
+      const upload = util.promisify((options, callback) =>
+        this.req.file('importFile').upload(options, (error, files) => callback(error, files)),
+      );
+
+      let files;
+      try {
+        files = await upload({
+          saveAs: uuid(),
+          maxBytes: null,
+        });
+      } catch (error) {
+        return exits.uploadError(error.message); // TODO: add error
+      }
+
+      if (files.length === 0) {
+        throw Errors.NO_IMPORT_FILE_WAS_UPLOADED;
+      }
+
+      const file = _.last(files);
+
+      if (inputs.importType === Board.ImportTypes.TRELLO) {
+        boardImport = {
+          type: inputs.importType,
+          board: await sails.helpers.boards.processUploadedTrelloImportFile(file),
+        };
+      }
+    }
+
     const { board, boardMembership } = await sails.helpers.boards.createOne(
       values,
+      boardImport,
       currentUser,
       project,
+      inputs.requestId,
       this.req,
     );
 

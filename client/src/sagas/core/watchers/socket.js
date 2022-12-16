@@ -48,8 +48,8 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleProjectManagerDelete(item));
     };
 
-    const handleBoardCreate = ({ item }) => {
-      emit(entryActions.handleBoardCreate(item));
+    const handleBoardCreate = ({ item, requestId }) => {
+      emit(entryActions.handleBoardCreate(item, requestId));
     };
 
     const handleBoardUpdate = ({ item }) => {
