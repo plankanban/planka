@@ -30,11 +30,12 @@ export default class extends Model {
   static reducer({ type, payload }, Board) {
     switch (type) {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
-      case ActionTypes.BOARD_FETCH__SUCCESS:
-        Board.upsert({
-          ...payload.board,
-          isFetching: false,
-        });
+        if (payload.board) {
+          Board.upsert({
+            ...payload.board,
+            isFetching: false,
+          });
+        }
 
         break;
       case ActionTypes.LOCATION_CHANGE_HANDLE__BOARD_FETCH:
@@ -125,6 +126,13 @@ export default class extends Model {
       case ActionTypes.BOARD_CREATE__SUCCESS:
         Board.withId(payload.localId).delete();
 
+        Board.upsert({
+          ...payload.board,
+          isFetching: false,
+        });
+
+        break;
+      case ActionTypes.BOARD_FETCH__SUCCESS:
         Board.upsert({
           ...payload.board,
           isFetching: false,
