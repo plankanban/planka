@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import { call, put, select } from 'redux-saga/effects';
 
 import { goToBoard, goToProject } from './router';
@@ -6,6 +7,51 @@ import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
+
+export function* createBoard(projectId, data) {
+  const isImport = !!data.import;
+
+  const nextData = {
+    ...data,
+    position: yield select(selectors.selectNextBoardPosition, projectId),
+  };
+
+  const localId = yield call(createLocalId);
+
+  yield put(
+    actions.createBoard({
+      ...(isImport ? omit(nextData, 'import') : nextData),
+      projectId,
+      id: localId,
+    }),
+  );
+
+  let board;
+  let boardMemberships;
+
+  try {
+    ({
+      item: board,
+      included: { boardMemberships },
+    } = yield call(request, isImport ? api.importBoard : api.createBoard, projectId, nextData));
+  } catch (error) {
+    yield put(actions.createBoard.failure(localId, error));
+    return;
+  }
+
+  yield put(actions.createBoard.success(localId, board, boardMemberships));
+  yield call(goToBoard, board.id);
+}
+
+export function* createBoardInCurrentProject(data) {
+  const { projectId } = yield select(selectors.selectPath);
+
+  yield call(createBoard, projectId, data);
+}
+
+export function* handleBoardCreate(board) {
+  yield put(actions.handleBoardCreate(board));
+}
 
 export function* fetchBoard(id) {
   yield put(actions.fetchBoard(id));
@@ -58,59 +104,6 @@ export function* fetchBoard(id) {
       attachments,
     ),
   );
-}
-
-export function* createBoard(projectId, data) {
-  const isImport = data && data.file;
-  const nextData = {
-    ...data,
-    position: yield select(selectors.selectNextBoardPosition, projectId),
-  };
-
-  const localId = yield call(createLocalId);
-
-  yield put(
-    actions.createBoard({
-      ...nextData,
-      projectId,
-      id: localId,
-    }),
-  );
-
-  let board;
-  let boardMemberships;
-
-  try {
-    ({
-      item: board,
-      included: { boardMemberships },
-    } = yield call(request, isImport ? api.importBoard : api.createBoard, projectId, nextData));
-  } catch (error) {
-    yield put(actions.createBoard.failure(localId, error));
-    return;
-  }
-
-  yield put(actions.createBoard.success(localId, board, boardMemberships));
-  yield call(goToBoard, board.id);
-  if (isImport) {
-    yield call(fetchBoard, board.id);
-  }
-}
-
-export function* createBoardInCurrentProject(data) {
-  const { projectId } = yield select(selectors.selectPath);
-
-  yield call(createBoard, projectId, data);
-}
-
-export function* importTrelloBoardInCurrentProject(data) {
-  const { projectId } = yield select(selectors.selectPath);
-
-  yield call(createBoard, projectId, data);
-}
-
-export function* handleBoardCreate(board) {
-  yield put(actions.handleBoardCreate(board));
 }
 
 export function* updateBoard(id, data) {
@@ -173,7 +166,6 @@ export function* handleBoardDelete(board) {
 export default {
   createBoard,
   createBoardInCurrentProject,
-  importTrelloBoardInCurrentProject,
   handleBoardCreate,
   fetchBoard,
   updateBoard,

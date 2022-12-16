@@ -8,11 +8,12 @@ import { transformAttachment } from './attachments';
 const createBoard = (projectId, data, headers) =>
   socket.post(`/projects/${projectId}/boards`, data, headers);
 
+// TODO: remove and use createBoard instead
 const importBoard = (projectId, data, headers) =>
   http.post(
     `/projects/${projectId}/imports/boards?name=${data.name}&position=${data.position}`,
     {
-      file: data.file,
+      file: data.import.file,
     },
     headers,
   );

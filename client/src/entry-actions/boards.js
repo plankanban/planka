@@ -7,13 +7,6 @@ const createBoardInCurrentProject = (data) => ({
   },
 });
 
-const importTrelloBoardInCurrentProject = (data) => ({
-  type: EntryActionTypes.TRELLO_BOARD_IN_CURRENT_PROJECT_IMPORT,
-  payload: {
-    data,
-  },
-});
-
 const handleBoardCreate = (board) => ({
   type: EntryActionTypes.BOARD_CREATE_HANDLE,
   payload: {
@@ -67,7 +60,6 @@ const handleBoardDelete = (board) => ({
 
 export default {
   createBoardInCurrentProject,
-  importTrelloBoardInCurrentProject,
   handleBoardCreate,
   fetchBoard,
   updateBoard,

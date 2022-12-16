@@ -1,0 +1,31 @@
+:global(#app) {
+  .field {
+    margin-bottom: 8px;
+  }
+
+  .importButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    float: right;
+    font-weight: normal;
+    margin-right: 0;
+    max-width: 49%;
+    overflow: hidden;
+    text-align: left;
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    transition: none;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #092d42;
+    }
+  }
+
+  .importButtonIcon {
+    font-size: 13px;
+    text-decoration: none;
+  }
+}
