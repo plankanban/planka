@@ -261,7 +261,7 @@ fail2ban-client status planka
 
 ### Import from Trello
 
-It is not yet implemented inside Planka, but for now you can use the great tool [trello2planka](https://github.com/christophenne/trello2planka) to do the import.
+It's already available in Planka, or you can also use the great tool [trello2planka](https://github.com/christophenne/trello2planka) to do the import.
 
 ## Development
 
