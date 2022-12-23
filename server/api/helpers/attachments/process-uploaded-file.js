@@ -26,9 +26,11 @@ module.exports = {
     fs.mkdirSync(rootPath);
     await moveFile(inputs.file.fd, filePath);
 
-    const image = sharp(filePath);
-    let metadata;
+    const image = sharp(filePath, {
+      animated: true,
+    });
 
+    let metadata;
     try {
       metadata = await image.metadata();
     } catch (error) {} // eslint-disable-line no-empty
@@ -44,25 +46,19 @@ module.exports = {
       const thumbnailsPath = path.join(rootPath, 'thumbnails');
       fs.mkdirSync(thumbnailsPath);
 
+      const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
+
       try {
         await image
-          .resize(
-            metadata.height > metadata.width
-              ? {
-                  width: 256,
-                  height: 320,
-                }
-              : {
-                  width: 256,
-                },
-          )
-          .jpeg({
-            quality: 100,
-            chromaSubsampling: '4:4:4',
+          .resize(256, metadata.height > metadata.width ? 320 : undefined, {
+            kernel: sharp.kernel.nearest,
           })
-          .toFile(path.join(thumbnailsPath, 'cover-256.jpg'));
+          .toFile(path.join(thumbnailsPath, `cover-256.${extension}`));
 
-        fileData.image = _.pick(metadata, ['width', 'height']);
+        fileData.image = {
+          ..._.pick(metadata, ['width', 'height']),
+          thumbnailsExtension: extension,
+        };
       } catch (error1) {
         try {
           rimraf.sync(thumbnailsPath);

@@ -88,7 +88,7 @@ module.exports = {
     project = await sails.helpers.projects.updateOne(
       project,
       {
-        backgroundImageDirname: fileData.dirname,
+        backgroundImage: fileData,
       },
       this.req,
     );

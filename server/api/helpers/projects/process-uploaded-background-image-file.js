@@ -17,11 +17,18 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const image = sharp(inputs.file.fd);
+    const image = sharp(inputs.file.fd, {
+      animated: true,
+    });
 
+    let metadata;
     try {
-      await image.metadata();
+      metadata = await image.metadata();
     } catch (error) {
+      throw 'fileIsNotImage';
+    }
+
+    if (['svg', 'pdf'].includes(metadata.format)) {
       throw 'fileIsNotImage';
     }
 
@@ -30,16 +37,16 @@ module.exports = {
 
     fs.mkdirSync(rootPath);
 
+    const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
+
     try {
-      await image.jpeg().toFile(path.join(rootPath, 'original.jpg'));
+      await image.toFile(path.join(rootPath, `original.${extension}`));
 
       await image
-        .resize(336, 200)
-        .jpeg({
-          quality: 100,
-          chromaSubsampling: '4:4:4',
+        .resize(336, 200, {
+          kernel: sharp.kernel.nearest,
         })
-        .toFile(path.join(rootPath, 'cover-336.jpg'));
+        .toFile(path.join(rootPath, `cover-336.${extension}`));
     } catch (error1) {
       try {
         rimraf.sync(rootPath);
@@ -58,6 +65,7 @@ module.exports = {
 
     return {
       dirname,
+      extension,
     };
   },
 };

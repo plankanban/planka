@@ -89,7 +89,7 @@ module.exports = {
     user = await sails.helpers.users.updateOne(
       user,
       {
-        avatarDirname: fileData.dirname,
+        avatar: fileData,
       },
       currentUser,
       this.req,
