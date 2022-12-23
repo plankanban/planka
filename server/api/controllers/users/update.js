@@ -65,15 +65,17 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    const values = _.pick(inputs, [
-      'isAdmin',
-      'name',
-      'avatarUrl',
-      'phone',
-      'organization',
-      'language',
-      'subscribeToOwnCards',
-    ]);
+    const values = {
+      ..._.pick(inputs, [
+        'isAdmin',
+        'name',
+        'phone',
+        'organization',
+        'language',
+        'subscribeToOwnCards',
+      ]),
+      avatar: inputs.avatarUrl,
+    };
 
     user = await sails.helpers.users.updateOne(user, values, currentUser, this.req);
 

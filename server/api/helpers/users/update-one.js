@@ -28,7 +28,7 @@ module.exports = {
           return false;
         }
 
-        if (!_.isUndefined(value.avatarUrl) && !_.isNull(value.avatarUrl)) {
+        if (value.avatar && !_.isPlainObject(value.avatar)) {
           return false;
         }
 
@@ -74,13 +74,6 @@ module.exports = {
       inputs.values.username = inputs.values.username.toLowerCase();
     }
 
-    if (!_.isUndefined(inputs.values.avatarUrl)) {
-      /* eslint-disable no-param-reassign */
-      inputs.values.avatarDirname = null;
-      delete inputs.values.avatarUrl;
-      /* eslint-enable no-param-reassign */
-    }
-
     const user = await User.updateOne({
       id: inputs.record.id,
       deletedAt: null,
@@ -102,9 +95,12 @@ module.exports = {
       );
 
     if (user) {
-      if (inputs.record.avatarDirname && user.avatarDirname !== inputs.record.avatarDirname) {
+      if (
+        inputs.record.avatar &&
+        (!user.avatar || user.avatar.dirname !== inputs.record.avatar.dirname)
+      ) {
         try {
-          rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatarDirname));
+          rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatar.dirname));
         } catch (error) {
           console.warn(error.stack); // eslint-disable-line no-console
         }

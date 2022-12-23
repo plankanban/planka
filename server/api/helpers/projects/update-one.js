@@ -14,15 +14,11 @@ module.exports = {
           return false;
         }
 
-        if (
-          !_.isUndefined(value.background) &&
-          !_.isNull(value.background) &&
-          !_.isPlainObject(value.background)
-        ) {
+        if (value.background && !_.isPlainObject(value.background)) {
           return false;
         }
 
-        if (!_.isUndefined(value.backgroundImage) && !_.isNull(value.backgroundImage)) {
+        if (value.backgroundImage && !_.isPlainObject(value.backgroundImage)) {
           return false;
         }
 
@@ -36,24 +32,17 @@ module.exports = {
   },
 
   exits: {
-    backgroundImageDirnameMustBeNotNullInValues: {},
+    backgroundImageMustBeNotNullInValues: {},
   },
 
   async fn(inputs) {
-    if (!_.isUndefined(inputs.values.backgroundImage)) {
-      /* eslint-disable no-param-reassign */
-      inputs.values.backgroundImageDirname = null;
-      delete inputs.values.backgroundImage;
-      /* eslint-enable no-param-reassign */
-    }
-
-    if (inputs.values.backgroundImageDirname) {
+    if (inputs.values.backgroundImage) {
       // eslint-disable-next-line no-param-reassign
       inputs.values.background = {
         type: 'image',
       };
     } else if (
-      _.isNull(inputs.values.backgroundImageDirname) &&
+      _.isNull(inputs.values.backgroundImage) &&
       inputs.record.background &&
       inputs.record.background.type === 'image'
     ) {
@@ -62,14 +51,14 @@ module.exports = {
 
     let project;
     if (inputs.values.background && inputs.values.background.type === 'image') {
-      if (_.isNull(inputs.values.backgroundImageDirname)) {
-        throw 'backgroundImageDirnameMustBeNotNullInValues';
+      if (_.isNull(inputs.values.backgroundImage)) {
+        throw 'backgroundImageMustBeNotNullInValues';
       }
 
-      if (_.isUndefined(inputs.values.backgroundImageDirname)) {
+      if (_.isUndefined(inputs.values.backgroundImage)) {
         project = await Project.updateOne({
           id: inputs.record.id,
-          backgroundImageDirname: {
+          backgroundImage: {
             '!=': null,
           },
         }).set(inputs.values);
@@ -86,14 +75,15 @@ module.exports = {
 
     if (project) {
       if (
-        inputs.record.backgroundImageDirname &&
-        project.backgroundImageDirname !== inputs.record.backgroundImageDirname
+        inputs.record.backgroundImage &&
+        (!project.backgroundImage ||
+          project.backgroundImage.dirname !== inputs.record.backgroundImage.dirname)
       ) {
         try {
           rimraf.sync(
             path.join(
               sails.config.custom.projectBackgroundImagesPath,
-              inputs.record.backgroundImageDirname,
+              inputs.record.backgroundImage.dirname,
             ),
           );
         } catch (error) {

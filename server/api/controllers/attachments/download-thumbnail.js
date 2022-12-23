@@ -50,7 +50,7 @@ module.exports = {
       sails.config.custom.attachmentsPath,
       attachment.dirname,
       'thumbnails',
-      'cover-256.jpg',
+      `cover-256.${attachment.image.thumbnailsExtension}`,
     );
 
     if (!fs.existsSync(filePath)) {

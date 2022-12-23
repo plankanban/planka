@@ -53,6 +53,7 @@ export function* updateProject(id, data) {
     ({ item: project } = yield call(request, api.updateProject, id, data));
   } catch (error) {
     yield put(actions.updateProject.failure(id, error));
+    return;
   }
 
   yield put(actions.updateProject.success(project));
@@ -76,6 +77,7 @@ export function* updateProjectBackgroundImage(id, data) {
     ({ item: project } = yield call(request, api.updateProjectBackgroundImage, id, data));
   } catch (error) {
     yield put(actions.updateProjectBackgroundImage.failure(id, error));
+    return;
   }
 
   yield put(actions.updateProjectBackgroundImage.success(project));
@@ -101,6 +103,7 @@ export function* deleteProject(id) {
     ({ item: project } = yield call(request, api.deleteProject, id));
   } catch (error) {
     yield put(actions.deleteProject.failure(id, error));
+    return;
   }
 
   yield put(actions.deleteProject.success(project));

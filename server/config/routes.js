@@ -82,7 +82,7 @@ module.exports.routes = {
     skipAssets: false,
   },
 
-  'GET /attachments/:id/download/thumbnails/cover-256.jpg': {
+  'GET /attachments/:id/download/thumbnails/cover-256.:extension': {
     action: 'attachments/download-thumbnail',
     skipAssets: false,
   },

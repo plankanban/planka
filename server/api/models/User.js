@@ -37,11 +37,8 @@ module.exports = {
       regex: /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/,
       allowNull: true,
     },
-    avatarDirname: {
-      type: 'string',
-      isNotEmptyString: true,
-      allowNull: true,
-      columnName: 'avatar_dirname',
+    avatar: {
+      type: 'json',
     },
     phone: {
       type: 'string',
@@ -106,10 +103,10 @@ module.exports = {
 
   customToJSON() {
     return {
-      ..._.omit(this, ['password', 'avatarDirname', 'passwordChangedAt']),
+      ..._.omit(this, ['password', 'avatar', 'passwordChangedAt']),
       avatarUrl:
-        this.avatarDirname &&
-        `${sails.config.custom.userAvatarsUrl}/${this.avatarDirname}/square-100.jpg`,
+        this.avatar &&
+        `${sails.config.custom.userAvatarsUrl}/${this.avatar.dirname}/square-100.${this.avatar.extension}`,
     };
   },
 };
