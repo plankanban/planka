@@ -9,6 +9,7 @@ export default {
 
   translation: {
     common: {
+      aboutPlanka: 'About Planka',
       account: 'Account',
       actions: 'Actions',
       addAttachment_title: 'Add Attachment',
