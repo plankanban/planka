@@ -73,7 +73,9 @@ const UserSettingsModal = React.memo(
         ),
       },
       {
-        menuItem: 'About Planka',
+        menuItem: t('common.aboutPlanka', {
+          context: 'title',
+        }),
         render: () => <AboutPane />,
       },
     ];
