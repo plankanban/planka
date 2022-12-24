@@ -46,18 +46,20 @@ module.exports = {
       const thumbnailsPath = path.join(rootPath, 'thumbnails');
       fs.mkdirSync(thumbnailsPath);
 
-      const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
+      const { width, pageHeight: height = metadata.height } = metadata;
+      const thumbnailsExtension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
       try {
         await image
-          .resize(256, metadata.height > metadata.width ? 320 : undefined, {
+          .resize(256, height > width ? 320 : undefined, {
             kernel: sharp.kernel.nearest,
           })
-          .toFile(path.join(thumbnailsPath, `cover-256.${extension}`));
+          .toFile(path.join(thumbnailsPath, `cover-256.${thumbnailsExtension}`));
 
         fileData.image = {
-          ..._.pick(metadata, ['width', 'height']),
-          thumbnailsExtension: extension,
+          width,
+          height,
+          thumbnailsExtension,
         };
       } catch (error1) {
         try {
