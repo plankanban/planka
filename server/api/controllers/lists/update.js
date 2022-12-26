@@ -53,7 +53,12 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-    list = await sails.helpers.lists.updateOne(list, values, this.req);
+
+    list = await sails.helpers.lists.updateOne.with({
+      values,
+      record: list,
+      request: this.req,
+    });
 
     if (!list) {
       throw Errors.LIST_NOT_FOUND;

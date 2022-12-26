@@ -120,6 +120,7 @@ const Attachments = React.memo(
           withCaption
           withDownloadButton
           options={{
+            wheelToZoom: true,
             showHideAnimationType: 'none',
             closeTitle: '',
             zoomTitle: '',

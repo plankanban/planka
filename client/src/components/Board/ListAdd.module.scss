@@ -1,4 +1,9 @@
 :global(#app) {
+  .button {
+    min-height: 30px;
+    vertical-align: top;
+  }
+
   .controls {
     margin-top: 4px;
   }
@@ -16,11 +21,6 @@
       border-color: #298fca;
       box-shadow: 0 0 2px #298fca;
     }
-  }
-
-  .submitButton {
-    min-height: 30px;
-    vertical-align: top;
   }
 
   .wrapper {

@@ -1,12 +1,24 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.card)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.user) && !_.isString(value.userId)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
-    userOrId: {
+    values: {
       type: 'ref',
-      custom: (value) => _.isObjectLike(value) || _.isString(value),
-      required: true,
-    },
-    card: {
-      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
     request: {
@@ -19,17 +31,21 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { userId = inputs.userOrId } = inputs.userOrId;
+    const { values } = inputs;
+
+    if (values.user) {
+      values.userId = values.user.id;
+    }
 
     const cardMembership = await CardMembership.create({
-      userId,
-      cardId: inputs.card.id,
+      ...values,
+      cardId: values.card.id,
     })
       .intercept('E_UNIQUE', 'userAlreadyCardMember')
       .fetch();
 
     sails.sockets.broadcast(
-      `board:${inputs.card.boardId}`,
+      `board:${values.card.boardId}`,
       'cardMembershipCreate',
       {
         item: cardMembership,

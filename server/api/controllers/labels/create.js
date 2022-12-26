@@ -56,7 +56,14 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name', 'color']);
-    const label = await sails.helpers.labels.createOne(values, board, this.req);
+
+    const label = await sails.helpers.labels.createOne.with({
+      values: {
+        ...values,
+        board,
+      },
+      request: this.req,
+    });
 
     return {
       item: label,

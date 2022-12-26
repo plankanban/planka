@@ -1,9 +1,10 @@
-import { Model, attr, many } from 'redux-orm';
+import { attr, many } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 import { ProjectBackgroundTypes } from '../constants/Enums';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Project';
 
   static fields = {
@@ -143,21 +144,21 @@ export default class extends Model {
     return this.boards.orderBy('position');
   }
 
-  getOrderedMemberBoardsModelArray(userId) {
+  getOrderedBoardsModelArrayForUser(userId) {
     return this.getOrderedBoardsQuerySet()
       .toModelArray()
-      .filter((boardModel) => boardModel.hasMemberUser(userId));
+      .filter((boardModel) => boardModel.hasMembershipForUser(userId));
   }
 
-  getOrderedAvailableBoardsModelArray(userId) {
-    if (this.hasManagerUser(userId)) {
+  getOrderedBoardsModelArrayAvailableForUser(userId) {
+    if (this.hasManagerForUser(userId)) {
       return this.getOrderedBoardsQuerySet().toModelArray();
     }
 
-    return this.getOrderedMemberBoardsModelArray(userId);
+    return this.getOrderedBoardsModelArrayForUser(userId);
   }
 
-  hasManagerUser(userId) {
+  hasManagerForUser(userId) {
     return this.managers
       .filter({
         userId,
@@ -165,8 +166,12 @@ export default class extends Model {
       .exists();
   }
 
-  hasMemberUserForAnyBoard(userId) {
-    return this.boards.toModelArray().some((boardModel) => boardModel.hasMemberUser(userId));
+  hasMembershipInAnyBoardForUser(userId) {
+    return this.boards.toModelArray().some((boardModel) => boardModel.hasMembershipForUser(userId));
+  }
+
+  isAvailableForUser(userId) {
+    return this.hasManagerForUser(userId) || this.hasMembershipInAnyBoardForUser(userId);
   }
 
   deleteRelated() {

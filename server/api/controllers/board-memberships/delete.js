@@ -36,15 +36,15 @@ module.exports = {
       );
 
       if (!isProjectManager) {
-        throw Errors.BOARD_MEMBERSHIP_NOT_FOUND;
+        throw Errors.BOARD_MEMBERSHIP_NOT_FOUND; // Forbidden
       }
     }
 
-    boardMembership = await sails.helpers.boardMemberships.deleteOne(
-      boardMembership,
+    boardMembership = await sails.helpers.boardMemberships.deleteOne.with({
       project,
-      this.req,
-    );
+      record: boardMembership,
+      request: this.req,
+    });
 
     if (!boardMembership) {
       throw Errors.BOARD_MEMBERSHIP_NOT_FOUND;

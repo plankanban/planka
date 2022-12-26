@@ -71,8 +71,14 @@ module.exports = {
       throw Errors.LABEL_NOT_FOUND;
     }
 
-    const cardLabel = await sails.helpers.cardLabels
-      .createOne(label, card, this.req)
+    const cardLabel = await sails.helpers.cardLabels.createOne
+      .with({
+        values: {
+          card,
+          label,
+        },
+        request: this.req,
+      })
       .intercept('labelAlreadyInCard', () => Errors.LABEL_ALREADY_IN_CARD);
 
     return {

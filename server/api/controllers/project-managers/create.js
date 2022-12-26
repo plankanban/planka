@@ -57,8 +57,14 @@ module.exports = {
       throw Error.USER_NOT_FOUND;
     }
 
-    const projectManager = await sails.helpers.projectManagers
-      .createOne(user, project, this.req)
+    const projectManager = await sails.helpers.projectManagers.createOne
+      .with({
+        values: {
+          project,
+          user,
+        },
+        request: this.req,
+      })
       .intercept('userAlreadyProjectManager', () => Errors.USER_ALREADY_PROJECT_MANAGER);
 
     return {

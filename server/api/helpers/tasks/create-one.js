@@ -1,12 +1,24 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isFinite(value.position)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.card)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
-      custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
-      required: true,
-    },
-    card: {
       type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
     request: {
@@ -15,22 +27,24 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const tasks = await sails.helpers.cards.getTasks(inputs.card.id);
+    const { values } = inputs;
+
+    const tasks = await sails.helpers.cards.getTasks(values.card.id);
 
     const { position, repositions } = sails.helpers.utils.insertToPositionables(
-      inputs.values.position,
+      values.position,
       tasks,
     );
 
     repositions.forEach(async ({ id, position: nextPosition }) => {
       await Task.update({
         id,
-        cardId: inputs.card.id,
+        cardId: values.card.id,
       }).set({
         position: nextPosition,
       });
 
-      sails.sockets.broadcast(`board:${inputs.card.boardId}`, 'taskUpdate', {
+      sails.sockets.broadcast(`board:${values.card.boardId}`, 'taskUpdate', {
         item: {
           id,
           position: nextPosition,
@@ -39,13 +53,13 @@ module.exports = {
     });
 
     const task = await Task.create({
-      ...inputs.values,
+      ...values,
       position,
-      cardId: inputs.card.id,
+      cardId: values.card.id,
     }).fetch();
 
     sails.sockets.broadcast(
-      `board:${inputs.card.boardId}`,
+      `board:${values.card.boardId}`,
       'taskCreate',
       {
         item: task,

@@ -14,7 +14,9 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const project = await Project.create(inputs.values).fetch();
+    const { values } = inputs;
+
+    const project = await Project.create({ ...values }).fetch();
 
     const projectManager = await ProjectManager.create({
       projectId: project.id,

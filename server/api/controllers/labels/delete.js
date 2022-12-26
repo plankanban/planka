@@ -45,7 +45,10 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    label = await sails.helpers.labels.deleteOne(label, this.req);
+    label = await sails.helpers.labels.deleteOne.with({
+      record: label,
+      request: this.req,
+    });
 
     if (!label) {
       throw Errors.LABEL_NOT_FOUND;

@@ -12,6 +12,8 @@ const Errors = {
   },
 };
 
+const passwordValidator = (value) => zxcvbn(value).score >= 2; // TODO: move to config
+
 module.exports = {
   inputs: {
     id: {
@@ -21,7 +23,7 @@ module.exports = {
     },
     password: {
       type: 'string',
-      custom: (value) => zxcvbn(value).score >= 2, // TODO: move to config
+      custom: passwordValidator,
       required: true,
     },
     currentPassword: {
@@ -64,7 +66,13 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['password']);
-    user = await sails.helpers.users.updateOne(user, values, currentUser, this.req);
+
+    user = await sails.helpers.users.updateOne.with({
+      values,
+      record: user,
+      user: currentUser,
+      request: this.req,
+    });
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;

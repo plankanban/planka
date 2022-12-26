@@ -1,11 +1,24 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.project)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.user)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
-    user: {
+    values: {
       type: 'ref',
-      required: true,
-    },
-    project: {
-      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
     request: {
@@ -18,18 +31,20 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
     const projectManager = await ProjectManager.create({
-      projectId: inputs.project.id,
-      userId: inputs.user.id,
+      projectId: values.project.id,
+      userId: values.user.id,
     })
       .intercept('E_UNIQUE', 'userAlreadyProjectManager')
       .fetch();
 
-    const userIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
+    const projectRelatedUserIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
       projectManager.projectId,
     );
 
-    userIds.forEach((userId) => {
+    projectRelatedUserIds.forEach((userId) => {
       sails.sockets.broadcast(
         `user:${userId}`,
         'projectManagerCreate',

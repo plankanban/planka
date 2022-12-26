@@ -14,21 +14,22 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const role = inputs.values.role || inputs.record.role;
+    const { values } = inputs;
+    const role = values.role || inputs.record.role;
 
     if (role === BoardMembership.Roles.EDITOR) {
-      inputs.values.canComment = null; // eslint-disable-line no-param-reassign
+      values.canComment = null;
     } else if (role === BoardMembership.Roles.VIEWER) {
-      const canComment = _.isUndefined(inputs.values.canComment)
+      const canComment = _.isUndefined(values.canComment)
         ? inputs.record.canComment
-        : inputs.values.canComment;
+        : values.canComment;
 
       if (_.isNull(canComment)) {
-        inputs.values.canComment = false; // eslint-disable-line no-param-reassign
+        values.canComment = false;
       }
     }
 
-    const boardMembership = await BoardMembership.updateOne(inputs.record.id).set(inputs.values);
+    const boardMembership = await BoardMembership.updateOne(inputs.record.id).set({ ...values });
 
     if (boardMembership) {
       sails.sockets.broadcast(

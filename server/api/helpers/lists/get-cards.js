@@ -1,13 +1,15 @@
+const idOrIdsValidator = (value) => _.isString(value) || _.every(value, _.isString);
+
 module.exports = {
   inputs: {
     idOrIds: {
       type: 'json',
-      custom: (value) => _.isString(value) || _.every(value, _.isString),
+      custom: idOrIdsValidator,
       required: true,
     },
     exceptCardIdOrIds: {
       type: 'json',
-      custom: (value) => _.isString(value) || _.every(value, _.isString),
+      custom: idOrIdsValidator,
     },
   },
 
@@ -22,6 +24,6 @@ module.exports = {
       };
     }
 
-    return sails.helpers.cards.getMany(criteria, 'position');
+    return sails.helpers.cards.getMany(criteria);
   },
 };

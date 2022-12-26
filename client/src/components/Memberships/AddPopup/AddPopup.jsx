@@ -56,10 +56,8 @@ const AddStep = React.memo(
           userId: step.params.userId,
           ...data,
         });
-
-        onClose();
       },
-      [onCreate, onClose, step],
+      [onCreate, step],
     );
 
     useEffect(() => {
@@ -79,6 +77,7 @@ const AddStep = React.memo(
                 buttonContent="action.addMember"
                 onSelect={handleRoleSelect}
                 onBack={handleBack}
+                onClose={onClose}
               />
             );
           }

@@ -44,11 +44,11 @@ module.exports = {
 
     const values = _.pick(inputs, ['role', 'canComment']);
 
-    boardMembership = await sails.helpers.boardMemberships.updateOne(
-      boardMembership,
+    boardMembership = await sails.helpers.boardMemberships.updateOne.with({
       values,
-      this.req,
-    );
+      record: boardMembership,
+      request: this.req,
+    });
 
     return {
       item: boardMembership,

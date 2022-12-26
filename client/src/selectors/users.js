@@ -52,7 +52,7 @@ export const selectProjectsForCurrentUser = createSelector(
     }
 
     return userModel.getOrderedAvailableProjectsModelArray().map((projectModel) => {
-      const boardsModels = projectModel.getOrderedAvailableBoardsModelArray(userModel.id);
+      const boardsModels = projectModel.getOrderedBoardsModelArrayAvailableForUser(userModel.id);
 
       let notificationsTotal = 0;
       boardsModels.forEach((boardModel) => {
@@ -86,7 +86,7 @@ export const selectProjectsToListsForCurrentUser = createSelector(
 
     return userModel.getOrderedAvailableProjectsModelArray().map((projectModel) => ({
       ...projectModel.ref,
-      boards: projectModel.getOrderedMemberBoardsModelArray(id).map((boardModel) => ({
+      boards: projectModel.getOrderedBoardsModelArrayForUser(id).map((boardModel) => ({
         ...boardModel.ref,
         lists: boardModel.getOrderedListsQuerySet().toRefArray(),
       })),

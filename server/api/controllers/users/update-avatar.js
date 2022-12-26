@@ -86,14 +86,14 @@ module.exports = {
         return Errors.FILE_IS_NOT_IMAGE;
       });
 
-    user = await sails.helpers.users.updateOne(
-      user,
-      {
+    user = await sails.helpers.users.updateOne.with({
+      record: user,
+      values: {
         avatar: fileData,
       },
-      currentUser,
-      this.req,
-    );
+      user: currentUser,
+      request: this.req,
+    });
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;

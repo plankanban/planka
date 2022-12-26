@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Loader } from 'semantic-ui-react';
 
 import ProjectsContainer from '../../containers/ProjectsContainer';
-import BoardWrapperContainer from '../../containers/BoardWrapperContainer';
+import BoardContainer from '../../containers/BoardContainer';
 
 import styles from './Static.module.scss';
 
-function Static({ cardId, boardId, projectId }) {
+function Static({ projectId, cardId, board }) {
   const [t] = useTranslation();
 
   if (projectId === undefined) {
     return (
-      <div className={styles.root}>
+      <div className={styles.wrapper}>
         <ProjectsContainer />
       </div>
     );
@@ -22,7 +22,7 @@ function Static({ cardId, boardId, projectId }) {
 
   if (cardId === null) {
     return (
-      <div className={classNames(styles.root, styles.flex)}>
+      <div className={classNames(styles.wrapper, styles.wrapperFlex)}>
         <div className={styles.message}>
           <h1>
             {t('common.cardNotFound', {
@@ -34,9 +34,9 @@ function Static({ cardId, boardId, projectId }) {
     );
   }
 
-  if (boardId === null) {
+  if (board === null) {
     return (
-      <div className={classNames(styles.root, styles.flex)}>
+      <div className={classNames(styles.wrapper, styles.wrapperFlex)}>
         <div className={styles.message}>
           <h1>
             {t('common.boardNotFound', {
@@ -50,7 +50,7 @@ function Static({ cardId, boardId, projectId }) {
 
   if (projectId === null) {
     return (
-      <div className={classNames(styles.root, styles.flex)}>
+      <div className={classNames(styles.wrapper, styles.wrapperFlex)}>
         <div className={styles.message}>
           <h1>
             {t('common.projectNotFound', {
@@ -62,9 +62,9 @@ function Static({ cardId, boardId, projectId }) {
     );
   }
 
-  if (boardId === undefined) {
+  if (board === undefined) {
     return (
-      <div className={classNames(styles.board, styles.flex)}>
+      <div className={classNames(styles.wrapper, styles.wrapperFlex, styles.wrapperProject)}>
         <div className={styles.message}>
           <Icon inverted name="hand point up outline" size="huge" className={styles.messageIcon} />
           <h1 className={styles.messageTitle}>
@@ -80,23 +80,31 @@ function Static({ cardId, boardId, projectId }) {
     );
   }
 
+  if (board.isFetching) {
+    return (
+      <div className={classNames(styles.wrapper, styles.wrapperLoader, styles.wrapperProject)}>
+        <Loader active size="big" />
+      </div>
+    );
+  }
+
   return (
-    <div className={classNames(styles.board, styles.flex)}>
-      <BoardWrapperContainer />
+    <div className={classNames(styles.wrapper, styles.wrapperFlex, styles.wrapperBoard)}>
+      <BoardContainer />
     </div>
   );
 }
 
 Static.propTypes = {
-  cardId: PropTypes.string,
-  boardId: PropTypes.string,
   projectId: PropTypes.string,
+  cardId: PropTypes.string,
+  board: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 Static.defaultProps = {
-  cardId: undefined,
-  boardId: undefined,
   projectId: undefined,
+  cardId: undefined,
+  board: undefined,
 };
 
 export default Static;

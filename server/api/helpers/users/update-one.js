@@ -3,6 +3,30 @@ const bcrypt = require('bcrypt');
 const rimraf = require('rimraf');
 const { v4: uuid } = require('uuid');
 
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.email) && !_.isString(value.email)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.password) && !_.isString(value.password)) {
+    return false;
+  }
+
+  if (value.username && !_.isString(value.username)) {
+    return false;
+  }
+
+  if (value.avatar && !_.isPlainObject(value.avatar)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     record: {
@@ -11,29 +35,7 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.email) && !_.isString(value.email)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.password) && !_.isString(value.password)) {
-          return false;
-        }
-
-        if (value.username && !_.isString(value.username)) {
-          return false;
-        }
-
-        if (value.avatar && !_.isPlainObject(value.avatar)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: valuesValidator,
       required: true,
     },
     user: {
@@ -51,34 +53,34 @@ module.exports = {
   },
 
   async fn(inputs) {
-    if (!_.isUndefined(inputs.values.email)) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.email = inputs.values.email.toLowerCase();
+    const { values } = inputs;
+
+    if (!_.isUndefined(values.email)) {
+      values.email = values.email.toLowerCase();
     }
 
     let isOnlyPasswordChange = false;
 
-    if (!_.isUndefined(inputs.values.password)) {
-      Object.assign(inputs.values, {
-        password: bcrypt.hashSync(inputs.values.password, 10),
+    if (!_.isUndefined(values.password)) {
+      Object.assign(values, {
+        password: bcrypt.hashSync(values.password, 10),
         passwordChangedAt: new Date().toUTCString(),
       });
 
-      if (Object.keys(inputs.values).length === 1) {
+      if (Object.keys(values).length === 1) {
         isOnlyPasswordChange = true;
       }
     }
 
-    if (inputs.values.username) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.username = inputs.values.username.toLowerCase();
+    if (values.username) {
+      values.username = values.username.toLowerCase();
     }
 
     const user = await User.updateOne({
       id: inputs.record.id,
       deletedAt: null,
     })
-      .set(inputs.values)
+      .set({ ...values })
       .intercept(
         {
           message:
@@ -106,7 +108,7 @@ module.exports = {
         }
       }
 
-      if (!_.isUndefined(inputs.values.password)) {
+      if (!_.isUndefined(values.password)) {
         sails.sockets.broadcast(
           `user:${user.id}`,
           'userDelete', // TODO: introduce separate event

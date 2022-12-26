@@ -1,3 +1,4 @@
+import { dequal } from 'dequal';
 import omit from 'lodash/omit';
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
@@ -10,7 +11,7 @@ import { BoardMembershipRoles } from '../../constants/Enums';
 import styles from './BoardMembershipPermissionsSelectStep.module.scss';
 
 const BoardMembershipPermissionsSelectStep = React.memo(
-  ({ defaultData, title, buttonContent, onSelect, onBack }) => {
+  ({ defaultData, title, buttonContent, onSelect, onBack, onClose }) => {
     const [t] = useTranslation();
 
     const [data, setData] = useState(() => ({
@@ -23,7 +24,7 @@ const BoardMembershipPermissionsSelectStep = React.memo(
       setData((prevData) => ({
         ...prevData,
         role,
-        canComment: role === BoardMembershipRoles.EDITOR ? null : !!prevData.canComment,
+        canComment: role === BoardMembershipRoles.VIEWER ? !!prevData.canComment : null,
       }));
     }, []);
 
@@ -35,8 +36,12 @@ const BoardMembershipPermissionsSelectStep = React.memo(
     }, []);
 
     const handleSubmit = useCallback(() => {
-      onSelect(data.role === BoardMembershipRoles.EDITOR ? omit(data, 'canComment') : data);
-    }, [onSelect, data]);
+      if (!dequal(data, defaultData)) {
+        onSelect(data.role === BoardMembershipRoles.VIEWER ? data : omit(data, 'canComment'));
+      }
+
+      onClose();
+    }, [defaultData, onSelect, onClose, data]);
 
     return (
       <>
@@ -65,7 +70,7 @@ const BoardMembershipPermissionsSelectStep = React.memo(
                 <div className={styles.menuItemDescription}>{t('common.canOnlyViewBoard')}</div>
               </Menu.Item>
             </Menu>
-            {data.role !== BoardMembershipRoles.EDITOR && (
+            {data.role === BoardMembershipRoles.VIEWER && (
               <Segment basic className={styles.settings}>
                 <Radio
                   toggle
@@ -90,6 +95,7 @@ BoardMembershipPermissionsSelectStep.propTypes = {
   buttonContent: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   onBack: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 BoardMembershipPermissionsSelectStep.defaultProps = {

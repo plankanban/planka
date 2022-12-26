@@ -82,13 +82,15 @@ module.exports = {
     const file = _.last(files);
     const fileData = await sails.helpers.attachments.processUploadedFile(file);
 
-    const attachment = await sails.helpers.attachments.createOne(
-      fileData,
-      currentUser,
-      card,
-      inputs.requestId,
-      this.req,
-    );
+    const attachment = await sails.helpers.attachments.createOne.with({
+      values: {
+        ...fileData,
+        card,
+        creatorUser: currentUser,
+      },
+      requestId: inputs.requestId,
+      request: this.req,
+    });
 
     return exits.success({
       item: attachment,

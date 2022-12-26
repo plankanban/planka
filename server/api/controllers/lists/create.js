@@ -54,7 +54,14 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-    const list = await sails.helpers.lists.createOne(values, board, this.req);
+
+    const list = await sails.helpers.lists.createOne.with({
+      values: {
+        ...values,
+        board,
+      },
+      request: this.req,
+    });
 
     return {
       item: list,

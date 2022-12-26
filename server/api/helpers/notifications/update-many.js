@@ -1,8 +1,11 @@
+const recordsOrIdsValidator = (value) =>
+  _.every(value, _.isPlainObject) || _.every(value, _.isString);
+
 module.exports = {
   inputs: {
     recordsOrIds: {
       type: 'json',
-      custom: (value) => _.every(value, _.isObjectLike) || _.every(value, _.isString),
+      custom: recordsOrIdsValidator,
       required: true,
     },
     values: {
@@ -18,9 +21,11 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
     const criteria = {};
 
-    if (_.every(inputs.recordsOrIds, _.isObjectLike)) {
+    if (_.every(inputs.recordsOrIds, _.isPlainObject)) {
       criteria.id = sails.helpers.utils.mapRecords(inputs.recordsOrIds);
     } else if (_.every(inputs.recordsOrIds, _.isString)) {
       criteria.id = inputs.recordsOrIds;
@@ -30,7 +35,9 @@ module.exports = {
       criteria.userId = inputs.user.id;
     }
 
-    const notifications = await Notification.update(criteria).set(inputs.values).fetch();
+    const notifications = await Notification.update(criteria)
+      .set({ ...values })
+      .fetch();
 
     notifications.forEach((notification) => {
       sails.sockets.broadcast(

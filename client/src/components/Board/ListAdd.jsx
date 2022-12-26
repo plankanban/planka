@@ -72,7 +72,7 @@ const ListAdd = React.memo(({ onCreate, onClose }) => {
         <Button
           positive
           content={t('action.addList')}
-          className={styles.submitButton}
+          className={styles.button}
           onMouseOver={handleControlMouseOver}
           onMouseOut={handleControlMouseOut}
         />

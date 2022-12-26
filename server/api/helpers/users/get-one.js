@@ -1,8 +1,10 @@
+const criteriaValidator = (value) => _.isString(value) || _.isPlainObject(value);
+
 module.exports = {
   inputs: {
     criteria: {
       type: 'json',
-      custom: (value) => _.isString(value) || _.isPlainObject(value),
+      custom: criteriaValidator,
       required: true,
     },
     withDeleted: {

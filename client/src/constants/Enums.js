@@ -3,10 +3,6 @@ export const ProjectBackgroundTypes = {
   IMAGE: 'image',
 };
 
-export const BoardTypes = {
-  KANBAN: 'kanban',
-};
-
 export const BoardMembershipRoles = {
   EDITOR: 'editor',
   VIEWER: 'viewer',

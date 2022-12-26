@@ -30,6 +30,9 @@ const makeMapStateToProps = () => {
     const tasks = selectTasksByCardId(state, id);
     const notificationsTotal = selectNotificationsTotalByCardId(state, id);
 
+    const isCurrentUserEditor =
+      !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR;
+
     return {
       id,
       index,
@@ -48,8 +51,7 @@ const makeMapStateToProps = () => {
       allProjectsToLists,
       allBoardMemberships,
       allLabels,
-      canEdit:
-        !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR,
+      canEdit: isCurrentUserEditor,
     };
   };
 };

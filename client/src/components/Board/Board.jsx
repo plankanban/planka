@@ -10,11 +10,11 @@ import CardModalContainer from '../../containers/CardModalContainer';
 import ListAdd from './ListAdd';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
-import styles from './BoardKanban.module.scss';
+import styles from './Board.module.scss';
 
 const parseDndId = (dndId) => dndId.split(':')[1];
 
-const BoardKanban = React.memo(
+const Board = React.memo(
   ({ listIds, isCardModalOpened, canEdit, onListCreate, onListMove, onCardMove }) => {
     const [t] = useTranslation();
     const [isListAddOpened, setIsListAddOpened] = useState(false);
@@ -166,7 +166,7 @@ const BoardKanban = React.memo(
   },
 );
 
-BoardKanban.propTypes = {
+Board.propTypes = {
   listIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   isCardModalOpened: PropTypes.bool.isRequired,
   canEdit: PropTypes.bool.isRequired,
@@ -175,4 +175,4 @@ BoardKanban.propTypes = {
   onCardMove: PropTypes.func.isRequired,
 };
 
-export default BoardKanban;
+export default Board;

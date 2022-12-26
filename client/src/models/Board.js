@@ -1,13 +1,13 @@
-import { Model, attr, fk, many } from 'redux-orm';
+import { attr, fk, many } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Board';
 
   static fields = {
     id: attr(),
-    type: attr(),
     position: attr(),
     name: attr(),
     isFetching: attr({
@@ -179,7 +179,7 @@ export default class extends Model {
     return this.lists.orderBy('position');
   }
 
-  getMembershipModel(userId) {
+  getMembershipModelForUser(userId) {
     return this.memberships
       .filter({
         userId,
@@ -187,12 +187,18 @@ export default class extends Model {
       .first();
   }
 
-  hasMemberUser(userId) {
+  hasMembershipForUser(userId) {
     return this.memberships
       .filter({
         userId,
       })
       .exists();
+  }
+
+  isAvailableForUser(userId) {
+    return (
+      this.project && (this.project.hasManagerForUser(userId) || this.hasMembershipForUser(userId))
+    );
   }
 
   deleteRelated(exceptMemberUserId) {

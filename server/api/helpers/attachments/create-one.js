@@ -1,15 +1,24 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.card)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.creatorUser)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
-      required: true,
-    },
-    user: {
       type: 'ref',
-      required: true,
-    },
-    card: {
-      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
     requestId: {
@@ -22,14 +31,16 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
     const attachment = await Attachment.create({
-      ...inputs.values,
-      cardId: inputs.card.id,
-      creatorUserId: inputs.user.id,
+      ...values,
+      cardId: values.card.id,
+      creatorUserId: values.creatorUser.id,
     }).fetch();
 
     sails.sockets.broadcast(
-      `board:${inputs.card.boardId}`,
+      `board:${values.card.boardId}`,
       'attachmentCreate',
       {
         item: attachment,
@@ -38,9 +49,12 @@ module.exports = {
       inputs.request,
     );
 
-    if (!inputs.card.coverAttachmentId && attachment.image) {
-      await sails.helpers.cards.updateOne(inputs.card, {
-        coverAttachmentId: attachment.id,
+    if (!values.card.coverAttachmentId && attachment.image) {
+      await sails.helpers.cards.updateOne.with({
+        record: values.card,
+        values: {
+          coverAttachmentId: attachment.id,
+        },
       });
     }
 

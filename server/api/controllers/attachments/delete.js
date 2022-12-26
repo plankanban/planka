@@ -48,7 +48,12 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    attachment = await sails.helpers.attachments.deleteOne(attachment, board, card, this.req);
+    attachment = await sails.helpers.attachments.deleteOne.with({
+      board,
+      card,
+      record: attachment,
+      request: this.req,
+    });
 
     if (!attachment) {
       throw Errors.ATTACHMENT_NOT_FOUND;

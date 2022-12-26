@@ -1,4 +1,3 @@
-import omit from 'lodash/omit';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -78,12 +77,16 @@ const UserUsernameEditStep = React.memo(
         return;
       }
 
-      if (usePasswordConfirmation && !cleanData.currentPassword) {
-        currentPasswordField.current.focus();
-        return;
+      if (usePasswordConfirmation) {
+        if (!cleanData.currentPassword) {
+          currentPasswordField.current.focus();
+          return;
+        }
+      } else {
+        delete cleanData.currentPassword;
       }
 
-      onUpdate(usePasswordConfirmation ? cleanData : omit(cleanData, 'currentPassword'));
+      onUpdate(cleanData);
     }, [username, usePasswordConfirmation, onUpdate, onClose, data]);
 
     useEffect(() => {

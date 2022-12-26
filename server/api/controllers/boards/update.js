@@ -47,7 +47,12 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name']);
-    board = await sails.helpers.boards.updateOne(board, values, this.req);
+
+    board = await sails.helpers.boards.updateOne.with({
+      values,
+      record: board,
+      request: this.req,
+    });
 
     if (!board) {
       throw Errors.BOARD_NOT_FOUND;

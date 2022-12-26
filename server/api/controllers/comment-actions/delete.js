@@ -59,7 +59,11 @@ module.exports = {
       }
     }
 
-    action = await sails.helpers.actions.deleteOne(action, board, this.req);
+    action = await sails.helpers.actions.deleteOne.with({
+      board,
+      record: action,
+      request: this.req,
+    });
 
     if (!action) {
       throw Errors.COMMENT_ACTION_NOT_FOUND;

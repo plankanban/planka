@@ -26,7 +26,10 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    user = await sails.helpers.users.deleteOne(user, this.req);
+    user = await sails.helpers.users.deleteOne.with({
+      record: user,
+      request: this.req,
+    });
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;

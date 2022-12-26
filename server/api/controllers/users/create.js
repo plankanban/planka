@@ -9,6 +9,8 @@ const Errors = {
   },
 };
 
+const passwordValidator = (value) => zxcvbn(value).score >= 2; // TODO: move to config
+
 module.exports = {
   inputs: {
     email: {
@@ -18,7 +20,7 @@ module.exports = {
     },
     password: {
       type: 'string',
-      custom: (value) => zxcvbn(value).score >= 2, // TODO: move to config
+      custom: passwordValidator,
       required: true,
     },
     name: {
@@ -74,8 +76,11 @@ module.exports = {
       'subscribeToOwnCards',
     ]);
 
-    const user = await sails.helpers.users
-      .createOne(values, this.req)
+    const user = await sails.helpers.users.createOne
+      .with({
+        values,
+        request: this.req,
+      })
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);
 

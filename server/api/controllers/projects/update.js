@@ -4,6 +4,36 @@ const Errors = {
   },
 };
 
+const backgroundValidator = (value) => {
+  if (_.isNull(value)) {
+    return true;
+  }
+
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!Object.values(Project.BackgroundTypes).includes(value.type)) {
+    return false;
+  }
+
+  if (
+    value.type === Project.BackgroundTypes.GRADIENT &&
+    _.size(value) === 2 &&
+    Project.BACKGROUND_GRADIENTS.includes(value.name)
+  ) {
+    return true;
+  }
+
+  if (value.type === Project.BackgroundTypes.IMAGE && _.size(value) === 1) {
+    return true;
+  }
+
+  return false;
+};
+
+const backgroundImageValidator = (value) => _.isNull(value);
+
 module.exports = {
   inputs: {
     id: {
@@ -17,37 +47,11 @@ module.exports = {
     },
     background: {
       type: 'json',
-      custom: (value) => {
-        if (_.isNull(value)) {
-          return true;
-        }
-
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!Object.values(Project.BackgroundTypes).includes(value.type)) {
-          return false;
-        }
-
-        if (
-          value.type === Project.BackgroundTypes.GRADIENT &&
-          _.size(value) === 2 &&
-          Project.BACKGROUND_GRADIENTS.includes(value.name)
-        ) {
-          return true;
-        }
-
-        if (value.type === Project.BackgroundTypes.IMAGE && _.size(value) === 1) {
-          return true;
-        }
-
-        return false;
-      },
+      custom: backgroundValidator,
     },
     backgroundImage: {
       type: 'json',
-      custom: (value) => _.isNull(value),
+      custom: backgroundImageValidator,
     },
   },
 
@@ -73,7 +77,12 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name', 'background', 'backgroundImage']);
-    project = await sails.helpers.projects.updateOne(project, values, this.req);
+
+    project = await sails.helpers.projects.updateOne.with({
+      values,
+      record: project,
+      request: this.req,
+    });
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;

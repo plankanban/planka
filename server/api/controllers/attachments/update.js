@@ -53,7 +53,13 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name']);
-    attachment = await sails.helpers.attachments.updateOne(attachment, values, board, this.req);
+
+    attachment = await sails.helpers.attachments.updateOne.with({
+      values,
+      board,
+      record: attachment,
+      request: this.req,
+    });
 
     if (!attachment) {
       throw Errors.ATTACHMENT_NOT_FOUND;

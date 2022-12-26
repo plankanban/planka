@@ -28,8 +28,8 @@ const ActionsStep = React.memo(
     deleteConfirmationTitle,
     deleteConfirmationContent,
     deleteConfirmationButtonContent,
-    canLeave,
     canEdit,
+    canLeave,
     onUpdate,
     onDelete,
     onClose,
@@ -50,10 +50,8 @@ const ActionsStep = React.memo(
         if (onUpdate) {
           onUpdate(data);
         }
-
-        onClose();
       },
-      [onUpdate, onClose],
+      [onUpdate],
     );
 
     if (step) {
@@ -68,6 +66,7 @@ const ActionsStep = React.memo(
               buttonContent="action.save"
               onSelect={handleRoleSelect}
               onBack={handleBack}
+              onClose={onClose}
             />
           );
         }
@@ -146,8 +145,8 @@ ActionsStep.propTypes = {
   deleteConfirmationTitle: PropTypes.string,
   deleteConfirmationContent: PropTypes.string,
   deleteConfirmationButtonContent: PropTypes.string,
-  canLeave: PropTypes.bool.isRequired,
   canEdit: PropTypes.bool.isRequired,
+  canLeave: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func,
   onDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,

@@ -65,7 +65,11 @@ module.exports = {
       throw Errors.USER_NOT_CARD_MEMBER;
     }
 
-    cardMembership = await sails.helpers.cardMemberships.deleteOne(cardMembership, board, this.req);
+    cardMembership = await sails.helpers.cardMemberships.deleteOne.with({
+      board,
+      record: cardMembership,
+      request: this.req,
+    });
 
     if (!cardMembership) {
       throw Errors.USER_NOT_CARD_MEMBER;
