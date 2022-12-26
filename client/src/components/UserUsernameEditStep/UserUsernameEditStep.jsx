@@ -90,7 +90,9 @@ const UserUsernameEditStep = React.memo(
     }, [username, usePasswordConfirmation, onUpdate, onClose, data]);
 
     useEffect(() => {
-      usernameField.current.focus();
+      usernameField.current.focus({
+        preventScroll: true,
+      });
     }, []);
 
     useEffect(() => {

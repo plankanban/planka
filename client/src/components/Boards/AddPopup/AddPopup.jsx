@@ -63,7 +63,9 @@ const AddStep = React.memo(({ onCreate, onClose }) => {
   }, [openStep]);
 
   useEffect(() => {
-    nameField.current.focus();
+    nameField.current.focus({
+      preventScroll: true,
+    });
   }, []);
 
   useDidUpdate(() => {

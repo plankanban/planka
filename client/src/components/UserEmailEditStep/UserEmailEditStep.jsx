@@ -90,7 +90,9 @@ const UserEmailEditStep = React.memo(
     }, [email, usePasswordConfirmation, onUpdate, onClose, data]);
 
     useEffect(() => {
-      emailField.current.focus();
+      emailField.current.focus({
+        preventScroll: true,
+      });
     }, []);
 
     useEffect(() => {

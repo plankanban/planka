@@ -71,7 +71,9 @@ const UserPasswordEditStep = React.memo(
     }, [usePasswordConfirmation, onUpdate, data]);
 
     useEffect(() => {
-      passwordField.current.focus();
+      passwordField.current.focus({
+        preventScroll: true,
+      });
     }, []);
 
     useEffect(() => {
