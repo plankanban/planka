@@ -43,7 +43,9 @@ const BoardMembershipsStep = React.memo(
     );
 
     useEffect(() => {
-      searchField.current.focus();
+      searchField.current.focus({
+        preventScroll: true,
+      });
     }, []);
 
     return (

@@ -1,8 +1,8 @@
 import InputMask from 'react-input-mask';
 
 export default class MaskedInput extends InputMask {
-  focus() {
-    this.getInputDOMNode().focus();
+  focus(options) {
+    this.getInputDOMNode().focus(options);
   }
 
   select() {
