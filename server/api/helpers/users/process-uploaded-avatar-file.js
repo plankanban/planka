@@ -37,15 +37,22 @@ module.exports = {
 
     fs.mkdirSync(rootPath);
 
+    const { width, pageHeight: height = metadata.height } = metadata;
     const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
     try {
       await image.toFile(path.join(rootPath, `original.${extension}`));
 
       await image
-        .resize(100, 100, {
-          kernel: sharp.kernel.nearest,
-        })
+        .resize(
+          100,
+          100,
+          width < 100 || height < 100
+            ? {
+                kernel: sharp.kernel.nearest,
+              }
+            : undefined,
+        )
         .toFile(path.join(rootPath, `square-100.${extension}`));
     } catch (error1) {
       try {
