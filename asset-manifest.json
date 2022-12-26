@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/planka/static/css/main.59cc52ae.css",
-    "main.js": "/planka/static/js/main.100a842f.js",
+    "main.css": "/planka/static/css/main.e10459ec.css",
+    "main.js": "/planka/static/js/main.1c1c6f33.js",
     "static/js/801.9773e58e.chunk.js": "/planka/static/js/801.9773e58e.chunk.js",
     "static/js/467.d02e66c6.chunk.js": "/planka/static/js/467.d02e66c6.chunk.js",
     "static/js/514.8bfed613.chunk.js": "/planka/static/js/514.8bfed613.chunk.js",
@@ -75,8 +75,8 @@
     "index.html": "/planka/index.html",
     "static/media/plus-icon.svg": "/planka/static/media/plus-icon.e46c682424b8c98c4f7bd0f367a260c2.svg",
     "static/media/plus-math-icon.svg": "/planka/static/media/plus-math-icon.cfa58840e75860dcf79a0b21a1cca781.svg",
-    "main.59cc52ae.css.map": "/planka/static/css/main.59cc52ae.css.map",
-    "main.100a842f.js.map": "/planka/static/js/main.100a842f.js.map",
+    "main.e10459ec.css.map": "/planka/static/css/main.e10459ec.css.map",
+    "main.1c1c6f33.js.map": "/planka/static/js/main.1c1c6f33.js.map",
     "801.9773e58e.chunk.js.map": "/planka/static/js/801.9773e58e.chunk.js.map",
     "467.d02e66c6.chunk.js.map": "/planka/static/js/467.d02e66c6.chunk.js.map",
     "514.8bfed613.chunk.js.map": "/planka/static/js/514.8bfed613.chunk.js.map",
@@ -93,7 +93,7 @@
     "683.e8a7c172.chunk.js.map": "/planka/static/js/683.e8a7c172.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.59cc52ae.css",
-    "static/js/main.100a842f.js"
+    "static/css/main.e10459ec.css",
+    "static/js/main.1c1c6f33.js"
   ]
 }
