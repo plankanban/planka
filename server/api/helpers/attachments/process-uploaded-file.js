@@ -47,13 +47,20 @@ module.exports = {
       fs.mkdirSync(thumbnailsPath);
 
       const { width, pageHeight: height = metadata.height } = metadata;
+      const isPortrait = height > width;
       const thumbnailsExtension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
       try {
         await image
-          .resize(256, height > width ? 320 : undefined, {
-            kernel: sharp.kernel.nearest,
-          })
+          .resize(
+            256,
+            isPortrait ? 320 : undefined,
+            width < 256 || (isPortrait && height < 320)
+              ? {
+                  kernel: sharp.kernel.nearest,
+                }
+              : undefined,
+          )
           .toFile(path.join(thumbnailsPath, `cover-256.${thumbnailsExtension}`));
 
         fileData.image = {
