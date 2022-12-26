@@ -54,7 +54,14 @@ module.exports = {
       data: _.pick(inputs, ['text']),
     };
 
-    const action = await sails.helpers.actions.createOne(values, currentUser, card, this.req);
+    const action = await sails.helpers.actions.createOne.with({
+      values: {
+        ...values,
+        card,
+        user: currentUser,
+      },
+      request: this.req,
+    });
 
     return {
       item: action,

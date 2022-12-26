@@ -45,7 +45,10 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    list = await sails.helpers.lists.deleteOne(list, this.req);
+    list = await sails.helpers.lists.deleteOne.with({
+      record: list,
+      request: this.req,
+    });
 
     if (!list) {
       throw Errors.LIST_NOT_FOUND;

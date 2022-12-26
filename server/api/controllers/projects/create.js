@@ -11,11 +11,11 @@ module.exports = {
 
     const values = _.pick(inputs, ['name']);
 
-    const { project, projectManager } = await sails.helpers.projects.createOne(
+    const { project, projectManager } = await sails.helpers.projects.createOne.with({
       values,
-      currentUser,
-      this.req,
-    );
+      user: currentUser,
+      request: this.req,
+    });
 
     return {
       item: project,

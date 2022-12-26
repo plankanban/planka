@@ -1,3 +1,23 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.board) && !_.isPlainObject(value.board)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.list) && !_.isPlainObject(value.list)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     record: {
@@ -5,25 +25,9 @@ module.exports = {
       required: true,
     },
     values: {
-      type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
-          return false;
-        }
-
-        return true;
-      },
-      defaultsTo: {},
-    },
-    nextBoard: {
       type: 'ref',
-    },
-    nextList: {
-      type: 'ref',
+      custom: valuesValidator,
+      required: true,
     },
     user: {
       type: 'ref',
@@ -40,68 +44,58 @@ module.exports = {
   },
 
   exits: {
+    positionMustBeInValues: {},
+    listMustBeInValues: {},
+    listInValuesMustBelongToBoard: {},
+    userMustBePresent: {},
     boardMustBePresent: {},
     listMustBePresent: {},
-    nextListMustBelongToBoard: {},
-    nextListMustBePresent: {},
-    positionMustBeInValues: {},
-    userMustBePresent: {},
   },
 
   async fn(inputs) {
     const { isSubscribed, ...values } = inputs.values;
 
-    if (inputs.nextBoard || inputs.nextList || !_.isUndefined(values.position)) {
+    if (values.board || values.list || !_.isUndefined(values.position)) {
       if (!inputs.board) {
         throw 'boardMustBePresent';
       }
 
-      if (inputs.nextBoard) {
-        if (inputs.nextBoard.id === inputs.board.id) {
-          delete inputs.nextBoard; // eslint-disable-line no-param-reassign
+      if (values.board) {
+        if (values.board.id === inputs.board.id) {
+          delete values.board;
         } else {
-          values.boardId = inputs.nextBoard.id;
+          values.boardId = values.board.id;
         }
       }
 
-      const board = inputs.nextBoard || inputs.board;
+      const board = values.board || inputs.board;
 
-      if (inputs.nextList) {
-        if (inputs.board.type === Board.Types.KANBAN && !inputs.list) {
+      if (values.list) {
+        if (!inputs.list) {
           throw 'listMustBePresent';
         }
 
-        if (inputs.nextList.boardId !== board.id) {
-          throw 'nextListMustBelongToBoard';
+        if (values.list.boardId !== board.id) {
+          throw 'listInValuesMustBelongToBoard';
         }
 
-        if (
-          board.type === Board.Types.COLLECTION ||
-          (inputs.board.type === Board.Types.KANBAN && inputs.nextList.id === inputs.list.id)
-        ) {
-          delete inputs.nextList; // eslint-disable-line no-param-reassign
+        if (values.list.id === inputs.list.id) {
+          delete values.list;
         } else {
-          values.listId = inputs.nextList.id;
+          values.listId = values.list.id;
         }
       }
 
-      if (inputs.nextList) {
+      if (values.list) {
         if (_.isUndefined(values.position)) {
           throw 'positionMustBeInValues';
         }
-      } else if (inputs.nextBoard) {
-        if (inputs.nextBoard.type === Board.Types.KANBAN) {
-          throw 'nextListMustBePresent';
-        }
-
-        if (inputs.board.type === Board.Types.KANBAN) {
-          values.listId = null;
-          values.position = null;
-        }
+      } else if (values.board) {
+        throw 'listMustBeInValues';
       }
     }
 
-    if ((!_.isUndefined(isSubscribed) || inputs.nextBoard || inputs.nextList) && !inputs.user) {
+    if ((!_.isUndefined(isSubscribed) || values.board || values.list) && !inputs.user) {
       throw 'userMustBePresent';
     }
 
@@ -115,6 +109,8 @@ module.exports = {
         values.position,
         cards,
       );
+
+      values.position = position;
 
       repositions.forEach(async ({ id, position: nextPosition }) => {
         await Card.update({
@@ -131,31 +127,29 @@ module.exports = {
           },
         });
       });
-
-      values.position = position;
     }
 
     let card;
-    if (!_.isEmpty(values)) {
+    if (_.isEmpty(values)) {
+      card = inputs.record;
+    } else {
       let prevLabels;
-      if (inputs.nextBoard) {
-        if (inputs.nextBoard.projectId !== inputs.board.projectId) {
-          const memberUserIds = await sails.helpers.boards.getMemberUserIds(inputs.nextBoard.id);
+      if (values.board) {
+        const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(values.board.id);
 
-          await CardSubscription.destroy({
-            cardId: inputs.record.id,
-            userId: {
-              '!=': memberUserIds,
-            },
-          });
+        await CardSubscription.destroy({
+          cardId: inputs.record.id,
+          userId: {
+            '!=': boardMemberUserIds,
+          },
+        });
 
-          await CardMembership.destroy({
-            cardId: inputs.record.id,
-            userId: {
-              '!=': memberUserIds,
-            },
-          });
-        }
+        await CardMembership.destroy({
+          cardId: inputs.record.id,
+          userId: {
+            '!=': boardMemberUserIds,
+          },
+        });
 
         prevLabels = await sails.helpers.cards.getLabels(inputs.record.id);
 
@@ -164,26 +158,28 @@ module.exports = {
         });
       }
 
-      card = await Card.updateOne(inputs.record.id).set(values);
+      card = await Card.updateOne(inputs.record.id).set({ ...values });
 
       if (!card) {
         return card;
       }
 
-      if (inputs.nextBoard) {
+      if (values.board) {
         const labels = await sails.helpers.boards.getLabels(card.boardId);
-        const labelByNameMap = _.keyBy(labels, 'name');
+        const labelByName = _.keyBy(labels, 'name');
 
         const labelIds = await Promise.all(
-          prevLabels.map(async (prevLabel) => {
-            if (labelByNameMap[prevLabel.name]) {
-              return labelByNameMap[prevLabel.name].id;
+          prevLabels.map(async (label) => {
+            if (labelByName[label.name]) {
+              return labelByName[label.name].id;
             }
 
-            const { id } = await sails.helpers.labels.createOne(
-              _.omit(prevLabel, ['id', 'boardId']),
-              inputs.nextBoard,
-            );
+            const { id } = await sails.helpers.labels.createOne.with({
+              values: {
+                ..._.omit(label, ['id', 'boardId']),
+                board: values.board,
+              },
+            });
 
             return id;
           }),
@@ -225,31 +221,27 @@ module.exports = {
         );
       }
 
-      if (!inputs.nextBoard && inputs.nextList) {
-        // TODO: add transfer action
-        await sails.helpers.actions.createOne(
-          {
+      if (!values.board && values.list) {
+        await sails.helpers.actions.createOne.with({
+          values: {
+            card,
+            user: inputs.user,
             type: Action.Types.MOVE_CARD,
             data: {
               fromList: _.pick(inputs.list, ['id', 'name']),
-              toList: _.pick(inputs.nextList, ['id', 'name']),
+              toList: _.pick(values.list, ['id', 'name']),
             },
           },
-          inputs.user,
-          card,
-        );
+        });
       }
-    } else {
-      card = inputs.record;
+
+      // TODO: add transfer action
     }
 
     if (!_.isUndefined(isSubscribed)) {
-      const cardSubscription = await CardSubscription.findOne({
-        cardId: card.id,
-        userId: inputs.user.id,
-      });
+      const prevIsSubscribed = await sails.helpers.users.isCardSubscriber(inputs.user.id, card.id);
 
-      if (isSubscribed !== !!cardSubscription) {
+      if (isSubscribed !== prevIsSubscribed) {
         if (isSubscribed) {
           await CardSubscription.create({
             cardId: card.id,

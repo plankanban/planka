@@ -12,7 +12,6 @@ export function* createCard(listId, data) {
 
   const nextData = {
     ...data,
-    listId,
     position: yield select(selectors.selectNextCardPosition, listId),
   };
 
@@ -22,13 +21,14 @@ export function* createCard(listId, data) {
     actions.createCard({
       ...nextData,
       boardId,
+      listId,
       id: localId,
     }),
   );
 
   let card;
   try {
-    ({ item: card } = yield call(request, api.createCard, boardId, nextData));
+    ({ item: card } = yield call(request, api.createCard, listId, nextData));
   } catch (error) {
     yield put(actions.createCard.failure(localId, error));
     return;
@@ -61,8 +61,9 @@ export function* updateCurrentCard(data) {
   yield call(updateCard, cardId, data);
 }
 
+// TODO: handle card transfer
 export function* handleCardUpdate(card) {
-  yield put(actions.handleCardUpdate(card)); // TODO: handle card transfer
+  yield put(actions.handleCardUpdate(card));
 }
 
 export function* moveCard(id, listId, index) {

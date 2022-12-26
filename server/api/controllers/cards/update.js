@@ -21,6 +21,28 @@ const Errors = {
   },
 };
 
+const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
+
+const timerValidator = (value) => {
+  if (!_.isPlainObject(value) || _.size(value) !== 2) {
+    return false;
+  }
+
+  if (
+    !_.isNull(value.startedAt) &&
+    _.isString(value.startedAt) &&
+    !moment(value.startedAt, moment.ISO_8601, true).isValid()
+  ) {
+    return false;
+  }
+
+  if (!_.isFinite(value.total)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     id: {
@@ -55,30 +77,12 @@ module.exports = {
     },
     dueDate: {
       type: 'string',
-      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
+      custom: dueDateValidator,
       allowNull: true,
     },
     timer: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value) || _.size(value) !== 2) {
-          return false;
-        }
-
-        if (
-          !_.isNull(value.startedAt) &&
-          _.isString(value.startedAt) &&
-          !moment(value.startedAt, moment.ISO_8601, true).isValid()
-        ) {
-          return false;
-        }
-
-        if (!_.isFinite(value.total)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: timerValidator,
     },
     isSubscribed: {
       type: 'boolean',
@@ -171,10 +175,21 @@ module.exports = {
       'isSubscribed',
     ]);
 
-    card = await sails.helpers.cards
-      .updateOne(card, values, nextBoard, nextList, currentUser, board, list, this.req)
-      .intercept('nextListMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
-      .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
+    card = await sails.helpers.cards.updateOne
+      .with({
+        board,
+        list,
+        record: card,
+        values: {
+          ...values,
+          board: nextBoard,
+          list: nextList,
+        },
+        user: currentUser,
+        request: this.req,
+      })
+      .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT)
+      .intercept('listMustBeInValues', () => Errors.LIST_MUST_BE_PRESENT);
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;

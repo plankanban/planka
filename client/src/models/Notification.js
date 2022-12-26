@@ -1,8 +1,9 @@
-import { Model, attr, fk, oneToOne } from 'redux-orm';
+import { attr, fk, oneToOne } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Notification';
 
   static fields = {

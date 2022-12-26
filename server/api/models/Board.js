@@ -5,17 +5,11 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
-const Types = {
-  KANBAN: 'kanban',
-  COLLECTION: 'collection',
-};
-
 const ImportTypes = {
   TRELLO: 'trello',
 };
 
 module.exports = {
-  Types,
   ImportTypes,
 
   attributes: {
@@ -23,11 +17,6 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    type: {
-      type: 'string',
-      isIn: Object.values(Types),
-      required: true,
-    },
     position: {
       type: 'number',
       required: true,

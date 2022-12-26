@@ -14,7 +14,9 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const label = await Label.updateOne(inputs.record.id).set(inputs.values);
+    const { values } = inputs;
+
+    const label = await Label.updateOne(inputs.record.id).set({ ...values });
 
     if (label) {
       sails.sockets.broadcast(

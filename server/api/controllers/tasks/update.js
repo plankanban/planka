@@ -59,7 +59,13 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name', 'isCompleted']);
-    task = await sails.helpers.tasks.updateOne(task, values, board, this.req);
+
+    task = await sails.helpers.tasks.updateOne.with({
+      values,
+      board,
+      record: task,
+      request: this.req,
+    });
 
     if (!task) {
       throw Errors.TASK_NOT_FOUND;

@@ -68,8 +68,14 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    const cardMembership = await sails.helpers.cardMemberships
-      .createOne(inputs.userId, card, this.req)
+    const cardMembership = await sails.helpers.cardMemberships.createOne
+      .with({
+        values: {
+          card,
+          userId: inputs.userId,
+        },
+        request: this.req,
+      })
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
 
     return {

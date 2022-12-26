@@ -20,11 +20,6 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
-    type: {
-      type: 'string',
-      isIn: Object.values(Board.Types),
-      required: true,
-    },
     position: {
       type: 'number',
       required: true,
@@ -70,7 +65,7 @@ module.exports = {
       throw Errors.PROJECT_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['type', 'position', 'name']);
+    const values = _.pick(inputs, ['position', 'name']);
 
     let boardImport;
     if (inputs.importType && Object.values(Board.ImportTypes).includes(inputs.importType)) {
@@ -102,14 +97,16 @@ module.exports = {
       }
     }
 
-    const { board, boardMembership } = await sails.helpers.boards.createOne(
-      values,
-      boardImport,
-      currentUser,
-      project,
-      inputs.requestId,
-      this.req,
-    );
+    const { board, boardMembership } = await sails.helpers.boards.createOne.with({
+      values: {
+        ...values,
+        project,
+      },
+      import: boardImport,
+      user: currentUser,
+      requestId: inputs.requestId,
+      request: this.req,
+    });
 
     if (this.req.isSocket) {
       sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed

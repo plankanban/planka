@@ -56,7 +56,12 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['name', 'color']);
-    label = await sails.helpers.labels.updateOne(label, values, this.req);
+
+    label = await sails.helpers.labels.updateOne.with({
+      values,
+      record: label,
+      request: this.req,
+    });
 
     return {
       item: label,

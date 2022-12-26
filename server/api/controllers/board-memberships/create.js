@@ -68,8 +68,15 @@ module.exports = {
 
     const values = _.pick(inputs, ['role', 'canComment']);
 
-    const boardMembership = await sails.helpers.boardMemberships
-      .createOne(values, user, board, this.req)
+    const boardMembership = await sails.helpers.boardMemberships.createOne
+      .with({
+        values: {
+          ...values,
+          board,
+          user,
+        },
+        request: this.req,
+      })
       .intercept('userAlreadyBoardMember', () => Errors.USER_ALREADY_BOARD_MEMBER);
 
     return {

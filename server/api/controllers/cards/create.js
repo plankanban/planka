@@ -4,30 +4,42 @@ const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
   },
-  BOARD_NOT_FOUND: {
-    boardNotFound: 'Board not found',
-  },
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
-  },
-  LIST_MUST_BE_PRESENT: {
-    listMustBePresent: 'List must be present',
   },
   POSITION_MUST_BE_PRESENT: {
     positionMustBePresent: 'Position must be present',
   },
 };
 
+const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
+
+const timerValidator = (value) => {
+  if (!_.isPlainObject(value) || _.size(value) !== 2) {
+    return false;
+  }
+
+  if (
+    !_.isNull(value.startedAt) &&
+    _.isString(value.startedAt) &&
+    !moment(value.startedAt, moment.ISO_8601, true).isValid()
+  ) {
+    return false;
+  }
+
+  if (!_.isFinite(value.total)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
-    boardId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
-      required: true,
-    },
     listId: {
       type: 'string',
       regex: /^[0-9]+$/,
+      required: true,
     },
     position: {
       type: 'number',
@@ -43,29 +55,11 @@ module.exports = {
     },
     dueDate: {
       type: 'string',
-      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
+      custom: dueDateValidator,
     },
     timer: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value) || _.size(value) !== 2) {
-          return false;
-        }
-
-        if (
-          !_.isNull(value.startedAt) &&
-          _.isString(value.startedAt) &&
-          !moment(value.startedAt, moment.ISO_8601, true).isValid()
-        ) {
-          return false;
-        }
-
-        if (!_.isFinite(value.total)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: timerValidator,
     },
   },
 
@@ -73,14 +67,8 @@ module.exports = {
     notEnoughRights: {
       responseType: 'forbidden',
     },
-    boardNotFound: {
-      responseType: 'notFound',
-    },
     listNotFound: {
       responseType: 'notFound',
-    },
-    listMustBePresent: {
-      responseType: 'unprocessableEntity',
     },
     positionMustBePresent: {
       responseType: 'unprocessableEntity',
@@ -90,40 +78,34 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board } = await sails.helpers.boards
-      .getProjectPath(inputs.boardId)
-      .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
+    const { list } = await sails.helpers.lists
+      .getProjectPath(inputs.listId)
+      .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
     const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
+      boardId: list.boardId,
       userId: currentUser.id,
     });
 
     if (!boardMembership) {
-      throw Errors.BOARD_NOT_FOUND; // Forbidden
+      throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
     if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    let list;
-    if (!_.isUndefined(inputs.listId)) {
-      list = await List.findOne({
-        id: inputs.listId,
-        boardId: board.id,
-      });
-
-      if (!list) {
-        throw Errors.LIST_NOT_FOUND;
-      }
-    }
-
     const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'timer']);
 
-    const card = await sails.helpers.cards
-      .createOne(values, currentUser, board, list, this.req)
-      .intercept('listMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
+    const card = await sails.helpers.cards.createOne
+      .with({
+        values: {
+          ...values,
+          list,
+          creatorUser: currentUser,
+        },
+        request: this.req,
+      })
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
 
     return {

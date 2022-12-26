@@ -45,7 +45,10 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    card = await sails.helpers.cards.deleteOne(card, this.req);
+    card = await sails.helpers.cards.deleteOne.with({
+      record: card,
+      request: this.req,
+    });
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;

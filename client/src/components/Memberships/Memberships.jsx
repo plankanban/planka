@@ -44,8 +44,8 @@ const Memberships = React.memo(
                 deleteConfirmationTitle={deleteConfirmationTitle}
                 deleteConfirmationContent={deleteConfirmationContent}
                 deleteConfirmationButtonContent={deleteConfirmationButtonContent}
-                canLeave={items.length > 1 || canLeaveIfLast}
                 canEdit={canEdit}
+                canLeave={items.length > 1 || canLeaveIfLast}
                 onUpdate={(data) => onUpdate(item.id, data)}
                 onDelete={() => onDelete(item.id)}
               >

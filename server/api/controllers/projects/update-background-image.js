@@ -85,13 +85,13 @@ module.exports = {
         return Errors.FILE_IS_NOT_IMAGE;
       });
 
-    project = await sails.helpers.projects.updateOne(
-      project,
-      {
+    project = await sails.helpers.projects.updateOne.with({
+      record: project,
+      values: {
         backgroundImage: fileData,
       },
-      this.req,
-    );
+      request: this.req,
+    });
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;

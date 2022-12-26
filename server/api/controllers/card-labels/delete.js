@@ -65,7 +65,11 @@ module.exports = {
       throw Errors.LABEL_NOT_IN_CARD;
     }
 
-    cardLabel = await sails.helpers.cardLabels.deleteOne(cardLabel, board, this.req);
+    cardLabel = await sails.helpers.cardLabels.deleteOne.with({
+      board,
+      record: cardLabel,
+      request: this.req,
+    });
 
     if (!cardLabel) {
       throw Errors.LABEL_NOT_IN_CARD;

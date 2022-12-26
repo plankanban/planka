@@ -48,7 +48,11 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    task = await sails.helpers.tasks.deleteOne(task, board, this.req);
+    task = await sails.helpers.tasks.deleteOne.with({
+      board,
+      record: task,
+      request: this.req,
+    });
 
     if (!task) {
       throw Errors.TASK_NOT_FOUND;

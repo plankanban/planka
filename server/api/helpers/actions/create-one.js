@@ -1,15 +1,24 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.card)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.user)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
-      required: true,
-    },
-    user: {
       type: 'ref',
-      required: true,
-    },
-    card: {
-      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
     request: {
@@ -18,14 +27,16 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
     const action = await Action.create({
-      ...inputs.values,
-      cardId: inputs.card.id,
-      userId: inputs.user.id,
+      ...values,
+      cardId: values.card.id,
+      userId: values.user.id,
     }).fetch();
 
     sails.sockets.broadcast(
-      `board:${inputs.card.boardId}`,
+      `board:${values.card.boardId}`,
       'actionCreate',
       {
         item: action,
@@ -38,9 +49,16 @@ module.exports = {
       action.userId,
     );
 
-    subscriptionUserIds.forEach(async (userId) => {
-      await sails.helpers.notifications.createOne(userId, action);
-    });
+    await Promise.all(
+      subscriptionUserIds.map(async (userId) =>
+        sails.helpers.notifications.createOne.with({
+          values: {
+            userId,
+            action,
+          },
+        }),
+      ),
+    );
 
     return action;
   },

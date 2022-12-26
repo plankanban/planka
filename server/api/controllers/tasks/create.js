@@ -57,7 +57,14 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['position', 'name', 'isCompleted']);
-    const task = await sails.helpers.tasks.createOne(values, card, this.req);
+
+    const task = await sails.helpers.tasks.createOne.with({
+      values: {
+        ...values,
+        card,
+      },
+      request: this.req,
+    });
 
     return {
       item: task,

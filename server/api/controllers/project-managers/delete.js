@@ -38,7 +38,10 @@ module.exports = {
     }
 
     // TODO: check if the last one
-    projectManager = await sails.helpers.projectManagers.deleteOne(projectManager, this.req);
+    projectManager = await sails.helpers.projectManagers.deleteOne.with({
+      record: projectManager,
+      request: this.req,
+    });
 
     if (!projectManager) {
       throw Errors.PROJECT_MANAGER_NOT_FOUND;

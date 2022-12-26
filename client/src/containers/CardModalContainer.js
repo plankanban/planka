@@ -37,6 +37,14 @@ const mapStateToProps = (state) => {
   const attachments = selectors.selectAttachmentsForCurrentCard(state);
   const activities = selectors.selectActivitiesForCurrentCard(state);
 
+  let isCurrentUserEditor = false;
+  let isCurrentUserEditorOrCanComment = false;
+
+  if (currentUserMembership) {
+    isCurrentUserEditor = currentUserMembership.role === BoardMembershipRoles.EDITOR;
+    isCurrentUserEditorOrCanComment = isCurrentUserEditor || currentUserMembership.canComment;
+  }
+
   return {
     name,
     description,
@@ -58,11 +66,8 @@ const mapStateToProps = (state) => {
     allProjectsToLists,
     allBoardMemberships,
     allLabels,
-    canEdit: !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR,
-    canEditCommentActivities:
-      !!currentUserMembership &&
-      (currentUserMembership.role === BoardMembershipRoles.EDITOR ||
-        currentUserMembership.canComment),
+    canEdit: isCurrentUserEditor,
+    canEditCommentActivities: isCurrentUserEditorOrCanComment,
     canEditAllCommentActivities: isCurrentUserManager,
   };
 };

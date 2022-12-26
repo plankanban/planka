@@ -1,11 +1,20 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.board)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
-      required: true,
-    },
-    board: {
       type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
     request: {
@@ -14,9 +23,11 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
     const label = await Label.create({
-      ...inputs.values,
-      boardId: inputs.board.id,
+      ...values,
+      boardId: values.board.id,
     }).fetch();
 
     sails.sockets.broadcast(

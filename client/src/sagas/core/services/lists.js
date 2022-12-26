@@ -39,8 +39,8 @@ export function* createListInCurrentBoard(data) {
   yield call(createList, boardId, data);
 }
 
-export function* handleListCreate(label) {
-  yield put(actions.handleListCreate(label));
+export function* handleListCreate(list) {
+  yield put(actions.handleListCreate(list));
 }
 
 export function* updateList(id, data) {
@@ -57,8 +57,8 @@ export function* updateList(id, data) {
   yield put(actions.updateList.success(list));
 }
 
-export function* handleListUpdate(label) {
-  yield put(actions.handleListUpdate(label));
+export function* handleListUpdate(list) {
+  yield put(actions.handleListUpdate(list));
 }
 
 export function* moveList(id, index) {
@@ -84,8 +84,8 @@ export function* deleteList(id) {
   yield put(actions.deleteList.success(list));
 }
 
-export function* handleListDelete(label) {
-  yield put(actions.handleListDelete(label));
+export function* handleListDelete(list) {
+  yield put(actions.handleListDelete(list));
 }
 
 export default {

@@ -6,7 +6,7 @@ import { Button, Popup as SemanticUIPopup } from 'semantic-ui-react';
 import styles from './Popup.module.css';
 
 export default (WrappedComponent, defaultProps) => {
-  const Popup = React.memo(({ children, ...props }) => {
+  const Popup = React.memo(({ children, onClose, ...props }) => {
     const [isOpened, setIsOpened] = useState(false);
 
     const wrapper = useRef(null);
@@ -18,7 +18,11 @@ export default (WrappedComponent, defaultProps) => {
 
     const handleClose = useCallback(() => {
       setIsOpened(false);
-    }, []);
+
+      if (onClose) {
+        onClose();
+      }
+    }, [onClose]);
 
     const handleMouseDown = useCallback((event) => {
       event.stopPropagation();
@@ -105,6 +109,11 @@ export default (WrappedComponent, defaultProps) => {
 
   Popup.propTypes = {
     children: PropTypes.node.isRequired,
+    onClose: PropTypes.func,
+  };
+
+  Popup.defaultProps = {
+    onClose: undefined,
   };
 
   return Popup;

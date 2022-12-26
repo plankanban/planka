@@ -35,18 +35,8 @@ export const transformCardData = (data) => ({
 
 /* Actions */
 
-const getCards = (boardId, data, headers) =>
-  socket.get(`/board/${boardId}/cards`, data, headers).then((body) => ({
-    ...body,
-    items: body.items.map(transformCard),
-    included: {
-      ...body.included,
-      attachments: body.included.attachments.map(transformAttachment),
-    },
-  }));
-
-const createCard = (boardId, data, headers) =>
-  socket.post(`/boards/${boardId}/cards`, transformCardData(data), headers).then((body) => ({
+const createCard = (listId, data, headers) =>
+  socket.post(`/lists/${listId}/cards`, transformCardData(data), headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));
@@ -55,6 +45,10 @@ const getCard = (id, headers) =>
   socket.get(`/cards/${id}`, undefined, headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
+    included: {
+      ...body.included,
+      attachments: body.included.attachments.map(transformAttachment),
+    },
   }));
 
 const updateCard = (id, data, headers) =>
@@ -83,7 +77,6 @@ const makeHandleCardUpdate = makeHandleCardCreate;
 const makeHandleCardDelete = makeHandleCardCreate;
 
 export default {
-  getCards,
   createCard,
   getCard,
   updateCard,

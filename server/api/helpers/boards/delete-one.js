@@ -10,7 +10,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    await BoardMembership.destroy({
+    const boardMemberships = await BoardMembership.destroy({
       boardId: inputs.record.id,
     }).fetch();
 
@@ -19,12 +19,11 @@ module.exports = {
     if (board) {
       sails.sockets.removeRoomMembersFromRooms(`board:${board.id}`, `board:${board.id}`);
 
-      const managerUserIds = await sails.helpers.projects.getManagerUserIds(board.projectId);
-      const memberUserIds = await sails.helpers.boards.getMemberUserIds(board.id);
+      const projectManagerUserIds = await sails.helpers.projects.getManagerUserIds(board.projectId);
+      const boardMemberUserIds = sails.helpers.utils.mapRecords(boardMemberships, 'userId');
+      const boardRelatedUserIds = _.union(projectManagerUserIds, boardMemberUserIds);
 
-      const userIds = _.union(managerUserIds, memberUserIds);
-
-      userIds.forEach((userId) => {
+      boardRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'boardDelete',

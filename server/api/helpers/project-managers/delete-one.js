@@ -10,14 +10,14 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const userIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
+    const projectRelatedUserIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
       inputs.record.projectId,
     );
 
     const projectManager = await ProjectManager.destroyOne(inputs.record.id);
 
     if (projectManager) {
-      userIds.forEach((userId) => {
+      projectRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectManagerDelete',

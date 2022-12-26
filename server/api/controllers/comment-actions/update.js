@@ -67,7 +67,12 @@ module.exports = {
       data: _.pick(inputs, ['text']),
     };
 
-    action = await sails.helpers.actions.updateOne(action, values, board, this.req);
+    action = await sails.helpers.actions.updateOne.with({
+      values,
+      board,
+      record: action,
+      request: this.req,
+    });
 
     if (!action) {
       throw Errors.COMMENT_ACTION_NOT_FOUND;

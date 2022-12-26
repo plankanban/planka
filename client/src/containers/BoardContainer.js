@@ -4,17 +4,20 @@ import { connect } from 'react-redux';
 import selectors from '../selectors';
 import entryActions from '../entry-actions';
 import { BoardMembershipRoles } from '../constants/Enums';
-import BoardKanban from '../components/BoardKanban';
+import Board from '../components/Board';
 
 const mapStateToProps = (state) => {
   const { cardId } = selectors.selectPath(state);
   const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
   const listIds = selectors.selectListIdsForCurrentBoard(state);
 
+  const isCurrentUserEditor =
+    !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR;
+
   return {
     listIds,
     isCardModalOpened: !!cardId,
-    canEdit: !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR,
+    canEdit: isCurrentUserEditor,
   };
 };
 
@@ -28,4 +31,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(BoardKanban);
+export default connect(mapStateToProps, mapDispatchToProps)(Board);

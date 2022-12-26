@@ -13,7 +13,7 @@ module.exports = {
 
     position: {
       type: 'number',
-      allowNull: true,
+      required: true,
     },
     name: {
       type: 'string',
@@ -47,6 +47,7 @@ module.exports = {
     },
     listId: {
       model: 'List',
+      required: true,
       columnName: 'list_id',
     },
     creatorUserId: {

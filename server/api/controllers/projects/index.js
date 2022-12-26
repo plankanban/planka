@@ -6,7 +6,6 @@ module.exports = {
     const managerProjects = await sails.helpers.projects.getMany(managerProjectIds);
 
     let boardMemberships = await sails.helpers.users.getBoardMemberships(currentUser.id);
-
     const membershipBoardIds = sails.helpers.utils.mapRecords(boardMemberships, 'boardId');
 
     let membershipBoards = await sails.helpers.boards.getMany({

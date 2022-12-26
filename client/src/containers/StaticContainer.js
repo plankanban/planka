@@ -4,12 +4,13 @@ import selectors from '../selectors';
 import Static from '../components/Static';
 
 const mapStateToProps = (state) => {
-  const { cardId, boardId, projectId } = selectors.selectPath(state);
+  const { cardId, projectId } = selectors.selectPath(state);
+  const currentBoard = selectors.selectCurrentBoard(state);
 
   return {
-    cardId,
-    boardId,
     projectId,
+    cardId,
+    board: currentBoard,
   };
 };
 

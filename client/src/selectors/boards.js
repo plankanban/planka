@@ -69,6 +69,31 @@ export const selectMembershipsForCurrentBoard = createSelector(
   },
 );
 
+export const selectCurrentUserMembershipForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  (state) => selectCurrentUserId(state),
+  ({ Board }, id, currentUserId) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    const boardMembershipModel = boardModel.getMembershipModelForUser(currentUserId);
+
+    if (!boardMembershipModel) {
+      return boardMembershipModel;
+    }
+
+    return boardMembershipModel.ref;
+  },
+);
+
 export const selectLabelsForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -147,31 +172,6 @@ export const selectFilterLabelsForCurrentBoard = createSelector(
   },
 );
 
-export const selectCurrentUserMembershipForCurrentBoard = createSelector(
-  orm,
-  (state) => selectPath(state).boardId,
-  (state) => selectCurrentUserId(state),
-  ({ Board }, id, currentUserId) => {
-    if (!id) {
-      return id;
-    }
-
-    const boardModel = Board.withId(id);
-
-    if (!boardModel) {
-      return boardModel;
-    }
-
-    const boardMembershipModel = boardModel.getMembershipModel(currentUserId);
-
-    if (!boardMembershipModel) {
-      return boardMembershipModel;
-    }
-
-    return boardMembershipModel.ref;
-  },
-);
-
 export const selectIsBoardWithIdExists = createSelector(
   orm,
   (_, id) => id,
@@ -183,10 +183,10 @@ export default {
   selectBoardById,
   selectCurrentBoard,
   selectMembershipsForCurrentBoard,
+  selectCurrentUserMembershipForCurrentBoard,
   selectLabelsForCurrentBoard,
   selectListIdsForCurrentBoard,
   selectFilterUsersForCurrentBoard,
   selectFilterLabelsForCurrentBoard,
-  selectCurrentUserMembershipForCurrentBoard,
   selectIsBoardWithIdExists,
 };

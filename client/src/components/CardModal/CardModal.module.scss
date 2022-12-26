@@ -9,6 +9,7 @@
     text-align: left;
     text-overflow: ellipsis;
     transition: background 85ms ease;
+    white-space: nowrap;
 
     &:hover {
       background: #dfe3e6;

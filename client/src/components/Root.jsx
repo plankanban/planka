@@ -6,7 +6,7 @@ import { ReduxRouter } from '../lib/redux-router';
 
 import Paths from '../constants/Paths';
 import LoginContainer from '../containers/LoginContainer';
-import CoreWrapperContainer from '../containers/CoreWrapperContainer';
+import CoreContainer from '../containers/CoreContainer';
 import NotFound from './NotFound';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -22,10 +22,10 @@ function Root({ store, history }) {
       <ReduxRouter history={history}>
         <Routes>
           <Route path={Paths.LOGIN} element={<LoginContainer />} />
-          <Route path={Paths.ROOT} element={<CoreWrapperContainer />} />
-          <Route path={Paths.PROJECTS} element={<CoreWrapperContainer />} />
-          <Route path={Paths.BOARDS} element={<CoreWrapperContainer />} />
-          <Route path={Paths.CARDS} element={<CoreWrapperContainer />} />
+          <Route path={Paths.ROOT} element={<CoreContainer />} />
+          <Route path={Paths.PROJECTS} element={<CoreContainer />} />
+          <Route path={Paths.BOARDS} element={<CoreContainer />} />
+          <Route path={Paths.CARDS} element={<CoreContainer />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </ReduxRouter>

@@ -1,15 +1,24 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.board)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.user)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
-      required: true,
-    },
-    user: {
       type: 'ref',
-      required: true,
-    },
-    board: {
-      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
     request: {
@@ -22,18 +31,20 @@ module.exports = {
   },
 
   async fn(inputs) {
-    if (inputs.values.role === BoardMembership.Roles.EDITOR) {
-      delete inputs.values.canComment; // eslint-disable-line no-param-reassign
-    } else if (inputs.values.role === BoardMembership.Roles.VIEWER) {
-      if (_.isNil(inputs.values.canComment)) {
-        inputs.values.canComment = false; // eslint-disable-line no-param-reassign
+    const { values } = inputs;
+
+    if (values.role === BoardMembership.Roles.EDITOR) {
+      delete values.canComment;
+    } else if (values.role === BoardMembership.Roles.VIEWER) {
+      if (_.isNil(values.canComment)) {
+        values.canComment = false;
       }
     }
 
     const boardMembership = await BoardMembership.create({
-      ...inputs.values,
-      boardId: inputs.board.id,
-      userId: inputs.user.id,
+      ...values,
+      boardId: values.board.id,
+      userId: values.user.id,
     })
       .intercept('E_UNIQUE', 'userAlreadyBoardMember')
       .fetch();

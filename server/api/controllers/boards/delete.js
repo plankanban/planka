@@ -39,7 +39,10 @@ module.exports = {
       throw Errors.BOARD_NOT_FOUND; // Forbidden
     }
 
-    board = await sails.helpers.boards.deleteOne(board, this.req);
+    board = await sails.helpers.boards.deleteOne.with({
+      record: board,
+      request: this.req,
+    });
 
     if (!board) {
       throw Errors.BOARD_NOT_FOUND;

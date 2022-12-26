@@ -1,5 +1,6 @@
-import { Model, attr } from 'redux-orm';
+import { attr } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
 const DEFAULT_EMAIL_UPDATE_FORM = {
@@ -29,7 +30,7 @@ const DEFAULT_USERNAME_UPDATE_FORM = {
   error: null,
 };
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'User';
 
   static fields = {

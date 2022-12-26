@@ -14,7 +14,6 @@ const Item = React.memo(({ type, data, createdAt, user }) => {
   const [t] = useTranslation();
 
   let contentNode;
-
   switch (type) {
     case ActivityTypes.CREATE_CARD:
       contentNode = (

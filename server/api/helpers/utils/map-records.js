@@ -1,10 +1,12 @@
+const recordsValidator = (value) => _.isArray(value);
+
 module.exports = {
   sync: true,
 
   inputs: {
     records: {
       type: 'ref',
-      custom: (value) => _.isArray(value),
+      custom: recordsValidator,
       required: true,
     },
     attribute: {

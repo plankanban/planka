@@ -1,10 +1,11 @@
-import { Model, attr, fk, many, oneToOne } from 'redux-orm';
+import { attr, fk, many, oneToOne } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { ActivityTypes } from '../constants/Enums';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Card';
 
   static fields = {
@@ -74,7 +75,11 @@ export default class extends Model {
 
         break;
       case ActionTypes.SOCKET_RECONNECT_HANDLE:
-        Card.all().delete();
+        Card.all()
+          .toModelArray()
+          .forEach((cardModel) => {
+            cardModel.deleteWithClearable();
+          });
 
         if (payload.cards) {
           payload.cards.forEach((card) => {
@@ -176,7 +181,7 @@ export default class extends Model {
 
         break;
       case ActionTypes.CARD_DELETE:
-        Card.withId(payload.id).delete();
+        Card.withId(payload.id).deleteWithRelated();
 
         break;
       case ActionTypes.CARD_DELETE__SUCCESS:
@@ -220,15 +225,7 @@ export default class extends Model {
           isActivitiesDetailsFetching: false,
         });
 
-        cardModel.activities.toModelArray().forEach((activityModel) => {
-          if (activityModel.notification) {
-            activityModel.update({
-              isInCard: false,
-            });
-          } else {
-            activityModel.delete();
-          }
-        });
+        cardModel.deleteActivities();
 
         break;
       }
@@ -268,10 +265,37 @@ export default class extends Model {
     });
   }
 
+  isAvailableForUser(userId) {
+    return this.board && this.board.isAvailableForUser(userId);
+  }
+
+  deleteClearable() {
+    this.users.clear();
+    this.labels.clear();
+  }
+
+  deleteActivities() {
+    this.activities.toModelArray().forEach((activityModel) => {
+      if (activityModel.notification) {
+        activityModel.update({
+          isInCard: false,
+        });
+      } else {
+        activityModel.delete();
+      }
+    });
+  }
+
   deleteRelated() {
+    this.deleteClearable();
     this.tasks.delete();
     this.attachments.delete();
-    this.activities.delete();
+    this.deleteActivities();
+  }
+
+  deleteWithClearable() {
+    this.deleteClearable();
+    this.delete();
   }
 
   deleteWithRelated() {
