@@ -16,7 +16,7 @@
     "client:test": "npm test --prefix client",
     "docker:build": "docker build -t ghcr.io/plankanban/planka:local -f Dockerfile .",
     "docker:build:base": "docker build -t ghcr.io/plankanban/planka:base-local -f Dockerfile.base .",
-    "postinstall": "npm i --prefix server && npm i --prefix client",
+	"postinstall": "(cd server && npm i && cd ../client && npm i)",
     "lint": "npm run server:lint && npm run client:lint",
     "prepare": "husky install",
     "server:console": "npm run console --prefix server",
