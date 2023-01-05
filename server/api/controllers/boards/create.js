@@ -108,10 +108,6 @@ module.exports = {
       request: this.req,
     });
 
-    if (this.req.isSocket) {
-      sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed
-    }
-
     return {
       item: board,
       included: {

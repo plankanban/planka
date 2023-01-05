@@ -62,7 +62,7 @@ export function* handleBoardMembershipCreate(boardMembership) {
   if (isCurrentUser) {
     let board2;
     try {
-      ({ item: board2 } = yield call(request, api.getBoard, boardMembership.boardId));
+      ({ item: board2 } = yield call(request, api.getBoard, boardMembership.boardId, false));
     } catch {
       return;
     }

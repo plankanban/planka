@@ -47,7 +47,7 @@ export function* fetchBoardByCurrentPath() {
           tasks,
           attachments,
         },
-      } = yield call(request, api.getBoard, boardId));
+      } = yield call(request, api.getBoard, boardId, true));
     }
   }
 

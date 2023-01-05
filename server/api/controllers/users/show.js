@@ -13,6 +13,9 @@ module.exports = {
       regex: /^[0-9]+|me$/,
       required: true,
     },
+    subscribe: {
+      type: 'boolean',
+    },
   },
 
   exits: {
@@ -26,8 +29,8 @@ module.exports = {
     if (inputs.id === CURRENT_USER_ID) {
       ({ currentUser: user } = this.req);
 
-      if (this.req.isSocket) {
-        sails.sockets.join(this.req, `user:${user.id}`); // TODO: only when subscription needed
+      if (inputs.subscribe && this.req.isSocket) {
+        sails.sockets.join(this.req, `user:${user.id}`);
       }
     } else {
       user = await sails.helpers.users.getOne(inputs.id);
