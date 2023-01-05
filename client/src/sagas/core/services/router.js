@@ -81,7 +81,7 @@ export function* handleLocationChange() {
               tasks,
               attachments,
             },
-          } = yield call(request, api.getBoard, currentBoard.id));
+          } = yield call(request, api.getBoard, currentBoard.id, true));
         } catch (error) {} // eslint-disable-line no-empty
       }
 

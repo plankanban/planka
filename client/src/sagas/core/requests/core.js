@@ -6,7 +6,7 @@ import api from '../../../api';
 import mergeRecords from '../../../utils/merge-records';
 
 export function* fetchCore() {
-  const { item: user } = yield call(request, api.getCurrentUser);
+  const { item: user } = yield call(request, api.getCurrentUser, true);
   const { items: users1 } = yield call(request, api.getUsers);
 
   const {

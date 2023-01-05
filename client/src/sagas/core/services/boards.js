@@ -96,7 +96,7 @@ export function* fetchBoard(id) {
         tasks,
         attachments,
       },
-    } = yield call(request, api.getBoard, id));
+    } = yield call(request, api.getBoard, id, true));
   } catch (error) {
     yield put(actions.fetchBoard.failure(id, error));
     return;

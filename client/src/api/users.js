@@ -9,7 +9,8 @@ const createUser = (data, headers) => socket.post('/users', data, headers);
 
 const getUser = (id, headers) => socket.get(`/users/${id}`, undefined, headers);
 
-const getCurrentUser = (headers) => socket.get('/users/me', undefined, headers);
+const getCurrentUser = (subscribe, headers) =>
+  socket.get(`/users/me${subscribe ? '?subscribe=true' : ''}`, undefined, headers);
 
 const updateUser = (id, data, headers) => socket.patch(`/users/${id}`, data, headers);
 

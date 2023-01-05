@@ -11,6 +11,9 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    subscribe: {
+      type: 'boolean',
+    },
   },
 
   exits: {
@@ -73,8 +76,8 @@ module.exports = {
       card.isSubscribed = isSubscribedByCardId[card.id] || false;
     });
 
-    if (this.req.isSocket) {
-      sails.sockets.join(this.req, `board:${board.id}`); // TODO: only when subscription needed
+    if (inputs.subscribe && this.req.isSocket) {
+      sails.sockets.join(this.req, `board:${board.id}`);
     }
 
     return {
