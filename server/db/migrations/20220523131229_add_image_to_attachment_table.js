@@ -63,11 +63,9 @@ module.exports.down = async (knex) => {
       .where('id', attachment.id);
   }
 
-  await knex.schema.table('attachment', (table) => {
+  return knex.schema.table('attachment', (table) => {
     table.dropColumn('image');
-  });
 
-  return knex.schema.alterTable('attachment', (table) => {
-    table.boolean('is_image').notNullable().alter();
+    table.dropNullable('is_image');
   });
 };

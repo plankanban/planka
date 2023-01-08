@@ -16,11 +16,11 @@ const valuesValidator = (value) => {
     return false;
   }
 
-  if (value.username && !_.isString(value.username)) {
+  if (!_.isNil(value.username) && !_.isString(value.username)) {
     return false;
   }
 
-  if (value.avatar && !_.isPlainObject(value.avatar)) {
+  if (!_.isNil(value.avatar) && !_.isPlainObject(value.avatar)) {
     return false;
   }
 

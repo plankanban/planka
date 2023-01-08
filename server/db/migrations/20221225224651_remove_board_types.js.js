@@ -3,8 +3,8 @@ module.exports.up = async (knex) => {
     table.dropColumn('type');
   });
 
-  return knex.schema.alterTable('card', (table) => {
-    table.bigInteger('list_id').notNullable().alter();
+  return knex.schema.table('card', (table) => {
+    table.dropNullable('list_id');
   });
 };
 
@@ -12,10 +12,10 @@ module.exports.down = async (knex) => {
   await knex.schema.table('board', (table) => {
     /* Columns */
 
-    table.text('type').notNullable().defaultTo('kanban');
+    table.text('type').notNullable().defaultTo('kanban'); // FIXME: drop default
   });
 
-  return knex.schema.alterTable('card', (table) => {
-    table.bigInteger('list_id').alter();
+  return knex.schema.table('card', (table) => {
+    table.setNullable('list_id');
   });
 };

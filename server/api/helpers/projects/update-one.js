@@ -6,11 +6,11 @@ const valuesValidator = (value) => {
     return false;
   }
 
-  if (value.background && !_.isPlainObject(value.background)) {
+  if (!_.isNil(value.background) && !_.isPlainObject(value.background)) {
     return false;
   }
 
-  if (value.backgroundImage && !_.isPlainObject(value.backgroundImage)) {
+  if (!_.isNil(value.backgroundImage) && !_.isPlainObject(value.backgroundImage)) {
     return false;
   }
 

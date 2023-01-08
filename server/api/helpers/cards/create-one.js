@@ -3,7 +3,7 @@ const valuesValidator = (value) => {
     return false;
   }
 
-  if (!_.isFinite(value.position)) {
+  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
     return false;
   }
 
