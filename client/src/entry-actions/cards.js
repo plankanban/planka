@@ -1,10 +1,11 @@
 import EntryActionTypes from '../constants/EntryActionTypes';
 
-const createCard = (listId, data) => ({
+const createCard = (listId, data, autoOpen) => ({
   type: EntryActionTypes.CARD_CREATE,
   payload: {
     listId,
     data,
+    autoOpen,
   },
 });
 

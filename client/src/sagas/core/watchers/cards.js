@@ -5,8 +5,8 @@ import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 export default function* cardsWatchers() {
   yield all([
-    takeEvery(EntryActionTypes.CARD_CREATE, ({ payload: { listId, data } }) =>
-      services.createCard(listId, data),
+    takeEvery(EntryActionTypes.CARD_CREATE, ({ payload: { listId, data, autoOpen } }) =>
+      services.createCard(listId, data, autoOpen),
     ),
     takeEvery(EntryActionTypes.CARD_CREATE_HANDLE, ({ payload: { card } }) =>
       services.handleCardCreate(card),
