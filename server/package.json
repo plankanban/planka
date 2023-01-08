@@ -31,7 +31,7 @@
     "dotenv": "^16.0.3",
     "dotenv-cli": "^6.0.0",
     "filenamify": "^4.3.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "knex": "^2.3.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
