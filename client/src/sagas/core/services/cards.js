@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import { goToBoard } from './router';
+import { goToBoard, goToCard } from './router';
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
@@ -33,8 +33,10 @@ export function* createCard(listId, data) {
     yield put(actions.createCard.failure(localId, error));
     return;
   }
-
   yield put(actions.createCard.success(localId, card));
+  if (data.open) {
+    yield call(goToCard, card.id);
+  }
 }
 
 export function* handleCardCreate(card) {

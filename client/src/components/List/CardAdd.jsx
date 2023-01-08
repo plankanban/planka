@@ -21,36 +21,42 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
 
   const nameField = useRef(null);
 
-  const submit = useCallback(() => {
-    const cleanData = {
-      ...data,
-      name: data.name.trim(),
-    };
+  const submit = useCallback(
+    (openCard) => {
+      const cleanData = {
+        ...data,
+        name: data.name.trim(),
+        open: openCard,
+      };
 
-    if (!cleanData.name) {
-      nameField.current.ref.current.select();
-      return;
-    }
+      if (!cleanData.name) {
+        nameField.current.ref.current.select();
+        return;
+      }
 
-    onCreate(cleanData);
-
-    setData(DEFAULT_DATA);
-    focusNameField();
-  }, [onCreate, data, setData, focusNameField]);
+      onCreate(cleanData);
+      setData(DEFAULT_DATA);
+      focusNameField();
+    },
+    [onCreate, data, setData, focusNameField],
+  );
 
   const handleFieldKeyDown = useCallback(
     (event) => {
       switch (event.key) {
-        case 'Enter':
+        case 'Enter': {
           event.preventDefault();
 
-          submit();
+          const openCard = event.ctrlKey;
+          submit(openCard);
 
           break;
-        case 'Escape':
+        }
+        case 'Escape': {
           onClose();
 
           break;
+        }
         default:
       }
     },
