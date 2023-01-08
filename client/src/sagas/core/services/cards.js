@@ -10,8 +10,9 @@ import { createLocalId } from '../../../utils/local-id';
 export function* createCard(listId, data) {
   const { boardId } = yield select(selectors.selectListById, listId);
 
+  const { open, ...cleanData } = data;
   const nextData = {
-    ...data,
+    ...cleanData,
     position: yield select(selectors.selectNextCardPosition, listId),
   };
 
@@ -34,7 +35,7 @@ export function* createCard(listId, data) {
     return;
   }
   yield put(actions.createCard.success(localId, card));
-  if (data.open) {
+  if (open) {
     yield call(goToCard, card.id);
   }
 }
