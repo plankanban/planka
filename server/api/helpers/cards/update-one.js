@@ -99,7 +99,7 @@ module.exports = {
       throw 'userMustBePresent';
     }
 
-    if (!_.isNil(values.position)) {
+    if (!_.isUndefined(values.position)) {
       const boardId = values.boardId || inputs.record.boardId;
       const listId = values.listId || inputs.record.listId;
 

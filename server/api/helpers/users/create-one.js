@@ -13,7 +13,7 @@ const valuesValidator = (value) => {
     return false;
   }
 
-  if (value.username && !_.isString(value.username)) {
+  if (!_.isNil(value.username) && !_.isString(value.username)) {
     return false;
   }
 

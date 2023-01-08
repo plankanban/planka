@@ -100,7 +100,6 @@ const processAttachmentImage = async (attachment, attachmentsPath) => {
 
 module.exports.up = async (knex) => {
   const config = await getConfig();
-
   const users = await knex('user_account').whereNotNull('avatar');
 
   // eslint-disable-next-line no-restricted-syntax
