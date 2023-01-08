@@ -1,13 +1,13 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import { goToBoard } from './router';
+import { goToBoard, goToCard } from './router';
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
-export function* createCard(listId, data) {
+export function* createCard(listId, data, autoOpen) {
   const { boardId } = yield select(selectors.selectListById, listId);
 
   const nextData = {
@@ -35,6 +35,10 @@ export function* createCard(listId, data) {
   }
 
   yield put(actions.createCard.success(localId, card));
+
+  if (autoOpen) {
+    yield call(goToCard, card.id);
+  }
 }
 
 export function* handleCardCreate(card) {
