@@ -22,11 +22,10 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
   const nameField = useRef(null);
 
   const submit = useCallback(
-    (openCard) => {
+    (autoOpen) => {
       const cleanData = {
         ...data,
         name: data.name.trim(),
-        open: openCard,
       };
 
       if (!cleanData.name) {
@@ -34,11 +33,16 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
         return;
       }
 
-      onCreate(cleanData);
+      onCreate(cleanData, autoOpen);
       setData(DEFAULT_DATA);
-      focusNameField();
+
+      if (autoOpen) {
+        onClose();
+      } else {
+        focusNameField();
+      }
     },
-    [onCreate, data, setData, focusNameField],
+    [onCreate, onClose, data, setData, focusNameField],
   );
 
   const handleFieldKeyDown = useCallback(
@@ -47,8 +51,8 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
         case 'Enter': {
           event.preventDefault();
 
-          const openCard = event.ctrlKey;
-          submit(openCard);
+          const autoOpen = event.ctrlKey;
+          submit(autoOpen);
 
           break;
         }

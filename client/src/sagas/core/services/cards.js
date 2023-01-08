@@ -7,12 +7,11 @@ import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
-export function* createCard(listId, data) {
+export function* createCard(listId, data, autoOpen) {
   const { boardId } = yield select(selectors.selectListById, listId);
 
-  const { open, ...cleanData } = data;
   const nextData = {
-    ...cleanData,
+    ...data,
     position: yield select(selectors.selectNextCardPosition, listId),
   };
 
@@ -34,8 +33,10 @@ export function* createCard(listId, data) {
     yield put(actions.createCard.failure(localId, error));
     return;
   }
+
   yield put(actions.createCard.success(localId, card));
-  if (open) {
+
+  if (autoOpen) {
     yield call(goToCard, card.id);
   }
 }

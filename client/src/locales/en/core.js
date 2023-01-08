@@ -84,7 +84,7 @@ export default {
       editUsername_title: 'Edit Username',
       email: 'E-mail',
       emailAlreadyInUse: 'E-mail already in use',
-      enterCardTitle: 'Enter card title... [Ctrl+Enter] to open',
+      enterCardTitle: 'Enter card title... [Ctrl+Enter] to auto-open',
       enterDescription: 'Enter description...',
       enterFilename: 'Enter filename',
       enterListTitle: 'Enter list title...',
