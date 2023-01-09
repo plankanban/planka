@@ -95,18 +95,14 @@ const List = React.memo(
             ref={innerRef}
             className={styles.innerWrapper}
           >
-            {/* eslint-disable jsx-a11y/click-events-have-key-events,
-                               jsx-a11y/no-static-element-interactions,
-                               react/jsx-props-no-spreading */}
             <div className={styles.outerWrapper}>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                           jsx-a11y/no-static-element-interactions */}
               <div
-                {...dragHandleProps}
+                {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
                 className={classNames(styles.header, canEdit && styles.headerEditable)}
                 onClick={handleHeaderClick}
               >
-                {/* eslint-enable jsx-a11y/click-events-have-key-events,
-                                jsx-a11y/no-static-element-interactions,
-                                react/jsx-props-no-spreading */}
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
                   <div className={styles.headerName}>{name}</div>
                 </NameEdit>

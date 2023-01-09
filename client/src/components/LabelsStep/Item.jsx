@@ -28,8 +28,8 @@ const Item = React.memo(
           const contentNode = (
             // eslint-disable-next-line react/jsx-props-no-spreading
             <div {...draggableProps} ref={innerRef} className={styles.wrapper}>
-              {/* eslint-disable jsx-a11y/click-events-have-key-events,
-                           jsx-a11y/no-static-element-interactions */}
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                           jsx-a11y/no-static-element-interactions */}
               <span
                 {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
                 className={classNames(

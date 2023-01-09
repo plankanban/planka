@@ -61,11 +61,9 @@ const Item = React.forwardRef(
     const extension = filename.slice((Math.max(0, filename.lastIndexOf('.')) || Infinity) + 1);
 
     return (
-      /* eslint-disable jsx-a11y/click-events-have-key-events,
-                        jsx-a11y/no-static-element-interactions */
+      /* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                  jsx-a11y/no-static-element-interactions */
       <div ref={ref} className={styles.wrapper} onClick={handleClick}>
-        {/* eslint-enable jsx-a11y/click-events-have-key-events,
-                          jsx-a11y/no-static-element-interactions */}
         <div
           className={styles.thumbnail}
           style={{

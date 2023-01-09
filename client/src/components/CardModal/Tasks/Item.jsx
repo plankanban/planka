@@ -55,14 +55,12 @@ const Item = React.memo(
               </span>
               <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
                 <div className={classNames(canEdit && styles.contentHoverable)}>
-                  {/* eslint-disable jsx-a11y/click-events-have-key-events,
-                           jsx-a11y/no-static-element-interactions */}
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                               jsx-a11y/no-static-element-interactions */}
                   <span
                     className={classNames(styles.text, canEdit && styles.textEditable)}
                     onClick={handleClick}
                   >
-                    {/* eslint-enable jsx-a11y/click-events-have-key-events,
-                            jsx-a11y/no-static-element-interactions */}
                     <span className={classNames(styles.task, isCompleted && styles.taskCompleted)}>
                       {name}
                     </span>
