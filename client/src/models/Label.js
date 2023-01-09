@@ -8,6 +8,7 @@ export default class extends BaseModel {
 
   static fields = {
     id: attr(),
+    position: attr(),
     name: attr(),
     color: attr(),
     boardId: fk({

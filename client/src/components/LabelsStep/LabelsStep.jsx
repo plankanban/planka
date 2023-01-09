@@ -2,10 +2,12 @@ import pick from 'lodash/pick';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { Button } from 'semantic-ui-react';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useField, useSteps } from '../../hooks';
+import DroppableTypes from '../../constants/DroppableTypes';
 import AddStep from './AddStep';
 import EditStep from './EditStep';
 import Item from './Item';
@@ -27,6 +29,7 @@ const LabelsStep = React.memo(
     onDeselect,
     onCreate,
     onUpdate,
+    onMove,
     onDelete,
     onBack,
   }) => {
@@ -72,6 +75,17 @@ const LabelsStep = React.memo(
         onDeselect(id);
       },
       [onDeselect],
+    );
+
+    const handleDragEnd = useCallback(
+      ({ draggableId, source, destination }) => {
+        if (!destination || source.index === destination.index) {
+          return;
+        }
+
+        onMove(draggableId, destination.index);
+      },
+      [onMove],
     );
 
     const handleUpdate = useCallback(
@@ -145,21 +159,45 @@ const LabelsStep = React.memo(
             onChange={handleSearchChange}
           />
           {filteredItems.length > 0 && (
-            <div className={styles.items}>
-              {filteredItems.map((item) => (
-                <Item
-                  key={item.id}
-                  name={item.name}
-                  color={item.color}
-                  isPersisted={item.isPersisted}
-                  isActive={currentIds.includes(item.id)}
-                  canEdit={canEdit}
-                  onSelect={() => handleSelect(item.id)}
-                  onDeselect={() => handleDeselect(item.id)}
-                  onEdit={() => handleEdit(item.id)}
-                />
-              ))}
-            </div>
+            <DragDropContext onDragEnd={handleDragEnd}>
+              <Droppable droppableId="labels" type={DroppableTypes.LABEL}>
+                {({ innerRef, droppableProps, placeholder }) => (
+                  <div
+                    {...droppableProps} // eslint-disable-line react/jsx-props-no-spreading
+                    ref={innerRef}
+                    className={styles.items}
+                  >
+                    {filteredItems.map((item, index) => (
+                      <Item
+                        key={item.id}
+                        id={item.id}
+                        index={index}
+                        name={item.name}
+                        color={item.color}
+                        isPersisted={item.isPersisted}
+                        isActive={currentIds.includes(item.id)}
+                        canEdit={canEdit}
+                        onSelect={() => handleSelect(item.id)}
+                        onDeselect={() => handleDeselect(item.id)}
+                        onEdit={() => handleEdit(item.id)}
+                      />
+                    ))}
+                    {placeholder}
+                  </div>
+                )}
+              </Droppable>
+              <Droppable droppableId="labels:hack" type={DroppableTypes.LABEL}>
+                {({ innerRef, droppableProps, placeholder }) => (
+                  <div
+                    {...droppableProps} // eslint-disable-line react/jsx-props-no-spreading
+                    ref={innerRef}
+                    className={styles.droppableHack}
+                  >
+                    {placeholder}
+                  </div>
+                )}
+              </Droppable>
+            </DragDropContext>
           )}
           {canEdit && (
             <Button
@@ -186,6 +224,7 @@ LabelsStep.propTypes = {
   onDeselect: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onMove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onBack: PropTypes.func,
 };

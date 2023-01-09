@@ -62,6 +62,7 @@ const CardModal = React.memo(
     onLabelRemove,
     onLabelCreate,
     onLabelUpdate,
+    onLabelMove,
     onLabelDelete,
     onTaskCreate,
     onTaskUpdate,
@@ -235,6 +236,7 @@ const CardModal = React.memo(
                             onDeselect={onLabelRemove}
                             onCreate={onLabelCreate}
                             onUpdate={onLabelUpdate}
+                            onMove={onLabelMove}
                             onDelete={onLabelDelete}
                           >
                             <Label name={label.name} color={label.color} />
@@ -252,6 +254,7 @@ const CardModal = React.memo(
                         onDeselect={onLabelRemove}
                         onCreate={onLabelCreate}
                         onUpdate={onLabelUpdate}
+                        onMove={onLabelMove}
                         onDelete={onLabelDelete}
                       >
                         <button
@@ -419,6 +422,7 @@ const CardModal = React.memo(
                   onDeselect={onLabelRemove}
                   onCreate={onLabelCreate}
                   onUpdate={onLabelUpdate}
+                  onMove={onLabelMove}
                   onDelete={onLabelDelete}
                 >
                   <Button fluid className={styles.actionButton}>
@@ -546,6 +550,7 @@ CardModal.propTypes = {
   onLabelRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,
   onLabelUpdate: PropTypes.func.isRequired,
+  onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
   onTaskCreate: PropTypes.func.isRequired,
   onTaskUpdate: PropTypes.func.isRequired,

@@ -49,6 +49,22 @@ export const selectNextBoardPosition = createSelector(
   },
 );
 
+export const selectNextLabelPosition = createSelector(
+  orm,
+  (_, boardId) => boardId,
+  (_, __, index) => index,
+  (_, __, ___, excludedId) => excludedId,
+  ({ Board }, boardId, index, excludedId) => {
+    const boardModel = Board.withId(boardId);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return nextPosition(boardModel.getOrderedLabelsQuerySet().toRefArray(), index, excludedId);
+  },
+);
+
 export const selectNextListPosition = createSelector(
   orm,
   (_, boardId) => boardId,
@@ -102,6 +118,7 @@ export default {
   selectIsCoreInitializing,
   selectIsLogouting,
   selectNextBoardPosition,
+  selectNextLabelPosition,
   selectNextListPosition,
   selectNextCardPosition,
   selectNextTaskPosition,

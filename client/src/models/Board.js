@@ -175,6 +175,10 @@ export default class extends BaseModel {
     return this.memberships.orderBy('id');
   }
 
+  getOrderedLabelsQuerySet() {
+    return this.labels.orderBy('position');
+  }
+
   getOrderedListsQuerySet() {
     return this.lists.orderBy('position');
   }

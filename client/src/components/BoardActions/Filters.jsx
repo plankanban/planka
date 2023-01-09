@@ -22,6 +22,7 @@ const Filters = React.memo(
     onLabelRemove,
     onLabelCreate,
     onLabelUpdate,
+    onLabelMove,
     onLabelDelete,
   }) => {
     const [t] = useTranslation();
@@ -80,6 +81,7 @@ const Filters = React.memo(
             onDeselect={onLabelRemove}
             onCreate={onLabelCreate}
             onUpdate={onLabelUpdate}
+            onMove={onLabelMove}
             onDelete={onLabelDelete}
           >
             <button type="button" className={styles.filterButton}>
@@ -117,6 +119,7 @@ Filters.propTypes = {
   onLabelRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,
   onLabelUpdate: PropTypes.func.isRequired,
+  onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
 };
 
