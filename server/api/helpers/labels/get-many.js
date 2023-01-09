@@ -9,6 +9,6 @@ module.exports = {
   },
 
   async fn(inputs) {
-    return Label.find(inputs.criteria).sort('id');
+    return Label.find(inputs.criteria).sort('position');
   },
 };

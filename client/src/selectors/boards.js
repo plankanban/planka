@@ -108,10 +108,13 @@ export const selectLabelsForCurrentBoard = createSelector(
       return boardModel;
     }
 
-    return boardModel.labels.toRefArray().map((label) => ({
-      ...label,
-      isPersisted: !isLocalId(label.id),
-    }));
+    return boardModel
+      .getOrderedLabelsQuerySet()
+      .toRefArray()
+      .map((label) => ({
+        ...label,
+        isPersisted: !isLocalId(label.id),
+      }));
   },
 );
 

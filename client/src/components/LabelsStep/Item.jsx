@@ -1,53 +1,69 @@
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import React, { useCallback } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { Draggable } from 'react-beautiful-dnd';
 import { Button } from 'semantic-ui-react';
 
 import styles from './Item.module.scss';
 import globalStyles from '../../styles.module.scss';
 
 const Item = React.memo(
-  ({ name, color, isPersisted, isActive, canEdit, onSelect, onDeselect, onEdit }) => {
+  ({ id, index, name, color, isPersisted, isActive, canEdit, onSelect, onDeselect, onEdit }) => {
     const handleToggleClick = useCallback(() => {
-      if (isActive) {
-        onDeselect();
-      } else {
-        onSelect();
+      if (isPersisted) {
+        if (isActive) {
+          onDeselect();
+        } else {
+          onSelect();
+        }
       }
-    }, [isActive, onSelect, onDeselect]);
+    }, [isPersisted, isActive, onSelect, onDeselect]);
 
     return (
-      <div className={styles.wrapper}>
-        <Button
-          fluid
-          content={name}
-          active={isActive}
-          disabled={!isPersisted}
-          className={classNames(
-            styles.labelButton,
-            isActive && styles.labelButtonActive,
-            globalStyles[`background${upperFirst(camelCase(color))}`],
-          )}
-          onClick={handleToggleClick}
-        />
-        {canEdit && (
-          <Button
-            icon="pencil"
-            size="small"
-            floated="right"
-            disabled={!isPersisted}
-            className={styles.editButton}
-            onClick={onEdit}
-          />
-        )}
-      </div>
+      <Draggable draggableId={id} index={index} isDragDisabled={!isPersisted || !canEdit}>
+        {({ innerRef, draggableProps, dragHandleProps }, { isDragging }) => {
+          const contentNode = (
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            <div {...draggableProps} ref={innerRef} className={styles.wrapper}>
+              {/* eslint-disable jsx-a11y/click-events-have-key-events,
+                           jsx-a11y/no-static-element-interactions */}
+              <span
+                {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
+                className={classNames(
+                  styles.name,
+                  isActive && styles.nameActive,
+                  globalStyles[`background${upperFirst(camelCase(color))}`],
+                )}
+                onClick={handleToggleClick}
+              >
+                {name}
+              </span>
+              {canEdit && (
+                <Button
+                  icon="pencil"
+                  size="small"
+                  floated="right"
+                  disabled={!isPersisted}
+                  className={styles.editButton}
+                  onClick={onEdit}
+                />
+              )}
+            </div>
+          );
+
+          return isDragging ? ReactDOM.createPortal(contentNode, document.body) : contentNode;
+        }}
+      </Draggable>
     );
   },
 );
 
 Item.propTypes = {
+  id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
   name: PropTypes.string,
   color: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,

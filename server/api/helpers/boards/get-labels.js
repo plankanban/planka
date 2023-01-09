@@ -7,11 +7,23 @@ module.exports = {
       custom: idOrIdsValidator,
       required: true,
     },
+    exceptLabelIdOrIds: {
+      type: 'json',
+      custom: idOrIdsValidator,
+    },
   },
 
   async fn(inputs) {
-    return sails.helpers.labels.getMany({
+    const criteria = {
       boardId: inputs.idOrIds,
-    });
+    };
+
+    if (!_.isUndefined(inputs.exceptLabelIdOrIds)) {
+      criteria.id = {
+        '!=': inputs.exceptLabelIdOrIds,
+      };
+    }
+
+    return sails.helpers.labels.getMany(criteria);
   },
 };

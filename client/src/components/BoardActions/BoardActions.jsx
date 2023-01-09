@@ -25,6 +25,7 @@ const BoardActions = React.memo(
     onLabelFromFilterRemove,
     onLabelCreate,
     onLabelUpdate,
+    onLabelMove,
     onLabelDelete,
   }) => {
     return (
@@ -54,6 +55,7 @@ const BoardActions = React.memo(
               onLabelRemove={onLabelFromFilterRemove}
               onLabelCreate={onLabelCreate}
               onLabelUpdate={onLabelUpdate}
+              onLabelMove={onLabelMove}
               onLabelDelete={onLabelDelete}
             />
           </div>
@@ -82,6 +84,7 @@ BoardActions.propTypes = {
   onLabelFromFilterRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,
   onLabelUpdate: PropTypes.func.isRequired,
+  onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
 };
 

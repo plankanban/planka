@@ -14,6 +14,9 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    position: {
+      type: 'number',
+    },
     name: {
       type: 'string',
       isNotEmptyString: true,
@@ -22,7 +25,6 @@ module.exports = {
     color: {
       type: 'string',
       isIn: Label.COLORS,
-      required: true,
     },
   },
 
@@ -55,7 +57,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['name', 'color']);
+    const values = _.pick(inputs, ['position', 'name', 'color']);
 
     label = await sails.helpers.labels.updateOne.with({
       values,

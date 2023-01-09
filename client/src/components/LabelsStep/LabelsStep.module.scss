@@ -15,6 +15,11 @@
     }
   }
 
+  .droppableHack {
+    display: none;
+    position: fixed;
+  }
+
   .items {
     margin-top: 8px;
     max-height: 60vh;
