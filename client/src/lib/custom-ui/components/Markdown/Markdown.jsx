@@ -14,13 +14,12 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
   }, []);
 
   const linkRenderer = useCallback(
-    /* eslint-disable jsx-a11y/anchor-has-content,
-                      jsx-a11y/click-events-have-key-events,
-                      jsx-a11y/no-static-element-interactions,
-                      react/jsx-props-no-spreading */
     ({ node, ...linkProps }) => (
+      /* eslint-disable-next-line jsx-a11y/anchor-has-content,
+                                  jsx-a11y/click-events-have-key-events,
+                                  jsx-a11y/no-static-element-interactions */
       <a
-        {...linkProps}
+        {...linkProps} // eslint-disable-line react/jsx-props-no-spreading
         rel={
           ABSOLUTE_URL_REGEX.test(linkProps.href) && linkProps.target === '_blank'
             ? 'noreferrer'
@@ -29,10 +28,6 @@ const Markdown = React.memo(({ linkStopPropagation, ...props }) => {
         onClick={linkStopPropagation ? handleLinkClick : undefined}
       />
     ),
-    /* eslint-enable jsx-a11y/anchor-has-content,
-                     jsx-a11y/click-events-have-key-events,
-                     jsx-a11y/no-static-element-interactions,
-                     react/jsx-props-no-spreading */
     [linkStopPropagation, handleLinkClick],
   );
 
