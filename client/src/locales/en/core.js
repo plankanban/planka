@@ -155,6 +155,7 @@ export default {
       username: 'Username',
       usernameAlreadyInUse: 'Username already in use',
       users: 'Users',
+      version: 'Version',
       viewer: 'Viewer',
       writeComment: 'Write a comment...',
     },
