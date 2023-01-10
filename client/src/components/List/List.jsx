@@ -117,6 +117,10 @@ const List = React.memo(
                     </Button>
                   </ActionsPopup>
                 )}
+                <div className={styles.cardsCount}>
+                  {cardIds.length}&nbsp;
+                  {cardIds.length !== 1 ? t('common.cards') : t('common.card')}
+                </div>
               </div>
               <div
                 ref={listWrapper}

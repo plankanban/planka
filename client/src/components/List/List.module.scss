@@ -39,6 +39,11 @@
     min-height: 1px;
   }
 
+  .cardsCount {
+    color: #798d99;
+    font-size: 12px;
+  }
+
   .cardsInnerWrapper {
     max-height: calc(100vh - 268px);
     overflow-x: hidden;
