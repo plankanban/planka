@@ -927,16 +927,27 @@
     display: none;
   }
 
-  .markdown-body .task-list-item-checkbox {
-    margin: 0 .2em .25em -1.6em;
+  .markdown-body .task-list-item [type=checkbox] {
+    margin: 0 .2em .25em -18px; // 0 .2em .25em -1.6em
     vertical-align: middle;
   }
 
-  .markdown-body .contains-task-list:dir(rtl) .task-list-item-checkbox {
+  .markdown-body .contains-task-list:dir(rtl) .task-list-item [type=checkbox] {
     margin: 0 -1.6em .25em .2em;
   }
 
   .markdown-body ::-webkit-calendar-picker-indicator {
     filter: invert(50%);
+  }
+
+  .markdown-body .sr-only {
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
   }
 }
