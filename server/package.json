@@ -32,7 +32,7 @@
     "dotenv-cli": "^6.0.0",
     "filenamify": "^4.3.0",
     "jsonwebtoken": "^9.0.0",
-    "knex": "^2.3.0",
+    "knex": "^2.4.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "move-file": "^2.1.0",
