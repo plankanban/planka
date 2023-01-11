@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import Filters from './Filters';
 import Memberships from '../Memberships';
 import BoardMembershipPermissionsSelectStep from '../BoardMembershipPermissionsSelectStep';
@@ -9,6 +11,7 @@ import styles from './BoardActions.module.scss';
 
 const BoardActions = React.memo(
   ({
+    cardCount,
     memberships,
     labels,
     filterUsers,
@@ -28,9 +31,14 @@ const BoardActions = React.memo(
     onLabelMove,
     onLabelDelete,
   }) => {
+    const [t] = useTranslation();
+
     return (
       <div className={styles.wrapper}>
         <div className={styles.actions}>
+          <div className={classNames(styles.cardsCount, styles.action)}>
+            {cardCount} {[cardCount !== 1 ? t('common.cards') : t('common.card')]}
+          </div>
           <div className={styles.action}>
             <Memberships
               items={memberships}
@@ -67,6 +75,7 @@ const BoardActions = React.memo(
 
 BoardActions.propTypes = {
   /* eslint-disable react/forbid-prop-types */
+  cardCount: PropTypes.number.isRequired,
   memberships: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
   filterUsers: PropTypes.array.isRequired,

@@ -7,6 +7,11 @@ import { BoardMembershipRoles } from '../constants/Enums';
 import BoardActions from '../components/BoardActions';
 
 const mapStateToProps = (state) => {
+  const listIds = selectors.selectListIdsForCurrentBoard(state);
+  const listCardsCount = listIds.map(
+    (list) => selectors.selectCardIdsByListId(state, list).cardIdsFull.length,
+  );
+  const cardCount = listCardsCount.reduce((sum, count) => sum + count, 0);
   const allUsers = selectors.selectUsers(state);
   const isCurrentUserManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
   const memberships = selectors.selectMembershipsForCurrentBoard(state);
@@ -19,6 +24,7 @@ const mapStateToProps = (state) => {
     !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR;
 
   return {
+    cardCount,
     memberships,
     labels,
     filterUsers,

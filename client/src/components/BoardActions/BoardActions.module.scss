@@ -1,4 +1,9 @@
 :global(#app) {
+  .cardsCount {
+    color: #798d99;
+    font-size: 12px;
+  }
+
   .action {
     flex: 0 0 auto;
     margin-right: 20px;
