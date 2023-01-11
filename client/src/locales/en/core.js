@@ -160,6 +160,7 @@ export default {
       writeComment: 'Write a comment...',
       card: 'card',
       cards: 'cards',
+      of: 'of',
     },
 
     action: {

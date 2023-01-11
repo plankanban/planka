@@ -15,7 +15,8 @@ import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-ic
 import styles from './List.module.scss';
 
 const List = React.memo(
-  ({ id, index, name, isPersisted, cardIds, canEdit, onUpdate, onDelete, onCardCreate }) => {
+  // eslint-disable-next-line prettier/prettier
+  ({ id, index, name, isPersisted, isFiltered, cardIds, cardIdsFull, canEdit, onUpdate, onDelete, onCardCreate }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
@@ -86,6 +87,16 @@ const List = React.memo(
       </Droppable>
     );
 
+    const cardsCountText = () => {
+      return (
+        [
+          isFiltered
+            ? `${cardIds.length} ${t('common.of')} ${cardIdsFull.length} `
+            : `${cardIdsFull.length} `,
+        ] + [cardIdsFull.length !== 1 ? t('common.cards') : t('common.card')]
+      );
+    };
+
     return (
       <Draggable draggableId={`list:${id}`} index={index} isDragDisabled={!isPersisted || !canEdit}>
         {({ innerRef, draggableProps, dragHandleProps }) => (
@@ -117,10 +128,7 @@ const List = React.memo(
                     </Button>
                   </ActionsPopup>
                 )}
-                <div className={styles.cardsCount}>
-                  {cardIds.length}&nbsp;
-                  {cardIds.length !== 1 ? t('common.cards') : t('common.card')}
-                </div>
+                <div className={styles.cardsCount}>{cardsCountText()}</div>
               </div>
               <div
                 ref={listWrapper}
@@ -157,7 +165,9 @@ List.propTypes = {
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
+  isFiltered: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  cardIdsFull: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

@@ -33,8 +33,12 @@ export const makeSelectCardIdsByListId = () =>
       if (!listModel) {
         return listModel;
       }
-
-      return listModel.getFilteredOrderedCardsModelArray().map((cardModel) => cardModel.id);
+      const cardsModelArray = listModel.getFilteredOrderedCardsModelArray();
+      return [
+        cardsModelArray[0].map((cardModel) => cardModel.id),
+        cardsModelArray[1].map((cardModel) => cardModel.id),
+        cardsModelArray[2],
+      ];
     },
   );
 
