@@ -93,7 +93,8 @@ export const selectNextCardPosition = createSelector(
       return listModel;
     }
 
-    return nextPosition(listModel.getFilteredOrderedCardsModelArray(), index, excludedId);
+    // eslint-disable-next-line prettier/prettier
+    return nextPosition(listModel.getFilteredOrderedCardsModelArray().cardModels, index, excludedId);
   },
 );
 

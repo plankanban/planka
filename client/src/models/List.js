@@ -91,6 +91,7 @@ export default class extends BaseModel {
     const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
     const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);
     let isFiltered = false;
+
     if (filterUserIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {
         const users = cardModel.users.toRefArray();
@@ -107,7 +108,7 @@ export default class extends BaseModel {
       });
     }
 
-    return [cardModels, cardModelsFull, isFiltered];
+    return { cardModels, cardModelsFull, isFiltered };
   }
 
   deleteRelated() {
