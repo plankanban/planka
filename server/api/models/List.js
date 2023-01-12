@@ -19,6 +19,11 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    isCollapsed: {
+      type: 'boolean',
+      required: true,
+      columnName: 'is_collapsed',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

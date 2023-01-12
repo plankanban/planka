@@ -10,6 +10,7 @@ import styles from './ListAdd.module.scss';
 
 const DEFAULT_DATA = {
   name: '',
+  isCollapsed: false,
 };
 
 const ListAdd = React.memo(({ onCreate, onClose }) => {

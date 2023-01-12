@@ -39,11 +39,6 @@
     min-height: 1px;
   }
 
-  .cardsCount {
-    color: #798d99;
-    font-size: 12px;
-  }
-
   .cardsInnerWrapper {
     max-height: calc(100vh - 268px);
     overflow-x: hidden;
@@ -80,8 +75,17 @@
 
   .header {
     outline: none;
-    padding: 6px 36px 4px 8px;
+    padding: 4px 36px 4px 10px;
     position: relative;
+
+    &:hover .target {
+      opacity: 1;
+    }
+  }
+
+  .headerCollapsed {
+    outline: none;
+    height: calc(100vh - 182px);
 
     &:hover .target {
       opacity: 1;
@@ -119,13 +123,56 @@
     outline: none;
     overflow: hidden;
     overflow-wrap: break-word;
-    padding: 4px 8px;
     word-break: break-word;
+  }
+
+  .headerNameCollapsed {
+    color: #17394d;
+    font-weight: bold;
+    outline: none;
+    overflow: hidden;
+    writing-mode: vertical-rl;
+    padding: 0px 5px 10px 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-height: 85%;
+  }
+
+  .headerCollapseButton {
+    width: 10px;
+    height: 30px;
+    padding: 2px 0px 0px 2px;
+    position: absolute;
+    left: 2px;
+    top: 2px;
+  }
+
+  .headerCollapseButtonCollapsed {
+    height: 30px;
+    text-align: center;
+  }
+
+  .headerCardsCount {
+    color: #798d99;
+    font-size: 12px;
+  }
+
+  .headerCardsCountCollapsed {
+    color: #798d99;
+    font-size: 12px;
+    max-height: 10%;
+    writing-mode: vertical-rl;
+    padding: 0px 5px 10px 5px;
   }
 
   .innerWrapper {
     margin-right: 8px;
     width: 272px;
+  }
+
+  .innerWrapperCollapsed {
+    margin-right: 8px;
+    width: 30px;
   }
 
   .outerWrapper {

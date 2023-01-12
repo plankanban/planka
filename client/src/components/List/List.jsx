@@ -16,14 +16,22 @@ import styles from './List.module.scss';
 
 const List = React.memo(
   // eslint-disable-next-line prettier/prettier
-  ({ id, index, name, isPersisted, isFiltered, cardIds, cardIdsFull, canEdit, onUpdate, onDelete, onCardCreate }) => {
+  ({ id, index, name, isPersisted, isCollapsed, isFiltered, cardIds, cardIdsFull, canEdit, onUpdate, onDelete, onCardCreate }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
     const nameEdit = useRef(null);
     const listWrapper = useRef(null);
 
-    const handleHeaderClick = useCallback(() => {
+    const handleToggleCollapseClick = useCallback(() => {
+      if (isPersisted && canEdit) {
+        onUpdate({
+          isCollapsed: !isCollapsed,
+        });
+      }
+    }, [isPersisted, canEdit, onUpdate, isCollapsed]);
+
+    const handleHeaderNameClick = useCallback(() => {
       if (isPersisted && canEdit) {
         nameEdit.current.open();
       }
@@ -97,6 +105,45 @@ const List = React.memo(
       );
     };
 
+    if (isCollapsed) {
+      return (
+        <Draggable
+          draggableId={`list:${id}`}
+          index={index}
+          isDragDisabled={!isPersisted || !canEdit}
+        >
+          {({ innerRef, draggableProps, dragHandleProps }) => (
+            <div
+              {...draggableProps} // eslint-disable-line react/jsx-props-no-spreading
+              data-drag-scroller
+              ref={innerRef}
+              className={styles.innerWrapperCollapsed}
+            >
+              <div className={styles.outerWrapper}>
+                <div
+                  {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
+                  className={styles.headerCollapsed}
+                >
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                         jsx-a11y/no-static-element-interactions */}
+                  <div
+                    className={classNames(
+                      styles.headerCollapseButtonCollapsed,
+                      canEdit && styles.headerEditable,
+                    )}
+                    onClick={handleToggleCollapseClick}
+                  >
+                    <Icon fitted name="triangle down" size="mid" />
+                  </div>
+                  <div className={styles.headerNameCollapsed}>{name}</div>
+                  <div className={styles.headerCardsCountCollapsed}>{cardsCountText()}</div>
+                </div>
+              </div>
+            </div>
+          )}
+        </Draggable>
+      );
+    }
     return (
       <Draggable draggableId={`list:${id}`} index={index} isDragDisabled={!isPersisted || !canEdit}>
         {({ innerRef, draggableProps, dragHandleProps }) => (
@@ -107,15 +154,30 @@ const List = React.memo(
             className={styles.innerWrapper}
           >
             <div className={styles.outerWrapper}>
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
-                                           jsx-a11y/no-static-element-interactions */}
               <div
                 {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
-                className={classNames(styles.header, canEdit && styles.headerEditable)}
-                onClick={handleHeaderClick}
+                className={styles.header}
               >
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                           jsx-a11y/no-static-element-interactions */}
+                <div
+                  className={classNames(
+                    styles.headerCollapseButton,
+                    canEdit && styles.headerEditable,
+                  )}
+                  onClick={handleToggleCollapseClick}
+                >
+                  <Icon fitted name="triangle right" size="mid" />
+                </div>
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
-                  <div className={styles.headerName}>{name}</div>
+                  {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                           jsx-a11y/no-static-element-interactions */}
+                  <div
+                    className={classNames(styles.headerName, canEdit && styles.headerEditable)}
+                    onClick={handleHeaderNameClick}
+                  >
+                    {name}
+                  </div>
                 </NameEdit>
                 {isPersisted && canEdit && (
                   <ActionsPopup
@@ -128,7 +190,7 @@ const List = React.memo(
                     </Button>
                   </ActionsPopup>
                 )}
-                <div className={styles.cardsCount}>{cardsCountText()}</div>
+                <div className={styles.headerCardsCount}>{cardsCountText()}</div>
               </div>
               <div
                 ref={listWrapper}
@@ -164,6 +226,7 @@ List.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  isCollapsed: PropTypes.bool.isRequired,
   isPersisted: PropTypes.bool.isRequired,
   isFiltered: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types

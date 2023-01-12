@@ -11,7 +11,7 @@ const makeMapStateToProps = () => {
   const selectCardIdsByListId = selectors.makeSelectCardIdsByListId();
 
   return (state, { id, index }) => {
-    const { name, isPersisted } = selectListById(state, id);
+    const { name, isPersisted, isCollapsed } = selectListById(state, id);
     const { cardIds, cardIdsFull, isFiltered } = selectCardIdsByListId(state, id);
     const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
@@ -22,6 +22,7 @@ const makeMapStateToProps = () => {
       id,
       index,
       name,
+      isCollapsed,
       isPersisted,
       isFiltered,
       cardIds,
