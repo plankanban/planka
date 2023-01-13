@@ -16,7 +16,7 @@ import styles from './List.module.scss';
 
 const List = React.memo(
   // eslint-disable-next-line prettier/prettier
-  ({ id, index, name, isPersisted, isCollapsed, isFiltered, cardIds, cardIdsFull, canEdit, onUpdate, onDelete, onCardCreate }) => {
+  ({ id, index, name, isPersisted, isCollapsed, cardIds, isFiltered, filteredCardIds, canEdit, onUpdate, onDelete, onCardCreate }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
@@ -66,7 +66,7 @@ const List = React.memo(
       if (isAddCardOpened) {
         listWrapper.current.scrollTop = listWrapper.current.scrollHeight;
       }
-    }, [cardIds, isAddCardOpened]);
+    }, [filteredCardIds, isAddCardOpened]);
 
     const cardsNode = (
       <Droppable
@@ -78,7 +78,7 @@ const List = React.memo(
           // eslint-disable-next-line react/jsx-props-no-spreading
           <div {...droppableProps} ref={innerRef}>
             <div className={styles.cards}>
-              {cardIds.map((cardId, cardIndex) => (
+              {filteredCardIds.map((cardId, cardIndex) => (
                 <CardContainer key={cardId} id={cardId} index={cardIndex} />
               ))}
               {placeholder}
@@ -99,9 +99,9 @@ const List = React.memo(
       return (
         [
           isFiltered
-            ? `${cardIds.length} ${t('common.of')} ${cardIdsFull.length} `
-            : `${cardIdsFull.length} `,
-        ] + [cardIdsFull.length !== 1 ? t('common.cards') : t('common.card')]
+            ? `${filteredCardIds.length} ${t('common.of')} ${cardIds.length} `
+            : `${cardIds.length} `,
+        ] + [cardIds.length !== 1 ? t('common.cards') : t('common.card')]
       );
     };
 
@@ -210,7 +210,7 @@ const List = React.memo(
                 >
                   <PlusMathIcon className={styles.addCardButtonIcon} />
                   <span className={styles.addCardButtonText}>
-                    {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
+                    {filteredCardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
                   </span>
                 </button>
               )}
@@ -228,9 +228,9 @@ List.propTypes = {
   name: PropTypes.string.isRequired,
   isCollapsed: PropTypes.bool.isRequired,
   isPersisted: PropTypes.bool.isRequired,
-  isFiltered: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  cardIdsFull: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  isFiltered: PropTypes.bool.isRequired,
+  filteredCardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,

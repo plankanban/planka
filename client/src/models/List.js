@@ -85,18 +85,25 @@ export default class extends BaseModel {
     return this.cards.orderBy('position');
   }
 
+  getOrderedCardsModelArray() {
+    return this.getOrderedCardsQuerySet().toModelArray();
+  }
+
+  getIsFiltered() {
+    const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
+    const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);
+    return filterUserIds.length > 0 || filterLabelIds.length > 0;
+  }
+
   getFilteredOrderedCardsModelArray() {
     let cardModels = this.getOrderedCardsQuerySet().toModelArray();
-    const cardModelsFull = cardModels;
 
     const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
     const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);
-    let isFiltered = false;
 
     if (filterUserIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {
         const users = cardModel.users.toRefArray();
-        isFiltered = true;
         return users.some((user) => filterUserIds.includes(user.id));
       });
     }
@@ -104,12 +111,11 @@ export default class extends BaseModel {
     if (filterLabelIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {
         const labels = cardModel.labels.toRefArray();
-        isFiltered = true;
         return labels.some((label) => filterLabelIds.includes(label.id));
       });
     }
 
-    return { cardModels, cardModelsFull, isFiltered };
+    return cardModels;
   }
 
   deleteRelated() {

@@ -94,7 +94,7 @@ export const selectNextCardPosition = createSelector(
     }
 
     // eslint-disable-next-line prettier/prettier
-    return nextPosition(listModel.getFilteredOrderedCardsModelArray().cardModels, index, excludedId);
+    return nextPosition(listModel.getFilteredOrderedCardsModelArray(), index, excludedId);
   },
 );
 

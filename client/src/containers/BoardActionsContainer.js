@@ -8,9 +8,7 @@ import BoardActions from '../components/BoardActions';
 
 const mapStateToProps = (state) => {
   const listIds = selectors.selectListIdsForCurrentBoard(state);
-  const listCardsCount = listIds.map(
-    (list) => selectors.selectCardIdsByListId(state, list).cardIdsFull.length,
-  );
+  const listCardsCount = listIds.map((list) => selectors.selectCardIdsByListId(state, list).length);
   const cardCount = listCardsCount.reduce((sum, count) => sum + count, 0);
   const allUsers = selectors.selectUsers(state);
   const isCurrentUserManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
