@@ -119,11 +119,14 @@
     color: #17394d;
     font-weight: bold;
     line-height: 20px;
-    max-height: 256px;
+    max-height: 82px;
     outline: none;
     overflow: hidden;
     overflow-wrap: break-word;
     word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 
   .headerNameCollapsed {
