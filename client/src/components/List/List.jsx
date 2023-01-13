@@ -133,7 +133,7 @@ const List = React.memo(
                     )}
                     onClick={handleToggleCollapseClick}
                   >
-                    <Icon fitted name="triangle down" size="mid" />
+                    <Icon fitted name="triangle down" />
                   </div>
                   <div className={styles.headerNameCollapsed}>{name}</div>
                   <div className={styles.headerCardsCountCollapsed}>{cardsCountText()}</div>
@@ -167,7 +167,7 @@ const List = React.memo(
                   )}
                   onClick={handleToggleCollapseClick}
                 >
-                  <Icon fitted name="triangle right" size="mid" />
+                  <Icon fitted name="triangle right" />
                 </div>
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
                   {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
