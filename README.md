@@ -302,4 +302,4 @@ Demo user: demo@demo.demo demo
 
 ## License
 
-Planka is [MIT licensed](https://github.com/plankanban/planka/blob/master/LICENSE).
+Planka is [AGPL-3.0 licensed](https://github.com/plankanban/planka/blob/master/LICENSE).

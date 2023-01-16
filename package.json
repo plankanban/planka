@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/plankanban/planka.git"
   },
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "author": "Maksim Eltyshev",
   "scripts": {
     "client:build": "npm run build --prefix client",
