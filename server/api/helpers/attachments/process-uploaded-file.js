@@ -26,7 +26,7 @@ module.exports = {
     fs.mkdirSync(rootPath);
     await moveFile(inputs.file.fd, filePath);
 
-    const image = sharp(filePath, {
+    let image = sharp(filePath, {
       animated: true,
     });
 
@@ -46,7 +46,11 @@ module.exports = {
       const thumbnailsPath = path.join(rootPath, 'thumbnails');
       fs.mkdirSync(thumbnailsPath);
 
-      const { width, pageHeight: height = metadata.height } = metadata;
+      let { width, pageHeight: height = metadata.height } = metadata;
+      if (metadata.orientation && metadata.orientation > 4) {
+        [image, width, height] = [image.rotate(), height, width];
+      }
+
       const isPortrait = height > width;
       const thumbnailsExtension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
