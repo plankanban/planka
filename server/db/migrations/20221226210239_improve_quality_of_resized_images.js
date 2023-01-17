@@ -6,7 +6,7 @@ const getConfig = require('../../get-config');
 const processUserAvatar = async (user, userAvatarsPath) => {
   const rootPath = path.join(userAvatarsPath, user.avatar.dirname);
 
-  const image = sharp(path.join(rootPath, `original.${user.avatar.extension}`), {
+  let image = sharp(path.join(rootPath, `original.${user.avatar.extension}`), {
     animated: true,
   });
 
@@ -17,7 +17,10 @@ const processUserAvatar = async (user, userAvatarsPath) => {
     return;
   }
 
-  const { width, pageHeight: height = metadata.height } = metadata;
+  let { width, pageHeight: height = metadata.height } = metadata;
+  if (metadata.orientation && metadata.orientation > 4) {
+    [image, width, height] = [image.rotate(), height, width];
+  }
 
   try {
     await image
@@ -37,7 +40,7 @@ const processUserAvatar = async (user, userAvatarsPath) => {
 const processProjectBackgroundImage = async (project, projectBackgroundImagesPath) => {
   const rootPath = path.join(projectBackgroundImagesPath, project.background_image.dirname);
 
-  const image = sharp(path.join(rootPath, `original.${project.background_image.extension}`), {
+  let image = sharp(path.join(rootPath, `original.${project.background_image.extension}`), {
     animated: true,
   });
 
@@ -48,7 +51,10 @@ const processProjectBackgroundImage = async (project, projectBackgroundImagesPat
     return;
   }
 
-  const { width, pageHeight: height = metadata.height } = metadata;
+  let { width, pageHeight: height = metadata.height } = metadata;
+  if (metadata.orientation && metadata.orientation > 4) {
+    [image, width, height] = [image.rotate(), height, width];
+  }
 
   try {
     await image
@@ -69,7 +75,7 @@ const processAttachmentImage = async (attachment, attachmentsPath) => {
   const rootPath = path.join(attachmentsPath, attachment.dirname);
   const thumbnailsPath = path.join(rootPath, 'thumbnails');
 
-  const image = sharp(path.join(rootPath, attachment.filename), {
+  let image = sharp(path.join(rootPath, attachment.filename), {
     animated: true,
   });
 
@@ -80,7 +86,11 @@ const processAttachmentImage = async (attachment, attachmentsPath) => {
     return;
   }
 
-  const { width, pageHeight: height = metadata.height } = metadata;
+  let { width, pageHeight: height = metadata.height } = metadata;
+  if (metadata.orientation && metadata.orientation > 4) {
+    [image, width, height] = [image.rotate(), height, width];
+  }
+
   const isPortrait = height > width;
 
   try {

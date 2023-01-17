@@ -17,7 +17,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const image = sharp(inputs.file.fd, {
+    let image = sharp(inputs.file.fd, {
       animated: true,
     });
 
@@ -37,7 +37,11 @@ module.exports = {
 
     fs.mkdirSync(rootPath);
 
-    const { width, pageHeight: height = metadata.height } = metadata;
+    let { width, pageHeight: height = metadata.height } = metadata;
+    if (metadata.orientation && metadata.orientation > 4) {
+      [image, width, height] = [image.rotate(), height, width];
+    }
+
     const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
     try {
