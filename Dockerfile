@@ -26,7 +26,7 @@ RUN apk del vips-dependencies --purge
 USER node
 WORKDIR /app
 
-COPY --chown=node:node docker-start.sh start.sh
+COPY --chown=node:node start.sh .
 COPY --chown=node:node server .
 
 RUN mv .env.sample .env
