@@ -99,7 +99,7 @@ nano .env
 6. Copy start script from the root directory to the `server` directory.
 
 ```bash
-cp ../docker-start.sh start.sh
+cp ../start.sh .
 ```
 
 7. Start the server.
@@ -266,10 +266,10 @@ It's already available in Planka, or you can also use the great tool [trello2pla
 ### Backup and Restore
 
 Planka comes with two scripts that allow for manual backup and restore when running Planka with docker-compose.yml.
-Backups can be triggered with `backup.sh` which will export the Database, User Avatars, Project Backgrounds and Attachments into a single tgz file.
+Backups can be triggered with `docker-backup.sh` which will export the Database, User Avatars, Project Backgrounds and Attachments into a single tgz file.
 
 ```
-$ ./backup.sh
+$ ./docker-backup.sh
 Exporting postgres database ... Success!
 Exporting user-avatars ... Success!
 Exporting project-background-images ... Success!
@@ -279,10 +279,10 @@ Cleaning up temporary files and folders ... Success!
 Backup Complete!
 ```
 
-The resulting backup can be restored using the `restore.sh` script.
+The resulting backup can be restored using the `docker-restore.sh` script.
 
 ```
-$ ./restore.sh 2023-01-17T15-37-22Z-backup.tgz
+$ ./docker-restore.sh 2023-01-17T15-37-22Z-backup.tgz
 Extracting tarball 2023-01-17T11-10-54Z-backup.tgz ... Success!
 Importing postgres database ...
 
