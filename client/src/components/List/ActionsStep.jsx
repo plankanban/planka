@@ -2,19 +2,18 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
-import { withPopup } from '../../../lib/popup';
-import { Popup } from '../../../lib/custom-ui';
+import { Popup } from '../../lib/custom-ui';
 
-import { useSteps } from '../../../hooks';
-import DeleteStep from '../../DeleteStep';
+import { useSteps } from '../../hooks';
+import DeleteStep from '../DeleteStep';
 
-import styles from './ActionsPopup.module.scss';
+import styles from './ActionsStep.module.scss';
 
 const StepTypes = {
   DELETE: 'DELETE',
 };
 
-const ActionsStep = React.memo(({ onNameEdit, onDelete, onClose }) => {
+const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onClose }) => {
   const [t] = useTranslation();
   const [step, openStep, handleBack] = useSteps();
 
@@ -23,6 +22,11 @@ const ActionsStep = React.memo(({ onNameEdit, onDelete, onClose }) => {
     onClose();
   }, [onNameEdit, onClose]);
 
+  const handleAddCardClick = useCallback(() => {
+    onCardAdd();
+    onClose();
+  }, [onCardAdd, onClose]);
+
   const handleDeleteClick = useCallback(() => {
     openStep(StepTypes.DELETE);
   }, [openStep]);
@@ -30,11 +34,9 @@ const ActionsStep = React.memo(({ onNameEdit, onDelete, onClose }) => {
   if (step && step.type === StepTypes.DELETE) {
     return (
       <DeleteStep
-        title={t('common.deleteTask', {
-          context: 'title',
-        })}
-        content={t('common.areYouSureYouWantToDeleteThisTask')}
-        buttonContent={t('action.deleteTask')}
+        title="common.deleteList"
+        content="common.areYouSureYouWantToDeleteThisList"
+        buttonContent="action.deleteList"
         onConfirm={onDelete}
         onBack={handleBack}
       />
@@ -44,19 +46,24 @@ const ActionsStep = React.memo(({ onNameEdit, onDelete, onClose }) => {
   return (
     <>
       <Popup.Header>
-        {t('common.taskActions', {
+        {t('common.listActions', {
           context: 'title',
         })}
       </Popup.Header>
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
           <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
-            {t('action.editDescription', {
+            {t('action.editTitle', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleAddCardClick}>
+            {t('action.addCard', {
               context: 'title',
             })}
           </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
-            {t('action.deleteTask', {
+            {t('action.deleteList', {
               context: 'title',
             })}
           </Menu.Item>
@@ -68,8 +75,9 @@ const ActionsStep = React.memo(({ onNameEdit, onDelete, onClose }) => {
 
 ActionsStep.propTypes = {
   onNameEdit: PropTypes.func.isRequired,
+  onCardAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(ActionsStep);
+export default ActionsStep;

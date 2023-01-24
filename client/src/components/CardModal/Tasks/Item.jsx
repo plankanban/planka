@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
 import { Button, Checkbox, Icon } from 'semantic-ui-react';
+import { usePopup } from '../../../lib/popup';
 
 import NameEdit from './NameEdit';
-import ActionsPopup from './ActionsPopup';
+import ActionsStep from './ActionsStep';
 
 import styles from './Item.module.scss';
 
@@ -38,6 +39,8 @@ const Item = React.memo(
     const handleNameEdit = useCallback(() => {
       nameEdit.current.open();
     }, []);
+
+    const ActionsPopup = usePopup(ActionsStep);
 
     return (
       <Draggable draggableId={id} index={index} isDragDisabled={!isPersisted || !canEdit}>

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
+import { usePopup } from '../../lib/popup';
 
-import AddPopup from './AddPopup';
-import ActionsPopup from './ActionsPopup';
+import AddStep from './AddStep';
+import ActionsStep from './ActionsStep';
 import User from '../User';
 
 import styles from './Memberships.module.scss';
@@ -28,6 +29,9 @@ const Memberships = React.memo(
     onUpdate,
     onDelete,
   }) => {
+    const AddPopup = usePopup(AddStep);
+    const ActionsPopup = usePopup(ActionsStep);
+
     return (
       <>
         <span className={styles.users}>

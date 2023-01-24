@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
-import { withPopup } from '../../lib/popup';
 import { Popup } from '../../lib/custom-ui';
 
 import Paths from '../../constants/Paths';
 import { ActivityTypes } from '../../constants/Enums';
 import User from '../User';
 
-import styles from './NotificationsPopup.module.scss';
+import styles from './NotificationsStep.module.scss';
 
 const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
   const [t] = useTranslation();
@@ -123,6 +122,4 @@ NotificationsStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(NotificationsStep, {
-  position: 'bottom right',
-});
+export default NotificationsStep;

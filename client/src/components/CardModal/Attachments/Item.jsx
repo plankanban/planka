@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Button, Icon, Label, Loader } from 'semantic-ui-react';
+import { usePopup } from '../../../lib/popup';
 
-import EditPopup from './EditPopup';
+import EditStep from './EditStep';
 
 import styles from './Item.module.scss';
 
@@ -48,6 +49,8 @@ const Item = React.forwardRef(
       },
       [isCover, onCoverSelect, onCoverDeselect],
     );
+
+    const EditPopup = usePopup(EditStep);
 
     if (!isPersisted) {
       return (

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
+import { usePopup } from '../../lib/popup';
 import { Markdown } from '../../lib/custom-ui';
 
 import { startTimer, stopTimer } from '../../utils/timer';
@@ -11,18 +12,18 @@ import DescriptionEdit from './DescriptionEdit';
 import Tasks from './Tasks';
 import Attachments from './Attachments';
 import AttachmentAddZone from './AttachmentAddZone';
-import AttachmentAddPopup from './AttachmentAddPopup';
+import AttachmentAddStep from './AttachmentAddStep';
 import Activities from './Activities';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
 import Timer from '../Timer';
-import BoardMembershipsPopup from '../BoardMembershipsPopup';
-import LabelsPopup from '../LabelsPopup';
-import DueDateEditPopup from '../DueDateEditPopup';
-import TimerEditPopup from '../TimerEditPopup';
-import CardMovePopup from '../CardMovePopup';
-import DeletePopup from '../DeletePopup';
+import BoardMembershipsStep from '../BoardMembershipsStep';
+import LabelsStep from '../LabelsStep';
+import DueDateEditStep from '../DueDateEditStep';
+import TimerEditStep from '../TimerEditStep';
+import CardMoveStep from '../CardMoveStep';
+import DeleteStep from '../DeleteStep';
 
 import styles from './CardModal.module.scss';
 
@@ -154,6 +155,14 @@ const CardModal = React.memo(
 
       onClose();
     }, [onClose]);
+
+    const AttachmentAddPopup = usePopup(AttachmentAddStep);
+    const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
+    const LabelsPopup = usePopup(LabelsStep);
+    const DueDateEditPopup = usePopup(DueDateEditStep);
+    const TimerEditPopup = usePopup(TimerEditStep);
+    const CardMovePopup = usePopup(CardMoveStep);
+    const DeletePopup = usePopup(DeleteStep);
 
     const userIds = users.map((user) => user.id);
     const labelIds = labels.map((label) => label.id);
@@ -482,11 +491,9 @@ const CardModal = React.memo(
                   </Button>
                 </CardMovePopup>
                 <DeletePopup
-                  title={t('common.deleteCard', {
-                    context: 'title',
-                  })}
-                  content={t('common.areYouSureYouWantToDeleteThisCard')}
-                  buttonContent={t('action.deleteCard')}
+                  title="common.deleteCard"
+                  content="common.areYouSureYouWantToDeleteThisCard"
+                  buttonContent="action.deleteCard"
                   onConfirm={onDelete}
                 >
                   <Button fluid className={styles.actionButton}>

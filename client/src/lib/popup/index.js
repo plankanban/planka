@@ -1,4 +1,4 @@
-import withPopup from './with-popup';
+import usePopup from './use-popup';
 import closePopup from './close-popup';
 
-export { withPopup, closePopup };
+export { usePopup, closePopup };

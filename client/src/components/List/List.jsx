@@ -4,12 +4,13 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
+import { usePopup } from '../../lib/popup';
 
 import DroppableTypes from '../../constants/DroppableTypes';
 import CardContainer from '../../containers/CardContainer';
 import NameEdit from './NameEdit';
 import CardAdd from './CardAdd';
-import ActionsPopup from './ActionsPopup';
+import ActionsStep from './ActionsStep';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
 import styles from './List.module.scss';
@@ -58,6 +59,8 @@ const List = React.memo(
         listWrapper.current.scrollTop = listWrapper.current.scrollHeight;
       }
     }, [cardIds, isAddCardOpened]);
+
+    const ActionsPopup = usePopup(ActionsStep);
 
     const cardsNode = (
       <Droppable

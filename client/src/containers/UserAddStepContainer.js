@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import entryActions from '../entry-actions';
-import UserAddPopup from '../components/UserAddPopup';
+import UserAddStep from '../components/UserAddStep';
 
 const mapStateToProps = ({
   ui: {
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserAddPopup);
+export default connect(mapStateToProps, mapDispatchToProps)(UserAddStep);

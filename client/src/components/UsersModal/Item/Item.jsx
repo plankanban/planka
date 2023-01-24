@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Radio, Table } from 'semantic-ui-react';
+import { usePopup } from '../../../lib/popup';
 
-import ActionsPopup from './ActionsPopup';
+import ActionsStep from './ActionsStep';
 import User from '../../User';
 
 import styles from './Item.module.scss';
@@ -33,6 +34,8 @@ const Item = React.memo(
         isAdmin: !isAdmin,
       });
     }, [isAdmin, onUpdate]);
+
+    const ActionsPopup = usePopup(ActionsStep);
 
     return (
       <Table.Row>

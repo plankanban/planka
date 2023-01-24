@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Icon } from 'semantic-ui-react';
 import { useDidUpdate, useToggle } from '../../../lib/hooks';
-import { withPopup } from '../../../lib/popup';
 import { Input, Popup } from '../../../lib/custom-ui';
 
 import { useForm, useSteps } from '../../../hooks';
 import ImportStep from './ImportStep';
 
-import styles from './AddPopup.module.scss';
+import styles from './AddStep.module.scss';
 
 const StepTypes = {
   IMPORT: 'IMPORT',
@@ -114,4 +113,4 @@ AddStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(AddStep);
+export default AddStep;

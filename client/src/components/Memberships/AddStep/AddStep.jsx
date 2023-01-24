@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { withPopup } from '../../../lib/popup';
 import { Input, Popup } from '../../../lib/custom-ui';
 
 import { useField, useSteps } from '../../../hooks';
 import UserItem from './UserItem';
 
-import styles from './AddPopup.module.scss';
+import styles from './AddStep.module.scss';
 
 const StepTypes = {
   SELECT_PERMISSIONS: 'SELECT_PERMISSIONS',
@@ -143,4 +142,4 @@ AddStep.defaultProps = {
   title: 'common.addMember',
 };
 
-export default withPopup(AddStep);
+export default AddStep;

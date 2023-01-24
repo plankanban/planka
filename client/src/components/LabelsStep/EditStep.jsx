@@ -47,11 +47,9 @@ const EditStep = React.memo(({ defaultData, onUpdate, onDelete, onBack }) => {
   if (step && step.type === StepTypes.DELETE) {
     return (
       <DeleteStep
-        title={t('common.deleteLabel', {
-          context: 'title',
-        })}
-        content={t('common.areYouSureYouWantToDeleteThisLabel')}
-        buttonContent={t('action.deleteLabel')}
+        title="common.deleteLabel"
+        content="common.areYouSureYouWantToDeleteThisLabel"
+        buttonContent="action.deleteLabel"
         onConfirm={onDelete}
         onBack={handleBack}
       />

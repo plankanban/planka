@@ -2,10 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Menu } from 'semantic-ui-react';
-import { withPopup } from '../../lib/popup';
 import { Popup } from '../../lib/custom-ui';
 
-import styles from './UserPopup.module.scss';
+import styles from './UserStep.module.scss';
 
 const UserStep = React.memo(({ isLogouting, onSettingsClick, onLogout, onClose }) => {
   const [t] = useTranslation();
@@ -62,6 +61,4 @@ UserStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(UserStep, {
-  position: 'bottom right',
-});
+export default UserStep;
