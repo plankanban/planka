@@ -2,8 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Table } from 'semantic-ui-react';
+import { usePopup } from '../../lib/popup';
 
-import UserAddPopupContainer from '../../containers/UserAddPopupContainer';
+import UserAddStepContainer from '../../containers/UserAddStepContainer';
 import Item from './Item';
 
 const UsersModal = React.memo(
@@ -76,6 +77,8 @@ const UsersModal = React.memo(
       },
       [onDelete],
     );
+
+    const UserAddPopupContainer = usePopup(UserAddStepContainer);
 
     return (
       <Modal open closeIcon size="large" centered={false} onClose={onClose}>

@@ -2,14 +2,15 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Dropdown, Header, Tab } from 'semantic-ui-react';
+import { usePopup } from '../../../lib/popup';
 
 import locales from '../../../locales';
-import AvatarEditPopup from './AvatarEditPopup';
+import AvatarEditStep from './AvatarEditStep';
 import User from '../../User';
 import UserInformationEdit from '../../UserInformationEdit';
-import UserUsernameEditPopup from '../../UserUsernameEditPopup';
-import UserEmailEditPopup from '../../UserEmailEditPopup';
-import UserPasswordEditPopup from '../../UserPasswordEditPopup';
+import UserUsernameEditStep from '../../UserUsernameEditStep';
+import UserEmailEditStep from '../../UserEmailEditStep';
+import UserPasswordEditStep from '../../UserPasswordEditStep';
 
 import styles from './AccountPane.module.scss';
 
@@ -50,6 +51,11 @@ const AccountPane = React.memo(
       },
       [onLanguageUpdate],
     );
+
+    const AvatarEditPopup = usePopup(AvatarEditStep);
+    const UserUsernameEditPopup = usePopup(UserUsernameEditStep);
+    const UserEmailEditPopup = usePopup(UserEmailEditStep);
+    const UserPasswordEditPopup = usePopup(UserPasswordEditStep);
 
     return (
       <Tab.Pane attached={false} className={styles.wrapper}>

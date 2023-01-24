@@ -4,12 +4,13 @@ import classNames from 'classnames';
 import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
+import { usePopup } from '../../lib/popup';
 
 import { startTimer, stopTimer } from '../../utils/timer';
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
 import NameEdit from './NameEdit';
-import ActionsPopup from './ActionsPopup';
+import ActionsStep from './ActionsStep';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
@@ -82,6 +83,8 @@ const Card = React.memo(
     const handleNameEdit = useCallback(() => {
       nameEdit.current.open();
     }, []);
+
+    const ActionsPopup = usePopup(ActionsStep);
 
     const contentNode = (
       <>

@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Comment } from 'semantic-ui-react';
+import { usePopup } from '../../../lib/popup';
 import { Markdown } from '../../../lib/custom-ui';
 
 import CommentEdit from './CommentEdit';
 import User from '../../User';
-import DeletePopup from '../../DeletePopup';
+import DeleteStep from '../../DeleteStep';
 
 import styles from './ItemComment.module.scss';
 
@@ -20,6 +21,8 @@ const ItemComment = React.memo(
     const handleEditClick = useCallback(() => {
       commentEdit.current.open();
     }, []);
+
+    const DeletePopup = usePopup(DeleteStep);
 
     return (
       <Comment>
@@ -50,11 +53,9 @@ const ItemComment = React.memo(
                     onClick={handleEditClick}
                   />
                   <DeletePopup
-                    title={t('common.deleteComment', {
-                      context: 'title',
-                    })}
-                    content={t('common.areYouSureYouWantToDeleteThisComment')}
-                    buttonContent={t('action.deleteComment')}
+                    title="common.deleteComment"
+                    content="common.areYouSureYouWantToDeleteThisComment"
+                    buttonContent="action.deleteComment"
                     onConfirm={onDelete}
                   >
                     <Comment.Action

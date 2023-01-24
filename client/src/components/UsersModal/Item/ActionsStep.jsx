@@ -3,7 +3,6 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
-import { withPopup } from '../../../lib/popup';
 import { Popup } from '../../../lib/custom-ui';
 
 import { useSteps } from '../../../hooks';
@@ -13,7 +12,7 @@ import UserEmailEditStep from '../../UserEmailEditStep';
 import UserPasswordEditStep from '../../UserPasswordEditStep';
 import DeleteStep from '../../DeleteStep';
 
-import styles from './ActionsPopup.module.scss';
+import styles from './ActionsStep.module.scss';
 
 const StepTypes = {
   EDIT_INFORMATION: 'EDIT_INFORMATION',
@@ -111,11 +110,9 @@ const ActionsStep = React.memo(
         case StepTypes.DELETE:
           return (
             <DeleteStep
-              title={t('common.deleteUser', {
-                context: 'title',
-              })}
-              content={t('common.areYouSureYouWantToDeleteThisUser')}
-              buttonContent={t('action.deleteUser')}
+              title="common.deleteUser"
+              content="common.areYouSureYouWantToDeleteThisUser"
+              buttonContent="action.deleteUser"
               onConfirm={onDelete}
               onBack={handleBack}
             />
@@ -178,4 +175,4 @@ ActionsStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(ActionsStep);
+export default ActionsStep;

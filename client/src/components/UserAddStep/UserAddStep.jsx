@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Message } from 'semantic-ui-react';
 import { usePrevious } from '../../lib/hooks';
-import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 import { isPassword, isUsername } from '../../utils/validator';
 
-import styles from './UserAddPopup.module.scss';
+import styles from './UserAddStep.module.scss';
 
 const createMessage = (error) => {
   if (!error) {
@@ -206,4 +205,4 @@ UserAddStep.defaultProps = {
   error: undefined,
 };
 
-export default withPopup(UserAddStep);
+export default UserAddStep;

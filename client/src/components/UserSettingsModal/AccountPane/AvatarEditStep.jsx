@@ -2,10 +2,9 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
-import { withPopup } from '../../../lib/popup';
 import { FilePicker, Popup } from '../../../lib/custom-ui';
 
-import styles from './AvatarEditPopup.module.scss';
+import styles from './AvatarEditStep.module.scss';
 
 const AvatarEditStep = React.memo(({ defaultValue, onUpdate, onDelete, onClose }) => {
   const [t] = useTranslation();
@@ -68,4 +67,4 @@ AvatarEditStep.defaultProps = {
   defaultValue: undefined,
 };
 
-export default withPopup(AvatarEditStep);
+export default AvatarEditStep;

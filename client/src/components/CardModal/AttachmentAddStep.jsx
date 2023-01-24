@@ -2,10 +2,9 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
-import { withPopup } from '../../lib/popup';
 import { FilePicker, Popup } from '../../lib/custom-ui';
 
-import styles from './AttachmentAddPopup.module.scss';
+import styles from './AttachmentAddStep.module.scss';
 
 const AttachmentAddStep = React.memo(({ onCreate, onClose }) => {
   const [t] = useTranslation();
@@ -51,4 +50,4 @@ AttachmentAddStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(AttachmentAddStep);
+export default AttachmentAddStep;

@@ -3,13 +3,12 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
-import { withPopup } from '../../lib/popup';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm, useSteps } from '../../hooks';
 import DeleteStep from '../DeleteStep';
 
-import styles from './EditPopup.module.scss';
+import styles from './EditStep.module.scss';
 
 const StepTypes = {
   DELETE: 'DELETE',
@@ -56,11 +55,9 @@ const EditStep = React.memo(({ defaultData, onUpdate, onDelete, onClose }) => {
   if (step && step.type === StepTypes.DELETE) {
     return (
       <DeleteStep
-        title={t('common.deleteBoard', {
-          context: 'title',
-        })}
-        content={t('common.areYouSureYouWantToDeleteThisBoard')}
-        buttonContent={t('action.deleteBoard')}
+        title="common.deleteBoard"
+        content="common.areYouSureYouWantToDeleteThisBoard"
+        buttonContent="action.deleteBoard"
         onConfirm={onDelete}
         onBack={handleBack}
       />
@@ -104,4 +101,4 @@ EditStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default withPopup(EditStep);
+export default EditStep;

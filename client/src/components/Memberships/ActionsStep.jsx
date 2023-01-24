@@ -3,13 +3,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
-import { withPopup } from '../../lib/popup';
 
 import { useSteps } from '../../hooks';
 import User from '../User';
 import DeleteStep from '../DeleteStep';
 
-import styles from './ActionsPopup.module.scss';
+import styles from './ActionsStep.module.scss';
 
 const StepTypes = {
   EDIT_PERMISSIONS: 'EDIT_PERMISSIONS',
@@ -73,20 +72,15 @@ const ActionsStep = React.memo(
         case StepTypes.DELETE:
           return (
             <DeleteStep
-              title={t(
-                membership.user.isCurrent ? leaveConfirmationTitle : deleteConfirmationTitle,
-                {
-                  context: 'title',
-                },
-              )}
-              content={t(
-                membership.user.isCurrent ? leaveConfirmationContent : deleteConfirmationContent,
-              )}
-              buttonContent={t(
+              title={membership.user.isCurrent ? leaveConfirmationTitle : deleteConfirmationTitle}
+              content={
+                membership.user.isCurrent ? leaveConfirmationContent : deleteConfirmationContent
+              }
+              buttonContent={
                 membership.user.isCurrent
                   ? leaveConfirmationButtonContent
-                  : deleteConfirmationButtonContent,
-              )}
+                  : deleteConfirmationButtonContent
+              }
               onConfirm={onDelete}
               onBack={handleBack}
             />
@@ -165,4 +159,4 @@ ActionsStep.defaultProps = {
   onUpdate: undefined,
 };
 
-export default withPopup(ActionsStep);
+export default ActionsStep;
