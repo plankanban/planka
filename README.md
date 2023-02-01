@@ -25,7 +25,6 @@ There are 2 types of installation:
 1. [Dockerized](#1-docker-compose)
 2. [Without Docker](#2-without-docker)
 
-
 ### 1. Docker Compose
 
 [![](https://d207aa93qlcgug.cloudfront.net/1.95.5.qa/img/nav/docker-logo-loggedout.png)](https://github.com/plankanban/planka/pkgs/container/planka)
@@ -61,28 +60,27 @@ cd /var/www/planka
 git clone https://github.com/plankanban/planka.git .
 ```
 
-2. Install dependencies for client and build it.
+2. Install dependencies and build the client.
 
 ```bash
-cd client
 npm install
-npm run build
+npm run client:build
 ```
 
 **Note**: You can use `yarn` or `pnpm` instead of `npm`.
 
-3. Copy the `build` directory to the `server/public` directory.
+3. Copy the content of the `client/build` directory to the server.
 
 ```bash
-cp -r build ../server/public
-cp build/index.html ../server/views/index.ejs
+cp -r client/build/. server/public
+cp client/build/index.html server/views/index.ejs
 ```
 
-4. Install dependencies for server.
+4. Copy the start script and navigate to the `server` directory.
 
 ```bash
-cd ../server
-npm install
+cp start.sh server
+cd server
 ```
 
 5. Configure environment variables.
@@ -96,13 +94,7 @@ nano .env
 
 **Note**: Before continuing, make sure you have your selected database created and running.
 
-6. Copy start script from the root directory to the `server` directory.
-
-```bash
-cp ../start.sh .
-```
-
-7. Start the server.
+6. Start the server.
 
 ```bash
 ./start.sh
