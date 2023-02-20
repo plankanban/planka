@@ -120,9 +120,10 @@ module.exports = {
 
     const importLabels = async () => {
       return Promise.all(
-        getUsedTrelloLabels().map(async (trelloLabel) => {
+        getUsedTrelloLabels().map(async (trelloLabel, index) => {
           const plankaLabel = await Label.create({
             boardId: inputs.board.id,
+            position: 65535 * (index + 1), // TODO: move to config
             name: trelloLabel.name || null,
             color: getPlankaLabelColor(trelloLabel.color),
           }).fetch();
