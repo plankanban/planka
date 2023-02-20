@@ -8,11 +8,13 @@ const mapStateToProps = (state) => {
   const isSocketDisconnected = selectors.selectIsSocketDisconnected(state);
   const currentModal = selectors.selectCurrentModal(state);
   const currentProject = selectors.selectCurrentProject(state);
+  const currentBoard = selectors.selectCurrentBoard(state);
 
   return {
     isSocketDisconnected,
     currentModal,
     currentProject,
+    currentBoard,
     isInitializing: isCoreInitializing,
   };
 };
