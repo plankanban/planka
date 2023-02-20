@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 import { Loader } from 'semantic-ui-react';
@@ -14,8 +14,25 @@ import Background from '../Background';
 import styles from './Core.module.scss';
 
 const Core = React.memo(
-  ({ isInitializing, isSocketDisconnected, currentModal, currentProject }) => {
+  ({ isInitializing, isSocketDisconnected, currentModal, currentProject, currentBoard }) => {
     const [t] = useTranslation();
+
+    const defaultTitle = useRef(document.title);
+
+    useEffect(() => {
+      let title;
+      if (currentProject) {
+        title = currentProject.name;
+
+        if (currentBoard) {
+          title += ` | ${currentBoard.name}`;
+        }
+      } else {
+        title = defaultTitle.current;
+      }
+
+      document.title = title;
+    }, [currentProject, currentBoard]);
 
     return (
       <>
@@ -58,12 +75,16 @@ Core.propTypes = {
   isInitializing: PropTypes.bool.isRequired,
   isSocketDisconnected: PropTypes.bool.isRequired,
   currentModal: PropTypes.oneOf(Object.values(ModalTypes)),
-  currentProject: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  /* eslint-disable react/forbid-prop-types */
+  currentProject: PropTypes.object,
+  currentBoard: PropTypes.object,
+  /* eslint-enable react/forbid-prop-types */
 };
 
 Core.defaultProps = {
   currentModal: undefined,
   currentProject: undefined,
+  currentBoard: undefined,
 };
 
 export default Core;
