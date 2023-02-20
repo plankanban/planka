@@ -29,15 +29,13 @@
   }
 
   .countOpened:after {
-    background: url("data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIPnI+py+0/hJzz0IruwjsVADs=")
-      no-repeat center right;
+    background: url("data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIPnI+py+0/hJzz0IruwjsVADs=") no-repeat center right;
     margin-left: 2px;
     padding: 6px 6px 0px;
   }
 
   .countClosed:after {
-    background: url("data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIRnC2nKLnT4or00Puy3rx7VQAAOw==")
-      no-repeat center right;
+    background: url("data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIRnC2nKLnT4or00Puy3rx7VQAAOw==") no-repeat center right;
     margin-left: 2px;
     padding: 0 6px 6px;
   }
@@ -59,7 +57,6 @@
     line-height: 14px;
     padding-bottom: 6px;
     padding-left: 14px;
-    word-break: break-all;
 
     &:before {
       content: "–";
