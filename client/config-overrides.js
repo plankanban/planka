@@ -22,7 +22,9 @@ const replaceBaseUrl = (compiler) => {
     if (info.content.indexOf(BASE_URL_PLACEHOLDER) >= 0) {
       if (/\.css$/.exec(info.targetPath)) {
         // For CSS 'url(...)' import we can use relative import
-        const relPath = path.relative(path.dirname(info.targetPath), info.outputPath);
+        const relPath = path
+          .relative(path.dirname(info.targetPath), info.outputPath)
+          .replace(/\\/g, '/');
         replaceInFile(info.targetPath, BASE_URL_PLACEHOLDER, `${relPath}/`);
       } else if (/\.js$/.exec(info.targetPath)) {
         // For JS 'import ... from "some-asset"' we can get the variable injected in the window object
