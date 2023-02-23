@@ -21,7 +21,7 @@
 ## How to deploy Planka
 
 There are 2 types of installation:
-- [Without Docker](https://docs.planka.cloud/docs/installl-planka/Debian%20&%20Ubuntu)
+- [Without Docker](https://docs.planka.cloud/docs/installl-planka/Debian%20&%20Ubuntu) ([for Windows](https://docs.planka.cloud/docs/installl-planka/Windows))
 - [Dockerized](https://docs.planka.cloud/docs/installl-planka/Docker%20Compose)
 
 For configuration, please see the [configuration section](https://docs.planka.cloud/docs/category/configuration).
