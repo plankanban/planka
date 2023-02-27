@@ -23,11 +23,6 @@ services:
       - TRUST_PROXY=0
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=notsecretkey
-      # related: https://github.com/knex/knex/issues/2354
-      # As knex does not pass query parameters from the connection string we
-      # have to use environment variables in order to pass the desired values, e.g.
-      # note: this is optional
-      # PGSSLMODE=require
     depends_on:
       - postgres
 
