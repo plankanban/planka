@@ -7,12 +7,18 @@ import { useToggle } from '../../lib/hooks';
 import { Input, Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
-import { createTimer, getTimerParts, startTimer, stopTimer, updateTimer } from '../../utils/timer';
+import {
+  createStopwatch,
+  getStopwatchParts,
+  startStopwatch,
+  stopStopwatch,
+  updateStopwatch,
+} from '../../utils/stopwatch';
 
-import styles from './TimerEditStep.module.scss';
+import styles from './StopwatchEditStep.module.scss';
 
-const createData = (timer) => {
-  if (!timer) {
+const createData = (stopwatch) => {
+  if (!stopwatch) {
     return {
       hours: '0',
       minutes: '0',
@@ -20,7 +26,7 @@ const createData = (timer) => {
     };
   }
 
-  const { hours, minutes, seconds } = getTimerParts(timer);
+  const { hours, minutes, seconds } = getStopwatchParts(stopwatch);
 
   return {
     hours: `${hours}`,
@@ -29,7 +35,7 @@ const createData = (timer) => {
   };
 };
 
-const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
+const StopwatchEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) => {
   const [t] = useTranslation();
   const [data, handleFieldChange, setData] = useForm(() => createData(defaultValue));
   const [isEditing, toggleEditing] = useToggle();
@@ -39,12 +45,12 @@ const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) =
   const secondsField = useRef(null);
 
   const handleStartClick = useCallback(() => {
-    onUpdate(startTimer(defaultValue));
+    onUpdate(startStopwatch(defaultValue));
     onClose();
   }, [defaultValue, onUpdate, onClose]);
 
   const handleStopClick = useCallback(() => {
-    onUpdate(stopTimer(defaultValue));
+    onUpdate(stopStopwatch(defaultValue));
   }, [defaultValue, onUpdate]);
 
   const handleClearClick = useCallback(() => {
@@ -83,11 +89,11 @@ const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) =
     }
 
     if (defaultValue) {
-      if (!dequal(parts, getTimerParts(defaultValue))) {
-        onUpdate(updateTimer(defaultValue, parts));
+      if (!dequal(parts, getStopwatchParts(defaultValue))) {
+        onUpdate(updateStopwatch(defaultValue, parts));
       }
     } else {
-      onUpdate(createTimer(parts));
+      onUpdate(createStopwatch(parts));
     }
 
     onClose();
@@ -102,7 +108,7 @@ const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) =
   return (
     <>
       <Popup.Header onBack={onBack}>
-        {t('common.editTimer', {
+        {t('common.editStopwatch', {
           context: 'title',
         })}
       </Popup.Header>
@@ -171,16 +177,16 @@ const TimerEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose }) =
   );
 });
 
-TimerEditStep.propTypes = {
+StopwatchEditStep.propTypes = {
   defaultValue: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onUpdate: PropTypes.func.isRequired,
   onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
-TimerEditStep.defaultProps = {
+StopwatchEditStep.defaultProps = {
   defaultValue: undefined,
   onBack: undefined,
 };
 
-export default TimerEditStep;
+export default StopwatchEditStep;

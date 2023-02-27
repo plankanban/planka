@@ -23,7 +23,7 @@ const Errors = {
 
 const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
 
-const timerValidator = (value) => {
+const stopwatchValidator = (value) => {
   if (!_.isPlainObject(value) || _.size(value) !== 2) {
     return false;
   }
@@ -80,9 +80,9 @@ module.exports = {
       custom: dueDateValidator,
       allowNull: true,
     },
-    timer: {
+    stopwatch: {
       type: 'json',
-      custom: timerValidator,
+      custom: stopwatchValidator,
     },
     isSubscribed: {
       type: 'boolean',
@@ -171,7 +171,7 @@ module.exports = {
       'name',
       'description',
       'dueDate',
-      'timer',
+      'stopwatch',
       'isSubscribed',
     ]);
 
