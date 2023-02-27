@@ -28,7 +28,7 @@ module.exports = {
       type: 'ref',
       columnName: 'due_date',
     },
-    timer: {
+    stopwatch: {
       type: 'json',
     },
 

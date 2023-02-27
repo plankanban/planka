@@ -8,11 +8,11 @@ export const transformCard = (card) => ({
   ...(card.dueDate && {
     dueDate: new Date(card.dueDate),
   }),
-  ...(card.timer && {
-    timer: {
-      ...card.timer,
-      ...(card.timer.startedAt && {
-        startedAt: new Date(card.timer.startedAt),
+  ...(card.stopwatch && {
+    stopwatch: {
+      ...card.stopwatch,
+      ...(card.stopwatch.startedAt && {
+        startedAt: new Date(card.stopwatch.startedAt),
       }),
     },
   }),
@@ -23,11 +23,11 @@ export const transformCardData = (data) => ({
   ...(data.dueDate && {
     dueDate: data.dueDate.toISOString(),
   }),
-  ...(data.timer && {
-    timer: {
-      ...data.timer,
-      ...(data.timer.startedAt && {
-        startedAt: data.timer.startedAt.toISOString(),
+  ...(data.stopwatch && {
+    stopwatch: {
+      ...data.stopwatch,
+      ...(data.stopwatch.startedAt && {
+        startedAt: data.stopwatch.startedAt.toISOString(),
       }),
     },
   }),
