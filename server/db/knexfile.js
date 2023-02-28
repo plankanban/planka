@@ -7,7 +7,7 @@ dotenv.config({
 });
 
 function buildSSLConfig() {
-  if (process.env.REJECT_UNAUTHORIZED_SSL_CERTIFICATE) {
+  if (process.env.REJECT_UNAUTHORIZED_SSL_CERTIFICATE === 'false') {
     return {
       rejectUnauthorized: false,
     };
