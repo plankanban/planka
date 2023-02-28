@@ -26,8 +26,10 @@ services:
       # related: https://github.com/knex/knex/issues/2354
       # As knex does not pass query parameters from the connection string we
       # have to use environment variables in order to pass the desired values, e.g.
-      # note: this is optional
-      # PGSSLMODE=require
+      # PGSSLMODE=<value>
+
+      # Configure knex to accept SSL Certificates
+      # REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
     depends_on:
       - postgres
 
