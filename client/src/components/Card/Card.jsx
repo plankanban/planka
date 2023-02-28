@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
 import { usePopup } from '../../lib/popup';
 
-import { startTimer, stopTimer } from '../../utils/timer';
+import { startStopwatch, stopStopwatch } from '../../utils/stopwatch';
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
 import NameEdit from './NameEdit';
@@ -14,7 +14,7 @@ import ActionsStep from './ActionsStep';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
-import Timer from '../Timer';
+import Stopwatch from '../Stopwatch';
 
 import styles from './Card.module.scss';
 
@@ -24,7 +24,7 @@ const Card = React.memo(
     index,
     name,
     dueDate,
-    timer,
+    stopwatch,
     coverUrl,
     boardId,
     listId,
@@ -60,15 +60,15 @@ const Card = React.memo(
       }
     }, []);
 
-    const handleToggleTimerClick = useCallback(
+    const handleToggleStopwatchClick = useCallback(
       (event) => {
         event.preventDefault();
 
         onUpdate({
-          timer: timer.startedAt ? stopTimer(timer) : startTimer(timer),
+          stopwatch: stopwatch.startedAt ? stopStopwatch(stopwatch) : startStopwatch(stopwatch),
         });
       },
-      [timer, onUpdate],
+      [stopwatch, onUpdate],
     );
 
     const handleNameUpdate = useCallback(
@@ -104,7 +104,7 @@ const Card = React.memo(
           )}
           <div className={styles.name}>{name}</div>
           {tasks.length > 0 && <Tasks items={tasks} />}
-          {(dueDate || timer || notificationsTotal > 0) && (
+          {(dueDate || stopwatch || notificationsTotal > 0) && (
             <span className={styles.attachments}>
               {notificationsTotal > 0 && (
                 <span
@@ -122,14 +122,14 @@ const Card = React.memo(
                   <DueDate value={dueDate} size="tiny" />
                 </span>
               )}
-              {timer && (
+              {stopwatch && (
                 <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                  <Timer
+                  <Stopwatch
                     as="span"
-                    startedAt={timer.startedAt}
-                    total={timer.total}
+                    startedAt={stopwatch.startedAt}
+                    total={stopwatch.total}
                     size="tiny"
-                    onClick={canEdit ? handleToggleTimerClick : undefined}
+                    onClick={canEdit ? handleToggleStopwatchClick : undefined}
                   />
                 </span>
               )}
@@ -171,7 +171,7 @@ const Card = React.memo(
                       <ActionsPopup
                         card={{
                           dueDate,
-                          timer,
+                          stopwatch,
                           boardId,
                           listId,
                           projectId,
@@ -219,7 +219,7 @@ Card.propTypes = {
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   dueDate: PropTypes.instanceOf(Date),
-  timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  stopwatch: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   coverUrl: PropTypes.string,
   boardId: PropTypes.string.isRequired,
   listId: PropTypes.string.isRequired,
@@ -252,7 +252,7 @@ Card.propTypes = {
 
 Card.defaultProps = {
   dueDate: undefined,
-  timer: undefined,
+  stopwatch: undefined,
   coverUrl: undefined,
 };
 

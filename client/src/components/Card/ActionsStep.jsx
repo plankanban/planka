@@ -9,7 +9,7 @@ import { useSteps } from '../../hooks';
 import BoardMembershipsStep from '../BoardMembershipsStep';
 import LabelsStep from '../LabelsStep';
 import DueDateEditStep from '../DueDateEditStep';
-import TimerEditStep from '../TimerEditStep';
+import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
 
@@ -19,7 +19,7 @@ const StepTypes = {
   USERS: 'USERS',
   LABELS: 'LABELS',
   EDIT_DUE_DATE: 'EDIT_DUE_DATE',
-  EDIT_TIMER: 'EDIT_TIMER',
+  EDIT_STOPWATCH: 'EDIT_STOPWATCH',
   MOVE: 'MOVE',
   DELETE: 'DELETE',
 };
@@ -68,8 +68,8 @@ const ActionsStep = React.memo(
       openStep(StepTypes.EDIT_DUE_DATE);
     }, [openStep]);
 
-    const handleEditTimerClick = useCallback(() => {
-      openStep(StepTypes.EDIT_TIMER);
+    const handleEditStopwatchClick = useCallback(() => {
+      openStep(StepTypes.EDIT_STOPWATCH);
     }, [openStep]);
 
     const handleMoveClick = useCallback(() => {
@@ -89,10 +89,10 @@ const ActionsStep = React.memo(
       [onUpdate],
     );
 
-    const handleTimerUpdate = useCallback(
-      (timer) => {
+    const handleStopwatchUpdate = useCallback(
+      (stopwatch) => {
         onUpdate({
-          timer,
+          stopwatch,
         });
       },
       [onUpdate],
@@ -133,11 +133,11 @@ const ActionsStep = React.memo(
               onClose={onClose}
             />
           );
-        case StepTypes.EDIT_TIMER:
+        case StepTypes.EDIT_STOPWATCH:
           return (
-            <TimerEditStep
-              defaultValue={card.timer}
-              onUpdate={handleTimerUpdate}
+            <StopwatchEditStep
+              defaultValue={card.stopwatch}
+              onUpdate={handleStopwatchUpdate}
               onBack={handleBack}
               onClose={onClose}
             />
@@ -197,8 +197,8 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
-            <Menu.Item className={styles.menuItem} onClick={handleEditTimerClick}>
-              {t('action.editTimer', {
+            <Menu.Item className={styles.menuItem} onClick={handleEditStopwatchClick}>
+              {t('action.editStopwatch', {
                 context: 'title',
               })}
             </Menu.Item>

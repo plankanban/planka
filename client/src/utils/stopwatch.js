@@ -6,28 +6,28 @@ const getFullSeconds = ({ startedAt, total }) => {
   return total;
 };
 
-export const createTimer = ({ hours, minutes, seconds }) => ({
+export const createStopwatch = ({ hours, minutes, seconds }) => ({
   startedAt: null,
   total: hours * 60 * 60 + minutes * 60 + seconds,
 });
 
-export const updateTimer = ({ startedAt }, parts) => ({
-  ...createTimer(parts),
+export const updateStopwatch = ({ startedAt }, parts) => ({
+  ...createStopwatch(parts),
   startedAt: startedAt && new Date(),
 });
 
-export const startTimer = (timer) => ({
+export const startStopwatch = (stopwatch) => ({
   startedAt: new Date(),
-  total: timer ? timer.total : 0,
+  total: stopwatch ? stopwatch.total : 0,
 });
 
-export const stopTimer = (timer) => ({
+export const stopStopwatch = (stopwatch) => ({
   startedAt: null,
-  total: getFullSeconds(timer),
+  total: getFullSeconds(stopwatch),
 });
 
-export const getTimerParts = (timer) => {
-  const fullSeconds = getFullSeconds(timer);
+export const getStopwatchParts = (stopwatch) => {
+  const fullSeconds = getFullSeconds(stopwatch);
 
   const hours = Math.floor(fullSeconds / 3600);
   const minutes = Math.floor((fullSeconds - hours * 3600) / 60);
@@ -40,8 +40,8 @@ export const getTimerParts = (timer) => {
   };
 };
 
-export const formatTimer = (timer) => {
-  const { hours, minutes, seconds } = getTimerParts(timer);
+export const formatStopwatch = (stopwatch) => {
+  const { hours, minutes, seconds } = getStopwatchParts(stopwatch);
 
   return [hours, ...[minutes, seconds].map((part) => (part < 10 ? `0${part}` : part))].join(':');
 };

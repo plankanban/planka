@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useForceUpdate, usePrevious } from '../../lib/hooks';
 
-import { formatTimer } from '../../utils/timer';
+import { formatStopwatch } from '../../utils/stopwatch';
 
-import styles from './Timer.module.scss';
+import styles from './Stopwatch.module.scss';
 
 const SIZES = {
   TINY: 'tiny',
@@ -14,7 +14,7 @@ const SIZES = {
   MEDIUM: 'medium',
 };
 
-const Timer = React.memo(({ as, startedAt, total, size, isDisabled, onClick }) => {
+const Stopwatch = React.memo(({ as, startedAt, total, size, isDisabled, onClick }) => {
   const prevStartedAt = usePrevious(startedAt);
   const forceUpdate = useForceUpdate();
 
@@ -56,7 +56,7 @@ const Timer = React.memo(({ as, startedAt, total, size, isDisabled, onClick }) =
         onClick && styles.wrapperHoverable,
       )}
     >
-      {formatTimer({ startedAt, total })}
+      {formatStopwatch({ startedAt, total })}
     </span>
   );
 
@@ -71,7 +71,7 @@ const Timer = React.memo(({ as, startedAt, total, size, isDisabled, onClick }) =
   );
 });
 
-Timer.propTypes = {
+Stopwatch.propTypes = {
   as: PropTypes.elementType,
   startedAt: PropTypes.instanceOf(Date),
   total: PropTypes.number.isRequired, // eslint-disable-line react/no-unused-prop-types
@@ -80,7 +80,7 @@ Timer.propTypes = {
   onClick: PropTypes.func,
 };
 
-Timer.defaultProps = {
+Stopwatch.defaultProps = {
   as: 'button',
   startedAt: undefined,
   size: SIZES.MEDIUM,
@@ -88,4 +88,4 @@ Timer.defaultProps = {
   onClick: undefined,
 };
 
-export default Timer;
+export default Stopwatch;

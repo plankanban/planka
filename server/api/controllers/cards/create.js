@@ -14,7 +14,7 @@ const Errors = {
 
 const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
 
-const timerValidator = (value) => {
+const stopwatchValidator = (value) => {
   if (!_.isPlainObject(value) || _.size(value) !== 2) {
     return false;
   }
@@ -57,9 +57,9 @@ module.exports = {
       type: 'string',
       custom: dueDateValidator,
     },
-    timer: {
+    stopwatch: {
       type: 'json',
-      custom: timerValidator,
+      custom: stopwatchValidator,
     },
   },
 
@@ -95,7 +95,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'timer']);
+    const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'stopwatch']);
 
     const card = await sails.helpers.cards.createOne
       .with({

@@ -62,6 +62,11 @@ const Board = React.memo(
 
     const handleMouseDown = useCallback(
       (event) => {
+        // If button is defined and not equal to 0 (left click)
+        if (event.button) {
+          return;
+        }
+
         if (event.target !== wrapper.current && !event.target.dataset.dragScroller) {
           return;
         }

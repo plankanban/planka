@@ -6,7 +6,7 @@ import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 import { Markdown } from '../../lib/custom-ui';
 
-import { startTimer, stopTimer } from '../../utils/timer';
+import { startStopwatch, stopStopwatch } from '../../utils/stopwatch';
 import NameField from './NameField';
 import DescriptionEdit from './DescriptionEdit';
 import Tasks from './Tasks';
@@ -17,11 +17,11 @@ import Activities from './Activities';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
-import Timer from '../Timer';
+import Stopwatch from '../Stopwatch';
 import BoardMembershipsStep from '../BoardMembershipsStep';
 import LabelsStep from '../LabelsStep';
 import DueDateEditStep from '../DueDateEditStep';
-import TimerEditStep from '../TimerEditStep';
+import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
 
@@ -32,7 +32,7 @@ const CardModal = React.memo(
     name,
     description,
     dueDate,
-    timer,
+    stopwatch,
     isSubscribed,
     isActivitiesFetching,
     isAllActivitiesFetched,
@@ -83,11 +83,11 @@ const CardModal = React.memo(
 
     const isGalleryOpened = useRef(false);
 
-    const handleToggleTimerClick = useCallback(() => {
+    const handleToggleStopwatchClick = useCallback(() => {
       onUpdate({
-        timer: timer.startedAt ? stopTimer(timer) : startTimer(timer),
+        stopwatch: stopwatch.startedAt ? stopStopwatch(stopwatch) : startStopwatch(stopwatch),
       });
-    }, [timer, onUpdate]);
+    }, [stopwatch, onUpdate]);
 
     const handleNameUpdate = useCallback(
       (newName) => {
@@ -116,10 +116,10 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
-    const handleTimerUpdate = useCallback(
-      (newTimer) => {
+    const handleStopwatchUpdate = useCallback(
+      (newStopwatch) => {
         onUpdate({
-          timer: newTimer,
+          stopwatch: newStopwatch,
         });
       },
       [onUpdate],
@@ -160,7 +160,7 @@ const CardModal = React.memo(
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
     const LabelsPopup = usePopup(LabelsStep);
     const DueDateEditPopup = usePopup(DueDateEditStep);
-    const TimerEditPopup = usePopup(TimerEditStep);
+    const StopwatchEditPopup = usePopup(StopwatchEditStep);
     const CardMovePopup = usePopup(CardMoveStep);
     const DeletePopup = usePopup(DeleteStep);
 
@@ -185,7 +185,7 @@ const CardModal = React.memo(
         </Grid.Row>
         <Grid.Row className={styles.modalPadding}>
           <Grid.Column width={canEdit ? 12 : 16} className={styles.contentPadding}>
-            {(users.length > 0 || labels.length > 0 || dueDate || timer) && (
+            {(users.length > 0 || labels.length > 0 || dueDate || stopwatch) && (
               <div className={styles.moduleWrapper}>
                 {users.length > 0 && (
                   <div className={styles.attachments}>
@@ -294,30 +294,33 @@ const CardModal = React.memo(
                     </span>
                   </div>
                 )}
-                {timer && (
+                {stopwatch && (
                   <div className={styles.attachments}>
                     <div className={styles.text}>
-                      {t('common.timer', {
+                      {t('common.stopwatch', {
                         context: 'title',
                       })}
                     </div>
                     <span className={styles.attachment}>
                       {canEdit ? (
-                        <TimerEditPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
-                          <Timer startedAt={timer.startedAt} total={timer.total} />
-                        </TimerEditPopup>
+                        <StopwatchEditPopup
+                          defaultValue={stopwatch}
+                          onUpdate={handleStopwatchUpdate}
+                        >
+                          <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
+                        </StopwatchEditPopup>
                       ) : (
-                        <Timer startedAt={timer.startedAt} total={timer.total} />
+                        <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
                       )}
                     </span>
                     {canEdit && (
                       <button
-                        onClick={handleToggleTimerClick}
+                        onClick={handleToggleStopwatchClick}
                         type="button"
                         className={classNames(styles.attachment, styles.dueDate)}
                       >
                         <Icon
-                          name={timer.startedAt ? 'pause' : 'play'}
+                          name={stopwatch.startedAt ? 'pause' : 'play'}
                           size="small"
                           className={styles.addAttachment}
                         />
@@ -447,12 +450,12 @@ const CardModal = React.memo(
                     })}
                   </Button>
                 </DueDateEditPopup>
-                <TimerEditPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
+                <StopwatchEditPopup defaultValue={stopwatch} onUpdate={handleStopwatchUpdate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="clock outline" className={styles.actionIcon} />
-                    {t('common.timer')}
+                    {t('common.stopwatch')}
                   </Button>
-                </TimerEditPopup>
+                </StopwatchEditPopup>
                 <AttachmentAddPopup onCreate={onAttachmentCreate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="attach" className={styles.actionIcon} />
@@ -524,7 +527,7 @@ CardModal.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   dueDate: PropTypes.instanceOf(Date),
-  timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  stopwatch: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isSubscribed: PropTypes.bool.isRequired,
   isActivitiesFetching: PropTypes.bool.isRequired,
   isAllActivitiesFetched: PropTypes.bool.isRequired,
@@ -577,7 +580,7 @@ CardModal.propTypes = {
 CardModal.defaultProps = {
   description: undefined,
   dueDate: undefined,
-  timer: undefined,
+  stopwatch: undefined,
 };
 
 export default CardModal;
