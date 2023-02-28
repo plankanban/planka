@@ -28,7 +28,7 @@ services:
       # have to use environment variables in order to pass the desired values, e.g.
       # PGSSLMODE=<value>
 
-      # Configure knex to accept SSL Certificates
+      # Configure knex to accept SSL certificates
       # REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
     depends_on:
       - postgres
