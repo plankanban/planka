@@ -6,13 +6,21 @@ dotenv.config({
   path: path.resolve(__dirname, '../.env'),
 });
 
+function buildSSLConfig() {
+  if (process.env.REJECT_UNAUTHORIZED_SSL_CERTIFICATE) {
+    return {
+      rejectUnauthorized: false,
+    };
+  }
+
+  return false;
+}
+
 module.exports = {
   client: 'pg',
   connection: {
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ssl: buildSSLConfig(),
   },
   migrations: {
     tableName: 'migration',
