@@ -6,9 +6,22 @@ dotenv.config({
   path: path.resolve(__dirname, '../.env'),
 });
 
+function buildSSLConfig() {
+  if (process.env.KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE === 'false') {
+    return {
+      rejectUnauthorized: false,
+    };
+  }
+
+  return false;
+}
+
 module.exports = {
   client: 'pg',
-  connection: process.env.DATABASE_URL,
+  connection: {
+    connectionString: process.env.DATABASE_URL,
+    ssl: buildSSLConfig(),
+  },
   migrations: {
     tableName: 'migration',
     directory: path.join(__dirname, 'migrations'),
