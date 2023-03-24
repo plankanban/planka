@@ -61,7 +61,7 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
 
   const handleFieldKeyDown = useCallback(
     (event) => {
-      if (event.key === 'Enter') {
+      if (!event.nativeEvent.isComposing && event.key === 'Enter') {
         event.preventDefault();
 
         submit();

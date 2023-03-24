@@ -53,6 +53,9 @@ const NameEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
     (event) => {
       switch (event.key) {
         case 'Enter':
+          if (event.nativeEvent.isComposing) {
+            break;
+          }
           event.preventDefault();
 
           submit();
