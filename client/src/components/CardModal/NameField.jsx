@@ -19,7 +19,7 @@ const NameField = React.memo(({ defaultValue, onUpdate }) => {
   }, []);
 
   const handleKeyDown = useCallback((event) => {
-    if (event.key === 'Enter') {
+    if (!event.nativeEvent.isComposing && event.key === 'Enter') {
       event.preventDefault();
 
       event.target.blur();

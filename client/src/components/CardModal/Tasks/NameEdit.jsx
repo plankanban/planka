@@ -51,7 +51,7 @@ const NameEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
 
   const handleFieldKeyDown = useCallback(
     (event) => {
-      if (event.key === 'Enter') {
+      if (!event.nativeEvent.isComposing && event.key === 'Enter') {
         event.preventDefault();
 
         submit();
