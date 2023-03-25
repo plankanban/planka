@@ -86,6 +86,8 @@ const Card = React.memo(
 
     const ActionsPopup = usePopup(ActionsStep);
 
+    const isExpiredDueDate = dueDate && dueDate.getTime() < new Date().getTime();
+
     const contentNode = (
       <>
         {coverUrl && <img src={coverUrl} alt="" className={styles.cover} />}
@@ -119,7 +121,7 @@ const Card = React.memo(
               )}
               {dueDate && (
                 <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                  <DueDate value={dueDate} size="tiny" />
+                  <DueDate value={dueDate} size="tiny" isExpired={isExpiredDueDate} />
                 </span>
               )}
               {stopwatch && (

@@ -18,13 +18,15 @@ const FORMATS = {
   medium: 'longDateTime',
 };
 
-const DueDate = React.memo(({ value, size, isDisabled, onClick }) => {
+const DueDate = React.memo(({ value, size, isDisabled, onClick, isExpired }) => {
   const [t] = useTranslation();
+
+  const wrapperClass = isExpired ? styles.wrapperExpired : styles.wrapper;
 
   const contentNode = (
     <span
       className={classNames(
-        styles.wrapper,
+        wrapperClass,
         styles[`wrapper${upperFirst(size)}`],
         onClick && styles.wrapperHoverable,
       )}
@@ -50,12 +52,14 @@ DueDate.propTypes = {
   size: PropTypes.oneOf(Object.values(SIZES)),
   isDisabled: PropTypes.bool,
   onClick: PropTypes.func,
+  isExpired: PropTypes.bool,
 };
 
 DueDate.defaultProps = {
   size: SIZES.MEDIUM,
   isDisabled: false,
   onClick: undefined,
+  isExpired: false,
 };
 
 export default DueDate;

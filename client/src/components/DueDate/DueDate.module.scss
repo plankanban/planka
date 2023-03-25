@@ -20,6 +20,18 @@
     vertical-align: top;
   }
 
+  .wrapperExpired {
+    background: red;
+    border: none;
+    border-radius: 3px;
+    color: #ffffff;
+    display: inline-block;
+    outline: none;
+    text-align: left;
+    transition: background 0.3s ease;
+    vertical-align: top;
+  }
+
   .wrapperHoverable:hover {
     background: #d2d8dc;
     color: #17394d;
@@ -43,4 +55,5 @@
     line-height: 20px;
     padding: 6px 12px;
   }
+
 }
