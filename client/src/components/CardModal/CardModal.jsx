@@ -167,6 +167,8 @@ const CardModal = React.memo(
     const userIds = users.map((user) => user.id);
     const labelIds = labels.map((label) => label.id);
 
+    const isExpiredDueDate = dueDate && dueDate.getTime() < new Date().getTime();
+
     const contentNode = (
       <Grid className={styles.grid}>
         <Grid.Row className={styles.headerPadding}>
@@ -286,10 +288,10 @@ const CardModal = React.memo(
                     <span className={styles.attachment}>
                       {canEdit ? (
                         <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
-                          <DueDate value={dueDate} />
+                          <DueDate value={dueDate} isExpired={isExpiredDueDate} />
                         </DueDateEditPopup>
                       ) : (
-                        <DueDate value={dueDate} />
+                        <DueDate value={dueDate} isExpired={isExpiredDueDate} />
                       )}
                     </span>
                   </div>
