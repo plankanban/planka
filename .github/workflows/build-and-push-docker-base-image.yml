@@ -40,5 +40,5 @@ jobs:
           build-args: ALPINE_VERSION=${{ env.ALPINE_VERSION }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/planka:base-latest
-            ghcr.io/${{ github.repository_owner }}/planka:base-${{ env.ALPINE_VERSION }}
+            ghcr.io/${{ lowercase(github.repository_owner) }}/planka:base-latest
+            ghcr.io/${{ lowercase(github.repository_owner) }}/planka:base-${{ env.ALPINE_VERSION }}
