@@ -1,4 +1,4 @@
-FROM ghcr.io/plankanban/planka:base-latest as server-dependencies
+FROM ghcr.io/HS-KunioOkita/planka:base-latest as server-dependencies
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ RUN npm install npm@latest --global \
 COPY client .
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
-FROM ghcr.io/plankanban/planka:base-latest
+FROM ghcr.io/HS-KunioOkita/planka:base-latest
 
 RUN apk del vips-dependencies --purge
 
