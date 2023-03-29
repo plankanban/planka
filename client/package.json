@@ -72,6 +72,7 @@
     "react-app-rewired": "^2.2.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-datepicker": "^4.8.0",
+    "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-i18next": "^12.0.0",

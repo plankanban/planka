@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
+import { isSafari } from 'react-device-detect';
 import { TextArea } from 'semantic-ui-react';
 
 import { useField } from '../../hooks';
@@ -50,9 +51,10 @@ const NameEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
     (event) => {
       switch (event.key) {
         case 'Enter':
+          if (isSafari && event.keyCode !== 13) break;
           if (event.nativeEvent.isComposing) break;
-          event.preventDefault();
 
+          event.preventDefault();
           submit();
 
           break;

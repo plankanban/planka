@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
+import { isSafari } from 'react-device-detect';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 import { useDidUpdate, useToggle } from '../../lib/hooks';
 
@@ -49,9 +50,8 @@ const CardAdd = React.memo(({ isOpened, onCreate, onClose }) => {
     (event) => {
       switch (event.key) {
         case 'Enter': {
-          if (event.nativeEvent.isComposing) {
-            break;
-          }
+          if (isSafari && event.keyCode !== 13) break;
+          if (event.nativeEvent.isComposing) break;
 
           event.preventDefault();
 

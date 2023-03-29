@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } 
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
+import { isSafari } from 'react-device-detect';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 
 import { useClosableForm, useField } from '../../hooks';
@@ -53,9 +54,9 @@ const NameEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
     (event) => {
       switch (event.key) {
         case 'Enter':
-          if (event.nativeEvent.isComposing) {
-            break;
-          }
+          if (isSafari && event.keyCode !== 13) break;
+          if (event.nativeEvent.isComposing) break;
+
           event.preventDefault();
 
           submit();
