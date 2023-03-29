@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } 
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
+import { isSafari } from 'react-device-detect';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 import { useDidUpdate, useToggle } from '../../../lib/hooks';
 
@@ -61,9 +62,12 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
 
   const handleFieldKeyDown = useCallback(
     (event) => {
-      if (!event.nativeEvent.isComposing && event.key === 'Enter') {
-        event.preventDefault();
+      if (event.key === 'Enter') {
+        if ((isSafari && event.keyCode !== 13) || (!isSafari && event.nativeEvent.isComposing)) {
+          return;
+        }
 
+        event.preventDefault();
         submit();
       }
     },

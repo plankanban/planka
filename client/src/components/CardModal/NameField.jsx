@@ -1,6 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import TextareaAutosize from 'react-textarea-autosize';
+import { isSafari } from 'react-device-detect';
 import { TextArea } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious } from '../../lib/hooks';
 
@@ -19,7 +20,11 @@ const NameField = React.memo(({ defaultValue, onUpdate }) => {
   }, []);
 
   const handleKeyDown = useCallback((event) => {
-    if (!event.nativeEvent.isComposing && event.key === 'Enter') {
+    if (event.key === 'Enter') {
+      if ((isSafari && event.keyCode !== 13) || (!isSafari && event.nativeEvent.isComposing)) {
+        return;
+      }
+
       event.preventDefault();
 
       event.target.blur();
