@@ -76,16 +76,77 @@ export default class extends BaseModel {
 
         break;
       }
+      case ActionTypes.LIST_SORT:
+        List.withId(payload.id).sortList();
+        break;
+      case ActionTypes.LIST_SORT__SUCCESS:
+      case ActionTypes.LIST_SORT_HANDLE: {
+        const listModel = List.withId(payload.list.id);
+
+        if (listModel) {
+          listModel.sortList();
+        }
+
+        break;
+      }
       default:
     }
   }
 
-  getOrderedCardsQuerySet() {
+  getOrderedByIdCardsQuerySet() {
+    return this.cards.orderBy('id');
+  }
+
+  getOrderedByPositionCardsQuerySet() {
     return this.cards.orderBy('position');
   }
 
+  getOrderedByTitelCardsQuerySet() {
+    return this.cards.orderBy('name');
+  }
+
+  getOrderedByCreatedAtCardsQuerySet() {
+    return this.cards.orderBy('createdAt');
+  }
+
+  getOrderedByUpdatedAtCardsQuerySet() {
+    return this.cards.orderBy('updatedAt');
+  }
+
+  getOrderedByDueDateCardsQuerySet() {
+    return this.cards.orderBy('dueDate');
+  }
+
   getFilteredOrderedCardsModelArray() {
-    let cardModels = this.getOrderedCardsQuerySet().toModelArray();
+    const sortby = this.selectedOption;
+
+    let cardModels = null;
+
+    switch (sortby) {
+      case 'name':
+        cardModels = this.getOrderedByTitelCardsQuerySet().toModelArray();
+        break;
+      case 'id':
+        cardModels = this.getOrderedByIdCardsQuerySet().toModelArray();
+        break;
+      case 'position':
+        cardModels = this.getOrderedByPositionCardsQuerySet().toModelArray();
+        break;
+      case 'createdAt':
+        cardModels = this.getOrderedByCreatedAtCardsQuerySet().toModelArray();
+        break;
+      case 'updatedAt':
+        cardModels = this.getOrderedByUpdatedAtCardsQuerySet().toModelArray();
+        break;
+      case 'dueDate':
+        cardModels = this.getOrderedByDueDateCardsQuerySet().toModelArray();
+        break;
+      case 'creatorUserId':
+        cardModels = this.getOrderedByDueDateCardsQuerySet().toModelArray();
+        break;
+      default:
+        cardModels = this.getOrderedByPositionCardsQuerySet().toModelArray();
+    }
 
     const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
     const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);

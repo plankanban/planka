@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
-import { usePopup } from '../../lib/popup';
+import { usePopup, closePopup } from '../../lib/popup';
 
 import DroppableTypes from '../../constants/DroppableTypes';
 import CardContainer from '../../containers/CardContainer';
@@ -19,6 +19,7 @@ const List = React.memo(
   ({ id, index, name, isPersisted, cardIds, canEdit, onUpdate, onDelete, onCardCreate }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('name');
 
     const nameEdit = useRef(null);
     const listWrapper = useRef(null);
@@ -40,11 +41,11 @@ const List = React.memo(
 
     const handleAddCardClick = useCallback(() => {
       setIsAddCardOpened(true);
-    }, []);
+    }, [setIsAddCardOpened]);
 
     const handleAddCardClose = useCallback(() => {
       setIsAddCardOpened(false);
-    }, []);
+    }, [setIsAddCardOpened]);
 
     const handleNameEdit = useCallback(() => {
       nameEdit.current.open();
@@ -52,7 +53,12 @@ const List = React.memo(
 
     const handleCardAdd = useCallback(() => {
       setIsAddCardOpened(true);
-    }, []);
+    }, [setIsAddCardOpened]);
+
+    const onSort = useCallback(() => {
+      onUpdate({ selectedOption: document.querySelector('input[name="sort"]:checked').value });
+      closePopup();
+    }, [onUpdate]);
 
     useEffect(() => {
       if (isAddCardOpened) {
@@ -114,6 +120,9 @@ const List = React.memo(
                     onNameEdit={handleNameEdit}
                     onCardAdd={handleCardAdd}
                     onDelete={onDelete}
+                    onSort={onSort}
+                    selectedOption={selectedOption}
+                    setSelectedOption={setSelectedOption}
                   >
                     <Button className={classNames(styles.headerButton, styles.target)}>
                       <Icon fitted name="pencil" size="small" />

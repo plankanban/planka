@@ -17,6 +17,9 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_UPDATE_HANDLE, ({ payload: { list } }) =>
       services.handleListUpdate(list),
     ),
+    takeEvery(EntryActionTypes.LIST_SORT_HANDLE, ({ payload: { list } }) =>
+      services.handleListSort(list),
+    ),
     takeEvery(EntryActionTypes.LIST_MOVE, ({ payload: { id, index } }) =>
       services.moveList(id, index),
     ),

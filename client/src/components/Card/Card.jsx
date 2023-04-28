@@ -248,6 +248,8 @@ Card.propTypes = {
   onLabelUpdate: PropTypes.func.isRequired,
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
+  // onSortTitleAsc: PropTypes.func.isRequired,
+  // onSortTitleDesc: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {

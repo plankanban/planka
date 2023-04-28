@@ -24,6 +24,7 @@ const mapDispatchToProps = (dispatch) =>
       onUpdate: entryActions.updateBoard,
       onMove: entryActions.moveBoard,
       onDelete: entryActions.deleteBoard,
+      onSort: entryActions.sortBoard,
     },
     dispatch,
   );
