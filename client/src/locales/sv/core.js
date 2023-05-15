@@ -24,6 +24,7 @@ export default {
       all: 'Alla',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Alla ändringar kommer att sparas automatiskt<br />så fort anslutningen är återställd',
+      areYouSureYouWantToCopyThisCard: 'Är du säker på att du vill kopiera det här kortet',
       areYouSureYouWantToDeleteThisAttachment:
         'Är du säker på att du vill ta bort den här bilagan?',
       areYouSureYouWantToDeleteThisBoard: 'Är du säker på att du vill ta bort den här tavlan?',
@@ -52,6 +53,7 @@ export default {
       cardNotFound_title: 'Kort Ej Funnet',
       cardOrActionAreDeleted: 'Kort eller åtgärd är borttagen',
       color: 'Färg',
+      copyCard: 'Kopiera kort',
       createBoard_title: 'Skapa Tavla',
       createLabel_title: 'Skapa Etikett',
       createNewOneOrSelectExistingOne: 'Skapa en ny eller välj<br />en redan existerande',
@@ -162,6 +164,8 @@ export default {
       addTask: 'Lägg till uppgift',
       addToCard: 'Lägg till i kort',
       addUser: 'Lägg till användare',
+      copy: 'Kopiera',
+      copyCard: 'Kopiera kort',
       createBoard: 'Skapa tavla',
       createFile: 'Skapa fil',
       createLabel: 'Skapa etikett',

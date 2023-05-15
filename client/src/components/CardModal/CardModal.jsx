@@ -24,6 +24,7 @@ import DueDateEditStep from '../DueDateEditStep';
 import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
+import CardCopyPopup from '../CardCopyPopup';
 
 import styles from './CardModal.module.scss';
 
@@ -493,6 +494,32 @@ const CardModal = React.memo(
                     {t('action.move')}
                   </Button>
                 </CardMovePopup>
+                <CardCopyPopup
+                  projectsToLists={allProjectsToLists}
+                  defaultPath={{
+                    name,
+                    description,
+                    users,
+                    labels,
+                    tasks,
+                    attachments,
+                    projectId,
+                    boardId,
+                    listId,
+                  }}
+                  onMove={onMove}
+                  onTransfer={onTransfer}
+                  onBoardFetch={onBoardFetch}
+                >
+                  <Button
+                    fluid
+                    className={styles.actionButton}
+                    // onClick={handleToggleSubscriptionClick}
+                  >
+                    <Icon name="copy outline" className={styles.actionIcon} />
+                    {t('action.copy')}
+                  </Button>
+                </CardCopyPopup>
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"
