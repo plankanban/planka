@@ -89,6 +89,35 @@ const handleCardDelete = (card) => ({
   },
 });
 
+const copyCard = (id) => ({
+  type: ActionTypes.CARD_COPY,
+  payload: {
+    id,
+  },
+});
+
+copyCard.success = (card) => ({
+  type: ActionTypes.CARD_COPY__SUCCESS,
+  payload: {
+    card,
+  },
+});
+
+copyCard.failure = (id, error) => ({
+  type: ActionTypes.CARD_COPY__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const handleCardCopy = (card) => ({
+  type: ActionTypes.CARD_COPY_HANDLE,
+  payload: {
+    card,
+  },
+});
+
 export default {
   createCard,
   handleCardCreate,
@@ -96,4 +125,6 @@ export default {
   handleCardUpdate,
   deleteCard,
   handleCardDelete,
+  copyCard,
+  handleCardCopy,
 };

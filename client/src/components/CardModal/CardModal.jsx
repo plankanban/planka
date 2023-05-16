@@ -24,6 +24,7 @@ import DueDateEditStep from '../DueDateEditStep';
 import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
+import CardCopyStep from '../CardCopyStep';
 import CardCopyPopup from '../CardCopyPopup';
 
 import styles from './CardModal.module.scss';
@@ -79,6 +80,7 @@ const CardModal = React.memo(
     onCommentActivityUpdate,
     onCommentActivityDelete,
     onClose,
+    onCopyCard,
   }) => {
     const [t] = useTranslation();
 
@@ -203,6 +205,7 @@ const CardModal = React.memo(
                             currentUserIds={userIds}
                             onUserSelect={onUserAdd}
                             onUserDeselect={onUserRemove}
+                            onCopyCard={onCopyCard}
                           >
                             <User name={user.name} avatarUrl={user.avatarUrl} />
                           </BoardMembershipsPopup>
@@ -217,6 +220,7 @@ const CardModal = React.memo(
                         currentUserIds={userIds}
                         onUserSelect={onUserAdd}
                         onUserDeselect={onUserRemove}
+                        onCopyCard={onCopyCard}
                       >
                         <button
                           type="button"
@@ -248,6 +252,7 @@ const CardModal = React.memo(
                             onUpdate={onLabelUpdate}
                             onMove={onLabelMove}
                             onDelete={onLabelDelete}
+                            onCopyCard={onCopyCard}
                           >
                             <Label name={label.name} color={label.color} />
                           </LabelsPopup>
@@ -266,6 +271,7 @@ const CardModal = React.memo(
                         onUpdate={onLabelUpdate}
                         onMove={onLabelMove}
                         onDelete={onLabelDelete}
+                        onCopyCard={onCopyCard}
                       >
                         <button
                           type="button"
@@ -286,11 +292,15 @@ const CardModal = React.memo(
                     </div>
                     <span className={styles.attachment}>
                       {canEdit ? (
-                        <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
-                          <DueDate value={dueDate} />
+                        <DueDateEditPopup
+                          defaultValue={dueDate}
+                          onUpdate={handleDueDateUpdate}
+                          onCopyCard={onCopyCard}
+                        >
+                          <DueDate value={dueDate} onCopyCard={onCopyCard} />
                         </DueDateEditPopup>
                       ) : (
-                        <DueDate value={dueDate} />
+                        <DueDate value={dueDate} onCopyCard={onCopyCard} />
                       )}
                     </span>
                   </div>
@@ -308,10 +318,18 @@ const CardModal = React.memo(
                           defaultValue={stopwatch}
                           onUpdate={handleStopwatchUpdate}
                         >
-                          <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
+                          <Stopwatch
+                            startedAt={stopwatch.startedAt}
+                            total={stopwatch.total}
+                            onCopyCard={onCopyCard}
+                          />
                         </StopwatchEditPopup>
                       ) : (
-                        <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
+                        <Stopwatch
+                          startedAt={stopwatch.startedAt}
+                          total={stopwatch.total}
+                          onCopyCard={onCopyCard}
+                        />
                       )}
                     </span>
                     {canEdit && (
@@ -337,7 +355,11 @@ const CardModal = React.memo(
                   <Icon name="align justify" className={styles.moduleIcon} />
                   <div className={styles.moduleHeader}>{t('common.description')}</div>
                   {canEdit ? (
-                    <DescriptionEdit defaultValue={description} onUpdate={handleDescriptionUpdate}>
+                    <DescriptionEdit
+                      defaultValue={description}
+                      onUpdate={handleDescriptionUpdate}
+                      onCopyCard={onCopyCard}
+                    >
                       {description ? (
                         <button
                           type="button"
@@ -377,6 +399,7 @@ const CardModal = React.memo(
                     onUpdate={onTaskUpdate}
                     onMove={onTaskMove}
                     onDelete={onTaskDelete}
+                    onCopyCard={onCopyCard}
                   />
                 </div>
               </div>
@@ -394,6 +417,7 @@ const CardModal = React.memo(
                     onCoverUpdate={handleCoverUpdate}
                     onGalleryOpen={handleGalleryOpen}
                     onGalleryClose={handleGalleryClose}
+                    onCopyCard={onCopyCard}
                   />
                 </div>
               </div>
@@ -411,6 +435,7 @@ const CardModal = React.memo(
               onCommentCreate={onCommentActivityCreate}
               onCommentUpdate={onCommentActivityUpdate}
               onCommentDelete={onCommentActivityDelete}
+              onCopyCard={onCopyCard}
             />
           </Grid.Column>
           {canEdit && (
@@ -422,6 +447,7 @@ const CardModal = React.memo(
                   currentUserIds={userIds}
                   onUserSelect={onUserAdd}
                   onUserDeselect={onUserRemove}
+                  onCopyCard={onCopyCard}
                 >
                   <Button fluid className={styles.actionButton}>
                     <Icon name="user outline" className={styles.actionIcon} />
@@ -437,13 +463,18 @@ const CardModal = React.memo(
                   onUpdate={onLabelUpdate}
                   onMove={onLabelMove}
                   onDelete={onLabelDelete}
+                  onCopyCard={onCopyCard}
                 >
                   <Button fluid className={styles.actionButton}>
                     <Icon name="bookmark outline" className={styles.actionIcon} />
                     {t('common.labels')}
                   </Button>
                 </LabelsPopup>
-                <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                <DueDateEditPopup
+                  defaultValue={dueDate}
+                  onUpdate={handleDueDateUpdate}
+                  onCopyCard={onCopyCard}
+                >
                   <Button fluid className={styles.actionButton}>
                     <Icon name="calendar check outline" className={styles.actionIcon} />
                     {t('common.dueDate', {
@@ -451,13 +482,17 @@ const CardModal = React.memo(
                     })}
                   </Button>
                 </DueDateEditPopup>
-                <StopwatchEditPopup defaultValue={stopwatch} onUpdate={handleStopwatchUpdate}>
+                <StopwatchEditPopup
+                  defaultValue={stopwatch}
+                  onUpdate={handleStopwatchUpdate}
+                  onCopyCard={onCopyCard}
+                >
                   <Button fluid className={styles.actionButton}>
                     <Icon name="clock outline" className={styles.actionIcon} />
                     {t('common.stopwatch')}
                   </Button>
                 </StopwatchEditPopup>
-                <AttachmentAddPopup onCreate={onAttachmentCreate}>
+                <AttachmentAddPopup onCreate={onAttachmentCreate} onCopyCard={onCopyCard}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="attach" className={styles.actionIcon} />
                     {t('common.attachment')}
@@ -484,6 +519,7 @@ const CardModal = React.memo(
                   onMove={onMove}
                   onTransfer={onTransfer}
                   onBoardFetch={onBoardFetch}
+                  onCopyCard={onCopyCard}
                 >
                   <Button
                     fluid
@@ -510,11 +546,12 @@ const CardModal = React.memo(
                   onMove={onMove}
                   onTransfer={onTransfer}
                   onBoardFetch={onBoardFetch}
+                  onCopyCard={onCopyCard}
                 >
                   <Button
                     fluid
                     className={styles.actionButton}
-                    // onClick={handleToggleSubscriptionClick}
+                    onClick={handleToggleSubscriptionClick}
                   >
                     <Icon name="copy outline" className={styles.actionIcon} />
                     {t('action.copy')}
@@ -602,6 +639,7 @@ CardModal.propTypes = {
   onCommentActivityUpdate: PropTypes.func.isRequired,
   onCommentActivityDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
 CardModal.defaultProps = {

@@ -12,11 +12,23 @@ import NameEdit from './NameEdit';
 import CardAdd from './CardAdd';
 import ActionsStep from './ActionsStep';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
+import CardCopyStep from '../CardCopyStep';
 
 import styles from './List.module.scss';
 
 const List = React.memo(
-  ({ id, index, name, isPersisted, cardIds, canEdit, onUpdate, onDelete, onCardCreate }) => {
+  ({
+    id,
+    index,
+    name,
+    isPersisted,
+    cardIds,
+    canEdit,
+    onUpdate,
+    onDelete,
+    onCardCreate,
+    onCopyCard,
+  }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
     const [selectedOption, setSelectedOption] = useState('name');
@@ -123,6 +135,7 @@ const List = React.memo(
                     onSort={onSort}
                     selectedOption={selectedOption}
                     setSelectedOption={setSelectedOption}
+                    onCopyCard={onCopyCard}
                   >
                     <Button className={classNames(styles.headerButton, styles.target)}>
                       <Icon fitted name="pencil" size="small" />
@@ -170,6 +183,7 @@ List.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCardCreate: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
 export default List;

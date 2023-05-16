@@ -6,25 +6,22 @@ import { Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
-import styles from './CardMoveStep.module.scss';
+import styles from './CardCopyStep.module.scss';
 
-const CardMoveStep = React.memo(
-  ({
-    projectsToLists,
-    defaultPath,
-    onMove,
-    onTransfer,
-    onBoardFetch,
-    onBack,
-    onClose,
-    onCopyCard,
-  }) => {
+const CardCopyStep = React.memo(
+  ({ projectsToLists, defaultPath, onTransfer, onBoardFetch, onBack, onClose, onCopyCard }) => {
     const [t] = useTranslation();
 
     const [path, handleFieldChange] = useForm(() => ({
       projectId: null,
       boardId: null,
       listId: null,
+      name: null,
+      description: null,
+      tasks: [],
+      attachments: [],
+      labels: [],
+      users: [],
       ...defaultPath,
     }));
 
@@ -60,16 +57,17 @@ const CardMoveStep = React.memo(
       if (selectedBoard.id !== defaultPath.boardId) {
         onTransfer(selectedBoard.id, selectedList.id);
       } else if (selectedList.id !== defaultPath.listId) {
-        onMove(selectedList.id);
+        console.log('test');
       }
 
+      onCopyCard(selectedList.id, { name: 'test' }, false);
       onClose();
-    }, [defaultPath, onMove, onTransfer, onClose, selectedBoard, selectedList]);
+    }, [defaultPath, onTransfer, onClose, selectedBoard, selectedList, onCopyCard]);
 
     return (
       <>
         <Popup.Header onBack={onBack}>
-          {t('common.moveCard', {
+          {t('action.copyCard', {
             context: 'title',
           })}
         </Popup.Header>
@@ -112,7 +110,6 @@ const CardMoveStep = React.memo(
                   disabled={selectedProject.boards.length === 0}
                   className={styles.field}
                   onChange={handleBoardIdChange}
-                  onCopyCard={onCopyCard}
                 />
               </>
             )}
@@ -137,13 +134,12 @@ const CardMoveStep = React.memo(
                   disabled={selectedBoard.isFetching !== false || selectedBoard.lists.length === 0}
                   className={styles.field}
                   onChange={handleFieldChange}
-                  onCopyCard={onCopyCard}
                 />
               </>
             )}
             <Button
               positive
-              content={t('action.move')}
+              content={t('action.copy')} // change this action.copy
               disabled={(selectedBoard && selectedBoard.isFetching !== false) || !selectedList}
             />
           </Form>
@@ -153,12 +149,12 @@ const CardMoveStep = React.memo(
   },
 );
 
-CardMoveStep.propTypes = {
+CardCopyStep.propTypes = {
   /* eslint-disable react/forbid-prop-types */
   projectsToLists: PropTypes.array.isRequired,
   defaultPath: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
-  onMove: PropTypes.func.isRequired,
+  // onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
   onBoardFetch: PropTypes.func.isRequired,
   onBack: PropTypes.func,
@@ -166,8 +162,8 @@ CardMoveStep.propTypes = {
   onCopyCard: PropTypes.func.isRequired,
 };
 
-CardMoveStep.defaultProps = {
+CardCopyStep.defaultProps = {
   onBack: undefined,
 };
 
-export default CardMoveStep;
+export default CardCopyStep;

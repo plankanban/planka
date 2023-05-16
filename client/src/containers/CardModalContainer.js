@@ -100,6 +100,7 @@ const mapDispatchToProps = (dispatch) =>
       onCommentActivityCreate: entryActions.createCommentActivityInCurrentCard,
       onCommentActivityUpdate: entryActions.updateCommentActivity,
       onCommentActivityDelete: entryActions.deleteCommentActivity,
+      onCopyCard: entryActions.copyCard,
       push,
     },
     dispatch,

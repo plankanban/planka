@@ -51,6 +51,7 @@ const Card = React.memo(
     onLabelUpdate,
     onLabelMove,
     onLabelDelete,
+    onCopyCard,
   }) => {
     const nameEdit = useRef(null);
 
@@ -195,6 +196,7 @@ const Card = React.memo(
                         onLabelUpdate={onLabelUpdate}
                         onLabelMove={onLabelMove}
                         onLabelDelete={onLabelDelete}
+                        onCopyCard={onCopyCard}
                       >
                         <Button className={classNames(styles.actionsButton, styles.target)}>
                           <Icon fitted name="pencil" size="small" />
@@ -250,6 +252,7 @@ Card.propTypes = {
   onLabelDelete: PropTypes.func.isRequired,
   // onSortTitleAsc: PropTypes.func.isRequired,
   // onSortTitleDesc: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {

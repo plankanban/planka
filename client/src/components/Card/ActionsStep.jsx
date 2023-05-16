@@ -12,6 +12,7 @@ import DueDateEditStep from '../DueDateEditStep';
 import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
+import CardCopyStep from '../CardCopyStep';
 
 import styles from './ActionsStep.module.scss';
 
@@ -22,6 +23,7 @@ const StepTypes = {
   EDIT_STOPWATCH: 'EDIT_STOPWATCH',
   MOVE: 'MOVE',
   DELETE: 'DELETE',
+  COPY: 'COPY',
 };
 
 const ActionsStep = React.memo(
@@ -47,6 +49,7 @@ const ActionsStep = React.memo(
     onLabelMove,
     onLabelDelete,
     onClose,
+    onCopyCard,
   }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
@@ -74,6 +77,10 @@ const ActionsStep = React.memo(
 
     const handleMoveClick = useCallback(() => {
       openStep(StepTypes.MOVE);
+    }, [openStep]);
+
+    const handleCopyClick = useCallback(() => {
+      openStep(StepTypes.COPY);
     }, [openStep]);
 
     const handleDeleteClick = useCallback(() => {
@@ -108,6 +115,7 @@ const ActionsStep = React.memo(
               onUserSelect={onUserAdd}
               onUserDeselect={onUserRemove}
               onBack={handleBack}
+              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.LABELS:
@@ -122,6 +130,7 @@ const ActionsStep = React.memo(
               onMove={onLabelMove}
               onDelete={onLabelDelete}
               onBack={handleBack}
+              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.EDIT_DUE_DATE:
@@ -131,6 +140,7 @@ const ActionsStep = React.memo(
               onUpdate={handleDueDateUpdate}
               onBack={handleBack}
               onClose={onClose}
+              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.EDIT_STOPWATCH:
@@ -140,6 +150,7 @@ const ActionsStep = React.memo(
               onUpdate={handleStopwatchUpdate}
               onBack={handleBack}
               onClose={onClose}
+              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.MOVE:
@@ -152,6 +163,7 @@ const ActionsStep = React.memo(
               onBoardFetch={onBoardFetch}
               onBack={handleBack}
               onClose={onClose}
+              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.DELETE:
@@ -162,6 +174,20 @@ const ActionsStep = React.memo(
               buttonContent="action.deleteCard"
               onConfirm={onDelete}
               onBack={handleBack}
+              onCopyCard={onCopyCard}
+            />
+          );
+        case StepTypes.COPY:
+          return (
+            <CardCopyStep
+              projectsToLists={projectsToLists}
+              defaultPath={pick(card, ['projectId', 'boardId', 'listId'])}
+              onCopyCard={onCopyCard}
+              onTransfer={onTransfer}
+              onBoardFetch={onBoardFetch}
+              onBack={handleBack}
+              onClose={onClose}
+              onConfirm={onCopyCard}
             />
           );
         default:
@@ -212,6 +238,11 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleCopyClick}>
+              {t('action.copyCard', {
+                context: 'title',
+              })}
+            </Menu.Item>
           </Menu>
         </Popup.Content>
       </>
@@ -243,6 +274,7 @@ ActionsStep.propTypes = {
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
 export default ActionsStep;

@@ -25,6 +25,7 @@ const Filters = React.memo(
     onLabelUpdate,
     onLabelMove,
     onLabelDelete,
+    // onCopyCard,
   }) => {
     const [t] = useTranslation();
 
@@ -83,6 +84,7 @@ const Filters = React.memo(
             onUpdate={onLabelUpdate}
             onMove={onLabelMove}
             onDelete={onLabelDelete}
+            // onCopyCard={onCopyCard}
           >
             <button type="button" className={styles.filterButton}>
               <span className={styles.filterTitle}>{`${t('common.labels')}:`}</span>
@@ -121,6 +123,7 @@ Filters.propTypes = {
   onLabelUpdate: PropTypes.func.isRequired,
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
+  // onCopyCard: PropTypes.func.isRequired,
 };
 
 export default Filters;
