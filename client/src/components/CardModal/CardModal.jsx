@@ -24,7 +24,7 @@ import DueDateEditStep from '../DueDateEditStep';
 import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
-import CardCopyStep from '../CardCopyStep';
+// import CardCopyStep from '../CardCopyStep';
 import CardCopyPopup from '../CardCopyPopup';
 
 import styles from './CardModal.module.scss';

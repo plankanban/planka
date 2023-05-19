@@ -231,13 +231,14 @@ LabelsStep.propTypes = {
   onMove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onBack: PropTypes.func,
-  onCopyCard: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func,
 };
 
 LabelsStep.defaultProps = {
   title: 'common.labels',
   canEdit: true,
   onBack: undefined,
+  onCopyCard: undefined,
 };
 
 export default LabelsStep;

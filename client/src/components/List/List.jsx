@@ -12,7 +12,7 @@ import NameEdit from './NameEdit';
 import CardAdd from './CardAdd';
 import ActionsStep from './ActionsStep';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
-import CardCopyStep from '../CardCopyStep';
+// import CardCopyStep from '../CardCopyStep';
 
 import styles from './List.module.scss';
 
@@ -183,7 +183,11 @@ List.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCardCreate: PropTypes.func.isRequired,
-  onCopyCard: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func,
+};
+
+List.defaultProps = {
+  onCopyCard: undefined,
 };
 
 export default List;

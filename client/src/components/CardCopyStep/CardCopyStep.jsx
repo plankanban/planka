@@ -9,7 +9,7 @@ import { useForm } from '../../hooks';
 import styles from './CardCopyStep.module.scss';
 
 const CardCopyStep = React.memo(
-  ({ projectsToLists, defaultPath, onTransfer, onBoardFetch, onBack, onClose, onCopyCard }) => {
+  ({ projectsToLists, defaultPath, onBoardFetch, onBack, onClose, onCopyCard }) => {
     const [t] = useTranslation();
 
     const [path, handleFieldChange] = useForm(() => ({
@@ -54,15 +54,16 @@ const CardCopyStep = React.memo(
     );
 
     const handleSubmit = useCallback(() => {
+      /*
       if (selectedBoard.id !== defaultPath.boardId) {
         onTransfer(selectedBoard.id, selectedList.id);
       } else if (selectedList.id !== defaultPath.listId) {
         console.log('test');
       }
-
-      onCopyCard(selectedList.id, { name: 'test' }, false);
+      */
+      onCopyCard(selectedList.id, path, false);
       onClose();
-    }, [defaultPath, onTransfer, onClose, selectedBoard, selectedList, onCopyCard]);
+    }, [onCopyCard, selectedList.id, path, onClose]);
 
     return (
       <>
@@ -155,7 +156,7 @@ CardCopyStep.propTypes = {
   defaultPath: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
   // onMove: PropTypes.func.isRequired,
-  onTransfer: PropTypes.func.isRequired,
+  // onTransfer: PropTypes.func.isRequired,
   onBoardFetch: PropTypes.func.isRequired,
   onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
