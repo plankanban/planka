@@ -47,12 +47,12 @@ const moveCard = (id, listId, index = 0) => ({
   },
 });
 
-const copyCard = (id, listId, index = 0) => ({
+const copyCard = (listId, data, autoOpen) => ({
   type: EntryActionTypes.CARD_COPY,
   payload: {
-    id,
     listId,
-    index,
+    data,
+    autoOpen,
   },
 });
 
