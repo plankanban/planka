@@ -57,7 +57,9 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.TASK_CREATE__SUCCESS:
-        Task.withId(payload.localId).delete();
+        if (Task.withId(payload.localId)) {
+          Task.withId(payload.localId).delete();
+        }
         Task.upsert(payload.task);
 
         break;

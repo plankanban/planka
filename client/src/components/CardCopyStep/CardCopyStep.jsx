@@ -54,13 +54,6 @@ const CardCopyStep = React.memo(
     );
 
     const handleSubmit = useCallback(() => {
-      /*
-      if (selectedBoard.id !== defaultPath.boardId) {
-        onTransfer(selectedBoard.id, selectedList.id);
-      } else if (selectedList.id !== defaultPath.listId) {
-        console.log('test');
-      }
-      */
       onCopyCard(selectedList.id, path);
       onClose();
     }, [onCopyCard, selectedList.id, path, onClose]);
