@@ -41,6 +41,12 @@ const createCard = (listId, data, headers) =>
     item: transformCard(body.item),
   }));
 
+const copyCard = (listId, data, headers) =>
+  socket.post(`/lists/${listId}/cards`, transformCardData(data), headers).then((body) => ({
+    ...body,
+    item: transformCard(body.item),
+  }));
+
 const getCard = (id, headers) =>
   socket.get(`/cards/${id}`, undefined, headers).then((body) => ({
     ...body,
@@ -84,4 +90,5 @@ export default {
   makeHandleCardCreate,
   makeHandleCardUpdate,
   makeHandleCardDelete,
+  copyCard,
 };

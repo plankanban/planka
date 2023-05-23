@@ -72,7 +72,7 @@ const mapDispatchToProps = (dispatch, { id }) =>
       onLabelUpdate: (labelId, data) => entryActions.updateLabel(labelId, data),
       onLabelMove: (labelId, index) => entryActions.moveLabel(labelId, index),
       onLabelDelete: (labelId) => entryActions.deleteLabel(labelId),
-      onCopyCard: (listId, data) => entryActions.createCard(listId, data, false),
+      onCopyCard: (listId, data) => entryActions.copyCard(listId, data, false),
     },
     dispatch,
   );

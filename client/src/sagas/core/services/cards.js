@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put, select, all } from 'redux-saga/effects';
 
 import { goToBoard, goToCard } from './router';
 import request from '../request';
@@ -6,6 +6,7 @@ import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
+import { addLabelToCard } from './labels';
 
 export function* createCard(listId, data, autoOpen) {
   const { boardId } = yield select(selectors.selectListById, listId);
@@ -39,6 +40,11 @@ export function* createCard(listId, data, autoOpen) {
   if (autoOpen) {
     yield call(goToCard, card.id);
   }
+
+  // Add labels to card
+  const arr = [];
+  Object.keys(nextData.labels).map((key) => arr.push(nextData.labels[key].id));
+  yield all(arr?.map((label) => call(addLabelToCard, label, card.id)));
 }
 
 export function* handleCardCreate(card) {

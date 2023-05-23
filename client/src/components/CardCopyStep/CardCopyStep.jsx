@@ -61,7 +61,7 @@ const CardCopyStep = React.memo(
         console.log('test');
       }
       */
-      onCopyCard(selectedList.id, path, false);
+      onCopyCard(selectedList.id, path);
       onClose();
     }, [onCopyCard, selectedList.id, path, onClose]);
 
