@@ -5,7 +5,7 @@ on:
     paths:
       - "charts/**"
     branches:
-      - add-helm-chart
+      - master
 
 jobs:
   release:
