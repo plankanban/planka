@@ -65,10 +65,7 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
     [submit],
   );
 
-  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    close,
-    isOpened,
-  );
+  const [, handleControlMouseOver, handleControlMouseOut] = useClosableForm(close, isOpened);
 
   const handleSubmit = useCallback(() => {
     submit();
@@ -96,7 +93,6 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
         className={styles.field}
         onKeyDown={handleFieldKeyDown}
         onChange={handleFieldChange}
-        onBlur={handleFieldBlur}
       />
       <div className={styles.controls}>
         {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
