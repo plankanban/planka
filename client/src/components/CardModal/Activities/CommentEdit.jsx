@@ -93,6 +93,7 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
         className={styles.field}
         onKeyDown={handleFieldKeyDown}
         onChange={handleFieldChange}
+        onBlur={() => submit()}
       />
       <div className={styles.controls}>
         {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
