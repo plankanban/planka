@@ -8,6 +8,7 @@ import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 import { addLabelToCard } from './labels';
 import { createTask } from './tasks';
+import { addUserToCard } from './users';
 
 export function* createCard(listId, data, autoOpen) {
   const { boardId } = yield select(selectors.selectListById, listId);
@@ -56,6 +57,11 @@ export function* createCard(listId, data, autoOpen) {
   });
 
   yield all(tasks?.map((task) => call(createTask, card.id, task)));
+
+  // Add users to card //
+  const users = [];
+  Object.keys(nextData.users)?.map((key) => users.push(nextData.users[key].id));
+  yield all(users?.map((user) => call(addUserToCard, user, card.id)));
 }
 
 export function* handleCardCreate(card) {

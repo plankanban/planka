@@ -15,7 +15,6 @@ import attachments from './attachments';
 import activities from './activities';
 import commentActivities from './comment-activities';
 import notifications from './notifications';
-import copycards from './copycards';
 
 export default {
   ...router,
@@ -35,5 +34,4 @@ export default {
   ...activities,
   ...commentActivities,
   ...notifications,
-  ...copycards,
 };
