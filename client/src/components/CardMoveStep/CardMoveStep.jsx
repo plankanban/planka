@@ -9,18 +9,8 @@ import { useForm } from '../../hooks';
 import styles from './CardMoveStep.module.scss';
 
 const CardMoveStep = React.memo(
-  ({
-    projectsToLists,
-    defaultPath,
-    onMove,
-    onTransfer,
-    onBoardFetch,
-    onBack,
-    onClose,
-    onCopyCard,
-  }) => {
+  ({ projectsToLists, defaultPath, onMove, onTransfer, onBoardFetch, onBack, onClose }) => {
     const [t] = useTranslation();
-
     const [path, handleFieldChange] = useForm(() => ({
       projectId: null,
       boardId: null,
@@ -112,7 +102,6 @@ const CardMoveStep = React.memo(
                   disabled={selectedProject.boards.length === 0}
                   className={styles.field}
                   onChange={handleBoardIdChange}
-                  onCopyCard={onCopyCard}
                 />
               </>
             )}
@@ -137,7 +126,6 @@ const CardMoveStep = React.memo(
                   disabled={selectedBoard.isFetching !== false || selectedBoard.lists.length === 0}
                   className={styles.field}
                   onChange={handleFieldChange}
-                  onCopyCard={onCopyCard}
                 />
               </>
             )}
@@ -163,7 +151,6 @@ CardMoveStep.propTypes = {
   onBoardFetch: PropTypes.func.isRequired,
   onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
-  onCopyCard: PropTypes.func.isRequired,
 };
 
 CardMoveStep.defaultProps = {

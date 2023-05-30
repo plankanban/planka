@@ -12,7 +12,6 @@ import NameEdit from './NameEdit';
 import CardAdd from './CardAdd';
 import ActionsStep from './ActionsStep';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
-// import CardCopyStep from '../CardCopyStep';
 
 import styles from './List.module.scss';
 
@@ -136,6 +135,7 @@ const List = React.memo(
                     selectedOption={selectedOption}
                     setSelectedOption={setSelectedOption}
                     onCopyCard={onCopyCard}
+                    id={id}
                   >
                     <Button className={classNames(styles.headerButton, styles.target)}>
                       <Icon fitted name="pencil" size="small" />

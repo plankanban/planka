@@ -84,7 +84,6 @@ const Filters = React.memo(
             onUpdate={onLabelUpdate}
             onMove={onLabelMove}
             onDelete={onLabelDelete}
-            // onCopyCard={onCopyCard}
           >
             <button type="button" className={styles.filterButton}>
               <span className={styles.filterTitle}>{`${t('common.labels')}:`}</span>

@@ -7,21 +7,35 @@ import { Popup } from '../../lib/custom-ui';
 import { useForm } from '../../hooks';
 
 import styles from './CardCopyStep.module.scss';
+import store from '../../store';
 
 const CardCopyStep = React.memo(
   ({ projectsToLists, defaultPath, onBoardFetch, onBack, onClose, onCopyCard }) => {
     const [t] = useTranslation();
+    // Get store to get value for description string
+    const st = store.getState();
+
+    const keys = Object.keys(st.orm.Card.itemsById);
+    if (defaultPath.description === undefined) {
+      keys.forEach((key) => {
+        if (key === defaultPath.id) {
+          // eslint-disable-next-line no-param-reassign
+          defaultPath.description = st.orm.Card.itemsById[key].description;
+        }
+      });
+    }
 
     const [path, handleFieldChange] = useForm(() => ({
       projectId: null,
       boardId: null,
       listId: null,
-      name: null,
-      description: null,
-      tasks: [],
-      attachments: [],
-      labels: [],
-      users: [],
+      name: defaultPath.name,
+      description: defaultPath.description,
+      tasks: defaultPath.tasks,
+      attachments: defaultPath.attachments,
+      labels: defaultPath.labels,
+      users: defaultPath.users,
+      dueDate: defaultPath.dueDate,
       ...defaultPath,
     }));
 
@@ -144,6 +158,9 @@ const CardCopyStep = React.memo(
 );
 
 CardCopyStep.propTypes = {
+  id: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  description: PropTypes.string,
   /* eslint-disable react/forbid-prop-types */
   projectsToLists: PropTypes.array.isRequired,
   defaultPath: PropTypes.object.isRequired,
@@ -158,6 +175,8 @@ CardCopyStep.propTypes = {
 
 CardCopyStep.defaultProps = {
   onBack: undefined,
+  description: undefined,
+  id: undefined,
 };
 
 export default CardCopyStep;

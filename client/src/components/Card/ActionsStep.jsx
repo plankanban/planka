@@ -53,6 +53,23 @@ const ActionsStep = React.memo(
   }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
+    // prepare defaultPath data for copying card
+    const defaultPath = {};
+    defaultPath.id = card.id;
+    defaultPath.boardId = card.boardId;
+    defaultPath.projectId = card.projectId;
+    defaultPath.listId = card.listId;
+    defaultPath.cardId = card.id;
+    defaultPath.name = card.name;
+    defaultPath.dueDate = card.dueDate;
+    defaultPath.stopwatch = card.stopwatch;
+    defaultPath.labels = card.labels;
+    defaultPath.boardMemberships = boardMemberships;
+    defaultPath.currentLabelIds = currentLabelIds;
+    defaultPath.currentUserIds = currentUserIds;
+    defaultPath.tasks = card.tasks;
+    defaultPath.users = card.users;
+    defaultPath.description = card.description;
 
     const handleEditNameClick = useCallback(() => {
       onNameEdit();
@@ -181,13 +198,12 @@ const ActionsStep = React.memo(
           return (
             <CardCopyStep
               projectsToLists={projectsToLists}
-              defaultPath={pick(card, ['projectId', 'boardId', 'listId'])}
+              defaultPath={defaultPath}
               onCopyCard={onCopyCard}
               onTransfer={onTransfer}
               onBoardFetch={onBoardFetch}
               onBack={handleBack}
               onClose={onClose}
-              onConfirm={onCopyCard}
             />
           );
         default:

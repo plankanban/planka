@@ -21,6 +21,7 @@ import styles from './Card.module.scss';
 const Card = React.memo(
   ({
     id,
+    description,
     index,
     name,
     dueDate,
@@ -171,6 +172,13 @@ const Card = React.memo(
                     {canEdit && (
                       <ActionsPopup
                         card={{
+                          id,
+                          description,
+                          index,
+                          name,
+                          tasks,
+                          labels,
+                          users,
                           dueDate,
                           stopwatch,
                           boardId,
@@ -218,6 +226,7 @@ const Card = React.memo(
 
 Card.propTypes = {
   id: PropTypes.string.isRequired,
+  description: PropTypes.string,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   dueDate: PropTypes.instanceOf(Date),
@@ -259,6 +268,7 @@ Card.defaultProps = {
   dueDate: undefined,
   stopwatch: undefined,
   coverUrl: undefined,
+  description: undefined,
 };
 
 export default Card;

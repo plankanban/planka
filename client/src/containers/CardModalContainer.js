@@ -18,6 +18,7 @@ const mapStateToProps = (state) => {
   const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
   const {
+    id,
     name,
     description,
     dueDate,
@@ -46,6 +47,7 @@ const mapStateToProps = (state) => {
   }
 
   return {
+    id,
     name,
     description,
     dueDate,
