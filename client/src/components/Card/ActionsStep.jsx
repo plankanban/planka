@@ -132,7 +132,6 @@ const ActionsStep = React.memo(
               onUserSelect={onUserAdd}
               onUserDeselect={onUserRemove}
               onBack={handleBack}
-              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.LABELS:
@@ -147,7 +146,6 @@ const ActionsStep = React.memo(
               onMove={onLabelMove}
               onDelete={onLabelDelete}
               onBack={handleBack}
-              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.EDIT_DUE_DATE:
@@ -157,7 +155,6 @@ const ActionsStep = React.memo(
               onUpdate={handleDueDateUpdate}
               onBack={handleBack}
               onClose={onClose}
-              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.EDIT_STOPWATCH:
@@ -167,7 +164,6 @@ const ActionsStep = React.memo(
               onUpdate={handleStopwatchUpdate}
               onBack={handleBack}
               onClose={onClose}
-              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.MOVE:
@@ -180,7 +176,6 @@ const ActionsStep = React.memo(
               onBoardFetch={onBoardFetch}
               onBack={handleBack}
               onClose={onClose}
-              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.DELETE:
@@ -191,7 +186,6 @@ const ActionsStep = React.memo(
               buttonContent="action.deleteCard"
               onConfirm={onDelete}
               onBack={handleBack}
-              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.COPY:

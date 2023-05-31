@@ -259,7 +259,6 @@ const CardModal = React.memo(
                             currentUserIds={userIds}
                             onUserSelect={onUserAdd}
                             onUserDeselect={onUserRemove}
-                            onCopyCard={onCopyCard}
                           >
                             <User name={user.name} avatarUrl={user.avatarUrl} />
                           </BoardMembershipsPopup>
@@ -274,7 +273,6 @@ const CardModal = React.memo(
                         currentUserIds={userIds}
                         onUserSelect={onUserAdd}
                         onUserDeselect={onUserRemove}
-                        onCopyCard={onCopyCard}
                       >
                         <button
                           type="button"
@@ -306,7 +304,6 @@ const CardModal = React.memo(
                             onUpdate={onLabelUpdate}
                             onMove={onLabelMove}
                             onDelete={onLabelDelete}
-                            onCopyCard={onCopyCard}
                           >
                             <Label name={label.name} color={label.color} />
                           </LabelsPopup>
@@ -325,7 +322,6 @@ const CardModal = React.memo(
                         onUpdate={onLabelUpdate}
                         onMove={onLabelMove}
                         onDelete={onLabelDelete}
-                        onCopyCard={onCopyCard}
                       >
                         <button
                           type="button"
@@ -346,15 +342,11 @@ const CardModal = React.memo(
                     </div>
                     <span className={styles.attachment}>
                       {canEdit ? (
-                        <DueDateEditPopup
-                          defaultValue={dueDate}
-                          onUpdate={handleDueDateUpdate}
-                          onCopyCard={onCopyCard}
-                        >
-                          <DueDate value={dueDate} onCopyCard={onCopyCard} />
+                        <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                          <DueDate value={dueDate} />
                         </DueDateEditPopup>
                       ) : (
-                        <DueDate value={dueDate} onCopyCard={onCopyCard} />
+                        <DueDate value={dueDate} />
                       )}
                     </span>
                   </div>
@@ -372,18 +364,10 @@ const CardModal = React.memo(
                           defaultValue={stopwatch}
                           onUpdate={handleStopwatchUpdate}
                         >
-                          <Stopwatch
-                            startedAt={stopwatch.startedAt}
-                            total={stopwatch.total}
-                            onCopyCard={onCopyCard}
-                          />
+                          <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
                         </StopwatchEditPopup>
                       ) : (
-                        <Stopwatch
-                          startedAt={stopwatch.startedAt}
-                          total={stopwatch.total}
-                          onCopyCard={onCopyCard}
-                        />
+                        <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
                       )}
                     </span>
                     {canEdit && (
@@ -409,11 +393,7 @@ const CardModal = React.memo(
                   <Icon name="align justify" className={styles.moduleIcon} />
                   <div className={styles.moduleHeader}>{t('common.description')}</div>
                   {canEdit ? (
-                    <DescriptionEdit
-                      defaultValue={description}
-                      onUpdate={handleDescriptionUpdate}
-                      onCopyCard={onCopyCard}
-                    >
+                    <DescriptionEdit defaultValue={description} onUpdate={handleDescriptionUpdate}>
                       {description ? (
                         <button
                           type="button"
@@ -453,7 +433,6 @@ const CardModal = React.memo(
                     onUpdate={onTaskUpdate}
                     onMove={onTaskMove}
                     onDelete={onTaskDelete}
-                    onCopyCard={onCopyCard}
                   />
                 </div>
               </div>
@@ -471,7 +450,6 @@ const CardModal = React.memo(
                     onCoverUpdate={handleCoverUpdate}
                     onGalleryOpen={handleGalleryOpen}
                     onGalleryClose={handleGalleryClose}
-                    onCopyCard={onCopyCard}
                   />
                 </div>
               </div>
@@ -489,7 +467,6 @@ const CardModal = React.memo(
               onCommentCreate={onCommentActivityCreate}
               onCommentUpdate={onCommentActivityUpdate}
               onCommentDelete={onCommentActivityDelete}
-              onCopyCard={onCopyCard}
             />
           </Grid.Column>
           {canEdit && (
@@ -501,7 +478,6 @@ const CardModal = React.memo(
                   currentUserIds={userIds}
                   onUserSelect={onUserAdd}
                   onUserDeselect={onUserRemove}
-                  onCopyCard={onCopyCard}
                 >
                   <Button fluid className={styles.actionButton}>
                     <Icon name="user outline" className={styles.actionIcon} />
@@ -517,18 +493,13 @@ const CardModal = React.memo(
                   onUpdate={onLabelUpdate}
                   onMove={onLabelMove}
                   onDelete={onLabelDelete}
-                  onCopyCard={onCopyCard}
                 >
                   <Button fluid className={styles.actionButton}>
                     <Icon name="bookmark outline" className={styles.actionIcon} />
                     {t('common.labels')}
                   </Button>
                 </LabelsPopup>
-                <DueDateEditPopup
-                  defaultValue={dueDate}
-                  onUpdate={handleDueDateUpdate}
-                  onCopyCard={onCopyCard}
-                >
+                <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="calendar check outline" className={styles.actionIcon} />
                     {t('common.dueDate', {
@@ -536,17 +507,13 @@ const CardModal = React.memo(
                     })}
                   </Button>
                 </DueDateEditPopup>
-                <StopwatchEditPopup
-                  defaultValue={stopwatch}
-                  onUpdate={handleStopwatchUpdate}
-                  onCopyCard={onCopyCard}
-                >
+                <StopwatchEditPopup defaultValue={stopwatch} onUpdate={handleStopwatchUpdate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="clock outline" className={styles.actionIcon} />
                     {t('common.stopwatch')}
                   </Button>
                 </StopwatchEditPopup>
-                <AttachmentAddPopup onCreate={onAttachmentCreate} onCopyCard={onCopyCard}>
+                <AttachmentAddPopup onCreate={onAttachmentCreate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="attach" className={styles.actionIcon} />
                     {t('common.attachment')}
@@ -573,7 +540,6 @@ const CardModal = React.memo(
                   onMove={onMove}
                   onTransfer={onTransfer}
                   onBoardFetch={onBoardFetch}
-                  onCopyCard={onCopyCard}
                 >
                   <Button
                     fluid

@@ -32,7 +32,6 @@ const LabelsStep = React.memo(
     onMove,
     onDelete,
     onBack,
-    onCopyCard,
   }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
@@ -119,7 +118,6 @@ const LabelsStep = React.memo(
               }}
               onCreate={onCreate}
               onBack={handleBack}
-              onCopyCard={onCopyCard}
             />
           );
         case StepTypes.EDIT: {
@@ -132,7 +130,6 @@ const LabelsStep = React.memo(
                 onUpdate={(data) => handleUpdate(currentItem.id, data)}
                 onDelete={() => handleDelete(currentItem.id)}
                 onBack={handleBack}
-                onCopyCard={onCopyCard}
               />
             );
           }
@@ -183,7 +180,6 @@ const LabelsStep = React.memo(
                         onSelect={() => handleSelect(item.id)}
                         onDeselect={() => handleDeselect(item.id)}
                         onEdit={() => handleEdit(item.id)}
-                        onCopyCard={onCopyCard}
                       />
                     ))}
                     {placeholder}
@@ -231,14 +227,12 @@ LabelsStep.propTypes = {
   onMove: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onBack: PropTypes.func,
-  onCopyCard: PropTypes.func,
 };
 
 LabelsStep.defaultProps = {
   title: 'common.labels',
   canEdit: true,
   onBack: undefined,
-  onCopyCard: undefined,
 };
 
 export default LabelsStep;

@@ -25,7 +25,6 @@ const Filters = React.memo(
     onLabelUpdate,
     onLabelMove,
     onLabelDelete,
-    // onCopyCard,
   }) => {
     const [t] = useTranslation();
 
@@ -122,7 +121,6 @@ Filters.propTypes = {
   onLabelUpdate: PropTypes.func.isRequired,
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
-  // onCopyCard: PropTypes.func.isRequired,
 };
 
 export default Filters;
