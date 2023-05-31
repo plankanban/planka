@@ -158,7 +158,6 @@ const CardCopyStep = React.memo(
 );
 
 CardCopyStep.propTypes = {
-  id: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   description: PropTypes.string,
   /* eslint-disable react/forbid-prop-types */
@@ -176,7 +175,6 @@ CardCopyStep.propTypes = {
 CardCopyStep.defaultProps = {
   onBack: undefined,
   description: undefined,
-  id: undefined,
 };
 
 export default CardCopyStep;
