@@ -44,24 +44,28 @@ export function* createCard(listId, data, autoOpen) {
   }
 
   // Add labels to card //
-  const arr = [];
-  Object.keys(nextData.labels).map((key) => arr.push(nextData.labels[key].id));
-  yield all(arr?.map((label) => call(addLabelToCard, label, card.id)));
-
+  if (nextData.labels) {
+    const arr = [];
+    Object.keys(nextData.labels).map((key) => arr.push(nextData.labels[key].id));
+    yield all(arr?.map((label) => call(addLabelToCard, label, card.id)));
+  }
   // Add tasks to card //
-  const tasks = [];
-  Object.keys(nextData.tasks)?.map((key) => tasks.push(nextData.tasks[key]));
-  tasks.forEach((task) => {
-    // eslint-disable-next-line no-param-reassign
-    task.id = `local:${task.id}`;
-  });
-
-  yield all(tasks?.map((task) => call(createTask, card.id, task)));
+  if (nextData.tasks) {
+    const tasks = [];
+    Object.keys(nextData.tasks)?.map((key) => tasks.push(nextData.tasks[key]));
+    tasks.forEach((task) => {
+      // eslint-disable-next-line no-param-reassign
+      task.id = `local:${task.id}`;
+    });
+    yield all(tasks?.map((task) => call(createTask, card.id, task)));
+  }
 
   // Add users to card //
-  const users = [];
-  Object.keys(nextData.users)?.map((key) => users.push(nextData.users[key].id));
-  yield all(users?.map((user) => call(addUserToCard, user, card.id)));
+  if (nextData.users) {
+    const users = [];
+    Object.keys(nextData.users)?.map((key) => users.push(nextData.users[key].id));
+    yield all(users?.map((user) => call(addUserToCard, user, card.id)));
+  }
 }
 
 export function* handleCardCreate(card) {
