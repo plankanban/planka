@@ -35,7 +35,7 @@ const CardCopyStep = React.memo(
       attachments: defaultPath.attachments,
       labels: defaultPath.labels,
       users: defaultPath.users,
-      dueDate: defaultPath.dueDate,
+      // dueDate: defaultPath.dueDate,
       ...defaultPath,
     }));
 

@@ -61,7 +61,9 @@ const ActionsStep = React.memo(
     defaultPath.listId = card.listId;
     defaultPath.cardId = card.id;
     defaultPath.name = card.name;
-    defaultPath.dueDate = card.dueDate;
+    if (card.dueDate !== null) {
+      defaultPath.dueDate = card.dueDate;
+    }
     defaultPath.stopwatch = card.stopwatch;
     defaultPath.labels = card.labels;
     defaultPath.boardMemberships = boardMemberships;
