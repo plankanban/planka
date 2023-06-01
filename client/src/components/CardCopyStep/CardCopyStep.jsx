@@ -25,6 +25,11 @@ const CardCopyStep = React.memo(
       });
     }
 
+    if (defaultPath.dueDate === null || defaultPath.dueDate === undefined) {
+      // eslint-disable-next-line no-param-reassign
+      delete defaultPath.dueDate;
+    }
+
     const [path, handleFieldChange] = useForm(() => ({
       projectId: null,
       boardId: null,
@@ -35,7 +40,6 @@ const CardCopyStep = React.memo(
       attachments: defaultPath.attachments,
       labels: defaultPath.labels,
       users: defaultPath.users,
-      // dueDate: defaultPath.dueDate,
       ...defaultPath,
     }));
 

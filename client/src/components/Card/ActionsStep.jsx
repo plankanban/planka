@@ -64,6 +64,12 @@ const ActionsStep = React.memo(
     if (card.dueDate !== null) {
       defaultPath.dueDate = card.dueDate;
     }
+    if (card.dueDate === null || card.dueDate === undefined) {
+      // eslint-disable-next-line no-param-reassign
+      if (defaultPath.dueDate) {
+        delete defaultPath.dueDate;
+      }
+    }
     defaultPath.stopwatch = card.stopwatch;
     defaultPath.labels = card.labels;
     defaultPath.boardMemberships = boardMemberships;
