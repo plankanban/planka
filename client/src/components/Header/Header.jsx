@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { Icon, Menu } from 'semantic-ui-react';
+import { Button, Icon, Menu } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 
 import Paths from '../../constants/Paths';
@@ -61,9 +61,14 @@ const Header = React.memo(
                   canEditProject && styles.itemHoverable,
                   styles.title,
                 )}
-                onClick={handleProjectSettingsClick}
               >
                 {project.name}
+                <Button
+                  className={classNames(styles.actionsButton, styles.target)}
+                  onClick={handleProjectSettingsClick}
+                >
+                  <Icon fitted name="pencil" size="small" />
+                </Button>
               </Menu.Item>
             </Menu.Menu>
           )}
