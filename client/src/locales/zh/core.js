@@ -177,7 +177,7 @@ export default {
       editDescription_title: '编辑描述',
       editEmail_title: '编辑邮箱',
       editPassword_title: '编辑密码',
-      editStopwatch_title: '编辑实践',
+      editStopwatch_title: '编辑时间',
       editTitle_title: '编辑标题',
       editUsername_title: '编辑用户名',
       leaveBoard: '离开面板',
