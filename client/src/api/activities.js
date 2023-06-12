@@ -1,4 +1,5 @@
 import socket from './socket';
+import { transformUser } from './users';
 
 /* Transformers */
 
@@ -13,6 +14,10 @@ const getActivities = (cardId, data, headers) =>
   socket.get(`/cards/${cardId}/actions`, data, headers).then((body) => ({
     ...body,
     items: body.items.map(transformActivity),
+    included: {
+      ...body.included,
+      users: body.included.users.map(transformUser),
+    },
   }));
 
 /* Event handlers */
