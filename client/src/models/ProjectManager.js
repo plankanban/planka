@@ -8,6 +8,9 @@ export default class extends BaseModel {
 
   static fields = {
     id: attr(),
+    createdAt: attr({
+      getDefault: () => new Date(),
+    }),
     projectId: fk({
       to: 'Project',
       as: 'project',

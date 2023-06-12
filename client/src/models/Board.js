@@ -172,7 +172,7 @@ export default class extends BaseModel {
   }
 
   getOrderedMembershipsQuerySet() {
-    return this.memberships.orderBy('id');
+    return this.memberships.orderBy('createdAt');
   }
 
   getOrderedLabelsQuerySet() {

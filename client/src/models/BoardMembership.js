@@ -10,6 +10,9 @@ export default class extends BaseModel {
     id: attr(),
     role: attr(),
     canComment: attr(),
+    createdAt: attr({
+      getDefault: () => new Date(),
+    }),
     boardId: fk({
       to: 'Board',
       as: 'board',

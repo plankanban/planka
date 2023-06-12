@@ -12,6 +12,9 @@ export default class extends BaseModel {
     coverUrl: attr(),
     image: attr(),
     name: attr(),
+    createdAt: attr({
+      getDefault: () => new Date(),
+    }),
     cardId: fk({
       to: 'Card',
       as: 'card',
