@@ -30,7 +30,7 @@ module.exports = {
       id: inputs.record.id,
       deletedAt: null,
     }).set({
-      deletedAt: new Date().toUTCString(),
+      deletedAt: new Date().toISOString(),
     });
 
     if (user) {
