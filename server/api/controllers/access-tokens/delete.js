@@ -6,7 +6,7 @@ module.exports = {
       accessToken,
       deletedAt: null,
     }).set({
-      deletedAt: new Date().toUTCString(),
+      deletedAt: new Date().toISOString(),
     });
 
     return {

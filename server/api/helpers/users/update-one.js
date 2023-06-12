@@ -64,7 +64,7 @@ module.exports = {
     if (!_.isUndefined(values.password)) {
       Object.assign(values, {
         password: bcrypt.hashSync(values.password, 10),
-        passwordChangedAt: new Date().toUTCString(),
+        passwordChangedAt: new Date().toISOString(),
       });
 
       if (Object.keys(values).length === 1) {
