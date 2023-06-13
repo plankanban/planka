@@ -93,7 +93,6 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
         onBlur={handleFieldBlur}
       />
       <div className={styles.controls}>
-        {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
         <Button positive content={t('action.save')} />
       </div>
     </Form>
