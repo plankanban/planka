@@ -63,12 +63,14 @@ const Header = React.memo(
                 )}
               >
                 {project.name}
-                <Button
-                  className={classNames(styles.actionsButton, styles.target)}
-                  onClick={handleProjectSettingsClick}
-                >
-                  <Icon fitted name="pencil" size="small" />
-                </Button>
+                {canEditProject && (
+                  <Button
+                    className={classNames(styles.actionsButton, styles.target)}
+                    onClick={handleProjectSettingsClick}
+                  >
+                    <Icon fitted name="pencil" size="small" />
+                  </Button>
+                )}
               </Menu.Item>
             </Menu.Menu>
           )}
