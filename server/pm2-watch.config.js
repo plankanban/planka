@@ -1,0 +1,1 @@
+./.ci/dev/pm2-watch.config.js

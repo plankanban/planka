@@ -5,7 +5,7 @@
     "build": "react-app-rewired build",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx src config-overrides.js",
-    "start": "react-app-rewired start",
+    "start": "DISABLE_ESLINT_PLUGIN=trues react-app-rewired start",
     "test": "react-app-rewired test"
   },
   "browserslist": {
