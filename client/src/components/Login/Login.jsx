@@ -135,7 +135,9 @@ const Login = React.memo(
                         onDismiss={onMessageDismiss}
                       />
                     )}
-                    <Form size="large" onSubmit={handleSubmit}>
+                    <h1>42pub TeamBoard</h1>
+                    <p>Please use https://board.42.pub/enter</p>
+                    {/* <Form size="large" onSubmit={handleSubmit}>
                       <div className={styles.inputWrapper}>
                         <div className={styles.inputLabel}>{t('common.emailOrUsername')}</div>
                         <Input
@@ -170,7 +172,7 @@ const Login = React.memo(
                         loading={isSubmitting}
                         disabled={isSubmitting}
                       />
-                    </Form>
+                    </Form> */}
                   </div>
                 </div>
               </Grid.Column>
