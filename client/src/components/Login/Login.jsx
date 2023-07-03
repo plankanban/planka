@@ -5,12 +5,14 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Form, Grid, Header, Message } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { fa42Group, faGitlab, faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { faGitlab, faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input } from '../../lib/custom-ui';
 import { Button } from 'semantic-ui-react';
 import { useForm } from '../../hooks';
 import { isUsername } from '../../utils/validator';
+import { ReactComponent as RedmineIcon } from '../../assets/icons/redmine-icon.svg';
+
 
 import Config from "../../constants/Config"
 
@@ -178,9 +180,10 @@ const Login = React.memo(
                     <hr style={{ width: "100%", margin: "120px 0 0 0" }} />
                       <div className={styles.buttonsContainer}>
                       <Button as='a' href={`${Config.SERVER_BASE_URL}/api/oauth/redmine`} className={styles.oauthButton}>
-                        <FontAwesomeIcon icon={fa42Group} style={{ marginRight: '5px' }} />
+                      <RedmineIcon style={{ marginRight: '5px', width: '15px', height: '15px' }} />
                         Войти через 42team
                       </Button>
+
                       <Button as='a' href={`${Config.SERVER_BASE_URL}/api/oauth/gitlab`} className={styles.oauthButton}>
                         <FontAwesomeIcon icon={faGitlab} style={{ marginRight: '5px' }} />
                         Войти через git.hm
