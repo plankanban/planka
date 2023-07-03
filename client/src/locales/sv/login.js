@@ -4,7 +4,7 @@ export default {
       emailOrUsername: 'E-mail eller användarnamn',
       invalidEmailOrUsername: 'Ogiltig e-mail eller användarnamn',
       invalidPassword: 'Ogiltigt lösenord',
-      logInToPlanka: 'Logga in på Planka',
+      logInToPlanka: 'Logga in på TeamBoard',
       noInternetConnection: 'Ingen internetanslutning',
       pageNotFound_title: 'Sidan Kunde Inte Hittas',
       password: 'Lösenord',

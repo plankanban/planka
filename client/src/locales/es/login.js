@@ -4,7 +4,7 @@ export default {
       emailOrUsername: 'Correo o nombre de usuario',
       invalidEmailOrUsername: 'Correo o nombre de usuario incorrecto',
       invalidPassword: 'Contraseña incorrecta',
-      logInToPlanka: 'Iniciar sesión en Planka',
+      logInToPlanka: 'Iniciar sesión en TeamBoard',
       noInternetConnection: 'Sin conexión a internet',
       pageNotFound_title: 'Página no encontrada',
       password: 'Contraseña',

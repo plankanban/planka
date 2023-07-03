@@ -1,11 +1,11 @@
 {
-  "name": "planka-client",
+  "name": "teamboard-client",
   "private": true,
   "scripts": {
     "build": "react-app-rewired build",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx src config-overrides.js",
-    "start": "DISABLE_ESLINT_PLUGIN=trues react-app-rewired start",
+    "start": "DISABLE_ESLINT_PLUGIN=true react-app-rewired start",
     "test": "react-app-rewired test"
   },
   "browserslist": {
@@ -98,6 +98,8 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

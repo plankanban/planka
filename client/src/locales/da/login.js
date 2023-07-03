@@ -4,7 +4,7 @@ export default {
       emailOrUsername: 'E-mail eller brugernavn',
       invalidEmailOrUsername: 'Ugyldig e-mail eller brugernavn',
       invalidPassword: 'Ugyldig løsen',
-      logInToPlanka: 'Log på Planka',
+      logInToPlanka: 'Log på TeamBoard',
       noInternetConnection: 'Ingen forbindelse til internettet',
       pageNotFound_title: 'Side ej fundet',
       password: 'Løsen',

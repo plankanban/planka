@@ -64,4 +64,15 @@
   .wrapper {
     background: #fff;
   }
+
+  .oauthButton {
+    background: white;
+    color: black;
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
 }

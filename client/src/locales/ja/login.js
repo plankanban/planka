@@ -4,7 +4,7 @@ export default {
       emailOrUsername: 'Eメールまたはユーザー名',
       invalidEmailOrUsername: 'Eメールまたはユーザー名が無効',
       invalidPassword: 'パスワードが無効',
-      logInToPlanka: 'Planka にログインする',
+      logInToPlanka: 'TeamBoard にログインする',
       noInternetConnection: 'インターネットに接続されていません。',
       pageNotFound_title: 'ページが見つかりません。',
       password: 'パスワード',
