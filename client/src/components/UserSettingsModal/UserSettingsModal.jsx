@@ -6,7 +6,7 @@ import { Modal, Tab } from 'semantic-ui-react';
 import AccountPane from './AccountPane';
 import PreferencesPane from './PreferencesPane';
 import AboutPane from './AboutPane';
-
+import TelegramPane from './TelegramPane';
 const UserSettingsModal = React.memo(
   ({
     email,
@@ -73,11 +73,15 @@ const UserSettingsModal = React.memo(
         ),
       },
       {
-        menuItem: t('common.aboutPlanka', {
-          context: 'title',
-        }),
-        render: () => <AboutPane />,
+        menuItem: "Telegram",
+        render: () => <TelegramPane />,
       },
+      // {
+      //   menuItem: t('common.aboutPlanka', {
+      //     context: 'title',
+      //   }),
+      //   render: () => <AboutPane />,
+      // },
     ];
 
     return (
