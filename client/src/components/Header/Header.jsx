@@ -76,6 +76,11 @@ const Header = React.memo(
                 <Icon fitted name="users" />
               </Menu.Item>
             )}
+            <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
+              <a href="/user/cards" target="_blank" rel="noopener noreferrer">
+                <Icon fitted name="star" style={{ color: 'yellow' }} />
+              </a>
+            </Menu.Item>
             <NotificationsPopup items={notifications} onDelete={onNotificationDelete}>
               <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
                 <Icon fitted name="bell" />
