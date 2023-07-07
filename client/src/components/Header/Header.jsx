@@ -55,13 +55,7 @@ const Header = React.memo(
               >
                 <Icon fitted name="arrow left" />
               </Menu.Item>
-              <Menu.Item
-                className={classNames(
-                  styles.item,
-                  canEditProject && styles.itemHoverable,
-                  styles.title,
-                )}
-              >
+              <Menu.Item className={classNames(styles.item, styles.title)}>
                 {project.name}
                 {canEditProject && (
                   <Button
