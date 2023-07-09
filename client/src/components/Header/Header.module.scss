@@ -1,4 +1,20 @@
 :global(#app) {
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+    font-size: 15px;
+    line-height: 34px;
+    margin-left: 8px;
+    opacity: 0;
+    padding: 0;
+    width: 34px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
   .item {
     cursor: auto;
     user-select: auto;
@@ -11,6 +27,10 @@
     &:hover {
       background: transparent;
       color: rgba(255, 255, 255, 0.9);
+
+      .target {
+        opacity: 1;
+      }
     }
   }
 
