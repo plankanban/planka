@@ -1,4 +1,20 @@
 :global(#app) {
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+    font-size: 15px;
+    line-height: 34px;
+    margin-left: 8px;
+    opacity: 0;
+    padding: 0;
+    width: 34px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
   .item {
     cursor: auto;
     user-select: auto;
@@ -74,27 +90,5 @@
     background: rgba(0, 0, 0, 0.24);
     display: flex;
     flex: 0 0 auto;
-  }
-
-  .actionsButton {
-    background: none;
-    box-shadow: none;
-    border-radius: 3px;
-    box-sizing: content-box;
-    color: #fff;
-    display: inline-block;
-    text-align: center;
-    margin: 0;
-    min-height: auto;
-    opacity: 0;
-    outline: none;
-    padding: 4px;
-    transition: background 85ms ease;
-    width: 20px;
-    margin-left: 12px;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
   }
 }
