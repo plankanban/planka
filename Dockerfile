@@ -23,9 +23,7 @@ FROM ghcr.io/plankanban/planka:base-latest
 
 RUN apk del vips-dependencies --purge
 
-RUN apk add nano
-
-USER root
+USER node
 WORKDIR /app
 
 COPY --chown=node:node start.sh .
