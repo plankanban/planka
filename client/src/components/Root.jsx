@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { AuthProvider } from 'oidc-react';
 import { Provider } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { ReduxRouter } from '../lib/redux-router';
@@ -8,28 +9,47 @@ import Paths from '../constants/Paths';
 import LoginContainer from '../containers/LoginContainer';
 import CoreContainer from '../containers/CoreContainer';
 import NotFound from './NotFound';
+import entryActions from '../entry-actions';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'photoswipe/dist/photoswipe.css';
 import 'easymde/dist/easymde.min.css';
 import '../lib/custom-ui/styles.css';
-
 import '../styles.module.scss';
+import OidcLoginContainer from '../containers/OidcLoginContainer';
+
+const oidcConfig = {
+  onSignIn: (user) => {
+    // Redirect?
+    entryActions.authenticate(user);
+  },
+  authority: 'https://auth.jjakt.monster/realms/test-realm/',
+  clientId: 'planka-dev',
+  redirectUri: 'http://localhost:3000/OidcLogin',
+};
 
 function Root({ store, history }) {
   return (
-    <Provider store={store}>
-      <ReduxRouter history={history}>
-        <Routes>
-          <Route path={Paths.LOGIN} element={<LoginContainer />} />
-          <Route path={Paths.ROOT} element={<CoreContainer />} />
-          <Route path={Paths.PROJECTS} element={<CoreContainer />} />
-          <Route path={Paths.BOARDS} element={<CoreContainer />} />
-          <Route path={Paths.CARDS} element={<CoreContainer />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </ReduxRouter>
-    </Provider>
+    <AuthProvider
+      onSignIn={oidcConfig.onSignIn}
+      authority={oidcConfig.authority}
+      clientId={oidcConfig.clientId}
+      redirectUri={oidcConfig.redirectUri}
+    >
+      <Provider store={store}>
+        <ReduxRouter history={history}>
+          <Routes>
+            <Route path={Paths.LOGIN} element={<LoginContainer />} />
+            <Route path={Paths.OIDC_LOGIN} element={<OidcLoginContainer />} />
+            <Route path={Paths.ROOT} element={<CoreContainer />} />
+            <Route path={Paths.PROJECTS} element={<CoreContainer />} />
+            <Route path={Paths.BOARDS} element={<CoreContainer />} />
+            <Route path={Paths.CARDS} element={<CoreContainer />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </ReduxRouter>
+      </Provider>
+    </AuthProvider>
   );
 }
 

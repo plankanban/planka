@@ -7,9 +7,13 @@ import { setAccessToken } from '../../../utils/access-token-storage';
 export function* authenticate(data) {
   yield put(actions.authenticate(data));
 
-  let accessToken;
+  let { accessToken } = data;
   try {
-    ({ item: accessToken } = yield call(api.createAccessToken, data));
+    if (accessToken) {
+      // swap
+    } else {
+      ({ item: accessToken } = yield call(api.createAccessToken, data));
+    }
   } catch (error) {
     yield put(actions.authenticate.failure(error));
     return;
