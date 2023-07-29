@@ -66,6 +66,7 @@
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "node-sass": "^8.0.0",
+    "oidc-react": "^3.2.2",
     "photoswipe": "^5.3.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
