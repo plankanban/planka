@@ -36,6 +36,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "move-file": "^2.1.0",
+    "openid-client": "^5.4.3",
     "rimraf": "^3.0.2",
     "sails": "^1.5.3",
     "sails-hook-orm": "^4.0.2",
