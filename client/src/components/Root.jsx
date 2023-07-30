@@ -9,7 +9,6 @@ import Paths from '../constants/Paths';
 import LoginContainer from '../containers/LoginContainer';
 import CoreContainer from '../containers/CoreContainer';
 import NotFound from './NotFound';
-import entryActions from '../entry-actions';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'photoswipe/dist/photoswipe.css';
@@ -19,10 +18,6 @@ import '../styles.module.scss';
 import OidcLoginContainer from '../containers/OidcLoginContainer';
 
 const oidcConfig = {
-  onSignIn: (user) => {
-    // Redirect?
-    entryActions.authenticate(user);
-  },
   authority: 'https://auth.jjakt.monster/realms/test-realm/',
   clientId: 'planka-dev',
   redirectUri: 'http://localhost:3000/OidcLogin',

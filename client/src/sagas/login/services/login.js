@@ -7,10 +7,10 @@ import { setAccessToken } from '../../../utils/access-token-storage';
 export function* authenticate(data) {
   yield put(actions.authenticate(data));
 
-  let { accessToken } = data;
+  let accessToken = data.access_token;
   try {
     if (accessToken) {
-      // swap
+      ({ item: accessToken } = yield call(api.exchangeOidcToken, accessToken));
     } else {
       ({ item: accessToken } = yield call(api.createAccessToken, data));
     }

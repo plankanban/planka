@@ -30,4 +30,9 @@ module.exports.custom = {
 
   attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
   attachmentsUrl: `${process.env.BASE_URL}/attachments`,
+
+  oidcIssuer: process.env.OIDC_ISSUER,
+  oidcAudience: process.env.OIDC_AUDIENCE,
+  oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
+  oidcAdminRoles: process.env.OIDC_ADMIN_ROLES.split(',') || [],
 };
