@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AuthProvider } from 'oidc-react';
 import { Provider } from 'react-redux';
@@ -17,19 +17,12 @@ import '../lib/custom-ui/styles.css';
 import '../styles.module.scss';
 import OidcLoginContainer from '../containers/OidcLoginContainer';
 
-const oidcConfig = {
-  authority: 'https://auth.jjakt.monster/realms/test-realm/',
-  clientId: 'planka-dev',
-  redirectUri: 'http://localhost:3000/OidcLogin',
-};
-
-function Root({ store, history }) {
+function Root({ store, history, config }) {
   return (
     <AuthProvider
-      onSignIn={oidcConfig.onSignIn}
-      authority={oidcConfig.authority}
-      clientId={oidcConfig.clientId}
-      redirectUri={oidcConfig.redirectUri}
+      authority={config.authority}
+      clientId={config.clientId}
+      redirectUri={config.redirectUri}
     >
       <Provider store={store}>
         <ReduxRouter history={history}>
@@ -47,11 +40,11 @@ function Root({ store, history }) {
     </AuthProvider>
   );
 }
-
 Root.propTypes = {
   /* eslint-disable react/forbid-prop-types */
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
 };
 
