@@ -146,8 +146,7 @@ export default {
       subscribeToMyOwnCardsByDefault: 'Ve výchozím nastavení odebírat vlastní karty',
       taskActions_title: 'Akce na úkolu',
       tasks: 'Úkoly',
-      thereIsNoPreviewAvailableForThisAttachment:
-        'Pro tuto přílohu není k dispozici žádný náhled',
+      thereIsNoPreviewAvailableForThisAttachment: 'Pro tuto přílohu není k dispozici žádný náhled',
       time: 'Čas',
       title: 'Titulek',
       userActions_title: 'Akce na uživateli',
