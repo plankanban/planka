@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Menu } from 'semantic-ui-react';
-import { useAuth } from 'oidc-react';
+import { useAuth } from 'react-oidc-context';
 import { usePopup } from '../../lib/popup';
 
 import Paths from '../../constants/Paths';
@@ -41,7 +41,7 @@ const Header = React.memo(
     const UserPopup = usePopup(UserStep, POPUP_PROPS);
 
     const onFullLogout = () => {
-      auth.signOut();
+      auth.signoutSilent();
       onLogout();
     };
 
