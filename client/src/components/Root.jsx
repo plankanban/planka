@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { AuthProvider } from 'oidc-react';
+import { AuthProvider } from 'react-oidc-context';
 import { Provider } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 import { ReduxRouter } from '../lib/redux-router';
@@ -21,8 +21,11 @@ function Root({ store, history, config }) {
   return (
     <AuthProvider
       authority={config.authority}
-      clientId={config.clientId}
-      redirectUri={config.redirectUri}
+      client_id={config.clientId}
+      redirect_uri={config.redirectUri}
+      onSigninCallback={() => {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }}
     >
       <Provider store={store}>
         <ReduxRouter history={history}>

@@ -1,13 +1,13 @@
-import { useAuth } from 'oidc-react';
+import { useAuth } from 'react-oidc-context';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 let isLoggingIn = true;
 const OidcLogin = React.memo(({ onAuthenticate }) => {
   const auth = useAuth();
-  if (isLoggingIn && auth.userData) {
+  if (isLoggingIn && auth.user) {
     isLoggingIn = false;
-    const user = auth.userData;
+    const { user } = auth;
     onAuthenticate(user);
   }
 });
