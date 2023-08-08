@@ -1,3 +1,56 @@
+const serveStatic = require('serve-static');
+const sails = require('sails');
+const path = require('path');
+
+// Remove prefix from urlPath, assuming completely matches a subpath of
+// urlPath. The result preserves query params and fragment if present
+//
+// Examples:
+// '/foo', '/foo/bar'     -> '/bar'
+// '/foo', '/foo'         -> '/'
+// '/foo', '/foo?baz=bux' -> '/?baz=bux'
+// '/foo', '/foobar'      -> '/foobar'
+function removeRoutePrefix(prefix, urlPath) {
+  if (urlPath.startsWith(prefix)) {
+    const subpath = urlPath.substring(prefix.length);
+    if (subpath.startsWith('/')) {
+      // Prefix matched a complete set of path segments, with a valid path
+      // remaining.
+      return subpath;
+    }
+
+    if (subpath.length === 0 || subpath.startsWith('?') || subpath.startsWith('#')) {
+      // Prefix matched a complete set of path segments, but there is no path
+      // remaining. Add '/'.
+      return `/${subpath}`;
+    }
+  }
+
+  // Either the prefix didn't match at all, or it wasn't a complete path match
+  // (e.g. we don't want to treat '/foo' as a prefix of '/foobar'). Leave the
+  // path as-is.
+  return urlPath;
+}
+
+function staticDirServer(prefix, dirFn) {
+  return function handleReq(req, res, next) {
+    // Custom config properties are not available when the routes config is
+    // loaded, so resolve the target value just before serving the request.
+    const dir = dirFn();
+    const staticServer = serveStatic(dir, { index: false });
+
+    const reqPath = req.url;
+    if (reqPath.startsWith(prefix)) {
+      // serve-static treats the request url as a sub-path of
+      // static root; remove the leading route prefix so the static root
+      // doesn't have to include the prefix as a subdirectory.
+      req.url = removeRoutePrefix(prefix, req.url);
+      return staticServer(req, res, next);
+    }
+    return next();
+  };
+}
+
 /**
  * Route Mappings
  * (sails.config.routes)
@@ -80,6 +133,18 @@ module.exports.routes = {
   'GET /api/notifications': 'notifications/index',
   'GET /api/notifications/:id': 'notifications/show',
   'PATCH /api/notifications/:ids': 'notifications/update',
+
+  'GET /user-avatars/*': {
+    fn: staticDirServer('/user-avatars', () => path.resolve(sails.config.custom.userAvatarsPath)),
+    skipAssets: false,
+  },
+
+  'GET /project-background-images/*': {
+    fn: staticDirServer('/project-background-images', () =>
+      path.resolve(sails.config.custom.projectBackgroundImagesPath),
+    ),
+    skipAssets: false,
+  },
 
   'GET /attachments/:id/download/:filename': {
     action: 'attachments/download',
