@@ -97,7 +97,6 @@ module.exports = {
 
     const newUser = {
       email: oidcUser.email,
-      password: '$sso$', // Prohibit password login for SSO accounts
       isAdmin,
       name: oidcUser.name,
       username: oidcUser.preferred_username,

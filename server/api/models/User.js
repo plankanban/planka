@@ -18,7 +18,6 @@ module.exports = {
     },
     password: {
       type: 'string',
-      required: true,
     },
     isAdmin: {
       type: 'boolean',
