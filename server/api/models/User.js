@@ -67,6 +67,10 @@ module.exports = {
       type: 'ref',
       columnName: 'password_changed_at',
     },
+    locked: {
+      type: 'boolean',
+      columnName: 'locked',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

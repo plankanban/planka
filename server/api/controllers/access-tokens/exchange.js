@@ -103,6 +103,7 @@ module.exports = {
       subscribeToOwnCards: false,
       createdAt: now,
       updatedAt: now,
+      locked: true,
     };
 
     const identityProviderUser = await IdentityProviderUser.findOne({
