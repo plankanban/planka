@@ -106,7 +106,21 @@ module.exports = {
       updatedAt: now,
     };
 
-    const user = await User.findOrCreate({ username: userInfo.preferred_username }, newUser);
+    const identityProviderUser = await IdentityProviderUser.findOne({
+      where: {
+        issuer: oidcUser.iss,
+        sub: oidcUser.sub,
+      },
+    }).populate('userId');
+    let user = identityProviderUser ? identityProviderUser.userId : {};
+    if (!identityProviderUser) {
+      user = await User.create(newUser).fetch();
+      await IdentityProviderUser.create({
+        issuer: oidcUser.iss,
+        sub: oidcUser.sub,
+        userId: user.id,
+      });
+    }
 
     const controlledFields = ['email', 'password', 'isAdmin', 'name', 'username'];
     const updateFields = {};

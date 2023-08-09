@@ -97,6 +97,10 @@ module.exports = {
       via: 'userId',
       through: 'CardMembership',
     },
+    identityProviders: {
+      collection: 'IdentityProviderUser',
+      via: 'userId',
+    },
   },
 
   tableName: 'user_account',
