@@ -107,7 +107,10 @@ const List = React.memo(
                 onClick={handleHeaderClick}
               >
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
-                  <div className={styles.headerName}>{name}</div>
+                  <div className={styles.headerName}>
+                    {name}
+                    {cardIds.length}
+                  </div>
                 </NameEdit>
                 {isPersisted && canEdit && (
                   <ActionsPopup
