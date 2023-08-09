@@ -3,6 +3,8 @@ module.exports.up = (knex) =>
     /* Columns */
 
     table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
+    table.timestamp('created_at', true);
+    table.timestamp('updated_at', true);
 
     table
       .bigInteger('user_id')
