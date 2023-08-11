@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom/client';
 import store from './store';
 import history from './history';
 import Root from './components/Root';
-// import appConfig from './api/appconfig';
 import './i18n';
 
 fetch('http://localhost:1337/api/appconfig').then((response) => {
