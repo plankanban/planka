@@ -17,6 +17,10 @@ fullnameOverride: ""
 # Generate a secret using openssl rand -base64 45
 secretkey: ""
 
+# Base url for Planka. Will override `ingress.hosts[0].host`
+# Defaults to `http://localhost:3000` if ingress is disabled.
+baseUrl: ""
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
@@ -50,6 +54,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
+      # Used to set planka BASE_URL if no `baseurl` is provided.
     - host: planka.local
       paths:
         - path: /
