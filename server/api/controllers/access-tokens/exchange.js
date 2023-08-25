@@ -10,7 +10,7 @@ const Errors = {
 };
 
 const jwks = jwksClient({
-  jwksUri: 'https://auth.jjakt.monster/realms/test-realm/protocol/openid-connect/certs',
+  jwksUri: sails.config.custom.oidcJwksUri,
   requestHeaders: {}, // Optional
   timeout: 30000, // Defaults to 30s
 });
@@ -27,7 +27,6 @@ const getJwtVerificationOptions = () => {
 };
 
 const validateAndDecodeToken = async (accessToken, options) => {
-  sails.log.info(accessToken);
   const keys = await jwks.getSigningKeys();
   let validToken = {};
 
@@ -64,7 +63,6 @@ const getUserInfo = async (accessToken, options) => {
 };
 const mergeUserData = (validToken, userInfo) => {
   const oidcUser = { ...validToken, ...userInfo };
-  sails.log.info(oidcUser);
   return oidcUser;
 };
 module.exports = {

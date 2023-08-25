@@ -37,4 +37,6 @@ module.exports.custom = {
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES.split(',') || [],
   oidcredirectUri: process.env.OIDC_REDIRECT_URI,
+  oidcJwksUri: process.env.OIDC_JWKS_URI,
+  oidcScopes: process.env.OIDC_SCOPES || 'openid',
 };

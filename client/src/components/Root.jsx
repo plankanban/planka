@@ -23,6 +23,7 @@ function Root({ store, history, config }) {
       authority={config.authority}
       client_id={config.clientId}
       redirect_uri={config.redirectUri}
+      scope={config.scopes}
       onSigninCallback={() => {
         window.history.replaceState({}, document.title, window.location.pathname);
       }}
