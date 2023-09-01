@@ -5,7 +5,11 @@ const { getRemoteAddress } = require('../../../utils/remoteAddress');
 
 const Errors = {
   INVALID_TOKEN: {
-    invalidToken: 'Invalid email or username',
+    invalidToken: 'Access Token is invalid',
+  },
+  MISSING_VALUES: {
+    missingValues:
+      'Unable to retrieve required values. Verify the access token or UserInfo endpoint has email, username and name claims',
   },
 };
 
@@ -54,6 +58,9 @@ const validateAndDecodeToken = async (accessToken, options) => {
 };
 
 const getUserInfo = async (accessToken, options) => {
+  if (sails.config.custom.oidcSkipUserInfo) {
+    return {};
+  }
   const issuer = await openidClient.Issuer.discover(options.issuer);
   const oidcClient = new issuer.Client({
     client_id: 'irrelevant',
@@ -88,6 +95,9 @@ module.exports = {
     invalidToken: {
       responseType: 'unauthorized',
     },
+    missingValues: {
+      responseType: 'unauthorized',
+    },
   },
 
   async fn(inputs) {
@@ -114,6 +124,11 @@ module.exports = {
       updatedAt: now,
       locked: true,
     };
+
+    if (!newUser.email || !newUser.username || !newUser.name) {
+      sails.log.error(Errors.MISSING_VALUES.missingValues);
+      throw Errors.MISSING_VALUES;
+    }
 
     const identityProviderUser = await IdentityProviderUser.findOne({
       where: {
