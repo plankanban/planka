@@ -65,6 +65,17 @@ const mergeUserData = (validToken, userInfo) => {
   const oidcUser = { ...validToken, ...userInfo };
   return oidcUser;
 };
+const getOrCreateUser = async (newUser) => {
+  const user = await User.findOne({
+    where: {
+      username: newUser.username,
+    },
+  });
+  if (user) {
+    return user;
+  }
+  return User.create(newUser).fetch();
+};
 module.exports = {
   inputs: {
     token: {
@@ -110,9 +121,10 @@ module.exports = {
         sub: oidcUser.sub,
       },
     }).populate('userId');
+
     let user = identityProviderUser ? identityProviderUser.userId : {};
     if (!identityProviderUser) {
-      user = await User.create(newUser).fetch();
+      user = await getOrCreateUser(newUser);
       await IdentityProviderUser.create({
         issuer: oidcUser.iss,
         sub: oidcUser.sub,
