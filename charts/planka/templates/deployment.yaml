@@ -64,7 +64,9 @@ spec:
                   name: planka-postgresql-svcbind-custom-user
                   key: uri
             - name: BASE_URL
-              {{- if .Values.ingress.enabled }}
+              {{- if .Values.baseUrl }}
+              value: {{ .Values.baseUrl }}
+              {{- else if .Values.ingress.enabled }}
               value: {{ printf "https://%s" (first .Values.ingress.hosts).host }}
               {{- else }}
               value: http://localhost:3000
