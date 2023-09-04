@@ -9,7 +9,10 @@
  */
 
 module.exports.routes = {
+  'GET /api/appconfig': 'appconfig/index',
+
   'POST /api/access-tokens': 'access-tokens/create',
+  'POST /api/access-tokens/exchange': 'access-tokens/exchange',
   'DELETE /api/access-tokens/me': 'access-tokens/delete',
 
   'GET /api/users': 'users/index',

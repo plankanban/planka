@@ -1,5 +1,6 @@
 import isEmail from 'validator/lib/isEmail';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useAuth } from 'react-oidc-context';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -48,6 +49,7 @@ const createMessage = (error) => {
 
 const Login = React.memo(
   ({ defaultData, isSubmitting, error, onAuthenticate, onMessageDismiss }) => {
+    const auth = useAuth();
     const [t] = useTranslation();
     const wasSubmitting = usePrevious(isSubmitting);
 
@@ -171,6 +173,9 @@ const Login = React.memo(
                         disabled={isSubmitting}
                       />
                     </Form>
+                    <Form.Button type="button" onClick={() => auth.signinRedirect()}>
+                      Log in with SSO
+                    </Form.Button>
                   </div>
                 </div>
               </Grid.Column>

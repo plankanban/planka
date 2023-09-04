@@ -18,7 +18,6 @@ module.exports = {
     },
     password: {
       type: 'string',
-      required: true,
     },
     isAdmin: {
       type: 'boolean',
@@ -68,6 +67,10 @@ module.exports = {
       type: 'ref',
       columnName: 'password_changed_at',
     },
+    locked: {
+      type: 'boolean',
+      columnName: 'locked',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -96,6 +99,10 @@ module.exports = {
       collection: 'Card',
       via: 'userId',
       through: 'CardMembership',
+    },
+    identityProviders: {
+      collection: 'IdentityProviderUser',
+      via: 'userId',
     },
   },
 
