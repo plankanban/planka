@@ -11,10 +11,11 @@ import pl from './pl';
 import ru from './ru';
 import sk from './sk';
 import sv from './sv';
+import tr from './tr';
 import uz from './uz';
 import zh from './zh';
 
-const locales = [cs, da, de, en, es, fr, it, ja, ko, pl, ru, sk, sv, uz, zh];
+const locales = [cs, da, de, en, es, fr, it, ja, ko, pl, ru, sk, sv, tr, uz, zh];
 
 export default locales;
 
