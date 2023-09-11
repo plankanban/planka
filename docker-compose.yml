@@ -24,6 +24,12 @@ services:
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=notsecretkey
 
+      # Can be removed after installation
+      - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
+      - DEFAULT_ADMIN_PASSWORD=demo
+      - DEFAULT_ADMIN_NAME=Demo Demo
+      - DEFAULT_ADMIN_USERNAME=demo
+
       # related: https://github.com/knex/knex/issues/2354
       # As knex does not pass query parameters from the connection string we
       # have to use environment variables in order to pass the desired values, e.g.

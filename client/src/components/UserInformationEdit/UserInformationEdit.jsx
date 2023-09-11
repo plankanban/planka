@@ -1,4 +1,5 @@
 import { dequal } from 'dequal';
+import omit from 'lodash/omit';
 import pickBy from 'lodash/pickBy';
 import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
@@ -9,7 +10,7 @@ import { useForm } from '../../hooks';
 
 import styles from './UserInformationEdit.module.scss';
 
-const UserInformationEdit = React.memo(({ defaultData, onUpdate }) => {
+const UserInformationEdit = React.memo(({ defaultData, isNameEditable, onUpdate }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange] = useForm(() => ({
@@ -32,13 +33,17 @@ const UserInformationEdit = React.memo(({ defaultData, onUpdate }) => {
   const nameField = useRef(null);
 
   const handleSubmit = useCallback(() => {
-    if (!cleanData.name) {
-      nameField.current.select();
-      return;
-    }
+    if (isNameEditable) {
+      if (!cleanData.name) {
+        nameField.current.select();
+        return;
+      }
 
-    onUpdate(cleanData);
-  }, [onUpdate, cleanData]);
+      onUpdate(cleanData);
+    } else {
+      onUpdate(omit(cleanData, 'name'));
+    }
+  }, [isNameEditable, onUpdate, cleanData]);
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -48,6 +53,7 @@ const UserInformationEdit = React.memo(({ defaultData, onUpdate }) => {
         ref={nameField}
         name="name"
         value={data.name}
+        disabled={!isNameEditable}
         className={styles.field}
         onChange={handleFieldChange}
       />
@@ -74,6 +80,7 @@ const UserInformationEdit = React.memo(({ defaultData, onUpdate }) => {
 
 UserInformationEdit.propTypes = {
   defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  isNameEditable: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
 
