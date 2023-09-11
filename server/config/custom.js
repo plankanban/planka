@@ -40,4 +40,6 @@ module.exports.custom = {
   oidcJwksUri: process.env.OIDC_JWKS_URI,
   oidcScopes: process.env.OIDC_SCOPES || 'openid profile email',
   oidcSkipUserInfo: process.env.OIDC_SKIP_USER_INFO === 'true',
+
+  defaultAdminEmail: process.env.DEFAULT_ADMIN_EMAIL,
 };

@@ -61,6 +61,10 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
+    if (user.email === sails.config.custom.defaultAdminEmail) {
+      throw Errors.USER_NOT_FOUND; // Forbidden
+    }
+
     if (
       inputs.id === currentUser.id &&
       !bcrypt.compareSync(inputs.currentPassword, user.password)
