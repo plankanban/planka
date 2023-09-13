@@ -1,11 +1,11 @@
-name: Build and push Docker DEV image arm
+name: Build and push Docker DEV image
 
 on:
   push:
     branches: [master]
 
 jobs:
-  build-and-push-docker-image-dev-arm:
+  build-and-push-docker-image-dev:
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/arm64,linux/arm/v7
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
             ghcr.io/plankanban/planka:dev
