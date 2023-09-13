@@ -6,7 +6,7 @@ on:
 
 jobs:
   build-and-push-docker-image-dev-amd64:
-    runs-on: [self-hosted, ubuntu-latest]
+    runs-on: [self-hosted]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
