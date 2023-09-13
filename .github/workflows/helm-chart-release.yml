@@ -13,7 +13,7 @@ jobs:
     # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
       contents: write
-    runs-on: [self-hosted]
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
