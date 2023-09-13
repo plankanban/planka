@@ -13,7 +13,7 @@ env:
 
 jobs:
   build-and-push-docker-base-image:
-    runs-on: [self-hosted]
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
