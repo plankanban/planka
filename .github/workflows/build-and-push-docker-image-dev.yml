@@ -1,18 +1,11 @@
-name: Build and push Docker base image
+name: Build and push Docker DEV image
 
 on:
   push:
-    paths:
-      - ./Dockerfile.base
-    branches:
-      - master
-  workflow_dispatch:
-
-env:
-  ALPINE_VERSION: 3.16
+    branches: [master]
 
 jobs:
-  build-and-push-docker-base-image:
+  build-and-push-docker-image-dev:
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -36,9 +29,6 @@ jobs:
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
-          file: Dockerfile.base
-          build-args: ALPINE_VERSION=${{ env.ALPINE_VERSION }}
           push: true
           tags: |
-            ghcr.io/plankanban/planka:base-latest
-            ghcr.io/plankanban/planka:base-${{ env.ALPINE_VERSION }}
+            ghcr.io/plankanban/planka:dev

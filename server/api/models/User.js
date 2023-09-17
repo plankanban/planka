@@ -114,6 +114,7 @@ module.exports = {
       avatarUrl:
         this.avatar &&
         `${sails.config.custom.userAvatarsUrl}/${this.avatar.dirname}/square-100.${this.avatar.extension}`,
+      isLocked: this.email === sails.config.custom.defaultAdminEmail,
     };
   },
 };

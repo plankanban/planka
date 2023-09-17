@@ -17,6 +17,7 @@ const Item = React.memo(
     organization,
     phone,
     isAdmin,
+    isLocked,
     emailUpdateForm,
     passwordUpdateForm,
     usernameUpdateForm,
@@ -46,7 +47,7 @@ const Item = React.memo(
         <Table.Cell>{username || '-'}</Table.Cell>
         <Table.Cell>{email}</Table.Cell>
         <Table.Cell>
-          <Radio toggle checked={isAdmin} onChange={handleIsAdminChange} />
+          <Radio toggle checked={isAdmin} disabled={isLocked} onChange={handleIsAdminChange} />
         </Table.Cell>
         <Table.Cell textAlign="right">
           <ActionsPopup
@@ -57,6 +58,7 @@ const Item = React.memo(
               organization,
               phone,
               isAdmin,
+              isLocked,
               emailUpdateForm,
               passwordUpdateForm,
               usernameUpdateForm,
@@ -88,6 +90,7 @@ Item.propTypes = {
   organization: PropTypes.string,
   phone: PropTypes.string,
   isAdmin: PropTypes.bool.isRequired,
+  isLocked: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   emailUpdateForm: PropTypes.object.isRequired,
   passwordUpdateForm: PropTypes.object.isRequired,
