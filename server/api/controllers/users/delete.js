@@ -26,6 +26,10 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
+    if (user.email === sails.config.custom.defaultAdminEmail) {
+      throw Errors.USER_NOT_FOUND; // Forbidden
+    }
+
     user = await sails.helpers.users.deleteOne.with({
       record: user,
       request: this.req,
