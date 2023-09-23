@@ -24,6 +24,7 @@ There are 2 types of installation:
 - [Without Docker](https://docs.planka.cloud/docs/installl-planka/Debian%20&%20Ubuntu) ([for Windows](https://docs.planka.cloud/docs/installl-planka/Windows))
 - [Dockerized](https://docs.planka.cloud/docs/installl-planka/Docker%20Compose)
 - [Automated installation](https://github.com/plankanban/planka-installer)
+
 For configuration, please see the [configuration section](https://docs.planka.cloud/docs/category/configuration).
 
 ## Contact
