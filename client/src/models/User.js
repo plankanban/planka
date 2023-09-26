@@ -50,6 +50,9 @@ export default class extends BaseModel {
     isAdmin: attr({
       getDefault: () => false,
     }),
+    isLocked: attr({
+      getDefault: () => false,
+    }),
     isAvatarUpdating: attr({
       getDefault: () => false,
     }),

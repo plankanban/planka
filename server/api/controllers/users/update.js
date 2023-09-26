@@ -67,6 +67,13 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
+    if (user.email === sails.config.custom.defaultAdminEmail) {
+      /* eslint-disable no-param-reassign */
+      delete inputs.isAdmin;
+      delete inputs.name;
+      /* eslint-enable no-param-reassign */
+    }
+
     const values = {
       ..._.pick(inputs, [
         'isAdmin',
