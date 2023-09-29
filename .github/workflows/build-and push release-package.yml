@@ -1,0 +1,57 @@
+name: Build and publish release package
+
+on:
+  release:
+    types: [created]
+
+
+jobs:
+  build-and-publish-release-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Workflow install pnpm
+        run: npm install pnpm -g
+
+      - name: Client install dependencies
+        run: pnpm install
+
+      - name: Server install dependencies
+        run: pnpm install
+
+      - name: Server include into dist
+        run: mv server/ dist/
+
+      - name: Client build production
+        run: |
+          npm run build
+        working-directory: ./client
+
+      - name: Client include into dist
+        run: |
+          mv build/index.html ../dist/views/index.ejs
+          mv build/* ../dist/public/
+        working-directory: ./client
+
+      - name: Dist include README.md SECURITY.md LICENSE start.sh
+        run: mv README.md SECURITY.md LICENSE start.sh dist/
+
+      - name: Dist Remove node modules
+        run: rm -R dist/node_modules
+
+      - name: Dist create .zip file
+        run: |
+          mv dist/ planka/
+          zip -r planka-prebuild-${{ github.event.release.tag_name }}.zip planka
+
+      - name: Dist upload assets
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} planka-prebuild-${{ github.event.release.tag_name }}.zip
+        env:
+          GH_TOKEN: ${{ github.token }}
