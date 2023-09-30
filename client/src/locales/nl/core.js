@@ -1,10 +1,10 @@
 export default {
   format: {
     date: 'd-M-yyyy',
-    time: 'p',
+    time: 'HH:mm',
     dateTime: '$t(format:date) $t(format:time)',
     longDate: 'd MMM',
-    longDateTime: "d MMMM 'om' p",
+    longDateTime: "d MMMM 'om' HH:mm",
   },
 
   translation: {
