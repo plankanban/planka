@@ -16,7 +16,7 @@ import uz from './uz';
 import zh from './zh';
 import he from './he';
 
-const locales = [cs, da, de, en, es, fr, it, ja, ko, pl, ru, sk, sv, tr, uz, zh,he];
+const locales = [cs, da, de, en, es, fr, it, ja, ko, pl, ru, sk, sv, tr, uz, zh, he];
 
 export default locales;
 
