@@ -128,6 +128,7 @@ const DueDateEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose })
         </Form>
         <Button
           negative
+          dir="rtl"
           content={t('action.remove')}
           className={styles.deleteButton}
           onClick={handleClearClick}

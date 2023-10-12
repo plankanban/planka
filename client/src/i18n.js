@@ -33,10 +33,10 @@ i18n.dateFns = {
 
 i18n.on('languageChanged', () => {
   if (i18n.resolvedLanguage === 'he' || i18n.resolvedLanguage === 'ar') {
-    document.documentElement.setAttribute('dir', 'rtl');
+    // document.documentElement.setAttribute('dir', 'rtl');
     import('./components/semantic.rtl.min.css');
   } else {
-    document.documentElement.setAttribute('dir', 'ltr');
+    // document.documentElement.setAttribute('dir', 'ltr');
   }
 
   setDefaultLocale(i18n.resolvedLanguage);

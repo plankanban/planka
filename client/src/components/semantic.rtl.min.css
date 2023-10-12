@@ -21,22 +21,26 @@
     -webkit-box-sizing: inherit;
     box-sizing: inherit
 }
+*{
+  direction: rtl;
+}
 
 html {
     -webkit-box-sizing: border-box;
-    box-sizing: border-box
+    box-sizing: border-box;
+
 }
 
 input[type=email],input[type=password],input[type=search],input[type=text] {
     -webkit-appearance: none;
-    -moz-appearance: none
+    -moz-appearance: none;
 }
 
 /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */
 html {
     line-height: 1.15;
     -ms-text-size-adjust: 100%;
-    -webkit-text-size-adjust: 100%
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -146,7 +150,8 @@ button,input,optgroup,select,textarea {
     font-family: sans-serif;
     font-size: 100%;
     line-height: 1.15;
-    margin: 0
+    margin: 0;
+    text-align: right !important;
 }
 
 button,input {
@@ -4062,8 +4067,10 @@ body .ui.inverted::-webkit-scrollbar-thumb:hover {
 
 .ui.negative.button {
     -webkit-box-shadow: 0 0 0 0 rgba(34,36,38,.15) inset;
-    box-shadow: 0 0 0 0 rgba(34,36,38,.15) inset
+    box-shadow: 0 0 0 0 rgba(34,36,38,.15) inset;
 }
+
+
 
 .ui.negative.button:hover,.ui.negative.buttons .button:hover {
     background-color: #d01919;
@@ -38936,7 +38943,7 @@ ol.ui.list li[value]:before {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    margin-right: auto!important
+    margin-left: auto!important
 }
 
 .ui.menu .right.item::before,.ui.menu .right.menu>.item::before {
@@ -52722,6 +52729,7 @@ a.ui.nag {
     transform: translate3d(0,100%,0)
 }
 
+
 .pushable {
     height: 100%;
     overflow-x: hidden;
@@ -55471,3 +55479,4 @@ body.pushable>.pusher {
         background-color: #fcfcfd
     }
 }
+
