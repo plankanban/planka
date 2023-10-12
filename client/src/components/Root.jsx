@@ -16,6 +16,7 @@ import 'easymde/dist/easymde.min.css';
 import '../lib/custom-ui/styles.css';
 import '../styles.module.scss';
 import OidcLoginContainer from '../containers/OidcLoginContainer';
+import './semantic.rtl.min.css';
 
 function Root({ store, history, config }) {
   return (

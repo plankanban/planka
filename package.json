@@ -58,7 +58,8 @@
   "dependencies": {
     "concurrently": "^7.6.0",
     "husky": "^8.0.2",
-    "lint-staged": "^13.0.3"
+    "lint-staged": "^13.0.3",
+    "semantic-ui-css": "^2.5.0"
   },
   "devDependencies": {
     "eslint": "^8.28.0",
