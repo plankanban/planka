@@ -70,7 +70,6 @@
     "photoswipe": "^5.3.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-app-rewire-svgr": "^1.2.0",
     "react-app-rewired": "^2.2.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-datepicker": "^4.8.0",
