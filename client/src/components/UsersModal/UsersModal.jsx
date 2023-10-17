@@ -111,6 +111,7 @@ const UsersModal = React.memo(
                   phone={item.phone}
                   isAdmin={item.isAdmin}
                   isLocked={item.isLocked}
+                  isLockedAdmin={item.isLockedAdmin}
                   emailUpdateForm={item.emailUpdateForm}
                   passwordUpdateForm={item.passwordUpdateForm}
                   usernameUpdateForm={item.usernameUpdateForm}

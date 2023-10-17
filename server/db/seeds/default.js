@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const buildData = () => {
   const data = {
     isAdmin: true,
+    isSso: false,
   };
 
   if (process.env.DEFAULT_ADMIN_PASSWORD) {

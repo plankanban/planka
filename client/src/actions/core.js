@@ -1,6 +1,7 @@
 import ActionTypes from '../constants/ActionTypes';
 
 const initializeCore = (
+  config,
   user,
   board,
   users,
@@ -20,6 +21,7 @@ const initializeCore = (
 ) => ({
   type: ActionTypes.CORE_INITIALIZE,
   payload: {
+    config,
     user,
     board,
     users,

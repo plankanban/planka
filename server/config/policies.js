@@ -23,7 +23,7 @@ module.exports.policies = {
 
   'projects/create': ['is-authenticated', 'is-admin'],
 
+  'show-config': true,
   'access-tokens/create': true,
   'access-tokens/exchange': true,
-  'appconfig/index': true,
 };

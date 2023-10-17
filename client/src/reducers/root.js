@@ -1,35 +1,33 @@
-import { getAccessToken } from '../utils/access-token-storage';
 import ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
-  accessToken: getAccessToken(),
-  userId: null,
+  isInitializing: true,
+  config: null,
 };
 
 // eslint-disable-next-line default-param-last
 export default (state = initialState, { type, payload }) => {
   switch (type) {
+    case ActionTypes.LOGIN_INITIALIZE:
+      return {
+        ...state,
+        isInitializing: false,
+        config: payload.config,
+      };
     case ActionTypes.AUTHENTICATE__SUCCESS:
     case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
       return {
         ...state,
-        accessToken: payload.accessToken,
+        isInitializing: true,
       };
-    case ActionTypes.SOCKET_RECONNECT_HANDLE:
     case ActionTypes.CORE_INITIALIZE:
       return {
         ...state,
-        userId: payload.user.id,
+        isInitializing: false,
+        ...(payload.config && {
+          config: payload.config,
+        }),
       };
-    case ActionTypes.USER_PASSWORD_UPDATE__SUCCESS:
-      if (payload.accessToken) {
-        return {
-          ...state,
-          accessToken: payload.accessToken,
-        };
-      }
-
-      return state;
     default:
       return state;
   }

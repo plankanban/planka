@@ -10,6 +10,9 @@ const Errors = {
   INVALID_PASSWORD: {
     invalidPassword: 'Invalid password',
   },
+  USE_SINGLE_SIGN_ON: {
+    useSingleSignOn: 'Use single sign-on',
+  },
 };
 
 const emailOrUsernameValidator = (value) =>
@@ -37,12 +40,19 @@ module.exports = {
     invalidPassword: {
       responseType: 'unauthorized',
     },
+    useSingleSignOn: {
+      responseType: 'forbidden',
+    },
   },
 
   async fn(inputs) {
     const remoteAddress = getRemoteAddress(this.req);
 
     const user = await sails.helpers.users.getOneByEmailOrUsername(inputs.emailOrUsername);
+
+    if (user.isSso) {
+      throw Errors.USE_SINGLE_SIGN_ON;
+    }
 
     if (!user) {
       sails.log.warn(
