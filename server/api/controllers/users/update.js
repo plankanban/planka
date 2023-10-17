@@ -72,6 +72,8 @@ module.exports = {
       delete inputs.isAdmin;
       delete inputs.name;
       /* eslint-enable no-param-reassign */
+    } else if (user.isSso) {
+      delete inputs.name; // eslint-disable-line no-param-reassign
     }
 
     const values = {

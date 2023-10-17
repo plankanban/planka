@@ -1,13 +1,22 @@
-import { call, put, take } from 'redux-saga/effects';
+import { apply, call, put, select, take } from 'redux-saga/effects';
 
 import request from '../request';
 import requests from '../requests';
+import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import i18n from '../../../i18n';
+import { createOidcManager } from '../../../utils/oidc-manager';
 import { removeAccessToken } from '../../../utils/access-token-storage';
 
 export function* initializeCore() {
+  const currentConfig = yield select(selectors.selectConfig); // TODO: add boolean selector?
+
+  let config;
+  if (!currentConfig) {
+    ({ item: config } = yield call(api.getConfig)); // TODO: handle error
+  }
+
   const {
     user,
     board,
@@ -32,6 +41,7 @@ export function* initializeCore() {
 
   yield put(
     actions.initializeCore(
+      config,
       user,
       board,
       users,
@@ -71,6 +81,16 @@ export function* logout(invalidateAccessToken = true) {
 
     try {
       yield call(request, api.deleteCurrentAccessToken);
+    } catch (error) {} // eslint-disable-line no-empty
+  }
+
+  const oidcConfig = yield select(selectors.selectOidcConfig);
+
+  if (oidcConfig) {
+    const oidcManager = createOidcManager(oidcConfig);
+
+    try {
+      yield apply(oidcManager, oidcManager.logout);
     } catch (error) {} // eslint-disable-line no-empty
   }
 

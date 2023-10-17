@@ -43,15 +43,12 @@ export default class extends BaseModel {
     organization: attr(),
     language: attr(),
     subscribeToOwnCards: attr(),
+    isAdmin: attr(),
+    isLocked: attr(),
+    isLockedAdmin: attr(),
+    deletedAt: attr(),
     createdAt: attr({
       getDefault: () => new Date(),
-    }),
-    deletedAt: attr(),
-    isAdmin: attr({
-      getDefault: () => false,
-    }),
-    isLocked: attr({
-      getDefault: () => false,
     }),
     isAvatarUpdating: attr({
       getDefault: () => false,
