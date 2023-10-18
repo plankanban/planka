@@ -50,15 +50,15 @@ module.exports = {
 
     const user = await sails.helpers.users.getOneByEmailOrUsername(inputs.emailOrUsername);
 
-    if (user.isSso) {
-      throw Errors.USE_SINGLE_SIGN_ON;
-    }
-
     if (!user) {
       sails.log.warn(
         `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
       );
       throw Errors.INVALID_EMAIL_OR_USERNAME;
+    }
+
+    if (user.isSso) {
+      throw Errors.USE_SINGLE_SIGN_ON;
     }
 
     if (!bcrypt.compareSync(inputs.password, user.password)) {
