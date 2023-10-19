@@ -11,7 +11,7 @@ module.exports = {
   },
 
   exits: {
-    invalidToken: {},
+    invalidCodeOrNonce: {},
     missingValues: {},
     emailAlreadyInUse: {},
     usernameAlreadyInUse: {},
@@ -23,14 +23,14 @@ module.exports = {
     let userInfo;
     try {
       const tokenSet = await client.callback(
-        `${sails.config.custom.baseUrl}/oidc-callback`,
+        sails.config.custom.oidcRedirectUri,
         { code: inputs.code },
         { nonce: inputs.nonce },
       );
       userInfo = await client.userinfo(tokenSet);
     } catch (e) {
       sails.log.warn(`Error while exchanging OIDC code: ${e}`);
-      throw 'invalidToken';
+      throw 'invalidCodeOrNonce';
     }
 
     if (!userInfo.email || !userInfo.name) {
@@ -73,7 +73,7 @@ module.exports = {
     } else {
       // If no IDP/User mapping exists, search for the user by email.
       user = await sails.helpers.users.getOne({
-        email: values.email,
+        email: values.email.toLowerCase(),
       });
 
       // Otherwise, create a new user.

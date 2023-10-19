@@ -29,19 +29,22 @@ export function* authenticate(data) {
   yield put(actions.authenticate.success(accessToken));
 }
 
-export function* authenticateWithOidc() {
+export function* authenticateUsingOidc() {
   const oidcConfig = yield select(selectors.selectOidcConfig);
 
   const nonce = nanoid();
   window.sessionStorage.setItem('oidc-nonce', nonce);
-  window.location.replace(`${oidcConfig.authorizationUrl}&nonce=${encodeURIComponent(nonce)}`);
+  window.location.href = `${oidcConfig.authorizationUrl}&nonce=${encodeURIComponent(nonce)}`;
 }
 
-export function* authenticateWithOidcCallback() {
+export function* authenticateUsingOidcCallback() {
   const params = new URLSearchParams(window.location.hash.substring(1));
+
+  yield put(replace(Paths.LOGIN));
+
   if (params.get('error') !== null) {
     yield put(
-      actions.authenticateWithOidc.failure(
+      actions.authenticateUsingOidc.failure(
         new Error(
           `OIDC Authorization error: ${params.get('error')}: ${params.get('error_description')}`,
         ),
@@ -53,7 +56,7 @@ export function* authenticateWithOidcCallback() {
   const nonce = window.sessionStorage.getItem('oidc-nonce');
   if (nonce === null) {
     yield put(
-      actions.authenticateWithOidc.failure(
+      actions.authenticateUsingOidc.failure(
         new Error('Unable to process OIDC response: no nonce issued'),
       ),
     );
@@ -63,29 +66,27 @@ export function* authenticateWithOidcCallback() {
   const code = params.get('code');
   if (code === null) {
     yield put(
-      actions.authenticateWithOidc.failure(new Error('Invalid OIDC response: no code parameter')),
+      actions.authenticateUsingOidc.failure(new Error('Invalid OIDC response: no code parameter')),
     );
     return;
   }
 
   window.sessionStorage.removeItem('oidc-nonce');
 
-  yield put(replace(Paths.LOGIN));
-
   if (code !== null) {
     let accessToken;
     try {
-      ({ item: accessToken } = yield call(api.exchangeToAccessToken, {
+      ({ item: accessToken } = yield call(api.exchangeForAccessTokenUsingOidc, {
         code,
         nonce,
       }));
     } catch (error) {
-      yield put(actions.authenticateWithOidc.failure(error));
+      yield put(actions.authenticateUsingOidc.failure(error));
       return;
     }
 
     yield call(setAccessToken, accessToken);
-    yield put(actions.authenticateWithOidc.success(accessToken));
+    yield put(actions.authenticateUsingOidc.success(accessToken));
   }
 }
 
@@ -96,7 +97,7 @@ export function* clearAuthenticateError() {
 export default {
   initializeLogin,
   authenticate,
-  authenticateWithOidc,
-  authenticateWithOidcCallback,
+  authenticateUsingOidc,
+  authenticateUsingOidcCallback,
   clearAuthenticateError,
 };

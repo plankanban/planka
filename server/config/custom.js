@@ -39,4 +39,9 @@ module.exports.custom = {
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
+
+  // TODO: move client base url to environment variable?
+  oidcRedirectUri: `${
+    sails.config.environment === 'production' ? process.env.BASE_URL : 'http://localhost:3000'
+  }/oidc-callback`,
 };

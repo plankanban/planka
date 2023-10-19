@@ -1,8 +1,8 @@
 const { getRemoteAddress } = require('../../../utils/remoteAddress');
 
 const Errors = {
-  INVALID_TOKEN: {
-    invalidToken: 'Invalid token',
+  INVALID_CODE_OR_NONCE: {
+    invalidCodeOrNonce: 'Invalid code or nonce',
   },
   EMAIL_ALREADY_IN_USE: {
     emailAlreadyInUse: 'Email already in use',
@@ -28,7 +28,7 @@ module.exports = {
   },
 
   exits: {
-    invalidToken: {
+    invalidCodeOrNonce: {
       responseType: 'unauthorized',
     },
     emailAlreadyInUse: {
@@ -46,10 +46,10 @@ module.exports = {
     const remoteAddress = getRemoteAddress(this.req);
 
     const user = await sails.helpers.users
-      .getOrCreateOneByOidcToken(inputs.code, inputs.nonce)
-      .intercept('invalidToken', () => {
-        sails.log.warn(`Invalid token! (IP: ${remoteAddress})`);
-        return Errors.INVALID_TOKEN;
+      .getOrCreateOneUsingOidc(inputs.code, inputs.nonce)
+      .intercept('invalidCodeOrNonce', () => {
+        sails.log.warn(`Invalid code or nonce! (IP: ${remoteAddress})`);
+        return Errors.INVALID_CODE_OR_NONCE;
       })
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)

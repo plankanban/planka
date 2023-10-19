@@ -83,15 +83,7 @@ export function* logout(invalidateAccessToken = true) {
     } catch (error) {} // eslint-disable-line no-empty
   }
 
-  const oidcConfig = yield select(selectors.selectOidcConfig);
-
   yield put(actions.logout());
-
-  if (oidcConfig && oidcConfig.endSessionUrl !== null) {
-    // Redirect the user to the IDP to log out.
-    window.location.replace(oidcConfig.endSessionUrl);
-  }
-
   yield take();
 }
 
