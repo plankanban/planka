@@ -38,7 +38,8 @@ export function* authenticateUsingOidc() {
 }
 
 export function* authenticateUsingOidcCallback() {
-  const params = new URLSearchParams(window.location.hash.substring(1));
+  // https://github.com/plankanban/planka/issues/511#issuecomment-1771385639
+  const params = new URLSearchParams(window.location.hash.substring(1) || window.location.search);
 
   yield put(replace(Paths.LOGIN));
 
