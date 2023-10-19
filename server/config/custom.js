@@ -35,11 +35,8 @@ module.exports.custom = {
 
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,
-  oidcRedirectUri: process.env.OIDC_REDIRECT_URI,
+  oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
-  oidcJwksUri: process.env.OIDC_JWKS_URI,
-  oidcAudience: process.env.OIDC_AUDIENCE,
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
-  oidcSkipUserInfo: process.env.OIDC_SKIP_USER_INFO === 'true',
 };
