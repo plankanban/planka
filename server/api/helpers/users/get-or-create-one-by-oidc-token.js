@@ -1,50 +1,10 @@
-const jwt = require('jsonwebtoken');
-const jwksClient = require('jwks-rsa');
-const openidClient = require('openid-client');
-
-const jwks = jwksClient({
-  jwksUri: sails.config.custom.oidcJwksUri,
-});
-
-const verifyOidcToken = async (oidcToken) => {
-  const signingKeys = await jwks.getSigningKeys();
-
-  const options = {
-    issuer: sails.config.custom.oidcIssuer,
-  };
-
-  if (sails.config.custom.oidcAudience) {
-    options.audience = sails.config.custom.oidcAudience;
-  }
-
-  let payload = null;
-  signingKeys.some((signingKey) => {
-    try {
-      const publicKey = signingKey.getPublicKey();
-      payload = jwt.verify(oidcToken, publicKey, options);
-    } catch (error) {
-      sails.log.error(error);
-    }
-
-    return !!payload;
-  });
-
-  return payload;
-};
-
-const getUserInfo = async (oidcToken) => {
-  const issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
-
-  const client = new issuer.Client({
-    client_id: 'irrelevant',
-  });
-
-  return client.userinfo(oidcToken);
-};
-
 module.exports = {
   inputs: {
-    token: {
+    code: {
+      type: 'string',
+      required: true,
+    },
+    nonce: {
       type: 'string',
       required: true,
     },
@@ -58,18 +18,22 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const oidcUser = await verifyOidcToken(inputs.token);
+    const client = sails.hooks.oidc.getClient();
 
-    if (!oidcUser) {
+    let userInfo;
+    try {
+      const tokenSet = await client.callback(
+        `${sails.config.custom.baseUrl}/oidc-callback`,
+        { code: inputs.code },
+        { nonce: inputs.nonce },
+      );
+      userInfo = await client.userinfo(tokenSet);
+    } catch (e) {
+      sails.log.warn(`Error while exchanging OIDC code: ${e}`);
       throw 'invalidToken';
     }
 
-    if (!sails.config.custom.oidcSkipUserInfo) {
-      const userInfo = await getUserInfo(inputs.token);
-      Object.assign(oidcUser, userInfo);
-    }
-
-    if (!oidcUser.email || !oidcUser.name) {
+    if (!userInfo.email || !userInfo.name) {
       throw 'missingValues';
     }
 
@@ -77,75 +41,62 @@ module.exports = {
     if (sails.config.custom.oidcAdminRoles.includes('*')) {
       isAdmin = true;
     } else {
-      const roles = oidcUser[sails.config.custom.oidcRolesAttribute];
-
+      const roles = userInfo[sails.config.custom.oidcRolesAttribute];
       if (Array.isArray(roles)) {
-        isAdmin = sails.config.custom.oidcAdminRoles.some((role) => roles.includes(role));
+        // Use a Set here to avoid quadratic time complexity
+        const userRoles = new Set(userInfo[sails.config.custom.oidcRolesAttribute]);
+        isAdmin = sails.config.custom.oidcAdminRoles.findIndex((role) => userRoles.has(role)) > -1;
       }
     }
 
     const values = {
       isAdmin,
-      email: oidcUser.email,
+      email: userInfo.email,
       isSso: true,
-      name: oidcUser.name,
-      username: oidcUser.preferred_username,
+      name: userInfo.name,
+      username: userInfo.preferred_username,
       subscribeToOwnCards: false,
     };
 
     let user;
-    /* eslint-disable no-constant-condition, no-await-in-loop */
-    while (true) {
-      let identityProviderUser = await IdentityProviderUser.findOne({
-        issuer: oidcUser.iss,
-        sub: oidcUser.sub,
+    // This whole block technically needs to be executed in a transaction
+    // with SERIALIZABLE isolation level (but Waterline does not support
+    // that), so this will result in errors if for example users are deleted
+    // concurrently with logging in via OIDC.
+    let identityProviderUser = await IdentityProviderUser.findOne({
+      issuer: sails.config.custom.oidcIssuer,
+      sub: userInfo.sub,
+    });
+
+    if (identityProviderUser) {
+      user = await sails.helpers.users.getOne(identityProviderUser.userId);
+    } else {
+      // If no IDP/User mapping exists, search for the user by email.
+      user = await sails.helpers.users.getOne({
+        email: values.email,
       });
 
-      if (identityProviderUser) {
-        user = await sails.helpers.users.getOne(identityProviderUser.userId);
-      } else {
-        while (true) {
-          user = await sails.helpers.users.getOne({
-            email: values.email,
-          });
-
-          if (!user) {
-            user = await sails.helpers.users
-              .createOne(values)
-              .tolerate('emailAlreadyInUse')
-              .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse');
-          }
-
-          if (user) {
-            break;
-          }
-        }
-
-        identityProviderUser = await IdentityProviderUser.create({
-          userId: user.id,
-          issuer: oidcUser.iss,
-          sub: oidcUser.sub,
-        }).tolerate('E_UNIQUE');
+      // Otherwise, create a new user.
+      if (!user) {
+        user = await sails.helpers.users
+          .createOne(values)
+          .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse');
       }
 
-      if (identityProviderUser) {
-        break;
-      }
+      identityProviderUser = await IdentityProviderUser.create({
+        userId: user.id,
+        issuer: sails.config.custom.oidcIssuer,
+        sub: userInfo.sub,
+      });
     }
-    /* eslint-enable no-constant-condition, no-await-in-loop */
 
     const updateFieldKeys = ['email', 'isAdmin', 'isSso', 'name', 'username'];
 
-    const updateValues = updateFieldKeys.reduce((result, fieldKey) => {
-      if (values[fieldKey] === user[fieldKey]) {
-        return result;
-      }
-
-      return {
-        ...result,
-        [fieldKey]: values[fieldKey],
-      };
-    }, {});
+    const updateValues = {};
+    // eslint-disable-next-line no-restricted-syntax
+    for (const k of updateFieldKeys) {
+      if (values[k] !== user[k]) updateValues[k] = values[k];
+    }
 
     if (Object.keys(updateValues).length > 0) {
       user = await sails.helpers.users

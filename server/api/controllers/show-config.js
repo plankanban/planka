@@ -1,15 +1,20 @@
 module.exports = {
   fn() {
+    const oidcClient = sails.hooks.oidc.isActive() ? sails.hooks.oidc.getClient() : null;
     return {
       item: {
-        oidc: sails.config.custom.oidcIssuer
-          ? {
-              issuer: sails.config.custom.oidcIssuer,
-              clientId: sails.config.custom.oidcClientId,
-              redirectUri: sails.config.custom.oidcRedirectUri,
-              scopes: sails.config.custom.oidcScopes,
-            }
-          : null,
+        oidc:
+          sails.config.custom.oidcIssuer !== ''
+            ? {
+                authorizationUrl: oidcClient.authorizationUrl({
+                  scope: sails.config.custom.oidcScopes,
+                  response_mode: 'fragment',
+                }),
+                endSessionUrl: oidcClient.issuer.end_session_endpoint
+                  ? oidcClient.endSessionUrl({})
+                  : null,
+              }
+            : null,
       },
     };
   },

@@ -1,4 +1,4 @@
-import { apply, call, put, select, take } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 
 import request from '../request';
 import requests from '../requests';
@@ -6,7 +6,6 @@ import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import i18n from '../../../i18n';
-import { createOidcManager } from '../../../utils/oidc-manager';
 import { removeAccessToken } from '../../../utils/access-token-storage';
 
 export function* initializeCore() {
@@ -86,15 +85,13 @@ export function* logout(invalidateAccessToken = true) {
 
   const oidcConfig = yield select(selectors.selectOidcConfig);
 
-  if (oidcConfig) {
-    const oidcManager = createOidcManager(oidcConfig);
+  yield put(actions.logout());
 
-    try {
-      yield apply(oidcManager, oidcManager.logout);
-    } catch (error) {} // eslint-disable-line no-empty
+  if (oidcConfig && oidcConfig.endSessionUrl !== null) {
+    // Redirect the user to the IDP to log out.
+    window.location.replace(oidcConfig.endSessionUrl);
   }
 
-  yield put(actions.logout());
   yield take();
 }
 

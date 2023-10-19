@@ -17,7 +17,11 @@ const Errors = {
 
 module.exports = {
   inputs: {
-    token: {
+    code: {
+      type: 'string',
+      required: true,
+    },
+    nonce: {
       type: 'string',
       required: true,
     },
@@ -42,7 +46,7 @@ module.exports = {
     const remoteAddress = getRemoteAddress(this.req);
 
     const user = await sails.helpers.users
-      .getOrCreateOneByOidcToken(inputs.token)
+      .getOrCreateOneByOidcToken(inputs.code, inputs.nonce)
       .intercept('invalidToken', () => {
         sails.log.warn(`Invalid token! (IP: ${remoteAddress})`);
         return Errors.INVALID_TOKEN;
