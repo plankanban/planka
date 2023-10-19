@@ -1,4 +1,4 @@
-import { apply, call, put, select, take } from 'redux-saga/effects';
+import { call, put, select, take } from 'redux-saga/effects';
 
 import request from '../request';
 import requests from '../requests';
