@@ -1,10 +1,10 @@
-import { apply, call, put, select } from 'redux-saga/effects';
+import { nanoid } from 'nanoid';
+import { call, put, select } from 'redux-saga/effects';
 import { replace } from '../../../lib/redux-router';
 
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
-import { createOidcManager } from '../../../utils/oidc-manager';
 import { setAccessToken } from '../../../utils/access-token-storage';
 import Paths from '../../../constants/Paths';
 
@@ -31,29 +31,53 @@ export function* authenticate(data) {
 
 export function* authenticateWithOidc() {
   const oidcConfig = yield select(selectors.selectOidcConfig);
-  const oidcManager = createOidcManager(oidcConfig);
 
-  yield apply(oidcManager, oidcManager.login);
+  const nonce = nanoid();
+  window.sessionStorage.setItem('oidc-nonce', nonce);
+  window.location.replace(`${oidcConfig.authorizationUrl}&nonce=${encodeURIComponent(nonce)}`);
 }
 
 export function* authenticateWithOidcCallback() {
-  const oidcConfig = yield select(selectors.selectOidcConfig);
-  const oidcManager = createOidcManager(oidcConfig);
-
-  let oidcToken;
-  try {
-    ({ access_token: oidcToken } = yield apply(oidcManager, oidcManager.loginCallback));
-  } catch (error) {
-    yield put(actions.authenticateWithOidc.failure(error));
+  const params = new URLSearchParams(window.location.hash.substring(1));
+  if (params.get('error') !== null) {
+    yield put(
+      actions.authenticateWithOidc.failure(
+        new Error(
+          `OIDC Authorization error: ${params.get('error')}: ${params.get('error_description')}`,
+        ),
+      ),
+    );
+    return;
   }
+
+  const nonce = window.sessionStorage.getItem('oidc-nonce');
+  if (nonce === null) {
+    yield put(
+      actions.authenticateWithOidc.failure(
+        new Error('Unable to process OIDC response: no nonce issued'),
+      ),
+    );
+    return;
+  }
+
+  const code = params.get('code');
+  if (code === null) {
+    yield put(
+      actions.authenticateWithOidc.failure(new Error('Invalid OIDC response: no code parameter')),
+    );
+    return;
+  }
+
+  window.sessionStorage.removeItem('oidc-nonce');
 
   yield put(replace(Paths.LOGIN));
 
-  if (oidcToken) {
+  if (code !== null) {
     let accessToken;
     try {
       ({ item: accessToken } = yield call(api.exchangeToAccessToken, {
-        token: oidcToken,
+        code,
+        nonce,
       }));
     } catch (error) {
       yield put(actions.authenticateWithOidc.failure(error));
