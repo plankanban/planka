@@ -10,14 +10,14 @@ const mapStateToProps = (state) => {
 
   const {
     ui: {
-      authenticateForm: { data: defaultData, isSubmitting, isSubmittingWithOidc, error },
+      authenticateForm: { data: defaultData, isSubmitting, isSubmittingUsingOidc, error },
     },
   } = state;
 
   return {
     defaultData,
     isSubmitting,
-    isSubmittingWithOidc,
+    isSubmittingUsingOidc,
     error,
     withOidc: !!oidcConfig,
   };
@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       onAuthenticate: entryActions.authenticate,
-      onAuthenticateWithOidc: entryActions.authenticateWithOidc,
+      onAuthenticateUsingOidc: entryActions.authenticateUsingOidc,
       onMessageDismiss: entryActions.clearAuthenticateError,
     },
     dispatch,

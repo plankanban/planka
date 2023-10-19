@@ -65,11 +65,11 @@ const Login = React.memo(
   ({
     defaultData,
     isSubmitting,
-    isSubmittingWithOidc,
+    isSubmittingUsingOidc,
     error,
     withOidc,
     onAuthenticate,
-    onAuthenticateWithOidc,
+    onAuthenticateUsingOidc,
     onMessageDismiss,
   }) => {
     const [t] = useTranslation();
@@ -192,15 +192,15 @@ const Login = React.memo(
                         content={t('action.logIn')}
                         floated="right"
                         loading={isSubmitting}
-                        disabled={isSubmitting || isSubmittingWithOidc}
+                        disabled={isSubmitting || isSubmittingUsingOidc}
                       />
                     </Form>
                     {withOidc && (
                       <Button
                         type="button"
-                        loading={isSubmittingWithOidc}
-                        disabled={isSubmitting || isSubmittingWithOidc}
-                        onClick={onAuthenticateWithOidc}
+                        loading={isSubmittingUsingOidc}
+                        disabled={isSubmitting || isSubmittingUsingOidc}
+                        onClick={onAuthenticateUsingOidc}
                       >
                         {t('action.logInWithSSO')}
                       </Button>
@@ -239,11 +239,11 @@ Login.propTypes = {
   defaultData: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
   isSubmitting: PropTypes.bool.isRequired,
-  isSubmittingWithOidc: PropTypes.bool.isRequired,
+  isSubmittingUsingOidc: PropTypes.bool.isRequired,
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   withOidc: PropTypes.bool.isRequired,
   onAuthenticate: PropTypes.func.isRequired,
-  onAuthenticateWithOidc: PropTypes.func.isRequired,
+  onAuthenticateUsingOidc: PropTypes.func.isRequired,
   onMessageDismiss: PropTypes.func.isRequired,
 };
 

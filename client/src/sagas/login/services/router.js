@@ -1,7 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import { push } from '../../../lib/redux-router';
 
-import { authenticateWithOidcCallback } from './login';
+import { authenticateUsingOidcCallback } from './login';
 import selectors from '../../../selectors';
 import ActionTypes from '../../../constants/ActionTypes';
 import Paths from '../../../constants/Paths';
@@ -36,9 +36,7 @@ export function* handleLocationChange() {
         yield take(ActionTypes.LOGIN_INITIALIZE);
       }
 
-      // TODO: check if OIDC is enabled
-
-      yield call(authenticateWithOidcCallback);
+      yield call(authenticateUsingOidcCallback);
 
       break;
     }

@@ -15,7 +15,7 @@ export default (state = initialState, { type, payload }) => {
         config: payload.config,
       };
     case ActionTypes.AUTHENTICATE__SUCCESS:
-    case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
+    case ActionTypes.USING_OIDC_AUTHENTICATE__SUCCESS:
       return {
         ...state,
         isInitializing: true,

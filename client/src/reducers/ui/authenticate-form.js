@@ -9,7 +9,7 @@ const initialState = {
     password: '',
   },
   isSubmitting: false,
-  isSubmittingWithOidc: false,
+  isSubmittingUsingOidc: false,
   error: null,
 };
 
@@ -20,7 +20,7 @@ export default (state = initialState, { type, payload }) => {
       if (payload.location.pathname === Paths.OIDC_CALLBACK) {
         return {
           ...state,
-          isSubmittingWithOidc: true,
+          isSubmittingUsingOidc: true,
         };
       }
 
@@ -35,7 +35,7 @@ export default (state = initialState, { type, payload }) => {
         isSubmitting: true,
       };
     case ActionTypes.AUTHENTICATE__SUCCESS:
-    case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
+    case ActionTypes.USING_OIDC_AUTHENTICATE__SUCCESS:
       return initialState;
     case ActionTypes.AUTHENTICATE__FAILURE:
       return {
@@ -43,10 +43,10 @@ export default (state = initialState, { type, payload }) => {
         isSubmitting: false,
         error: payload.error,
       };
-    case ActionTypes.WITH_OIDC_AUTHENTICATE__FAILURE:
+    case ActionTypes.USING_OIDC_AUTHENTICATE__FAILURE:
       return {
         ...state,
-        isSubmittingWithOidc: false,
+        isSubmittingUsingOidc: false,
         error: payload.error,
       };
     case ActionTypes.AUTHENTICATE_ERROR_CLEAR:

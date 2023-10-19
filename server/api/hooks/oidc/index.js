@@ -15,7 +15,7 @@ module.exports = function oidcServiceHook(sails) {
         client = new issuer.Client({
           client_id: sails.config.custom.oidcClientId,
           client_secret: sails.config.custom.oidcClientSecret,
-          redirect_uris: [`${sails.config.custom.baseUrl}/oidc-callback`],
+          redirect_uris: [sails.config.custom.oidcRedirectUri],
           response_types: ['code'],
         });
         sails.log.info('OIDC hook has been loaded successfully');

@@ -7,8 +7,8 @@ const authenticate = (data) => ({
   },
 });
 
-const authenticateWithOidc = () => ({
-  type: EntryActionTypes.WITH_OIDC_AUTHENTICATE,
+const authenticateUsingOidc = () => ({
+  type: EntryActionTypes.USING_OIDC_AUTHENTICATE,
   payload: {},
 });
 
@@ -19,6 +19,6 @@ const clearAuthenticateError = () => ({
 
 export default {
   authenticate,
-  authenticateWithOidc,
+  authenticateUsingOidc,
   clearAuthenticateError,
 };

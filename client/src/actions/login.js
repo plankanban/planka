@@ -28,20 +28,20 @@ authenticate.failure = (error) => ({
   },
 });
 
-const authenticateWithOidc = () => ({
-  type: ActionTypes.WITH_OIDC_AUTHENTICATE,
+const authenticateUsingOidc = () => ({
+  type: ActionTypes.USING_OIDC_AUTHENTICATE,
   payload: {},
 });
 
-authenticateWithOidc.success = (accessToken) => ({
-  type: ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS,
+authenticateUsingOidc.success = (accessToken) => ({
+  type: ActionTypes.USING_OIDC_AUTHENTICATE__SUCCESS,
   payload: {
     accessToken,
   },
 });
 
-authenticateWithOidc.failure = (error) => ({
-  type: ActionTypes.WITH_OIDC_AUTHENTICATE__FAILURE,
+authenticateUsingOidc.failure = (error) => ({
+  type: ActionTypes.USING_OIDC_AUTHENTICATE__FAILURE,
   payload: {
     error,
   },
@@ -55,6 +55,6 @@ const clearAuthenticateError = () => ({
 export default {
   initializeLogin,
   authenticate,
-  authenticateWithOidc,
+  authenticateUsingOidc,
   clearAuthenticateError,
 };
