@@ -24,9 +24,11 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         isInitializing: false,
-        ...(payload.config && {
-          config: payload.config,
-        }),
+      };
+    case ActionTypes.CORE_INITIALIZE__CONFIG_FETCH:
+      return {
+        ...state,
+        config: payload.config,
       };
     default:
       return state;

@@ -14,6 +14,8 @@ export function* initializeCore() {
   let config;
   if (!currentConfig) {
     ({ item: config } = yield call(api.getConfig)); // TODO: handle error
+
+    yield put(actions.initializeCore.fetchConfig(config));
   }
 
   const {
@@ -40,7 +42,6 @@ export function* initializeCore() {
 
   yield put(
     actions.initializeCore(
-      config,
       user,
       board,
       users,
