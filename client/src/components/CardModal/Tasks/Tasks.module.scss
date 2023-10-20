@@ -3,6 +3,23 @@
     margin: 0 0 16px;
   }
 
+  .progressWrapper {
+    display: inline-block;
+    padding: 3px 0;
+    vertical-align: top;
+    width: calc(100% - 50px);
+  }
+
+  .count {
+    color: #888;
+    display: inline-block;
+    font-size: 15px;
+    line-height: 12px;
+    text-align: right;
+    vertical-align: top;
+    width: 50px;
+  }
+
   .taskButton {
     background: transparent;
     border: none;
