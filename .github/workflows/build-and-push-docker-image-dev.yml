@@ -2,6 +2,11 @@ name: Build and push Docker DEV image
 
 on:
   push:
+    paths-ignore:
+      - '.github/**'
+      - 'charts/**'
+      - 'docker-*.sh'
+      - '*.md'
     branches: [master]
 
 jobs:
