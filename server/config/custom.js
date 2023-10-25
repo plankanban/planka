@@ -39,6 +39,7 @@ module.exports.custom = {
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
+  oidcIgnoreRoles : process.env.OIDC_IGNORE_ROLES || false,
 
   // TODO: move client base url to environment variable?
   oidcRedirectUri: `${

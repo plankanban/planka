@@ -92,6 +92,11 @@ module.exports = {
 
     const updateFieldKeys = ['email', 'isAdmin', 'isSso', 'name', 'username'];
 
+    if (sails.config.custom.oidcIgnoreRoles) {
+      // Remove isAdmin from updateFieldKeys
+      updateFieldKeys.splice(updateFieldKeys.indexOf('isAdmin'), 1);
+    }
+
     const updateValues = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const k of updateFieldKeys) {
