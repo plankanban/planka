@@ -45,7 +45,8 @@ export default class extends BaseModel {
     subscribeToOwnCards: attr(),
     isAdmin: attr(),
     isLocked: attr(),
-    isLockedAdmin: attr(),
+    isRoleLocked: attr(),
+    isDeletionLocked: attr(),
     deletedAt: attr(),
     createdAt: attr({
       getDefault: () => new Date(),

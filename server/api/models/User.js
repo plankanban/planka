@@ -110,12 +110,13 @@ module.exports = {
   tableName: 'user_account',
 
   customToJSON() {
-    const isLockedAdmin = this.email === sails.config.custom.defaultAdminEmail;
+    const isDefaultAdmin = this.email === sails.config.custom.defaultAdminEmail;
 
     return {
       ..._.omit(this, ['password', 'isSso', 'avatar', 'passwordChangedAt']),
-      isLockedAdmin,
-      isLocked: this.isSso || isLockedAdmin,
+      isLocked: this.isSso || isDefaultAdmin,
+      isRoleLocked: (this.isSso && !sails.config.custom.oidcIgnoreRoles) || isDefaultAdmin,
+      isDeletionLocked: isDefaultAdmin,
       avatarUrl:
         this.avatar &&
         `${sails.config.custom.userAvatarsUrl}/${this.avatar.dirname}/square-100.${this.avatar.extension}`,

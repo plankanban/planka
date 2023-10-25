@@ -155,7 +155,7 @@ const ActionsStep = React.memo(
                 </Menu.Item>
               </>
             )}
-            {!user.isLockedAdmin && (
+            {!user.isDeletionLocked && (
               <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
                 {t('action.deleteUser', {
                   context: 'title',
