@@ -8,7 +8,7 @@ export default {
     time: 'HH:mm',
     dateTime: '$t(format:date) $t(format:time)',
     longDate: 'MMMMd日',
-    longDateTime: "MMMMd'日 ' HH:MM",
+    longDateTime: "MMMMd'日 ' HH:mm",
   },
 
   translation: {
