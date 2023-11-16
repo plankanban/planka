@@ -44,6 +44,6 @@ VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
 VOLUME /app/private/attachments
 
-EXPOSE 3000
+EXPOSE 1337
 
 CMD ["./start.sh"]

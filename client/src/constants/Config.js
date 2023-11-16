@@ -5,7 +5,7 @@ const BASE_PATH = BASE_URL.replace(/^.*\/\/[^/]*(.*)[^?#]*.*$/, '$1');
 
 const SERVER_BASE_URL =
   process.env.REACT_APP_SERVER_BASE_URL ||
-  (process.env.NODE_ENV === 'production' ? BASE_URL : 'http://localhost:3000');
+  (process.env.NODE_ENV === 'production' ? BASE_URL : 'http://localhost:1337');
 
 const SERVER_HOST_NAME = SERVER_BASE_URL.replace(/^(.*\/\/[^/?#]*).*$/, '$1');
 
