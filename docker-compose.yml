@@ -17,7 +17,7 @@ services:
       - project-background-images:/app/public/project-background-images
       - attachments:/app/private/attachments
     ports:
-      - 3000:1337
+      - 3000:3000
     environment:
       - BASE_URL=http://localhost:3000
       - TRUST_PROXY=0

@@ -45,7 +45,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 1337
+  port: 3000
 
 ingress:
   enabled: false
@@ -106,6 +106,6 @@ persistence:
   enabled: false
   # existingClaim: netbox-data
   # storageClass: "-"
-  
+
   accessMode: ReadWriteOnce
   size: 10Gi

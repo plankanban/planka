@@ -29,7 +29,7 @@ helm install planka . --set secretkey=$SECRETKEY
 To access Planka you can port forward using the following command:
 
 ```bash
-kubectl port-forward $POD_NAME 3000:1337
+kubectl port-forward $POD_NAME 3000:3000
 ```
 
 ### Accessing Externally
