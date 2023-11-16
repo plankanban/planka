@@ -106,6 +106,6 @@ persistence:
   enabled: false
   # existingClaim: netbox-data
   # storageClass: "-"
-  
+
   accessMode: ReadWriteOnce
   size: 10Gi

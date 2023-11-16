@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const BASE_URL_PLACEHOLDER = 'BASE_URL_PLACEHOLDER';
 
@@ -39,6 +40,17 @@ const replaceBaseUrl = (compiler) => {
 };
 
 module.exports = function override(config, env) {
+  config.plugins.push(
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: 'src/components/semantic.rtl.min.css',
+          to: 'static/css',
+        },
+      ],
+    }),
+  );
+
   if (env === 'production') {
     const plugins = config.plugins.map((plugin) => {
       if (plugin.constructor.name === 'InterpolateHtmlPlugin') {
@@ -48,6 +60,7 @@ module.exports = function override(config, env) {
       }
       return plugin;
     });
+
     return {
       ...config,
       output: { ...config.output, publicPath: BASE_URL_PLACEHOLDER },
