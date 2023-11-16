@@ -219,6 +219,7 @@ const CardModal = React.memo(
                       >
                         <button
                           type="button"
+                          aria-label="add user to card"
                           className={classNames(styles.attachment, styles.dueDate)}
                         >
                           <Icon name="add" size="small" className={styles.addAttachment} />
@@ -268,6 +269,7 @@ const CardModal = React.memo(
                       >
                         <button
                           type="button"
+                          aria-label="add label to card"
                           className={classNames(styles.attachment, styles.dueDate)}
                         >
                           <Icon name="add" size="small" className={styles.addAttachment} />
@@ -317,6 +319,7 @@ const CardModal = React.memo(
                       <button
                         onClick={handleToggleStopwatchClick}
                         type="button"
+                        aria-label="toggle stopwatch"
                         className={classNames(styles.attachment, styles.dueDate)}
                       >
                         <Icon

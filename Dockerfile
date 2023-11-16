@@ -13,7 +13,6 @@ FROM node:lts AS client
 WORKDIR /app
 
 COPY client/package.json client/package-lock.json .
-COPY client/src/components/semantic.rtl.min.css .
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
   && pnpm install --prod
@@ -36,8 +35,9 @@ RUN mv .env.sample .env
 COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
 
 COPY --from=client --chown=node:node /app/build public
+COPY --from=client --chown=node:node /app client
+
 COPY --from=client --chown=node:node /app/build/index.html views/index.ejs
-COPY --from=client --chown=node:node /app/semantic.rtl.min.css public/static/css/semantic.rtl.min.css
 
 
 VOLUME /app/public/user-avatars
