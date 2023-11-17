@@ -46,6 +46,10 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 1337
+  ## @param service.targetPort Planka HTTP container port
+  ## If empty will default to 1337
+  ##
+  targetPort: 1337
 
 ingress:
   enabled: false
