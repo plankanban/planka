@@ -1,4 +1,4 @@
-FROM node:lts-alpine
+FROM node:18-alpine
 
 ARG VIPS_VERSION=8.14.5
 
