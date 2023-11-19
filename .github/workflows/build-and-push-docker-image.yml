@@ -26,12 +26,12 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set version
-        uses: actions/github-script@v6
-        id: set-version
-        with:
-          result-encoding: string
-          script: return context.payload.release.tag_name.replace('v', '')
+      # - name: Set version
+      #   uses: actions/github-script@v6
+      #   id: set-version
+      #   with:
+      #     result-encoding: string
+      #     script: return context.payload.release.tag_name.replace('v', '')
 
       - name: Build and push
         uses: docker/build-push-action@v4
@@ -41,4 +41,3 @@ jobs:
           push: true
           tags: |
             ghcr.io/plankanban/planka:latest
-            ghcr.io/plankanban/planka:${{ steps.set-version.outputs.result }}
