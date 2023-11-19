@@ -1,12 +1,14 @@
 name: Build and push Docker image
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   build-and-push-docker-image:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
