@@ -13,3 +13,4 @@ yarn.lock
 
 # Chart dependencies
 **/charts/*.tgz
+planka-latest.tar
