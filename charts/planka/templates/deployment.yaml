@@ -87,6 +87,33 @@ spec:
             - name: {{ $k | quote }}
               value: {{ $v | quote }}
           {{- end }}
+          {{- if .Values.oidc.enabled }}
+          {{- $secretName := default (printf "%s-oidc" (include "planka.fullname" .)) .Values.oidc.existingSecret }}
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  key:  clientId
+                  name: {{ $secretName }}
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key:  clientSecret
+                  name: {{ $secretName }}
+            - name: OIDC_ISSUER
+              value: {{ required "issuerUrl is required when configuring OIDC" .Values.oidc.issuerUrl | quote }}
+            - name: OIDC_SCOPES
+              value: {{ join " " .Values.oidc.scopes | default "openid profile email" | quote }}
+          {{- if .Values.oidc.admin.roles }}
+            - name: OIDC_ADMIN_ROLES
+              value: {{ join "," .Values.oidc.admin.roles | quote }}
+          {{- end }}
+            - name: OIDC_ROLES_ATTRIBUTE
+              value: {{ .Values.oidc.admin.rolesAttribute | default "groups" | quote }}
+          {{- if .Values.oidc.admin.ignoreRoles }}
+            - name: OIDC_IGNORE_ROLES
+              value: {{ .Values.oidc.admin.ignoreRoles | quote }}
+          {{- end }}
+          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
