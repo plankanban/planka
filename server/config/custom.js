@@ -44,7 +44,7 @@ module.exports.custom = {
   defaultAdminEmail: process.env.DEFAULT_ADMIN_EMAIL,
 
   mailConnectorHost: process.env.MAIL_HOST,
-  mailConnectorPort: process.env.MAIL_PORT || 587,
+  mailConnectorPort: process.env.MAIL_PORT || 25,
   mailConnectorEmail: 'Planka <planka-noreplay@test.com>',
   mailConnectorUser: process.env.MAIL_USER,
   mailConnectorPass: process.env.MAIL_PASSWORD,
