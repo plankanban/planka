@@ -21,7 +21,11 @@ git clone https://github.com/Chris-Greaves/planka-helm-chart.git
 cd planka-helm-chart
 helm dependency build
 export SECRETKEY=$(openssl rand -hex 64)
-helm install planka . --set secretkey=$SECRETKEY
+helm install planka . --set secretkey=$SECRETKEY  \
+--set admin_email="demo@demo.demo"  \
+--set admin_password="demo"  \
+--set admin_name="Demo Demo" \
+--set admin_username="demo"
 ```
 
 > **NOTE:** The command `openssl rand -hex 64` is needed to create a random hexadecimal key for planka. On Windows you can use Git Bash to run that command.
@@ -39,11 +43,19 @@ To access Planka externally you can use the following configuration
 ```bash
 # HTTP only
 helm install planka . --set secretkey=$SECRETKEY \
+--set admin_email="demo@demo.demo"  \
+--set admin_password="demo"  \
+--set admin_name="Demo Demo" \
+--set admin_username="demo"
 --set ingress.enabled=true \
 --set ingress.hosts[0].host=planka.example.dev \
 
 # HTTPS
 helm install planka . --set secretkey=$SECRETKEY \
+--set admin_email="demo@demo.demo"  \
+--set admin_password="demo"  \
+--set admin_name="Demo Demo" \
+--set admin_username="demo"
 --set ingress.enabled=true \
 --set ingress.hosts[0].host=planka.example.dev \
 --set ingress.tls[0].secretName=planka-tls \
@@ -54,6 +66,16 @@ or create a values.yaml file like:
 
 ```yaml
 secretkey: "<InsertSecretKey>"
+# The admin section needs to be present for new instances of Planka, after the first start you can remove the lines starting with admin_. If you want the admin user to be unchangeable admin_email: has to stay
+# After changing the config you have to run ```helm upgrade  planka . -f values.yaml```
+
+# Admin user
+admin_email: "demo@demo.demo" # Do not remove if you want to prevent this user from being edited/deleted
+admin_password: "demo"
+admin_name: "Demo Demo"
+admin_username: "demo"
+# Admin user
+
 ingress:
   enabled: true
   hosts:

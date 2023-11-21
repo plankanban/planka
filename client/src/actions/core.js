@@ -39,6 +39,14 @@ const initializeCore = (
   },
 });
 
+// TODO: with success?
+initializeCore.fetchConfig = (config) => ({
+  type: ActionTypes.CORE_INITIALIZE__CONFIG_FETCH,
+  payload: {
+    config,
+  },
+});
+
 const logout = () => ({
   type: ActionTypes.LOGOUT,
   payload: {},

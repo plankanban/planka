@@ -48,14 +48,21 @@ const Tasks = React.memo(({ items, canEdit, onCreate, onUpdate, onMove, onDelete
   return (
     <>
       {items.length > 0 && (
-        <Progress
-          autoSuccess
-          value={completedItems.length}
-          total={items.length}
-          color="blue"
-          size="tiny"
-          className={styles.progress}
-        />
+        <>
+          <span className={styles.progressWrapper}>
+            <Progress
+              autoSuccess
+              value={completedItems.length}
+              total={items.length}
+              color="blue"
+              size="tiny"
+              className={styles.progress}
+            />
+          </span>
+          <span className={styles.count}>
+            {completedItems.length}/{items.length}
+          </span>
+        </>
       )}
       <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
         <Droppable droppableId="tasks" type={DroppableTypes.TASK}>

@@ -31,18 +31,20 @@ module.exports.custom = {
   attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
   attachmentsUrl: `${process.env.BASE_URL}/attachments`,
 
-  oidcIssuer: process.env.OIDC_ISSUER,
-  oidcAudience: process.env.OIDC_AUDIENCE,
-  oidcClientId: process.env.OIDC_CLIENT_ID,
-  oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
-  oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
-  oidcredirectUri: process.env.OIDC_REDIRECT_URI,
-  oidcJwksUri: process.env.OIDC_JWKS_URI,
-  oidcScopes: process.env.OIDC_SCOPES || 'openid profile email',
-  oidcSkipUserInfo: process.env.OIDC_SKIP_USER_INFO === 'true',
-
   defaultAdminEmail: process.env.DEFAULT_ADMIN_EMAIL,
 
+  oidcIssuer: process.env.OIDC_ISSUER,
+  oidcClientId: process.env.OIDC_CLIENT_ID,
+  oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
+  oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
+  oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
+  oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
+  oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
+
+  // TODO: move client base url to environment variable?
+  oidcRedirectUri: `${
+    sails.config.environment === 'production' ? process.env.BASE_URL : 'http://localhost:3000'
+  }/oidc-callback`,
   mailConnectorHost: process.env.MAIL_HOST,
   mailConnectorPort: process.env.MAIL_PORT || 25,
   mailConnectorEmail: 'Planka <planka-noreplay@test.com>',

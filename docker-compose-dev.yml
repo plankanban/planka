@@ -1,16 +1,65 @@
 version: '3'
 
 services:
+  planka:
+    image: ghcr.io/plankanban/planka:dev
+    command: >
+      bash -c
+        "for i in `seq 1 30`; do
+          ./start.sh &&
+          s=$$? && break || s=$$?;
+          echo \"Tried $$i times. Waiting 5 seconds...\";
+          sleep 5;
+        done; (exit $$s)"
+    restart: unless-stopped
+    volumes:
+      - user-avatars:/app/public/user-avatars
+      - project-background-images:/app/public/project-background-images
+      - attachments:/app/private/attachments
+    ports:
+      - 3000:1337
+    environment:
+      - BASE_URL=http://localhost:3000
+      - DATABASE_URL=postgresql://postgres@postgres/planka
+      - SECRET_KEY=notsecretkey
+
+      # - TRUST_PROXY=0
+      # - TOKEN_EXPIRES_IN=365 # In days
+
+      # related: https://github.com/knex/knex/issues/2354
+      # As knex does not pass query parameters from the connection string we
+      # have to use environment variables in order to pass the desired values, e.g.
+      # - PGSSLMODE=<value>
+
+      # Configure knex to accept SSL certificates
+      # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
+
+      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
+      # - DEFAULT_ADMIN_PASSWORD=demo
+      # - DEFAULT_ADMIN_NAME=Demo Demo
+      # - DEFAULT_ADMIN_USERNAME=demo
+
+      # - OIDC_ISSUER=
+      # - OIDC_CLIENT_ID=
+      # - OIDC_CLIENT_SECRET=
+      # - OIDC_SCOPES=openid email profile
+      # - OIDC_ADMIN_ROLES=admin
+      # - OIDC_ROLES_ATTRIBUTE=groups
+      # - OIDC_IGNORE_ROLES=true
+    depends_on:
+      - postgres
+
   postgres:
-    image: postgres:alpine
+    image: postgres:14-alpine
     restart: unless-stopped
     volumes:
       - db-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_DB=planka
       - POSTGRES_HOST_AUTH_METHOD=trust
 
 volumes:
+  user-avatars:
+  project-background-images:
+  attachments:
   db-data:

@@ -1,5 +1,6 @@
 import router from './router';
 import socket from './socket';
+import root from './root';
 import core from './core';
 import modals from './modals';
 import users from './users';
@@ -16,6 +17,7 @@ import attachments from './attachments';
 export default {
   ...router,
   ...socket,
+  ...root,
   ...core,
   ...modals,
   ...users,

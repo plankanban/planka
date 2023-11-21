@@ -46,6 +46,10 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 1337
+  ## @param service.containerPort Planka HTTP container port
+  ## If empty will default to 1337
+  ##
+  containerPort: 1337
 
 ingress:
   enabled: false
@@ -109,3 +113,68 @@ persistence:
 
   accessMode: ReadWriteOnce
   size: 10Gi
+
+## OpenID Identity Management configuration
+##
+## Example:
+## ---------------
+## oidc:
+##   enabled: true
+##   clientId: sxxaAIAxVXlCxTmc1YLHBbQr8NL8MqLI2DUbt42d
+##   clientSecret: om4RTMRVHRszU7bqxB7RZNkHIzA8e4sGYWxeCwIMYQXPwEBWe4SY5a0wwCe9ltB3zrq5f0dnFnp34cEHD7QSMHsKvV9AiV5Z7eqDraMnv0I8IFivmuV5wovAECAYreSI
+##   issuerUrl: https://auth.local/application/o/planka/
+##   admin:
+##     roles:
+##       - planka-admin
+##
+## ---------------
+## NOTE: A minimal configuration requires setting `clientId`, `clientSecret` and `issuerUrl`. (plus `admin.roles` for administrators)
+## ref: https://docs.planka.cloud/docs/Configuration/OIDC
+##
+oidc:
+  ## @param oidc.enabled Enable single sign-on (SSO) with OpenID Connect (OIDC)
+  ##
+  enabled: false
+
+  ## OIDC credentials
+  ## @param oidc.clientId A string unique to the provider that identifies your app.
+  ## @param oidc.clientSecret A secret string that the provider uses to confirm ownership of a client ID.
+  ##
+  ## NOTE: Either specify inline `clientId` and `clientSecret` or refer to them via `existingSecret`
+  ##
+  clientId: ""
+  clientSecret: ""
+
+  ## @param oidc.existingSecret Name of an existing secret containing OIDC credentials
+  ## NOTE: Must contain key `clientId` and `clientSecret`
+  ## NOTE: When it's set, the `clientId` and `clientSecret` parameters are ignored
+  ##
+  existingSecret: ""
+
+  ## @param oidc.issuerUrl The OpenID connect metadata document endpoint
+  ##
+  issuerUrl: ""
+
+  ## @param oidc.scopes A list of scopes required for OIDC client.
+  ## If empty will default to `openid`, `profile` and `email`
+  ## NOTE: Planka needs the email and name claims
+  ##
+  scopes: []
+
+  ## Admin permissions configuration
+  admin:
+    ## @param oidc.admin.ignoreRoles If set to true, the admin roles will be ignored.
+    ## It is useful if you want to use OIDC for authentication but not for authorization.
+    ## If empty will default to `false`
+    ##
+    ignoreRoles: false
+
+    ## @param oidc.admin.rolesAttribute The name of a custom group claim that you have configured in your OIDC provider
+    ## If empty will default to `groups`
+    ##
+    rolesAttribute: groups
+
+    ## @param oidc.admin.roles The names of the admin groups
+    ##
+    roles: []
+      # - planka-admin

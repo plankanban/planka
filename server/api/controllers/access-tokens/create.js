@@ -10,6 +10,9 @@ const Errors = {
   INVALID_PASSWORD: {
     invalidPassword: 'Invalid password',
   },
+  USE_SINGLE_SIGN_ON: {
+    useSingleSignOn: 'Use single sign-on',
+  },
 };
 
 const emailOrUsernameValidator = (value) =>
@@ -37,6 +40,9 @@ module.exports = {
     invalidPassword: {
       responseType: 'unauthorized',
     },
+    useSingleSignOn: {
+      responseType: 'forbidden',
+    },
   },
 
   async fn(inputs) {
@@ -49,6 +55,10 @@ module.exports = {
         `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
       );
       throw Errors.INVALID_EMAIL_OR_USERNAME;
+    }
+
+    if (user.isSso) {
+      throw Errors.USE_SINGLE_SIGN_ON;
     }
 
     if (!bcrypt.compareSync(inputs.password, user.password)) {
