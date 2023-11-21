@@ -26,4 +26,5 @@ module.exports.policies = {
   'access-tokens/create': true,
   'access-tokens/exchange': true,
   'appconfig/index': true,
+  'mail/index': true,
 };

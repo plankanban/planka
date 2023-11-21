@@ -30,6 +30,9 @@ services:
       - DEFAULT_ADMIN_NAME=Demo Demo
       - DEFAULT_ADMIN_USERNAME=demo
 
+      - MAIL_HOST=smtp.gmail.com
+
+
       # related: https://github.com/knex/knex/issues/2354
       # As knex does not pass query parameters from the connection string we
       # have to use environment variables in order to pass the desired values, e.g.

@@ -58,7 +58,10 @@
   "dependencies": {
     "concurrently": "^7.6.0",
     "husky": "^8.0.2",
-    "lint-staged": "^13.0.3"
+    "lint-staged": "^13.0.3",
+    "nodemailer": "^6.9.7",
+    "nodemailer-direct-transport": "^3.3.2",
+    "nodemailer-smtp-transport": "^2.7.4"
   },
   "devDependencies": {
     "eslint": "^8.28.0",
