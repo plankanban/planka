@@ -42,4 +42,10 @@ module.exports.custom = {
   oidcSkipUserInfo: process.env.OIDC_SKIP_USER_INFO === 'true',
 
   defaultAdminEmail: process.env.DEFAULT_ADMIN_EMAIL,
+
+  mailConnectorHost: process.env.MAIL_HOST,
+  mailConnectorPort: process.env.MAIL_PORT || 587,
+  mailConnectorEmail: 'Planka <planka-noreplay@test.com>',
+  mailConnectorUser: process.env.MAIL_USER,
+  mailConnectorPass: process.env.MAIL_PASSWORD,
 };

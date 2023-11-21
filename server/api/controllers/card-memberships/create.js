@@ -1,3 +1,5 @@
+const { sendUserEmails } = require('../../../utils/mail');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -77,7 +79,7 @@ module.exports = {
         request: this.req,
       })
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
-
+    await sendUserEmails({ to: [inputs.userId], subject: 'b', text: 'c' });
     return {
       item: cardMembership,
     };
