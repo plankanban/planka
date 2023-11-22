@@ -3,7 +3,7 @@ FROM ghcr.io/plankanban/planka:base-latest as server-dependencies
 WORKDIR /app
 
 COPY server/package.json server/package-lock.json .
-
+COPY . ./source-code
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
   && pnpm install --prod
@@ -33,12 +33,12 @@ COPY --chown=node:node server .
 RUN mv .env.sample .env
 
 COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
+COPY --from=server-dependencies --chown=node:node /app/source-code /app/src
 
 COPY --from=client --chown=node:node /app/build public
 COPY --from=client --chown=node:node /app client
 
 COPY --from=client --chown=node:node /app/build/index.html views/index.ejs
-
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
