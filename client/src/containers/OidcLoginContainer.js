@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import entryActions from '../entry-actions';
-import Login from '../components/Login';
+import OidcLogin from '../components/OIDC';
 
 const mapStateToProps = ({
   ui: {
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(OidcLogin);

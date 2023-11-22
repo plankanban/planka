@@ -9,12 +9,12 @@
  */
 
 module.exports.routes = {
-  'GET /api/config': 'show-config',
+  'GET /api/appconfig': 'appconfig/index',
 
   'POST /api/mail': 'mail/index',
 
   'POST /api/access-tokens': 'access-tokens/create',
-  'POST /api/access-tokens/exchange-using-oidc': 'access-tokens/exchange-using-oidc',
+  'POST /api/access-tokens/exchange': 'access-tokens/exchange',
   'DELETE /api/access-tokens/me': 'access-tokens/delete',
 
   'GET /api/users': 'users/index',

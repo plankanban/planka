@@ -24,11 +24,6 @@ module.exports = {
       defaultsTo: false,
       columnName: 'is_admin',
     },
-    isSso: {
-      type: 'boolean',
-      defaultsTo: false,
-      columnName: 'is_sso',
-    },
     name: {
       type: 'string',
       required: true,
@@ -72,6 +67,10 @@ module.exports = {
       type: 'ref',
       columnName: 'password_changed_at',
     },
+    locked: {
+      type: 'boolean',
+      columnName: 'locked',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -110,16 +109,12 @@ module.exports = {
   tableName: 'user_account',
 
   customToJSON() {
-    const isDefaultAdmin = this.email === sails.config.custom.defaultAdminEmail;
-
     return {
-      ..._.omit(this, ['password', 'isSso', 'avatar', 'passwordChangedAt']),
-      isLocked: this.isSso || isDefaultAdmin,
-      isRoleLocked: (this.isSso && !sails.config.custom.oidcIgnoreRoles) || isDefaultAdmin,
-      isDeletionLocked: isDefaultAdmin,
+      ..._.omit(this, ['password', 'avatar', 'passwordChangedAt']),
       avatarUrl:
         this.avatar &&
         `${sails.config.custom.userAvatarsUrl}/${this.avatar.dirname}/square-100.${this.avatar.extension}`,
+      isLocked: this.email === sails.config.custom.defaultAdminEmail,
     };
   },
 };

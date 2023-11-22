@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { Button, Icon, Menu } from 'semantic-ui-react';
+import { useAuth } from 'react-oidc-context';
 import { usePopup } from '../../lib/popup';
 
 import Paths from '../../constants/Paths';
@@ -29,6 +30,7 @@ const Header = React.memo(
     onUserSettingsClick,
     onLogout,
   }) => {
+    const auth = useAuth();
     const handleProjectSettingsClick = useCallback(() => {
       if (canEditProject) {
         onProjectSettingsClick();
@@ -37,6 +39,11 @@ const Header = React.memo(
 
     const NotificationsPopup = usePopup(NotificationsStep, POPUP_PROPS);
     const UserPopup = usePopup(UserStep, POPUP_PROPS);
+
+    const onFullLogout = () => {
+      auth.signoutSilent();
+      onLogout();
+    };
 
     return (
       <div className={styles.wrapper}>
@@ -88,7 +95,7 @@ const Header = React.memo(
             <UserPopup
               isLogouting={isLogouting}
               onSettingsClick={onUserSettingsClick}
-              onLogout={onLogout}
+              onLogout={onFullLogout}
             >
               <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
                 {user.name}

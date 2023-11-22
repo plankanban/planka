@@ -8,7 +8,6 @@ export default function* loginWatchers() {
     takeEvery(EntryActionTypes.AUTHENTICATE, ({ payload: { data } }) =>
       services.authenticate(data),
     ),
-    takeEvery(EntryActionTypes.USING_OIDC_AUTHENTICATE, () => services.authenticateUsingOidc()),
     takeEvery(EntryActionTypes.AUTHENTICATE_ERROR_CLEAR, () => services.clearAuthenticateError()),
   ]);
 }

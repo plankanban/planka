@@ -1,9 +1,10 @@
 import isEmail from 'validator/lib/isEmail';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useAuth } from 'react-oidc-context';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Button, Form, Grid, Header, Message } from 'semantic-ui-react';
+import { Form, Grid, Header, Message } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious, useToggle } from '../../lib/hooks';
 import { Input } from '../../lib/custom-ui';
 
@@ -28,21 +29,6 @@ const createMessage = (error) => {
         type: 'error',
         content: 'common.invalidPassword',
       };
-    case 'Use single sign-on':
-      return {
-        type: 'error',
-        content: 'common.useSingleSignOn',
-      };
-    case 'Email already in use':
-      return {
-        type: 'error',
-        content: 'common.emailAlreadyInUse',
-      };
-    case 'Username already in use':
-      return {
-        type: 'error',
-        content: 'common.usernameAlreadyInUse',
-      };
     case 'Failed to fetch':
       return {
         type: 'warning',
@@ -62,16 +48,8 @@ const createMessage = (error) => {
 };
 
 const Login = React.memo(
-  ({
-    defaultData,
-    isSubmitting,
-    isSubmittingUsingOidc,
-    error,
-    withOidc,
-    onAuthenticate,
-    onAuthenticateUsingOidc,
-    onMessageDismiss,
-  }) => {
+  ({ defaultData, isSubmitting, error, onAuthenticate, onMessageDismiss }) => {
+    const auth = useAuth();
     const [t] = useTranslation();
     const wasSubmitting = usePrevious(isSubmitting);
 
@@ -192,19 +170,12 @@ const Login = React.memo(
                         content={t('action.logIn')}
                         floated="right"
                         loading={isSubmitting}
-                        disabled={isSubmitting || isSubmittingUsingOidc}
+                        disabled={isSubmitting}
                       />
                     </Form>
-                    {withOidc && (
-                      <Button
-                        type="button"
-                        loading={isSubmittingUsingOidc}
-                        disabled={isSubmitting || isSubmittingUsingOidc}
-                        onClick={onAuthenticateUsingOidc}
-                      >
-                        {t('action.logInWithSSO')}
-                      </Button>
-                    )}
+                    <Form.Button type="button" onClick={() => auth.signinRedirect()}>
+                      Log in with SSO
+                    </Form.Button>
                   </div>
                 </div>
               </Grid.Column>
@@ -235,15 +206,10 @@ const Login = React.memo(
 );
 
 Login.propTypes = {
-  /* eslint-disable react/forbid-prop-types */
-  defaultData: PropTypes.object.isRequired,
-  /* eslint-enable react/forbid-prop-types */
+  defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   isSubmitting: PropTypes.bool.isRequired,
-  isSubmittingUsingOidc: PropTypes.bool.isRequired,
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  withOidc: PropTypes.bool.isRequired,
   onAuthenticate: PropTypes.func.isRequired,
-  onAuthenticateUsingOidc: PropTypes.func.isRequired,
   onMessageDismiss: PropTypes.func.isRequired,
 };
 

@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const buildData = () => {
   const data = {
     isAdmin: true,
-    isSso: false,
   };
 
   if (process.env.DEFAULT_ADMIN_PASSWORD) {
@@ -34,6 +33,10 @@ exports.seed = async (knex) => {
       createdAt: new Date().toISOString(),
     });
   } catch (error) {
+    if (Object.keys(data).length === 0) {
+      return;
+    }
+
     await knex('user_account').update(data).where('email', process.env.DEFAULT_ADMIN_EMAIL);
   }
 };

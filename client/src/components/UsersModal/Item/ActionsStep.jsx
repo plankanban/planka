@@ -153,14 +153,12 @@ const ActionsStep = React.memo(
                     context: 'title',
                   })}
                 </Menu.Item>
+                <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+                  {t('action.deleteUser', {
+                    context: 'title',
+                  })}
+                </Menu.Item>
               </>
-            )}
-            {!user.isDeletionLocked && (
-              <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
-                {t('action.deleteUser', {
-                  context: 'title',
-                })}
-              </Menu.Item>
             )}
           </Menu>
         </Popup.Content>

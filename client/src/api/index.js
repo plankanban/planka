@@ -1,6 +1,5 @@
 import http from './http';
 import socket from './socket';
-import root from './root';
 import accessTokens from './access-tokens';
 import users from './users';
 import projects from './projects';
@@ -21,7 +20,6 @@ import notifications from './notifications';
 export { http, socket };
 
 export default {
-  ...root,
   ...accessTokens,
   ...users,
   ...projects,
