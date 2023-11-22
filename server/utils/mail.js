@@ -28,8 +28,8 @@ const sendEmail = async ({ to, subject, text, cc }) => {
   }
 };
 
-const sendUserEmails = async ({ ids, subject, text, cc }) => {
-  const users = await sails.helpers.users.getMany(ids);
+const sendUserEmails = async ({ to, subject, text, cc }) => {
+  const users = await sails.helpers.users.getMany({ id: { in: to } });
   return sendEmail({ to: users.map((u) => u.email), subject, text, cc });
 };
 
