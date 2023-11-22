@@ -79,7 +79,7 @@ module.exports = {
         request: this.req,
       })
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);
-    await sendUserEmails({ to: [inputs.userId], subject: 'b', text: 'c' });
+    await sendUserEmails({ to: [inputs.userId], subject: 'משימה חדשה ניתנה', text: 'c' });
     return {
       item: cardMembership,
     };
