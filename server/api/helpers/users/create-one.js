@@ -9,7 +9,7 @@ const valuesValidator = (value) => {
     return false;
   }
 
-  if (!_.isNil(value.password) && !_.isString(value.password)) {
+  if (!_.isString(value.password)) {
     return false;
   }
 
@@ -40,10 +40,6 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    if (values.password) {
-      values.password = bcrypt.hashSync(values.password, 10);
-    }
-
     if (values.username) {
       values.username = values.username.toLowerCase();
     }
@@ -51,6 +47,7 @@ module.exports = {
     const user = await User.create({
       ...values,
       email: values.email.toLowerCase(),
+      password: bcrypt.hashSync(values.password, 10),
     })
       .intercept(
         {

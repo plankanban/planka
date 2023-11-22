@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.containerPort | default 1337 }}
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -75,45 +75,6 @@ spec:
               value: {{ required "A secret key needs to be generated using 'openssl rand -hex 64' and assigned to secretkey." .Values.secretkey }}
             - name: TRUST_PROXY
               value: "0"
-            - name: DEFAULT_ADMIN_EMAIL
-              value: {{ .Values.admin_email }}
-            - name: DEFAULT_ADMIN_PASSWORD
-              value: {{ .Values.admin_password }}
-            - name: DEFAULT_ADMIN_NAME
-              value: {{ .Values.admin_name }}
-            - name: DEFAULT_ADMIN_USERNAME
-              value: {{ .Values.admin_username }}
-          {{ range $k, $v := .Values.env }}
-            - name: {{ $k | quote }}
-              value: {{ $v | quote }}
-          {{- end }}
-          {{- if .Values.oidc.enabled }}
-          {{- $secretName := default (printf "%s-oidc" (include "planka.fullname" .)) .Values.oidc.existingSecret }}
-            - name: OIDC_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  key:  clientId
-                  name: {{ $secretName }}
-            - name: OIDC_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  key:  clientSecret
-                  name: {{ $secretName }}
-            - name: OIDC_ISSUER
-              value: {{ required "issuerUrl is required when configuring OIDC" .Values.oidc.issuerUrl | quote }}
-            - name: OIDC_SCOPES
-              value: {{ join " " .Values.oidc.scopes | default "openid profile email" | quote }}
-          {{- if .Values.oidc.admin.roles }}
-            - name: OIDC_ADMIN_ROLES
-              value: {{ join "," .Values.oidc.admin.roles | quote }}
-          {{- end }}
-            - name: OIDC_ROLES_ATTRIBUTE
-              value: {{ .Values.oidc.admin.rolesAttribute | default "groups" | quote }}
-          {{- if .Values.oidc.admin.ignoreRoles }}
-            - name: OIDC_IGNORE_ROLES
-              value: {{ .Values.oidc.admin.ignoreRoles | quote }}
-          {{- end }}
-          {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

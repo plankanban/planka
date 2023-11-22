@@ -33,16 +33,15 @@ export function* handleLocationChange() {
 
   switch (pathsMatch.pattern.path) {
     case Paths.LOGIN:
-    case Paths.OIDC_CALLBACK:
       yield call(goToRoot);
 
-      return;
+      break;
     default:
   }
 
-  const isInitializing = yield select(selectors.selectIsInitializing);
+  const isCoreInitializing = yield select(selectors.selectIsCoreInitializing);
 
-  if (isInitializing) {
+  if (isCoreInitializing) {
     yield take(ActionTypes.CORE_INITIALIZE);
   }
 

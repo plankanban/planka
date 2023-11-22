@@ -10,10 +10,6 @@ module.exports = {
   },
 
   async fn(inputs) {
-    await IdentityProviderUser.destroy({
-      userId: inputs.record.id,
-    });
-
     await ProjectManager.destroy({
       userId: inputs.record.id,
     });

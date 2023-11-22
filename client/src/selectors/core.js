@@ -6,6 +6,8 @@ import Config from '../constants/Config';
 
 export const selectAccessToken = ({ auth: { accessToken } }) => accessToken;
 
+export const selectIsCoreInitializing = ({ core: { isInitializing } }) => isInitializing;
+
 export const selectIsLogouting = ({ core: { isLogouting } }) => isLogouting;
 
 const nextPosition = (items, index, excludedId) => {
@@ -113,6 +115,7 @@ export const selectNextTaskPosition = createSelector(
 
 export default {
   selectAccessToken,
+  selectIsCoreInitializing,
   selectIsLogouting,
   selectNextBoardPosition,
   selectNextLabelPosition,
