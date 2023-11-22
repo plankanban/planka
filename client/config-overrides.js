@@ -50,6 +50,16 @@ module.exports = function override(config, env) {
       ],
     }),
   );
+  config.module.rules.push({
+    test: /\.(?:js|jsx|mjs|cjs)$/,
+    exclude: /node_modules/,
+    use: {
+      loader: 'babel-loader',
+      options: {
+        presets: [['@babel/preset-env', { targets: 'defaults' }], '@babel/preset-react'],
+      },
+    },
+  });
 
   if (env === 'production') {
     const plugins = config.plugins.map((plugin) => {
