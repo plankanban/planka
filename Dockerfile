@@ -6,6 +6,7 @@ COPY server/package.json server/package-lock.json .
 
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
+  && pnpm import \
   && pnpm install --prod
 
 FROM node:lts AS client
@@ -16,6 +17,7 @@ COPY client/package.json client/package-lock.json .
 
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
+  && pnpm import \
   && pnpm install --prod
 
 COPY client .
