@@ -11,7 +11,6 @@ export default {
     longDateTime: "d MMMM 'в' p",
   },
 
-
   translation: {
     common: {
       aboutPlanka: 'Despre Planka',
@@ -153,8 +152,10 @@ export default {
       title: 'Titlu',
       userActions_title: 'Acțiunile utilizatorului',
       userAddedThisCardToList: '<0>{{user}}</0><1> a adăugat acest card în {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} a lăsat un nou comentariu «{{comment}}» în <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} a mutat <2>{{card}}</2> din {{fromList}} în {{toList}}',
+      userLeftNewCommentToCard:
+        '{{user}} a lăsat un nou comentariu «{{comment}}» în <2>{{card}}</2>',
+      userMovedCardFromListToList:
+        '{{user}} a mutat <2>{{card}}</2> din {{fromList}} în {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> a mutat aceast card din {{fromList}} în {{toList}}</1>',
       username: 'Nume utilizator',
