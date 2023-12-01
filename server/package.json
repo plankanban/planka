@@ -42,7 +42,7 @@
     "sails-hook-orm": "^4.0.2",
     "sails-hook-sockets": "^2.0.4",
     "sails-postgresql-redacted": "^1.0.2-9",
-    "sharp": "^0.32.6",
+    "sharp": "^0.33.0",
     "stream-to-array": "^2.3.0",
     "uuid": "^9.0.1",
     "validator": "^13.11.0",
