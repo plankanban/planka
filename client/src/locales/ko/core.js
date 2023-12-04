@@ -36,7 +36,8 @@ export default {
       areYouSureYouWantToDeleteThisUser: '해당하는 사용자를 삭제하겠습니까?',
       areYouSureYouWantToLeaveBoard: '이 보드에서 나가시겠습니까?',
       areYouSureYouWantToLeaveProject: '이 프로젝트에서 나가시겠습니까?',
-      areYouSureYouWantToRemoveThisManagerFromProject: '해당하는 프로젝트에서 매니저를 제거하시겠습니까?',
+      areYouSureYouWantToRemoveThisManagerFromProject:
+        '해당하는 프로젝트에서 매니저를 제거하시겠습니까?',
       areYouSureYouWantToRemoveThisMemberFromBoard: '해당하는 멤버를 보드에서 삭제하시겠습니까?',
       attachment: '첨부',
       attachments: '첨부 파일',
@@ -149,9 +150,12 @@ export default {
       title: '제목',
       userActions_title: '사용자 액션',
       userAddedThisCardToList: '<0>{{user}}</0><1>님이 {{list}}</1>에 카드를 추가했습니다.',
-      userLeftNewCommentToCard: '{{user}}님이 <2>{{card}}</2>에 «{{comment}}»라는 댓글을 남겼습니다.',
-      userMovedCardFromListToList: '{{user}}님이 {{fromList}}에서 {{toList}}로 <2>{{card}}</2>를 옮겼습니다.',
-      userMovedThisCardFromListToList: '<0>{{user}}</0><1> 님이 {{fromList}}에서 {{toList}}로 이 카드를 옮겼습니다.</1>',
+      userLeftNewCommentToCard:
+        '{{user}}님이 <2>{{card}}</2>에 «{{comment}}»라는 댓글을 남겼습니다.',
+      userMovedCardFromListToList:
+        '{{user}}님이 {{fromList}}에서 {{toList}}로 <2>{{card}}</2>를 옮겼습니다.',
+      userMovedThisCardFromListToList:
+        '<0>{{user}}</0><1> 님이 {{fromList}}에서 {{toList}}로 이 카드를 옮겼습니다.</1>',
       username: '사용자 이름',
       usernameAlreadyInUse: '이미 사용중인 사용자 이름입니다.',
       users: '사용자',
