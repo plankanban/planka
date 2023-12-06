@@ -11,10 +11,12 @@ export default {
       projectManagement: 'プロジェクト管理',
       serverConnectionFailed: 'サーバーの接続に失敗',
       unknownError: '不明なエラーです。後でもう一度試してください。',
+      useSingleSignOn: 'SSOを使用',
     },
 
     action: {
       logIn: 'ログイン',
+      logInWithSSO: 'SSOでログイン',
     },
   },
 };
