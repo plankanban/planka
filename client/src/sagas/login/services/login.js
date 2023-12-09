@@ -32,14 +32,28 @@ export function* authenticate(data) {
 export function* authenticateUsingOidc() {
   const oidcConfig = yield select(selectors.selectOidcConfig);
 
+  const state = nanoid();
+  window.sessionStorage.setItem('oidc-state', state);
+
   const nonce = nanoid();
   window.sessionStorage.setItem('oidc-nonce', nonce);
-  window.location.href = `${oidcConfig.authorizationUrl}&nonce=${encodeURIComponent(nonce)}`;
+
+  let redirectUrl = `${oidcConfig.authorizationUrl}`;
+  redirectUrl += `&state=${encodeURIComponent(state)}`;
+  redirectUrl += `&nonce=${encodeURIComponent(nonce)}`;
+
+  window.location.href = redirectUrl;
 }
 
 export function* authenticateUsingOidcCallback() {
   // https://github.com/plankanban/planka/issues/511#issuecomment-1771385639
   const params = new URLSearchParams(window.location.hash.substring(1) || window.location.search);
+
+  const state = window.sessionStorage.getItem('oidc-state');
+  window.sessionStorage.removeItem('oidc-state');
+
+  const nonce = window.sessionStorage.getItem('oidc-nonce');
+  window.sessionStorage.removeItem('oidc-nonce');
 
   yield put(replace(Paths.LOGIN));
 
@@ -54,7 +68,23 @@ export function* authenticateUsingOidcCallback() {
     return;
   }
 
-  const nonce = window.sessionStorage.getItem('oidc-nonce');
+  const code = params.get('code');
+  if (code === null) {
+    yield put(
+      actions.authenticateUsingOidc.failure(new Error('Invalid OIDC response: no code parameter')),
+    );
+    return;
+  }
+
+  if (params.get('state') !== state) {
+    yield put(
+      actions.authenticateUsingOidc.failure(
+        new Error('Unable to process OIDC response: state mismatch'),
+      ),
+    );
+    return;
+  }
+
   if (nonce === null) {
     yield put(
       actions.authenticateUsingOidc.failure(
@@ -64,31 +94,19 @@ export function* authenticateUsingOidcCallback() {
     return;
   }
 
-  const code = params.get('code');
-  if (code === null) {
-    yield put(
-      actions.authenticateUsingOidc.failure(new Error('Invalid OIDC response: no code parameter')),
-    );
+  let accessToken;
+  try {
+    ({ item: accessToken } = yield call(api.exchangeForAccessTokenUsingOidc, {
+      code,
+      nonce,
+    }));
+  } catch (error) {
+    yield put(actions.authenticateUsingOidc.failure(error));
     return;
   }
 
-  window.sessionStorage.removeItem('oidc-nonce');
-
-  if (code !== null) {
-    let accessToken;
-    try {
-      ({ item: accessToken } = yield call(api.exchangeForAccessTokenUsingOidc, {
-        code,
-        nonce,
-      }));
-    } catch (error) {
-      yield put(actions.authenticateUsingOidc.failure(error));
-      return;
-    }
-
-    yield call(setAccessToken, accessToken);
-    yield put(actions.authenticateUsingOidc.success(accessToken));
-  }
+  yield call(setAccessToken, accessToken);
+  yield put(actions.authenticateUsingOidc.success(accessToken));
 }
 
 export function* clearAuthenticateError() {
