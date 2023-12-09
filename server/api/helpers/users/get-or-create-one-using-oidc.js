@@ -24,8 +24,13 @@ module.exports = {
     try {
       const tokenSet = await client.callback(
         sails.config.custom.oidcRedirectUri,
-        { code: inputs.code },
-        { nonce: inputs.nonce },
+        {
+          iss: sails.config.custom.oidcIssuer,
+          code: inputs.code,
+        },
+        {
+          nonce: inputs.nonce,
+        },
       );
       userInfo = await client.userinfo(tokenSet);
     } catch (e) {
