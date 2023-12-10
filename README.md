@@ -1,5 +1,5 @@
 # Planka
-#### Elegant open source project tracking
+#### Elegant open source project tracking.
 
 ![David (path)](https://img.shields.io/github/package-json/v/plankanban/planka) ![Docker Pulls](https://img.shields.io/docker/pulls/meltyshev/planka) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
 
@@ -20,9 +20,7 @@
 
 ## How to deploy Planka
 
-There are many ways to install Planka
-
-[Check them out](https://docs.planka.cloud/docs/intro)
+There are many ways to install Planka, [check them out](https://docs.planka.cloud/docs/intro).
 
 For configuration, please see the [configuration section](https://docs.planka.cloud/docs/category/configuration).
 
