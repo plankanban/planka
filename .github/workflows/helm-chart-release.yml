@@ -35,7 +35,7 @@ jobs:
           done
 
       - name: Run chart-releaser for stable
-        uses: helm/chart-releaser-action@v1.5.0
+        uses: helm/chart-releaser-action@v1.6.0
         with:
           charts_dir: charts
           mark_as_latest: false
