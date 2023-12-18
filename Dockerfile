@@ -53,7 +53,7 @@ VOLUME /app/private/attachments
 
 EXPOSE 1337
 
-# Use Tini to start Planka and Shutdown gracefully:
+# Use Tini to start Planka and shutdown gracefully:
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#handling-kernel-signals
 ENTRYPOINT ["/sbin/tini", "--"]
 
