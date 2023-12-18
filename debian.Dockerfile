@@ -1,8 +1,8 @@
-FROM node:18-alpine as server-dependencies
+FROM node:18-bookworm as server-dependencies
 
-RUN apk -U upgrade \
-  && apk add build-base python3 tini \
-  --no-cache
+RUN apt-get update \
+    && apt-get install -y \
+    tini
 
 WORKDIR /app
 
@@ -27,25 +27,24 @@ RUN npm install npm@latest --global \
 COPY client .
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
-FROM node:18-alpine AS final
+FROM node:18-bookworm-slim AS final
 
-RUN apk -U upgrade \
-  && apk add bash \
-  --no-cache
+ARG USER=planka
+RUN useradd --no-create-home --shell /bin/bash $USER
+USER $USER
 
-USER node
 WORKDIR /app
 
-COPY --chown=node:node start.sh .
-COPY --chown=node:node server .
+COPY --chown=$USER:$USER start.sh .
+COPY --chown=$USER:$USER server .
 
 RUN mv .env.sample .env
 
-COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
-COPY --from=server-dependencies --chown=node:node /sbin/tini /sbin/tini
+COPY --from=server-dependencies --chown=$USER:$USER /app/node_modules node_modules
+COPY --from=server-dependencies --chown=$USER:$USER /usr/bin/tini /usr/local/bin/tini
 
-COPY --from=client --chown=node:node /app/build public
-COPY --from=client --chown=node:node /app/build/index.html views/index.ejs
+COPY --from=client --chown=$USER:$USER /app/build public
+COPY --from=client --chown=$USER:$USER /app/build/index.html views/index.ejs
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
@@ -55,6 +54,6 @@ EXPOSE 1337
 
 # Use Tini to start Planka and shutdown gracefully:
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#handling-kernel-signals
-ENTRYPOINT ["/sbin/tini", "--"]
+ENTRYPOINT ["tini", "--"]
 
 CMD ["./start.sh"]
