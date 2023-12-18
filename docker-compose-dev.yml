@@ -3,14 +3,6 @@ version: '3'
 services:
   planka:
     image: ghcr.io/plankanban/planka:dev
-    command: >
-      bash -c
-        "for i in `seq 1 30`; do
-          ./start.sh &&
-          s=$$? && break || s=$$?;
-          echo \"Tried $$i times. Waiting 5 seconds...\";
-          sleep 5;
-        done; (exit $$s)"
     restart: unless-stopped
     volumes:
       - user-avatars:/app/public/user-avatars
