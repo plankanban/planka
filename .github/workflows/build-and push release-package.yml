@@ -21,9 +21,11 @@ jobs:
 
       - name: Client install dependencies
         run: pnpm install
+        working-directory: ./client
 
       - name: Server install dependencies
         run: pnpm install
+        working-directory: ./server
 
       - name: Server include into dist
         run: mv server/ dist/
