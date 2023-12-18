@@ -16,6 +16,10 @@ const ItemComment = React.memo(
   ({ data, createdAt, isPersisted, user, canEdit, onUpdate, onDelete }) => {
     const [t] = useTranslation();
 
+    const thisYear = new Date().getFullYear();
+    const targetYear = createdAt.getFullYear();
+    const dateFormat = (targetYear == thisYear) ? "longDateTime" : "fullDateTime";
+
     const commentEdit = useRef(null);
 
     const handleEditClick = useCallback(() => {
@@ -33,7 +37,7 @@ const ItemComment = React.memo(
           <div className={styles.title}>
             <span className={styles.author}>{user.name}</span>
             <span className={styles.date}>
-              {t('format:longDateTime', {
+              {t(`format:${dateFormat}`, {
                 postProcess: 'formatDate',
                 value: createdAt,
               })}

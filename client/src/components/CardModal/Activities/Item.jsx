@@ -13,6 +13,10 @@ import styles from './Item.module.scss';
 const Item = React.memo(({ type, data, createdAt, user }) => {
   const [t] = useTranslation();
 
+  const thisYear = new Date().getFullYear();
+  const targetYear = createdAt.getFullYear();
+  const dateFormat = (targetYear == thisYear) ? "longDateTime" : "fullDateTime";
+
   let contentNode;
   switch (type) {
     case ActivityTypes.CREATE_CARD:
@@ -66,7 +70,7 @@ const Item = React.memo(({ type, data, createdAt, user }) => {
       <div className={classNames(styles.content)}>
         <div>{contentNode}</div>
         <span className={styles.date}>
-          {t('format:longDateTime', {
+          {t(`format:${dateFormat}`, {
             postProcess: 'formatDate',
             value: createdAt,
           })}

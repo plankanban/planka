@@ -18,8 +18,18 @@ const FORMATS = {
   medium: 'longDateTime',
 };
 
+const OTHERWISE_FORMATS = {
+  tiny: 'fullDate',
+  small: 'fullDate',
+  medium: 'fullDateTime',
+};
+
 const DueDate = React.memo(({ value, size, isDisabled, onClick }) => {
   const [t] = useTranslation();
+
+  const thisYear = new Date().getFullYear();
+  const targetYear = value.getFullYear();
+  const dateFormats = (targetYear == thisYear) ? FORMATS : OTHERWISE_FORMATS;
 
   const contentNode = (
     <span
@@ -29,7 +39,7 @@ const DueDate = React.memo(({ value, size, isDisabled, onClick }) => {
         onClick && styles.wrapperHoverable,
       )}
     >
-      {t(`format:${FORMATS[size]}`, {
+      {t(`format:${dateFormats[size]}`, {
         value,
         postProcess: 'formatDate',
       })}
