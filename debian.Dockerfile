@@ -3,7 +3,8 @@ ARG NODE_V=18-bookworm
 FROM node:${NODE_V} as builder
 RUN apt-get update && \
     apt-get install -y tini && \
-    npm install pnpm --global
+    npm install pnpm --global && \
+    pnpm config set store-dir /root/.pnpm-store
 
 #FROM builder as server-dependencies
 WORKDIR /planka/server
