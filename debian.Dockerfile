@@ -1,49 +1,38 @@
-# Step 1: server-dependencies
-FROM node:18-bookworm as server-dependencies
+ARG NODE_V=18-bookworm
 
-RUN apt-get update \
-    && apt-get install -y \
-    tini
+FROM node:${NODE_V} as builder
+RUN apt-get update && \
+    apt-get install -y tini && \
+    npm install pnpm --global
 
-WORKDIR /app
+#FROM builder as server-dependencies
+WORKDIR /planka/server
 
-COPY server/package.json server/package-lock.json ./
-COPY server/pnpm-lock.yaml .
-
-RUN npm install pnpm --global && \
-    pnpm install --prod
-
-# Step 2: client
-FROM node:18-bookworm AS client
-
-WORKDIR /app
-
-COPY client/package.json client/package-lock.json ./
-COPY client .
-
-RUN npm install pnpm --global && \
-    pnpm install --prod
-
-RUN DISABLE_ESLINT_PLUGIN=true npm run build
-
-# Step 3: intermediate
-FROM node:18-bookworm-slim AS intermediate
-
-WORKDIR /app
-
-COPY --from=server-dependencies /app/node_modules node_modules
-COPY --from=server-dependencies /usr/bin/tini /usr/local/bin/tini
-
-COPY --from=client /app/build public
-COPY --from=client /app/build/index.html views/index.ejs
-
-COPY docker-entrypoint.sh .
+COPY server/package.json server/pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm-store,target=/.pnpm-store \
+    pnpm install --frozen-lockfile --prod
 COPY server .
 
+#FROM builder as client
+WORKDIR /planka/client
+
+COPY client/package.json client/pnpm-lock.yaml ./
+RUN --mount=type=cache,id=pnpm-store,target=/.pnpm-store \
+    pnpm install --frozen-lockfile --prod
+COPY client .
+
+RUN DISABLE_ESLINT_PLUGIN=true pnpm run build
+
+FROM builder AS intermediate
+WORKDIR /app
+
+COPY --from=builder /planka/server .
+COPY --from=builder /planka/client/build public
+COPY --from=builder /planka/client/build/index.html views/index.ejs
+COPY docker-entrypoint.sh .
 RUN mv .env.sample .env
 
-# Step 4: final
-FROM node:18-bookworm-slim AS final
+FROM node:${NODE_V}-slim AS final
 
 ARG USER=planka
 
@@ -53,7 +42,7 @@ USER $USER
 
 WORKDIR /app
 
-COPY --from=server-dependencies --chown=$USER:$USER /usr/bin/tini /usr/local/bin/tini
+COPY --from=intermediate --chown=$USER:$USER /usr/bin/tini /usr/local/bin/tini
 COPY --from=intermediate --chown=$USER:$USER /app .
 
 VOLUME /app/public/user-avatars
