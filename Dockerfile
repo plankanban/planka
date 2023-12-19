@@ -36,7 +36,7 @@ RUN apk -U upgrade \
 USER node
 WORKDIR /app
 
-COPY --chown=node:node start.sh .
+COPY --chown=node:node docker-entrypoint.sh .
 COPY --chown=node:node server .
 
 RUN mv .env.sample .env
@@ -57,4 +57,4 @@ EXPOSE 1337
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#handling-kernel-signals
 ENTRYPOINT ["/sbin/tini", "--"]
 
-CMD ["./start.sh"]
+CMD ["./docker-entrypoint.sh"]

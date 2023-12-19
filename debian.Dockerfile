@@ -37,7 +37,7 @@ COPY --from=server-dependencies /usr/bin/tini /usr/local/bin/tini
 COPY --from=client /app/build public
 COPY --from=client /app/build/index.html views/index.ejs
 
-COPY start.sh .
+COPY docker-entrypoint.sh .
 COPY server .
 
 RUN mv .env.sample .env
@@ -66,4 +66,4 @@ EXPOSE 1337/tcp
 # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#handling-kernel-signals
 ENTRYPOINT ["tini", "--"]
 
-CMD ["./start.sh"]
+CMD ["./docker-entrypoint.sh"]
