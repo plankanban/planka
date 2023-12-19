@@ -9,7 +9,7 @@ RUN apt-get update && \
 WORKDIR /planka/server
 
 COPY server/package.json server/pnpm-lock.yaml ./
-RUN --mount=type=cache,id=pnpm-store,target=/.pnpm-store \
+RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store \
     pnpm install --frozen-lockfile --prod
 COPY server .
 
@@ -17,7 +17,7 @@ COPY server .
 WORKDIR /planka/client
 
 COPY client/package.json client/pnpm-lock.yaml ./
-RUN --mount=type=cache,id=pnpm-store,target=/.pnpm-store \
+RUN --mount=type=cache,id=pnpm-store,target=/root/.pnpm-store \
     pnpm install --frozen-lockfile --prod
 COPY client .
 
