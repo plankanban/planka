@@ -1,35 +1,25 @@
 FROM node:18-bookworm as base
-RUN apt-get update \
-    && apt-get install -y \
-    tini && \
+RUN apt-get update && \
+    apt-get install -y tini && \
     npm install pnpm --global
-WORKDIR /app
 
 FROM base as server-dependencies
-COPY server/pnpm-lock.yaml .
-RUN pnpm fetch --prod
-RUN pnpm install -r --offline --prod
+WORKDIR /planka/server
+COPY server .
+RUN pnpm install --frozen-lockfile --prod
 
 FROM base as client
-COPY client/pnpm-lock.yaml .
-RUN pnpm fetch --prod
+WORKDIR /planka/client
 COPY client .
-RUN pnpm install -r --offline --prod
+RUN pnpm install --frozen-lockfile --prod
 RUN DISABLE_ESLINT_PLUGIN=true pnpm run build
 
 FROM base AS intermediate
-
 WORKDIR /app
-
-COPY --from=server-dependencies /app/node_modules node_modules
-COPY --from=server-dependencies /usr/bin/tini /usr/local/bin/tini
-
-COPY --from=client /app/build public
-COPY --from=client /app/build/index.html views/index.ejs
-
+COPY --from=server-dependencies /planka/server .
+COPY --from=client /planka/client/build public
+COPY --from=client /planka/client/build/index.html views/index.ejs
 COPY docker-entrypoint.sh .
-COPY server .
-
 RUN mv .env.sample .env
 
 FROM node:18-bookworm-slim AS final
@@ -42,7 +32,7 @@ USER $USER
 
 WORKDIR /app
 
-COPY --from=server-dependencies --chown=$USER:$USER /usr/bin/tini /usr/local/bin/tini
+COPY --from=intermediate --chown=$USER:$USER /usr/bin/tini /usr/local/bin/tini
 COPY --from=intermediate --chown=$USER:$USER /app .
 
 VOLUME /app/public/user-avatars
