@@ -139,8 +139,7 @@ export default {
       subscribeToMyOwnCardsByDefault: '默认关注自己创建的卡片',
       taskActions_title: '任务操作',
       tasks: '任务',
-      thereIsNoPreviewAvailableForThisAttachment:
-        '此附件无法预览',
+      thereIsNoPreviewAvailableForThisAttachment: '此附件无法预览',
       time: '时间',
       title: '标题',
       userActions_title: '用户操作',
