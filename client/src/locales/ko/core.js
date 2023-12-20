@@ -9,6 +9,8 @@ export default {
     dateTime: '$t(format:date) $t(format:time)',
     longDate: "MMMMd'일'",
     longDateTime: "MMMMd'일 ' a hh시 mm분",
+    fullDate: 'yyyy년M월d일',
+    fullDateTime: 'yyyy년M월d일 a hh시 mm분',
   },
 
   translation: {
