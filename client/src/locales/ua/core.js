@@ -5,6 +5,8 @@ export default {
     dateTime: '$t(format:date) $t(format:time)',
     longDate: 'd MMMM',
     longDateTime: "d MMMM 'о' p",
+    fullDate: 'd MMMM y',
+    fullDateTime: "d MMMM y 'о' p",
   },
 
   translation: {
