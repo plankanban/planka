@@ -1,8 +1,8 @@
 export default {
   translation: {
     common: {
-      emailOrUsername: 'Електронна пошта або ім\'я користувача',
-      invalidEmailOrUsername: 'Неправильна електронна пошта або ім\'я користувача',
+      emailOrUsername: "Електронна пошта або ім'я користувача",
+      invalidEmailOrUsername: "Неправильна електронна пошта або ім'я користувача",
       invalidPassword: 'Неправильний пароль',
       logInToPlanka: 'Увійти в Planka',
       noInternetConnection: 'Відсутнє підключення до Інтернету',
