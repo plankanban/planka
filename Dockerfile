@@ -37,6 +37,7 @@ USER node
 WORKDIR /app
 
 COPY --chown=node:node docker-entrypoint.sh .
+COPY --chown=node:node start.sh .
 COPY --chown=node:node server .
 
 RUN mv .env.sample .env
