@@ -6,6 +6,7 @@ import { Comment } from 'semantic-ui-react';
 import { usePopup } from '../../../lib/popup';
 import { Markdown } from '../../../lib/custom-ui';
 
+import getDateFormat from '../../../utils/get-date-format';
 import CommentEdit from './CommentEdit';
 import User from '../../User';
 import DeleteStep from '../../DeleteStep';
@@ -15,10 +16,6 @@ import styles from './ItemComment.module.scss';
 const ItemComment = React.memo(
   ({ data, createdAt, isPersisted, user, canEdit, onUpdate, onDelete }) => {
     const [t] = useTranslation();
-
-    const thisYear = new Date().getFullYear();
-    const targetYear = createdAt.getFullYear();
-    const dateFormat = (targetYear == thisYear) ? "longDateTime" : "fullDateTime";
 
     const commentEdit = useRef(null);
 
@@ -37,7 +34,7 @@ const ItemComment = React.memo(
           <div className={styles.title}>
             <span className={styles.author}>{user.name}</span>
             <span className={styles.date}>
-              {t(`format:${dateFormat}`, {
+              {t(`format:${getDateFormat(createdAt)}`, {
                 postProcess: 'formatDate',
                 value: createdAt,
               })}

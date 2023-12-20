@@ -10,7 +10,7 @@ export default {
     longDate: 'MMMMd日',
     longDateTime: "MMMMd'日 ' HH:mm",
     fullDate: 'yyyy年M月d日',
-    fullDateTime: "yyyy年M月d日 HH:mm",
+    fullDateTime: 'yyyy年M月d日 HH:mm',
   },
 
   translation: {
