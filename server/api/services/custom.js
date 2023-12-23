@@ -1,11 +1,8 @@
 const axios = require('axios');
 const slackPostUrl = 'https://slack.com/api/chat.postMessage';
-const channelId = 'C06B6F4R9RT';
-
-const plankaProdUrl = 'https://kanban.glitchsecure.com';
-const plankaTestUrl = 'http://localhost:3000';
-const plankaTestWebhookUrl = '';
+const channelId = process.env.SLACK_CHANNEL_ID;
 const slackAPIToken = process.env.SLACK_BOT_TOKEN;
+const plankaProdUrl = process.env.BASE_URL;
 
 async function sendSlackMessage(messageText) {
     if (!slackAPIToken) {
