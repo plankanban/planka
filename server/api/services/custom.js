@@ -4,7 +4,7 @@ const channelId = 'C06B6F4R9RT';
 
 const plankaProdUrl = 'https://kanban.glitchsecure.com';
 const plankaTestUrl = 'http://localhost:3000';
-const plankaTestWebhookUrl = 'https://hooks.slack.com/services/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';
+const plankaTestWebhookUrl = '';
 const slackAPIToken = process.env.SLACK_BOT_TOKEN;
 
 async function sendSlackMessage(messageText) {
