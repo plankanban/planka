@@ -13,10 +13,11 @@ import ru from './ru';
 import sk from './sk';
 import sv from './sv';
 import tr from './tr';
+import ua from './ua';
 import uz from './uz';
 import zh from './zh';
 
-const locales = [cs, da, de, en, es, fr, it, ja, ko, pl, ro, ru, sk, sv, tr, uz, zh];
+const locales = [cs, da, de, en, es, fr, it, ja, ko, pl, ro, ru, sk, sv, tr, ua, uz, zh];
 
 export default locales;
 
