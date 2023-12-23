@@ -46,6 +46,9 @@ services:
       # - OIDC_ADMIN_ROLES=admin
       # - OIDC_ROLES_ATTRIBUTE=groups
       # - OIDC_IGNORE_ROLES=true
+
+      # - SLACK_BOT_TOKEN=xoxb-xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx
+      # - SLACK_CHANNEL_ID=xxxxxxxxxx
     depends_on:
       - postgres
 
