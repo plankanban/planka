@@ -6,6 +6,7 @@ import { Comment } from 'semantic-ui-react';
 import { usePopup } from '../../../lib/popup';
 import { Markdown } from '../../../lib/custom-ui';
 
+import getDateFormat from '../../../utils/get-date-format';
 import CommentEdit from './CommentEdit';
 import User from '../../User';
 import DeleteStep from '../../DeleteStep';
@@ -33,7 +34,7 @@ const ItemComment = React.memo(
           <div className={styles.title}>
             <span className={styles.author}>{user.name}</span>
             <span className={styles.date}>
-              {t('format:longDateTime', {
+              {t(`format:${getDateFormat(createdAt)}`, {
                 postProcess: 'formatDate',
                 value: createdAt,
               })}

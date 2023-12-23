@@ -9,6 +9,8 @@ export default {
     dateTime: '$t(format:date) $t(format:time)',
     longDate: 'MMM d',
     longDateTime: "MMMM d 'a' p",
+    fullDate: 'MMM d, y',
+    fullDateTime: "MMMM d, y 'a' p",
   },
 
   translation: {

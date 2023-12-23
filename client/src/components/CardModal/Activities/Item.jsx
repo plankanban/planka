@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
 import { Comment } from 'semantic-ui-react';
 
+import getDateFormat from '../../../utils/get-date-format';
 import { ActivityTypes } from '../../../constants/Enums';
 import ItemComment from './ItemComment';
 import User from '../../User';
@@ -66,7 +67,7 @@ const Item = React.memo(({ type, data, createdAt, user }) => {
       <div className={classNames(styles.content)}>
         <div>{contentNode}</div>
         <span className={styles.date}>
-          {t('format:longDateTime', {
+          {t(`format:${getDateFormat(createdAt)}`, {
             postProcess: 'formatDate',
             value: createdAt,
           })}

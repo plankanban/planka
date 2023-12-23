@@ -2,7 +2,7 @@ version: '3'
 
 services:
   planka:
-    image: ghcr.io/plankanban/planka:dev
+    image: ghcr.io/plankanban/planka:master
     command: >
       bash -c
         "for i in `seq 1 30`; do
