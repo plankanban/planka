@@ -1,5 +1,5 @@
 const moment = require('moment');
-const services = require('../../services/custom');
+const services = require('../../services/slack');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
