@@ -67,7 +67,7 @@ module.exports = {
     });
 
     const cardUrl = services.buildCardUrl(card);
-    const messageText = '*' + currentUser.username + '* commented on ' + cardUrl + ':\n>' + inputs.text;
+    const messageText = '*' + currentUser.name + '* commented on ' + cardUrl + ':\n>' + inputs.text;
     services.sendSlackMessage(messageText)
       .then(() => { console.log('Slack message sent successfully.'); })
       .catch((error) => { console.error('Failed to send Slack message:', error.message); });
