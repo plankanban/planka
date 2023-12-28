@@ -110,7 +110,7 @@ module.exports = {
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
 
     const cardUrl = services.buildCardUrl(card);
-    const messageText = cardUrl + ' was created by ' + currentUser.username + ' in *' + list.name + '*';
+    const messageText = cardUrl + ' was created by ' + currentUser.name + ' in *' + list.name + '*';
     services.sendSlackMessage(messageText)
       .then(() => { console.log('Slack message sent successfully.'); })
       .catch((error) => { console.error('Failed to send Slack message:', error.message); });
