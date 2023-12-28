@@ -11,7 +11,6 @@ async function sendSlackMessage(messageText) {
 
     console.log('Sending to Slack');
 
-
     const postData = {
         blocks: [ {
           type: 'section',
@@ -23,7 +22,6 @@ async function sendSlackMessage(messageText) {
       };
 
     try {
-      // Prod path
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -38,16 +36,6 @@ async function sendSlackMessage(messageText) {
         .catch(error => {
             console.error('Error sending to Slack:', error.message);
         });
-
-
-      // Testing in dev environment (Brad)
-      /*
-      const response = await axios.post(plankaTestWebhookUrl, postData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      */
 
       console.log('Slack response:', response.data);
       return response.data;
