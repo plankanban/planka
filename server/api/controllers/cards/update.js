@@ -203,7 +203,7 @@ module.exports = {
 
     if (cardMoved) {
       const cardUrl = services.buildCardUrl(card);
-      const messageText = cardUrl + ' was moved by ' + currentUser.username + ' to *' + nextList.name + '*';
+      const messageText = cardUrl + ' was moved by ' + currentUser.name + ' to *' + nextList.name + '*';
       services.sendSlackMessage(messageText)
         .then(() => { console.log('Slack message sent successfully.'); })
         .catch((error) => { console.error('Failed to send Slack message:', error.message); });
