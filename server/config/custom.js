@@ -38,7 +38,11 @@ module.exports.custom = {
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
+  oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
+  oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
+  oidcUsernameAttribute: process.env.OIDC_USERNAME_ATTRIBUTE || 'preferred_username',
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
+  oidcIgnoreUsername: process.env.OIDC_IGNORE_USERNAME === 'true',
   oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
 
   // TODO: move client base url to environment variable?
