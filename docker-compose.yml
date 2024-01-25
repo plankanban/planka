@@ -44,7 +44,11 @@ services:
       # - OIDC_CLIENT_SECRET=
       # - OIDC_SCOPES=openid email profile
       # - OIDC_ADMIN_ROLES=admin
+      # - OIDC_EMAIL_ATTRIBUTE=email
+      # - OIDC_NAME_ATTRIBUTE=name
+      # - OIDC_USERNAME_ATTRIBUTE=preferred_username
       # - OIDC_ROLES_ATTRIBUTE=groups
+      # - OIDC_IGNORE_USERNAME=true
       # - OIDC_IGNORE_ROLES=true
     depends_on:
       - postgres
