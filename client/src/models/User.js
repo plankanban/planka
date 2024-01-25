@@ -46,6 +46,7 @@ export default class extends BaseModel {
     isAdmin: attr(),
     isLocked: attr(),
     isRoleLocked: attr(),
+    isUsernameLocked: attr(),
     isDeletionLocked: attr(),
     deletedAt: attr(),
     createdAt: attr({

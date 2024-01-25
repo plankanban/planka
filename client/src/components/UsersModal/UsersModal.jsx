@@ -112,6 +112,7 @@ const UsersModal = React.memo(
                   isAdmin={item.isAdmin}
                   isLocked={item.isLocked}
                   isRoleLocked={item.isRoleLocked}
+                  isUsernameLocked={item.isUsernameLocked}
                   isDeletionLocked={item.isDeletionLocked}
                   emailUpdateForm={item.emailUpdateForm}
                   passwordUpdateForm={item.passwordUpdateForm}

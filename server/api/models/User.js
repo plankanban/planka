@@ -116,6 +116,7 @@ module.exports = {
       ..._.omit(this, ['password', 'isSso', 'avatar', 'passwordChangedAt']),
       isLocked: this.isSso || isDefaultAdmin,
       isRoleLocked: (this.isSso && !sails.config.custom.oidcIgnoreRoles) || isDefaultAdmin,
+      isUsernameLocked: (this.isSso && !sails.config.custom.oidcIgnoreUsername) || isDefaultAdmin,
       isDeletionLocked: isDefaultAdmin,
       avatarUrl:
         this.avatar &&
