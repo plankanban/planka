@@ -136,13 +136,15 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            {!user.isUsernameLocked && (
+              <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
+                {t('action.editUsername', {
+                  context: 'title',
+                })}
+              </Menu.Item>
+            )}
             {!user.isLocked && (
               <>
-                <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
-                  {t('action.editUsername', {
-                    context: 'title',
-                  })}
-                </Menu.Item>
                 <Menu.Item className={styles.menuItem} onClick={handleEditEmailClick}>
                   {t('action.editEmail', {
                     context: 'title',

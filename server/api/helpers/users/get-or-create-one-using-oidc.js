@@ -38,7 +38,10 @@ module.exports = {
       throw 'invalidCodeOrNonce';
     }
 
-    if (!userInfo.email || !userInfo.name) {
+    if (
+      !userInfo[sails.config.custom.oidcEmailAttribute] ||
+      !userInfo[sails.config.custom.oidcNameAttribute]
+    ) {
       throw 'missingValues';
     }
 
@@ -56,12 +59,14 @@ module.exports = {
 
     const values = {
       isAdmin,
-      email: userInfo.email,
+      email: userInfo[sails.config.custom.oidcEmailAttribute],
       isSso: true,
-      name: userInfo.name,
-      username: userInfo.preferred_username,
+      name: userInfo[sails.config.custom.oidcNameAttribute],
       subscribeToOwnCards: false,
     };
+    if (!sails.config.custom.oidcIgnoreUsername) {
+      values.username = userInfo[sails.config.custom.oidcUsernameAttribute];
+    }
 
     let user;
     // This whole block technically needs to be executed in a transaction
@@ -95,7 +100,10 @@ module.exports = {
       });
     }
 
-    const updateFieldKeys = ['email', 'isSso', 'name', 'username'];
+    const updateFieldKeys = ['email', 'isSso', 'name'];
+    if (!sails.config.custom.oidcIgnoreUsername) {
+      updateFieldKeys.push('username');
+    }
     if (!sails.config.custom.oidcIgnoreRoles) {
       updateFieldKeys.push('isAdmin');
     }
