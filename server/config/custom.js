@@ -44,6 +44,7 @@ module.exports.custom = {
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
   oidcIgnoreUsername: process.env.OIDC_IGNORE_USERNAME === 'true',
   oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
+  oidcEnforced: process.env.OIDC_ENFORCED === 'true',
 
   // TODO: move client base url to environment variable?
   oidcRedirectUri: `${

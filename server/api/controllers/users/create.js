@@ -1,6 +1,9 @@
 const zxcvbn = require('zxcvbn');
 
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   EMAIL_ALREADY_IN_USE: {
     emailAlreadyInUse: 'Email already in use',
   },
@@ -56,6 +59,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     emailAlreadyInUse: {
       responseType: 'conflict',
     },
@@ -65,6 +71,10 @@ module.exports = {
   },
 
   async fn(inputs) {
+    if (sails.config.custom.oidcEnforced) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
     const values = _.pick(inputs, [
       'email',
       'password',
