@@ -46,8 +46,11 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const remoteAddress = getRemoteAddress(this.req);
+    if (sails.config.custom.oidcEnforced) {
+      throw Errors.USE_SINGLE_SIGN_ON;
+    }
 
+    const remoteAddress = getRemoteAddress(this.req);
     const user = await sails.helpers.users.getOneByEmailOrUsername(inputs.emailOrUsername);
 
     if (!user) {
