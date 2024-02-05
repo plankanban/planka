@@ -94,7 +94,7 @@ const AttachmentAddZone = React.memo(({ children, onCreate }) => {
   return (
     <>
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <div {...getRootProps()} className={styles.wrapper}>
+      <div {...getRootProps()}>
         {isDragActive && <div className={styles.dropzone}>{t('common.dropFileToUpload')}</div>}
         {children}
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
