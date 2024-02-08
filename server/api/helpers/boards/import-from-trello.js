@@ -107,6 +107,7 @@ module.exports = {
             position: trelloCard.pos,
             name: trelloCard.name,
             description: trelloCard.desc || null,
+            dueDate: trelloCard.due,
           }).fetch();
 
           await importCardLabels(plankaCard, trelloCard);
