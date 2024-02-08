@@ -17,6 +17,7 @@ module.exports = {
     },
     canComment: {
       type: 'boolean',
+      allowNull: true,
     },
   },
 
