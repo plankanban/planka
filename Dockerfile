@@ -6,7 +6,7 @@ RUN apk -U upgrade \
 
 WORKDIR /app
 
-COPY server/package.json server/package-lock.json .
+COPY server/package.json server/package-lock.json ./
 
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
@@ -17,7 +17,7 @@ FROM node:lts AS client
 
 WORKDIR /app
 
-COPY client/package.json client/package-lock.json .
+COPY client/package.json client/package-lock.json ./
 
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
@@ -54,6 +54,7 @@ VOLUME /app/private/attachments
 EXPOSE 1337
 
 HEALTHCHECK --interval=10s --timeout=2s --start-period=15s \
-    CMD node ./healthcheck.js
+  CMD node ./healthcheck.js
 
-CMD ["./start.sh"]
+
+CMD [ "bash", "start.sh" ]
