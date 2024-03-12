@@ -31,7 +31,8 @@ module.exports.custom = {
   attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
   attachmentsUrl: `${process.env.BASE_URL}/attachments`,
 
-  defaultAdminEmail: process.env.DEFAULT_ADMIN_EMAIL,
+  defaultAdminEmail:
+    process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,
