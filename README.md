@@ -10,13 +10,14 @@
 ## Features
 
 - Create projects, boards, lists, cards, labels and tasks
-- Add card members, track time, set a due date, add attachments, write comments
-- Markdown support in a card description and comment
+- Add card members, track time, set due dates, add attachments, write comments
+- Markdown support in card description and comments
 - Filter by members and labels
-- Customize project background
+- Customize project backgrounds
 - Real-time updates
-- User notifications
-- Internationalization
+- Internal notifications
+- Multiple interface languages
+- Single sign-on via OpenID Connect
 
 ## How to deploy Planka
 
@@ -44,3 +45,7 @@ See the [development section](https://docs.planka.cloud/docs/Development).
 ## License
 
 Planka is [AGPL-3.0 licensed](https://github.com/plankanban/planka/blob/master/LICENSE).
+
+## Contributors
+
+[![](https://contrib.rocks/image?repo=plankanban/planka)](https://github.com/plankanban/planka/graphs/contributors)
