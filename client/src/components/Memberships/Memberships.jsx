@@ -68,7 +68,7 @@ const Memberships = React.memo(
             </span>
           ))}
         </span>
-        {remainingUsers && (
+        {remainingUsers.length > 0 && (
           <span className={styles.moreUsersIndicator}>+ {remainingUsers.length} other Members</span>
         )}
         {canEdit && (
