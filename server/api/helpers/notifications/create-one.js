@@ -39,7 +39,11 @@ async function sendEmailNotification({ notification, action }) {
     case Action.Types.COMMENT_CARD:
       email = {
         subject: `${actionUser.name} commented the card ${actionCard.name} on ${actionBoard.name}`,
-        html: `<p>${actionUser.name} commented the card ${actionCard.name} on ${actionBoard.name}</p><p>${action.data.text}</p>`,
+        html:
+          `<p>${actionUser.name} commented the card ` +
+          `<a href="${process.env.BASE_URL}/cards/${actionCard.id}">${actionCard.name}</a> ` +
+          `on <a href="${process.env.BASE_URL}/boards/${actionBoard.id}">${actionBoard.name}</a></p>` +
+          `<p>${action.data.text}</p>`,
       };
       break;
 
