@@ -46,6 +46,16 @@ async function sendEmailNotification({ notification, action }) {
           `<p>${action.data.text}</p>`,
       };
       break;
+    case Action.Types.MOVE_CARD:
+      email = {
+        subject: `${actionUser.name} moved the card ${actionCard.name} from ${action.data.fromList.name} to ${action.data.toList.name} on ${actionBoard.name}`,
+        html:
+          `<p>${actionUser.name} moved the card ` +
+          `<a href="${process.env.BASE_URL}/cards/${actionCard.id}">${actionCard.name}</a> ` +
+          `from ${action.data.fromList.name} to ${action.data.toList.name} ` +
+          `on <a href="${process.env.BASE_URL}/boards/${actionBoard.id}">${actionBoard.name}</a></p>`,
+      };
+      break;
 
     default:
       break;
