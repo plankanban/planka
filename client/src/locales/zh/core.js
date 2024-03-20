@@ -67,7 +67,7 @@ export default {
       deleteTask_title: '删除任务',
       deleteUser_title: '删除用户',
       description: '描述',
-      detectAutomatically: '自动删除',
+      detectAutomatically: '自动检测',
       dropFileToUpload: '拖放文件以上传',
       editor: '编辑器',
       editAttachment_title: '编辑附件',
