@@ -232,6 +232,7 @@ module.exports = {
               toList: _.pick(values.list, ['id', 'name']),
             },
           },
+          board: inputs.board,
         });
       }
 
