@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/pt-BR';
+
 export default {
+  dateFns,
+
   format: {
     date: 'dd/MM/yyyy',
     time: 'p',
