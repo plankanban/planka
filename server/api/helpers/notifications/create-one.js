@@ -1,18 +1,3 @@
-const nodemailer = require('nodemailer');
-
-const emailTransporter =
-  process.env.SMTP_HOST &&
-  nodemailer.createTransport({
-    pool: true,
-    host: process.env.SMTP_HOST,
-    port: process.env.SMTP_PORT,
-    secure: process.env.SMTP_SECURE === 'true',
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASSWORD,
-    },
-  });
-
 const valuesValidator = (value) => {
   if (!_.isPlainObject(value)) {
     return false;
@@ -29,57 +14,57 @@ const valuesValidator = (value) => {
   return true;
 };
 
-async function sendEmailNotification({ notification, action }) {
-  const actionUser = await sails.helpers.users.getOne(action.userId);
-  const actionCard = await Card.findOne(action.cardId);
-  const notificationUser = await sails.helpers.users.getOne(notification.userId);
-  const actionBoard = await Board.findOne(actionCard.boardId);
-  let email;
+// TODO: use templates (views) to build html
+const buildAndSendEmail = async (user, board, card, action, notifiableUser) => {
+  let emailData;
   switch (action.type) {
-    case Action.Types.COMMENT_CARD:
-      email = {
-        subject: `${actionUser.name} commented the card ${actionCard.name} on ${actionBoard.name}`,
+    case Action.Types.MOVE_CARD:
+      emailData = {
+        subject: `${user.name} moved ${card.name} from ${action.data.fromList.name} to ${action.data.toList.name} on ${board.name}`,
         html:
-          `<p>${actionUser.name} commented the card ` +
-          `<a href="${process.env.BASE_URL}/cards/${actionCard.id}">${actionCard.name}</a> ` +
-          `on <a href="${process.env.BASE_URL}/boards/${actionBoard.id}">${actionBoard.name}</a></p>` +
+          `<p>${user.name} moved ` +
+          `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
+          `from ${action.data.fromList.name} to ${action.data.toList.name} ` +
+          `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>`,
+      };
+      break;
+    case Action.Types.COMMENT_CARD:
+      emailData = {
+        subject: `${user.name} left a new comment to ${card.name} on ${board.name}`,
+        html:
+          `<p>${user.name} left a new comment to ` +
+          `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
+          `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>` +
           `<p>${action.data.text}</p>`,
       };
       break;
-    case Action.Types.MOVE_CARD:
-      email = {
-        subject: `${actionUser.name} moved the card ${actionCard.name} from ${action.data.fromList.name} to ${action.data.toList.name} on ${actionBoard.name}`,
-        html:
-          `<p>${actionUser.name} moved the card ` +
-          `<a href="${process.env.BASE_URL}/cards/${actionCard.id}">${actionCard.name}</a> ` +
-          `from ${action.data.fromList.name} to ${action.data.toList.name} ` +
-          `on <a href="${process.env.BASE_URL}/boards/${actionBoard.id}">${actionBoard.name}</a></p>`,
-      };
-      break;
-
     default:
-      break;
+      return;
   }
-  if (!email) {
-    return;
-  }
-  emailTransporter.sendMail(
-    { from: process.env.SMTP_FROM, to: notificationUser.email, ...email },
-    (error, info) => {
-      if (error) {
-        sails.log.error(error);
-      } else {
-        sails.log.info('Email sent: %s', info.messageId);
-      }
-    },
-  );
-}
+
+  await sails.helpers.utils.sendEmail.with({
+    ...emailData,
+    to: notifiableUser.email,
+  });
+};
 
 module.exports = {
   inputs: {
     values: {
       type: 'ref',
       custom: valuesValidator,
+      required: true,
+    },
+    user: {
+      type: 'ref',
+      required: true,
+    },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    card: {
+      type: 'ref',
       required: true,
     },
   },
@@ -97,13 +82,20 @@ module.exports = {
       cardId: values.action.cardId,
     }).fetch();
 
-    if (emailTransporter) {
-      sendEmailNotification({ notification, action: values.action });
-    }
-
     sails.sockets.broadcast(`user:${notification.userId}`, 'notificationCreate', {
       item: notification,
     });
+
+    if (sails.hooks.smtp.isActive()) {
+      let notifiableUser;
+      if (values.user) {
+        notifiableUser = values.user;
+      } else {
+        notifiableUser = await sails.helpers.users.getOne(notification.userId);
+      }
+
+      buildAndSendEmail(inputs.user, inputs.board, inputs.card, values.action, notifiableUser);
+    }
 
     return notification;
   },
