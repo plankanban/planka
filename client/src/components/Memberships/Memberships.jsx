@@ -32,10 +32,15 @@ const Memberships = React.memo(
     const AddPopup = usePopup(AddStep);
     const ActionsPopup = usePopup(ActionsStep);
 
+    // Number of display slots available for showing user icons
+    const userDisplaySlots = 5;
+    const shownUsers = items.slice(0, userDisplaySlots);
+    const remainingUsers = items.slice(userDisplaySlots);
+
     return (
       <>
         <span className={styles.users}>
-          {items.map((item) => (
+          {shownUsers.map((item) => (
             <span key={item.id} className={styles.user}>
               <ActionsPopup
                 membership={item}
@@ -63,6 +68,9 @@ const Memberships = React.memo(
             </span>
           ))}
         </span>
+        {remainingUsers.length > 0 && (
+          <span className={styles.moreUsersIndicator}>+ {remainingUsers.length} other Members</span>
+        )}
         {canEdit && (
           <AddPopup
             users={allUsers}
