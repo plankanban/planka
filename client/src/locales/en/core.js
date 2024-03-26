@@ -160,6 +160,9 @@ export default {
       version: 'Version',
       viewer: 'Viewer',
       writeComment: 'Write a comment...',
+      card: 'card',
+      cards: 'cards',
+      of: 'of',
     },
 
     action: {

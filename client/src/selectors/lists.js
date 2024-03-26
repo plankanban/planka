@@ -34,15 +34,53 @@ export const makeSelectCardIdsByListId = () =>
         return listModel;
       }
 
-      return listModel.getFilteredOrderedCardsModelArray().map((cardModel) => cardModel.id);
+      return listModel.getOrderedCardsModelArray().map((cardModel) => cardModel.id);
     },
   );
 
 export const selectCardIdsByListId = makeSelectCardIdsByListId();
+
+export const makeSelectIsFilteredByListId = () =>
+  createSelector(
+    orm,
+    (_, id) => id,
+    ({ List }, id) => {
+      const listModel = List.withId(id);
+
+      if (!listModel) {
+        return listModel;
+      }
+
+      return listModel.getIsFiltered();
+    },
+  );
+
+export const selectIsFilteredByListId = makeSelectIsFilteredByListId();
+
+export const makeSelectFilteredCardIdsByListId = () =>
+  createSelector(
+    orm,
+    (_, id) => id,
+    ({ List }, id) => {
+      const listModel = List.withId(id);
+
+      if (!listModel) {
+        return listModel;
+      }
+
+      return listModel.getFilteredOrderedCardsModelArray().map((cardModel) => cardModel.id);
+    },
+  );
+
+export const selectFilteredCardIdsByListId = makeSelectFilteredCardIdsByListId();
 
 export default {
   makeSelectListById,
   selectListById,
   makeSelectCardIdsByListId,
   selectCardIdsByListId,
+  makeSelectIsFilteredByListId,
+  selectIsFilteredByListId,
+  makeSelectFilteredCardIdsByListId,
+  selectFilteredCardIdsByListId,
 };
