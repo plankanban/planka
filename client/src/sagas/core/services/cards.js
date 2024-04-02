@@ -142,6 +142,34 @@ export function* handleCardDelete(card) {
   yield put(actions.handleCardDelete(card));
 }
 
+export function* duplicateCard(id) {
+  const localId = yield call(createLocalId);
+
+  yield put(actions.duplicateCard(id, localId));
+
+  let card;
+  let included;
+  try {
+    ({ item: card, included } = yield call(request, api.duplicateCard, id));
+  } catch (error) {
+    yield put(actions.duplicateCard.failure(localId, error));
+    return;
+  }
+
+  yield put(actions.duplicateCard.success(localId, card));
+  yield put(actions.createTasks.success(included.tasks));
+}
+
+export function* duplicateCurrentCard() {
+  const { cardId } = yield select(selectors.selectPath);
+
+  yield call(duplicateCard, cardId);
+}
+
+export function* handleCardDuplicate(card) {
+  yield put(actions.handleCardDuplicate(card));
+}
+
 export default {
   createCard,
   handleCardCreate,
@@ -155,4 +183,7 @@ export default {
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,
+  duplicateCard,
+  duplicateCurrentCard,
+  handleCardDuplicate,
 };

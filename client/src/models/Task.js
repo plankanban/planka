@@ -49,6 +49,12 @@ export default class extends BaseModel {
         });
 
         break;
+      case ActionTypes.TASKS_CREATE__SUCCESS: {
+        payload.tasks.forEach((task) => {
+          Task.upsert(task);
+        });
+        break;
+      }
       case ActionTypes.TASK_CREATE:
       case ActionTypes.TASK_CREATE_HANDLE:
       case ActionTypes.TASK_UPDATE__SUCCESS:

@@ -63,6 +63,11 @@ const deleteCard = (id, headers) =>
     item: transformCard(body.item),
   }));
 
+const duplicateCard = (id, headers) =>
+  socket.post(`/cards/${id}/duplicate`, undefined, headers).then((body) => ({
+    ...body,
+    item: transformCard(body.item),
+  }));
 /* Event handlers */
 
 const makeHandleCardCreate = (next) => (body) => {
@@ -81,6 +86,7 @@ export default {
   getCard,
   updateCard,
   deleteCard,
+  duplicateCard,
   makeHandleCardCreate,
   makeHandleCardUpdate,
   makeHandleCardDelete,

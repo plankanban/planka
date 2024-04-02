@@ -194,6 +194,21 @@ export default class extends BaseModel {
 
         break;
       }
+      case ActionTypes.CARD_DUPLICATE: {
+        const cardModel = Card.withId(payload.id);
+        Card.upsert({
+          ...cardModel.fields,
+          name: `${cardModel.name} (copy)`,
+          id: payload.localId,
+        });
+        break;
+      }
+      case ActionTypes.CARD_DUPLICATE__SUCCESS:
+      case ActionTypes.CARD_DUPLICATE_HANDLE: {
+        Card.withId(payload.localId).delete();
+        Card.upsert(payload.card);
+        break;
+      }
       case ActionTypes.ACTIVITIES_FETCH:
         Card.withId(payload.cardId).update({
           isActivitiesFetching: true,

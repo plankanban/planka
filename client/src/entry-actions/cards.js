@@ -93,6 +93,25 @@ const handleCardDelete = (card) => ({
   },
 });
 
+const duplicateCard = (id) => ({
+  type: EntryActionTypes.CARD_DUPLICATE,
+  payload: {
+    id,
+  },
+});
+
+const duplicateCurrentCard = () => ({
+  type: EntryActionTypes.CURRENT_CARD_DUPLICATE,
+  payload: {},
+});
+
+const handleCardDuplicate = (card) => ({
+  type: EntryActionTypes.CARD_DUPLICATE_HANDLE,
+  payload: {
+    card,
+  },
+});
+
 export default {
   createCard,
   handleCardCreate,
@@ -106,4 +125,7 @@ export default {
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,
+  duplicateCard,
+  duplicateCurrentCard,
+  handleCardDuplicate,
 };

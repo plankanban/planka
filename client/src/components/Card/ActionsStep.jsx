@@ -21,6 +21,7 @@ const StepTypes = {
   EDIT_DUE_DATE: 'EDIT_DUE_DATE',
   EDIT_STOPWATCH: 'EDIT_STOPWATCH',
   MOVE: 'MOVE',
+  DUPLICATE: 'DUPLICATE',
   DELETE: 'DELETE',
 };
 
@@ -37,6 +38,7 @@ const ActionsStep = React.memo(
     onMove,
     onTransfer,
     onDelete,
+    onDuplicate,
     onUserAdd,
     onUserRemove,
     onBoardFetch,
@@ -75,6 +77,11 @@ const ActionsStep = React.memo(
     const handleMoveClick = useCallback(() => {
       openStep(StepTypes.MOVE);
     }, [openStep]);
+
+    const handleDuplicateClick = useCallback(() => {
+      onDuplicate();
+      onClose();
+    }, [onDuplicate, onClose]);
 
     const handleDeleteClick = useCallback(() => {
       openStep(StepTypes.DELETE);
@@ -207,6 +214,11 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleDuplicateClick}>
+              {t('action.duplicate', {
+                context: 'title',
+              })}
+            </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
               {t('action.deleteCard', {
                 context: 'title',
@@ -233,6 +245,7 @@ ActionsStep.propTypes = {
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onDuplicate: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
   onBoardFetch: PropTypes.func.isRequired,

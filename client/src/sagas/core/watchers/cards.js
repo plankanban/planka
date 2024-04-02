@@ -37,5 +37,10 @@ export default function* cardsWatchers() {
     takeEvery(EntryActionTypes.CARD_DELETE_HANDLE, ({ payload: { card } }) =>
       services.handleCardDelete(card),
     ),
+    takeEvery(EntryActionTypes.CARD_DUPLICATE, ({ payload: { id } }) => services.duplicateCard(id)),
+    takeEvery(EntryActionTypes.CURRENT_CARD_DUPLICATE, () => services.duplicateCurrentCard()),
+    takeEvery(EntryActionTypes.CARD_DUPLICATE_HANDLE, ({ payload: { card } }) =>
+      services.handleCardDuplicate(card),
+    ),
   ]);
 }

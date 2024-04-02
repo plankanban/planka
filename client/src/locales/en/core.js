@@ -196,6 +196,7 @@ export default {
       deleteTask: 'Delete task',
       deleteTask_title: 'Delete Task',
       deleteUser: 'Delete user',
+      duplicate: 'Duplicate',
       edit: 'Edit',
       editDueDate_title: 'Edit Due Date',
       editDescription_title: 'Edit Description',

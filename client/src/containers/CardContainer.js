@@ -63,6 +63,7 @@ const mapDispatchToProps = (dispatch, { id }) =>
       onMove: (listId, index) => entryActions.moveCard(id, listId, index),
       onTransfer: (boardId, listId) => entryActions.transferCard(id, boardId, listId),
       onDelete: () => entryActions.deleteCard(id),
+      onDuplicate: () => entryActions.duplicateCard(id),
       onUserAdd: (userId) => entryActions.addUserToCard(userId, id),
       onUserRemove: (userId) => entryActions.removeUserFromCard(userId, id),
       onBoardFetch: entryActions.fetchBoard,

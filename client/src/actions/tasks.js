@@ -7,6 +7,15 @@ const createTask = (task) => ({
   },
 });
 
+const createTasks = () => ({});
+
+createTasks.success = (tasks) => ({
+  type: ActionTypes.TASKS_CREATE__SUCCESS,
+  payload: {
+    tasks,
+  },
+});
+
 createTask.success = (localId, task) => ({
   type: ActionTypes.TASK_CREATE__SUCCESS,
   payload: {
@@ -90,6 +99,7 @@ const handleTaskDelete = (task) => ({
 });
 
 export default {
+  createTasks,
   createTask,
   handleTaskCreate,
   updateTask,
