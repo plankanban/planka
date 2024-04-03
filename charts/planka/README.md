@@ -46,7 +46,7 @@ helm install planka . --set secretkey=$SECRETKEY \
 --set admin_email="demo@demo.demo"  \
 --set admin_password="demo"  \
 --set admin_name="Demo Demo" \
---set admin_username="demo"
+--set admin_username="demo" \
 --set ingress.enabled=true \
 --set ingress.hosts[0].host=planka.example.dev \
 
@@ -55,7 +55,7 @@ helm install planka . --set secretkey=$SECRETKEY \
 --set admin_email="demo@demo.demo"  \
 --set admin_password="demo"  \
 --set admin_name="Demo Demo" \
---set admin_username="demo"
+--set admin_username="demo" \
 --set ingress.enabled=true \
 --set ingress.hosts[0].host=planka.example.dev \
 --set ingress.tls[0].secretName=planka-tls \
@@ -76,6 +76,7 @@ admin_name: "Demo Demo"
 admin_username: "demo"
 # Admin user
 
+# Ingress
 ingress:
   enabled: true
   hosts:
