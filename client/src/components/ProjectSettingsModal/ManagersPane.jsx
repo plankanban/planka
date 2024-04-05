@@ -13,6 +13,7 @@ const ManagersPane = React.memo(({ items, allUsers, onCreate, onDelete }) => {
         items={items}
         allUsers={allUsers}
         addTitle="common.addManager"
+        editTitle="common.editManager"
         leaveButtonContent="action.leaveProject"
         leaveConfirmationTitle="common.leaveProject"
         leaveConfirmationContent="common.areYouSureYouWantToLeaveProject"

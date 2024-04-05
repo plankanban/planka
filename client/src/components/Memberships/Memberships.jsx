@@ -4,6 +4,7 @@ import { Button } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 
 import AddStep from './AddStep';
+import EditStep from './EditStep';
 import ActionsStep from './ActionsStep';
 import User from '../User';
 
@@ -15,6 +16,7 @@ const Memberships = React.memo(
     allUsers,
     permissionsSelectStep,
     addTitle,
+    editTitle,
     leaveButtonContent,
     leaveConfirmationTitle,
     leaveConfirmationContent,
@@ -31,6 +33,7 @@ const Memberships = React.memo(
   }) => {
     const AddPopup = usePopup(AddStep);
     const ActionsPopup = usePopup(ActionsStep);
+    const EditPopup = usePopup(EditStep);
 
     // Number of display slots available for showing user icons
     const userDisplaySlots = 5;
@@ -69,7 +72,18 @@ const Memberships = React.memo(
           ))}
         </span>
         {remainingUsers.length > 0 && (
-          <span className={styles.moreUsersIndicator}>+ {remainingUsers.length} other Members</span>
+          <EditPopup
+            users={remainingUsers}
+            currentUserIds={remainingUsers.map((item) => item.user.id)}
+            permissionsSelectStep={permissionsSelectStep}
+            title={editTitle}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          >
+            <span className={styles.moreUsersIndicator}>
+              + {remainingUsers.length} other Members
+            </span>
+          </EditPopup>
         )}
         {canEdit && (
           <AddPopup
@@ -94,6 +108,7 @@ Memberships.propTypes = {
   /* eslint-enable react/forbid-prop-types */
   permissionsSelectStep: PropTypes.elementType,
   addTitle: PropTypes.string,
+  editTitle: PropTypes.string,
   leaveButtonContent: PropTypes.string,
   leaveConfirmationTitle: PropTypes.string,
   leaveConfirmationContent: PropTypes.string,
@@ -112,6 +127,7 @@ Memberships.propTypes = {
 Memberships.defaultProps = {
   permissionsSelectStep: undefined,
   addTitle: undefined,
+  editTitle: undefined,
   leaveButtonContent: undefined,
   leaveConfirmationTitle: undefined,
   leaveConfirmationContent: undefined,
