@@ -105,12 +105,14 @@ postgresql:
   serviceBindings:
     enabled: true
 
+## Set this if you disable the built-in postgresql deployment
+dburl:
+
 ## PVC-based data storage configuration
 persistence:
   enabled: false
   # existingClaim: netbox-data
   # storageClass: "-"
-  
   accessMode: ReadWriteOnce
   size: 10Gi
 
