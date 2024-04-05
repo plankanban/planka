@@ -56,7 +56,6 @@
     }
   },
   "dependencies": {
-    "axios": "^1.6.2",
     "concurrently": "^8.2.2",
     "husky": "^8.0.3",
     "lint-staged": "^15.1.0"

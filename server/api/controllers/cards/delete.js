@@ -56,10 +56,10 @@ module.exports = {
       throw Errors.CARD_NOT_FOUND;
     }
 
-    const messageText = '*' + card.name + '* was deleted by ' + currentUser.name;
-    services.sendSlackMessage(messageText)
-      .then(() => { console.log('Slack message sent successfully.'); })
-      .catch((error) => { console.error('Failed to send Slack message:', error.message); });
+    const messageText = `*${card.name}* was deleted by ${currentUser.name}`;
+    services.sendSlackMessage(messageText).catch((error) => {
+      throw new Error('Failed to send Slack message:', error.message);
+    });
 
     return {
       item: card,
