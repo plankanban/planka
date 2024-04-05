@@ -33,10 +33,10 @@ export function* authenticateUsingOidc() {
   const oidcConfig = yield select(selectors.selectOidcConfig);
 
   const state = nanoid();
-  window.sessionStorage.setItem('oidc-state', state);
+  window.localStorage.setItem('oidc-state', state);
 
   const nonce = nanoid();
-  window.sessionStorage.setItem('oidc-nonce', nonce);
+  window.localStorage.setItem('oidc-nonce', nonce);
 
   let redirectUrl = `${oidcConfig.authorizationUrl}`;
   redirectUrl += `&state=${encodeURIComponent(state)}`;
@@ -49,11 +49,11 @@ export function* authenticateUsingOidcCallback() {
   // https://github.com/plankanban/planka/issues/511#issuecomment-1771385639
   const params = new URLSearchParams(window.location.hash.substring(1) || window.location.search);
 
-  const state = window.sessionStorage.getItem('oidc-state');
-  window.sessionStorage.removeItem('oidc-state');
+  const state = window.localStorage.getItem('oidc-state');
+  window.localStorage.removeItem('oidc-state');
 
-  const nonce = window.sessionStorage.getItem('oidc-nonce');
-  window.sessionStorage.removeItem('oidc-nonce');
+  const nonce = window.localStorage.getItem('oidc-nonce');
+  window.localStorage.removeItem('oidc-nonce');
 
   yield put(replace(Paths.LOGIN));
 

@@ -21,6 +21,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    board: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -56,6 +60,9 @@ module.exports = {
             userId,
             action,
           },
+          user: values.user,
+          board: inputs.board,
+          card: values.card,
         }),
       ),
     );
