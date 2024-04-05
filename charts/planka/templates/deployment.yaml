@@ -58,11 +58,16 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+          {{- if not .Values.postgresql.enabled }}
+            - name: DATABASE_URL
+              value: {{ required "If the included postgresql deployment is disabled you need to define a Database URL in 'dburl'" .Values.dburl }}
+          {{- else }}
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: planka-postgresql-svcbind-custom-user
                   key: uri
+          {{- end }}
             - name: BASE_URL
               {{- if .Values.baseUrl }}
               value: {{ .Values.baseUrl }}
