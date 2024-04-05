@@ -5,6 +5,7 @@ import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
+import i18n from '../../../i18n';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createCard(listId, data, autoOpen) {
@@ -41,8 +42,23 @@ export function* createCard(listId, data, autoOpen) {
   }
 }
 
-export function* handleCardCreate(card) {
-  yield put(actions.handleCardCreate(card));
+export function* handleCardCreate({ id }) {
+  let card;
+  let cardMemberships;
+  let cardLabels;
+  let tasks;
+  let attachments;
+
+  try {
+    ({
+      item: card,
+      included: { cardMemberships, cardLabels, tasks, attachments },
+    } = yield call(request, api.getCard, id));
+  } catch (error) {
+    return;
+  }
+
+  yield put(actions.handleCardCreate(card, cardMemberships, cardLabels, tasks, attachments));
 }
 
 export function* updateCard(id, data) {
@@ -106,6 +122,55 @@ export function* transferCurrentCard(boardId, listId, index) {
   yield call(transferCard, cardId, boardId, listId, index);
 }
 
+export function* duplicateCard(id) {
+  const { listId, name } = yield select(selectors.selectCardById, id);
+  const index = yield select(selectors.selectCardIndexById, id);
+
+  const nextData = {
+    position: yield select(selectors.selectNextCardPosition, listId, index + 1),
+    name: `${name} (${i18n.t('common.copy', {
+      context: 'inline',
+    })})`,
+  };
+
+  const localId = yield call(createLocalId);
+  const taskIds = yield select(selectors.selectTaskIdsByCardId, id);
+
+  yield put(
+    actions.duplicateCard(
+      id,
+      {
+        ...nextData,
+        id: localId,
+      },
+      taskIds,
+    ),
+  );
+
+  let card;
+  let cardMemberships;
+  let cardLabels;
+  let tasks;
+
+  try {
+    ({
+      item: card,
+      included: { cardMemberships, cardLabels, tasks },
+    } = yield call(request, api.duplicateCard, id, nextData));
+  } catch (error) {
+    yield put(actions.duplicateCard.failure(localId, error));
+    return;
+  }
+
+  yield put(actions.duplicateCard.success(localId, card, cardMemberships, cardLabels, tasks));
+}
+
+export function* duplicateCurrentCard() {
+  const { cardId } = yield select(selectors.selectPath);
+
+  yield call(duplicateCard, cardId);
+}
+
 export function* deleteCard(id) {
   const { cardId, boardId } = yield select(selectors.selectPath);
 
@@ -147,11 +212,13 @@ export default {
   handleCardCreate,
   updateCard,
   updateCurrentCard,
+  handleCardUpdate,
   moveCard,
   moveCurrentCard,
   transferCard,
   transferCurrentCard,
-  handleCardUpdate,
+  duplicateCard,
+  duplicateCurrentCard,
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,

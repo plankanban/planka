@@ -169,6 +169,7 @@ export default {
       deleteTask: 'Supprimer la tâche',
       deleteTask_title: 'Supprimer la tâche',
       deleteUser: "Supprimer l'utilisateur",
+      duplicate: 'Dupliquer',
       edit: 'Modifier',
       editDueDate_title: "Modifier la date d'échéance",
       editDescription_title: 'Éditer la description',

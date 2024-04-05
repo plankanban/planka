@@ -55,6 +55,7 @@ const CardModal = React.memo(
     onUpdate,
     onMove,
     onTransfer,
+    onDuplicate,
     onDelete,
     onUserAdd,
     onUserRemove,
@@ -139,6 +140,11 @@ const CardModal = React.memo(
         isSubscribed: !isSubscribed,
       });
     }, [isSubscribed, onUpdate]);
+
+    const handleDuplicateClick = useCallback(() => {
+      onDuplicate();
+      onClose();
+    }, [onDuplicate, onClose]);
 
     const handleGalleryOpen = useCallback(() => {
       isGalleryOpened.current = true;
@@ -496,6 +502,10 @@ const CardModal = React.memo(
                     {t('action.move')}
                   </Button>
                 </CardMovePopup>
+                <Button fluid className={styles.actionButton} onClick={handleDuplicateClick}>
+                  <Icon name="copy outline" className={styles.actionIcon} />
+                  {t('action.duplicate')}
+                </Button>
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"
@@ -555,6 +565,7 @@ CardModal.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
+  onDuplicate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
