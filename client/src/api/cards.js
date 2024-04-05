@@ -57,17 +57,18 @@ const updateCard = (id, data, headers) =>
     item: transformCard(body.item),
   }));
 
+const duplicateCard = (id, data, headers) =>
+  socket.post(`/cards/${id}/duplicate`, data, headers).then((body) => ({
+    ...body,
+    item: transformCard(body.item),
+  }));
+
 const deleteCard = (id, headers) =>
   socket.delete(`/cards/${id}`, undefined, headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));
 
-const duplicateCard = (id, headers) =>
-  socket.post(`/cards/${id}/duplicate`, undefined, headers).then((body) => ({
-    ...body,
-    item: transformCard(body.item),
-  }));
 /* Event handlers */
 
 const makeHandleCardCreate = (next) => (body) => {

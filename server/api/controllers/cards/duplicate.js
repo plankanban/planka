@@ -14,6 +14,13 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    position: {
+      type: 'number',
+      required: true,
+    },
+    name: {
+      type: 'string',
+    },
   },
 
   exits: {
@@ -28,7 +35,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card } = await sails.helpers.cards
+    const { card, list, board } = await sails.helpers.cards
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
@@ -45,46 +52,30 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const { board, list } = await sails.helpers.lists
-      .getProjectPath(card.listId)
-      .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
+    const values = _.pick(inputs, ['position', 'name']);
 
-    const values = _.pick(card, ['position', 'name', 'description', 'dueDate', 'stopwatch']);
+    const {
+      card: nextCard,
+      cardMemberships,
+      cardLabels,
+      tasks,
+    } = await sails.helpers.cards.duplicateOne.with({
+      board,
+      list,
+      record: card,
+      values: {
+        ...values,
+        creatorUser: currentUser,
+      },
+      request: this.req,
+    });
 
-    const newCard = await sails.helpers.cards.createOne
-      .with({
-        board,
-        values: {
-          ...values,
-          name: `${card.name} (copy)`,
-          list,
-          creatorUser: currentUser,
-        },
-        request: this.req,
-      })
-      .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
-
-    const tasks = await sails.helpers.cards.getTasks(inputs.id);
-
-    const newTasks = await Promise.all(
-      tasks.map(async (task) => {
-        const taskValues = _.pick(task, ['position', 'name', 'isCompleted']);
-        const newTask = await sails.helpers.tasks.createOne.with({
-          values: {
-            ...taskValues,
-            card: newCard,
-          },
-          request: this.req,
-        });
-        return newTask;
-      }),
-    );
-
-    // TODO: add labels
     return {
-      item: newCard,
+      item: nextCard,
       included: {
-        tasks: newTasks,
+        cardMemberships,
+        cardLabels,
+        tasks,
       },
     };
   },

@@ -21,7 +21,6 @@ const StepTypes = {
   EDIT_DUE_DATE: 'EDIT_DUE_DATE',
   EDIT_STOPWATCH: 'EDIT_STOPWATCH',
   MOVE: 'MOVE',
-  DUPLICATE: 'DUPLICATE',
   DELETE: 'DELETE',
 };
 
@@ -37,8 +36,8 @@ const ActionsStep = React.memo(
     onUpdate,
     onMove,
     onTransfer,
-    onDelete,
     onDuplicate,
+    onDelete,
     onUserAdd,
     onUserRemove,
     onBoardFetch,
@@ -215,7 +214,7 @@ const ActionsStep = React.memo(
               })}
             </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleDuplicateClick}>
-              {t('action.duplicate', {
+              {t('action.duplicateCard', {
                 context: 'title',
               })}
             </Menu.Item>
@@ -244,8 +243,8 @@ ActionsStep.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
   onDuplicate: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
   onBoardFetch: PropTypes.func.isRequired,

@@ -1,5 +1,6 @@
 import { attr, fk } from 'redux-orm';
 
+import { createLocalId } from '../utils/local-id';
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
@@ -44,17 +45,25 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.BOARD_FETCH__SUCCESS:
+      case ActionTypes.CARD_CREATE_HANDLE:
+      case ActionTypes.CARD_DUPLICATE__SUCCESS:
         payload.tasks.forEach((task) => {
           Task.upsert(task);
         });
 
         break;
-      case ActionTypes.TASKS_CREATE__SUCCESS: {
-        payload.tasks.forEach((task) => {
-          Task.upsert(task);
+      case ActionTypes.CARD_DUPLICATE:
+        payload.taskIds.forEach((taskId, index) => {
+          const taskModel = Task.withId(taskId);
+
+          Task.upsert({
+            ...taskModel.ref,
+            id: `${createLocalId()}-${index}`, // TODO: hack?
+            cardId: payload.card.id,
+          });
         });
+
         break;
-      }
       case ActionTypes.TASK_CREATE:
       case ActionTypes.TASK_CREATE_HANDLE:
       case ActionTypes.TASK_UPDATE__SUCCESS:
