@@ -32,6 +32,8 @@ export default function* cardsWatchers() {
     takeEvery(EntryActionTypes.CURRENT_CARD_TRANSFER, ({ payload: { boardId, listId, index } }) =>
       services.transferCurrentCard(boardId, listId, index),
     ),
+    takeEvery(EntryActionTypes.CARD_DUPLICATE, ({ payload: { id } }) => services.duplicateCard(id)),
+    takeEvery(EntryActionTypes.CURRENT_CARD_DUPLICATE, () => services.duplicateCurrentCard()),
     takeEvery(EntryActionTypes.CARD_DELETE, ({ payload: { id } }) => services.deleteCard(id)),
     takeEvery(EntryActionTypes.CURRENT_CARD_DELETE, () => services.deleteCurrentCard()),
     takeEvery(EntryActionTypes.CARD_DELETE_HANDLE, ({ payload: { card } }) =>

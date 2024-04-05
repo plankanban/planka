@@ -26,6 +26,24 @@ export const makeSelectCardById = () =>
 
 export const selectCardById = makeSelectCardById();
 
+export const makeSelectCardIndexById = () =>
+  createSelector(
+    orm,
+    (_, id) => id,
+    ({ Card }, id) => {
+      const cardModel = Card.withId(id);
+
+      if (!cardModel) {
+        return cardModel;
+      }
+
+      const cardModels = cardModel.list.getFilteredOrderedCardsModelArray();
+      return cardModels.findIndex((cardModelItem) => cardModelItem.id === cardModel.id);
+    },
+  );
+
+export const selectCardIndexById = makeSelectCardIndexById();
+
 export const makeSelectUsersByCardId = () =>
   createSelector(
     orm,
@@ -59,6 +77,26 @@ export const makeSelectLabelsByCardId = () =>
   );
 
 export const selectLabelsByCardId = makeSelectLabelsByCardId();
+
+export const makeSelectTaskIdsByCardId = () =>
+  createSelector(
+    orm,
+    (_, id) => id,
+    ({ Card }, id) => {
+      const cardModel = Card.withId(id);
+
+      if (!cardModel) {
+        return cardModel;
+      }
+
+      return cardModel
+        .getOrderedTasksQuerySet()
+        .toRefArray()
+        .map((task) => task.id);
+    },
+  );
+
+export const selectTaskIdsByCardId = makeSelectTaskIdsByCardId();
 
 export const makeSelectTasksByCardId = () =>
   createSelector(
@@ -286,10 +324,14 @@ export const selectNotificationIdsForCurrentCard = createSelector(
 export default {
   makeSelectCardById,
   selectCardById,
+  makeSelectCardIndexById,
+  selectCardIndexById,
   makeSelectUsersByCardId,
   selectUsersByCardId,
   makeSelectLabelsByCardId,
   selectLabelsByCardId,
+  makeSelectTaskIdsByCardId,
+  selectTaskIdsByCardId,
   makeSelectTasksByCardId,
   selectTasksByCardId,
   makeSelectLastActivityIdByCardId,
