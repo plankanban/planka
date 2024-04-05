@@ -1,5 +1,4 @@
 const moment = require('moment');
-const services = require('../../services/slack');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
@@ -176,8 +175,6 @@ module.exports = {
       'isSubscribed',
     ]);
 
-    const cardPositionBefore = card.position;
-
     card = await sails.helpers.cards.updateOne
       .with({
         board,
@@ -196,17 +193,6 @@ module.exports = {
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;
-    }
-
-    const cardPositionAfter = card.position;
-    const cardMoved = cardPositionBefore !== cardPositionAfter;
-
-    if (cardMoved) {
-      const cardUrl = services.buildCardUrl(card);
-      const messageText = `${cardUrl} was moved by ${currentUser.name} to *${nextList.name}*`;
-      services.sendSlackMessage(messageText).catch((error) => {
-        throw new Error('Failed to send Slack message:', error.message);
-      });
     }
 
     return {

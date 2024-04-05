@@ -1,3 +1,5 @@
+const services = require('../../services/slack');
+
 const valuesValidator = (value) => {
   if (!_.isPlainObject(value)) {
     return false;
@@ -109,6 +111,12 @@ module.exports = {
         user: values.creatorUser,
       },
       board: inputs.board,
+    });
+
+    const cardUrl = services.buildCardUrl(card);
+    const messageText = `${cardUrl} was created by ${values.creatorUser.name} in *${values.list.name}*`;
+    services.sendSlackMessage(messageText).catch((error) => {
+      sails.log.error('Failed to send Slack message:', error.message);
     });
 
     return card;

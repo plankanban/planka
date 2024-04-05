@@ -1,5 +1,3 @@
-const services = require('../../services/slack');
-
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -64,12 +62,6 @@ module.exports = {
         user: currentUser,
       },
       request: this.req,
-    });
-
-    const cardUrl = services.buildCardUrl(card);
-    const messageText = `*${currentUser.name}* commented on ${cardUrl}:\n>${inputs.text}`;
-    services.sendSlackMessage(messageText).catch((error) => {
-      throw new Error('Failed to send Slack message:', error.message);
     });
 
     return {

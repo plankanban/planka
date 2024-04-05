@@ -1,3 +1,5 @@
+const services = require('../../services/slack');
+
 module.exports = {
   inputs: {
     record: {
@@ -21,6 +23,11 @@ module.exports = {
         },
         inputs.request,
       );
+
+      const messageText = `*${card.name}* was deleted by ${inputs.request.name}`;
+      services.sendSlackMessage(messageText).catch((error) => {
+        sails.log.error('Failed to send Slack message:', error.message);
+      });
     }
 
     return card;
