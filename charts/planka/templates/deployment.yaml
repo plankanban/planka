@@ -55,6 +55,9 @@ spec:
             - mountPath: /app/private/attachments
               subPath: attachments
               name: planka
+            - mountPath: /app/logs
+              subPath: logs
+              name: planka
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
