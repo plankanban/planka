@@ -30,14 +30,6 @@
     "start": "concurrently -n server,client \"npm run server:start\" \"npm run client:start\"",
     "test": "npm run server:test && npm run client:test"
   },
-  "lint-staged": {
-    "client/**/*.{js,jsx}": [
-      "npm run client:lint"
-    ],
-    "server/**/*.js": [
-      "npm run server:lint"
-    ]
-  },
   "prettier": {
     "printWidth": 100,
     "singleQuote": true,
