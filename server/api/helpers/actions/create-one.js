@@ -1,5 +1,3 @@
-const services = require('../../services/slack');
-
 const valuesValidator = (value) => {
   if (!_.isPlainObject(value)) {
     return false;
@@ -14,6 +12,30 @@ const valuesValidator = (value) => {
   }
 
   return true;
+};
+
+const buildAndSendSlackMessage = async (user, card, action) => {
+  const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
+
+  let markdown;
+  switch (action.type) {
+    case Action.Types.CREATE_CARD:
+      markdown = `${cardLink} was created by ${user.name} in *${action.data.list.name}*`;
+
+      break;
+    case Action.Types.MOVE_CARD:
+      markdown = `${cardLink} was moved by ${user.name} to *${action.data.toList.name}*`;
+
+      break;
+    case Action.Types.COMMENT_CARD:
+      markdown = `*${user.name}* commented on ${cardLink}:\n>${action.data.text}`;
+
+      break;
+    default:
+      return;
+  }
+
+  await sails.helpers.utils.sendSlackMessage(markdown);
 };
 
 module.exports = {
@@ -69,11 +91,9 @@ module.exports = {
       ),
     );
 
-    const cardUrl = services.buildCardUrl(values.card);
-    const messageText = `*${inputs.values.user.name}* commented on ${cardUrl}:\n>${values.data.text}`;
-    services.sendSlackMessage(messageText).catch((error) => {
-      sails.log.error('Failed to send Slack message:', error.message);
-    });
+    if (sails.config.custom.slackBotToken) {
+      buildAndSendSlackMessage(values.user, values.card, action);
+    }
 
     return action;
   },

@@ -25,7 +25,7 @@ module.exports = {
 
       sails.log.info('Email sent: %s', info.messageId);
     } catch (error) {
-      sails.log.error(error);
+      sails.log.error(error); // TODO: provide description text?
     }
   },
 };

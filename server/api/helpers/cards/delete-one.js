@@ -1,8 +1,14 @@
-const services = require('../../services/slack');
+const buildAndSendSlackMessage = async (user, card) => {
+  await sails.helpers.utils.sendSlackMessage(`*${card.name}* was deleted by ${user.name}`);
+};
 
 module.exports = {
   inputs: {
     record: {
+      type: 'ref',
+      required: true,
+    },
+    user: {
       type: 'ref',
       required: true,
     },
@@ -24,10 +30,9 @@ module.exports = {
         inputs.request,
       );
 
-      const messageText = `*${card.name}* was deleted by ${inputs.request.name}`;
-      services.sendSlackMessage(messageText).catch((error) => {
-        sails.log.error('Failed to send Slack message:', error.message);
-      });
+      if (sails.config.custom.slackBotToken) {
+        buildAndSendSlackMessage(inputs.user, card);
+      }
     }
 
     return card;

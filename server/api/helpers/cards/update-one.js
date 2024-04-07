@@ -1,5 +1,3 @@
-const services = require('../../services/slack');
-
 const valuesValidator = (value) => {
   if (!_.isPlainObject(value)) {
     return false;
@@ -269,16 +267,6 @@ module.exports = {
           inputs.request,
         );
       }
-    }
-
-    const cardMoved = inputs.values.list !== undefined;
-
-    if (cardMoved) {
-      const cardUrl = services.buildCardUrl(card);
-      const messageText = `${cardUrl} was moved by ${inputs.user.name} to *${inputs.list.name}*`;
-      services.sendSlackMessage(messageText).catch((error) => {
-        sails.log.error('Failed to send Slack message:', error.message);
-      });
     }
 
     return card;
