@@ -199,6 +199,8 @@ export default {
       deleteProject: 'Удалить проект',
       deleteTask: 'Удалить задачу',
       deleteUser: 'Удалить пользователя',
+      duplicate: 'Дублировать',
+      duplicateCard_title: 'Дублировать карточку',
       edit: 'Изменить',
       editBackground: 'Изменить фон',
       editDueDate: 'Изменить срок',
