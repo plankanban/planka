@@ -49,6 +49,7 @@ module.exports = {
 
     card = await sails.helpers.cards.deleteOne.with({
       record: card,
+      user: currentUser,
       request: this.req,
     });
 
