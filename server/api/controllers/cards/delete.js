@@ -1,5 +1,3 @@
-const services = require('../../services/slack');
-
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -56,11 +54,6 @@ module.exports = {
     if (!card) {
       throw Errors.CARD_NOT_FOUND;
     }
-
-    const messageText = '*' + card.name + '* was deleted by ' + currentUser.name;
-    services.sendSlackMessage(messageText)
-      .then(() => { console.log('Slack message sent successfully.'); })
-      .catch((error) => { console.error('Failed to send Slack message:', error.message); });
 
     return {
       item: card,
