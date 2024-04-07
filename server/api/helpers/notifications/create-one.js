@@ -27,6 +27,7 @@ const buildAndSendEmail = async (user, board, card, action, notifiableUser) => {
           `from ${action.data.fromList.name} to ${action.data.toList.name} ` +
           `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>`,
       };
+
       break;
     case Action.Types.COMMENT_CARD:
       emailData = {
@@ -37,6 +38,7 @@ const buildAndSendEmail = async (user, board, card, action, notifiableUser) => {
           `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>` +
           `<p>${action.data.text}</p>`,
       };
+
       break;
     default:
       return;
