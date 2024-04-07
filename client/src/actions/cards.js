@@ -23,10 +23,14 @@ createCard.failure = (localId, error) => ({
   },
 });
 
-const handleCardCreate = (card) => ({
+const handleCardCreate = (card, cardMemberships, cardLabels, tasks, attachments) => ({
   type: ActionTypes.CARD_CREATE_HANDLE,
   payload: {
     card,
+    cardMemberships,
+    cardLabels,
+    tasks,
+    attachments,
   },
 });
 
@@ -57,6 +61,34 @@ const handleCardUpdate = (card) => ({
   type: ActionTypes.CARD_UPDATE_HANDLE,
   payload: {
     card,
+  },
+});
+
+const duplicateCard = (id, card, taskIds) => ({
+  type: ActionTypes.CARD_DUPLICATE,
+  payload: {
+    id,
+    card,
+    taskIds,
+  },
+});
+
+duplicateCard.success = (localId, card, cardMemberships, cardLabels, tasks) => ({
+  type: ActionTypes.CARD_DUPLICATE__SUCCESS,
+  payload: {
+    localId,
+    card,
+    cardMemberships,
+    cardLabels,
+    tasks,
+  },
+});
+
+duplicateCard.failure = (id, error) => ({
+  type: ActionTypes.CARD_DUPLICATE__FAILURE,
+  payload: {
+    id,
+    error,
   },
 });
 
@@ -94,6 +126,7 @@ export default {
   handleCardCreate,
   updateCard,
   handleCardUpdate,
+  duplicateCard,
   deleteCard,
   handleCardDelete,
 };
