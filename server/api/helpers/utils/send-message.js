@@ -66,7 +66,7 @@ const handleSlack = () => {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/json; charset=utf-8',
           Authorization: `Bearer ${TOKEN}`,
         },
       });
@@ -98,7 +98,7 @@ const handleWebhook = () => {
 
   function buildHeaders() {
     const headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
     };
 
     if (TOKEN) {
