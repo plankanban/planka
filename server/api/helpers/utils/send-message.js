@@ -1,3 +1,10 @@
+/**
+ * @description Create a default message for a given action
+ * @param {*} user
+ * @param {*} card
+ * @param {*} action
+ * @returns Markdown message or empty string if no action was found
+ */
 function buildMessage(user, card, action) {
   const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
 
@@ -25,6 +32,10 @@ function buildMessage(user, card, action) {
   return markdown;
 }
 
+/**
+ * @description Handle Slack messages, it checks if the necessary tokens are set as environment variables and sends the message
+ * @returns Object with send method
+ */
 const handleSlack = () => {
   const POST_MESSAGE_API_URL = 'https://slack.com/api/chat.postMessage';
 
@@ -86,6 +97,10 @@ const handleSlack = () => {
   };
 };
 
+/**
+ * @description Handle Webhook messages, it checks if a webhook url is given and sends the message. Optionally, it can include a bearer token, if set via environment variable.
+ * @returns Object with send method
+ */
 const handleWebhook = () => {
   function getWebhookUrl() {
     return sails.config.custom.webhookUrl || false;
