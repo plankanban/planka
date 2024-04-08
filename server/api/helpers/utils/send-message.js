@@ -38,20 +38,11 @@ function buildMessage(user, card, action) {
  */
 const handleSlack = () => {
   const POST_MESSAGE_API_URL = 'https://slack.com/api/chat.postMessage';
-
-  function getTokens() {
-    if (!sails.config.custom.slackBotToken || !sails.config.custom.slackChannelId) {
-      return false;
-    }
-    return {
-      token: sails.config.custom.slackBotToken,
-      channel: sails.config.custom.slackChannelId,
-    };
-  }
+  const TOKEN = sails.config.custom.slackBotToken;
+  const CHANNEL = sails.config.custom.slackChannelId;
 
   const send = async ({ action, user, card }) => {
-    const tokens = getTokens();
-    if (!tokens) {
+    if (!TOKEN || !CHANNEL) {
       return;
     }
 
@@ -63,7 +54,7 @@ const handleSlack = () => {
     }
 
     const data = {
-      channel: tokens.channel,
+      channel: CHANNEL,
       text: markdown,
       as_user: false,
       username: user.name,
@@ -76,7 +67,7 @@ const handleSlack = () => {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          Authorization: `Bearer ${tokens.token}`,
+          Authorization: `Bearer ${TOKEN}`,
         },
       });
 
@@ -102,27 +93,23 @@ const handleSlack = () => {
  * @returns Object with send method
  */
 const handleWebhook = () => {
-  function getWebhookUrl() {
-    return sails.config.custom.webhookUrl || false;
-  }
+  const URL = sails.config.custom.webhookUrl;
+  const TOKEN = sails.config.custom.webhookBearerToken;
 
   function buildHeaders() {
-    const bearer = sails.config.custom.webhookBearerToken || false;
-
     const headers = {
       'Content-Type': 'application/json',
     };
 
-    if (bearer) {
-      headers.Authorization = `Bearer ${bearer}`;
+    if (TOKEN) {
+      headers.Authorization = `Bearer ${TOKEN}`;
     }
 
     return headers;
   }
 
   const send = async ({ action, user, card, board }) => {
-    const url = getWebhookUrl();
-    if (!url) {
+    if (!URL) {
       return;
     }
 
@@ -133,10 +120,11 @@ const handleWebhook = () => {
       action,
       board,
       card,
+      user: _.pick(user, ['id', 'name', 'avatarUrl', 'email']),
     };
 
     try {
-      const response = await fetch(url, {
+      const response = await fetch(URL, {
         method: 'POST',
         headers: buildHeaders(),
         body: JSON.stringify(data),
