@@ -14,30 +14,6 @@ const valuesValidator = (value) => {
   return true;
 };
 
-const buildAndSendSlackMessage = async (user, card, action) => {
-  const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
-
-  let markdown;
-  switch (action.type) {
-    case Action.Types.CREATE_CARD:
-      markdown = `${cardLink} was created by ${user.name} in *${action.data.list.name}*`;
-
-      break;
-    case Action.Types.MOVE_CARD:
-      markdown = `${cardLink} was moved by ${user.name} to *${action.data.toList.name}*`;
-
-      break;
-    case Action.Types.COMMENT_CARD:
-      markdown = `*${user.name}* commented on ${cardLink}:\n>${action.data.text}`;
-
-      break;
-    default:
-      return;
-  }
-
-  await sails.helpers.utils.sendSlackMessage(markdown);
-};
-
 module.exports = {
   inputs: {
     values: {
@@ -91,9 +67,7 @@ module.exports = {
       ),
     );
 
-    if (sails.config.custom.slackBotToken) {
-      buildAndSendSlackMessage(values.user, values.card, action);
-    }
+    await sails.helpers.utils.sendMessage(action, values.user, values.card, inputs.board);
 
     return action;
   },

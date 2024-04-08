@@ -36,7 +36,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
 
     let { action } = path;
-    const { board, project } = path;
+    const { board, project, card } = path;
 
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
@@ -59,9 +59,14 @@ module.exports = {
       }
     }
 
-    action = await sails.helpers.actions.deleteOne.with({
+    action = await sails.helpers.actions.createOne.with({
       board,
-      record: action,
+      values: {
+        data: _.pick(inputs, ['id']),
+        card,
+        type: Action.Types.DELETE_COMMENT_CARD,
+        user: currentUser,
+      },
       request: this.req,
     });
 

@@ -4,6 +4,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    values: {
+      type: 'ref',
+      required: true,
+    },
     board: {
       type: 'ref',
       required: true,
@@ -24,6 +28,13 @@ module.exports = {
           item: action,
         },
         inputs.request,
+      );
+
+      await sails.helpers.utils.sendMessage(
+        action,
+        inputs.values.user,
+        inputs.values.card,
+        inputs.board,
       );
     }
 

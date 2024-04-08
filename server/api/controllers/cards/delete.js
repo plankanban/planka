@@ -28,7 +28,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let { card } = await sails.helpers.cards
+    const { card, board } = await sails.helpers.cards
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
@@ -45,13 +45,14 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    card = await sails.helpers.cards.deleteOne.with({
+    const deletedCard = await sails.helpers.cards.deleteOne.with({
       record: card,
+      board,
       user: currentUser,
       request: this.req,
     });
 
-    if (!card) {
+    if (!deletedCard) {
       throw Errors.CARD_NOT_FOUND;
     }
 
