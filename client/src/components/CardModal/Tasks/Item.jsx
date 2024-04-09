@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Draggable } from 'react-beautiful-dnd';
 import { Button, Checkbox, Icon } from 'semantic-ui-react';
+import { sanitize } from 'dompurify';
 import { usePopup } from '../../../lib/popup';
 
 import NameEdit from './NameEdit';
@@ -15,11 +16,14 @@ const Item = React.memo(
   ({ id, index, name, isCompleted, isPersisted, canEdit, onUpdate, onDelete }) => {
     const nameEdit = useRef(null);
 
-    const handleClick = useCallback(() => {
-      if (isPersisted && canEdit) {
-        nameEdit.current.open();
-      }
-    }, [isPersisted, canEdit]);
+    const handleClick = useCallback(
+      (event) => {
+        if (!event.target.closest('a') && isPersisted && canEdit) {
+          nameEdit.current.open();
+        }
+      },
+      [isPersisted, canEdit],
+    );
 
     const handleNameUpdate = useCallback(
       (newName) => {
@@ -39,6 +43,16 @@ const Item = React.memo(
     const handleNameEdit = useCallback(() => {
       nameEdit.current.open();
     }, []);
+
+    const parseLinks = (text) => {
+      const regex = /(http[s]?:\/\/[^\s]+)/g;
+      return sanitize(text).replace(regex, (match) => {
+        const url = new URL(match);
+        return `<a href="${match}" target="_blank">${
+          url.hostname === window.location.hostname ? url.pathname : match
+        }</a>`;
+      });
+    };
 
     const ActionsPopup = usePopup(ActionsStep);
 
@@ -64,9 +78,11 @@ const Item = React.memo(
                     className={classNames(styles.text, canEdit && styles.textEditable)}
                     onClick={handleClick}
                   >
-                    <span className={classNames(styles.task, isCompleted && styles.taskCompleted)}>
-                      {name}
-                    </span>
+                    <span
+                      className={classNames(styles.task, isCompleted && styles.taskCompleted)}
+                      // eslint-disable-next-line react/no-danger
+                      dangerouslySetInnerHTML={{ __html: parseLinks(name) }}
+                    />
                   </span>
                   {isPersisted && canEdit && (
                     <ActionsPopup onNameEdit={handleNameEdit} onDelete={onDelete}>
