@@ -1,6 +1,14 @@
 const nodemailer = require('nodemailer');
 
-module.exports = function smtpServiceHook(sails) {
+/**
+ * smtp hook
+ *
+ * @description :: A hook definition. Extends Sails by adding shadow routes, implicit actions,
+ *                 and/or initialization logic.
+ * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
+ */
+
+module.exports = function defineSmtpHook(sails) {
   let transporter = null;
 
   return {
@@ -9,19 +17,22 @@ module.exports = function smtpServiceHook(sails) {
      */
 
     async initialize() {
-      if (sails.config.custom.smtpHost) {
-        transporter = nodemailer.createTransport({
-          pool: true,
-          host: sails.config.custom.smtpHost,
-          port: sails.config.custom.smtpPort,
-          secure: sails.config.custom.smtpSecure,
-          auth: sails.config.custom.smtpUser && {
-            user: sails.config.custom.smtpUser,
-            pass: sails.config.custom.smtpPassword,
-          },
-        });
-        sails.log.info('SMTP hook has been loaded successfully');
+      if (!sails.config.custom.smtpHost) {
+        return;
       }
+
+      sails.log.info('Initializing custom hook (`smtp`)');
+
+      transporter = nodemailer.createTransport({
+        pool: true,
+        host: sails.config.custom.smtpHost,
+        port: sails.config.custom.smtpPort,
+        secure: sails.config.custom.smtpSecure,
+        auth: sails.config.custom.smtpUser && {
+          user: sails.config.custom.smtpUser,
+          pass: sails.config.custom.smtpPassword,
+        },
+      });
     },
 
     getTransporter() {

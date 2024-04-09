@@ -38,7 +38,7 @@ const handleCardUpdate = (card) => ({
   },
 });
 
-const moveCard = (id, listId, index = 0) => ({
+const moveCard = (id, listId, index) => ({
   type: EntryActionTypes.CARD_MOVE,
   payload: {
     id,
@@ -47,7 +47,7 @@ const moveCard = (id, listId, index = 0) => ({
   },
 });
 
-const moveCurrentCard = (listId, index = 0) => ({
+const moveCurrentCard = (listId, index) => ({
   type: EntryActionTypes.CURRENT_CARD_MOVE,
   payload: {
     listId,
@@ -55,7 +55,7 @@ const moveCurrentCard = (listId, index = 0) => ({
   },
 });
 
-const transferCard = (id, boardId, listId, index = 0) => ({
+const transferCard = (id, boardId, listId, index) => ({
   type: EntryActionTypes.CARD_TRANSFER,
   payload: {
     id,
@@ -65,7 +65,7 @@ const transferCard = (id, boardId, listId, index = 0) => ({
   },
 });
 
-const transferCurrentCard = (boardId, listId, index = 0) => ({
+const transferCurrentCard = (boardId, listId, index) => ({
   type: EntryActionTypes.CURRENT_CARD_TRANSFER,
   payload: {
     boardId,

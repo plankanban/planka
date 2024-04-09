@@ -1,8 +1,10 @@
 import EntryActionTypes from '../constants/EntryActionTypes';
 
-const logout = () => ({
+const logout = (invalidateAccessToken) => ({
   type: EntryActionTypes.LOGOUT,
-  payload: {},
+  payload: {
+    invalidateAccessToken,
+  },
 });
 
 export default {

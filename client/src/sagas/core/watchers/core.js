@@ -4,5 +4,9 @@ import services from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 export default function* coreWatchers() {
-  yield all([takeEvery(EntryActionTypes.LOGOUT, () => services.logout())]);
+  yield all([
+    takeEvery(EntryActionTypes.LOGOUT, ({ payload: { invalidateAccessToken } }) =>
+      services.logout(invalidateAccessToken),
+    ),
+  ]);
 }
