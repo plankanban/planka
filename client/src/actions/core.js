@@ -47,9 +47,11 @@ initializeCore.fetchConfig = (config) => ({
   },
 });
 
-const logout = () => ({
+const logout = (invalidateAccessToken) => ({
   type: ActionTypes.LOGOUT,
-  payload: {},
+  payload: {
+    invalidateAccessToken,
+  },
 });
 
 logout.invalidateAccessToken = () => ({
