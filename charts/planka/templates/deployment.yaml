@@ -55,6 +55,11 @@ spec:
             - mountPath: /app/private/attachments
               subPath: attachments
               name: planka
+          {{- if .Values.securityContext.readOnlyRootFilesystem }}
+            - mountPath: /app/logs
+              subPath: app-logs
+              name: emptydir
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -139,3 +144,7 @@ spec:
     {{- else }}
           emptyDir: {}
     {{- end }}
+    {{- if .Values.securityContext.readOnlyRootFilesystem }}
+        - name: emptydir
+          emptyDir: {}
+     {{- end }}
