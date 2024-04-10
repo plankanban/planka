@@ -105,6 +105,13 @@ const handleCardDelete = (card) => ({
   },
 });
 
+const filterText = (text) => ({
+  type: EntryActionTypes.TEXT_FILTER_IN_CURRENT_BOARD,
+  payload: {
+    text,
+  },
+});
+
 export default {
   createCard,
   handleCardCreate,
@@ -120,4 +127,5 @@ export default {
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,
+  filterText,
 };

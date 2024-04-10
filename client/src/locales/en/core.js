@@ -135,6 +135,7 @@ export default {
       searchLabels: 'Search labels...',
       searchMembers: 'Search members...',
       searchUsers: 'Search users...',
+      searchCards: 'Search cards...',
       seconds: 'Seconds',
       selectBoard: 'Select board',
       selectList: 'Select list',

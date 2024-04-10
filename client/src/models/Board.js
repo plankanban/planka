@@ -3,6 +3,9 @@ import { attr, fk, many } from 'redux-orm';
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
+import User from './User';
+import Label from './Label';
+
 export default class extends BaseModel {
   static modelName = 'Board';
 
@@ -25,6 +28,9 @@ export default class extends BaseModel {
     }),
     filterUsers: many('User', 'filterBoards'),
     filterLabels: many('Label', 'filterBoards'),
+    filterText: attr({
+      getDefault: () => '',
+    }),
   };
 
   static reducer({ type, payload }, Board) {
@@ -167,6 +173,47 @@ export default class extends BaseModel {
         Board.withId(payload.boardId).filterLabels.remove(payload.id);
 
         break;
+      case ActionTypes.TEXT_FILTER_IN_CURRENT_BOARD: {
+        const board = Board.withId(payload.boardId);
+        let filterText = payload.text;
+        const posSpace = filterText.indexOf(' ');
+
+        // Shortcut to user filters
+        const posAT = filterText.indexOf('@');
+        if (posAT >= 0 && posSpace > 0 && posAT < posSpace) {
+          const userId = User.findUsersFromText(
+            filterText.substring(posAT + 1, posSpace),
+            board.memberships.toModelArray().map((membership) => membership.user),
+          );
+          if (
+            userId &&
+            board.filterUsers.toModelArray().filter((user) => user.id === userId).length === 0
+          ) {
+            board.filterUsers.add(userId);
+            filterText = filterText.substring(0, posAT);
+          }
+        }
+
+        // Shortcut to label filters
+        const posSharp = filterText.indexOf('#');
+        if (posSharp >= 0 && posSpace > 0 && posSharp < posSpace) {
+          const labelId = Label.findLabelsFromText(
+            filterText.substring(posSharp + 1, posSpace),
+            board.labels.toModelArray(),
+          );
+          if (
+            labelId &&
+            board.filterLabels.toModelArray().filter((label) => label.id === labelId).length === 0
+          ) {
+            board.filterLabels.add(labelId);
+            filterText = filterText.substring(0, posSharp);
+          }
+        }
+
+        board.update({ filterText });
+
+        break;
+      }
       default:
     }
   }

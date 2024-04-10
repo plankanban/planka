@@ -1,6 +1,7 @@
 import { attr, fk } from 'redux-orm';
 
 import BaseModel from './BaseModel';
+import User from './User';
 import ActionTypes from '../constants/ActionTypes';
 
 export default class extends BaseModel {
@@ -86,6 +87,37 @@ export default class extends BaseModel {
 
   getFilteredOrderedCardsModelArray() {
     let cardModels = this.getOrderedCardsQuerySet().toModelArray();
+
+    const { filterText } = this.board;
+
+    if (filterText !== '') {
+      let re = null;
+      const posSpace = filterText.indexOf(' ');
+
+      if (filterText.startsWith('/')) {
+        re = new RegExp(filterText.substring(1), 'i');
+      }
+      let doRegularSearch = true;
+      if (re) {
+        cardModels = cardModels.filter((cardModel) => re.test(cardModel.name));
+        doRegularSearch = false;
+      } else if (filterText.startsWith('!') && posSpace > 0) {
+        const creatorUserId = User.findUsersFromText(
+          filterText.substring(1, posSpace),
+          this.board.memberships.toModelArray().map((membership) => membership.user),
+        );
+        if (creatorUserId != null) {
+          doRegularSearch = false;
+          cardModels = cardModels.filter((cardModel) => cardModel.creatorUser.id === creatorUserId);
+        }
+      }
+      if (doRegularSearch) {
+        const lowerCasedFilter = filterText.toLocaleLowerCase();
+        cardModels = cardModels.filter(
+          (cardModel) => cardModel.name.toLocaleLowerCase().indexOf(lowerCasedFilter) >= 0,
+        );
+      }
+    }
 
     const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
     const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);

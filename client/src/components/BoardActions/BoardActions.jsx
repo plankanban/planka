@@ -13,6 +13,7 @@ const BoardActions = React.memo(
     labels,
     filterUsers,
     filterLabels,
+    filterText,
     allUsers,
     canEdit,
     canEditMemberships,
@@ -27,6 +28,7 @@ const BoardActions = React.memo(
     onLabelUpdate,
     onLabelMove,
     onLabelDelete,
+    onTextFilterUpdate,
   }) => {
     return (
       <div className={styles.wrapper}>
@@ -46,6 +48,7 @@ const BoardActions = React.memo(
             <Filters
               users={filterUsers}
               labels={filterLabels}
+              filterText={filterText}
               allBoardMemberships={memberships}
               allLabels={labels}
               canEdit={canEdit}
@@ -57,6 +60,7 @@ const BoardActions = React.memo(
               onLabelUpdate={onLabelUpdate}
               onLabelMove={onLabelMove}
               onLabelDelete={onLabelDelete}
+              onTextFilterUpdate={onTextFilterUpdate}
             />
           </div>
         </div>
@@ -71,6 +75,7 @@ BoardActions.propTypes = {
   labels: PropTypes.array.isRequired,
   filterUsers: PropTypes.array.isRequired,
   filterLabels: PropTypes.array.isRequired,
+  filterText: PropTypes.string.isRequired,
   allUsers: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   canEdit: PropTypes.bool.isRequired,
@@ -86,6 +91,7 @@ BoardActions.propTypes = {
   onLabelUpdate: PropTypes.func.isRequired,
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
+  onTextFilterUpdate: PropTypes.func.isRequired,
 };
 
 export default BoardActions;

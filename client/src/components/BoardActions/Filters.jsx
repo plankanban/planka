@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { usePopup } from '../../lib/popup';
+import { Input } from '../../lib/custom-ui';
 
 import User from '../User';
 import Label from '../Label';
@@ -14,6 +15,7 @@ const Filters = React.memo(
   ({
     users,
     labels,
+    filterText,
     allBoardMemberships,
     allLabels,
     canEdit,
@@ -25,8 +27,10 @@ const Filters = React.memo(
     onLabelUpdate,
     onLabelMove,
     onLabelDelete,
+    onTextFilterUpdate,
   }) => {
     const [t] = useTranslation();
+    const searchField = useRef(null);
 
     const handleRemoveUserClick = useCallback(
       (id) => {
@@ -41,6 +45,14 @@ const Filters = React.memo(
       },
       [onLabelRemove],
     );
+
+    const handleKeyUp = useCallback(() => {
+      onTextFilterUpdate(searchField.current.inputRef.current.value);
+    }, [onTextFilterUpdate]);
+
+    useEffect(() => {
+      searchField.current.inputRef.current.value = filterText;
+    }, [filterText]);
 
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
     const LabelsPopup = usePopup(LabelsStep);
@@ -100,6 +112,14 @@ const Filters = React.memo(
             </span>
           ))}
         </span>
+        <span className={styles.filter}>
+          <Input
+            ref={searchField}
+            placeholder={t('common.searchCards')}
+            icon="search"
+            onKeyUp={() => handleKeyUp()}
+          />
+        </span>
       </>
     );
   },
@@ -109,6 +129,7 @@ Filters.propTypes = {
   /* eslint-disable react/forbid-prop-types */
   users: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
+  filterText: PropTypes.string.isRequired,
   allBoardMemberships: PropTypes.array.isRequired,
   allLabels: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
@@ -121,6 +142,7 @@ Filters.propTypes = {
   onLabelUpdate: PropTypes.func.isRequired,
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
+  onTextFilterUpdate: PropTypes.func.isRequired,
 };
 
 export default Filters;
