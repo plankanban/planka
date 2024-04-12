@@ -11,6 +11,7 @@ const BoardActions = React.memo(
   ({
     memberships,
     labels,
+    filterKeyword,
     filterUsers,
     filterLabels,
     allUsers,
@@ -19,6 +20,7 @@ const BoardActions = React.memo(
     onMembershipCreate,
     onMembershipUpdate,
     onMembershipDelete,
+    onKeywordToFilterUpdate,
     onUserToFilterAdd,
     onUserFromFilterRemove,
     onLabelToFilterAdd,
@@ -44,11 +46,13 @@ const BoardActions = React.memo(
           </div>
           <div className={styles.action}>
             <Filters
+              keyword={filterKeyword}
               users={filterUsers}
               labels={filterLabels}
               allBoardMemberships={memberships}
               allLabels={labels}
               canEdit={canEdit}
+              onKeywordUpdate={onKeywordToFilterUpdate}
               onUserAdd={onUserToFilterAdd}
               onUserRemove={onUserFromFilterRemove}
               onLabelAdd={onLabelToFilterAdd}
@@ -69,6 +73,7 @@ BoardActions.propTypes = {
   /* eslint-disable react/forbid-prop-types */
   memberships: PropTypes.array.isRequired,
   labels: PropTypes.array.isRequired,
+  filterKeyword: PropTypes.string.isRequired,
   filterUsers: PropTypes.array.isRequired,
   filterLabels: PropTypes.array.isRequired,
   allUsers: PropTypes.array.isRequired,
@@ -78,6 +83,7 @@ BoardActions.propTypes = {
   onMembershipCreate: PropTypes.func.isRequired,
   onMembershipUpdate: PropTypes.func.isRequired,
   onMembershipDelete: PropTypes.func.isRequired,
+  onKeywordToFilterUpdate: PropTypes.func.isRequired,
   onUserToFilterAdd: PropTypes.func.isRequired,
   onUserFromFilterRemove: PropTypes.func.isRequired,
   onLabelToFilterAdd: PropTypes.func.isRequired,

@@ -59,6 +59,13 @@ const handleBoardDelete = (board) => ({
   },
 });
 
+const updateKeywordToFilterInCurrentBoard = (keyword) => ({
+  type: EntryActionTypes.KEYWORD_TO_FILTER_IN_CURRENT_BOARD_UPDATE,
+  payload: {
+    keyword,
+  },
+});
+
 export default {
   createBoardInCurrentProject,
   handleBoardCreate,
@@ -68,4 +75,5 @@ export default {
   moveBoard,
   deleteBoard,
   handleBoardDelete,
+  updateKeywordToFilterInCurrentBoard,
 };

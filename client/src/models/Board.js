@@ -23,6 +23,9 @@ export default class extends BaseModel {
       through: 'BoardMembership',
       relatedName: 'boards',
     }),
+    filterKeyword: attr({
+      getDefault: () => '',
+    }),
     filterUsers: many('User', 'filterBoards'),
     filterLabels: many('Label', 'filterBoards'),
   };
@@ -165,6 +168,12 @@ export default class extends BaseModel {
         break;
       case ActionTypes.LABEL_FROM_BOARD_FILTER_REMOVE:
         Board.withId(payload.boardId).filterLabels.remove(payload.id);
+
+        break;
+      case ActionTypes.KEYWORD_TO_BOARD_FILTER_UPDATE:
+        Board.withId(payload.boardId).update({
+          filterKeyword: payload.keyword,
+        });
 
         break;
       default:

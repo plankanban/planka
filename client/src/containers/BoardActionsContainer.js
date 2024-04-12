@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
   const isCurrentUserManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
   const memberships = selectors.selectMembershipsForCurrentBoard(state);
   const labels = selectors.selectLabelsForCurrentBoard(state);
+  const filterKeyword = selectors.selectFilterKeywordForCurrentBoard(state);
   const filterUsers = selectors.selectFilterUsersForCurrentBoard(state);
   const filterLabels = selectors.selectFilterLabelsForCurrentBoard(state);
   const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
@@ -21,6 +22,7 @@ const mapStateToProps = (state) => {
   return {
     memberships,
     labels,
+    filterKeyword,
     filterUsers,
     filterLabels,
     allUsers,
@@ -35,6 +37,7 @@ const mapDispatchToProps = (dispatch) =>
       onMembershipCreate: entryActions.createMembershipInCurrentBoard,
       onMembershipUpdate: entryActions.updateBoardMembership,
       onMembershipDelete: entryActions.deleteBoardMembership,
+      onKeywordToFilterUpdate: entryActions.updateKeywordToFilterInCurrentBoard,
       onUserToFilterAdd: entryActions.addUserToFilterInCurrentBoard,
       onUserFromFilterRemove: entryActions.removeUserFromFilterInCurrentBoard,
       onLabelToFilterAdd: entryActions.addLabelToFilterInCurrentBoard,

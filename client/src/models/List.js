@@ -87,8 +87,15 @@ export default class extends BaseModel {
   getFilteredOrderedCardsModelArray() {
     let cardModels = this.getOrderedCardsQuerySet().toModelArray();
 
+    const { filterKeyword } = this.board;
     const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
     const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);
+
+    if (filterKeyword) {
+      cardModels = cardModels.filter((cardModel) => {
+        return cardModel.name.toLowerCase().includes(filterKeyword.toLowerCase());
+      });
+    }
 
     if (filterUserIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {

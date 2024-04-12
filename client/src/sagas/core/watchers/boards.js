@@ -25,5 +25,9 @@ export default function* boardsWatchers() {
     takeEvery(EntryActionTypes.BOARD_DELETE_HANDLE, ({ payload: { board } }) =>
       services.handleBoardDelete(board),
     ),
+    takeEvery(
+      EntryActionTypes.KEYWORD_TO_FILTER_IN_CURRENT_BOARD_UPDATE,
+      ({ payload: { keyword } }) => services.updateKeywordToFilterInCurrentBoard(keyword),
+    ),
   ]);
 }

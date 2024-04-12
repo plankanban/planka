@@ -134,6 +134,14 @@ const handleBoardDelete = (board) => ({
   },
 });
 
+const updateKeywordToBoardFilter = (keyword, boardId) => ({
+  type: ActionTypes.KEYWORD_TO_BOARD_FILTER_UPDATE,
+  payload: {
+    keyword,
+    boardId,
+  },
+});
+
 export default {
   createBoard,
   handleBoardCreate,
@@ -142,4 +150,5 @@ export default {
   handleBoardUpdate,
   deleteBoard,
   handleBoardDelete,
+  updateKeywordToBoardFilter,
 };

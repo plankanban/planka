@@ -176,6 +176,16 @@ export function* handleBoardDelete(board) {
   yield put(actions.handleBoardDelete(board));
 }
 
+export function* updateKeywordToBoardFilter(keyword, boardId) {
+  yield put(actions.updateKeywordToBoardFilter(keyword, boardId));
+}
+
+export function* updateKeywordToFilterInCurrentBoard(keyword) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(updateKeywordToBoardFilter, keyword, boardId);
+}
+
 export default {
   createBoard,
   createBoardInCurrentProject,
@@ -186,4 +196,6 @@ export default {
   moveBoard,
   deleteBoard,
   handleBoardDelete,
+  updateKeywordToBoardFilter,
+  updateKeywordToFilterInCurrentBoard,
 };
