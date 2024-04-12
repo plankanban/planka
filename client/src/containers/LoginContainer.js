@@ -20,7 +20,7 @@ const mapStateToProps = (state) => {
     isSubmittingUsingOidc,
     error,
     withOidc: !!oidcConfig,
-    isOidcEnforced: oidcConfig && oidcConfig.isEnforced,
+    isOidcEnforced: !!oidcConfig && oidcConfig.isEnforced,
   };
 };
 
