@@ -55,8 +55,10 @@
     display: block;
     font-size: 12px;
     line-height: 14px;
+    overflow: hidden;
     padding-bottom: 6px;
     padding-left: 14px;
+    text-overflow: ellipsis;
 
     &:before {
       content: "–";

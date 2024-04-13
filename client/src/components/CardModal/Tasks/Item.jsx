@@ -8,6 +8,7 @@ import { usePopup } from '../../../lib/popup';
 
 import NameEdit from './NameEdit';
 import ActionsStep from './ActionsStep';
+import Linkify from '../../Linkify';
 
 import styles from './Item.module.scss';
 
@@ -65,7 +66,7 @@ const Item = React.memo(
                     onClick={handleClick}
                   >
                     <span className={classNames(styles.task, isCompleted && styles.taskCompleted)}>
-                      {name}
+                      <Linkify linkStopPropagation>{name}</Linkify>
                     </span>
                   </span>
                   {isPersisted && canEdit && (

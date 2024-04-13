@@ -23,9 +23,9 @@ module.exports = {
         from: sails.config.custom.smtpFrom,
       });
 
-      sails.log.info('Email sent: %s', info.messageId);
+      sails.log.info(`Email sent: ${info.messageId}`);
     } catch (error) {
-      sails.log.error(error); // TODO: provide description text?
+      sails.log.error(`Error sending email: ${error}`);
     }
   },
 };

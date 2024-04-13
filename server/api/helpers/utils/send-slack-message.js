@@ -35,19 +35,19 @@ module.exports = {
         body: JSON.stringify(body),
       });
     } catch (error) {
-      sails.log.error(error); // TODO: provide description text?
+      sails.log.error(`Error sending to Slack: ${error}`);
       return;
     }
 
     if (!response.ok) {
-      sails.log.error('Error sending to Slack: %s', response.error);
+      sails.log.error(`Error sending to Slack: ${response.error}`);
       return;
     }
 
     const responseJson = await response.json();
 
     if (!responseJson.ok) {
-      sails.log.error('Error sending to Slack: %s', responseJson.error);
+      sails.log.error(`Error sending to Slack: ${responseJson.error}`);
     }
   },
 };

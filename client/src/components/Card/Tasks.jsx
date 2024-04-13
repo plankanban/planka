@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { Progress } from 'semantic-ui-react';
 import { useToggle } from '../../lib/hooks';
 
+import Linkify from '../Linkify';
+
 import styles from './Tasks.module.scss';
 
 const Tasks = React.memo(({ items }) => {
@@ -48,7 +50,7 @@ const Tasks = React.memo(({ items }) => {
               key={item.id}
               className={classNames(styles.task, item.isCompleted && styles.taskCompleted)}
             >
-              {item.name}
+              <Linkify linkStopPropagation>{item.name}</Linkify>
             </li>
           ))}
         </ul>
