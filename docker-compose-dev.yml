@@ -56,7 +56,8 @@ services:
     working_dir: /app
     command: ["sh", "-c", "npm run start"]
     depends_on:
-      - init-db
+      postgres:
+        condition: service_healthy
 
   client:
     build:
