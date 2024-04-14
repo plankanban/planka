@@ -54,6 +54,7 @@ services:
 
       # - SLACK_BOT_TOKEN=
       # - SLACK_CHANNEL_ID=
+      # - GOOGLE_CHAT_WEBHOOK_URL=
     depends_on:
       postgres:
         condition: service_healthy
