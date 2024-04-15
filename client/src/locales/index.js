@@ -4,6 +4,7 @@ import de from './de';
 import en from './en';
 import es from './es';
 import fr from './fr';
+import hu from './hu';
 import it from './it';
 import ja from './ja';
 import ko from './ko';
@@ -16,9 +17,8 @@ import tr from './tr';
 import ua from './ua';
 import uz from './uz';
 import zh from './zh';
-import hu from './hu';
 
-const locales = [cs, da, de, en, es, fr, it, ja, ko, pl, ro, ru, sk, sv, tr, ua, uz, zh, hu];
+const locales = [cs, da, de, en, es, fr, hu, it, ja, ko, pl, ro, ru, sk, sv, tr, ua, uz, zh];
 
 export default locales;
 
