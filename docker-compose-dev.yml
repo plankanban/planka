@@ -1,20 +1,18 @@
-version: '3'
+version: '3.8'
 
 services:
-  planka:
-    image: ghcr.io/plankanban/planka:master
-    restart: on-failure
-    volumes:
-      - user-avatars:/app/public/user-avatars
-      - project-background-images:/app/public/project-background-images
-      - attachments:/app/private/attachments
-    ports:
-      - 3000:1337
-    environment:
-      - BASE_URL=http://localhost:3000
-      - DATABASE_URL=postgresql://postgres@postgres/planka
-      - SECRET_KEY=notsecretkey
 
+  server:
+    build:
+      context: ./server
+      dockerfile: ../config/development/Dockerfile.server
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
+      - SECRET_KEY=notsecretkey
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
 
@@ -25,20 +23,6 @@ services:
 
       # Configure knex to accept SSL certificates
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
-
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
-
-      # Email Notifications (https://nodemailer.com/smtp/)
-      # - SMTP_HOST=
-      # - SMTP_PORT=587
-      # - SMTP_SECURE=true
-      # - SMTP_USER=
-      # - SMTP_PASSWORD=
-      # - SMTP_FROM="Demo Demo" <demo@demo.demo>
-
       # - OIDC_ISSUER=
       # - OIDC_CLIENT_ID=
       # - OIDC_CLIENT_SECRET=
@@ -51,26 +35,87 @@ services:
       # - OIDC_IGNORE_USERNAME=true
       # - OIDC_IGNORE_ROLES=true
       # - OIDC_ENFORCED=true
+
+      # Email Notifications (https://nodemailer.com/smtp/)
+      # - SMTP_HOST=
+      # - SMTP_PORT=587
+      # - SMTP_SECURE=true
+      # - SMTP_USER=
+      # - SMTP_PASSWORD=
+      # - SMTP_FROM="Demo Demo" <demo@demo.demo>
+
+      # - SLACK_BOT_TOKEN=
+      # - SLACK_CHANNEL_ID=
+
+    working_dir: /app
+    command: ["sh", "-c", "npm run start"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  client:
+    build:
+      context: ./client
+      dockerfile: ../config/development/Dockerfile.client
+    volumes:
+      - ./client:/app/client
+      - /app/client/node_modules
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - BASE_URL=http://localhost:3000
+      - REACT_APP_SERVER_BASE_URL=http://localhost:3000
+    working_dir: /app/client
+    command: npm start
+
+  init-db:
+    build:
+      context: ./server
+      dockerfile: ../config/development/Dockerfile.server
+    environment:
+      - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
+      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
+      # - DEFAULT_ADMIN_PASSWORD=demo
+      # - DEFAULT_ADMIN_NAME=Demo Demo
+      # - DEFAULT_ADMIN_USERNAME=demo
+
+    working_dir: /app
+    command: ["sh", "-c", "npm run db:init"]
+    volumes:
+      - ./server:/app
+      - /app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
 
   postgres:
-    image: postgres:14-alpine
-    restart: on-failure
+    image: postgres:latest
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=planka
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      POSTGRES_DB: planka_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
       interval: 10s
       timeout: 5s
       retries: 5
 
+  proxy:
+    image: nginx:alpine
+    ports:
+      - "3000:80"
+    volumes:
+      - ./config/development/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - server
+      - client
+
+
 volumes:
-  user-avatars:
-  project-background-images:
-  attachments:
   db-data:
