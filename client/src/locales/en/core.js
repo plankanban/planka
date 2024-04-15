@@ -50,7 +50,6 @@ export default {
       cardActions_title: 'Card Actions',
       cardNotFound_title: 'Card Not Found',
       cardOrActionAreDeleted: 'Card or action are deleted.',
-      clear: 'Clear',
       color: 'Color',
       copy_inline: 'copy',
       createBoard_title: 'Create Board',
