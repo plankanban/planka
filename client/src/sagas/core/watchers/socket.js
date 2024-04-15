@@ -16,6 +16,10 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleSocketReconnect());
     };
 
+    const handleLogout = () => {
+      emit(entryActions.logout(false));
+    };
+
     const handleUserCreate = api.makeHandleUserCreate(({ item }) => {
       emit(entryActions.handleUserCreate(item));
     });
@@ -171,6 +175,8 @@ const createSocketEventsChannel = () =>
     socket.on('disconnect', handleDisconnect);
     socket.on('reconnect', handleReconnect);
 
+    socket.on('logout', handleLogout);
+
     socket.on('userCreate', handleUserCreate);
     socket.on('userUpdate', handleUserUpdate);
     socket.on('userDelete', handleUserDelete);
@@ -226,6 +232,8 @@ const createSocketEventsChannel = () =>
     return () => {
       socket.off('disconnect', handleDisconnect);
       socket.off('reconnect', handleReconnect);
+
+      socket.off('logout', handleLogout);
 
       socket.off('userCreate', handleUserCreate);
       socket.off('userUpdate', handleUserUpdate);

@@ -1,3 +1,4 @@
+import pick from 'lodash/pick';
 import { attr, fk, many, oneToOne } from 'redux-orm';
 
 import BaseModel from './BaseModel';
@@ -165,7 +166,6 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.CARD_CREATE:
-      case ActionTypes.CARD_CREATE_HANDLE:
       case ActionTypes.CARD_UPDATE__SUCCESS:
       case ActionTypes.CARD_UPDATE_HANDLE:
         Card.upsert(payload.card);
@@ -176,10 +176,63 @@ export default class extends BaseModel {
         Card.upsert(payload.card);
 
         break;
+      case ActionTypes.CARD_CREATE_HANDLE: {
+        const cardModel = Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ userId }) => {
+          cardModel.users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ labelId }) => {
+          cardModel.labels.add(labelId);
+        });
+
+        break;
+      }
       case ActionTypes.CARD_UPDATE:
         Card.withId(payload.id).update(payload.data);
 
         break;
+      case ActionTypes.CARD_DUPLICATE: {
+        const cardModel = Card.withId(payload.id);
+
+        const nextCardModel = Card.upsert({
+          ...pick(cardModel.ref, [
+            'boardId',
+            'listId',
+            'position',
+            'name',
+            'description',
+            'dueDate',
+            'stopwatch',
+          ]),
+          ...payload.card,
+        });
+
+        cardModel.users.toRefArray().forEach(({ id }) => {
+          nextCardModel.users.add(id);
+        });
+
+        cardModel.labels.toRefArray().forEach(({ id }) => {
+          nextCardModel.labels.add(id);
+        });
+
+        break;
+      }
+      case ActionTypes.CARD_DUPLICATE__SUCCESS: {
+        Card.withId(payload.localId).deleteWithRelated();
+        const cardModel = Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ userId }) => {
+          cardModel.users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ labelId }) => {
+          cardModel.labels.add(labelId);
+        });
+
+        break;
+      }
       case ActionTypes.CARD_DELETE:
         Card.withId(payload.id).deleteWithRelated();
 

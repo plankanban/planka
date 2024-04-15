@@ -1,6 +1,14 @@
 const openidClient = require('openid-client');
 
-module.exports = function oidcServiceHook(sails) {
+/**
+ * oidc hook
+ *
+ * @description :: A hook definition. Extends Sails by adding shadow routes, implicit actions,
+ *                 and/or initialization logic.
+ * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
+ */
+
+module.exports = function defineOidcHook(sails) {
   let client = null;
 
   return {
@@ -9,17 +17,20 @@ module.exports = function oidcServiceHook(sails) {
      */
 
     async initialize() {
-      if (sails.config.custom.oidcIssuer) {
-        const issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
-
-        client = new issuer.Client({
-          client_id: sails.config.custom.oidcClientId,
-          client_secret: sails.config.custom.oidcClientSecret,
-          redirect_uris: [sails.config.custom.oidcRedirectUri],
-          response_types: ['code'],
-        });
-        sails.log.info('OIDC hook has been loaded successfully');
+      if (!sails.config.custom.oidcIssuer) {
+        return;
       }
+
+      sails.log.info('Initializing custom hook (`oidc`)');
+
+      const issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
+
+      client = new issuer.Client({
+        client_id: sails.config.custom.oidcClientId,
+        client_secret: sails.config.custom.oidcClientSecret,
+        redirect_uris: [sails.config.custom.oidcRedirectUri],
+        response_types: ['code'],
+      });
     },
 
     getClient() {

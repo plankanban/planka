@@ -9,6 +9,10 @@ module.exports = {
       deletedAt: new Date().toISOString(),
     });
 
+    if (this.req.isSocket) {
+      sails.sockets.leaveAll(`@accessToken:${accessToken}`);
+    }
+
     return {
       item: accessToken,
     };

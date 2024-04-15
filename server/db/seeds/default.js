@@ -13,7 +13,7 @@ const buildData = () => {
     data.name = process.env.DEFAULT_ADMIN_NAME;
   }
   if (process.env.DEFAULT_ADMIN_USERNAME) {
-    data.username = process.env.DEFAULT_ADMIN_USERNAME;
+    data.username = process.env.DEFAULT_ADMIN_USERNAME.toLowerCase();
   }
 
   return data;
@@ -24,16 +24,17 @@ exports.seed = async (knex) => {
     return;
   }
 
+  const email = process.env.DEFAULT_ADMIN_EMAIL.toLowerCase();
   const data = buildData();
 
   try {
     await knex('user_account').insert({
       ...data,
-      email: process.env.DEFAULT_ADMIN_EMAIL,
+      email,
       subscribeToOwnCards: false,
       createdAt: new Date().toISOString(),
     });
   } catch (error) {
-    await knex('user_account').update(data).where('email', process.env.DEFAULT_ADMIN_EMAIL);
+    await knex('user_account').update(data).where('email', email);
   }
 };

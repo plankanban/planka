@@ -1,3 +1,5 @@
+const POSITION_GAP = 65535; // TODO: move to config
+
 module.exports = {
   inputs: {
     user: {
@@ -107,6 +109,7 @@ module.exports = {
             position: trelloCard.pos,
             name: trelloCard.name,
             description: trelloCard.desc || null,
+            dueDate: trelloCard.due,
           }).fetch();
 
           await importCardLabels(plankaCard, trelloCard);
@@ -123,7 +126,7 @@ module.exports = {
         getUsedTrelloLabels().map(async (trelloLabel, index) => {
           const plankaLabel = await Label.create({
             boardId: inputs.board.id,
-            position: 65535 * (index + 1), // TODO: move to config
+            position: POSITION_GAP * (index + 1),
             name: trelloLabel.name || null,
             color: getPlankaLabelColor(trelloLabel.color),
           }).fetch();

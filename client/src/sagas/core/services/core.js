@@ -1,4 +1,4 @@
-import { call, put, select, take } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 
 import request from '../request';
 import requests from '../requests';
@@ -84,8 +84,7 @@ export function* logout(invalidateAccessToken = true) {
     } catch (error) {} // eslint-disable-line no-empty
   }
 
-  yield put(actions.logout());
-  yield take();
+  yield put(actions.logout()); // TODO: next url
 }
 
 export default {

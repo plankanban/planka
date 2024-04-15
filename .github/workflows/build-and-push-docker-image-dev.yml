@@ -11,7 +11,7 @@ on:
     branches: [master]
 
 env:
-  REGISTRY_IMAGE: ghcr.io/plankanban/planka
+  REGISTRY_IMAGE: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}
 
 jobs:
   build:

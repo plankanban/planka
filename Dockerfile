@@ -6,7 +6,7 @@ RUN apk -U upgrade \
 
 WORKDIR /app
 
-COPY server/package.json server/package-lock.json .
+COPY server/package.json server/package-lock.json ./
 
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
@@ -17,7 +17,7 @@ FROM node:lts AS client
 
 WORKDIR /app
 
-COPY client/package.json client/package-lock.json .
+COPY client/package.json client/package-lock.json ./
 
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
@@ -38,6 +38,7 @@ WORKDIR /app
 
 COPY --chown=node:node start.sh .
 COPY --chown=node:node server .
+COPY --chown=node:node healthcheck.js .
 
 RUN mv .env.sample .env
 
@@ -52,4 +53,8 @@ VOLUME /app/private/attachments
 
 EXPOSE 1337
 
-CMD ["./start.sh"]
+HEALTHCHECK --interval=10s --timeout=2s --start-period=15s \
+  CMD node ./healthcheck.js
+
+
+CMD [ "bash", "start.sh" ]
