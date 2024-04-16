@@ -16,7 +16,18 @@ import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-ic
 import styles from './List.module.scss';
 
 const List = React.memo(
-  ({ id, index, name, isPersisted, cardIds, canEdit, onUpdate, onDelete, onSort, onCardCreate }) => {
+  ({
+    id,
+    index,
+    name,
+    isPersisted,
+    cardIds,
+    canEdit,
+    onUpdate,
+    onDelete,
+    onSort,
+    onCardCreate,
+  }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 

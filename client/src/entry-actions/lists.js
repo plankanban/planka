@@ -52,13 +52,14 @@ const handleListDelete = (list) => ({
 });
 
 const sortList = (id, data) => {
-  return ({
+  return {
     type: EntryActionTypes.LIST_SORT,
     payload: {
       id,
-      data
+      data,
     },
-  })};
+  };
+};
 
 const handleListSort = (list) => ({
   type: EntryActionTypes.LIST_SORT_HANDLE,
@@ -66,7 +67,6 @@ const handleListSort = (list) => ({
     list,
   },
 });
-
 
 export default {
   createListInCurrentBoard,

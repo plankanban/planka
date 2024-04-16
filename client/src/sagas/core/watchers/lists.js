@@ -18,10 +18,10 @@ export default function* listsWatchers() {
       services.handleListUpdate(list),
     ),
     takeEvery(EntryActionTypes.LIST_SORT, ({ payload: { id, data } }) =>
-        services.sortList(id, data),
+      services.sortList(id, data),
     ),
     takeEvery(EntryActionTypes.LIST_SORT_HANDLE, ({ payload: { list } }) =>
-        services.handleListSort(list),
+      services.handleListSort(list),
     ),
     takeEvery(EntryActionTypes.LIST_MOVE, ({ payload: { id, index } }) =>
       services.moveList(id, index),

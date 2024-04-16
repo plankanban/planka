@@ -127,5 +127,5 @@ export default {
   deleteList,
   handleListDelete,
   sortList,
-  handleListSort
+  handleListSort,
 };

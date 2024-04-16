@@ -8,7 +8,7 @@ import { useSteps } from '../../hooks';
 import DeleteStep from '../DeleteStep';
 
 import styles from './ActionsStep.module.scss';
-import SortStep from "../SortStep";
+import SortStep from '../SortStep';
 
 const StepTypes = {
   DELETE: 'DELETE',
@@ -38,25 +38,19 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onSort, onClo
   }, [openStep]);
 
   if (step && step.type) {
-    switch (step.type){
+    switch (step.type) {
       case StepTypes.DELETE:
         return (
-            <DeleteStep
-                title="common.deleteList"
-                content="common.areYouSureYouWantToDeleteThisList"
-                buttonContent="action.deleteList"
-                onConfirm={onDelete}
-                onBack={handleBack}
-            />
+          <DeleteStep
+            title="common.deleteList"
+            content="common.areYouSureYouWantToDeleteThisList"
+            buttonContent="action.deleteList"
+            onConfirm={onDelete}
+            onBack={handleBack}
+          />
         );
       case StepTypes.SORT:
-        return (
-            <SortStep
-            title="common.sortList"
-            onSort={onSort}
-            onBack={handleBack}
-        />
-        );
+        return <SortStep title="common.sortList" onSort={onSort} onBack={handleBack} />;
       default:
     }
   }
