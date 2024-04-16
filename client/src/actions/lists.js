@@ -89,6 +89,36 @@ const handleListDelete = (list) => ({
   },
 });
 
+const sortList = (id, data) => ({
+  type: ActionTypes.LIST_SORT,
+  payload: {
+    id,
+    data,
+  },
+});
+
+sortList.success = (list) => ({
+  type: ActionTypes.LIST_SORT__SUCCESS,
+  payload: {
+    list,
+  },
+});
+
+sortList.failure = (id, error) => ({
+  type: ActionTypes.LIST_SORT__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const handleListSort = (list) => ({
+  type: ActionTypes.LIST_SORT_HANDLE,
+  payload: {
+    list,
+  },
+});
+
 export default {
   createList,
   handleListCreate,
@@ -96,4 +126,6 @@ export default {
   handleListUpdate,
   deleteList,
   handleListDelete,
+  sortList,
+  handleListSort
 };
