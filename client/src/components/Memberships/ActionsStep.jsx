@@ -6,7 +6,7 @@ import { Button } from 'semantic-ui-react';
 
 import { useSteps } from '../../hooks';
 import User from '../User';
-import DeleteStep from '../DeleteStep';
+import ConfirmStep from '../ConfirmStep';
 
 import styles from './ActionsStep.module.scss';
 
@@ -71,7 +71,7 @@ const ActionsStep = React.memo(
         }
         case StepTypes.DELETE:
           return (
-            <DeleteStep
+            <ConfirmStep
               title={membership.user.isCurrent ? leaveConfirmationTitle : deleteConfirmationTitle}
               content={
                 membership.user.isCurrent ? leaveConfirmationContent : deleteConfirmationContent

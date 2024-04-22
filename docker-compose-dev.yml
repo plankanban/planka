@@ -75,10 +75,10 @@ services:
       dockerfile: ../config/development/Dockerfile.server
     environment:
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_EMAIL=admin@robsonvnt.me # Do not remove if you want to prevent this user from being edited/deleted
+      - DEFAULT_ADMIN_PASSWORD=admin
+      - DEFAULT_ADMIN_NAME=Admin
+      - DEFAULT_ADMIN_USERNAME=admin
 
     working_dir: /app
     command: ["sh", "-c", "npm run db:init"]

@@ -186,6 +186,7 @@ export default {
       createLabel: 'Label aanmaken',
       createNewLabel: 'Nieuw label aanmaken',
       createProject: 'Project aanmaken',
+      archive: 'Archiveren',
       delete: 'Verwijderen',
       deleteAttachment: 'Bijlage verwijderen',
       deleteAvatar: 'Avatar verwijderen',

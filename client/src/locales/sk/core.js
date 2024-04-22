@@ -165,6 +165,7 @@ export default {
       createLabel: 'Vytvoriť štítok',
       createNewLabel: 'Vytvoriť nový štítok',
       createProject: 'Vytvoriť projekt',
+      archive: 'Archivovať',
       delete: 'Zmazať',
       deleteAttachment: 'Zmazať prílohu',
       deleteAvatar: 'Zmazať avatar',

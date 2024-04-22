@@ -185,6 +185,7 @@ export default {
       createLabel: 'Tambah label',
       createNewLabel: 'Tambah label baru',
       createProject: 'Tambah proyek',
+      archive: 'Arsipkan',
       delete: 'Hapus',
       deleteAttachment: 'Hapus lampiran',
       deleteAvatar: 'Hapus avatar',

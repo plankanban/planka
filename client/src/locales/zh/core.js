@@ -177,6 +177,7 @@ export default {
       createLabel: '创建标签',
       createNewLabel: '创建新标签',
       createProject: '创建项目',
+      archive: '归档',
       delete: '删除',
       deleteAttachment: '删除附件',
       deleteAvatar: '删除头像',

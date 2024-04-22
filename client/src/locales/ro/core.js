@@ -186,6 +186,7 @@ export default {
       createLabel: 'Creați eticheta',
       createNewLabel: 'Creați o nouă etichetă',
       createProject: 'Creați proiect',
+      archive: 'Arhiva',
       delete: 'Ștergeți',
       deleteAttachment: 'Ștergeți atașamentul',
       deleteAvatar: 'Ștergeți avatarul',

@@ -185,6 +185,7 @@ export default {
       createLabel: 'ラベルを作成',
       createNewLabel: '新しいラベルを作成',
       createProject: 'プロジェクトを作成',
+      archive: 'アーカイブ',
       delete: '削除',
       deleteAttachment: '添付ファイルを削除',
       deleteAvatar: 'アバターを削除',

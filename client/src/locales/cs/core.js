@@ -184,6 +184,7 @@ export default {
       createLabel: 'Vytvořit štítek',
       createNewLabel: 'Vytvořit nový štítek',
       createProject: 'Vytvořit projekt',
+      archive: 'Archivovat',
       delete: 'Smazat',
       deleteAttachment: 'Smazat přílohu',
       deleteAvatar: 'Smazat avatar',

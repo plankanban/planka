@@ -44,6 +44,11 @@ module.exports = {
     position: {
       type: 'number',
     },
+    status: {
+      type: 'string',
+      isIn: ['active', 'archived'],
+      defaultsTo: 'active',
+    },
     name: {
       type: 'string',
       required: true,

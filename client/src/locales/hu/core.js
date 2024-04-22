@@ -175,6 +175,7 @@ export default {
       createLabel: 'Címke létrehozása',
       createNewLabel: 'Új címke létrehozása',
       createProject: 'Projekt létrehozása',
+      archive: 'Archiválás',
       delete: 'Törlés',
       deleteAttachment: 'Melléklet törlése',
       deleteAvatar: 'Avatar törlése',

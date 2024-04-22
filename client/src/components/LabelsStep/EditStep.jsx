@@ -8,7 +8,7 @@ import { Popup } from '../../lib/custom-ui';
 import { useForm, useSteps } from '../../hooks';
 import LabelColors from '../../constants/LabelColors';
 import Editor from './Editor';
-import DeleteStep from '../DeleteStep';
+import ConfirmStep from '../ConfirmStep';
 
 import styles from './EditStep.module.scss';
 
@@ -46,7 +46,7 @@ const EditStep = React.memo(({ defaultData, onUpdate, onDelete, onBack }) => {
 
   if (step && step.type === StepTypes.DELETE) {
     return (
-      <DeleteStep
+      <ConfirmStep
         title="common.deleteLabel"
         content="common.areYouSureYouWantToDeleteThisLabel"
         buttonContent="action.deleteLabel"

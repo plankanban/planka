@@ -13,3 +13,8 @@ export const ActivityTypes = {
   MOVE_CARD: 'moveCard',
   COMMENT_CARD: 'commentCard',
 };
+
+export const CardStatus = {
+  ACTIVE: 'active',
+  ARCHIVED: 'archived',
+};

@@ -168,6 +168,7 @@ export default {
       createLabel: 'Etiket Oluştur',
       createNewLabel: 'Yeni etiket oluştur',
       createProject: 'Proje oluştur',
+      archive: 'Arşivlemek',
       delete: 'Sil',
       deleteAttachment: 'Eki sil',
       deleteAvatar: 'Avatarı sil',

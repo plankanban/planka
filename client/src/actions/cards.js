@@ -49,6 +49,13 @@ updateCard.success = (card) => ({
   },
 });
 
+updateCard.archive_success = (card) => ({
+  type: ActionTypes.CARD_ARCHIVE__SUCCESS,
+  payload: {
+    card,
+  },
+});
+
 updateCard.failure = (id, error) => ({
   type: ActionTypes.CARD_UPDATE__FAILURE,
   payload: {

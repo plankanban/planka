@@ -153,6 +153,7 @@ export default {
       createLabel: 'Créer une étiquette',
       createNewLabel: 'Créer une nouvelle étiquette',
       createProject: 'Créer un projet',
+      archive: 'Archiver',
       delete: 'Supprimer',
       deleteAttachment: 'Supprimer la pièce jointe',
       deleteAvatar: "Supprimer l'avatar",

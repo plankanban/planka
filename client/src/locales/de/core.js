@@ -174,6 +174,7 @@ export default {
       createLabel: 'Label erstellen',
       createNewLabel: 'Neues Label erstellen',
       createProject: 'Projekt erstellen',
+      archive: 'Archivieren',
       delete: 'Löschen',
       deleteAttachment: 'Anhang löschen',
       deleteAvatar: 'Avatar löschen',

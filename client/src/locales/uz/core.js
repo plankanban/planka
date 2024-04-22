@@ -160,6 +160,7 @@ export default {
       createLabel: 'Yorliq yaratish',
       createNewLabel: 'Yangi yorliq yaratish',
       createProject: 'Loyiha yaratish',
+      archive: 'Arxivlash',
       delete: "O'chirish",
       deleteAttachment: "Ilovani o'chirish",
       deleteAvatar: "Avatarni o'chirish",

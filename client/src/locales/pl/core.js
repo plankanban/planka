@@ -153,6 +153,7 @@ export default {
       createLabel: 'Utwórz oznaczenie',
       createNewLabel: 'Utwórz nowe oznaczenie',
       createProject: 'Utwórz projekt',
+      archive: 'Archiwizować',
       delete: 'Usuń',
       deleteAttachment: 'Usuń załącznik',
       deleteAvatar: 'Usuń avatar',

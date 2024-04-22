@@ -167,6 +167,7 @@ export default {
       createLabel: 'Skapa etikett',
       createNewLabel: 'Skapa ny etikett',
       createProject: 'Skapa projekt',
+      archive: 'Arkivera',
       delete: 'Ta Bort',
       deleteAttachment: 'Ta bort bilaga',
       deleteAvatar: 'Ta bort avatar',

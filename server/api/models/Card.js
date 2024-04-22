@@ -28,6 +28,13 @@ module.exports = {
       type: 'ref',
       columnName: 'due_date',
     },
+    status: {
+      type: 'string',
+      isIn: ['active', 'archived'],
+      defaultsTo: 'active',
+      allowNull: false,
+      description: 'The current status of the card, which can be active or archived.',
+    },
     stopwatch: {
       type: 'json',
     },

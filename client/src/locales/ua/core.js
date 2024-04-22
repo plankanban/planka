@@ -181,6 +181,7 @@ export default {
       createLabel: 'Створити мітку',
       createNewLabel: 'Створити нову мітку',
       createProject: 'Створити проект',
+      archive: 'Архівувати',
       delete: 'Видалити',
       deleteAttachment: 'Видалити вкладення',
       deleteAvatar: 'Видалити аватар',

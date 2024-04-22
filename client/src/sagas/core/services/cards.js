@@ -7,6 +7,7 @@ import actions from '../../../actions';
 import api from '../../../api';
 import i18n from '../../../i18n';
 import { createLocalId } from '../../../utils/local-id';
+import { CardStatus } from '../../../constants/Enums';
 
 export function* createCard(listId, data, autoOpen) {
   const { boardId } = yield select(selectors.selectListById, listId);
@@ -63,7 +64,6 @@ export function* handleCardCreate({ id }) {
 
 export function* updateCard(id, data) {
   yield put(actions.updateCard(id, data));
-
   let card;
   try {
     ({ item: card } = yield call(request, api.updateCard, id, data));
@@ -72,6 +72,10 @@ export function* updateCard(id, data) {
     return;
   }
 
+  if ('status' in data && data.status === CardStatus.ARCHIVED) {
+    yield put(actions.updateCard.archive_success(card));
+    return;
+  }
   yield put(actions.updateCard.success(card));
 }
 

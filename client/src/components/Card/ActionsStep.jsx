@@ -11,9 +11,10 @@ import LabelsStep from '../LabelsStep';
 import DueDateEditStep from '../DueDateEditStep';
 import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
-import DeleteStep from '../DeleteStep';
+import ConfirmStep from '../ConfirmStep';
 
 import styles from './ActionsStep.module.scss';
+import { CardStatus } from '../../constants/Enums';
 
 const StepTypes = {
   USERS: 'USERS',
@@ -22,6 +23,7 @@ const StepTypes = {
   EDIT_STOPWATCH: 'EDIT_STOPWATCH',
   MOVE: 'MOVE',
   DELETE: 'DELETE',
+  ARCHIVE: 'ARCHIVE',
 };
 
 const ActionsStep = React.memo(
@@ -48,6 +50,7 @@ const ActionsStep = React.memo(
     onLabelMove,
     onLabelDelete,
     onClose,
+    onArchive,
   }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
@@ -81,6 +84,10 @@ const ActionsStep = React.memo(
       onDuplicate();
       onClose();
     }, [onDuplicate, onClose]);
+
+    const handleArchiveClick = useCallback(() => {
+      openStep(StepTypes.ARCHIVE);
+    }, [openStep]);
 
     const handleDeleteClick = useCallback(() => {
       openStep(StepTypes.DELETE);
@@ -162,11 +169,21 @@ const ActionsStep = React.memo(
           );
         case StepTypes.DELETE:
           return (
-            <DeleteStep
+            <ConfirmStep
               title="common.deleteCard"
               content="common.areYouSureYouWantToDeleteThisCard"
               buttonContent="action.deleteCard"
               onConfirm={onDelete}
+              onBack={handleBack}
+            />
+          );
+        case StepTypes.ARCHIVE:
+          return (
+            <ConfirmStep
+              title="common.archiveCard_title"
+              content="common.areYouSureYouWantToArchiveThisCard"
+              buttonContent="action.archiveCard"
+              onConfirm={onArchive}
               onBack={handleBack}
             />
           );
@@ -218,6 +235,11 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleArchiveClick}>
+              {t('action.archiveCard', {
+                context: 'title',
+              })}
+            </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
               {t('action.deleteCard', {
                 context: 'title',
@@ -255,6 +277,7 @@ ActionsStep.propTypes = {
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onArchive: PropTypes.func.isRequired,
 };
 
 export default ActionsStep;
