@@ -14,6 +14,11 @@ export default class extends BaseModel {
     position: attr(),
     name: attr(),
     description: attr(),
+    creatorUserId: oneToOne({
+      to: 'User',
+      as: 'creatorUser',
+      relatedName: 'ownCards',
+    }),
     dueDate: attr(),
     stopwatch: attr(),
     isSubscribed: attr({

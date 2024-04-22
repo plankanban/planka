@@ -80,4 +80,16 @@ export default class extends BaseModel {
       default:
     }
   }
+
+  static findLabelsFromText(filterText, labels) {
+    const selectLabel = filterText.toLocaleLowerCase();
+    const matchingLabels = labels.filter((label) =>
+      label.name ? label.name.toLocaleLowerCase().startsWith(selectLabel) : false,
+    );
+    if (matchingLabels.length === 1) {
+      // Appens the user to the filter
+      return matchingLabels[0].id;
+    }
+    return null;
+  }
 }
