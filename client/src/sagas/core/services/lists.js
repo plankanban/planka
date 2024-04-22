@@ -70,6 +70,30 @@ export function* moveList(id, index) {
   });
 }
 
+// TODO: sort locally
+export function* sortList(id, data) {
+  yield put(actions.sortList(id, data));
+
+  let list;
+  let cards;
+
+  try {
+    ({
+      item: list,
+      included: { cards },
+    } = yield call(request, api.sortList, id, data));
+  } catch (error) {
+    yield put(actions.sortList.failure(id, error));
+    return;
+  }
+
+  yield put(actions.sortList.success(list, cards));
+}
+
+export function* handleListSort(list, cards) {
+  yield put(actions.handleListSort(list, cards));
+}
+
 export function* deleteList(id) {
   yield put(actions.deleteList(id));
 
@@ -95,6 +119,8 @@ export default {
   updateList,
   handleListUpdate,
   moveList,
+  sortList,
+  handleListSort,
   deleteList,
   handleListDelete,
 };

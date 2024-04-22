@@ -37,6 +37,24 @@ const moveList = (id, index) => ({
   },
 });
 
+const sortList = (id, data) => {
+  return {
+    type: EntryActionTypes.LIST_SORT,
+    payload: {
+      id,
+      data,
+    },
+  };
+};
+
+const handleListSort = (list, cards) => ({
+  type: EntryActionTypes.LIST_SORT_HANDLE,
+  payload: {
+    list,
+    cards,
+  },
+});
+
 const deleteList = (id) => ({
   type: EntryActionTypes.LIST_DELETE,
   payload: {
@@ -57,6 +75,8 @@ export default {
   updateList,
   handleListUpdate,
   moveList,
+  sortList,
+  handleListSort,
   deleteList,
   handleListDelete,
 };

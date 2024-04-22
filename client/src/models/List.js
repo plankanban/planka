@@ -50,6 +50,8 @@ export default class extends BaseModel {
       case ActionTypes.LIST_CREATE_HANDLE:
       case ActionTypes.LIST_UPDATE__SUCCESS:
       case ActionTypes.LIST_UPDATE_HANDLE:
+      case ActionTypes.LIST_SORT__SUCCESS:
+      case ActionTypes.LIST_SORT_HANDLE:
         List.upsert(payload.list);
 
         break;
