@@ -121,6 +121,14 @@ const handleCardDelete = (card) => ({
   },
 });
 
+const filterText = (boardId, text) => ({
+  type: ActionTypes.TEXT_FILTER_IN_CURRENT_BOARD,
+  payload: {
+    boardId,
+    text,
+  },
+});
+
 export default {
   createCard,
   handleCardCreate,
@@ -129,4 +137,5 @@ export default {
   duplicateCard,
   deleteCard,
   handleCardDelete,
+  filterText,
 };

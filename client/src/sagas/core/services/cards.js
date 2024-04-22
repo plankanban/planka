@@ -207,6 +207,12 @@ export function* handleCardDelete(card) {
   yield put(actions.handleCardDelete(card));
 }
 
+export function* handleTextFilter(text) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield put(actions.filterText(boardId, text));
+}
+
 export default {
   createCard,
   handleCardCreate,
@@ -222,4 +228,5 @@ export default {
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,
+  handleTextFilter,
 };
