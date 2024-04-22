@@ -14,10 +14,9 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
-    sortType: {
+    type: {
       type: 'string',
-      isIn: ['name_asc', 'duedate_asc', 'createdat_asc', 'createdat_desc'],
-      defaultsTo: 'name_asc',
+      isIn: Object.values(List.SortTypes),
     },
   },
 
@@ -33,7 +32,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let { list } = await sails.helpers.lists
+    const { list } = await sails.helpers.lists
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
@@ -43,25 +42,24 @@ module.exports = {
     });
 
     if (!boardMembership) {
-      throw Errors.LIST_NOT_FOUND;  // This should rather be NOT_ENOUGH_RIGHTS if it's a permissions issue
+      throw Errors.LIST_NOT_FOUND;
     }
 
     if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    list = await sails.helpers.lists.sortOne.with({
+    const cards = await sails.helpers.lists.sortOne.with({
       record: list,
+      type: inputs.type,
       request: this.req,
-      sortType: inputs.sortType,
     });
-
-    if (!list) {
-      throw Errors.LIST_NOT_FOUND;
-    }
 
     return {
       item: list,
+      included: {
+        cards,
+      },
     };
   },
 };

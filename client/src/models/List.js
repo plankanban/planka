@@ -50,6 +50,8 @@ export default class extends BaseModel {
       case ActionTypes.LIST_CREATE_HANDLE:
       case ActionTypes.LIST_UPDATE__SUCCESS:
       case ActionTypes.LIST_UPDATE_HANDLE:
+      case ActionTypes.LIST_SORT__SUCCESS:
+      case ActionTypes.LIST_SORT_HANDLE:
         List.upsert(payload.list);
 
         break;
@@ -66,9 +68,6 @@ export default class extends BaseModel {
         List.withId(payload.id).deleteWithRelated();
 
         break;
-      // Possible improved flow for updating
-      // case ActionTypes.LIST_SORT__SUCCESS:
-      // case ActionTypes.LIST_SORT_HANDLE:
       case ActionTypes.LIST_DELETE__SUCCESS:
       case ActionTypes.LIST_DELETE_HANDLE: {
         const listModel = List.withId(payload.list.id);

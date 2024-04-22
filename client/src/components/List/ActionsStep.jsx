@@ -5,17 +5,17 @@ import { Menu } from 'semantic-ui-react';
 import { Popup } from '../../lib/custom-ui';
 
 import { useSteps } from '../../hooks';
+import ListSortStep from '../ListSortStep';
 import DeleteStep from '../DeleteStep';
 
 import styles from './ActionsStep.module.scss';
-import SortStep from '../SortStep';
 
 const StepTypes = {
   DELETE: 'DELETE',
   SORT: 'SORT',
 };
 
-const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onSort, onClose }) => {
+const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onSort, onDelete, onClose }) => {
   const [t] = useTranslation();
   const [step, openStep, handleBack] = useSteps();
 
@@ -29,16 +29,29 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onSort, onClo
     onClose();
   }, [onCardAdd, onClose]);
 
-  const handleDeleteClick = useCallback(() => {
-    openStep(StepTypes.DELETE);
-  }, [openStep]);
-
   const handleSortClick = useCallback(() => {
     openStep(StepTypes.SORT);
   }, [openStep]);
 
+  const handleDeleteClick = useCallback(() => {
+    openStep(StepTypes.DELETE);
+  }, [openStep]);
+
+  const handleSortTypeSelect = useCallback(
+    (type) => {
+      onSort({
+        type,
+      });
+
+      onClose();
+    },
+    [onSort, onClose],
+  );
+
   if (step && step.type) {
     switch (step.type) {
+      case StepTypes.SORT:
+        return <ListSortStep onTypeSelect={handleSortTypeSelect} onBack={handleBack} />;
       case StepTypes.DELETE:
         return (
           <DeleteStep
@@ -49,8 +62,6 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onSort, onClo
             onBack={handleBack}
           />
         );
-      case StepTypes.SORT:
-        return <SortStep title="common.sortList" onSort={onSort} onBack={handleBack} />;
       default:
     }
   }
@@ -64,11 +75,6 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onSort, onClo
       </Popup.Header>
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
-          <Menu.Item className={styles.menuItem} onClick={handleSortClick}>
-            {t('action.sort', {
-              context: 'title',
-            })}
-          </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
             {t('action.editTitle', {
               context: 'title',
@@ -76,6 +82,11 @@ const ActionsStep = React.memo(({ onNameEdit, onCardAdd, onDelete, onSort, onClo
           </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleAddCardClick}>
             {t('action.addCard', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleSortClick}>
+            {t('action.sortList', {
               context: 'title',
             })}
           </Menu.Item>

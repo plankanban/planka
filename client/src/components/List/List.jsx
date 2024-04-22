@@ -171,8 +171,8 @@ List.propTypes = {
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   onCardCreate: PropTypes.func.isRequired,
 };
 

@@ -60,6 +60,38 @@ const handleListUpdate = (list) => ({
   },
 });
 
+const sortList = (id, data) => ({
+  type: ActionTypes.LIST_SORT,
+  payload: {
+    id,
+    data,
+  },
+});
+
+sortList.success = (list, cards) => ({
+  type: ActionTypes.LIST_SORT__SUCCESS,
+  payload: {
+    list,
+    cards,
+  },
+});
+
+sortList.failure = (id, error) => ({
+  type: ActionTypes.LIST_SORT__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const handleListSort = (list, cards) => ({
+  type: ActionTypes.LIST_SORT_HANDLE,
+  payload: {
+    list,
+    cards,
+  },
+});
+
 const deleteList = (id) => ({
   type: ActionTypes.LIST_DELETE,
   payload: {
@@ -89,43 +121,13 @@ const handleListDelete = (list) => ({
   },
 });
 
-const sortList = (id, data) => ({
-  type: ActionTypes.LIST_SORT,
-  payload: {
-    id,
-    data,
-  },
-});
-
-sortList.success = (list) => ({
-  type: ActionTypes.LIST_SORT__SUCCESS,
-  payload: {
-    list,
-  },
-});
-
-sortList.failure = (id, error) => ({
-  type: ActionTypes.LIST_SORT__FAILURE,
-  payload: {
-    id,
-    error,
-  },
-});
-
-const handleListSort = (list) => ({
-  type: ActionTypes.LIST_SORT_HANDLE,
-  payload: {
-    list,
-  },
-});
-
 export default {
   createList,
   handleListCreate,
   updateList,
   handleListUpdate,
-  deleteList,
-  handleListDelete,
   sortList,
   handleListSort,
+  deleteList,
+  handleListDelete,
 };

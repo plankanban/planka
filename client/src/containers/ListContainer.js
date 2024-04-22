@@ -33,8 +33,8 @@ const mapDispatchToProps = (dispatch, { id }) =>
   bindActionCreators(
     {
       onUpdate: (data) => entryActions.updateList(id, data),
-      onDelete: () => entryActions.deleteList(id),
       onSort: (data) => entryActions.sortList(id, data),
+      onDelete: () => entryActions.deleteList(id),
       onCardCreate: (data, autoOpen) => entryActions.createCard(id, data, autoOpen),
     },
     dispatch,

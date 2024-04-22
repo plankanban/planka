@@ -61,24 +61,6 @@ export function* handleListUpdate(list) {
   yield put(actions.handleListUpdate(list));
 }
 
-export function* sortList(id, data) {
-  yield put(actions.sortList(id, data));
-
-  let list;
-  try {
-    ({ item: list } = yield call(request, api.sortList, id, data));
-  } catch (error) {
-    yield put(actions.sortList.failure(id, error));
-    return;
-  }
-
-  yield put(actions.sortList.success(list));
-}
-
-export function* handleListSort(list) {
-  yield put(actions.handleListSort(list));
-}
-
 export function* moveList(id, index) {
   const { boardId } = yield select(selectors.selectListById, id);
   const position = yield select(selectors.selectNextListPosition, boardId, index, id);
@@ -86,6 +68,30 @@ export function* moveList(id, index) {
   yield call(updateList, id, {
     position,
   });
+}
+
+// TODO: sort locally
+export function* sortList(id, data) {
+  yield put(actions.sortList(id, data));
+
+  let list;
+  let cards;
+
+  try {
+    ({
+      item: list,
+      included: { cards },
+    } = yield call(request, api.sortList, id, data));
+  } catch (error) {
+    yield put(actions.sortList.failure(id, error));
+    return;
+  }
+
+  yield put(actions.sortList.success(list, cards));
+}
+
+export function* handleListSort(list, cards) {
+  yield put(actions.handleListSort(list, cards));
 }
 
 export function* deleteList(id) {
@@ -112,9 +118,9 @@ export default {
   handleListCreate,
   updateList,
   handleListUpdate,
+  moveList,
   sortList,
   handleListSort,
-  moveList,
   deleteList,
   handleListDelete,
 };
