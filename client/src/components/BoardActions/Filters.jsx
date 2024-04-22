@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { Icon } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 import { Input } from '../../lib/custom-ui';
 
@@ -30,7 +32,14 @@ const Filters = React.memo(
     onTextFilterUpdate,
   }) => {
     const [t] = useTranslation();
-    const searchField = useRef(null);
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+    const searchFieldRef = useRef(null);
+
+    const cancelSearch = useCallback(() => {
+      onTextFilterUpdate('');
+      searchFieldRef.current.blur();
+    }, [onTextFilterUpdate]);
 
     const handleRemoveUserClick = useCallback(
       (id) => {
@@ -46,16 +55,38 @@ const Filters = React.memo(
       [onLabelRemove],
     );
 
-    const handleKeyUp = useCallback(() => {
-      onTextFilterUpdate(searchField.current.inputRef.current.value);
-    }, [onTextFilterUpdate]);
+    const handleSearchChange = useCallback(
+      (_, { value }) => {
+        onTextFilterUpdate(value);
+      },
+      [onTextFilterUpdate],
+    );
 
-    useEffect(() => {
-      searchField.current.inputRef.current.value = filterText;
-    }, [filterText]);
+    const handleSearchFocus = useCallback(() => {
+      setIsSearchFocused(true);
+    }, []);
+
+    const handleSearchKeyDown = useCallback(
+      (event) => {
+        if (event.key === 'Escape') {
+          cancelSearch();
+        }
+      },
+      [cancelSearch],
+    );
+
+    const handleSearchBlur = useCallback(() => {
+      setIsSearchFocused(false);
+    }, []);
+
+    const handleCancelSearchClick = useCallback(() => {
+      cancelSearch();
+    }, [cancelSearch]);
 
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
     const LabelsPopup = usePopup(LabelsStep);
+
+    const isSearchActive = filterText || isSearchFocused;
 
     return (
       <>
@@ -114,10 +145,21 @@ const Filters = React.memo(
         </span>
         <span className={styles.filter}>
           <Input
-            ref={searchField}
+            ref={searchFieldRef}
+            value={filterText}
             placeholder={t('common.searchCards')}
-            icon="search"
-            onKeyUp={() => handleKeyUp()}
+            icon={
+              isSearchActive ? (
+                <Icon link name="cancel" onClick={handleCancelSearchClick} />
+              ) : (
+                'search'
+              )
+            }
+            className={classNames(styles.search, !isSearchActive && styles.searchInactive)}
+            onFocus={handleSearchFocus}
+            onKeyDown={handleSearchKeyDown}
+            onChange={handleSearchChange}
+            onBlur={handleSearchBlur}
           />
         </span>
       </>
