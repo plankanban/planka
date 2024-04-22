@@ -9,10 +9,14 @@ import List from '../components/List';
 const makeMapStateToProps = () => {
   const selectListById = selectors.makeSelectListById();
   const selectCardIdsByListId = selectors.makeSelectCardIdsByListId();
+  const selectIsFilteredByListId = selectors.makeSelectIsFilteredByListId();
+  const selectFilteredCardIdsByListId = selectors.makeSelectFilteredCardIdsByListId();
 
   return (state, { id, index }) => {
-    const { name, isPersisted } = selectListById(state, id);
+    const { name, isPersisted, isCollapsed } = selectListById(state, id);
     const cardIds = selectCardIdsByListId(state, id);
+    const isFiltered = selectIsFilteredByListId(state, id);
+    const filteredCardIds = selectFilteredCardIdsByListId(state, id);
     const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
     const isCurrentUserEditor =
@@ -22,8 +26,11 @@ const makeMapStateToProps = () => {
       id,
       index,
       name,
+      isCollapsed,
       isPersisted,
       cardIds,
+      isFiltered,
+      filteredCardIds,
       canEdit: isCurrentUserEditor,
     };
   };

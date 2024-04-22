@@ -10,6 +10,7 @@ export default class extends BaseModel {
     id: attr(),
     position: attr(),
     name: attr(),
+    isCollapsed: attr(),
     boardId: fk({
       to: 'Board',
       as: 'board',
@@ -84,6 +85,16 @@ export default class extends BaseModel {
     return this.cards.orderBy('position');
   }
 
+  getOrderedCardsModelArray() {
+    return this.getOrderedCardsQuerySet().toModelArray();
+  }
+
+  getIsFiltered() {
+    const filterUserIds = this.board.filterUsers.toRefArray().map((user) => user.id);
+    const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);
+    return filterUserIds.length > 0 || filterLabelIds.length > 0;
+  }
+
   getFilteredOrderedCardsModelArray() {
     let cardModels = this.getOrderedCardsQuerySet().toModelArray();
 
@@ -93,7 +104,6 @@ export default class extends BaseModel {
     if (filterUserIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {
         const users = cardModel.users.toRefArray();
-
         return users.some((user) => filterUserIds.includes(user.id));
       });
     }
@@ -101,7 +111,6 @@ export default class extends BaseModel {
     if (filterLabelIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {
         const labels = cardModel.labels.toRefArray();
-
         return labels.some((label) => filterLabelIds.includes(label.id));
       });
     }

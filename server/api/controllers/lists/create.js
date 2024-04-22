@@ -22,6 +22,10 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    isCollapsed: {
+      type: 'boolean',
+      required: true,
+    },
   },
 
   exits: {
@@ -53,7 +57,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name']);
+    const values = _.pick(inputs, ['position', 'name', 'isCollapsed']);
 
     const list = await sails.helpers.lists.createOne.with({
       values: {
