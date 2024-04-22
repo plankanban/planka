@@ -8,6 +8,9 @@ import ActionsStep from './ActionsStep';
 import User from '../User';
 
 import styles from './Memberships.module.scss';
+import MembershipsStep from './MembershipsStep';
+
+const MAX_MEMBERS = 6;
 
 const Memberships = React.memo(
   ({
@@ -31,11 +34,14 @@ const Memberships = React.memo(
   }) => {
     const AddPopup = usePopup(AddStep);
     const ActionsPopup = usePopup(ActionsStep);
+    const MembershipsPopup = usePopup(MembershipsStep);
+
+    const remainMembersCount = items.length - MAX_MEMBERS;
 
     return (
       <>
         <span className={styles.users}>
-          {items.map((item) => (
+          {items.slice(0, MAX_MEMBERS).map((item) => (
             <span key={item.id} className={styles.user}>
               <ActionsPopup
                 membership={item}
@@ -63,6 +69,28 @@ const Memberships = React.memo(
             </span>
           ))}
         </span>
+        {remainMembersCount > 0 && (
+          <MembershipsPopup
+            items={items}
+            permissionsSelectStep={permissionsSelectStep}
+            leaveButtonContent={leaveButtonContent}
+            leaveConfirmationTitle={leaveConfirmationTitle}
+            leaveConfirmationContent={leaveConfirmationContent}
+            leaveConfirmationButtonContent={leaveConfirmationButtonContent}
+            deleteButtonContent={deleteButtonContent}
+            deleteConfirmationTitle={deleteConfirmationTitle}
+            deleteConfirmationContent={deleteConfirmationContent}
+            deleteConfirmationButtonContent={deleteConfirmationButtonContent}
+            canEdit={canEdit}
+            canLeave={items.length > 1 || canLeaveIfLast}
+            onUpdate={onUpdate}
+            onDelete={onDelete}
+          >
+            <Button icon className={styles.addUser}>
+              + {remainMembersCount < 99 ? remainMembersCount : 99}
+            </Button>
+          </MembershipsPopup>
+        )}
         {canEdit && (
           <AddPopup
             users={allUsers}
