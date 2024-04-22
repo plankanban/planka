@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
 import { Popup } from '../../lib/custom-ui';
 
-import styles from './DeleteStep.module.scss';
+import styles from './ConfirmStep.module.scss';
 
-const DeleteStep = React.memo(({ title, content, buttonContent, onConfirm, onBack }) => {
+const ConfirmStep = React.memo(({ title, content, buttonContent, onConfirm, onBack }) => {
   const [t] = useTranslation();
 
   return (
@@ -24,7 +24,7 @@ const DeleteStep = React.memo(({ title, content, buttonContent, onConfirm, onBac
   );
 });
 
-DeleteStep.propTypes = {
+ConfirmStep.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   buttonContent: PropTypes.string.isRequired,
@@ -32,8 +32,8 @@ DeleteStep.propTypes = {
   onBack: PropTypes.func,
 };
 
-DeleteStep.defaultProps = {
+ConfirmStep.defaultProps = {
   onBack: undefined,
 };
 
-export default DeleteStep;
+export default ConfirmStep;

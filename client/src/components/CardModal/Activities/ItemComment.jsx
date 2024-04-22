@@ -9,7 +9,7 @@ import { Markdown } from '../../../lib/custom-ui';
 import getDateFormat from '../../../utils/get-date-format';
 import CommentEdit from './CommentEdit';
 import User from '../../User';
-import DeleteStep from '../../DeleteStep';
+import ConfirmStep from '../../ConfirmStep';
 
 import styles from './ItemComment.module.scss';
 
@@ -23,7 +23,7 @@ const ItemComment = React.memo(
       commentEdit.current.open();
     }, []);
 
-    const DeletePopup = usePopup(DeleteStep);
+    const DeletePopup = usePopup(ConfirmStep);
 
     return (
       <Comment>

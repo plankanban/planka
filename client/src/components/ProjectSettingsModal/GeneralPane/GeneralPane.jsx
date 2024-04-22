@@ -5,14 +5,14 @@ import { Button, Divider, Header, Tab } from 'semantic-ui-react';
 import { usePopup } from '../../../lib/popup';
 
 import InformationEdit from './InformationEdit';
-import DeleteStep from '../../DeleteStep';
+import ConfirmStep from '../../ConfirmStep';
 
 import styles from './GeneralPane.module.scss';
 
 const GeneralPane = React.memo(({ name, onUpdate, onDelete }) => {
   const [t] = useTranslation();
 
-  const DeletePopup = usePopup(DeleteStep);
+  const DeletePopup = usePopup(ConfirmStep);
 
   return (
     <Tab.Pane attached={false} className={styles.wrapper}>

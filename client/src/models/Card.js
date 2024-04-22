@@ -4,7 +4,7 @@ import { attr, fk, many, oneToOne } from 'redux-orm';
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
-import { ActivityTypes } from '../constants/Enums';
+import { ActivityTypes, CardStatus } from '../constants/Enums';
 
 export default class extends BaseModel {
   static modelName = 'Card';
@@ -16,6 +16,9 @@ export default class extends BaseModel {
     description: attr(),
     dueDate: attr(),
     stopwatch: attr(),
+    status: attr({
+      getDefault: () => CardStatus.ACTIVE,
+    }),
     isSubscribed: attr({
       getDefault: () => false,
     }),
@@ -202,6 +205,7 @@ export default class extends BaseModel {
             'listId',
             'position',
             'name',
+            'status',
             'description',
             'dueDate',
             'stopwatch',
@@ -235,9 +239,9 @@ export default class extends BaseModel {
       }
       case ActionTypes.CARD_DELETE:
         Card.withId(payload.id).deleteWithRelated();
-
         break;
       case ActionTypes.CARD_DELETE__SUCCESS:
+      case ActionTypes.CARD_ARCHIVE__SUCCESS:
       case ActionTypes.CARD_DELETE_HANDLE: {
         const cardModel = Card.withId(payload.card.id);
 

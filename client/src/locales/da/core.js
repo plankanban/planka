@@ -164,6 +164,7 @@ export default {
       createLabel: 'Opret mærkat',
       createNewLabel: 'Opret nyt mærkat',
       createProject: 'Opret projekt',
+      archive: 'Archivovat',
       delete: 'Slet',
       deleteAttachment: 'Slet vedhæftning',
       deleteAvatar: 'Slet profilbillede',

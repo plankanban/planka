@@ -180,6 +180,7 @@ export default {
       createLabel: 'Crea etichetta',
       createNewLabel: 'Crea nuova etichetta',
       createProject: 'Crea progetto',
+      archive: 'Archiviare',
       delete: 'Elimina',
       deleteAttachment: 'Elimina allegato',
       deleteAvatar: 'Elimina avatar',

@@ -5,7 +5,7 @@ import { Menu } from 'semantic-ui-react';
 import { Popup } from '../../../lib/custom-ui';
 
 import { useSteps } from '../../../hooks';
-import DeleteStep from '../../DeleteStep';
+import ConfirmStep from '../../ConfirmStep';
 
 import styles from './ActionsStep.module.scss';
 
@@ -28,7 +28,7 @@ const ActionsStep = React.memo(({ onNameEdit, onDelete, onClose }) => {
 
   if (step && step.type === StepTypes.DELETE) {
     return (
-      <DeleteStep
+      <ConfirmStep
         title="common.deleteTask"
         content="common.areYouSureYouWantToDeleteThisTask"
         buttonContent="action.deleteTask"

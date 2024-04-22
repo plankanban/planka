@@ -23,9 +23,10 @@ import LabelsStep from '../LabelsStep';
 import DueDateEditStep from '../DueDateEditStep';
 import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
-import DeleteStep from '../DeleteStep';
+import ConfirmStep from '../ConfirmStep';
 
 import styles from './CardModal.module.scss';
+import { CardStatus } from '../../constants/Enums';
 
 const CardModal = React.memo(
   ({
@@ -141,6 +142,13 @@ const CardModal = React.memo(
       });
     }, [isSubscribed, onUpdate]);
 
+    const handleArchiveClick = useCallback(() => {
+      onUpdate({
+        status: CardStatus.ARCHIVED,
+      });
+      onClose();
+    }, [onUpdate, onClose]);
+
     const handleDuplicateClick = useCallback(() => {
       onDuplicate();
       onClose();
@@ -168,7 +176,7 @@ const CardModal = React.memo(
     const DueDateEditPopup = usePopup(DueDateEditStep);
     const StopwatchEditPopup = usePopup(StopwatchEditStep);
     const CardMovePopup = usePopup(CardMoveStep);
-    const DeletePopup = usePopup(DeleteStep);
+    const DeletePopup = usePopup(ConfirmStep);
 
     const userIds = users.map((user) => user.id);
     const labelIds = labels.map((label) => label.id);
@@ -506,6 +514,19 @@ const CardModal = React.memo(
                   <Icon name="copy outline" className={styles.actionIcon} />
                   {t('action.duplicate')}
                 </Button>
+
+                <DeletePopup
+                  title="common.archiveCard"
+                  content="common.areYouSureYouWantToArchiveThisCard"
+                  buttonContent="action.archiveCard"
+                  onConfirm={handleArchiveClick}
+                >
+                  <Button fluid className={styles.actionButton}>
+                    <Icon name="archive icon" className={styles.actionIcon} />
+                    {t('action.archive')}
+                  </Button>
+                </DeletePopup>
+
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"

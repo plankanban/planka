@@ -17,6 +17,7 @@ import DueDate from '../DueDate';
 import Stopwatch from '../Stopwatch';
 
 import styles from './Card.module.scss';
+import { CardStatus } from '../../constants/Enums';
 
 const Card = React.memo(
   ({
@@ -80,6 +81,13 @@ const Card = React.memo(
       },
       [onUpdate],
     );
+
+    const handleArchiveClick = useCallback(() => {
+      onUpdate({
+        status: CardStatus.ARCHIVED,
+      });
+      onClose();
+    }, [onUpdate]);
 
     const handleNameEdit = useCallback(() => {
       nameEdit.current.open();
@@ -197,6 +205,7 @@ const Card = React.memo(
                         onLabelUpdate={onLabelUpdate}
                         onLabelMove={onLabelMove}
                         onLabelDelete={onLabelDelete}
+                        onArchive={handleArchiveClick}
                       >
                         <Button className={classNames(styles.actionsButton, styles.target)}>
                           <Icon fitted name="pencil" size="small" />

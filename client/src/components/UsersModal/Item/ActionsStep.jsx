@@ -10,7 +10,7 @@ import UserInformationEditStep from '../../UserInformationEditStep';
 import UserUsernameEditStep from '../../UserUsernameEditStep';
 import UserEmailEditStep from '../../UserEmailEditStep';
 import UserPasswordEditStep from '../../UserPasswordEditStep';
-import DeleteStep from '../../DeleteStep';
+import ConfirmStep from '../../ConfirmStep';
 
 import styles from './ActionsStep.module.scss';
 
@@ -110,7 +110,7 @@ const ActionsStep = React.memo(
           );
         case StepTypes.DELETE:
           return (
-            <DeleteStep
+            <ConfirmStep
               title="common.deleteUser"
               content="common.areYouSureYouWantToDeleteThisUser"
               buttonContent="action.deleteUser"

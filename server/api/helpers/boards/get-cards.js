@@ -12,6 +12,7 @@ module.exports = {
   async fn(inputs) {
     return sails.helpers.cards.getMany({
       boardId: inputs.idOrIds,
+      status: inputs.status || 'active',
     });
   },
 };
