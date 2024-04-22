@@ -7,6 +7,7 @@ import { usePopup } from '../../lib/popup';
 
 import Paths from '../../constants/Paths';
 import NotificationsStep from './NotificationsStep';
+import User from '../User';
 import UserStep from '../UserStep';
 
 import styles from './Header.module.scss';
@@ -91,7 +92,8 @@ const Header = React.memo(
               onLogout={onLogout}
             >
               <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
-                {user.name}
+                <span className={styles.userName}>{user.name}</span>
+                <User name={user.name} avatarUrl={user.avatarUrl} size="small" />
               </Menu.Item>
             </UserPopup>
           </Menu.Menu>
