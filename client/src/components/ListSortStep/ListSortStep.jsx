@@ -23,7 +23,7 @@ const ListSortStep = React.memo(({ onTypeSelect, onBack }) => {
             className={styles.menuItem}
             onClick={() => onTypeSelect(ListSortTypes.NAME_ASC)}
           >
-            {t('common.name')}
+            {t('common.title')}
           </Menu.Item>
           <Menu.Item
             className={styles.menuItem}
