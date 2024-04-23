@@ -63,7 +63,6 @@ export default {
       createTextFile_title: 'Vytvořit textový soubor',
       currentPassword: 'Aktuální heslo',
       dangerZone_title: 'Nebezpečná zóna',
-      
       date: 'Datum',
       dueDate: 'Termín',
       dueDate_title: 'Termín',
