@@ -23,6 +23,7 @@ const Activities = React.memo(
     onCommentCreate,
     onCommentUpdate,
     onCommentDelete,
+    boardMemberships,
   }) => {
     const [t] = useTranslation();
 
@@ -56,7 +57,7 @@ const Activities = React.memo(
               onClick={handleToggleDetailsClick}
             />
           </div>
-          {canEdit && <CommentAdd onCreate={onCommentCreate} />}
+          {canEdit && <CommentAdd onCreate={onCommentCreate} boardMemberships={boardMemberships} />}
           <div className={styles.wrapper}>
             <Comment.Group>
               {items.map((item) =>
@@ -107,6 +108,7 @@ Activities.propTypes = {
   onCommentCreate: PropTypes.func.isRequired,
   onCommentUpdate: PropTypes.func.isRequired,
   onCommentDelete: PropTypes.func.isRequired,
+  boardMemberships: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default Activities;

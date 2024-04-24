@@ -1,0 +1,10 @@
+:global(#app) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0.375rem;
+    width: 300px;
+    max-height: 400px;
+  }
+}

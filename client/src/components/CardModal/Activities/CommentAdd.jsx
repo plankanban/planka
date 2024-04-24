@@ -8,18 +8,21 @@ import { useDidUpdate, useToggle } from '../../../lib/hooks';
 import { useClosableForm, useForm } from '../../../hooks';
 
 import styles from './CommentAdd.module.scss';
+import Tag, { TagRegex } from '../../Tag/Tag';
 
 const DEFAULT_DATA = {
   text: '',
 };
 
-const CommentAdd = React.memo(({ onCreate }) => {
+const CommentAdd = React.memo(({ onCreate, boardMemberships }) => {
   const [t] = useTranslation();
   const [isOpened, setIsOpened] = useState(false);
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
   const [selectTextFieldState, selectTextField] = useToggle();
-
+  const [cursor, setCursor] = useState(0);
   const textField = useRef(null);
+  const [showTag, setShowTag] = useState(false);
+  const [mention, setMention] = useState('');
 
   const close = useCallback(() => {
     setIsOpened(false);
@@ -46,11 +49,14 @@ const CommentAdd = React.memo(({ onCreate }) => {
     setIsOpened(true);
   }, []);
 
+  const calculatePosition = (position) => Math.min(position, 22) * 8;
+
   const handleFieldKeyDown = useCallback(
     (event) => {
       if (event.ctrlKey && event.key === 'Enter') {
         submit();
       }
+      setCursor(calculatePosition(event.target.selectionStart));
     },
     [submit],
   );
@@ -60,6 +66,23 @@ const CommentAdd = React.memo(({ onCreate }) => {
   const handleSubmit = useCallback(() => {
     submit();
   }, [submit]);
+
+  const handleChange = (e, updatedData) => {
+    handleFieldChange(e, updatedData);
+    const text = e.target.value;
+
+    TagRegex.lastIndex = 0;
+    if (TagRegex.test(text)) {
+      // Extract the mention after @ symbol
+      const mentionSymbols = text.split('@');
+      const mentionName = mentionSymbols[mentionSymbols.length - 1].split(' ')[0].toLowerCase();
+      setMention(mentionName);
+      setShowTag(true);
+    } else {
+      setMention('');
+      setShowTag(false);
+    }
+  };
 
   useDidUpdate(() => {
     textField.current.ref.current.focus();
@@ -78,9 +101,22 @@ const CommentAdd = React.memo(({ onCreate }) => {
         className={styles.field}
         onFocus={handleFieldFocus}
         onKeyDown={handleFieldKeyDown}
-        onChange={handleFieldChange}
+        onChange={handleChange}
         onBlur={handleFieldBlur}
       />
+      {showTag && (
+        <div
+          style={{
+            marginLeft: `${cursor}px`,
+            position: 'absolute',
+            left: `${cursor}px`,
+            bottom: '120px',
+          }}
+        >
+          {' '}
+          <Tag search={mention} boardMemberships={boardMemberships} />
+        </div>
+      )}
       {isOpened && (
         <div className={styles.controls}>
           <Button
@@ -97,6 +133,7 @@ const CommentAdd = React.memo(({ onCreate }) => {
 
 CommentAdd.propTypes = {
   onCreate: PropTypes.func.isRequired,
+  boardMemberships: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default CommentAdd;

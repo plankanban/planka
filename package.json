@@ -32,9 +32,11 @@
   },
   "lint-staged": {
     "client/**/*.{js,jsx}": [
+      "prettier --write",
       "npm run client:lint"
     ],
     "server/**/*.js": [
+      "prettier --write",
       "npm run server:lint"
     ]
   },
