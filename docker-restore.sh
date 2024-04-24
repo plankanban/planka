@@ -4,8 +4,8 @@
 set -e
 
 # Configure those to match your Planka Docker container names
-PLANKA_DOCKER_CONTAINER_POSTGRES="planka_postgres_1"
-PLANKA_DOCKER_CONTAINER_PLANKA="planka_planka_1"
+PLANKA_DOCKER_CONTAINER_POSTGRES="planka-postgres-1"
+PLANKA_DOCKER_CONTAINER_PLANKA="planka-server-1"
 
 # Extract tgz archive
 PLANKA_BACKUP_ARCHIVE_TGZ=$1
@@ -16,7 +16,7 @@ echo "Success!"
 
 # Import Database
 echo -n "Importing postgres database ... "
-cat $PLANKA_BACKUP_ARCHIVE/postgres.sql | docker exec -i $PLANKA_DOCKER_CONTAINER_POSTGRES psql -U postgres
+cat $PLANKA_BACKUP_ARCHIVE/postgres.sql | docker exec -i $PLANKA_DOCKER_CONTAINER_POSTGRES psql -U user -d planka
 echo "Success!"
 
 # Restore Docker Volumes
