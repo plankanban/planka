@@ -8,7 +8,8 @@ import { useDidUpdate, useToggle } from '../../../lib/hooks';
 import { useClosableForm, useForm } from '../../../hooks';
 
 import styles from './CommentAdd.module.scss';
-import Tag, { TagRegex } from '../../Tag/Tag';
+import Tag from '../../Tag/Tag';
+import useMention from '../../../hooks/use-mention';
 
 const DEFAULT_DATA = {
   text: '',
@@ -21,12 +22,12 @@ const CommentAdd = React.memo(({ onCreate, boardMemberships }) => {
   const [selectTextFieldState, selectTextField] = useToggle();
   const [cursor, setCursor] = useState(0);
   const textField = useRef(null);
-  const [showTag, setShowTag] = useState(false);
-  const [mention, setMention] = useState('');
+  const { mention, onChange, onSelectMention, isMentioning } = useMention();
 
   const close = useCallback(() => {
+    if (isMentioning) return;
     setIsOpened(false);
-  }, []);
+  }, [isMentioning]);
 
   const submit = useCallback(() => {
     const cleanData = {
@@ -52,13 +53,14 @@ const CommentAdd = React.memo(({ onCreate, boardMemberships }) => {
   const calculatePosition = (position) => Math.min(position, 22) * 8;
 
   const handleFieldKeyDown = useCallback(
-    (event) => {
-      if (event.ctrlKey && event.key === 'Enter') {
+    (ev) => {
+      if (ev.ctrlKey && ev.key === 'Enter') {
         submit();
       }
-      setCursor(calculatePosition(event.target.selectionStart));
+      setCursor(calculatePosition(ev.target.selectionStart));
+      onChange(ev);
     },
-    [submit],
+    [submit, onChange],
   );
 
   const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(close);
@@ -67,21 +69,15 @@ const CommentAdd = React.memo(({ onCreate, boardMemberships }) => {
     submit();
   }, [submit]);
 
-  const handleChange = (e, updatedData) => {
-    handleFieldChange(e, updatedData);
-    const text = e.target.value;
+  const handleChange = (ev, updatedData) => {
+    handleFieldChange(ev, updatedData);
+    onChange(ev);
+  };
 
-    TagRegex.lastIndex = 0;
-    if (TagRegex.test(text)) {
-      // Extract the mention after @ symbol
-      const mentionSymbols = text.split('@');
-      const mentionName = mentionSymbols[mentionSymbols.length - 1].split(' ')[0].toLowerCase();
-      setMention(mentionName);
-      setShowTag(true);
-    } else {
-      setMention('');
-      setShowTag(false);
-    }
+  const handleMention = (user) => {
+    setData({
+      text: onSelectMention(data.text, user),
+    });
   };
 
   useDidUpdate(() => {
@@ -104,7 +100,7 @@ const CommentAdd = React.memo(({ onCreate, boardMemberships }) => {
         onChange={handleChange}
         onBlur={handleFieldBlur}
       />
-      {showTag && (
+      {isMentioning && (
         <div
           style={{
             marginLeft: `${cursor}px`,
@@ -114,7 +110,11 @@ const CommentAdd = React.memo(({ onCreate, boardMemberships }) => {
           }}
         >
           {' '}
-          <Tag search={mention} boardMemberships={boardMemberships} />
+          <Tag
+            search={mention}
+            boardMemberships={boardMemberships}
+            handleUserSelect={handleMention}
+          />
         </div>
       )}
       {isOpened && (

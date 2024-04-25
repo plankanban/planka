@@ -7,7 +7,7 @@ import UserItem from '../Memberships/AddStep/UserItem';
 
 export const TagRegex = /(^|\s)@/gi;
 
-const Tag = React.memo(({ search, boardMemberships }) => {
+const Tag = React.memo(({ search, boardMemberships, handleUserSelect }) => {
   const cleanSearch = useMemo(() => search.trim().toLowerCase(), [search]);
 
   const filteredUsers = useMemo(
@@ -26,10 +26,11 @@ const Tag = React.memo(({ search, boardMemberships }) => {
       {filteredUsers.map((member) => {
         return (
           <UserItem
+            isActive={false}
             key={member.user.id}
             name={member.user.name}
             avatarUrl={member.user.avatarUrl}
-            onSelect={() => handleUserSelect(member.user.id)}
+            onSelect={() => handleUserSelect(member.user)}
           />
         );
       })}
@@ -44,6 +45,7 @@ Tag.defaultProps = {
 Tag.propTypes = {
   search: PropTypes.string,
   boardMemberships: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  handleUserSelect: PropTypes.func.isRequired,
 };
 
 export default Tag;
