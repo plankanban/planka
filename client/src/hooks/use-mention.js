@@ -37,7 +37,8 @@ export default () => {
   const onSelectMention = (text, user) => {
     if (!isMentioning) return text;
 
-    const { username } = user;
+    const { username, email } = user;
+    const userTag = username ?? email;
     const wordLength = getWord(text, currentPos).length;
 
     const n = text.substring(currentPos).match(/^[^ ]+/);
@@ -46,7 +47,7 @@ export default () => {
     const startIndex = p ? p.index : n.index;
 
     setIsMentioning(false);
-    return `${text.substring(0, startIndex)}@mention[${username}]${text.substring(startIndex + wordLength)}`;
+    return `${text.substring(0, startIndex)}[@${userTag}]${text.substring(startIndex + wordLength)}`;
   };
 
   return {

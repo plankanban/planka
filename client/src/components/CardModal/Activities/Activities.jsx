@@ -71,6 +71,7 @@ const Activities = React.memo(
                     canEdit={(item.user.isCurrent && canEdit) || canEditAllComments}
                     onUpdate={(data) => handleCommentUpdate(item.id, data)}
                     onDelete={() => handleCommentDelete(item.id)}
+                    boardMemberships={boardMemberships}
                   />
                 ) : (
                   <Item

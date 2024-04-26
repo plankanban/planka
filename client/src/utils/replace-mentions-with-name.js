@@ -1,0 +1,17 @@
+const findUserByUsernameOrEmail = (usernameOrEmail, users) => {
+  return users.find(
+    (member) => member.user.username === usernameOrEmail || member.user.email === usernameOrEmail,
+  );
+};
+
+const replaceMentionsWithName = (text, users) => {
+  const mentionRegex = /\[@(.*?)\]/g;
+  return text.replace(mentionRegex, function (matched) {
+    const nameOrEmail = mentionRegex.exec(text)[1];
+    const member = findUserByUsernameOrEmail(nameOrEmail, users);
+
+    return member ? `[${member.user.name}](#)` : matched;
+  });
+};
+
+export default replaceMentionsWithName;

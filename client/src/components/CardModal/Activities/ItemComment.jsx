@@ -12,10 +12,12 @@ import User from '../../User';
 import DeleteStep from '../../DeleteStep';
 
 import styles from './ItemComment.module.scss';
+import replaceMentionsWithName from '../../../utils/replace-mentions-with-name';
 
 const ItemComment = React.memo(
-  ({ data, createdAt, isPersisted, user, canEdit, onUpdate, onDelete }) => {
+  ({ data, createdAt, isPersisted, user, canEdit, onUpdate, onDelete, boardMemberships }) => {
     const [t] = useTranslation();
+    const comment = replaceMentionsWithName(data.text, boardMemberships);
 
     const commentEdit = useRef(null);
 
@@ -43,7 +45,7 @@ const ItemComment = React.memo(
           <CommentEdit ref={commentEdit} defaultData={data} onUpdate={onUpdate}>
             <>
               <div className={styles.text}>
-                <Markdown linkTarget="_blank">{data.text}</Markdown>
+                <Markdown linkTarget="_blank">{comment}</Markdown>
               </div>
               {canEdit && (
                 <Comment.Actions>
@@ -83,6 +85,7 @@ ItemComment.propTypes = {
   canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  boardMemberships: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default ItemComment;
