@@ -101,7 +101,9 @@ export default class extends BaseModel {
       }
       let doRegularSearch = true;
       if (re) {
-        cardModels = cardModels.filter((cardModel) => re.test(cardModel.name));
+        cardModels = cardModels.filter(
+          (cardModel) => re.test(cardModel.name) || re.test(cardModel?.description),
+        );
         doRegularSearch = false;
       } else if (filterText.startsWith('!') && posSpace > 0) {
         const creatorUserId = User.findUsersFromText(
@@ -116,7 +118,9 @@ export default class extends BaseModel {
       if (doRegularSearch) {
         const lowerCasedFilter = filterText.toLocaleLowerCase();
         cardModels = cardModels.filter(
-          (cardModel) => cardModel.name.toLocaleLowerCase().indexOf(lowerCasedFilter) >= 0,
+          (cardModel) =>
+            cardModel.name.toLocaleLowerCase().indexOf(lowerCasedFilter) >= 0 ||
+            cardModel.description?.toLocaleLowerCase().indexOf(lowerCasedFilter) >= 0,
         );
       }
     }
