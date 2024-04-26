@@ -52,10 +52,13 @@ module.exports = {
     request: {
       type: 'ref',
     },
+    notifyUserIds: {
+      type: 'json',
+    },
   },
 
   async fn(inputs) {
-    const { values } = inputs;
+    const { values, notifyUserIds } = inputs;
 
     const action = await Action.create({
       ...values,
@@ -78,7 +81,7 @@ module.exports = {
     );
 
     await Promise.all(
-      subscriptionUserIds.map(async (userId) =>
+      subscriptionUserIds.concat(notifyUserIds).map(async (userId) =>
         sails.helpers.notifications.createOne.with({
           values: {
             userId,

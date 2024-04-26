@@ -7,6 +7,8 @@ const findUserByUsernameOrEmail = (usernameOrEmail, users) => {
 const replaceMentionsWithName = (text, users) => {
   const mentionRegex = /\[@(.*?)\]/g;
   return text.replace(mentionRegex, function (matched) {
+    mentionRegex.lastIndex = 0;
+
     const nameOrEmail = mentionRegex.exec(text)[1];
     const member = findUserByUsernameOrEmail(nameOrEmail, users);
 

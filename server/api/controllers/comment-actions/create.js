@@ -49,10 +49,16 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
+    const comment = _.pick(inputs, ['text']);
     const values = {
       type: Action.Types.COMMENT_CARD,
-      data: _.pick(inputs, ['text']),
+      data: comment,
     };
+
+    const boardMemberships = await sails.helpers.boards.getBoardMemberships(board.id);
+    const userIds = sails.helpers.utils.mapRecords(boardMemberships, 'userId');
+    const users = await sails.helpers.users.getMany(userIds);
+    const mentions = await sails.helpers.mentions.getMentions(comment.text, users);
 
     const action = await sails.helpers.actions.createOne.with({
       board,
@@ -62,6 +68,7 @@ module.exports = {
         user: currentUser,
       },
       request: this.req,
+      notifyUserIds: mentions,
     });
 
     return {
