@@ -17,13 +17,19 @@ module.exports = {
   async fn(inputs) {
     const { comment, users } = inputs;
     const mentionRegex = /\[@(.*?)\]/g;
+    const mentions = comment.match(mentionRegex);
 
-    return comment.match(mentionRegex).map((match) => {
+    if (!mentions) return [];
+
+    return mentions.map((match) => {
       mentionRegex.lastIndex = 0;
+
       const nameOrEmail = mentionRegex.exec(match)[1];
       const member = findUserByUsernameOrEmail(nameOrEmail, users);
 
       return member.id;
     });
   },
+
+  findUserByUsernameOrEmail,
 };

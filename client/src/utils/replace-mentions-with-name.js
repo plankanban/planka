@@ -9,7 +9,8 @@ const replaceMentionsWithName = (text, users) => {
   return text.replace(mentionRegex, function (matched) {
     mentionRegex.lastIndex = 0;
 
-    const nameOrEmail = mentionRegex.exec(text)[1];
+    const mentionMatch = matched.match(mentionRegex)[0];
+    const nameOrEmail = mentionRegex.exec(mentionMatch)[1];
     const member = findUserByUsernameOrEmail(nameOrEmail, users);
 
     return member ? `[${member.user.name}](#)` : matched;

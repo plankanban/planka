@@ -1,3 +1,5 @@
+const { findUserByUsernameOrEmail } = require('../mentions/get-mentions');
+
 const valuesValidator = (value) => {
   if (!_.isPlainObject(value)) {
     return false;
@@ -12,6 +14,19 @@ const valuesValidator = (value) => {
   }
 
   return true;
+};
+
+const replaceMentionsWithLink = (text, users) => {
+  const mentionRegex = /\[@(.*?)\]/g;
+  return text.replace(mentionRegex, (matched) => {
+    mentionRegex.lastIndex = 0;
+
+    const mentionMatch = matched.match(mentionRegex)[0];
+    const nameOrEmail = mentionRegex.exec(mentionMatch)[1];
+    const user = findUserByUsernameOrEmail(nameOrEmail, users);
+
+    return user ? `<p style="color: blue; margin: 0;">${user.name}</p>` : matched;
+  });
 };
 
 // TODO: use templates (views) to build html
@@ -29,17 +44,27 @@ const buildAndSendEmail = async (user, board, card, action, notifiableUser) => {
       };
 
       break;
-    case Action.Types.COMMENT_CARD:
+    case Action.Types.COMMENT_CARD: {
+      const boardMemberships = await sails.helpers.boards.getBoardMemberships(board.id);
+      const userIds = sails.helpers.utils.mapRecords(boardMemberships, 'userId');
+      const users = await sails.helpers.users.getMany(userIds);
+      const comment = replaceMentionsWithLink(action.data.text, users);
+      const mentions = await sails.helpers.mentions.getMentions(action.data.text, users);
+
+      const isMentioned = mentions.includes(notifiableUser.id);
+      const subjectPrex = isMentioned ? `${user.name} mentioned you in` : `${user.name} left`;
+
       emailData = {
-        subject: `${user.name} left a new comment to ${card.name} on ${board.name}`,
+        subject: `${subjectPrex} a new comment to ${card.name} on ${board.name}`,
         html:
-          `<p>${user.name} left a new comment to ` +
+          `<p>${subjectPrex} a new comment to ` +
           `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
           `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>` +
-          `<p>${action.data.text}</p>`,
+          `<div style="display: flex; gap: 5px;">${comment}</div>`,
       };
 
       break;
+    }
     default:
       return;
   }
