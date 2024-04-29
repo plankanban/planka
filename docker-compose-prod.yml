@@ -115,9 +115,5 @@ services:
     depends_on:
       - server
       - client
-  maildev:
-    image: maildev/maildev
-    ports:
-      - "1080:1080"
 volumes:
   db-data:
