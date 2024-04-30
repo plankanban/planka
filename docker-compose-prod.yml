@@ -43,12 +43,11 @@ services:
       - SMTP_USER=
       - SMTP_PASSWORD=
       - SMTP_FROM=
-
       # - SLACK_BOT_TOKEN=
       # - SLACK_CHANNEL_ID=
 
     working_dir: /app
-    command: ["sh", "-c", "npm run start"]
+    command: [ "sh", "-c", "npm run start" ]
     depends_on:
       postgres:
         condition: service_healthy
@@ -64,8 +63,8 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - BASE_URL=http://localhost:3000
-      - REACT_APP_SERVER_BASE_URL=http://localhost:3000
+      - BASE_URL=${BASE_URL:-https://planka-new.homeclean.co.uk}
+      - REACT_APP_SERVER_BASE_URL=${BASE_URL:-https://planka-new.homeclean.co.uk}
     working_dir: /app/client
     command: npm start
 
@@ -81,7 +80,7 @@ services:
       - DEFAULT_ADMIN_USERNAME=demo
 
     working_dir: /app
-    command: ["sh", "-c", "npm run db:init"]
+    command: [ "sh", "-c", "npm run db:init" ]
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -101,7 +100,7 @@ services:
       - "5432:5432"
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d planka" ]
       interval: 10s
       timeout: 5s
       retries: 5
