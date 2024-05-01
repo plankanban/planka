@@ -13,6 +13,7 @@ services:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka
       - SECRET_KEY=notsecretkey
+      - BASE_URL=${BASE_URL:-https://planka-new.homeclean.co.uk}
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
 

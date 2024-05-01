@@ -13,6 +13,8 @@ services:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka
       - SECRET_KEY=notsecretkey
+      - BASE_URL=http://localhost:1337
+
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
 
@@ -68,26 +70,6 @@ services:
       - REACT_APP_SERVER_BASE_URL=http://localhost:3000
     working_dir: /app/client
     command: npm start
-
-  init-db:
-    build:
-      context: ./server
-      dockerfile: ../config/development/Dockerfile.server
-    environment:
-      - DATABASE_URL=postgresql://user:password@postgres:5432/planka
-      - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
-      - DEFAULT_ADMIN_PASSWORD=demo
-      - DEFAULT_ADMIN_NAME=Demo Demo
-      - DEFAULT_ADMIN_USERNAME=demo
-
-    working_dir: /app
-    command: ["sh", "-c", "npm run db:init"]
-    volumes:
-      - ./server:/app
-      - /app/node_modules
-    depends_on:
-      postgres:
-        condition: service_healthy
 
   postgres:
     image: postgres:latest
