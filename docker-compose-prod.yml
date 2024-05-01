@@ -38,12 +38,12 @@ services:
       # - OIDC_ENFORCED=true
 
       # Email Notifications (https://nodemailer.com/smtp/)
-      - SMTP_HOST=
-      - SMTP_PORT=
-      - SMTP_SECURE=
-      - SMTP_USER=
-      - SMTP_PASSWORD=
-      - SMTP_FROM=
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
       # - SLACK_BOT_TOKEN=
       # - SLACK_CHANNEL_ID=
 
