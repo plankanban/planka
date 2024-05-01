@@ -16,12 +16,12 @@ echo "Success!"
 
 # Delete Database
 echo -n "Deleting the database.... "
-docker exec -i planka-postgres-1 psql -U postgres -c "drop database planka"
+docker exec -i $PLANKA_DOCKER_CONTAINER_POSTGRES psql -U postgres -c "drop database planka"
 echo "Success!"
 
 # Delete Database
 echo -n "Create the database.... "
-docker exec -i planka-postgres-1 psql -U postgres -c "create database planka"
+docker exec -i $PLANKA_DOCKER_CONTAINER_POSTGRES psql -U postgres -c "create database planka"
 echo "Success!"
 
 # Import Database
