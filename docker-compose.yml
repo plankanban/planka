@@ -11,9 +11,15 @@ services:
     ports:
       - 3000:1337
     environment:
-      - BASE_URL=http://localhost:3000
-      - DATABASE_URL=postgresql://postgres@postgres/planka
+      - BASE_URL=${BASE_URL:-https://planka-new.homeclean.co.uk}
+      - DATABASE_URL=postgresql://user:password@postgres:5432/planka
       - SECRET_KEY=notsecretkey
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURE=${SMTP_SECURE}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_FROM=${SMTP_FROM}
 
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
@@ -59,12 +65,14 @@ services:
         condition: service_healthy
 
   postgres:
-    image: postgres:14-alpine
+    image: postgres:latest
     restart: on-failure
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=planka
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
       - POSTGRES_HOST_AUTH_METHOD=trust
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]

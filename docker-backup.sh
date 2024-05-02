@@ -5,7 +5,7 @@ set -e
 
 # Configure those to match your Planka Docker container names
 PLANKA_DOCKER_CONTAINER_POSTGRES="planka-postgres-1"
-PLANKA_DOCKER_CONTAINER_PLANKA="planka-server-1"
+PLANKA_DOCKER_CONTAINER_PLANKA="planka-planka-1"
 
 # Create Temporary folder
 BACKUP_DATETIME=$(date --utc +%FT%H-%M-%SZ)
