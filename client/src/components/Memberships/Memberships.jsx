@@ -5,10 +5,10 @@ import { usePopup } from '../../lib/popup';
 
 import AddStep from './AddStep';
 import ActionsStep from './ActionsStep';
+import MembershipsStep from './MembershipsStep';
 import User from '../User';
 
 import styles from './Memberships.module.scss';
-import MembershipsStep from './MembershipsStep';
 
 const MAX_MEMBERS = 6;
 
@@ -17,7 +17,9 @@ const Memberships = React.memo(
     items,
     allUsers,
     permissionsSelectStep,
+    title,
     addTitle,
+    actionsTitle,
     leaveButtonContent,
     leaveConfirmationTitle,
     leaveConfirmationContent,
@@ -73,6 +75,8 @@ const Memberships = React.memo(
           <MembershipsPopup
             items={items}
             permissionsSelectStep={permissionsSelectStep}
+            title={title}
+            actionsTitle={actionsTitle}
             leaveButtonContent={leaveButtonContent}
             leaveConfirmationTitle={leaveConfirmationTitle}
             leaveConfirmationContent={leaveConfirmationContent}
@@ -87,7 +91,7 @@ const Memberships = React.memo(
             onDelete={onDelete}
           >
             <Button icon className={styles.addUser}>
-              + {remainMembersCount < 99 ? remainMembersCount : 99}
+              +{remainMembersCount < 99 ? remainMembersCount : 99}
             </Button>
           </MembershipsPopup>
         )}
@@ -113,7 +117,9 @@ Memberships.propTypes = {
   allUsers: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   permissionsSelectStep: PropTypes.elementType,
+  title: PropTypes.string,
   addTitle: PropTypes.string,
+  actionsTitle: PropTypes.string,
   leaveButtonContent: PropTypes.string,
   leaveConfirmationTitle: PropTypes.string,
   leaveConfirmationContent: PropTypes.string,
@@ -131,7 +137,9 @@ Memberships.propTypes = {
 
 Memberships.defaultProps = {
   permissionsSelectStep: undefined,
+  title: undefined,
   addTitle: undefined,
+  actionsTitle: undefined,
   leaveButtonContent: undefined,
   leaveConfirmationTitle: undefined,
   leaveConfirmationContent: undefined,

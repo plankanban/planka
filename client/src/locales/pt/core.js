@@ -111,7 +111,6 @@ export default {
       list: 'Lista',
       listActions_title: 'Ações da Lista',
       managers: 'Gerentes',
-      memberInfo: 'Informações do Membro',
       members: 'Membros',
       minutes: 'Minutos',
       moveCard_title: 'Mover Cartão',
