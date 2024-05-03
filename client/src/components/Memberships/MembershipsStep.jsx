@@ -1,15 +1,20 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 
-import BoardMembershipsStep from '../BoardMembershipsStep/BoardMembershipsStep';
+import { useSteps } from '../../hooks';
 import ActionsStep from './ActionsStep';
-import { Popup } from '../../lib/custom-ui';
+import BoardMembershipsStep from '../BoardMembershipsStep';
+
+const StepTypes = {
+  EDIT: 'EDIT',
+};
 
 const MembershipsStep = React.memo(
   ({
     items,
     permissionsSelectStep,
+    title,
+    actionsTitle,
     leaveButtonContent,
     leaveConfirmationTitle,
     leaveConfirmationContent,
@@ -24,49 +29,54 @@ const MembershipsStep = React.memo(
     onDelete,
     onClose,
   }) => {
-    const [t] = useTranslation();
+    const [step, openStep, handleBack] = useSteps();
 
-    const [editingItem, setEditingItem] = useState();
-
-    const handleUserClick = useCallback(
-      (id) => {
-        setEditingItem(items.find((item) => item.user.id === id));
+    const handleUserSelect = useCallback(
+      (userId) => {
+        openStep(StepTypes.EDIT, {
+          userId,
+        });
       },
-      [setEditingItem, items],
+      [openStep],
     );
 
-    if (editingItem) {
-      return (
-        <>
-          <Popup.Header onBack={() => setEditingItem(null)}>{t('common.memberInfo')}</Popup.Header>
-          <Popup.Content>
-            <ActionsStep
-              membership={editingItem}
-              permissionsSelectStep={permissionsSelectStep}
-              leaveButtonContent={leaveButtonContent}
-              leaveConfirmationTitle={leaveConfirmationTitle}
-              leaveConfirmationContent={leaveConfirmationContent}
-              leaveConfirmationButtonContent={leaveConfirmationButtonContent}
-              deleteButtonContent={deleteButtonContent}
-              deleteConfirmationTitle={deleteConfirmationTitle}
-              deleteConfirmationContent={deleteConfirmationContent}
-              deleteConfirmationButtonContent={deleteConfirmationButtonContent}
-              canEdit={canEdit}
-              canLeave={canLeave}
-              onUpdate={onUpdate}
-              onDelete={onDelete}
-              onClose={onClose}
-            />
-          </Popup.Content>
-        </>
-      );
+    if (step && step.type === StepTypes.EDIT) {
+      const currentItem = items.find((item) => item.userId === step.params.userId);
+
+      if (currentItem) {
+        return (
+          <ActionsStep
+            membership={currentItem}
+            permissionsSelectStep={permissionsSelectStep}
+            title={actionsTitle}
+            leaveButtonContent={leaveButtonContent}
+            leaveConfirmationTitle={leaveConfirmationTitle}
+            leaveConfirmationContent={leaveConfirmationContent}
+            leaveConfirmationButtonContent={leaveConfirmationButtonContent}
+            deleteButtonContent={deleteButtonContent}
+            deleteConfirmationTitle={deleteConfirmationTitle}
+            deleteConfirmationContent={deleteConfirmationContent}
+            deleteConfirmationButtonContent={deleteConfirmationButtonContent}
+            canEdit={canEdit}
+            canLeave={canLeave}
+            onUpdate={(data) => onUpdate(currentItem.id, data)}
+            onDelete={() => onDelete(currentItem.id)}
+            onBack={handleBack}
+            onClose={onClose}
+          />
+        );
+      }
+
+      openStep(null);
     }
 
     return (
+      // FIXME: hack
       <BoardMembershipsStep
         items={items}
         currentUserIds={[]}
-        onUserSelect={handleUserClick}
+        title={title}
+        onUserSelect={handleUserSelect}
         onUserDeselect={() => {}}
       />
     );
@@ -76,6 +86,8 @@ const MembershipsStep = React.memo(
 MembershipsStep.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   permissionsSelectStep: PropTypes.elementType,
+  title: PropTypes.string,
+  actionsTitle: PropTypes.string,
   leaveButtonContent: PropTypes.string,
   leaveConfirmationTitle: PropTypes.string,
   leaveConfirmationContent: PropTypes.string,
@@ -93,14 +105,16 @@ MembershipsStep.propTypes = {
 
 MembershipsStep.defaultProps = {
   permissionsSelectStep: undefined,
-  leaveButtonContent: 'action.leaveBoard',
-  leaveConfirmationTitle: 'common.leaveBoard',
-  leaveConfirmationContent: 'common.areYouSureYouWantToLeaveBoard',
-  leaveConfirmationButtonContent: 'action.leaveBoard',
-  deleteButtonContent: 'action.removeFromBoard',
-  deleteConfirmationTitle: 'common.removeMember',
-  deleteConfirmationContent: 'common.areYouSureYouWantToRemoveThisMemberFromBoard',
-  deleteConfirmationButtonContent: 'action.removeMember',
+  title: undefined,
+  actionsTitle: undefined,
+  leaveButtonContent: undefined,
+  leaveConfirmationTitle: undefined,
+  leaveConfirmationContent: undefined,
+  leaveConfirmationButtonContent: undefined,
+  deleteButtonContent: undefined,
+  deleteConfirmationTitle: undefined,
+  deleteConfirmationContent: undefined,
+  deleteConfirmationButtonContent: undefined,
   onUpdate: undefined,
 };
 
