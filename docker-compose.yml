@@ -3,6 +3,7 @@ version: '3'
 services:
   planka:
     build:
+      context: .
       dockerfile: ./Dockerfile
     restart: on-failure
     volumes:

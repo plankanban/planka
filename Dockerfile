@@ -8,6 +8,8 @@ WORKDIR /app
 
 COPY server/package.json server/package-lock.json ./
 
+RUN mkdir logs
+
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
   && pnpm import \
@@ -16,6 +18,7 @@ RUN npm install npm@latest --global \
 FROM node:lts AS client
 
 WORKDIR /app
+
 
 COPY client/package.json client/package-lock.json ./
 
@@ -40,12 +43,13 @@ COPY --chown=node:node start.sh .
 COPY --chown=node:node server .
 COPY --chown=node:node healthcheck.js .
 
-RUN mv .env.sample .env
-
 COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
+COPY --from=server-dependencies --chown=node:node /app/logs logs
+
 
 COPY --from=client --chown=node:node /app/build public
 COPY --from=client --chown=node:node /app/build/index.html views/index.ejs
+
 
 VOLUME /app/public/user-avatars
 VOLUME /app/public/project-background-images
