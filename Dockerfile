@@ -9,6 +9,7 @@ WORKDIR /app
 COPY server/package.json server/package-lock.json ./
 
 RUN mkdir logs
+RUN mkdir .tmp
 
 RUN npm install npm@latest --global \
   && npm install pnpm --global \
@@ -45,6 +46,7 @@ COPY --chown=node:node healthcheck.js .
 
 COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
 COPY --from=server-dependencies --chown=node:node /app/logs logs
+COPY --from=server-dependencies --chown=node:node /app/.tmp .tmp
 
 
 COPY --from=client --chown=node:node /app/build public

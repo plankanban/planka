@@ -13,7 +13,7 @@ services:
     ports:
       - 80:1337
     environment:
-      - BASE_URL=${BASE_URL:-https://planka-new.homeclean.co.uk}
+      - BASE_URL=${BASE_URL:-https://planka.homeclean.co.uk}
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka
       - SECRET_KEY=notsecretkey
       - SMTP_HOST=${SMTP_HOST}
