@@ -39,9 +39,19 @@ const initializeCore = (
   },
 });
 
-const logout = () => ({
+// TODO: with success?
+initializeCore.fetchConfig = (config) => ({
+  type: ActionTypes.CORE_INITIALIZE__CONFIG_FETCH,
+  payload: {
+    config,
+  },
+});
+
+const logout = (invalidateAccessToken) => ({
   type: ActionTypes.LOGOUT,
-  payload: {},
+  payload: {
+    invalidateAccessToken,
+  },
 });
 
 logout.invalidateAccessToken = () => ({

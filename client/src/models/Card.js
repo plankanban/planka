@@ -1,3 +1,4 @@
+import pick from 'lodash/pick';
 import { attr, fk, many, oneToOne } from 'redux-orm';
 
 import BaseModel from './BaseModel';
@@ -13,6 +14,11 @@ export default class extends BaseModel {
     position: attr(),
     name: attr(),
     description: attr(),
+    creatorUserId: oneToOne({
+      to: 'User',
+      as: 'creatorUser',
+      relatedName: 'ownCards',
+    }),
     dueDate: attr(),
     stopwatch: attr(),
     isSubscribed: attr({
@@ -164,8 +170,15 @@ export default class extends BaseModel {
         } catch {} // eslint-disable-line no-empty
 
         break;
+      case ActionTypes.LIST_SORT__SUCCESS:
+      case ActionTypes.LIST_SORT_HANDLE:
+      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
+        payload.cards.forEach((card) => {
+          Card.upsert(card);
+        });
+
+        break;
       case ActionTypes.CARD_CREATE:
-      case ActionTypes.CARD_CREATE_HANDLE:
       case ActionTypes.CARD_UPDATE__SUCCESS:
       case ActionTypes.CARD_UPDATE_HANDLE:
         Card.upsert(payload.card);
@@ -176,15 +189,71 @@ export default class extends BaseModel {
         Card.upsert(payload.card);
 
         break;
+
       case ActionTypes.CARD_COPY__SUCCESS:
         Card.withId(payload.localId).delete();
         Card.upsert(payload.card);
 
         break;
+
+      case ActionTypes.CARD_CREATE_HANDLE: {
+        const cardModel = Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ userId }) => {
+          cardModel.users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ labelId }) => {
+          cardModel.labels.add(labelId);
+        });
+
+        break;
+      }
+
       case ActionTypes.CARD_UPDATE:
         Card.withId(payload.id).update(payload.data);
 
         break;
+      case ActionTypes.CARD_DUPLICATE: {
+        const cardModel = Card.withId(payload.id);
+
+        const nextCardModel = Card.upsert({
+          ...pick(cardModel.ref, [
+            'boardId',
+            'listId',
+            'position',
+            'name',
+            'description',
+            'dueDate',
+            'stopwatch',
+          ]),
+          ...payload.card,
+        });
+
+        cardModel.users.toRefArray().forEach(({ id }) => {
+          nextCardModel.users.add(id);
+        });
+
+        cardModel.labels.toRefArray().forEach(({ id }) => {
+          nextCardModel.labels.add(id);
+        });
+
+        break;
+      }
+      case ActionTypes.CARD_DUPLICATE__SUCCESS: {
+        Card.withId(payload.localId).deleteWithRelated();
+        const cardModel = Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ userId }) => {
+          cardModel.users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ labelId }) => {
+          cardModel.labels.add(labelId);
+        });
+
+        break;
+      }
       case ActionTypes.CARD_DELETE:
         Card.withId(payload.id).deleteWithRelated();
 
@@ -234,12 +303,6 @@ export default class extends BaseModel {
 
         break;
       }
-      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
-        payload.cards.forEach((card) => {
-          Card.upsert(card);
-        });
-
-        break;
       default:
     }
   }
@@ -249,7 +312,7 @@ export default class extends BaseModel {
   }
 
   getOrderedAttachmentsQuerySet() {
-    return this.attachments.orderBy('id', false);
+    return this.attachments.orderBy('createdAt', false);
   }
 
   getFilteredOrderedInCardActivitiesQuerySet() {
@@ -261,7 +324,7 @@ export default class extends BaseModel {
       filter.type = ActivityTypes.COMMENT_CARD;
     }
 
-    return this.activities.filter(filter).orderBy('id', false);
+    return this.activities.filter(filter).orderBy('createdAt', false);
   }
 
   getUnreadNotificationsQuerySet() {

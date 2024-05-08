@@ -23,6 +23,8 @@ const AccountPane = React.memo(
     phone,
     organization,
     language,
+    isLocked,
+    isUsernameLocked,
     isAvatarUpdating,
     usernameUpdateForm,
     emailUpdateForm,
@@ -74,6 +76,7 @@ const AccountPane = React.memo(
             phone,
             organization,
           }}
+          isNameEditable={!isLocked}
           onUpdate={onUpdate}
         />
         <Divider horizontal section>
@@ -102,63 +105,73 @@ const AccountPane = React.memo(
           value={language || 'auto'}
           onChange={handleLanguageChange}
         />
-        <Divider horizontal section>
-          <Header as="h4">
-            {t('common.authentication', {
-              context: 'title',
-            })}
-          </Header>
-        </Divider>
-        <div className={styles.action}>
-          <UserUsernameEditPopup
-            usePasswordConfirmation
-            defaultData={usernameUpdateForm.data}
-            username={username}
-            isSubmitting={usernameUpdateForm.isSubmitting}
-            error={usernameUpdateForm.error}
-            onUpdate={onUsernameUpdate}
-            onMessageDismiss={onUsernameUpdateMessageDismiss}
-          >
-            <Button className={styles.actionButton}>
-              {t('action.editUsername', {
-                context: 'title',
-              })}
-            </Button>
-          </UserUsernameEditPopup>
-        </div>
-        <div className={styles.action}>
-          <UserEmailEditPopup
-            usePasswordConfirmation
-            defaultData={emailUpdateForm.data}
-            email={email}
-            isSubmitting={emailUpdateForm.isSubmitting}
-            error={emailUpdateForm.error}
-            onUpdate={onEmailUpdate}
-            onMessageDismiss={onEmailUpdateMessageDismiss}
-          >
-            <Button className={styles.actionButton}>
-              {t('action.editEmail', {
-                context: 'title',
-              })}
-            </Button>
-          </UserEmailEditPopup>
-        </div>
-        <div className={styles.action}>
-          <UserPasswordEditPopup
-            usePasswordConfirmation
-            defaultData={passwordUpdateForm.data}
-            isSubmitting={passwordUpdateForm.isSubmitting}
-            error={passwordUpdateForm.error}
-            onUpdate={onPasswordUpdate}
-            onMessageDismiss={onPasswordUpdateMessageDismiss}
-          >
-            <Button className={styles.actionButton}>
-              {t('action.editPassword', {
-                context: 'title',
-              })}
-            </Button>
-          </UserPasswordEditPopup>
-        </div>
+        {(!isLocked || !isUsernameLocked) && (
+          <>
+            <Divider horizontal section>
+              <Header as="h4">
+                {t('common.authentication', {
+                  context: 'title',
+                })}
+              </Header>
+            </Divider>
+            {!isUsernameLocked && (
+              <div className={styles.action}>
+                <UserUsernameEditPopup
+                  defaultData={usernameUpdateForm.data}
+                  username={username}
+                  isSubmitting={usernameUpdateForm.isSubmitting}
+                  error={usernameUpdateForm.error}
+                  usePasswordConfirmation={!isLocked} // FIXME: hack
+                  onUpdate={onUsernameUpdate}
+                  onMessageDismiss={onUsernameUpdateMessageDismiss}
+                >
+                  <Button className={styles.actionButton}>
+                    {t('action.editUsername', {
+                      context: 'title',
+                    })}
+                  </Button>
+                </UserUsernameEditPopup>
+              </div>
+            )}
+            {!isLocked && (
+              <>
+                <div className={styles.action}>
+                  <UserEmailEditPopup
+                    usePasswordConfirmation
+                    defaultData={emailUpdateForm.data}
+                    email={email}
+                    isSubmitting={emailUpdateForm.isSubmitting}
+                    error={emailUpdateForm.error}
+                    onUpdate={onEmailUpdate}
+                    onMessageDismiss={onEmailUpdateMessageDismiss}
+                  >
+                    <Button className={styles.actionButton}>
+                      {t('action.editEmail', {
+                        context: 'title',
+                      })}
+                    </Button>
+                  </UserEmailEditPopup>
+                </div>
+                <div className={styles.action}>
+                  <UserPasswordEditPopup
+                    usePasswordConfirmation
+                    defaultData={passwordUpdateForm.data}
+                    isSubmitting={passwordUpdateForm.isSubmitting}
+                    error={passwordUpdateForm.error}
+                    onUpdate={onPasswordUpdate}
+                    onMessageDismiss={onPasswordUpdateMessageDismiss}
+                  >
+                    <Button className={styles.actionButton}>
+                      {t('action.editPassword', {
+                        context: 'title',
+                      })}
+                    </Button>
+                  </UserPasswordEditPopup>
+                </div>
+              </>
+            )}
+          </>
+        )}
       </Tab.Pane>
     );
   },
@@ -172,6 +185,8 @@ AccountPane.propTypes = {
   phone: PropTypes.string,
   organization: PropTypes.string,
   language: PropTypes.string,
+  isLocked: PropTypes.bool.isRequired,
+  isUsernameLocked: PropTypes.bool.isRequired,
   isAvatarUpdating: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,

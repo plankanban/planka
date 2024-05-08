@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   USER_NOT_FOUND: {
     userNotFound: 'User not found',
   },
@@ -33,6 +36,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     userNotFound: {
       responseType: 'notFound',
     },
@@ -47,11 +53,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    if (inputs.id === currentUser.id) {
-      if (!inputs.currentPassword) {
-        throw Errors.INVALID_CURRENT_PASSWORD;
-      }
-    } else if (!currentUser.isAdmin) {
+    if (inputs.id !== currentUser.id && !currentUser.isAdmin) {
       throw Errors.USER_NOT_FOUND; // Forbidden
     }
 
@@ -61,11 +63,18 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    if (
-      inputs.id === currentUser.id &&
-      !bcrypt.compareSync(inputs.currentPassword, user.password)
-    ) {
-      throw Errors.INVALID_CURRENT_PASSWORD;
+    if (user.email === sails.config.custom.defaultAdminEmail) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
+    if (user.isSso) {
+      if (!sails.config.custom.oidcIgnoreUsername) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    } else if (inputs.id === currentUser.id) {
+      if (!inputs.currentPassword || !bcrypt.compareSync(inputs.currentPassword, user.password)) {
+        throw Errors.INVALID_CURRENT_PASSWORD;
+      }
     }
 
     const values = _.pick(inputs, ['username']);

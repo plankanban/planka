@@ -10,3 +10,6 @@ docker-compose.override.yml
 # `npm i --package-lock-only`
 pnpm-lock.yaml
 yarn.lock
+
+# Chart dependencies
+**/charts/*.tgz

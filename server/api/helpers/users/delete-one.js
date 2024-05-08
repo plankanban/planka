@@ -10,6 +10,10 @@ module.exports = {
   },
 
   async fn(inputs) {
+    await IdentityProviderUser.destroy({
+      userId: inputs.record.id,
+    });
+
     await ProjectManager.destroy({
       userId: inputs.record.id,
     });
@@ -30,7 +34,7 @@ module.exports = {
       id: inputs.record.id,
       deletedAt: null,
     }).set({
-      deletedAt: new Date().toUTCString(),
+      deletedAt: new Date().toISOString(),
     });
 
     if (user) {

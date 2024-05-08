@@ -5,13 +5,15 @@ import Config from '../constants/Config';
 const http = {};
 
 // TODO: add all methods
-['POST'].forEach((method) => {
+['GET', 'POST'].forEach((method) => {
   http[method.toLowerCase()] = (url, data, headers) => {
-    const formData = Object.keys(data).reduce((result, key) => {
-      result.append(key, data[key]);
+    const formData =
+      data &&
+      Object.keys(data).reduce((result, key) => {
+        result.append(key, data[key]);
 
-      return result;
-    }, new FormData());
+        return result;
+      }, new FormData());
 
     return fetch(`${Config.SERVER_BASE_URL}/api${url}`, {
       method,

@@ -10,6 +10,7 @@ import Item from './Item';
 const UsersModal = React.memo(
   ({
     items,
+    canAdd,
     onUpdate,
     onUsernameUpdate,
     onUsernameUpdateMessageDismiss,
@@ -110,6 +111,10 @@ const UsersModal = React.memo(
                   organization={item.organization}
                   phone={item.phone}
                   isAdmin={item.isAdmin}
+                  isLocked={item.isLocked}
+                  isRoleLocked={item.isRoleLocked}
+                  isUsernameLocked={item.isUsernameLocked}
+                  isDeletionLocked={item.isDeletionLocked}
                   emailUpdateForm={item.emailUpdateForm}
                   passwordUpdateForm={item.passwordUpdateForm}
                   usernameUpdateForm={item.usernameUpdateForm}
@@ -126,11 +131,13 @@ const UsersModal = React.memo(
             </Table.Body>
           </Table>
         </Modal.Content>
-        <Modal.Actions>
-          <UserAddPopupContainer>
-            <Button positive content={t('action.addUser')} />
-          </UserAddPopupContainer>
-        </Modal.Actions>
+        {canAdd && (
+          <Modal.Actions>
+            <UserAddPopupContainer>
+              <Button positive content={t('action.addUser')} />
+            </UserAddPopupContainer>
+          </Modal.Actions>
+        )}
       </Modal>
     );
   },
@@ -138,6 +145,7 @@ const UsersModal = React.memo(
 
 UsersModal.propTypes = {
   items: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  canAdd: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onUsernameUpdate: PropTypes.func.isRequired,
   onUsernameUpdateMessageDismiss: PropTypes.func.isRequired,

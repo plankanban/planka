@@ -218,6 +218,7 @@ export function* handleUserDelete(user) {
 
   if (user.id === currentUserId) {
     yield call(logout, false);
+    return;
   }
 
   yield put(actions.handleUserDelete(user));

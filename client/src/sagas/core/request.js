@@ -1,8 +1,7 @@
 import { call, fork, join, put, select, take } from 'redux-saga/effects';
 
 import selectors from '../../selectors';
-import actions from '../../actions';
-import { removeAccessToken } from '../../utils/access-token-storage';
+import entryActions from '../../entry-actions';
 import ErrorCodes from '../../constants/ErrorCodes';
 
 let lastRequestTask;
@@ -22,8 +21,7 @@ function* queueRequest(method, ...args) {
     });
   } catch (error) {
     if (error.code === ErrorCodes.UNAUTHORIZED) {
-      yield call(removeAccessToken);
-      yield put(actions.logout()); // TODO: next url
+      yield put(entryActions.logout(false));
       yield take();
     }
 

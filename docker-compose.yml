@@ -3,15 +3,7 @@ version: '3'
 services:
   planka:
     image: ghcr.io/plankanban/planka:latest
-    command: >
-      bash -c
-        "for i in `seq 1 30`; do
-          ./start.sh &&
-          s=$$? && break || s=$$?;
-          echo \"Tried $$i times. Waiting 5 seconds...\";
-          sleep 5;
-        done; (exit $$s)"
-    restart: unless-stopped
+    restart: on-failure
     volumes:
       - user-avatars:/app/public/user-avatars
       - project-background-images:/app/public/project-background-images
@@ -20,9 +12,11 @@ services:
       - 3000:1337
     environment:
       - BASE_URL=http://localhost:3000
-      - TRUST_PROXY=0
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=notsecretkey
+
+      # - TRUST_PROXY=0
+      # - TOKEN_EXPIRES_IN=365 # In days
 
       # related: https://github.com/knex/knex/issues/2354
       # As knex does not pass query parameters from the connection string we
@@ -31,17 +25,52 @@ services:
 
       # Configure knex to accept SSL certificates
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
+
+      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
+      # - DEFAULT_ADMIN_PASSWORD=demo
+      # - DEFAULT_ADMIN_NAME=Demo Demo
+      # - DEFAULT_ADMIN_USERNAME=demo
+
+      # - OIDC_ISSUER=
+      # - OIDC_CLIENT_ID=
+      # - OIDC_CLIENT_SECRET=
+      # - OIDC_SCOPES=openid email profile
+      # - OIDC_ADMIN_ROLES=admin
+      # - OIDC_EMAIL_ATTRIBUTE=email
+      # - OIDC_NAME_ATTRIBUTE=name
+      # - OIDC_USERNAME_ATTRIBUTE=preferred_username
+      # - OIDC_ROLES_ATTRIBUTE=groups
+      # - OIDC_IGNORE_USERNAME=true
+      # - OIDC_IGNORE_ROLES=true
+      # - OIDC_ENFORCED=true
+
+      # Email Notifications (https://nodemailer.com/smtp/)
+      # - SMTP_HOST=
+      # - SMTP_PORT=587
+      # - SMTP_SECURE=true
+      # - SMTP_USER=
+      # - SMTP_PASSWORD=
+      # - SMTP_FROM="Demo Demo" <demo@demo.demo>
+
+      # - SLACK_BOT_TOKEN=
+      # - SLACK_CHANNEL_ID=
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: postgres:14-alpine
-    restart: unless-stopped
+    restart: on-failure
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=planka
       - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   user-avatars:

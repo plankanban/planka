@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 
-import { useClosableForm, useForm } from '../../../hooks';
+import { useForm } from '../../../hooks';
 
 import styles from './CommentEdit.module.scss';
 
@@ -35,12 +35,7 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
       text: data.text.trim(),
     };
 
-    if (!cleanData.text) {
-      textField.current.ref.current.select();
-      return;
-    }
-
-    if (!dequal(cleanData, defaultData)) {
+    if (cleanData.text && !dequal(cleanData, defaultData)) {
       onUpdate(cleanData);
     }
 
@@ -65,10 +60,9 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
     [submit],
   );
 
-  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    close,
-    isOpened,
-  );
+  const handleFieldBlur = useCallback(() => {
+    submit();
+  }, [submit]);
 
   const handleSubmit = useCallback(() => {
     submit();
@@ -99,13 +93,7 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
         onBlur={handleFieldBlur}
       />
       <div className={styles.controls}>
-        {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
-        <Button
-          positive
-          content={t('action.save')}
-          onMouseOver={handleControlMouseOver}
-          onMouseOut={handleControlMouseOut}
-        />
+        <Button positive content={t('action.save')} />
       </div>
     </Form>
   );

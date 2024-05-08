@@ -5,10 +5,14 @@ import socket from './socket';
 
 const createAccessToken = (data, headers) => http.post('/access-tokens', data, headers);
 
+const exchangeForAccessTokenUsingOidc = (data, headers) =>
+  http.post('/access-tokens/exchange-using-oidc', data, headers);
+
 const deleteCurrentAccessToken = (headers) =>
   socket.delete('/access-tokens/me', undefined, headers);
 
 export default {
   createAccessToken,
+  exchangeForAccessTokenUsingOidc,
   deleteCurrentAccessToken,
 };

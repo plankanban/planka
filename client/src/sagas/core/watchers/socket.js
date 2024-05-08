@@ -16,17 +16,21 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleSocketReconnect());
     };
 
-    const handleUserCreate = ({ item }) => {
+    const handleLogout = () => {
+      emit(entryActions.logout(false));
+    };
+
+    const handleUserCreate = api.makeHandleUserCreate(({ item }) => {
       emit(entryActions.handleUserCreate(item));
-    };
+    });
 
-    const handleUserUpdate = ({ item }) => {
+    const handleUserUpdate = api.makeHandleUserUpdate(({ item }) => {
       emit(entryActions.handleUserUpdate(item));
-    };
+    });
 
-    const handleUserDelete = ({ item }) => {
+    const handleUserDelete = api.makeHandleUserDelete(({ item }) => {
       emit(entryActions.handleUserDelete(item));
-    };
+    });
 
     const handleProjectCreate = ({ item }) => {
       emit(entryActions.handleProjectCreate(item));
@@ -40,13 +44,13 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleProjectDelete(item));
     };
 
-    const handleProjectManagerCreate = ({ item }) => {
+    const handleProjectManagerCreate = api.makeHandleProjectManagerCreate(({ item }) => {
       emit(entryActions.handleProjectManagerCreate(item));
-    };
+    });
 
-    const handleProjectManagerDelete = ({ item }) => {
+    const handleProjectManagerDelete = api.makeHandleProjectManagerDelete(({ item }) => {
       emit(entryActions.handleProjectManagerDelete(item));
-    };
+    });
 
     const handleBoardCreate = ({ item, requestId }) => {
       emit(entryActions.handleBoardCreate(item, requestId));
@@ -60,17 +64,17 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleBoardDelete(item));
     };
 
-    const handleBoardMembershipCreate = ({ item }) => {
+    const handleBoardMembershipCreate = api.makeHandleBoardMembershipCreate(({ item }) => {
       emit(entryActions.handleBoardMembershipCreate(item));
-    };
+    });
 
-    const handleBoardMembershipUpdate = ({ item }) => {
+    const handleBoardMembershipUpdate = api.makeHandleBoardMembershipUpdate(({ item }) => {
       emit(entryActions.handleBoardMembershipUpdate(item));
-    };
+    });
 
-    const handleBoardMembershipDelete = ({ item }) => {
+    const handleBoardMembershipDelete = api.makeHandleBoardMembershipDelete(({ item }) => {
       emit(entryActions.handleBoardMembershipDelete(item));
-    };
+    });
 
     const handleListCreate = ({ item }) => {
       emit(entryActions.handleListCreate(item));
@@ -79,6 +83,10 @@ const createSocketEventsChannel = () =>
     const handleListUpdate = ({ item }) => {
       emit(entryActions.handleListUpdate(item));
     };
+
+    const handleListSort = api.makeHandleListSort(({ item, included: { cards } }) => {
+      emit(entryActions.handleListSort(item, cards));
+    });
 
     const handleListDelete = ({ item }) => {
       emit(entryActions.handleListDelete(item));
@@ -175,6 +183,8 @@ const createSocketEventsChannel = () =>
     socket.on('disconnect', handleDisconnect);
     socket.on('reconnect', handleReconnect);
 
+    socket.on('logout', handleLogout);
+
     socket.on('userCreate', handleUserCreate);
     socket.on('userUpdate', handleUserUpdate);
     socket.on('userDelete', handleUserDelete);
@@ -196,6 +206,7 @@ const createSocketEventsChannel = () =>
 
     socket.on('listCreate', handleListCreate);
     socket.on('listUpdate', handleListUpdate);
+    socket.on('listSort', handleListSort);
     socket.on('listDelete', handleListDelete);
     socket.on('listSort', handleListSort);
 
@@ -232,6 +243,8 @@ const createSocketEventsChannel = () =>
       socket.off('disconnect', handleDisconnect);
       socket.off('reconnect', handleReconnect);
 
+      socket.off('logout', handleLogout);
+
       socket.off('userCreate', handleUserCreate);
       socket.off('userUpdate', handleUserUpdate);
       socket.off('userDelete', handleUserDelete);
@@ -253,6 +266,7 @@ const createSocketEventsChannel = () =>
 
       socket.off('listCreate', handleListCreate);
       socket.off('listUpdate', handleListUpdate);
+      socket.off('listSort', handleListSort);
       socket.off('listDelete', handleListDelete);
       socket.off('listSort', handleListSort);
 

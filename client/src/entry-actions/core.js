@@ -1,16 +1,12 @@
 import EntryActionTypes from '../constants/EntryActionTypes';
 
-const initializeCore = () => ({
-  type: EntryActionTypes.CORE_INITIALIZE,
-  payload: {},
-});
-
-const logout = () => ({
+const logout = (invalidateAccessToken) => ({
   type: EntryActionTypes.LOGOUT,
-  payload: {},
+  payload: {
+    invalidateAccessToken,
+  },
 });
 
 export default {
-  initializeCore,
   logout,
 };

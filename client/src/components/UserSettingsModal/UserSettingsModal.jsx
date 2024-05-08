@@ -17,6 +17,8 @@ const UserSettingsModal = React.memo(
     organization,
     language,
     subscribeToOwnCards,
+    isLocked,
+    isUsernameLocked,
     isAvatarUpdating,
     usernameUpdateForm,
     emailUpdateForm,
@@ -48,6 +50,8 @@ const UserSettingsModal = React.memo(
             phone={phone}
             organization={organization}
             language={language}
+            isLocked={isLocked}
+            isUsernameLocked={isUsernameLocked}
             isAvatarUpdating={isAvatarUpdating}
             usernameUpdateForm={usernameUpdateForm}
             emailUpdateForm={emailUpdateForm}
@@ -105,6 +109,8 @@ UserSettingsModal.propTypes = {
   organization: PropTypes.string,
   language: PropTypes.string,
   subscribeToOwnCards: PropTypes.bool.isRequired,
+  isLocked: PropTypes.bool.isRequired,
+  isUsernameLocked: PropTypes.bool.isRequired,
   isAvatarUpdating: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,

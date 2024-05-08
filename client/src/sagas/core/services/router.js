@@ -1,10 +1,12 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import { push } from '../../../lib/redux-router';
 
+import { logout } from './core';
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
+import { getAccessToken } from '../../../utils/access-token-storage';
 import ActionTypes from '../../../constants/ActionTypes';
 import Paths from '../../../constants/Paths';
 
@@ -25,6 +27,13 @@ export function* goToCard(cardId) {
 }
 
 export function* handleLocationChange() {
+  const accessToken = yield call(getAccessToken);
+
+  if (!accessToken) {
+    yield call(logout, false);
+    return;
+  }
+
   const pathsMatch = yield select(selectors.selectPathsMatch);
 
   if (!pathsMatch) {
@@ -33,15 +42,16 @@ export function* handleLocationChange() {
 
   switch (pathsMatch.pattern.path) {
     case Paths.LOGIN:
+    case Paths.OIDC_CALLBACK:
       yield call(goToRoot);
 
-      break;
+      return;
     default:
   }
 
-  const isCoreInitializing = yield select(selectors.selectIsCoreInitializing);
+  const isInitializing = yield select(selectors.selectIsInitializing);
 
-  if (isCoreInitializing) {
+  if (isInitializing) {
     yield take(ActionTypes.CORE_INITIALIZE);
   }
 

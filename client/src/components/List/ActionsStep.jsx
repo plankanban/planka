@@ -5,6 +5,7 @@ import { Menu } from 'semantic-ui-react';
 import { Popup } from '../../lib/custom-ui';
 
 import { useSteps } from '../../hooks';
+import ListSortStep from '../ListSortStep';
 import DeleteStep from '../DeleteStep';
 import SortStep from '../SortStep';
 
@@ -100,10 +101,83 @@ const ActionsStep = React.memo(
   },
 );
 
+  const handleSortClick = useCallback(() => {
+    openStep(StepTypes.SORT);
+  }, [openStep]);
+
+  const handleDeleteClick = useCallback(() => {
+    openStep(StepTypes.DELETE);
+  }, [openStep]);
+
+  const handleSortTypeSelect = useCallback(
+    (type) => {
+      onSort({
+        type,
+      });
+
+      onClose();
+    },
+    [onSort, onClose],
+  );
+
+  if (step && step.type) {
+    switch (step.type) {
+      case StepTypes.SORT:
+        return <ListSortStep onTypeSelect={handleSortTypeSelect} onBack={handleBack} />;
+      case StepTypes.DELETE:
+        return (
+          <DeleteStep
+            title="common.deleteList"
+            content="common.areYouSureYouWantToDeleteThisList"
+            buttonContent="action.deleteList"
+            onConfirm={onDelete}
+            onBack={handleBack}
+          />
+        );
+      default:
+    }
+  }
+
+  return (
+    <>
+      <Popup.Header>
+        {t('common.listActions', {
+          context: 'title',
+        })}
+      </Popup.Header>
+      <Popup.Content>
+        <Menu secondary vertical className={styles.menu}>
+          <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
+            {t('action.editTitle', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleAddCardClick}>
+            {t('action.addCard', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleSortClick}>
+            {t('action.sortList', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+            {t('action.deleteList', {
+              context: 'title',
+            })}
+          </Menu.Item>
+        </Menu>
+      </Popup.Content>
+    </>
+  );
+});
+
 ActionsStep.propTypes = {
   onNameEdit: PropTypes.func.isRequired,
   onCardAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onSort: PropTypes.func.isRequired,
   selectedOption: PropTypes.string.isRequired,

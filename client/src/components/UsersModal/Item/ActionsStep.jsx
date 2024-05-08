@@ -64,6 +64,7 @@ const ActionsStep = React.memo(
           return (
             <UserInformationEditStep
               defaultData={pick(user, ['name', 'phone', 'organization'])}
+              isNameEditable={!user.isLocked}
               onUpdate={onUpdate}
               onBack={handleBack}
               onClose={onClose}
@@ -135,26 +136,34 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
-            <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
-              {t('action.editUsername', {
-                context: 'title',
-              })}
-            </Menu.Item>
-            <Menu.Item className={styles.menuItem} onClick={handleEditEmailClick}>
-              {t('action.editEmail', {
-                context: 'title',
-              })}
-            </Menu.Item>
-            <Menu.Item className={styles.menuItem} onClick={handleEditPasswordClick}>
-              {t('action.editPassword', {
-                context: 'title',
-              })}
-            </Menu.Item>
-            <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
-              {t('action.deleteUser', {
-                context: 'title',
-              })}
-            </Menu.Item>
+            {!user.isUsernameLocked && (
+              <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
+                {t('action.editUsername', {
+                  context: 'title',
+                })}
+              </Menu.Item>
+            )}
+            {!user.isLocked && (
+              <>
+                <Menu.Item className={styles.menuItem} onClick={handleEditEmailClick}>
+                  {t('action.editEmail', {
+                    context: 'title',
+                  })}
+                </Menu.Item>
+                <Menu.Item className={styles.menuItem} onClick={handleEditPasswordClick}>
+                  {t('action.editPassword', {
+                    context: 'title',
+                  })}
+                </Menu.Item>
+              </>
+            )}
+            {!user.isDeletionLocked && (
+              <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+                {t('action.deleteUser', {
+                  context: 'title',
+                })}
+              </Menu.Item>
+            )}
           </Menu>
         </Popup.Content>
       </>

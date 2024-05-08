@@ -5,7 +5,8 @@ import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 export default function* coreWatchers() {
   yield all([
-    takeEvery(EntryActionTypes.CORE_INITIALIZE, () => services.initializeCore()),
-    takeEvery(EntryActionTypes.LOGOUT, () => services.logout()),
+    takeEvery(EntryActionTypes.LOGOUT, ({ payload: { invalidateAccessToken } }) =>
+      services.logout(invalidateAccessToken),
+    ),
   ]);
 }

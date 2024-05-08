@@ -43,9 +43,14 @@ export default class extends BaseModel {
     organization: attr(),
     language: attr(),
     subscribeToOwnCards: attr(),
+    isAdmin: attr(),
+    isLocked: attr(),
+    isRoleLocked: attr(),
+    isUsernameLocked: attr(),
+    isDeletionLocked: attr(),
     deletedAt: attr(),
-    isAdmin: attr({
-      getDefault: () => false,
+    createdAt: attr({
+      getDefault: () => new Date(),
     }),
     isAvatarUpdating: attr({
       getDefault: () => false,
@@ -293,15 +298,15 @@ export default class extends BaseModel {
   static getOrderedUndeletedQuerySet() {
     return this.filter({
       deletedAt: null,
-    }).orderBy('id');
+    }).orderBy('createdAt');
   }
 
   getOrderedProjectManagersQuerySet() {
-    return this.projectManagers.orderBy('id');
+    return this.projectManagers.orderBy('createdAt');
   }
 
   getOrderedBoardMembershipsQuerySet() {
-    return this.boardMemberships.orderBy('id');
+    return this.boardMemberships.orderBy('createdAt');
   }
 
   getOrderedUnreadNotificationsQuerySet() {
@@ -309,7 +314,7 @@ export default class extends BaseModel {
       .filter({
         isRead: false,
       })
-      .orderBy('id', false);
+      .orderBy('createdAt', false);
   }
 
   getOrderedAvailableProjectsModelArray() {
@@ -353,5 +358,19 @@ export default class extends BaseModel {
         deletedAt: new Date(),
       },
     );
+  }
+
+  static findUsersFromText(filterText, users) {
+    const selectUser = filterText.toLocaleLowerCase();
+    const matchingUsers = users.filter(
+      (user) =>
+        user.name.toLocaleLowerCase().startsWith(selectUser) ||
+        user.username.toLocaleLowerCase().startsWith(selectUser),
+    );
+    if (matchingUsers.length === 1) {
+      // Appens the user to the filter
+      return matchingUsers[0].id;
+    }
+    return null;
   }
 }

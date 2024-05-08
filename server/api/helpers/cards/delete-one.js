@@ -1,6 +1,14 @@
+const buildAndSendSlackMessage = async (user, card) => {
+  await sails.helpers.utils.sendSlackMessage(`*${card.name}* was deleted by ${user.name}`);
+};
+
 module.exports = {
   inputs: {
     record: {
+      type: 'ref',
+      required: true,
+    },
+    user: {
       type: 'ref',
       required: true,
     },
@@ -21,6 +29,10 @@ module.exports = {
         },
         inputs.request,
       );
+
+      if (sails.config.custom.slackBotToken) {
+        buildAndSendSlackMessage(inputs.user, card);
+      }
     }
 
     return card;

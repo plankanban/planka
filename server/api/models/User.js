@@ -18,12 +18,16 @@ module.exports = {
     },
     password: {
       type: 'string',
-      required: true,
     },
     isAdmin: {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'is_admin',
+    },
+    isSso: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'is_sso',
     },
     name: {
       type: 'string',
@@ -97,13 +101,23 @@ module.exports = {
       via: 'userId',
       through: 'CardMembership',
     },
+    identityProviders: {
+      collection: 'IdentityProviderUser',
+      via: 'userId',
+    },
   },
 
   tableName: 'user_account',
 
   customToJSON() {
+    const isDefaultAdmin = this.email === sails.config.custom.defaultAdminEmail;
+
     return {
-      ..._.omit(this, ['password', 'avatar', 'passwordChangedAt']),
+      ..._.omit(this, ['password', 'isSso', 'avatar', 'passwordChangedAt']),
+      isLocked: this.isSso || isDefaultAdmin,
+      isRoleLocked: (this.isSso && !sails.config.custom.oidcIgnoreRoles) || isDefaultAdmin,
+      isUsernameLocked: (this.isSso && !sails.config.custom.oidcIgnoreUsername) || isDefaultAdmin,
+      isDeletionLocked: isDefaultAdmin,
       avatarUrl:
         this.avatar &&
         `${sails.config.custom.userAvatarsUrl}/${this.avatar.dirname}/square-100.${this.avatar.extension}`,

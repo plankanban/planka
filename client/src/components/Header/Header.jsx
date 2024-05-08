@@ -2,11 +2,12 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { Icon, Menu } from 'semantic-ui-react';
+import { Button, Icon, Menu } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 
 import Paths from '../../constants/Paths';
 import NotificationsStep from './NotificationsStep';
+import User from '../User';
 import UserStep from '../UserStep';
 
 import styles from './Header.module.scss';
@@ -55,15 +56,16 @@ const Header = React.memo(
               >
                 <Icon fitted name="arrow left" />
               </Menu.Item>
-              <Menu.Item
-                className={classNames(
-                  styles.item,
-                  canEditProject && styles.itemHoverable,
-                  styles.title,
-                )}
-                onClick={handleProjectSettingsClick}
-              >
+              <Menu.Item className={classNames(styles.item, styles.title)}>
                 {project.name}
+                {canEditProject && (
+                  <Button
+                    className={classNames(styles.editButton, styles.target)}
+                    onClick={handleProjectSettingsClick}
+                  >
+                    <Icon fitted name="pencil" size="small" />
+                  </Button>
+                )}
               </Menu.Item>
             </Menu.Menu>
           )}
@@ -90,7 +92,8 @@ const Header = React.memo(
               onLogout={onLogout}
             >
               <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
-                {user.name}
+                <span className={styles.userName}>{user.name}</span>
+                <User name={user.name} avatarUrl={user.avatarUrl} size="small" />
               </Menu.Item>
             </UserPopup>
           </Menu.Menu>

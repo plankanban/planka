@@ -137,7 +137,7 @@ export default class extends BaseModel {
   }
 
   getOrderedManagersQuerySet() {
-    return this.managers.orderBy('id');
+    return this.managers.orderBy('createdAt');
   }
 
   getOrderedBoardsQuerySet() {

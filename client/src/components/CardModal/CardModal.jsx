@@ -58,6 +58,7 @@ const CardModal = React.memo(
     onUpdate,
     onMove,
     onTransfer,
+    onDuplicate,
     onDelete,
     onUserAdd,
     onUserRemove,
@@ -197,6 +198,11 @@ const CardModal = React.memo(
       });
     }, [isSubscribed, onUpdate]);
 
+    const handleDuplicateClick = useCallback(() => {
+      onDuplicate();
+      onClose();
+    }, [onDuplicate, onClose]);
+
     const handleGalleryOpen = useCallback(() => {
       isGalleryOpened.current = true;
     }, []);
@@ -274,6 +280,7 @@ const CardModal = React.memo(
                         onUserSelect={onUserAdd}
                         onUserDeselect={onUserRemove}
                       >
+                        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                         <button
                           type="button"
                           className={classNames(styles.attachment, styles.dueDate)}
@@ -323,6 +330,7 @@ const CardModal = React.memo(
                         onMove={onLabelMove}
                         onDelete={onLabelDelete}
                       >
+                        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                         <button
                           type="button"
                           className={classNames(styles.attachment, styles.dueDate)}
@@ -371,10 +379,11 @@ const CardModal = React.memo(
                       )}
                     </span>
                     {canEdit && (
+                      // eslint-disable-next-line jsx-a11y/control-has-associated-label
                       <button
-                        onClick={handleToggleStopwatchClick}
                         type="button"
                         className={classNames(styles.attachment, styles.dueDate)}
+                        onClick={handleToggleStopwatchClick}
                       >
                         <Icon
                           name={stopwatch.startedAt ? 'pause' : 'play'}
@@ -550,6 +559,7 @@ const CardModal = React.memo(
                     {t('action.move')}
                   </Button>
                 </CardMovePopup>
+
                 <CardCopyPopup
                   projectsToLists={allProjectsToLists}
                   defaultPath={card}
@@ -567,6 +577,12 @@ const CardModal = React.memo(
                     {t('action.copy')}
                   </Button>
                 </CardCopyPopup>
+
+                <Button fluid className={styles.actionButton} onClick={handleDuplicateClick}>
+                  <Icon name="copy outline" className={styles.actionIcon} />
+                  {t('action.duplicate')}
+                </Button>
+
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"
@@ -627,6 +643,7 @@ CardModal.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
+  onDuplicate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,

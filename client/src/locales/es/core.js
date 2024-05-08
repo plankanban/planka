@@ -9,6 +9,8 @@ export default {
     dateTime: '$t(format:date) $t(format:time)',
     longDate: 'MMM d',
     longDateTime: "MMMM d 'a' p",
+    fullDate: 'MMM d, y',
+    fullDateTime: "MMMM d, y 'a' p",
   },
 
   translation: {
@@ -22,7 +24,7 @@ export default {
       administrator: 'Administrador',
       all: 'Todos',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
-        'Todos los cambios serán automáticamente guardados<br />después de que se restaure la conexión',
+        'Todos los cambios serán automáticamente guardados<br />después de que se restaure la conexión.',
       areYouSureYouWantToDeleteThisAttachment: '¿Estás seguro de que quieres borrar este adjunto?',
       areYouSureYouWantToDeleteThisBoard: '¿Estás seguro de que quieres borrar este tablero?',
       areYouSureYouWantToDeleteThisCard: '¿Estás seguro de que quieres borrar esta tarjeta?',
@@ -41,11 +43,11 @@ export default {
       boardNotFound_title: 'Tablero no encontrado',
       cardActions_title: 'Acciones de las tarjetas',
       cardNotFound_title: 'tarjeta no encontrada',
-      cardOrActionAreDeleted: 'La tarjeta o la acción está eliminada',
+      cardOrActionAreDeleted: 'La tarjeta o la acción está eliminada.',
       color: 'Color',
       createBoard_title: 'Crear Tablero',
       createLabel_title: 'Crear Etiqueta',
-      createNewOneOrSelectExistingOne: 'Crear uno nuevo o seleccionar<br /> uno existente',
+      createNewOneOrSelectExistingOne: 'Crear uno nuevo o seleccionar<br />uno existente.',
       createProject_title: 'Crear Proyecto',
       createTextFile_title: 'Crear archivo de Texto',
       currentPassword: 'Contraseña Actual',
@@ -106,7 +108,7 @@ export default {
       phone: 'Teléfono',
       preferences: 'Preferencias',
       pressPasteShortcutToAddAttachmentFromClipboard:
-        'Tip: presiona Ctrl-V (Cmd-V en Mac) para añadir adjuntos desde el portapapeles',
+        'Tip: presiona Ctrl-V (Cmd-V en Mac) para añadir adjuntos desde el portapapeles.',
       project: 'Proyecto',
       projectNotFound_title: 'Proyecto no encontrado',
       removeMember_title: 'Remover Miembro',

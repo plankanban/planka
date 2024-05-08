@@ -27,37 +27,38 @@
     }
   },
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "dotenv": "^16.0.3",
-    "dotenv-cli": "^6.0.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.1",
     "filenamify": "^4.3.0",
-    "jsonwebtoken": "^9.0.0",
-    "knex": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.4",
+    "moment": "^2.30.1",
     "move-file": "^2.1.0",
-    "rimraf": "^3.0.2",
-    "sails": "^1.5.3",
-    "sails-hook-orm": "^4.0.2",
-    "sails-hook-sockets": "^2.0.3",
-    "sails-postgresql-redacted": "^1.0.2-9",
-    "sharp": "^0.31.2",
+    "nodemailer": "^6.9.13",
+    "openid-client": "^5.6.5",
+    "rimraf": "^5.0.5",
+    "sails": "^1.5.10",
+    "sails-hook-orm": "^4.0.3",
+    "sails-hook-sockets": "^3.0.0",
+    "sails-postgresql": "^5.0.1",
+    "sharp": "^0.33.3",
     "stream-to-array": "^2.3.0",
-    "uuid": "^9.0.0",
-    "validator": "^13.7.0",
-    "winston": "^3.8.2",
+    "uuid": "^9.0.1",
+    "validator": "^13.11.0",
+    "winston": "^3.13.0",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
-    "eslint": "^8.28.0",
+    "chai": "^4.4.1",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "mocha": "^10.1.0",
-    "nodemon": "^2.0.20",
-    "supertest": "^6.3.1"
+    "eslint-plugin-import": "^2.29.1",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0"
   },
   "engines": {
-    "node": "^12.10"
+    "node": ">=18"
   }
 }

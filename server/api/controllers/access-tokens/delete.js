@@ -6,8 +6,12 @@ module.exports = {
       accessToken,
       deletedAt: null,
     }).set({
-      deletedAt: new Date().toUTCString(),
+      deletedAt: new Date().toISOString(),
     });
+
+    if (this.req.isSocket) {
+      sails.sockets.leaveAll(`@accessToken:${accessToken}`);
+    }
 
     return {
       item: accessToken,

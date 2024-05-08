@@ -38,6 +38,7 @@ const ActionsStep = React.memo(
     onUpdate,
     onMove,
     onTransfer,
+    onDuplicate,
     onDelete,
     onUserAdd,
     onUserRemove,
@@ -107,6 +108,12 @@ const ActionsStep = React.memo(
     const handleCopyClick = useCallback(() => {
       openStep(StepTypes.COPY);
     }, [openStep]);
+
+    const handleDuplicateClick = useCallback(() => {
+      onDuplicate();
+      onClose();
+    }, [onDuplicate, onClose]);
+
 
     const handleDeleteClick = useCallback(() => {
       openStep(StepTypes.DELETE);
@@ -251,6 +258,11 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleDuplicateClick}>
+              {t('action.duplicateCard', {
+                context: 'title',
+              })}
+            </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
               {t('action.deleteCard', {
                 context: 'title',
@@ -281,6 +293,7 @@ ActionsStep.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
+  onDuplicate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
