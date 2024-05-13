@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/bg';
+
 export default {
+  dateFns,
+
   format: {
     date: 'd.MM.yyyy',
     time: 'p',
@@ -23,7 +27,8 @@ export default {
       all: 'Всички',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Всички промени ще бъдат автоматично запазени<br />след възстановяване на връзката.',
-      areYouSureYouWantToDeleteThisAttachment: 'Сигурни ли сте, че искате да изтриете този прикачен файл?',
+      areYouSureYouWantToDeleteThisAttachment:
+        'Сигурни ли сте, че искате да изтриете този прикачен файл?',
       areYouSureYouWantToDeleteThisBoard: 'Сигурни ли сте, че искате да изтриете това табло?',
       areYouSureYouWantToDeleteThisCard: 'Сигурни ли сте, че искате да изтриете тази карта?',
       areYouSureYouWantToDeleteThisComment: 'Сигурни ли сте, че искате да изтриете този коментар?',
@@ -152,14 +157,14 @@ export default {
       subscribeToMyOwnCardsByDefault: 'Абонирайте се за собствените си карти по подразбиране',
       taskActions_title: 'Действия със задачи',
       tasks: 'Задачи',
-      thereIsNoPreviewAvailableForThisAttachment:
-        'Няма наличен преглед за този прикачен файл.',
+      thereIsNoPreviewAvailableForThisAttachment: 'Няма наличен преглед за този прикачен файл.',
       time: 'Време',
       title: 'Заглавие',
       userActions_title: 'Потребителски действия',
       userAddedThisCardToList: '<0>{{user}}</0><1> добави тази карта в {{list}}</1>',
       userLeftNewCommentToCard: '{{user}} остави нов коментар «{{comment}}» в <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} премести <2>{{card}}</2> от {{fromList}} към {{toList}}',
+      userMovedCardFromListToList:
+        '{{user}} премести <2>{{card}}</2> от {{fromList}} към {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> премести тази карта от {{fromList}} към {{toList}}</1>',
       username: 'Потребителско име',
