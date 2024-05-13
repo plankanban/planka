@@ -1,3 +1,4 @@
+import bg from './bg';
 import cs from './cs';
 import da from './da';
 import de from './de';
@@ -22,6 +23,7 @@ import uz from './uz';
 import zh from './zh';
 
 const locales = [
+  bg,
   cs,
   da,
   de,
