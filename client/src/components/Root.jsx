@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'photoswipe/dist/photoswipe.css';
 import 'easymde/dist/easymde.min.css';
 import '../lib/custom-ui/styles.css';
+import '../assets/css/font-awesome.css';
 import '../styles.module.scss';
 
 function Root({ store, history }) {
