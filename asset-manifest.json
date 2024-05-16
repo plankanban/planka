@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/planka/static/css/main.8eb0f6f3.css",
-    "main.js": "/planka/static/js/main.e49372c0.js",
+    "main.css": "/planka/static/css/main.1fca3956.css",
+    "main.js": "/planka/static/js/main.5081d4cc.js",
     "static/js/801.9773e58e.chunk.js": "/planka/static/js/801.9773e58e.chunk.js",
     "static/js/467.d02e66c6.chunk.js": "/planka/static/js/467.d02e66c6.chunk.js",
     "static/js/514.592fb053.chunk.js": "/planka/static/js/514.592fb053.chunk.js",
@@ -21,9 +21,12 @@
     "static/media/simple-picture.jpg": "/planka/static/media/simple-picture.0442003259f074c6cc5d.jpg",
     "static/media/brand-icons.svg": "/planka/static/media/brand-icons.6729d29753e000c17489.svg",
     "static/media/simple-pdf.pdf": "/planka/static/media/simple-pdf.2b466d228796d7c86d15.pdf",
+    "static/media/fontawesome-webfont.svg?v=4.7.0": "/planka/static/media/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg",
     "static/media/icons.svg": "/planka/static/media/icons.62d9dae4e0040e81c980.svg",
     "static/media/original.jpg": "/planka/static/media/original.fd3fb2a1d11429b0ec28.jpg",
     "static/media/high-picture.jpg": "/planka/static/media/high-picture.28d94c085a2a9ac5ccf3.jpg",
+    "static/media/fontawesome-webfont.eot": "/planka/static/media/fontawesome-webfont.8b43027f47b20503057d.eot",
+    "static/media/fontawesome-webfont.ttf?v=4.7.0": "/planka/static/media/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
     "static/media/MuseoSansCyrl-300Italic.eot": "/planka/static/media/MuseoSansCyrl-300Italic.23a3785062c85097cdd3.eot",
     "static/media/MuseoSansCyrl-700Italic.eot": "/planka/static/media/MuseoSansCyrl-700Italic.89cfbac4e41f512c9c2e.eot",
     "static/media/MuseoSansCyrl-300Italic.ttf": "/planka/static/media/MuseoSansCyrl-300Italic.84a9474782a9c8a49bfc.ttf",
@@ -50,7 +53,9 @@
     "static/media/cover-256.jpg": "/planka/static/media/cover-256.4acd3319c6762c5d1b4b.jpg",
     "static/media/brand-icons.eot": "/planka/static/media/brand-icons.d68fa3e67dbb653a13ce.eot",
     "static/media/brand-icons.ttf": "/planka/static/media/brand-icons.65a2fb6d9aaa164b41a0.ttf",
+    "static/media/fontawesome-webfont.woff?v=4.7.0": "/planka/static/media/fontawesome-webfont.f691f37e57f04c152e23.woff",
     "static/media/cover-336.jpg": "/planka/static/media/cover-336.d1a186776f06837a4ec3.jpg",
+    "static/media/fontawesome-webfont.woff2?v=4.7.0": "/planka/static/media/fontawesome-webfont.20fd1704ea223900efa9.woff2",
     "static/media/brand-icons.woff": "/planka/static/media/brand-icons.cac87dc00c87a5d74711.woff",
     "static/media/brand-icons.woff2": "/planka/static/media/brand-icons.278156e41e0ad908cf7f.woff2",
     "static/media/marked.cjs": "/planka/static/media/marked.2244abd198e53bc0b3d6.cjs",
@@ -75,8 +80,8 @@
     "index.html": "/planka/index.html",
     "static/media/plus-icon.svg": "/planka/static/media/plus-icon.e46c682424b8c98c4f7bd0f367a260c2.svg",
     "static/media/plus-math-icon.svg": "/planka/static/media/plus-math-icon.cfa58840e75860dcf79a0b21a1cca781.svg",
-    "main.8eb0f6f3.css.map": "/planka/static/css/main.8eb0f6f3.css.map",
-    "main.e49372c0.js.map": "/planka/static/js/main.e49372c0.js.map",
+    "main.1fca3956.css.map": "/planka/static/css/main.1fca3956.css.map",
+    "main.5081d4cc.js.map": "/planka/static/js/main.5081d4cc.js.map",
     "801.9773e58e.chunk.js.map": "/planka/static/js/801.9773e58e.chunk.js.map",
     "467.d02e66c6.chunk.js.map": "/planka/static/js/467.d02e66c6.chunk.js.map",
     "514.592fb053.chunk.js.map": "/planka/static/js/514.592fb053.chunk.js.map",
@@ -93,7 +98,7 @@
     "683.e8a7c172.chunk.js.map": "/planka/static/js/683.e8a7c172.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8eb0f6f3.css",
-    "static/js/main.e49372c0.js"
+    "static/css/main.1fca3956.css",
+    "static/js/main.5081d4cc.js"
   ]
 }
