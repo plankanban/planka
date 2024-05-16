@@ -9,6 +9,7 @@ const Types = {
   CREATE_CARD: 'createCard',
   MOVE_CARD: 'moveCard',
   COMMENT_CARD: 'commentCard',
+  COPY_CARD: 'copyCard',
 };
 
 module.exports = {

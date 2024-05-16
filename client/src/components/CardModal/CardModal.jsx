@@ -25,10 +25,13 @@ import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
 
+import CardCopyPopup from '../CardCopyPopup';
+
 import styles from './CardModal.module.scss';
 
 const CardModal = React.memo(
   ({
+    id,
     name,
     description,
     dueDate,
@@ -79,8 +82,62 @@ const CardModal = React.memo(
     onCommentActivityUpdate,
     onCommentActivityDelete,
     onClose,
+    onCopyCard,
   }) => {
     const [t] = useTranslation();
+
+    const card = {};
+    card.id = id;
+    card.name = name;
+    card.description = description;
+    card.dueDate = dueDate;
+    card.stopwatch = stopwatch;
+    card.isSubscribed = isSubscribed;
+    card.isActivitiesFetching = isActivitiesFetching;
+    card.isAllActivitiesFetched = isAllActivitiesFetched;
+    card.isActivitiesDetailsVisible = isActivitiesDetailsVisible;
+    card.isActivitiesDetailsFetching = isActivitiesDetailsFetching;
+    card.listId = listId;
+    card.boardId = boardId;
+    card.projectId = projectId;
+    card.users = users;
+    card.labels = labels;
+    card.tasks = tasks;
+    card.attachments = attachments;
+    card.activities = activities;
+    card.allProjectsToLists = allProjectsToLists;
+    card.allBoardMemberships = allBoardMemberships;
+    card.allLabels = allLabels;
+    card.canEdit = canEdit;
+    card.canEditCommentActivities = canEditCommentActivities;
+    card.canEditAllCommentActivities = canEditAllCommentActivities;
+    card.onUpdate = onUpdate;
+    card.onMove = onMove;
+    card.onTransfer = onTransfer;
+    card.onDelete = onDelete;
+    card.onUserAdd = onUserAdd;
+    card.onUserRemove = onUserRemove;
+    card.onBoardFetch = onBoardFetch;
+    card.onLabelAdd = onLabelAdd;
+    card.onLabelRemove = onLabelRemove;
+    card.onLabelCreate = onLabelCreate;
+    card.onLabelUpdate = onLabelUpdate;
+    card.onLabelMove = onLabelMove;
+    card.onLabelDelete = onLabelDelete;
+    card.onTaskCreate = onTaskCreate;
+    card.onTaskUpdate = onTaskUpdate;
+    card.onTaskMove = onTaskMove;
+    card.onTaskDelete = onTaskDelete;
+    card.onAttachmentCreate = onAttachmentCreate;
+    card.onAttachmentUpdate = onAttachmentUpdate;
+    card.onAttachmentDelete = onAttachmentDelete;
+    card.onActivitiesFetch = onActivitiesFetch;
+    card.onActivitiesDetailsToggle = onActivitiesDetailsToggle;
+    card.onCommentActivityCreate = onCommentActivityCreate;
+    card.onCommentActivityUpdate = onCommentActivityUpdate;
+    card.onCommentActivityDelete = onCommentActivityDelete;
+    card.onClose = onClose;
+    card.onCopyCard = onCopyCard;
 
     const isGalleryOpened = useRef(false);
 
@@ -502,10 +559,30 @@ const CardModal = React.memo(
                     {t('action.move')}
                   </Button>
                 </CardMovePopup>
+
+                <CardCopyPopup
+                  projectsToLists={allProjectsToLists}
+                  defaultPath={card}
+                  onMove={onMove}
+                  onTransfer={onTransfer}
+                  onBoardFetch={onBoardFetch}
+                  onCopyCard={onCopyCard}
+                >
+                  <Button
+                    fluid
+                    className={styles.actionButton}
+                    onClick={handleToggleSubscriptionClick}
+                  >
+                    <Icon name="copy outline" className={styles.actionIcon} />
+                    {t('action.copy')}
+                  </Button>
+                </CardCopyPopup>
+
                 <Button fluid className={styles.actionButton} onClick={handleDuplicateClick}>
                   <Icon name="copy outline" className={styles.actionIcon} />
                   {t('action.duplicate')}
                 </Button>
+
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"
@@ -537,6 +614,7 @@ const CardModal = React.memo(
 );
 
 CardModal.propTypes = {
+  id: PropTypes.string,
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   dueDate: PropTypes.instanceOf(Date),
@@ -589,12 +667,14 @@ CardModal.propTypes = {
   onCommentActivityUpdate: PropTypes.func.isRequired,
   onCommentActivityDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
 CardModal.defaultProps = {
   description: undefined,
   dueDate: undefined,
   stopwatch: undefined,
+  id: undefined,
 };
 
 export default CardModal;

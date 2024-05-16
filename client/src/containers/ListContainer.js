@@ -36,6 +36,7 @@ const mapDispatchToProps = (dispatch, { id }) =>
       onSort: (data) => entryActions.sortList(id, data),
       onDelete: () => entryActions.deleteList(id),
       onCardCreate: (data, autoOpen) => entryActions.createCard(id, data, autoOpen),
+      onSort: (data) => entryActions.sortList(id, data),
     },
     dispatch,
   );

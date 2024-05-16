@@ -61,6 +61,24 @@ export function* handleListUpdate(list) {
   yield put(actions.handleListUpdate(list));
 }
 
+export function* sortList(id, data) {
+  yield put(actions.sortList(id, data));
+
+  let list;
+  try {
+    ({ item: list } = yield call(request, api.sortList, id, data));
+  } catch (error) {
+    yield put(actions.sortList.failure(id, error));
+    return;
+  }
+
+  yield put(actions.sortList.success(list));
+}
+
+export function* handleListSort(list) {
+  yield put(actions.handleListSort(list));
+}
+
 export function* moveList(id, index) {
   const { boardId } = yield select(selectors.selectListById, id);
   const position = yield select(selectors.selectNextListPosition, boardId, index, id);

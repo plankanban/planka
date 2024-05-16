@@ -47,7 +47,16 @@ const moveCard = (id, listId, index) => ({
   },
 });
 
-const moveCurrentCard = (listId, index) => ({
+const copyCard = (listId, data, autoOpen) => ({
+  type: EntryActionTypes.CARD_COPY,
+  payload: {
+    listId,
+    data,
+    autoOpen,
+  },
+});
+
+const moveCurrentCard = (listId, index = 0) => ({
   type: EntryActionTypes.CURRENT_CARD_MOVE,
   payload: {
     listId,
@@ -127,5 +136,6 @@ export default {
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,
+  copyCard,
   filterText,
 };

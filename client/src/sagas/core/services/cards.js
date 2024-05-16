@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects';
+import { call, put, select, all } from 'redux-saga/effects';
 
 import { goToBoard, goToCard } from './router';
 import request from '../request';
@@ -7,6 +7,9 @@ import actions from '../../../actions';
 import api from '../../../api';
 import i18n from '../../../i18n';
 import { createLocalId } from '../../../utils/local-id';
+import { addLabelToCard } from './labels';
+import { createTask } from './tasks';
+import { addUserToCard } from './users';
 
 export function* createCard(listId, data, autoOpen) {
   const { boardId } = yield select(selectors.selectListById, listId);
@@ -39,6 +42,30 @@ export function* createCard(listId, data, autoOpen) {
 
   if (autoOpen) {
     yield call(goToCard, card.id);
+  }
+
+  // Add labels to card //
+  if (nextData.labels) {
+    const arr = [];
+    Object.keys(nextData.labels).map((key) => arr.push(nextData.labels[key].id));
+    yield all(arr?.map((label) => call(addLabelToCard, label, card.id)));
+  }
+  // Add tasks to card //
+  if (nextData.tasks) {
+    const tasks = [];
+    Object.keys(nextData.tasks)?.map((key) => tasks.push(nextData.tasks[key]));
+    tasks.forEach((task) => {
+      // eslint-disable-next-line no-param-reassign
+      task.id = `local:${task.id}`;
+    });
+    yield all(tasks?.map((task) => call(createTask, card.id, task)));
+  }
+
+  // Add users to card //
+  if (nextData.users) {
+    const users = [];
+    Object.keys(nextData.users)?.map((key) => users.push(nextData.users[key].id));
+    yield all(users?.map((user) => call(addUserToCard, user, card.id)));
   }
 }
 

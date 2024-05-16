@@ -6,15 +6,40 @@ import { Popup } from '../../lib/custom-ui';
 
 import { useForm } from '../../hooks';
 
-import styles from './CardMoveStep.module.scss';
+import styles from './CardCopyStep.module.scss';
+import store from '../../store';
 
-const CardMoveStep = React.memo(
-  ({ projectsToLists, defaultPath, onMove, onTransfer, onBoardFetch, onBack, onClose }) => {
+const CardCopyStep = React.memo(
+  ({ projectsToLists, defaultPath, onBoardFetch, onBack, onClose, onCopyCard }) => {
     const [t] = useTranslation();
+    // Get store to get value for description string
+    const st = store.getState();
+
+    const keys = Object.keys(st.orm.Card.itemsById);
+    if (defaultPath.description === undefined) {
+      keys.forEach((key) => {
+        if (key === defaultPath.id) {
+          // eslint-disable-next-line no-param-reassign
+          defaultPath.description = st.orm.Card.itemsById[key].description;
+        }
+      });
+    }
+
+    if (defaultPath.dueDate === null || defaultPath.dueDate === undefined) {
+      // eslint-disable-next-line no-param-reassign
+      delete defaultPath.dueDate;
+    }
+
     const [path, handleFieldChange] = useForm(() => ({
       projectId: null,
       boardId: null,
       listId: null,
+      name: defaultPath.name,
+      description: defaultPath.description,
+      tasks: defaultPath.tasks,
+      attachments: defaultPath.attachments,
+      labels: defaultPath.labels,
+      users: defaultPath.users,
       ...defaultPath,
     }));
 
@@ -47,19 +72,14 @@ const CardMoveStep = React.memo(
     );
 
     const handleSubmit = useCallback(() => {
-      if (selectedBoard.id !== defaultPath.boardId) {
-        onTransfer(selectedBoard.id, selectedList.id);
-      } else if (selectedList.id !== defaultPath.listId) {
-        onMove(selectedList.id);
-      }
-
+      onCopyCard(selectedList.id, path);
       onClose();
-    }, [defaultPath, onMove, onTransfer, onClose, selectedBoard, selectedList]);
+    }, [onCopyCard, selectedList.id, path, onClose]);
 
     return (
       <>
         <Popup.Header onBack={onBack}>
-          {t('common.moveCard', {
+          {t('action.copyCard', {
             context: 'title',
           })}
         </Popup.Header>
@@ -131,7 +151,7 @@ const CardMoveStep = React.memo(
             )}
             <Button
               positive
-              content={t('action.move')}
+              content={t('action.copy')} // change this action.copy
               disabled={(selectedBoard && selectedBoard.isFetching !== false) || !selectedList}
             />
           </Form>
@@ -141,20 +161,24 @@ const CardMoveStep = React.memo(
   },
 );
 
-CardMoveStep.propTypes = {
+CardCopyStep.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  description: PropTypes.string,
   /* eslint-disable react/forbid-prop-types */
   projectsToLists: PropTypes.array.isRequired,
   defaultPath: PropTypes.object.isRequired,
   /* eslint-enable react/forbid-prop-types */
-  onMove: PropTypes.func.isRequired,
-  onTransfer: PropTypes.func.isRequired,
+  // onMove: PropTypes.func.isRequired,
+  // onTransfer: PropTypes.func.isRequired,
   onBoardFetch: PropTypes.func.isRequired,
   onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
-CardMoveStep.defaultProps = {
+CardCopyStep.defaultProps = {
   onBack: undefined,
+  description: undefined,
 };
 
-export default CardMoveStep;
+export default CardCopyStep;

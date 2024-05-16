@@ -7,10 +7,18 @@ import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createTask(cardId, data) {
-  const nextData = {
-    ...data,
-    position: yield select(selectors.selectNextTaskPosition, cardId),
-  };
+  let nextData = {};
+  if (data.position) {
+    nextData = {
+      ...data,
+      position: data.position,
+    };
+  } else {
+    nextData = {
+      ...data,
+      position: yield select(selectors.selectNextTaskPosition, cardId),
+    };
+  }
 
   const localId = yield call(createLocalId);
 

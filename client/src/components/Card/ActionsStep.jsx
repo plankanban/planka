@@ -12,6 +12,7 @@ import DueDateEditStep from '../DueDateEditStep';
 import StopwatchEditStep from '../StopwatchEditStep';
 import CardMoveStep from '../CardMoveStep';
 import DeleteStep from '../DeleteStep';
+import CardCopyStep from '../CardCopyStep';
 
 import styles from './ActionsStep.module.scss';
 
@@ -22,6 +23,7 @@ const StepTypes = {
   EDIT_STOPWATCH: 'EDIT_STOPWATCH',
   MOVE: 'MOVE',
   DELETE: 'DELETE',
+  COPY: 'COPY',
 };
 
 const ActionsStep = React.memo(
@@ -48,9 +50,35 @@ const ActionsStep = React.memo(
     onLabelMove,
     onLabelDelete,
     onClose,
+    onCopyCard,
   }) => {
     const [t] = useTranslation();
     const [step, openStep, handleBack] = useSteps();
+    // prepare defaultPath data for copying card
+    const defaultPath = {};
+    defaultPath.id = card.id;
+    defaultPath.boardId = card.boardId;
+    defaultPath.projectId = card.projectId;
+    defaultPath.listId = card.listId;
+    defaultPath.cardId = card.id;
+    defaultPath.name = card.name;
+    if (card.dueDate !== null) {
+      defaultPath.dueDate = card.dueDate;
+    }
+    if (card.dueDate === null || card.dueDate === undefined) {
+      // eslint-disable-next-line no-param-reassign
+      if (defaultPath.dueDate) {
+        delete defaultPath.dueDate;
+      }
+    }
+    defaultPath.stopwatch = card.stopwatch;
+    defaultPath.labels = card.labels;
+    defaultPath.boardMemberships = boardMemberships;
+    defaultPath.currentLabelIds = currentLabelIds;
+    defaultPath.currentUserIds = currentUserIds;
+    defaultPath.tasks = card.tasks;
+    defaultPath.users = card.users;
+    defaultPath.description = card.description;
 
     const handleEditNameClick = useCallback(() => {
       onNameEdit();
@@ -77,10 +105,15 @@ const ActionsStep = React.memo(
       openStep(StepTypes.MOVE);
     }, [openStep]);
 
+    const handleCopyClick = useCallback(() => {
+      openStep(StepTypes.COPY);
+    }, [openStep]);
+
     const handleDuplicateClick = useCallback(() => {
       onDuplicate();
       onClose();
     }, [onDuplicate, onClose]);
+
 
     const handleDeleteClick = useCallback(() => {
       openStep(StepTypes.DELETE);
@@ -170,6 +203,18 @@ const ActionsStep = React.memo(
               onBack={handleBack}
             />
           );
+        case StepTypes.COPY:
+          return (
+            <CardCopyStep
+              projectsToLists={projectsToLists}
+              defaultPath={defaultPath}
+              onCopyCard={onCopyCard}
+              onTransfer={onTransfer}
+              onBoardFetch={onBoardFetch}
+              onBack={handleBack}
+              onClose={onClose}
+            />
+          );
         default:
       }
     }
@@ -223,6 +268,11 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={handleCopyClick}>
+              {t('action.copyCard', {
+                context: 'title',
+              })}
+            </Menu.Item>
           </Menu>
         </Popup.Content>
       </>
@@ -255,6 +305,7 @@ ActionsStep.propTypes = {
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
 export default ActionsStep;

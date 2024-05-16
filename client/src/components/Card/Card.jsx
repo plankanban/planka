@@ -21,6 +21,7 @@ import styles from './Card.module.scss';
 const Card = React.memo(
   ({
     id,
+    description,
     index,
     name,
     dueDate,
@@ -52,6 +53,7 @@ const Card = React.memo(
     onLabelUpdate,
     onLabelMove,
     onLabelDelete,
+    onCopyCard,
   }) => {
     const nameEdit = useRef(null);
 
@@ -171,6 +173,13 @@ const Card = React.memo(
                     {canEdit && (
                       <ActionsPopup
                         card={{
+                          id,
+                          description,
+                          index,
+                          name,
+                          tasks,
+                          labels,
+                          users,
                           dueDate,
                           stopwatch,
                           boardId,
@@ -197,6 +206,7 @@ const Card = React.memo(
                         onLabelUpdate={onLabelUpdate}
                         onLabelMove={onLabelMove}
                         onLabelDelete={onLabelDelete}
+                        onCopyCard={onCopyCard}
                       >
                         <Button className={classNames(styles.actionsButton, styles.target)}>
                           <Icon fitted name="pencil" size="small" />
@@ -218,6 +228,7 @@ const Card = React.memo(
 
 Card.propTypes = {
   id: PropTypes.string.isRequired,
+  description: PropTypes.string,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   dueDate: PropTypes.instanceOf(Date),
@@ -251,12 +262,16 @@ Card.propTypes = {
   onLabelUpdate: PropTypes.func.isRequired,
   onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
+  // onSortTitleAsc: PropTypes.func.isRequired,
+  // onSortTitleDesc: PropTypes.func.isRequired,
+  onCopyCard: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {
   dueDate: undefined,
   stopwatch: undefined,
   coverUrl: undefined,
+  description: undefined,
 };
 
 export default Card;

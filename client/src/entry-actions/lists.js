@@ -69,6 +69,13 @@ const handleListDelete = (list) => ({
   },
 });
 
+const handleListSort = (list) => ({
+  type: EntryActionTypes.LIST_SORT_HANDLE,
+  payload: {
+    list,
+  },
+});
+
 export default {
   createListInCurrentBoard,
   handleListCreate,
@@ -79,4 +86,5 @@ export default {
   handleListSort,
   deleteList,
   handleListDelete,
+  handleListSort,
 };

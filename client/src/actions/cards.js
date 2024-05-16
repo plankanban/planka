@@ -121,6 +121,33 @@ const handleCardDelete = (card) => ({
   },
 });
 
+const copyCard = (id) => ({
+  type: ActionTypes.CARD_COPY,
+  payload: {
+    id,
+  },
+});
+
+copyCard.success = (card) => ({
+  type: ActionTypes.CARD_COPY__SUCCESS,
+  payload: {
+    card,
+  },
+});
+
+copyCard.failure = (id, error) => ({
+  type: ActionTypes.CARD_COPY__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const handleCardCopy = (card) => ({
+  type: ActionTypes.CARD_COPY_HANDLE,
+  payload: {
+    card,
+
 const filterText = (boardId, text) => ({
   type: ActionTypes.TEXT_FILTER_IN_CURRENT_BOARD,
   payload: {
@@ -137,5 +164,7 @@ export default {
   duplicateCard,
   deleteCard,
   handleCardDelete,
+  copyCard,
+  handleCardCopy,
   filterText,
 };

@@ -39,8 +39,13 @@ export default function* cardsWatchers() {
     takeEvery(EntryActionTypes.CARD_DELETE_HANDLE, ({ payload: { card } }) =>
       services.handleCardDelete(card),
     ),
+
+    takeEvery(EntryActionTypes.CARD_COPY, ({ payload: { listId, data, autoOpen } }) =>
+      services.createCard(listId, data, autoOpen),
+
     takeEvery(EntryActionTypes.TEXT_FILTER_IN_CURRENT_BOARD, ({ payload: { text } }) =>
       services.handleTextFilter(text),
+
     ),
   ]);
 }

@@ -189,6 +189,13 @@ export default class extends BaseModel {
         Card.upsert(payload.card);
 
         break;
+
+      case ActionTypes.CARD_COPY__SUCCESS:
+        Card.withId(payload.localId).delete();
+        Card.upsert(payload.card);
+
+        break;
+
       case ActionTypes.CARD_CREATE_HANDLE: {
         const cardModel = Card.upsert(payload.card);
 
@@ -202,6 +209,7 @@ export default class extends BaseModel {
 
         break;
       }
+
       case ActionTypes.CARD_UPDATE:
         Card.withId(payload.id).update(payload.data);
 
