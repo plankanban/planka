@@ -39,6 +39,7 @@ services:
       # Email Notifications (https://nodemailer.com/smtp/)
       # - SMTP_HOST=
       # - SMTP_PORT=587
+      # - SMTP_NAME=
       # - SMTP_SECURE=true
       # - SMTP_USER=
       # - SMTP_PASSWORD=
