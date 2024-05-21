@@ -142,6 +142,7 @@ export default {
       searchLabels: 'Поиск меток...',
       searchMembers: 'Поиск участников...',
       searchUsers: 'Поиск пользователей...',
+      searchCards: 'Поиск карточек...',
       seconds: 'Секунды',
       selectBoard: 'Выберите доску',
       selectList: 'Выберите список',
