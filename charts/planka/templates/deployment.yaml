@@ -68,7 +68,7 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: .Values.existingDburlSecret
+                  name: {{ .Values.existingDburlSecret }}
                   key: uri
           {{- else }}
             - name: DATABASE_URL
