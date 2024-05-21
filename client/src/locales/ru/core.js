@@ -232,6 +232,7 @@ export default {
       showAllAttachments: 'Показать все вложения ({{hidden}} скрыто)',
       showDetails: 'Показать подробности',
       showFewerAttachments: 'Показать меньше вложений',
+      sortList_title: 'Сортировать список',
       start: 'Начать',
       stop: 'Остановить',
       subscribe: 'Подписаться',
