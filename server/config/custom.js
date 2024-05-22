@@ -62,4 +62,7 @@ module.exports.custom = {
 
   slackBotToken: process.env.SLACK_BOT_TOKEN,
   slackChannelId: process.env.SLACK_CHANNEL_ID,
+
+  webhookUrl: process.env.WEBHOOK_URL,
+  webhookBearer: process.env.WEBHOOK_BEARER,
 };
