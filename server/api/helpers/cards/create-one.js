@@ -109,6 +109,17 @@ module.exports = {
         user: values.creatorUser,
       },
       board: inputs.board,
+      request: inputs.request,
+    });
+
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'card_create',
+      data: card,
+      projectId: inputs.board.projectId,
+      user: inputs.request.currentUser,
+      card,
+      board: inputs.board,
+      list: values.list,
     });
 
     return card;

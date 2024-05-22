@@ -32,6 +32,13 @@ module.exports = {
       inputs.request,
     );
 
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'project_create',
+      data: project,
+      projectId: project.id,
+      user: inputs.request.currentUser,
+    });
+
     return {
       project,
       projectManager,

@@ -48,6 +48,15 @@ module.exports = {
         },
         inputs.request,
       );
+
+      await sails.helpers.utils.sendWebhook.with({
+        event: 'attachment_delete',
+        data: attachment,
+        projectId: inputs.board.projectId,
+        user: inputs.request.currentUser,
+        card: inputs.card,
+        board: inputs.board,
+      });
     }
 
     return attachment;

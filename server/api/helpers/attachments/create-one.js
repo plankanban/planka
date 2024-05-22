@@ -58,6 +58,15 @@ module.exports = {
       });
     }
 
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'attachment_create',
+      data: attachment,
+      projectId: values.card.board.projectId,
+      user: inputs.request.currentUser,
+      card: values.card,
+      board: values.card.board,
+    });
+
     return attachment;
   },
 };

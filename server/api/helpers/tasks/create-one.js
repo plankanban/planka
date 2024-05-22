@@ -21,6 +21,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    board: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -66,6 +70,15 @@ module.exports = {
       },
       inputs.request,
     );
+
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'task_create',
+      data: task,
+      projectId: inputs.board.projectId,
+      user: inputs.request.currentUser,
+      card: values.card,
+      board: inputs.board,
+    });
 
     return task;
   },

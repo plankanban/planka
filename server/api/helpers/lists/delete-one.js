@@ -21,6 +21,14 @@ module.exports = {
         },
         inputs.request,
       );
+
+      await sails.helpers.utils.sendWebhook.with({
+        event: 'list_delete',
+        data: list,
+        projectId: list.board.projectId,
+        user: inputs.request.currentUser,
+        board: list.board,
+      });
     }
 
     return list;

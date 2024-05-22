@@ -33,6 +33,15 @@ module.exports = {
       if (sails.config.custom.slackBotToken) {
         buildAndSendSlackMessage(inputs.user, card);
       }
+
+      await sails.helpers.utils.sendWebhook.with({
+        event: 'card_delete',
+        data: card,
+        projectId: card.board.projectId,
+        user: inputs.request.currentUser,
+        card,
+        board: card.board,
+      });
     }
 
     return card;

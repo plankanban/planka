@@ -95,6 +95,15 @@ module.exports = {
       buildAndSendSlackMessage(values.user, values.card, action);
     }
 
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'action_create',
+      data: action,
+      projectId: inputs.board.projectId,
+      user: inputs.request.currentUser,
+      card: values.card,
+      board: inputs.board,
+    });
+
     return action;
   },
 };
