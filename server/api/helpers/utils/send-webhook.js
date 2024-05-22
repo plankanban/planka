@@ -28,6 +28,19 @@ const EVENT_TYPES = {
   TASK_DELETE: 'task_delete',
 };
 
+/**
+ * Sends a webhook notification to a configured URL.
+ *
+ * @param {Object} inputs - Data to include in the webhook payload.
+ * @param {string} inputs.event - The event type (see {@link EVENT_TYPES}).
+ * @param {*} inputs.data - The actual data related to the event.
+ * @param {string} inputs.projectId - The project ID associated with the event.
+ * @param {ref} [inputs.user] - Optional user object associated with the event.
+ * @param {ref} [inputs.card] - Optional card object associated with the event.
+ * @param {ref} [inputs.board] - Optional board object associated with the event.
+ * @param {ref} [inputs.list] - Optional list object associated with the event.
+ * @returns {Promise<void>}
+ */
 async function sendWebhook(inputs) {
   const url = sails.config.custom.webhookUrl;
   const headers = {
