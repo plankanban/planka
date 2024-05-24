@@ -110,7 +110,7 @@ module.exports = {
       });
 
       await sails.helpers.utils.sendWebhook.with({
-        event: 'project_update',
+        event: 'PROJECT_UPDATE',
         data: project,
         projectId: project.id,
         user: inputs.request.currentUser,

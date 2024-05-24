@@ -72,7 +72,7 @@ module.exports = {
     );
 
     await sails.helpers.utils.sendWebhook.with({
-      event: 'task_create',
+      event: 'TASK_CREATE',
       data: task,
       projectId: inputs.board.projectId,
       user: inputs.request.currentUser,

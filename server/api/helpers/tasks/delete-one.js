@@ -27,7 +27,7 @@ module.exports = {
       );
 
       await sails.helpers.utils.sendWebhook.with({
-        event: 'task_delete',
+        event: 'TASK_DELETE',
         data: task,
         projectId: inputs.board.projectId,
         user: inputs.request.currentUser,

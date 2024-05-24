@@ -68,7 +68,7 @@ module.exports = {
     );
 
     await sails.helpers.utils.sendWebhook.with({
-      event: 'list_create',
+      event: 'LIST_CREATE',
       data: list,
       projectId: values.board.projectId,
       user: inputs.request.currentUser,

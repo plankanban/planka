@@ -33,7 +33,7 @@ module.exports = {
       );
 
       await sails.helpers.utils.sendWebhook.with({
-        event: 'attachment_update',
+        event: 'ATTACHMENT_UPDATE',
         data: attachment,
         projectId: inputs.board.projectId,
         user: inputs.request.currentUser,

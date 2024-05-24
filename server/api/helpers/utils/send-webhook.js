@@ -70,10 +70,11 @@ async function sendWebhook(inputs) {
 }
 
 module.exports = {
+  eventTypes: EVENT_TYPES,
   inputs: {
     event: {
       type: 'string',
-      isIn: Object.values(EVENT_TYPES),
+      isIn: Object.keys(EVENT_TYPES),
       required: true,
     },
     data: {

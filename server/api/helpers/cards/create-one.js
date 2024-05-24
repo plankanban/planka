@@ -113,7 +113,7 @@ module.exports = {
     });
 
     await sails.helpers.utils.sendWebhook.with({
-      event: 'card_create',
+      event: 'CARD_CREATE',
       data: card,
       projectId: inputs.board.projectId,
       user: inputs.request.currentUser,

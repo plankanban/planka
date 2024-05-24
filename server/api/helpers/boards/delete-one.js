@@ -36,7 +36,7 @@ module.exports = {
     }
 
     await sails.helpers.utils.sendWebhook.with({
-      event: 'board_delete',
+      event: 'BOARD_DELETE',
       data: board,
       projectId: board.projectId,
       user: inputs.request.currentUser,

@@ -50,7 +50,7 @@ module.exports = {
       );
 
       await sails.helpers.utils.sendWebhook.with({
-        event: 'attachment_delete',
+        event: 'ATTACHMENT_DELETE',
         data: attachment,
         projectId: inputs.board.projectId,
         user: inputs.request.currentUser,
