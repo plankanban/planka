@@ -21,6 +21,10 @@ module.exports = {
     const card = await Card.archiveOne(inputs.record.id);
 
     if (card) {
+      const { board } = await sails.helpers.lists
+        .getProjectPath(card.listId)
+        .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
+
       sails.sockets.broadcast(
         `board:${card.boardId}`,
         'cardDelete',
@@ -37,10 +41,10 @@ module.exports = {
       await sails.helpers.utils.sendWebhook.with({
         event: 'CARD_DELETE',
         data: card,
-        projectId: card.board.projectId,
+        projectId: board.projectId,
         user: inputs.request.currentUser,
         card,
-        board: card.board,
+        board,
       });
     }
 
