@@ -7,6 +7,9 @@ const EVENT_TYPES = {
   CARD_UPDATE: 'card_update',
   CARD_DELETE: 'card_delete',
 
+  CARD_MEMBERSHIP_CREATE: 'card_membership_create',
+  CARD_MEMBERSHIP_DELETE: 'card_membership_delete',
+
   LIST_CREATE: 'list_create',
   LIST_UPDATE: 'list_update',
   LIST_DELETE: 'list_delete',

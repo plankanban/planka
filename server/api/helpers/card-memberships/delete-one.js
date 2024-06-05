@@ -4,6 +4,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    card: {
+      type: 'ref',
+      required: true,
+    },
     board: {
       type: 'ref',
       required: true,
@@ -40,6 +44,15 @@ module.exports = {
           },
         });
       }
+
+      await sails.helpers.utils.sendWebhook.with({
+        event: 'CARD_MEMBERSHIP_DELETE',
+        data: cardMembership,
+        projectId: inputs.board.projectId,
+        user: inputs.request.currentUser,
+        card: inputs.card,
+        board: inputs.board,
+      });
     }
 
     return cardMembership;
