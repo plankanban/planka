@@ -132,6 +132,7 @@ module.exports = {
         user: values.creatorUser,
       },
       board: inputs.board,
+      request: inputs.request,
     });
 
     await sails.helpers.utils.sendWebhook.with({

@@ -233,6 +233,7 @@ module.exports = {
             },
           },
           board: inputs.board,
+          request: inputs.request,
         });
       }
 
