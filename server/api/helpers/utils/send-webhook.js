@@ -26,6 +26,10 @@ const EVENT_TYPES = {
   TASK_CREATE: 'task_create',
   TASK_UPDATE: 'task_update',
   TASK_DELETE: 'task_delete',
+
+  USER_CREATE: 'user_create',
+  USER_UPDATE: 'user_update',
+  USER_DELETE: 'user_delete',
 };
 
 /**
@@ -53,9 +57,8 @@ async function sendWebhook(inputs) {
   const body = JSON.stringify({
     ...inputs,
     user: {
-      id: inputs.user.id,
-      fullName: inputs.user.fullName,
-      email: inputs.user.email,
+      ...inputs.user,
+      password: undefined,
     },
   });
 
@@ -83,7 +86,7 @@ module.exports = {
     },
     projectId: {
       type: 'string',
-      required: true,
+      default: '',
     },
     user: {
       type: 'ref',
