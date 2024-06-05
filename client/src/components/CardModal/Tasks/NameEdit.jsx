@@ -65,7 +65,9 @@ const NameEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
 
   useEffect(() => {
     if (isOpened) {
-      field.current.ref.current.focus();
+      const text = field.current.ref.current;
+      text.focus();
+      text.setSelectionRange(text.value.length + 1, text.value.length + 1);
     }
   }, [isOpened]);
 

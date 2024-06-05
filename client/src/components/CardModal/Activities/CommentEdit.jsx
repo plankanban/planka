@@ -70,7 +70,9 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
 
   useEffect(() => {
     if (isOpened) {
-      textField.current.ref.current.focus();
+      const text = textField.current.ref.current;
+      text.focus();
+      text.setSelectionRange(text.value.length + 1, text.value.length + 1);
     }
   }, [isOpened]);
 
