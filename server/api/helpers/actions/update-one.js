@@ -8,6 +8,10 @@ module.exports = {
       type: 'json',
       required: true,
     },
+    card: {
+      type: 'ref',
+      required: true,
+    },
     board: {
       type: 'ref',
       required: true,
@@ -37,6 +41,7 @@ module.exports = {
         data: action,
         projectId: inputs.board.projectId,
         user: inputs.request.currentUser,
+        card: inputs.card,
         board: inputs.board,
       });
     }

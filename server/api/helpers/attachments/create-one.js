@@ -21,6 +21,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    board: {
+      type: 'ref',
+      required: true,
+    },
     requestId: {
       type: 'string',
       isNotEmptyString: true,
@@ -31,7 +35,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { values } = inputs;
+    const { values, board } = inputs;
 
     const attachment = await Attachment.create({
       ...values,
@@ -55,16 +59,18 @@ module.exports = {
         values: {
           coverAttachmentId: attachment.id,
         },
+        board,
+        request: inputs.request,
       });
     }
 
     await sails.helpers.utils.sendWebhook.with({
       event: 'ATTACHMENT_CREATE',
       data: attachment,
-      projectId: values.card.board.projectId,
+      projectId: board.projectId,
       user: inputs.request.currentUser,
       card: values.card,
-      board: values.card.board,
+      board,
     });
 
     return attachment;

@@ -62,8 +62,8 @@ module.exports = {
       values: {
         ...values,
         card,
-        board,
       },
+      board,
       request: this.req,
     });
 

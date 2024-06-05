@@ -40,7 +40,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
 
     let { action } = path;
-    const { board, project } = path;
+    const { board, project, card } = path;
 
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
@@ -69,6 +69,7 @@ module.exports = {
 
     action = await sails.helpers.actions.updateOne.with({
       values,
+      card,
       board,
       record: action,
       request: this.req,
