@@ -5,6 +5,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 
 import { useClosableForm, useField } from '../../hooks';
+import { focusEnd } from '../../utils/element-helpers';
 
 import styles from './NameEdit.module.scss';
 
@@ -79,9 +80,7 @@ const NameEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) =>
 
   useEffect(() => {
     if (isOpened) {
-      const text = field.current.ref.current;
-      text.focus();
-      text.setSelectionRange(text.value.length + 1, text.value.length + 1);
+      focusEnd(field.current.ref.current);
     }
   }, [isOpened]);
 

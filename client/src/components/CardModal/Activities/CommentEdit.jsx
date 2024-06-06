@@ -6,6 +6,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, TextArea } from 'semantic-ui-react';
 
 import { useForm } from '../../../hooks';
+import { focusEnd } from '../../../utils/element-helpers';
 
 import styles from './CommentEdit.module.scss';
 
@@ -70,9 +71,7 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
 
   useEffect(() => {
     if (isOpened) {
-      const text = textField.current.ref.current;
-      text.focus();
-      text.setSelectionRange(text.value.length + 1, text.value.length + 1);
+      focusEnd(textField.current.ref.current);
     }
   }, [isOpened]);
 
