@@ -233,6 +233,7 @@ module.exports = {
             },
           },
           board: inputs.board,
+          request: inputs.request,
         });
       }
 
@@ -268,6 +269,15 @@ module.exports = {
         );
       }
     }
+
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'CARD_UPDATE',
+      data: card,
+      projectId: inputs.board.projectId,
+      user: inputs.request.currentUser,
+      card,
+      board: inputs.board,
+    });
 
     return card;
   },

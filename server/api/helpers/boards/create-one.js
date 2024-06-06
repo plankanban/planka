@@ -111,6 +111,14 @@ module.exports = {
       );
     });
 
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'BOARD_CREATE',
+      data: board,
+      projectId: board.projectId,
+      user: inputs.request.currentUser,
+      board,
+    });
+
     return {
       board,
       boardMembership,

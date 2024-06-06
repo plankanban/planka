@@ -84,6 +84,23 @@ module.exports = {
       );
     });
 
+    /* The user could be created manually by an user or via OIDC. We hijack the id field, so one can differentiate between the two on the webhook side. */
+    let initiator;
+    if (inputs.request && inputs.request.currentUser) {
+      initiator = inputs.request.currentUser;
+    } else {
+      initiator = {
+        id: 'oidc',
+      };
+    }
+
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'USER_CREATE',
+      data: { ...user, password: undefined },
+      projectId: '',
+      user: initiator,
+    });
+
     return user;
   },
 };

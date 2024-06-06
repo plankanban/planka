@@ -28,7 +28,8 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let { list } = await sails.helpers.lists
+    // eslint-disable-next-line prefer-const
+    let { list, board } = await sails.helpers.lists
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
@@ -47,6 +48,7 @@ module.exports = {
 
     list = await sails.helpers.lists.deleteOne.with({
       record: list,
+      board,
       request: this.req,
     });
 
