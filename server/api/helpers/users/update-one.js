@@ -154,6 +154,13 @@ module.exports = {
           );
         });
       }
+
+      await sails.helpers.utils.sendWebhook.with({
+        event: 'USER_UPDATE',
+        data: { ...user, password: undefined },
+        projectId: '',
+        user: inputs.request.currentUser,
+      });
     }
 
     return user;

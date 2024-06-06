@@ -31,6 +31,14 @@ module.exports = {
         },
         inputs.request,
       );
+
+      await sails.helpers.utils.sendWebhook.with({
+        event: 'ATTACHMENT_UPDATE',
+        data: attachment,
+        projectId: inputs.board.projectId,
+        user: inputs.request.currentUser,
+        board: inputs.board,
+      });
     }
 
     return attachment;

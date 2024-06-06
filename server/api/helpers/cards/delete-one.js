@@ -21,6 +21,10 @@ module.exports = {
     const card = await Card.archiveOne(inputs.record.id);
 
     if (card) {
+      const { board } = await sails.helpers.lists
+        .getProjectPath(card.listId)
+        .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
+
       sails.sockets.broadcast(
         `board:${card.boardId}`,
         'cardDelete',
@@ -33,6 +37,15 @@ module.exports = {
       if (sails.config.custom.slackBotToken) {
         buildAndSendSlackMessage(inputs.user, card);
       }
+
+      await sails.helpers.utils.sendWebhook.with({
+        event: 'CARD_DELETE',
+        data: card,
+        projectId: board.projectId,
+        user: inputs.request.currentUser,
+        card,
+        board,
+      });
     }
 
     return card;

@@ -21,6 +21,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    board: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -74,6 +78,15 @@ module.exports = {
         inputs.request,
       );
     }
+
+    await sails.helpers.utils.sendWebhook.with({
+      event: 'CARD_MEMBERSHIP_CREATE',
+      data: cardMembership,
+      projectId: inputs.board.projectId,
+      user: inputs.request.currentUser,
+      card: values.card,
+      board: inputs.board,
+    });
 
     return cardMembership;
   },
