@@ -1,0 +1,53 @@
+name: "🐛 Bug Report"
+description: Report a bug found while using Planka
+title: "[Bug]: "
+labels: ["Type: Bug", "Status: Triage"]
+body:
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Where is the problem occurring?
+      description: Select the part of the application where you encountered the issue.
+      options:
+        - "I encountered the problem while using the application (Frontend)"
+        - "I encountered the problem while interacting with the server (Backend)"
+        - "I'm not sure"
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      multiple: true
+      options:
+        - Brave
+        - Chrome
+        - Firefox
+        - Microsoft Edge
+        - Safari
+        - Other
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Current behaviour
+      description: A description of what is currently happening, including screenshots and other useful information (**DO NOT INCLUDE PRIVATE INFORMATION**).
+      placeholder: Currently...
+    validations:
+      required: true
+  - type: textarea
+    id: desired-behavior
+    attributes:
+      label: Desired behaviour
+      description: A clear description of what you think should happen.
+      placeholder: In this situation, I expected ...
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Clearly describe which steps or actions you have taken to arrive at the problem. If you have some experience with the code, please link to the specific pieces of code.
+      placeholder: I did X, then Y, before arriving at Z, when ERROR ...
+    validations:
+      required: true
+  - type: textarea
+    id: other
+    attributes:
+      label: Other information
+      description: Any other details?
