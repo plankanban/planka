@@ -7,11 +7,23 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
       type: 'ref',
       required: true,
     },
+    list: {
+      type: 'ref',
+      required: true,
+    },
     card: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -27,6 +39,10 @@ module.exports = {
         values: {
           coverAttachmentId: null,
         },
+        project: inputs.project,
+        board: inputs.board,
+        list: inputs.list,
+        actorUser: inputs.actorUser,
         request: inputs.request,
       });
     }
@@ -49,13 +65,18 @@ module.exports = {
         inputs.request,
       );
 
-      await sails.helpers.utils.sendWebhook.with({
-        event: 'ATTACHMENT_DELETE',
-        data: attachment,
-        projectId: inputs.board.projectId,
-        user: inputs.request.currentUser,
-        card: inputs.card,
-        board: inputs.board,
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'attachmentDelete',
+        data: {
+          item: attachment,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+            lists: [inputs.list],
+            cards: [inputs.card],
+          },
+        },
+        user: inputs.actorUser,
       });
     }
 

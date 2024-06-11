@@ -36,7 +36,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board } = await sails.helpers.boards
+    const { board, project } = await sails.helpers.boards
       .getProjectPath(inputs.boardId)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
@@ -56,10 +56,12 @@ module.exports = {
     const values = _.pick(inputs, ['position', 'name']);
 
     const list = await sails.helpers.lists.createOne.with({
+      project,
       values: {
         ...values,
         board,
       },
+      actorUser: currentUser,
       request: this.req,
     });
 

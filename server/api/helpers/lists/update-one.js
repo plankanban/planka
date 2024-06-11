@@ -21,7 +21,15 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -57,6 +65,8 @@ module.exports = {
             position: nextPosition,
           },
         });
+
+        // TODO: send webhooks
       });
     }
 
@@ -72,12 +82,16 @@ module.exports = {
         inputs.request,
       );
 
-      await sails.helpers.utils.sendWebhook.with({
-        event: 'LIST_UPDATE',
-        data: list,
-        projectId: inputs.board.projectId,
-        user: inputs.request.currentUser,
-        board: inputs.board,
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'listUpdate',
+        data: {
+          item: list,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+          },
+        },
+        user: inputs.actorUser,
       });
     }
 

@@ -18,7 +18,7 @@ module.exports = {
     const notifications = await sails.helpers.notifications.updateMany.with({
       values,
       recordsOrIds: inputs.ids.split(','),
-      user: currentUser,
+      actorUser: currentUser,
       request: this.req,
     });
 

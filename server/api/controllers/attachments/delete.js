@@ -33,7 +33,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.ATTACHMENT_NOT_FOUND);
 
     let { attachment } = path;
-    const { card, board } = path;
+    const { card, list, board, project } = path;
 
     const boardMembership = await BoardMembership.findOne({
       boardId: board.id,
@@ -49,9 +49,12 @@ module.exports = {
     }
 
     attachment = await sails.helpers.attachments.deleteOne.with({
+      project,
       board,
+      list,
       card,
       record: attachment,
+      actorUser: currentUser,
       request: this.req,
     });
 

@@ -71,6 +71,8 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { currentUser } = this.req;
+
     if (sails.config.custom.oidcEnforced) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
@@ -89,6 +91,7 @@ module.exports = {
     const user = await sails.helpers.users.createOne
       .with({
         values,
+        actorUser: currentUser,
         request: this.req,
       })
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)

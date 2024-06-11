@@ -26,6 +26,8 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { currentUser } = this.req;
+
     let user = await sails.helpers.users.getOne(inputs.id);
 
     if (!user) {
@@ -38,6 +40,7 @@ module.exports = {
 
     user = await sails.helpers.users.deleteOne.with({
       record: user,
+      actorUser: currentUser,
       request: this.req,
     });
 

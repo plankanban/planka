@@ -82,7 +82,7 @@ module.exports = {
       .with({
         values,
         record: user,
-        user: currentUser,
+        actorUser: currentUser,
         request: this.req,
       })
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE);

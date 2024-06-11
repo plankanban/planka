@@ -91,7 +91,7 @@ module.exports = {
       values: {
         avatar: fileData,
       },
-      user: currentUser,
+      actorUser: currentUser,
       request: this.req,
     });
 

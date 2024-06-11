@@ -21,6 +21,14 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -50,6 +58,8 @@ module.exports = {
           position: nextPosition,
         },
       });
+
+      // TODO: send webhooks
     });
 
     const list = await List.create({
@@ -67,12 +77,16 @@ module.exports = {
       inputs.request,
     );
 
-    await sails.helpers.utils.sendWebhook.with({
-      event: 'LIST_CREATE',
-      data: list,
-      projectId: values.board.projectId,
-      user: inputs.request.currentUser,
-      board: values.board,
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'listCreate',
+      data: {
+        item: list,
+        included: {
+          projects: [inputs.project],
+          boards: [values.board],
+        },
+      },
+      user: inputs.actorUser,
     });
 
     return list;

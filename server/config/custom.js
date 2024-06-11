@@ -60,9 +60,8 @@ module.exports.custom = {
   smtpPassword: process.env.SMTP_PASSWORD,
   smtpFrom: process.env.SMTP_FROM,
 
+  webhooks: JSON.parse(process.env.WEBHOOKS), // TODO: validate structure
+
   slackBotToken: process.env.SLACK_BOT_TOKEN,
   slackChannelId: process.env.SLACK_CHANNEL_ID,
-
-  webhookUrl: process.env.WEBHOOK_URL,
-  webhookBearer: process.env.WEBHOOK_BEARER,
 };

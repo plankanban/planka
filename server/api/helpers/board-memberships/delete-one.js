@@ -10,6 +10,14 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -73,6 +81,18 @@ module.exports = {
           );
         });
       }
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'boardMembershipDelete',
+        data: {
+          item: boardMembership,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+          },
+        },
+        user: inputs.actorUser,
+      });
     }
 
     return boardMembership;

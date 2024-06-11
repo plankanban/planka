@@ -15,14 +15,14 @@ const valuesValidator = (value) => {
 };
 
 // TODO: use templates (views) to build html
-const buildAndSendEmail = async (user, board, card, action, notifiableUser) => {
+const buildAndSendEmail = async (board, card, action, actorUser, notifiableUser) => {
   let emailData;
   switch (action.type) {
     case Action.Types.MOVE_CARD:
       emailData = {
-        subject: `${user.name} moved ${card.name} from ${action.data.fromList.name} to ${action.data.toList.name} on ${board.name}`,
+        subject: `${actorUser.name} moved ${card.name} from ${action.data.fromList.name} to ${action.data.toList.name} on ${board.name}`,
         html:
-          `<p>${user.name} moved ` +
+          `<p>${actorUser.name} moved ` +
           `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
           `from ${action.data.fromList.name} to ${action.data.toList.name} ` +
           `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>`,
@@ -31,9 +31,9 @@ const buildAndSendEmail = async (user, board, card, action, notifiableUser) => {
       break;
     case Action.Types.COMMENT_CARD:
       emailData = {
-        subject: `${user.name} left a new comment to ${card.name} on ${board.name}`,
+        subject: `${actorUser.name} left a new comment to ${card.name} on ${board.name}`,
         html:
-          `<p>${user.name} left a new comment to ` +
+          `<p>${actorUser.name} left a new comment to ` +
           `<a href="${process.env.BASE_URL}/cards/${card.id}">${card.name}</a> ` +
           `on <a href="${process.env.BASE_URL}/boards/${board.id}">${board.name}</a></p>` +
           `<p>${action.data.text}</p>`,
@@ -57,7 +57,7 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
-    user: {
+    project: {
       type: 'ref',
       required: true,
     },
@@ -65,7 +65,15 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    list: {
+      type: 'ref',
+      required: true,
+    },
     card: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -96,8 +104,23 @@ module.exports = {
         notifiableUser = await sails.helpers.users.getOne(notification.userId);
       }
 
-      buildAndSendEmail(inputs.user, inputs.board, inputs.card, values.action, notifiableUser);
+      buildAndSendEmail(inputs.board, inputs.card, values.action, inputs.actorUser, notifiableUser);
     }
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'notificationCreate',
+      data: {
+        item: notification,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [inputs.card],
+          actions: [values.action],
+        },
+      },
+      user: inputs.actorUser,
+    });
 
     return notification;
   },
