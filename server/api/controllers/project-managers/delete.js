@@ -40,6 +40,7 @@ module.exports = {
     // TODO: check if the last one
     projectManager = await sails.helpers.projectManagers.deleteOne.with({
       record: projectManager,
+      actorUser: currentUser,
       request: this.req,
     });
 

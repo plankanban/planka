@@ -21,6 +21,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -53,6 +57,18 @@ module.exports = {
         },
         inputs.request,
       );
+    });
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'projectManagerCreate',
+      data: {
+        item: projectManager,
+        included: {
+          users: [values.user],
+          projects: [values.project],
+        },
+      },
+      user: inputs.actorUser,
     });
 
     return projectManager;

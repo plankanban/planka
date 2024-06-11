@@ -22,25 +22,27 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let { board } = await sails.helpers.boards
+    const path = await sails.helpers.boards
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
+
+    let { board } = path;
+    const { project } = path;
 
     if (!board) {
       throw Errors.BOARD_NOT_FOUND;
     }
 
-    const isProjectManager = await sails.helpers.users.isProjectManager(
-      currentUser.id,
-      board.projectId,
-    );
+    const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
     if (!isProjectManager) {
       throw Errors.BOARD_NOT_FOUND; // Forbidden
     }
 
     board = await sails.helpers.boards.deleteOne.with({
+      project,
       record: board,
+      actorUser: currentUser,
       request: this.req,
     });
 

@@ -80,7 +80,7 @@ module.exports = {
     user = await sails.helpers.users.updateOne.with({
       values,
       record: user,
-      user: currentUser,
+      actorUser: currentUser,
       request: this.req,
     });
 

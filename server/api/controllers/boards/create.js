@@ -103,7 +103,7 @@ module.exports = {
         project,
       },
       import: boardImport,
-      user: currentUser,
+      actorUser: currentUser,
       requestId: inputs.requestId,
       request: this.req,
     });

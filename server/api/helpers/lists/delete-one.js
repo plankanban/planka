@@ -4,7 +4,15 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -26,12 +34,16 @@ module.exports = {
         inputs.request,
       );
 
-      await sails.helpers.utils.sendWebhook.with({
-        event: 'LIST_DELETE',
-        data: list,
-        projectId: inputs.board.projectId,
-        user: inputs.request.currentUser,
-        board: inputs.board,
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'listDelete',
+        data: {
+          item: list,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+          },
+        },
+        user: inputs.actorUser,
       });
     }
 

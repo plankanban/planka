@@ -2,16 +2,16 @@ const POSITION_GAP = 65535; // TODO: move to config
 
 module.exports = {
   inputs: {
-    user: {
-      type: 'ref',
-      required: true,
-    },
     board: {
       type: 'ref',
       required: true,
     },
     trelloBoard: {
       type: 'json',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
       required: true,
     },
   },
@@ -87,7 +87,7 @@ module.exports = {
         trelloComments.map(async (trelloComment) => {
           return Action.create({
             cardId: plankaCard.id,
-            userId: inputs.user.id,
+            userId: inputs.actorUser.id,
             type: 'commentCard',
             data: {
               text:
@@ -105,7 +105,7 @@ module.exports = {
           const plankaCard = await Card.create({
             boardId: inputs.board.id,
             listId: plankaList.id,
-            creatorUserId: inputs.user.id,
+            creatorUserId: inputs.actorUser.id,
             position: trelloCard.pos,
             name: trelloCard.name,
             description: trelloCard.desc || null,

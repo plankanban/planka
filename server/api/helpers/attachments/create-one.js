@@ -21,7 +21,15 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
       type: 'ref',
       required: true,
     },
@@ -35,7 +43,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { values, board } = inputs;
+    const { values } = inputs;
 
     const attachment = await Attachment.create({
       ...values,
@@ -53,25 +61,32 @@ module.exports = {
       inputs.request,
     );
 
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'attachmentCreate',
+      data: {
+        item: attachment,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: values.creatorUser,
+    });
+
     if (!values.card.coverAttachmentId && attachment.image) {
       await sails.helpers.cards.updateOne.with({
         record: values.card,
         values: {
           coverAttachmentId: attachment.id,
         },
-        board,
-        request: inputs.request,
+        project: inputs.project,
+        board: inputs.board,
+        list: inputs.list,
+        actorUser: values.creatorUser,
       });
     }
-
-    await sails.helpers.utils.sendWebhook.with({
-      event: 'ATTACHMENT_CREATE',
-      data: attachment,
-      projectId: board.projectId,
-      user: inputs.request.currentUser,
-      card: values.card,
-      board,
-    });
 
     return attachment;
   },

@@ -4,6 +4,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -26,6 +30,14 @@ module.exports = {
           },
           inputs.request,
         );
+      });
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'projectManagerDelete',
+        data: {
+          item: projectManager,
+        },
+        user: inputs.actorUser,
       });
     }
 

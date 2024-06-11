@@ -21,6 +21,14 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -66,6 +74,19 @@ module.exports = {
       },
       inputs.request,
     );
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'boardMembershipCreate',
+      data: {
+        item: boardMembership,
+        included: {
+          users: [values.user],
+          projects: [inputs.project],
+          boards: [values.board],
+        },
+      },
+      user: inputs.actorUser,
+    });
 
     return boardMembership;
   },

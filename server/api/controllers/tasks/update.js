@@ -43,7 +43,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.TASK_NOT_FOUND);
 
     let { task } = path;
-    const { board } = path;
+    const { card, list, board, project } = path;
 
     const boardMembership = await BoardMembership.findOne({
       boardId: board.id,
@@ -62,8 +62,12 @@ module.exports = {
 
     task = await sails.helpers.tasks.updateOne.with({
       values,
+      project,
       board,
+      list,
+      card,
       record: task,
+      actorUser: currentUser,
       request: this.req,
     });
 

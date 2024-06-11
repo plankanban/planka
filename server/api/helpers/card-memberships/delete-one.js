@@ -4,11 +4,23 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    card: {
+    project: {
       type: 'ref',
       required: true,
     },
     board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
+      type: 'ref',
+      required: true,
+    },
+    card: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -30,6 +42,20 @@ module.exports = {
         inputs.request,
       );
 
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'cardMembershipDelete',
+        data: {
+          item: cardMembership,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+            lists: [inputs.list],
+            cards: [inputs.card],
+          },
+        },
+        user: inputs.actorUser,
+      });
+
       const cardSubscription = await CardSubscription.destroyOne({
         cardId: cardMembership.cardId,
         userId: cardMembership.userId,
@@ -43,16 +69,9 @@ module.exports = {
             isSubscribed: false,
           },
         });
-      }
 
-      await sails.helpers.utils.sendWebhook.with({
-        event: 'CARD_MEMBERSHIP_DELETE',
-        data: cardMembership,
-        projectId: inputs.board.projectId,
-        user: inputs.request.currentUser,
-        card: inputs.card,
-        board: inputs.board,
-      });
+        // TODO: send webhook
+      }
     }
 
     return cardMembership;
