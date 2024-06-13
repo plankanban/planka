@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 
   return {
     items: projects,
-    canAdd: isAdmin,
+    canAdd: isAdmin || process.env.REACT_APP_PROJECT_CREATE_ALLOW_ALL === 'true',
   };
 };
 
