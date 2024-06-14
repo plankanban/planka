@@ -14,6 +14,7 @@
     transition: background 85ms ease-in, opacity 40ms ease-in,
       border-color 85ms ease-in;
     width: 100%;
+    min-width: 272px;
 
     &:active {
       outline: none;
@@ -44,8 +45,9 @@
 
   .lists {
     display: inline-flex;
-    height: 100%;
+    height: calc(100vh - 194px);
     min-width: 100%;
+    border-radius: 2.5px;
   }
 
   .panel {
@@ -60,5 +62,13 @@
 
   .wrapper {
     margin: 0 20px;
+
+    @media only screen and (max-width: 797px) {
+      max-width: 100vw;
+    }
+  }
+
+  .scrollable {
+    min-width: 100%;
   }
 }

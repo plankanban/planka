@@ -21,6 +21,13 @@
       background: #ebeef0;
       color: #516b7a;
     }
+
+    @media only screen and (max-width: 797px) {
+      &:focus, &:active {
+        background: #ebeef0;
+        color: #516b7a;
+      }
+    }
   }
 
   .attachment {
@@ -59,6 +66,12 @@
       background: #f5f6f7;
       border-bottom-color: rgba(9, 30, 66, 0.25);
 
+      .target {
+        opacity: 1;
+      }
+    }
+
+    @media only screen and (max-width: 797px) {
       .target {
         opacity: 1;
       }

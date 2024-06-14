@@ -10,6 +10,7 @@
     display: inline-block;
     outline: none;
     padding: 0;
+    white-space: nowrap;
   }
 
   .filterItem {
@@ -45,10 +46,15 @@
   }
 
   .search {
-    height: 30px;
-    margin: 0 12px;
+    height: 24px;
     transition: width 0.2s ease;
-    width: 280px;
+    width: 220px;
+    margin: 0 12px;
+
+    @media only screen and (min-width: 797px) {
+      width: 280px;
+      height: 30px;
+    }
 
     input {
       font-size: 13px;

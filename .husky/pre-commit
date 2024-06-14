@@ -1,1 +1,2 @@
+#!/bin/sh
 npx lint-staged
