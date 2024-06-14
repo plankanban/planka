@@ -21,11 +21,6 @@ module.exports.policies = {
   'users/create': ['is-authenticated', 'is-admin'],
   'users/delete': ['is-authenticated', 'is-admin'],
 
-  'projects/create':
-    process.env.PROJECT_CREATE_ALLOW_ALL === 'true'
-      ? ['is-authenticated']
-      : ['is-authenticated', 'is-admin'],
-
   'show-config': true,
   'access-tokens/create': true,
   'access-tokens/exchange-using-oidc': true,

@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-
   server:
     build:
       context: ./server
@@ -13,6 +12,7 @@ services:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
       - SECRET_KEY=notsecretkey
+
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
 
@@ -23,6 +23,9 @@ services:
 
       # Configure knex to accept SSL certificates
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
+
+      # - ALLOW_ALL_TO_CREATE_PROJECTS=true
+
       # - OIDC_ISSUER=
       # - OIDC_CLIENT_ID=
       # - OIDC_CLIENT_SECRET=
@@ -56,7 +59,6 @@ services:
 
       # - SLACK_BOT_TOKEN=
       # - SLACK_CHANNEL_ID=
-
     working_dir: /app
     command: ["sh", "-c", "npm run start"]
     depends_on:
@@ -85,11 +87,11 @@ services:
       dockerfile: ../config/development/Dockerfile.server
     environment:
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
+
       # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
       # - DEFAULT_ADMIN_PASSWORD=demo
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
-
     working_dir: /app
     command: ["sh", "-c", "npm run db:init"]
     volumes:
@@ -125,7 +127,6 @@ services:
     depends_on:
       - server
       - client
-
 
 volumes:
   db-data:

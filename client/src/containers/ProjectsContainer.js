@@ -6,12 +6,13 @@ import entryActions from '../entry-actions';
 import Projects from '../components/Projects';
 
 const mapStateToProps = (state) => {
+  const { allowAllToCreateProjects } = selectors.selectConfig(state);
   const { isAdmin } = selectors.selectCurrentUser(state);
   const projects = selectors.selectProjectsForCurrentUser(state);
 
   return {
     items: projects,
-    canAdd: isAdmin || process.env.REACT_APP_PROJECT_CREATE_ALLOW_ALL === 'true',
+    canAdd: allowAllToCreateProjects || isAdmin,
   };
 };
 
