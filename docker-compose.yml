@@ -31,6 +31,8 @@ services:
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
 
+      # - ALLOW_ALL_TO_CREATE_PROJECTS=true
+
       # - OIDC_ISSUER=
       # - OIDC_CLIENT_ID=
       # - OIDC_CLIENT_SECRET=
