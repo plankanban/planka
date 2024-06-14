@@ -17,6 +17,7 @@ module.exports = {
     return {
       item: {
         oidc,
+        allowAllToCreateProjects: sails.config.custom.allowAllToCreateProjects,
       },
     };
   },
