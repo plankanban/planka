@@ -97,7 +97,9 @@ module.exports = {
         return;
       }
 
-      sendWebhook(webhook, inputs.event, inputs.data, inputs.user);
+      sendWebhook(webhook, inputs.event, inputs.data, inputs.user).catch((error) => {
+        sails.log.error(`Failed to send webhook ${webhook.url}`, error);
+      });
     });
   },
 };
