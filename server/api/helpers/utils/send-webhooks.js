@@ -1,3 +1,58 @@
+const EVENT_TYPES = {
+  ACTION_CREATE: 'actionCreate',
+  ACTION_DELETE: 'actionDelete',
+  ACTION_UPDATE: 'actionUpdate',
+
+  ATTACHMENT_CREATE: 'attachmentCreate',
+  ATTACHMENT_DELETE: 'attachmentDelete',
+  ATTACHMENT_UPDATE: 'attachmentUpdate',
+
+  BOARD_CREATE: 'boardCreate',
+  BOARD_DELETE: 'boardDelete',
+  BOARD_UPDATE: 'boardUpdate',
+
+  BOARD_MEMBERSHIP_CREATE: 'boardMembershipCreate',
+  BOARD_MEMBERSHIP_DELETE: 'boardMembershipDelete',
+  BOARD_MEMBERSHIP_UPDATE: 'boardMembershipUpdate',
+
+  CARD_CREATE: 'cardCreate',
+  CARD_DELETE: 'cardDelete',
+  CARD_UPDATE: 'cardUpdate',
+
+  CARD_LABEL_CREATE: 'cardLabelCreate',
+  CARD_LABEL_DELETE: 'cardLabelDelete',
+
+  CARD_MEMBERSHIP_CREATE: 'cardMembershipCreate',
+  CARD_MEMBERSHIP_DELETE: 'cardMembershipDelete',
+
+  LABEL_CREATE: 'labelCreate',
+  LABEL_DELETE: 'labelDelete',
+  LABEL_UPDATE: 'labelUpdate',
+
+  LIST_CREATE: 'listCreate',
+  LIST_DELETE: 'listDelete',
+  LIST_SORT: 'listSort',
+  LIST_UPDATE: 'listUpdate',
+
+  NOTIFICATION_CREATE: 'notificationCreate',
+  NOTIFICATION_UPDATE: 'notificationUpdate',
+
+  PROJECT_CREATE: 'projectCreate',
+  PROJECT_DELETE: 'projectDelete',
+  PROJECT_UPDATE: 'projectUpdate',
+
+  PROJECT_MANAGER_CREATE: 'projectManagerCreate',
+  PROJECT_MANAGER_DELETE: 'projectManagerDelete',
+
+  TASK_CREATE: 'taskCreate',
+  TASK_DELETE: 'taskDelete',
+  TASK_UPDATE: 'taskUpdate',
+
+  USER_CREATE: 'userCreate',
+  USER_DELETE: 'userDelete',
+  USER_UPDATE: 'userUpdate',
+};
+
 const jsonifyData = (data) => {
   const nextData = {};
 
@@ -26,7 +81,7 @@ const jsonifyData = (data) => {
  * Sends a webhook notification to a configured URL.
  *
  * @param {*} webhook - Webhook configuration.
- * @param {string} event - The event (see {@link Events}).
+ * @param {string} event - The event (see {@link EVENT_TYPES}).
  * @param {*} data - The actual data related to the event.
  * @param {ref} user - User object associated with the event.
  * @returns {Promise<void>}
@@ -68,6 +123,7 @@ module.exports = {
     event: {
       type: 'string',
       required: true,
+      isIn: Object.values(EVENT_TYPES),
     },
     data: {
       type: 'ref',
