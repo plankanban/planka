@@ -78,11 +78,25 @@ const jsonifyData = (data) => {
 };
 
 /**
+ * @typedef {Object} Included
+ * @property {any[]} [projects] - Array of projects (optional).
+ * @property {any[]} [boards] - Array of boards (optional).
+ * @property {any[]} [lists] - Array of lists (optional).
+ * @property {any[]} [cards] - Array of cards (optional).
+ */
+
+/**
+ * @typedef {Object} Data
+ * @property {any} item - Actual event data.
+ * @property {Included} [included] - Optional included data.
+ */
+
+/**
  * Sends a webhook notification to a configured URL.
  *
  * @param {*} webhook - Webhook configuration.
  * @param {string} event - The event (see {@link EVENT_TYPES}).
- * @param {*} data - The actual data related to the event.
+ * @param {Data} data - The data object containing event data and optionally included data.
  * @param {ref} user - User object associated with the event.
  * @returns {Promise<void>}
  */
