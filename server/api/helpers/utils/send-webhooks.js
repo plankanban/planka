@@ -89,6 +89,7 @@ const jsonifyData = (data) => {
 async function sendWebhook(webhook, event, data, user) {
   const headers = {
     'Content-Type': 'application/json',
+    'User-Agent': `planka (+${sails.config.custom.baseUrl})`,
   };
 
   if (webhook.accessToken) {
