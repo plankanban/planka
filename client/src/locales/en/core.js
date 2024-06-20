@@ -220,6 +220,8 @@ export default {
       import: 'Import',
       leaveBoard: 'Leave board',
       leaveProject: 'Leave project',
+      linkCopy: 'Copy link',
+      linkIsCopied: 'Link is copied',
       logOut_title: 'Log Out',
       makeCover_title: 'Make Cover',
       move: 'Move',

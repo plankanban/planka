@@ -201,6 +201,8 @@ export default {
       hideDetails: 'Details ausblenden',
       leaveBoard: 'Board verlassen',
       leaveProject: 'Projekt verlassen',
+      linkCopy: 'Link kopieren',
+      linkIsCopied: 'Link kopiert',
       logOut_title: 'Ausloggen',
       makeCover_title: 'Als Vorschau festlegen',
       move: 'Verschieben',

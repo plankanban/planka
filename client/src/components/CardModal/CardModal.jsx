@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -83,6 +83,7 @@ const CardModal = React.memo(
     const [t] = useTranslation();
 
     const isGalleryOpened = useRef(false);
+    const [isLinkCopied, setIsLinkCopied] = useState(false);
 
     const handleToggleStopwatchClick = useCallback(() => {
       onUpdate({
@@ -161,6 +162,14 @@ const CardModal = React.memo(
 
       onClose();
     }, [onClose]);
+
+    const handleLinkCopyClick = useCallback(() => {
+      navigator.clipboard.writeText(window.location.href);
+      setIsLinkCopied(true);
+      setTimeout(() => {
+        setIsLinkCopied(false);
+      }, 5000);
+    }, []);
 
     const AttachmentAddPopup = usePopup(AttachmentAddStep);
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
@@ -517,6 +526,10 @@ const CardModal = React.memo(
                     {t('action.delete')}
                   </Button>
                 </DeletePopup>
+                <Button fluid className={styles.actionButton} onClick={handleLinkCopyClick}>
+                  <Icon name={isLinkCopied ? 'linkify' : 'unlink'} className={styles.actionIcon} />
+                  {isLinkCopied ? t('action.linkIsCopied') : t('action.linkCopy')}
+                </Button>
               </div>
             </Grid.Column>
           )}
