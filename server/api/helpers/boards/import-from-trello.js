@@ -82,12 +82,8 @@ module.exports = {
     const importComments = async (plankaCard, trelloCard) => {
       const trelloComments = getTrelloCommentsOfCard(trelloCard.id);
       trelloComments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-      if (trelloCard.id === '64e5c9be1f2b91b351be443b') {
-        console.log(trelloComments);
-      }
-      console.log('trelloComments', trelloComments.length);
 
-      const result = Promise.allSettled(
+      return Promise.all(
         trelloComments.map(async (trelloComment) => {
           return Action.create({
             cardId: plankaCard.id,
@@ -98,23 +94,9 @@ module.exports = {
                 `${trelloComment.data.text}\n\n---\n*Note: imported comment, originally posted by ` +
                 `\n${trelloComment.memberCreator.fullName} (${trelloComment.memberCreator.username}) on ${trelloComment.date}*`,
             },
-          })
-            .fetch()
-            .catch((err) => {
-              console.log('err', err);
-            });
+          }).fetch();
         }),
       );
-      const res = await result;
-      if (res.length > 0) {
-        for (let i = 0; i < res.length; i++) {
-          if (res[i].status === 'rejected') {
-            console.log('res[i].reason', res[i].reason);
-          }
-        }
-      }
-
-      return result;
     };
 
     const importCards = async (plankaList, trelloList) => {
