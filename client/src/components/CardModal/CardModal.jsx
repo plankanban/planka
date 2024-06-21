@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
@@ -81,6 +81,7 @@ const CardModal = React.memo(
     onClose,
   }) => {
     const [t] = useTranslation();
+    const [isLinkCopied, setIsLinkCopied] = useState(false);
 
     const isGalleryOpened = useRef(false);
 
@@ -145,6 +146,14 @@ const CardModal = React.memo(
       onDuplicate();
       onClose();
     }, [onDuplicate, onClose]);
+
+    const handleCopyLinkClick = useCallback(() => {
+      navigator.clipboard.writeText(window.location.href);
+      setIsLinkCopied(true);
+      setTimeout(() => {
+        setIsLinkCopied(false);
+      }, 5000);
+    }, []);
 
     const handleGalleryOpen = useCallback(() => {
       isGalleryOpened.current = true;
@@ -505,6 +514,14 @@ const CardModal = React.memo(
                 <Button fluid className={styles.actionButton} onClick={handleDuplicateClick}>
                   <Icon name="copy outline" className={styles.actionIcon} />
                   {t('action.duplicate')}
+                </Button>
+                <Button fluid className={styles.actionButton} onClick={handleCopyLinkClick}>
+                  <Icon name={isLinkCopied ? 'linkify' : 'unlink'} className={styles.actionIcon} />
+                  {isLinkCopied
+                    ? t('common.linkIsCopied')
+                    : t('action.copyLink', {
+                        context: 'title',
+                      })}
                 </Button>
                 <DeletePopup
                   title="common.deleteCard"
