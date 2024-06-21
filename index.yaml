@@ -2,6 +2,22 @@ apiVersion: v1
 entries:
   planka:
   - apiVersion: v2
+    appVersion: 1.19.1
+    created: "2024-06-21T10:11:45.880875101Z"
+    dependencies:
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.5.1
+    description: A Helm chart to deploy Planka and it's dependencies.
+    digest: b8e9758c596cf497406fc59f0de0d903acc40663934ebc9fe54c4e70f75c41c2
+    name: planka
+    type: application
+    urls:
+    - https://github.com/plankanban/planka/releases/download/planka-0.2.2/planka-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
     appVersion: 1.19.0
     created: "2024-06-14T15:19:10.15049408Z"
     dependencies:
@@ -289,4 +305,4 @@ entries:
     urls:
     - https://github.com/plankanban/planka/releases/download/planka-0.1.20/planka-0.1.20.tgz
     version: 0.1.20
-generated: "2024-06-14T15:19:10.150672058Z"
+generated: "2024-06-21T10:11:45.881024638Z"
