@@ -81,9 +81,9 @@ const CardModal = React.memo(
     onClose,
   }) => {
     const [t] = useTranslation();
+    const [isLinkCopied, setIsLinkCopied] = useState(false);
 
     const isGalleryOpened = useRef(false);
-    const [isLinkCopied, setIsLinkCopied] = useState(false);
 
     const handleToggleStopwatchClick = useCallback(() => {
       onUpdate({
@@ -147,6 +147,14 @@ const CardModal = React.memo(
       onClose();
     }, [onDuplicate, onClose]);
 
+    const handleCopyLinkClick = useCallback(() => {
+      navigator.clipboard.writeText(window.location.href);
+      setIsLinkCopied(true);
+      setTimeout(() => {
+        setIsLinkCopied(false);
+      }, 5000);
+    }, []);
+
     const handleGalleryOpen = useCallback(() => {
       isGalleryOpened.current = true;
     }, []);
@@ -162,14 +170,6 @@ const CardModal = React.memo(
 
       onClose();
     }, [onClose]);
-
-    const handleLinkCopyClick = useCallback(() => {
-      navigator.clipboard.writeText(window.location.href);
-      setIsLinkCopied(true);
-      setTimeout(() => {
-        setIsLinkCopied(false);
-      }, 5000);
-    }, []);
 
     const AttachmentAddPopup = usePopup(AttachmentAddStep);
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
@@ -515,6 +515,14 @@ const CardModal = React.memo(
                   <Icon name="copy outline" className={styles.actionIcon} />
                   {t('action.duplicate')}
                 </Button>
+                <Button fluid className={styles.actionButton} onClick={handleCopyLinkClick}>
+                  <Icon name={isLinkCopied ? 'linkify' : 'unlink'} className={styles.actionIcon} />
+                  {isLinkCopied
+                    ? t('common.linkIsCopied')
+                    : t('action.copyLink', {
+                        context: 'title',
+                      })}
+                </Button>
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"
@@ -526,10 +534,6 @@ const CardModal = React.memo(
                     {t('action.delete')}
                   </Button>
                 </DeletePopup>
-                <Button fluid className={styles.actionButton} onClick={handleLinkCopyClick}>
-                  <Icon name={isLinkCopied ? 'linkify' : 'unlink'} className={styles.actionIcon} />
-                  {isLinkCopied ? t('action.linkIsCopied') : t('action.linkCopy')}
-                </Button>
               </div>
             </Grid.Column>
           )}
