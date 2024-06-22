@@ -219,7 +219,12 @@ export default class extends BaseModel {
   }
 
   getOrderedMembershipsQuerySet() {
-    return this.memberships.orderBy('createdAt');
+    return this.memberships.orderBy((membership) =>
+      this.memberUsers
+        .toModelArray()
+        .filter((user) => user.id === membership.userId)[0]
+        .name.toLocaleLowerCase(),
+    );
   }
 
   getOrderedLabelsQuerySet() {
