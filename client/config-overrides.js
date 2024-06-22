@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const BASE_URL_PLACEHOLDER = 'BASE_URL_PLACEHOLDER';
 
@@ -32,7 +33,7 @@ const replaceBaseUrl = (compiler) => {
         replaceInFile(info.targetPath, `"${BASE_URL_PLACEHOLDER}"`, '`${window.BASE_URL}/`');
       } else if (/index\.html$/.exec(info.targetPath)) {
         // For the main html file, we set a placeholder for sails to inject the correct value as runtime
-        replaceInFile(info.targetPath, BASE_URL_PLACEHOLDER, '<%= BASE_URL %>');
+        replaceInFile(info.targetPath, BASE_URL_PLACEHOLDER, process.env.PUBLIC_URL);
       }
     }
   });
@@ -51,7 +52,26 @@ module.exports = function override(config, env) {
     return {
       ...config,
       output: { ...config.output, publicPath: BASE_URL_PLACEHOLDER },
-      plugins: [...plugins, { apply: replaceBaseUrl }],
+      plugins: [
+        ...plugins,
+        { apply: replaceBaseUrl },
+        new CopyPlugin({
+          patterns: [
+            {
+              from: 'public/web.config',
+              transform: {
+                transformer(content, absoluteFrom) {
+                  const PUBLIC_PATH = process.env.PUBLIC_URL.replace(
+                    /^.*\/\/[^/]*(.*)[^?#]*.*$/,
+                    '$1',
+                  );
+                  return content.toString().replaceAll(BASE_URL_PLACEHOLDER, PUBLIC_PATH);
+                },
+              },
+            },
+          ],
+        }),
+      ],
     };
   }
   return config;
