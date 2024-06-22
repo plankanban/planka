@@ -298,7 +298,7 @@ export default class extends BaseModel {
   static getOrderedUndeletedQuerySet() {
     return this.filter({
       deletedAt: null,
-    }).orderBy('createdAt');
+    }).orderBy((u) => u.name.toLocaleLowerCase());
   }
 
   getOrderedProjectManagersQuerySet() {
