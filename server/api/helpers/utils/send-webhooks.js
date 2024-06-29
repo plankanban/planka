@@ -116,17 +116,23 @@ async function sendWebhook(webhook, event, data, user) {
     user: sails.helpers.utils.jsonifyRecord(user),
   });
 
-  const response = await fetch(webhook.url, {
-    headers,
-    body,
-    method: 'POST',
-  });
+  try {
+    const response = await fetch(webhook.url, {
+      headers,
+      body,
+      method: 'POST',
+    });
 
-  if (!response.ok) {
-    const message = await response.text();
+    if (!response.ok) {
+      const message = await response.text();
 
+      sails.log.error(
+        `Webhook ${webhook.url} failed with status ${response.status} and message: ${message}`,
+      );
+    }
+  } catch (e) {
     sails.log.error(
-      `Webhook ${webhook.url} failed with status ${response.status} and message: ${message}`,
+      `Webhook ${webhook.url} failed with error message: ${e.message}`,
     );
   }
 }
