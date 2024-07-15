@@ -1,3 +1,4 @@
+import orderBy from 'lodash/orderBy';
 import { attr, fk, many } from 'redux-orm';
 
 import BaseModel from './BaseModel';
@@ -218,21 +219,18 @@ export default class extends BaseModel {
     }
   }
 
-  getOrderedMembershipsQuerySet() {
-    return this.memberships.orderBy((membership) =>
-      this.memberUsers
-        .toModelArray()
-        .filter((user) => user.id === membership.userId)[0]
-        .name.toLocaleLowerCase(),
-    );
-  }
-
   getOrderedLabelsQuerySet() {
     return this.labels.orderBy('position');
   }
 
   getOrderedListsQuerySet() {
     return this.lists.orderBy('position');
+  }
+
+  getOrderedMembershipsModelArray() {
+    return orderBy(this.memberships.toModelArray(), (boardMembershipModel) =>
+      boardMembershipModel.user.name.toLocaleLowerCase(),
+    );
   }
 
   getMembershipModelForUser(userId) {
