@@ -192,6 +192,8 @@ export default {
       deleteTask: 'Aufgabe löschen',
       deleteTask_title: 'Aufgabe löschen',
       deleteUser: 'Benutzer löschen',
+      duplicate: 'Kopieren',
+      duplicateCard_title: 'Karte kopieren',
       edit: 'Bearbeiten',
       editDueDate_title: 'Fälligkeitsdatum bearbeiten',
       editDescription_title: 'Beschreibung ändern',
