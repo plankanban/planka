@@ -40,6 +40,8 @@ module.exports.custom = {
   oidcClientId: process.env.OIDC_CLIENT_ID,
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
+  oidcResponseMode: process.env.OIDC_RESPONSE_MODE || 'fragment',
+  oidcDefaultResponseMode: process.env.OIDC_DEFAULT_RESPONSE_MODE === 'true',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
   oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
   oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
