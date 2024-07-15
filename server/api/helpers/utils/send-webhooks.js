@@ -131,9 +131,7 @@ async function sendWebhook(webhook, event, data, user) {
       );
     }
   } catch (e) {
-    sails.log.error(
-      `Webhook ${webhook.url} failed with error message: ${e.message}`,
-    );
+    sails.log.error(`Webhook ${webhook.url} failed with error message: ${e.message}`);
   }
 }
 
