@@ -30,6 +30,7 @@ module.exports = function defineOidcHook(sails) {
         client_secret: sails.config.custom.oidcClientSecret,
         redirect_uris: [sails.config.custom.oidcRedirectUri],
         response_types: ['code'],
+        userinfo_signed_response_alg: sails.config.custom.oidcUserinfoSignedResponseAlg,
       });
     },
 

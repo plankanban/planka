@@ -13,6 +13,9 @@ const Errors = {
   MISSING_VALUES: {
     missingValues: 'Unable to retrieve required values (email, name)',
   },
+  INVALID_USERINFO_SIGNATURE: {
+    invalidUserInfoSignature: "Invalid signature on userInfo due to client misconfiguration"
+  }
 };
 
 module.exports = {
@@ -40,6 +43,9 @@ module.exports = {
     missingValues: {
       responseType: 'unprocessableEntity',
     },
+    invalidUserInfoSignature: {
+      responseType: 'unauthorized',
+    },
   },
 
   async fn(inputs) {
@@ -51,6 +57,7 @@ module.exports = {
         sails.log.warn(`Invalid code or nonce! (IP: ${remoteAddress})`);
         return Errors.INVALID_CODE_OR_NONCE;
       })
+      .intercept('invalidUserInfoSignature', () => Errors.INVALID_USERINFO_SIGNATURE)
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)
       .intercept('missingValues', () => Errors.MISSING_VALUES);
