@@ -204,6 +204,15 @@ module.exports = {
           ),
         );
 
+        sails.sockets.broadcast(
+          `board:${inputs.record.boardId}`,
+          'cardDelete', // TODO: introduce separate event
+          {
+            item: inputs.record,
+          },
+          inputs.request,
+        );
+
         sails.sockets.broadcast(`board:${card.boardId}`, 'cardUpdate', {
           item: card,
         });

@@ -57,10 +57,15 @@ updateCard.failure = (id, error) => ({
   },
 });
 
-const handleCardUpdate = (card) => ({
+const handleCardUpdate = (card, isFetched, cardMemberships, cardLabels, tasks, attachments) => ({
   type: ActionTypes.CARD_UPDATE_HANDLE,
   payload: {
     card,
+    isFetched,
+    cardMemberships,
+    cardLabels,
+    tasks,
+    attachments,
   },
 });
 
