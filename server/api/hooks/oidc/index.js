@@ -31,10 +31,10 @@ module.exports = function defineOidcHook(sails) {
         redirect_uris: [sails.config.custom.oidcRedirectUri],
         response_types: ['code'],
         userinfo_signed_response_alg: sails.config.custom.oidcUserinfoSignedResponseAlg,
-      }
+      };
 
       if (sails.config.custom.oidcIdTokenSignedResponseAlg) {
-        metadata.id_token_signed_response_alg = sails.config.custom.oidcIdTokenSignedResponseAlg
+        metadata.id_token_signed_response_alg = sails.config.custom.oidcIdTokenSignedResponseAlg;
       }
 
       client = new issuer.Client(metadata);

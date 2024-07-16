@@ -43,7 +43,7 @@ module.exports.custom = {
   oidcUserinfoSignedResponseAlg: process.env.OIDC_USERINFO_SIGNED_RESPONSE_ALG,
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
   oidcResponseMode: process.env.OIDC_RESPONSE_MODE || 'fragment',
-  oidcDefaultResponseMode: process.env.OIDC_DEFAULT_RESPONSE_MODE === 'true',
+  oidcUseDefaultResponseMode: process.env.OIDC_USE_DEFAULT_RESPONSE_MODE === 'true',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
   oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
   oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
