@@ -61,7 +61,6 @@
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",
     "classnames": "^2.5.1",
-    "copy-webpack-plugin": "^12.0.2",
     "date-fns": "^2.30.0",
     "dequal": "^2.0.3",
     "easymde": "^2.18.0",
