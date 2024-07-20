@@ -21,6 +21,7 @@ import tr from './tr';
 import ua from './ua';
 import uz from './uz';
 import zh from './zh';
+import fa from './fa'
 
 const locales = [
   bg,
@@ -46,6 +47,7 @@ const locales = [
   ua,
   uz,
   zh,
+  fa
 ];
 
 export default locales;
