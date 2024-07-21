@@ -36,7 +36,7 @@ module.exports = {
     },
     language: {
       type: 'string',
-      isNotEmptyString: true,
+      isIn: User.LANGUAGES,
       allowNull: true,
     },
     subscribeToOwnCards: {
