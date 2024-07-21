@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/fa-IR';
+
 export default {
+  dateFns,
+
   format: {
     date: 'M/d/yyyy',
     time: 'p',
