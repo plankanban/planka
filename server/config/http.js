@@ -26,7 +26,6 @@ module.exports.http = {
      * (This Sails app's routes are handled by the "router" middleware below.)
      *
      */
-    poweredBy: false,
     // order: [
     //   'cookieParser',
     //   'session',
@@ -49,5 +48,7 @@ module.exports.http = {
     //   var middlewareFn = skipper({ strict: true });
     //   return middlewareFn;
     // })(),
+
+    poweredBy: false,
   },
 };
