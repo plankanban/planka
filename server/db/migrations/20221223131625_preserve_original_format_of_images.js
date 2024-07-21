@@ -93,7 +93,7 @@ module.exports.up = async (knex) => {
   const attachments = await knex('attachment').whereNotNull('image');
 
   // eslint-disable-next-line no-restricted-syntax
-  for (attachment of attachments) {
+  for (const attachment of attachments) {
     // eslint-disable-next-line no-await-in-loop
     const image = await processAttachmentImage(attachment, config.custom.attachmentsPath);
 
