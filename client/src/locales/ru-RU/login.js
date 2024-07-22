@@ -16,7 +16,7 @@ export default {
 
     action: {
       logIn: 'Войти',
-		logInWithSSO: 'Войти с помощью единого входа',
+      logInWithSSO: 'Войти с помощью единого входа',
     },
   },
 };
