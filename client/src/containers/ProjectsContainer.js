@@ -6,12 +6,13 @@ import entryActions from '../entry-actions';
 import Projects from '../components/Projects';
 
 const mapStateToProps = (state) => {
+  const { allowAllToCreateProjects } = selectors.selectConfig(state);
   const { isAdmin } = selectors.selectCurrentUser(state);
   const projects = selectors.selectProjectsForCurrentUser(state);
 
   return {
     items: projects,
-    canAdd: isAdmin,
+    canAdd: allowAllToCreateProjects || isAdmin,
   };
 };
 

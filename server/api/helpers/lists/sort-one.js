@@ -11,6 +11,18 @@ module.exports = {
       isIn: Object.values(List.SortTypes),
       defaultsTo: List.SortTypes.NAME_ASC,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -64,6 +76,19 @@ module.exports = {
       },
       inputs.request,
     );
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'listSort',
+      data: {
+        item: inputs.record,
+        included: {
+          cards,
+          projects: [inputs.project],
+          boards: [inputs.board],
+        },
+      },
+      user: inputs.actorUser,
+    });
 
     return cards;
   },

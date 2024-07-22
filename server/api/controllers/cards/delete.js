@@ -28,12 +28,15 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let { card } = await sails.helpers.cards
+    const path = await sails.helpers.cards
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
+    let { card } = path;
+    const { list, board, project } = path;
+
     const boardMembership = await BoardMembership.findOne({
-      boardId: card.boardId,
+      boardId: board.id,
       userId: currentUser.id,
     });
 
@@ -46,8 +49,11 @@ module.exports = {
     }
 
     card = await sails.helpers.cards.deleteOne.with({
+      project,
+      board,
+      list,
       record: card,
-      user: currentUser,
+      actorUser: currentUser,
       request: this.req,
     });
 

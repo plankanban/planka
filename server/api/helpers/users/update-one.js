@@ -38,7 +38,7 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
-    user: {
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -62,14 +62,14 @@ module.exports = {
     let isOnlyPasswordChange = false;
 
     if (!_.isUndefined(values.password)) {
+      if (Object.keys(values).length === 1) {
+        isOnlyPasswordChange = true;
+      }
+
       Object.assign(values, {
         password: bcrypt.hashSync(values.password, 10),
         passwordChangedAt: new Date().toISOString(),
       });
-
-      if (Object.keys(values).length === 1) {
-        isOnlyPasswordChange = true;
-      }
     }
 
     if (values.username) {
@@ -118,7 +118,7 @@ module.exports = {
           inputs.request,
         );
 
-        if (user.id === inputs.user.id && inputs.request && inputs.request.isSocket) {
+        if (user.id === inputs.actorUser.id && inputs.request && inputs.request.isSocket) {
           const tempRoom = uuid();
 
           sails.sockets.addRoomMembersToRooms(`@user:${user.id}`, tempRoom, () => {
@@ -153,14 +153,15 @@ module.exports = {
             inputs.request,
           );
         });
-      }
 
-      await sails.helpers.utils.sendWebhook.with({
-        event: 'USER_UPDATE',
-        data: { ...user, password: undefined },
-        projectId: '',
-        user: inputs.request.currentUser,
-      });
+        sails.helpers.utils.sendWebhooks.with({
+          event: 'userUpdate',
+          data: {
+            item: user,
+          },
+          user: inputs.actorUser,
+        });
+      }
     }
 
     return user;

@@ -8,6 +8,18 @@ module.exports = {
       type: 'json',
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -40,6 +52,18 @@ module.exports = {
         },
         inputs.request,
       );
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'boardMembershipUpdate',
+        data: {
+          item: boardMembership,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+          },
+        },
+        user: inputs.actorUser,
+      });
     }
 
     return boardMembership;

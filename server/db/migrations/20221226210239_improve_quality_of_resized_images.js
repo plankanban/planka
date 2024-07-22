@@ -113,7 +113,7 @@ module.exports.up = async (knex) => {
   const users = await knex('user_account').whereNotNull('avatar');
 
   // eslint-disable-next-line no-restricted-syntax
-  for (user of users) {
+  for (const user of users) {
     // eslint-disable-next-line no-await-in-loop
     await processUserAvatar(user, config.custom.userAvatarsPath);
   }
@@ -121,7 +121,7 @@ module.exports.up = async (knex) => {
   const projects = await knex('project').whereNotNull('background_image');
 
   // eslint-disable-next-line no-restricted-syntax
-  for (project of projects) {
+  for (const project of projects) {
     // eslint-disable-next-line no-await-in-loop
     await processProjectBackgroundImage(project, config.custom.projectBackgroundImagesPath);
   }
@@ -129,7 +129,7 @@ module.exports.up = async (knex) => {
   const attachments = await knex('attachment').whereNotNull('image');
 
   // eslint-disable-next-line no-restricted-syntax
-  for (attachment of attachments) {
+  for (const attachment of attachments) {
     // eslint-disable-next-line no-await-in-loop
     await processAttachmentImage(attachment, config.custom.attachmentsPath);
   }

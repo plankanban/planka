@@ -21,7 +21,19 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -54,6 +66,8 @@ module.exports = {
           position: nextPosition,
         },
       });
+
+      // TODO: send webhooks
     });
 
     const task = await Task.create({
@@ -71,13 +85,18 @@ module.exports = {
       inputs.request,
     );
 
-    await sails.helpers.utils.sendWebhook.with({
-      event: 'TASK_CREATE',
-      data: task,
-      projectId: inputs.board.projectId,
-      user: inputs.request.currentUser,
-      card: values.card,
-      board: inputs.board,
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'taskCreate',
+      data: {
+        item: task,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: inputs.actorUser,
     });
 
     return task;

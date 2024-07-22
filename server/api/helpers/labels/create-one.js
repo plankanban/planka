@@ -21,6 +21,14 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -50,6 +58,8 @@ module.exports = {
           position: nextPosition,
         },
       });
+
+      // TODO: send webhooks
     });
 
     const label = await Label.create({
@@ -66,6 +76,18 @@ module.exports = {
       },
       inputs.request,
     );
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'labelCreate',
+      data: {
+        item: label,
+        included: {
+          projects: [inputs.project],
+          boards: [values.board],
+        },
+      },
+      user: inputs.actorUser,
+    });
 
     return label;
   },

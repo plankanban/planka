@@ -35,7 +35,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.BOARD_MEMBERSHIP_NOT_FOUND);
 
     let { boardMembership } = path;
-    const { project } = path;
+    const { board, project } = path;
 
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
@@ -47,7 +47,10 @@ module.exports = {
 
     boardMembership = await sails.helpers.boardMemberships.updateOne.with({
       values,
+      project,
+      board,
       record: boardMembership,
+      actorUser: currentUser,
       request: this.req,
     });
 

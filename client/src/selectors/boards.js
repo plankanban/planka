@@ -55,17 +55,14 @@ export const selectMembershipsForCurrentBoard = createSelector(
       return boardModel;
     }
 
-    return boardModel
-      .getOrderedMembershipsQuerySet()
-      .toModelArray()
-      .map((boardMembershipModel) => ({
-        ...boardMembershipModel.ref,
-        isPersisted: !isLocalId(boardMembershipModel.id),
-        user: {
-          ...boardMembershipModel.user.ref,
-          isCurrent: boardMembershipModel.user.id === currentUserId,
-        },
-      }));
+    return boardModel.getOrderedMembershipsModelArray().map((boardMembershipModel) => ({
+      ...boardMembershipModel.ref,
+      isPersisted: !isLocalId(boardMembershipModel.id),
+      user: {
+        ...boardMembershipModel.user.ref,
+        isCurrent: boardMembershipModel.user.id === currentUserId,
+      },
+    }));
   },
 );
 

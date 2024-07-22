@@ -90,6 +90,7 @@ module.exports = {
       values: {
         backgroundImage: fileData,
       },
+      actorUser: currentUser,
       request: this.req,
     });
 

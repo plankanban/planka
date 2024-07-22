@@ -21,6 +21,22 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -49,6 +65,21 @@ module.exports = {
       },
       inputs.request,
     );
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'cardLabelCreate',
+      data: {
+        item: cardLabel,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          labels: [values.label],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: inputs.actorUser,
+    });
 
     return cardLabel;
   },

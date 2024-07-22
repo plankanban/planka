@@ -44,12 +44,12 @@ module.exports = {
   async fn(inputs, exits) {
     const { currentUser } = this.req;
 
-    const { card, board } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     const boardMembership = await BoardMembership.findOne({
-      boardId: card.boardId,
+      boardId: board.id,
       userId: currentUser.id,
     });
 
@@ -83,12 +83,14 @@ module.exports = {
     const fileData = await sails.helpers.attachments.processUploadedFile(file);
 
     const attachment = await sails.helpers.attachments.createOne.with({
+      project,
+      board,
+      list,
       values: {
         ...fileData,
         card,
         creatorUser: currentUser,
       },
-      board,
       requestId: inputs.requestId,
       request: this.req,
     });

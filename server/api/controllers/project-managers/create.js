@@ -63,6 +63,7 @@ module.exports = {
           project,
           user,
         },
+        actorUser: currentUser,
         request: this.req,
       })
       .intercept('userAlreadyProjectManager', () => Errors.USER_ALREADY_PROJECT_MANAGER);

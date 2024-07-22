@@ -58,9 +58,9 @@ i18n
   .use(initReactI18next)
   .init({
     resources: embeddedLocales,
-    fallbackLng: 'en',
+    fallbackLng: 'en-US',
     supportedLngs: languages,
-    load: 'languageOnly',
+    load: 'currentOnly',
     interpolation: {
       escapeValue: false,
       format(value, format, language) {
@@ -80,7 +80,7 @@ i18n
   });
 
 i18n.loadCoreLocale = async (language = i18n.resolvedLanguage) => {
-  if (language === 'en') {
+  if (language === i18n.options.fallbackLng[0]) {
     return;
   }
 

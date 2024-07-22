@@ -1,4 +1,6 @@
 module.exports = {
+  // TODO: make sync?
+
   inputs: {
     to: {
       type: 'string',

@@ -4,6 +4,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -60,11 +64,12 @@ module.exports = {
         );
       });
 
-      await sails.helpers.utils.sendWebhook.with({
-        event: 'USER_DELETE',
-        data: { ...user, password: undefined },
-        projectId: '',
-        user: inputs.request.currentUser,
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'userDelete',
+        data: {
+          item: user,
+        },
+        user: inputs.actorUser,
       });
     }
 
