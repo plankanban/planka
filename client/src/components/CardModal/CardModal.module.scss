@@ -25,14 +25,14 @@
 
   .actions {
     margin-bottom: 24px;
+
     @media only screen and (max-width: 797px) {
-      margin-bottom: 10px;
-      width: 50%;
-      padding: 10px;
+      flex: 1;
     }
+
     @media only screen and (max-width: 425px) {
+      padding: 0;
       width: 100%;
-      padding: unset;
     }
   }
 
@@ -71,7 +71,9 @@
 
   .contentPadding {
     padding: 8px 8px 0 16px;
+
     @media only screen and (max-width: 797px) {
+      padding-right: 16px;
       width: 100% !important;
     }
   }
@@ -166,6 +168,7 @@
 
   .modalPadding {
     padding: 0px;
+
     @media only screen and (max-width: 797px) {
       display: flex;
       flex-flow: column nowrap;
@@ -200,11 +203,14 @@
 
   .sidebarPadding {
     padding: 8px 16px 0 8px;
+
     @media only screen and (max-width: 797px) {
-      width: 100% !important;
+      align-items: flex-start;
       display: flex;
       flex-flow: row wrap;
-      align-items: flex-start;
+      gap: 10px;
+      padding-left: 16px;
+      width: 100% !important;
     }
   }
 

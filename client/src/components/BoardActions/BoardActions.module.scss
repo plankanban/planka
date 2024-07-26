@@ -2,22 +2,15 @@
   .action {
     align-items: center;
     display: flex;
-    flex-wrap: nowrap;
     flex: 0 0 auto;
-
-    @media only screen and (max-width: 797px) {
-      gap: 10px;
-    }
   }
 
   .actions {
     align-items: center;
     display: flex;
-    flex-flow: norow wrap;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 20px 20px;
     gap: 20px;
+    justify-content: flex-start;
+    margin: 20px 20px;
   }
 
   .wrapper {
@@ -25,7 +18,6 @@
     overflow-y: hidden;
     -ms-overflow-style: none;
     scrollbar-width: none;
-    max-width: 100vw;
 
     &::-webkit-scrollbar {
       display: none;

@@ -11,6 +11,10 @@
     vertical-align: top;
     width: 36px;
 
+    @media only screen and (max-width: 797px) {
+      margin-left: 10px;
+    }
+
     &:hover {
       background: rgba(0, 0, 0, 0.32);
     }
