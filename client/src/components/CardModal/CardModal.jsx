@@ -515,14 +515,19 @@ const CardModal = React.memo(
                   <Icon name="copy outline" className={styles.actionIcon} />
                   {t('action.duplicate')}
                 </Button>
-                <Button fluid className={styles.actionButton} onClick={handleCopyLinkClick}>
-                  <Icon name={isLinkCopied ? 'linkify' : 'unlink'} className={styles.actionIcon} />
-                  {isLinkCopied
-                    ? t('common.linkIsCopied')
-                    : t('action.copyLink', {
-                        context: 'title',
-                      })}
-                </Button>
+                {window.isSecureContext && (
+                  <Button fluid className={styles.actionButton} onClick={handleCopyLinkClick}>
+                    <Icon
+                      name={isLinkCopied ? 'linkify' : 'unlink'}
+                      className={styles.actionIcon}
+                    />
+                    {isLinkCopied
+                      ? t('common.linkIsCopied')
+                      : t('action.copyLink', {
+                          context: 'title',
+                        })}
+                  </Button>
+                )}
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"

@@ -111,7 +111,8 @@
     }
 
     @media only screen and (max-width: 797px) {
-      &:focus, &:active {
+      &:focus,
+      &:active {
         background: rgba(9, 30, 66, 0.13);
         color: #516b7a;
       }
