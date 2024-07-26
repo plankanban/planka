@@ -32,7 +32,15 @@ const replaceBaseUrl = (compiler) => {
         replaceInFile(info.targetPath, `"${BASE_URL_PLACEHOLDER}"`, '`${window.BASE_URL}/`');
       } else if (/index\.html$/.exec(info.targetPath)) {
         // For the main html file, we set a placeholder for sails to inject the correct value as runtime
-        replaceInFile(info.targetPath, BASE_URL_PLACEHOLDER, '<%= BASE_URL %>');
+        if (process.argv.indexOf('--IIS') >= 0 || process.argv.indexOf('--APACHE') >= 0) {
+          if (process.env.PUBLIC_URL === undefined) {
+            // eslint-disable-next-line no-console
+            throw new Error('You have to define PUBLIC_URL in .env!');
+          }
+          replaceInFile(info.targetPath, BASE_URL_PLACEHOLDER, process.env.PUBLIC_URL);
+        } else {
+          replaceInFile(info.targetPath, BASE_URL_PLACEHOLDER, '<%= BASE_URL %>');
+        }
       }
     }
   });

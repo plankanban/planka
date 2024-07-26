@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "build": "react-app-rewired build",
+    "build:iis": "react-app-rewired build --IIS",
+    "build:apache": "react-app-rewired build --APACHE",
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx src config-overrides.js",
     "start": "react-app-rewired start",
