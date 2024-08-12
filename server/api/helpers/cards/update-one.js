@@ -135,6 +135,20 @@ module.exports = {
       });
     }
 
+    const dueDate = _.isUndefined(values.dueDate) ? inputs.record.dueDate : values.dueDate;
+
+    if (dueDate) {
+      const isDueDateCompleted = _.isUndefined(values.isDueDateCompleted)
+        ? inputs.record.isDueDateCompleted
+        : values.isDueDateCompleted;
+
+      if (_.isNull(isDueDateCompleted)) {
+        values.isDueDateCompleted = false;
+      }
+    } else {
+      values.isDueDateCompleted = null;
+    }
+
     let card;
     if (_.isEmpty(values)) {
       card = inputs.record;

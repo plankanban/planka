@@ -8,54 +8,22 @@
     padding: 0;
   }
 
+  .statusIcon {
+    line-height: 1;
+    margin: 0 0 0 8px;
+  }
+
   .wrapper {
     background: #dce0e4;
-    border: none;
     border-radius: 3px;
     color: #6a808b;
     display: inline-block;
-    outline: none;
-    text-align: left;
     transition: background 0.3s ease;
-    vertical-align: top;
   }
 
   .wrapperHoverable:hover {
     background: #d2d8dc;
     color: #17394d;
-  }
-
-  .wrapperGroup {
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-  }
-
-  .overdue {
-    background: #db2828;
-    color: #ffffff;
-    &.wrapperHoverable:hover {
-      background: #d01919;
-      color: #ffffff;
-    }
-  }
-
-  .soon {
-    background: #fbbd08;
-    color: #ffffff;
-    &.wrapperHoverable:hover {
-      background: #eaae00;
-      color: #ffffff;
-    }
-  }
-
-  .completed {
-    background: #21ba45;
-    color: #ffffff;
-    &.wrapperHoverable:hover {
-      background: #16ab39;
-      color: #ffffff;
-    }
   }
 
   /* Sizes */
@@ -64,18 +32,12 @@
     font-size: 12px;
     line-height: 20px;
     padding: 0px 6px;
-    &.wrapperCheckbox {
-      padding-right: 6px;
-    }
   }
 
   .wrapperSmall {
     font-size: 12px;
     line-height: 20px;
     padding: 2px 6px;
-    &.wrapperCheckbox {
-      padding-right: 6px;
-    }
   }
 
   .wrapperMedium {
@@ -83,17 +45,20 @@
     padding: 6px 12px;
   }
 
-  .wrapperCheckbox {
-    padding-right: 12px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    cursor: pointer;
+  /* Statuses */
+
+  .wrapperDueSoon {
+    background: #f2711c;
+    color: #fff;
   }
-  .checkbox {
-    display: block;
+
+  .wrapperOverdue {
+    background: #db2828;
+    color: #fff;
   }
-  .wrapperButton {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+
+  .wrapperCompleted {
+    background: #21ba45;
+    color: #fff;
   }
 }

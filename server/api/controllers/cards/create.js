@@ -56,9 +56,11 @@ module.exports = {
     dueDate: {
       type: 'string',
       custom: dueDateValidator,
+      allowNull: true,
     },
-    dueCompleted: {
+    isDueDateCompleted: {
       type: 'boolean',
+      allowNull: true,
     },
     stopwatch: {
       type: 'json',
@@ -103,7 +105,7 @@ module.exports = {
       'name',
       'description',
       'dueDate',
-      'dueCompleted',
+      'isDueDateCompleted',
       'stopwatch',
     ]);
 

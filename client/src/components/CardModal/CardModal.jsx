@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
+import { Button, Checkbox, Grid, Icon, Modal } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 import { Markdown } from '../../lib/custom-ui';
 
@@ -32,7 +32,7 @@ const CardModal = React.memo(
     name,
     description,
     dueDate,
-    dueCompleted,
+    isDueDateCompleted,
     stopwatch,
     isSubscribed,
     isActivitiesFetching,
@@ -119,6 +119,12 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
+    const handleDueDateCompletionChange = useCallback(() => {
+      onUpdate({
+        isDueDateCompleted: !isDueDateCompleted,
+      });
+    }, [isDueDateCompleted, onUpdate]);
+
     const handleStopwatchUpdate = useCallback(
       (newStopwatch) => {
         onUpdate({
@@ -171,15 +177,6 @@ const CardModal = React.memo(
 
       onClose();
     }, [onClose]);
-
-    const handleDueDateCompletion = useCallback(
-      (completion) => {
-        onUpdate({
-          dueCompleted: completion,
-        });
-      },
-      [onUpdate],
-    );
 
     const AttachmentAddPopup = usePopup(AttachmentAddStep);
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
@@ -310,17 +307,24 @@ const CardModal = React.memo(
                         context: 'title',
                       })}
                     </div>
-                    <span className={styles.attachment}>
+                    <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
                       {canEdit ? (
-                        <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
-                          <DueDate
-                            value={dueDate}
-                            completed={dueCompleted}
-                            onUpdateCompletion={handleDueDateCompletion}
+                        <>
+                          <Checkbox
+                            checked={isDueDateCompleted}
+                            disabled={!canEdit}
+                            onChange={handleDueDateCompletionChange}
                           />
-                        </DueDateEditPopup>
+                          <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                            <DueDate
+                              withStatusIcon
+                              value={dueDate}
+                              isCompleted={isDueDateCompleted}
+                            />
+                          </DueDateEditPopup>
+                        </>
                       ) : (
-                        <DueDate value={dueDate} completed={dueCompleted} />
+                        <DueDate withStatusIcon value={dueDate} isCompleted={isDueDateCompleted} />
                       )}
                     </span>
                   </div>
@@ -576,7 +580,7 @@ CardModal.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   dueDate: PropTypes.instanceOf(Date),
-  dueCompleted: PropTypes.bool,
+  isDueDateCompleted: PropTypes.bool,
   stopwatch: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isSubscribed: PropTypes.bool.isRequired,
   isActivitiesFetching: PropTypes.bool.isRequired,
@@ -631,7 +635,7 @@ CardModal.propTypes = {
 CardModal.defaultProps = {
   description: undefined,
   dueDate: undefined,
-  dueCompleted: false,
+  isDueDateCompleted: false,
   stopwatch: undefined,
 };
 
