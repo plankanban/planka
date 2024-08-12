@@ -32,6 +32,7 @@ const CardModal = React.memo(
     name,
     description,
     dueDate,
+    dueCompleted,
     stopwatch,
     isSubscribed,
     isActivitiesFetching,
@@ -171,6 +172,15 @@ const CardModal = React.memo(
       onClose();
     }, [onClose]);
 
+    const handleDueDateCompletion = useCallback(
+      (completion) => {
+        onUpdate({
+          dueCompleted: completion,
+        });
+      },
+      [onUpdate],
+    );
+
     const AttachmentAddPopup = usePopup(AttachmentAddStep);
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
     const LabelsPopup = usePopup(LabelsStep);
@@ -303,10 +313,14 @@ const CardModal = React.memo(
                     <span className={styles.attachment}>
                       {canEdit ? (
                         <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
-                          <DueDate value={dueDate} />
+                          <DueDate
+                            value={dueDate}
+                            completed={dueCompleted}
+                            onUpdateCompletion={handleDueDateCompletion}
+                          />
                         </DueDateEditPopup>
                       ) : (
-                        <DueDate value={dueDate} />
+                        <DueDate value={dueDate} completed={dueCompleted} />
                       )}
                     </span>
                   </div>
@@ -562,6 +576,7 @@ CardModal.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   dueDate: PropTypes.instanceOf(Date),
+  dueCompleted: PropTypes.bool,
   stopwatch: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isSubscribed: PropTypes.bool.isRequired,
   isActivitiesFetching: PropTypes.bool.isRequired,
@@ -616,6 +631,7 @@ CardModal.propTypes = {
 CardModal.defaultProps = {
   description: undefined,
   dueDate: undefined,
+  dueCompleted: false,
   stopwatch: undefined,
 };
 
