@@ -49,6 +49,14 @@ module.exports = {
       throw 'positionMustBeInValues';
     }
 
+    if (values.dueDate) {
+      if (_.isNil(values.isDueDateCompleted)) {
+        values.isDueDateCompleted = false;
+      }
+    } else {
+      delete values.isDueDateCompleted;
+    }
+
     const cards = await sails.helpers.lists.getCards(values.list.id);
 
     const { position, repositions } = sails.helpers.utils.insertToPositionables(

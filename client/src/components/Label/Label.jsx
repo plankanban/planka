@@ -17,7 +17,7 @@ const SIZES = {
 
 const Label = React.memo(({ name, color, size, isDisabled, onClick }) => {
   const contentNode = (
-    <div
+    <span
       title={name}
       className={classNames(
         styles.wrapper,
@@ -28,7 +28,7 @@ const Label = React.memo(({ name, color, size, isDisabled, onClick }) => {
       )}
     >
       {name || '\u00A0'}
-    </div>
+    </span>
   );
 
   return onClick ? (
