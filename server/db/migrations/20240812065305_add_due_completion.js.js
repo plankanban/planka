@@ -1,9 +1,9 @@
-module.exports.up = async (knex) => knex.schema.table('card', (table) => {
-  /* Columns */
+module.exports.up = async (knex) =>
+  knex.schema.table('card', (table) => {
+    /* Columns */
 
-  table.boolean('due_completed').notNullable().defaultTo(false);
-});
-
+    table.boolean('due_completed').notNullable().defaultTo(false);
+  });
 
 module.exports.down = async (knex) => {
   await knex.schema.table('card', (table) => {
