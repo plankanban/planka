@@ -1,8 +1,9 @@
 import upperFirst from 'lodash/upperFirst';
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { Checkbox } from 'semantic-ui-react';
 
 import getDateFormat from '../../utils/get-date-format';
 
@@ -26,50 +27,96 @@ const FULL_DATE_FORMAT_BY_SIZE = {
   medium: 'fullDateTime',
 };
 
-const DueDate = React.memo(({ value, size, isDisabled, onClick }) => {
-  const [t] = useTranslation();
+const getDueClass = (value) => {
+  const now = new Date();
+  const tomorrow = new Date(now).setDate(now.getDate() + 1);
 
-  const dateFormat = getDateFormat(
-    value,
-    LONG_DATE_FORMAT_BY_SIZE[size],
-    FULL_DATE_FORMAT_BY_SIZE[size],
-  );
+  if (now > value) return styles.overdue;
+  if (tomorrow > value) return styles.soon;
+  return null;
+};
 
-  const contentNode = (
-    <span
-      className={classNames(
-        styles.wrapper,
-        styles[`wrapper${upperFirst(size)}`],
-        onClick && styles.wrapperHoverable,
-      )}
-    >
-      {t(`format:${dateFormat}`, {
-        value,
-        postProcess: 'formatDate',
-      })}
-    </span>
-  );
+const DueDate = React.memo(
+  ({ value, completed, size, isDisabled, onClick, onUpdateCompletion }) => {
+    const [t] = useTranslation();
 
-  return onClick ? (
-    <button type="button" disabled={isDisabled} className={styles.button} onClick={onClick}>
-      {contentNode}
-    </button>
-  ) : (
-    contentNode
-  );
-});
+    const dateFormat = getDateFormat(
+      value,
+      LONG_DATE_FORMAT_BY_SIZE[size],
+      FULL_DATE_FORMAT_BY_SIZE[size],
+    );
+
+    const classes = [
+      styles.wrapper,
+      styles[`wrapper${upperFirst(size)}`],
+      onClick && styles.wrapperHoverable,
+      completed ? styles.completed : getDueClass(value),
+    ];
+
+    const handleToggleChange = useCallback(
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!isDisabled) onUpdateCompletion(!completed);
+      },
+      [onUpdateCompletion, completed, isDisabled],
+    );
+
+    return onClick ? (
+      <div className={styles.wrapperGroup}>
+        <button
+          type="button"
+          aria-label="Toggle completion"
+          className={classNames(...classes, styles.wrapperCheckbox)}
+          onClick={handleToggleChange}
+        >
+          <Checkbox
+            className={styles.checkbox}
+            checked={completed}
+            disabled={isDisabled}
+            onChange={handleToggleChange}
+          />
+        </button>
+        <button
+          type="button"
+          disabled={isDisabled}
+          className={classNames(...classes, styles.wrapperButton)}
+          onClick={onClick}
+        >
+          <span>
+            {t(`format:${dateFormat}`, {
+              value,
+              postProcess: 'formatDate',
+            })}
+          </span>
+        </button>
+      </div>
+    ) : (
+      <span className={classNames(...classes)}>
+        {t(`format:${dateFormat}`, {
+          value,
+          postProcess: 'formatDate',
+        })}
+      </span>
+    );
+  },
+);
 
 DueDate.propTypes = {
   value: PropTypes.instanceOf(Date).isRequired,
   size: PropTypes.oneOf(Object.values(SIZES)),
   isDisabled: PropTypes.bool,
+  completed: PropTypes.bool,
   onClick: PropTypes.func,
+  onUpdateCompletion: PropTypes.func,
 };
 
 DueDate.defaultProps = {
   size: SIZES.MEDIUM,
   isDisabled: false,
+  completed: false,
   onClick: undefined,
+  onUpdateCompletion: undefined,
 };
 
 export default DueDate;

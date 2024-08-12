@@ -57,6 +57,9 @@ module.exports = {
       type: 'string',
       custom: dueDateValidator,
     },
+    dueCompleted: {
+      type: 'boolean',
+    },
     stopwatch: {
       type: 'json',
       custom: stopwatchValidator,
@@ -95,7 +98,14 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'stopwatch']);
+    const values = _.pick(inputs, [
+      'position',
+      'name',
+      'description',
+      'dueDate',
+      'dueCompleted',
+      'stopwatch',
+    ]);
 
     const card = await sails.helpers.cards.createOne
       .with({

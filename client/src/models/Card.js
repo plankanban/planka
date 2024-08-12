@@ -20,6 +20,9 @@ export default class extends BaseModel {
       relatedName: 'ownCards',
     }),
     dueDate: attr(),
+    dueCompleted: attr({
+      getDefault: () => false,
+    }),
     stopwatch: attr(),
     isSubscribed: attr({
       getDefault: () => false,
@@ -248,6 +251,7 @@ export default class extends BaseModel {
             'name',
             'description',
             'dueDate',
+            'dueCompleted',
             'stopwatch',
           ]),
           ...payload.card,
