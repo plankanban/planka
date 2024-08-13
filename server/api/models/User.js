@@ -30,6 +30,7 @@ const LANGUAGES = [
   'uk-UA',
   'uz-UZ',
   'zh-CN',
+  'zh-TW',
 ];
 
 const OIDC = {
