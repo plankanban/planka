@@ -16,6 +16,7 @@
     "client:test": "npm test --prefix client",
     "docker:build": "docker build -t ghcr.io/plankanban/planka:local -f Dockerfile .",
     "docker:build:base": "docker build -t ghcr.io/plankanban/planka:base-local -f Dockerfile.base .",
+    "gv": "genversion --source ./ --template client/version-template.ejs client/src/version.js",
     "postinstall": "(cd server && npm i && cd ../client && npm i)",
     "lint": "npm run server:lint && npm run client:lint",
     "prepare": "husky",
@@ -57,6 +58,7 @@
   },
   "dependencies": {
     "concurrently": "^8.2.2",
+    "genversion": "^3.2.0",
     "husky": "^9.0.1",
     "lint-staged": "^15.2.5"
   },

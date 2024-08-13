@@ -1,5 +1,3 @@
-const VERSION = process.env.REACT_APP_VERSION;
-
 const { BASE_URL } = window;
 const BASE_PATH = BASE_URL.replace(/^.*\/\/[^/]*(.*)[^?#]*.*$/, '$1');
 
@@ -18,7 +16,6 @@ const POSITION_GAP = 65535;
 const ACTIVITIES_LIMIT = 50;
 
 export default {
-  VERSION,
   BASE_PATH,
   SERVER_BASE_URL,
   SERVER_BASE_PATH,
