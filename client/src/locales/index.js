@@ -22,6 +22,7 @@ import trTR from './tr-TR';
 import ukUA from './uk-UA';
 import uzUZ from './uz-UZ';
 import zhCN from './zh-CN';
+import zhTW from './zh-TW';
 
 const locales = [
   bgBG,
@@ -48,6 +49,7 @@ const locales = [
   ukUA,
   uzUZ,
   zhCN,
+  zhTW,
 ];
 
 export default locales;
