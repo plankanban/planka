@@ -15,7 +15,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: "À propos de Planka",
+      aboutPlanka: 'À propos de Planka',
       account: 'Compte',
       actions: 'Actions',
       addAttachment_title: 'Ajouter une pièce jointe',
@@ -76,7 +76,7 @@ export default {
       deleteTask_title: 'Supprimer la tâche',
       deleteUser_title: "Supprimer l'utilisateur",
       description: 'Description',
-      detectAutomatically:'Détecter automatiquement',
+      detectAutomatically: 'Détecter automatiquement',
       dropFileToUpload: 'Déposer le fichier à télécharger',
       editor: 'Éditeur',
       editAttachment_title: 'Modifier la pièce jointe',
@@ -185,7 +185,7 @@ export default {
       addCard_title: 'Ajouter une carte',
       addComment: 'Ajouter un commentaire',
       addList: 'Ajouter la liste',
-      addMember : 'Ajouter un membre',
+      addMember: 'Ajouter un membre',
       addMoreDetailedDescription: 'Ajouter une description plus détaillée',
       addTask: 'Ajouter une tâche',
       addToCard: 'Ajouter à la carte',
