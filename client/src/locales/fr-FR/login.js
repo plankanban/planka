@@ -11,10 +11,12 @@ export default {
       projectManagement: 'Gestion de projet',
       serverConnectionFailed: 'Connection au serveur échouée',
       unknownError: 'Erreur inconnue, réessayez plus tard',
+      useSingleSignOn: "Utiliser l'authentification unique",
     },
 
     action: {
       logIn: 'Se connecter',
+      logInWithSSO: "Se connecter avec l'authentification unique",
     },
   },
 };
