@@ -10,6 +10,9 @@ const Errors = {
   INVALID_PASSWORD: {
     invalidPassword: 'Invalid password',
   },
+  INVALID_CREDENTIALS: {
+    invalidCredentials: 'Invalid credentials',
+  },
   USE_SINGLE_SIGN_ON: {
     useSingleSignOn: 'Use single sign-on',
   },
@@ -40,6 +43,9 @@ module.exports = {
     invalidPassword: {
       responseType: 'unauthorized',
     },
+    invalidCredentials: {
+      responseType: 'unauthorized',
+    },
     useSingleSignOn: {
       responseType: 'forbidden',
     },
@@ -57,6 +63,9 @@ module.exports = {
       sails.log.warn(
         `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
       );
+      if (sails.config.custom.enableVerboseOnLogin) {
+        throw Errors.INVALID_CREDENTIALS;
+      }
       throw Errors.INVALID_EMAIL_OR_USERNAME;
     }
 
@@ -66,6 +75,9 @@ module.exports = {
 
     if (!bcrypt.compareSync(inputs.password, user.password)) {
       sails.log.warn(`Invalid password! (IP: ${remoteAddress})`);
+      if (sails.config.custom.enableVerboseOnLogin) {
+        throw Errors.INVALID_CREDENTIALS;
+      }
       throw Errors.INVALID_PASSWORD;
     }
 

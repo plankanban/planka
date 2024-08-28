@@ -36,6 +36,8 @@ module.exports.custom = {
 
   allowAllToCreateProjects: process.env.ALLOW_ALL_TO_CREATE_PROJECTS === 'true',
 
+  enableVerboseOnLogin: process.env.ENABLE_VERBOSE_ON_LOGIN ? process.env.ENABLE_VERBOSE_ON_LOGIN === 'true' : true,
+
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
