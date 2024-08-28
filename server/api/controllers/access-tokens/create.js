@@ -63,7 +63,7 @@ module.exports = {
       sails.log.warn(
         `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
       );
-      if (sails.config.custom.enableVerboseOnLogin) {
+      if (!sails.config.custom.enableVerboseOnLogin) {
         throw Errors.INVALID_CREDENTIALS;
       }
       throw Errors.INVALID_EMAIL_OR_USERNAME;
@@ -75,7 +75,7 @@ module.exports = {
 
     if (!bcrypt.compareSync(inputs.password, user.password)) {
       sails.log.warn(`Invalid password! (IP: ${remoteAddress})`);
-      if (sails.config.custom.enableVerboseOnLogin) {
+      if (!sails.config.custom.enableVerboseOnLogin) {
         throw Errors.INVALID_CREDENTIALS;
       }
       throw Errors.INVALID_PASSWORD;
