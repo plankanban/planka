@@ -31,6 +31,8 @@ services:
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
 
+      # - ENABLE_VERBOSE_ON_LOGIN=false # Set to true will show more verbose error messages on login. Should not be disabled without a rate limiter for security reasons.
+
       # - ALLOW_ALL_TO_CREATE_PROJECTS=true
 
       # - OIDC_ISSUER=

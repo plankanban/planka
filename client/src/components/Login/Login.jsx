@@ -28,6 +28,11 @@ const createMessage = (error) => {
         type: 'error',
         content: 'common.invalidPassword',
       };
+    case 'Invalid credentials':
+      return {
+        type: 'error',
+        content: 'common.invalidCredentials',
+      };
     case 'Use single sign-on':
       return {
         type: 'error',
@@ -116,6 +121,10 @@ const Login = React.memo(
     useEffect(() => {
       if (wasSubmitting && !isSubmitting && error) {
         switch (error.message) {
+          case 'Invalid credentials':
+            emailOrUsernameField.current.select();
+
+            break;
           case 'Invalid email or username':
             emailOrUsernameField.current.select();
 
