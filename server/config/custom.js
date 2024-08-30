@@ -34,9 +34,9 @@ module.exports.custom = {
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
-  allowAllToCreateProjects: process.env.ALLOW_ALL_TO_CREATE_PROJECTS === 'true',
+  showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
 
-  enableVerboseOnLogin: process.env.ENABLE_VERBOSE_ON_LOGIN ? process.env.ENABLE_VERBOSE_ON_LOGIN === 'true' : false,
+  allowAllToCreateProjects: process.env.ALLOW_ALL_TO_CREATE_PROJECTS === 'true',
 
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,

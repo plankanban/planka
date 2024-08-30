@@ -4,14 +4,14 @@ const validator = require('validator');
 const { getRemoteAddress } = require('../../../utils/remoteAddress');
 
 const Errors = {
+  INVALID_CREDENTIALS: {
+    invalidCredentials: 'Invalid credentials',
+  },
   INVALID_EMAIL_OR_USERNAME: {
     invalidEmailOrUsername: 'Invalid email or username',
   },
   INVALID_PASSWORD: {
     invalidPassword: 'Invalid password',
-  },
-  INVALID_CREDENTIALS: {
-    invalidCredentials: 'Invalid credentials',
   },
   USE_SINGLE_SIGN_ON: {
     useSingleSignOn: 'Use single sign-on',
@@ -37,13 +37,13 @@ module.exports = {
   },
 
   exits: {
+    invalidCredentials: {
+      responseType: 'unauthorized',
+    },
     invalidEmailOrUsername: {
       responseType: 'unauthorized',
     },
     invalidPassword: {
-      responseType: 'unauthorized',
-    },
-    invalidCredentials: {
       responseType: 'unauthorized',
     },
     useSingleSignOn: {
@@ -63,10 +63,10 @@ module.exports = {
       sails.log.warn(
         `Invalid email or username: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
       );
-      if (!sails.config.custom.enableVerboseOnLogin) {
-        throw Errors.INVALID_CREDENTIALS;
-      }
-      throw Errors.INVALID_EMAIL_OR_USERNAME;
+
+      throw sails.config.custom.showDetailedAuthErrors
+        ? Errors.INVALID_EMAIL_OR_USERNAME
+        : Errors.INVALID_CREDENTIALS;
     }
 
     if (user.isSso) {
@@ -75,10 +75,10 @@ module.exports = {
 
     if (!bcrypt.compareSync(inputs.password, user.password)) {
       sails.log.warn(`Invalid password! (IP: ${remoteAddress})`);
-      if (!sails.config.custom.enableVerboseOnLogin) {
-        throw Errors.INVALID_CREDENTIALS;
-      }
-      throw Errors.INVALID_PASSWORD;
+
+      throw sails.config.custom.showDetailedAuthErrors
+        ? Errors.INVALID_PASSWORD
+        : Errors.INVALID_CREDENTIALS;
     }
 
     const accessToken = sails.helpers.utils.createToken(user.id);
