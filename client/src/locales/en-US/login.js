@@ -3,6 +3,7 @@ export default {
     common: {
       emailOrUsername: 'E-mail or username',
       invalidEmailOrUsername: 'Invalid e-mail or username',
+      invalidCredentials: 'Invalid credentials',
       invalidPassword: 'Invalid password',
       logInToPlanka: 'Log in to Planka',
       noInternetConnection: 'No internet connection',
