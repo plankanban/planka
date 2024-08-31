@@ -6,7 +6,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint --ext js,jsx src config-overrides.js",
     "start": "react-app-rewired start",
-    "test": "react-app-rewired test"
+    "test": "react-app-rewired test",
+    "test:e2e": "cucumber-js --require cucumber.conf.js --require tests/acceptance/stepDefinitions/**/*.js --format @cucumber/pretty-formatter"
   },
   "browserslist": {
     "production": [
@@ -104,7 +105,11 @@
     "socket.io-client": "^2.5.0",
     "validator": "^13.12.0",
     "whatwg-fetch": "^3.6.20",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "@cucumber/cucumber": "^7.3.1",
+    "@cucumber/pretty-formatter": "^1.0.1",
+    "@playwright/test": "^1.46.1",
+    "playwright": "^1.46.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
