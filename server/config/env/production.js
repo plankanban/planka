@@ -23,6 +23,8 @@ const url = require('url');
 
 const { customLogger } = require('../../utils/logger');
 
+const parsedBasedUrl = new url.URL(process.env.BASE_URL);
+
 module.exports = {
   /**
    *
@@ -131,9 +133,10 @@ module.exports = {
      */
 
     cors: {
-      // allowOrigins: [
-      //   'https://example.com',
-      // ],
+      allRoutes: false,
+      allowOrigins: '*',
+      allowRequestHeaders: 'content-type',
+      allowCredentials: false,
     },
   },
 
@@ -218,7 +221,7 @@ module.exports = {
      *
      */
 
-    onlyAllowOrigins: [new url.URL(process.env.BASE_URL).origin],
+    onlyAllowOrigins: [parsedBasedUrl.origin],
 
     /**
      *

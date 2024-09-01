@@ -16,7 +16,7 @@ module.exports = function defineWatcherHook(sails) {
       const accessToken = room.split(':')[1];
 
       try {
-        sails.helpers.utils.verifyToken(accessToken);
+        sails.helpers.utils.verifyJwtToken(accessToken);
       } catch (error) {
         sails.sockets.broadcast(room, 'logout');
         sails.sockets.leaveAll(room);

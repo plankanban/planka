@@ -16,6 +16,12 @@ module.exports = {
       required: true,
       columnName: 'access_token',
     },
+    httpOnlyToken: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'http_only_token',
+    },
     remoteAddress: {
       type: 'string',
       required: true,

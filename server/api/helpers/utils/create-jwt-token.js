@@ -16,18 +16,23 @@ module.exports = {
 
   fn(inputs) {
     const { issuedAt = new Date() } = inputs;
-    const iat = Math.floor(issuedAt / 1000);
 
-    return jwt.sign(
-      {
-        iat,
-        sub: inputs.subject,
-        exp: iat + sails.config.custom.tokenExpiresIn * 24 * 60 * 60,
-      },
-      sails.config.session.secret,
-      {
-        keyid: uuid(),
-      },
-    );
+    const iat = Math.floor(issuedAt / 1000);
+    const exp = iat + sails.config.custom.tokenExpiresIn * 24 * 60 * 60;
+
+    const payload = {
+      iat,
+      exp,
+      sub: inputs.subject,
+    };
+
+    const token = jwt.sign(payload, sails.config.session.secret, {
+      keyid: uuid(),
+    });
+
+    return {
+      token,
+      payload,
+    };
   },
 };
