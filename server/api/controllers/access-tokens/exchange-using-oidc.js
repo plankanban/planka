@@ -1,3 +1,5 @@
+const { v4: uuid } = require('uuid');
+
 const { getRemoteAddress } = require('../../../utils/remoteAddress');
 
 const Errors = {
@@ -27,6 +29,10 @@ module.exports = {
     nonce: {
       type: 'string',
       required: true,
+    },
+    withHttpOnlyToken: {
+      type: 'boolean',
+      defaultsTo: false,
     },
   },
 
@@ -62,14 +68,23 @@ module.exports = {
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)
       .intercept('missingValues', () => Errors.MISSING_VALUES);
 
-    const accessToken = sails.helpers.utils.createToken(user.id);
+    const { token: accessToken, payload: accessTokenPayload } = sails.helpers.utils.createJwtToken(
+      user.id,
+    );
+
+    const httpOnlyToken = inputs.withHttpOnlyToken ? uuid() : null;
 
     await Session.create({
       accessToken,
+      httpOnlyToken,
       remoteAddress,
       userId: user.id,
       userAgent: this.req.headers['user-agent'],
     });
+
+    if (httpOnlyToken && !this.req.isSocket) {
+      sails.helpers.utils.setHttpOnlyTokenCookie(httpOnlyToken, accessTokenPayload, this.res);
+    }
 
     return {
       item: accessToken,

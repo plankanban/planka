@@ -8,8 +8,11 @@
  * https://sailsjs.com/config/custom
  */
 
+const url = require('url');
 const path = require('path');
 const sails = require('sails');
+
+const parsedBasedUrl = new url.URL(process.env.BASE_URL);
 
 module.exports.custom = {
   /**
@@ -19,6 +22,8 @@ module.exports.custom = {
    */
 
   baseUrl: process.env.BASE_URL,
+  baseUrlPath: parsedBasedUrl.pathname,
+  baseUrlSecure: parsedBasedUrl.protocol === 'https:',
 
   tokenExpiresIn: parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365,
 

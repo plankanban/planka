@@ -9,10 +9,10 @@
 module.exports = function defineCurrentUserHook(sails) {
   const TOKEN_PATTERN = /^Bearer /;
 
-  const getUser = async (accessToken) => {
+  const getSessionAndUser = async (accessToken, httpOnlyToken) => {
     let payload;
     try {
-      payload = sails.helpers.utils.verifyToken(accessToken);
+      payload = sails.helpers.utils.verifyJwtToken(accessToken);
     } catch (error) {
       return null;
     }
@@ -26,13 +26,20 @@ module.exports = function defineCurrentUserHook(sails) {
       return null;
     }
 
+    if (session.httpOnlyToken && httpOnlyToken !== session.httpOnlyToken) {
+      return null;
+    }
+
     const user = await sails.helpers.users.getOne(payload.subject);
 
     if (user && user.passwordChangedAt > payload.issuedAt) {
       return null;
     }
 
-    return user;
+    return {
+      session,
+      user,
+    };
   };
 
   return {
@@ -52,17 +59,21 @@ module.exports = function defineCurrentUserHook(sails) {
 
             if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
               const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
-              const currentUser = await getUser(accessToken);
+              const { httpOnlyToken } = req.cookies;
 
-              if (currentUser) {
+              const sessionAndUser = await getSessionAndUser(accessToken, httpOnlyToken);
+
+              if (sessionAndUser) {
+                const { session, user } = sessionAndUser;
+
                 Object.assign(req, {
-                  accessToken,
-                  currentUser,
+                  currentSession: session,
+                  currentUser: user,
                 });
 
                 if (req.isSocket) {
-                  sails.sockets.join(req, `@accessToken:${accessToken}`);
-                  sails.sockets.join(req, `@user:${currentUser.id}`);
+                  sails.sockets.join(req, `@accessToken:${session.accessToken}`);
+                  sails.sockets.join(req, `@user:${user.id}`);
                 }
               }
             }
@@ -72,15 +83,17 @@ module.exports = function defineCurrentUserHook(sails) {
         },
         '/attachments/*': {
           async fn(req, res, next) {
-            const { accessToken } = req.cookies;
+            const { accessToken, httpOnlyToken } = req.cookies;
 
             if (accessToken) {
-              const currentUser = await getUser(accessToken);
+              const sessionAndUser = await getSessionAndUser(accessToken, httpOnlyToken);
 
-              if (currentUser) {
+              if (sessionAndUser) {
+                const { session, user } = sessionAndUser;
+
                 Object.assign(req, {
-                  accessToken,
-                  currentUser,
+                  currentSession: session,
+                  currentUser: user,
                 });
               }
             }

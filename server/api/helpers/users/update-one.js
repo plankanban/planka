@@ -68,7 +68,7 @@ module.exports = {
 
       Object.assign(values, {
         password: bcrypt.hashSync(values.password, 10),
-        passwordChangedAt: new Date().toISOString(),
+        passwordChangedAt: new Date().toUTCString(), // FIXME: hack
       });
     }
 
