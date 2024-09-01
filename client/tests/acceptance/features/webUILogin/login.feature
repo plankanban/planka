@@ -15,10 +15,10 @@ Feature: login
     When user logs in with username "<username>" and password "<password>" using the webUI
     Then user should see the error message "<message>"
     Examples:
-      | username  | password | message                    |
-      | spiderman | spidy123 | Invalid e-mail or username |
-      | ironman   | iron123  | Invalid e-mail or username |
-      | aquaman   | aqua123  | Invalid e-mail or username |
+      | username  | password | message             |
+      | spiderman | spidy123 | Invalid credentials |
+      | ironman   | iron123  | Invalid credentials |
+      | aquaman   | aqua123  | Invalid credentials |
 
 
   Scenario: User can log out

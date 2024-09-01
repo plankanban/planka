@@ -1,7 +1,7 @@
 class LoginPage {
   constructor() {
     // url
-    this.homeUrl = 'http://localhost:3000';
+    this.homeUrl = 'http://localhost:1337';
     this.loginUrl = `${this.homeUrl}/login`;
 
     this.loginButtonSelector = `//i[@class="right arrow icon"]`;
