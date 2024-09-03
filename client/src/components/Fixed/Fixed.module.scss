@@ -1,5 +1,6 @@
 :global(#app) {
   .wrapper {
+    max-width: 100vw;
     position: fixed;
     width: 100%;
     z-index: 1;

@@ -31,12 +31,23 @@ jobs:
           result-encoding: string
           script: return context.payload.release.tag_name.replace('v', '')
 
+      - name: Generate docker image tags
+        id: metadata
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            name=ghcr.io/${{ github.repository }}
+          tags: |
+            type=raw,value=${{ steps.set-version.outputs.result }}
+            type=raw,value=latest
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
-          tags: |
-            ghcr.io/plankanban/planka:latest
-            ghcr.io/plankanban/planka:${{ steps.set-version.outputs.result }}
+          tags: ${{ steps.metadata.outputs.tags }}
+          labels: ${{ steps.metadata.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

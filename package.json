@@ -1,6 +1,6 @@
 {
   "name": "planka",
-  "version": "1.16.4",
+  "version": "1.21.1",
   "private": true,
   "homepage": "https://plankanban.github.io/planka",
   "repository": {
@@ -16,9 +16,10 @@
     "client:test": "npm test --prefix client",
     "docker:build": "docker build -t ghcr.io/plankanban/planka:local -f Dockerfile .",
     "docker:build:base": "docker build -t ghcr.io/plankanban/planka:base-local -f Dockerfile.base .",
+    "gv": "genversion --source ./ --template client/version-template.ejs client/src/version.js",
     "postinstall": "(cd server && npm i && cd ../client && npm i)",
     "lint": "npm run server:lint && npm run client:lint",
-    "prepare": "husky install",
+    "prepare": "husky",
     "server:console": "npm run console --prefix server",
     "server:db:init": "npm run db:init --prefix server",
     "server:db:migrate": "npm run db:migrate --prefix server",
@@ -57,13 +58,14 @@
   },
   "dependencies": {
     "concurrently": "^8.2.2",
-    "husky": "^8.0.3",
-    "lint-staged": "^15.1.0"
+    "genversion": "^3.2.0",
+    "husky": "^9.0.1",
+    "lint-staged": "^15.2.5"
   },
   "devDependencies": {
-    "eslint": "^8.53.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.1",
-    "prettier": "^3.1.0"
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "prettier": "^3.3.0"
   }
 }

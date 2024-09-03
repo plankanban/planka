@@ -37,7 +37,7 @@ module.exports = {
       type: 'json',
       custom: importValidator,
     },
-    user: {
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -80,6 +80,8 @@ module.exports = {
             position: nextPosition,
           },
         });
+
+        // TODO: send webhooks
       });
     });
 
@@ -90,12 +92,12 @@ module.exports = {
     }).fetch();
 
     if (inputs.import && inputs.import.type === Board.ImportTypes.TRELLO) {
-      await sails.helpers.boards.importFromTrello(inputs.user, board, inputs.import.board);
+      await sails.helpers.boards.importFromTrello(board, inputs.import.board, inputs.actorUser);
     }
 
     const boardMembership = await BoardMembership.create({
       boardId: board.id,
-      userId: inputs.user.id,
+      userId: inputs.actorUser.id,
       role: BoardMembership.Roles.EDITOR,
     }).fetch();
 
@@ -109,6 +111,17 @@ module.exports = {
         },
         inputs.request,
       );
+    });
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'boardCreate',
+      data: {
+        item: board,
+        included: {
+          projects: [values.project],
+        },
+      },
+      user: inputs.actorUser,
     });
 
     return {

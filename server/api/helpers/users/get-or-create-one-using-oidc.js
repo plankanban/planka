@@ -12,6 +12,7 @@ module.exports = {
 
   exits: {
     invalidCodeOrNonce: {},
+    invalidUserinfoSignature: {},
     missingValues: {},
     emailAlreadyInUse: {},
     usernameAlreadyInUse: {},
@@ -34,6 +35,14 @@ module.exports = {
       );
       userInfo = await client.userinfo(tokenSet);
     } catch (e) {
+      if (
+        e instanceof SyntaxError &&
+        e.message.includes('Unexpected token e in JSON at position 0')
+      ) {
+        sails.log.warn('Error while exchanging OIDC code: userinfo response is signed');
+        throw 'invalidUserinfoSignature';
+      }
+
       sails.log.warn(`Error while exchanging OIDC code: ${e}`);
       throw 'invalidCodeOrNonce';
     }
@@ -88,8 +97,11 @@ module.exports = {
 
       // Otherwise, create a new user.
       if (!user) {
-        user = await sails.helpers.users
-          .createOne(values)
+        user = await sails.helpers.users.createOne
+          .with({
+            values,
+            actorUser: User.OIDC,
+          })
           .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse');
       }
 
@@ -115,8 +127,12 @@ module.exports = {
     }
 
     if (Object.keys(updateValues).length > 0) {
-      user = await sails.helpers.users
-        .updateOne(user, updateValues, {}) // FIXME: hack for last parameter
+      user = await sails.helpers.users.updateOne
+        .with({
+          record: user,
+          values: updateValues,
+          actorUser: User.OIDC,
+        })
         .intercept('emailAlreadyInUse', 'emailAlreadyInUse')
         .intercept('usernameAlreadyInUse', 'usernameAlreadyInUse');
     }

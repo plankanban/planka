@@ -14,21 +14,21 @@ const valuesValidator = (value) => {
   return true;
 };
 
-const buildAndSendMessage = async (user, card, action, send) => {
+const buildAndSendMessage = async (card, action, actorUser, send) => {
   const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
 
   let markdown;
   switch (action.type) {
     case Action.Types.CREATE_CARD:
-      markdown = `${cardLink} was created by ${user.name} in *${action.data.list.name}*`;
+      markdown = `${cardLink} was created by ${actorUser.name} in *${action.data.list.name}*`;
 
       break;
     case Action.Types.MOVE_CARD:
-      markdown = `${cardLink} was moved by ${user.name} to *${action.data.toList.name}*`;
+      markdown = `${cardLink} was moved by ${actorUser.name} to *${action.data.toList.name}*`;
 
       break;
     case Action.Types.COMMENT_CARD:
-      markdown = `*${user.name}* commented on ${cardLink}:\n>${action.data.text}`;
+      markdown = `*${actorUser.name}* commented on ${cardLink}:\n>${action.data.text}`;
 
       break;
     default:
@@ -45,7 +45,15 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
       type: 'ref',
       required: true,
     },
@@ -72,6 +80,20 @@ module.exports = {
       inputs.request,
     );
 
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'actionCreate',
+      data: {
+        item: action,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: values.user,
+    });
+
     const subscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(
       action.cardId,
       action.userId,
@@ -84,26 +106,27 @@ module.exports = {
             userId,
             action,
           },
-          user: values.user,
+          project: inputs.project,
           board: inputs.board,
+          list: inputs.list,
           card: values.card,
+          actorUser: values.user,
         }),
       ),
     );
 
     if (sails.config.custom.slackBotToken) {
-      buildAndSendMessage(values.user, values.card, action, sails.helpers.utils.sendSlackMessage);
+      buildAndSendMessage(values.card, action, values.user, sails.helpers.utils.sendSlackMessage);
     }
 
     if (sails.config.custom.googleChatWebhookUrl) {
       buildAndSendMessage(
-        values.user,
         values.card,
         action,
+        values.user,
         sails.helpers.utils.sendGoogleChatMessage,
       );
     }
-
     return action;
   },
 };

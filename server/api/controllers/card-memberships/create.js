@@ -45,12 +45,12 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     const boardMembership = await BoardMembership.findOne({
-      boardId: card.boardId,
+      boardId: board.id,
       userId: currentUser.id,
     });
 
@@ -62,7 +62,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(inputs.userId, card.boardId);
+    const isBoardMember = await sails.helpers.users.isBoardMember(inputs.userId, board.id);
 
     if (!isBoardMember) {
       throw Errors.USER_NOT_FOUND;
@@ -70,10 +70,14 @@ module.exports = {
 
     const cardMembership = await sails.helpers.cardMemberships.createOne
       .with({
+        project,
+        board,
+        list,
         values: {
           card,
           userId: inputs.userId,
         },
+        actorUser: currentUser,
         request: this.req,
       })
       .intercept('userAlreadyCardMember', () => Errors.USER_ALREADY_CARD_MEMBER);

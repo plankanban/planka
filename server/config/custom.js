@@ -8,8 +8,11 @@
  * https://sailsjs.com/config/custom
  */
 
+const url = require('url');
 const path = require('path');
 const sails = require('sails');
+
+const parsedBasedUrl = new url.URL(process.env.BASE_URL);
 
 module.exports.custom = {
   /**
@@ -19,6 +22,8 @@ module.exports.custom = {
    */
 
   baseUrl: process.env.BASE_URL,
+  baseUrlPath: parsedBasedUrl.pathname,
+  baseUrlSecure: parsedBasedUrl.protocol === 'https:',
 
   tokenExpiresIn: parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365,
 
@@ -34,10 +39,18 @@ module.exports.custom = {
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
+  showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
+
+  allowAllToCreateProjects: process.env.ALLOW_ALL_TO_CREATE_PROJECTS === 'true',
+
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
+  oidcIdTokenSignedResponseAlg: process.env.OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG,
+  oidcUserinfoSignedResponseAlg: process.env.OIDC_USERINFO_SIGNED_RESPONSE_ALG,
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
+  oidcResponseMode: process.env.OIDC_RESPONSE_MODE || 'fragment',
+  oidcUseDefaultResponseMode: process.env.OIDC_USE_DEFAULT_RESPONSE_MODE === 'true',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
   oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
   oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
@@ -54,10 +67,13 @@ module.exports.custom = {
 
   smtpHost: process.env.SMTP_HOST,
   smtpPort: process.env.SMTP_PORT || 587,
+  smtpName: process.env.SMTP_NAME,
   smtpSecure: process.env.SMTP_SECURE === 'true',
   smtpUser: process.env.SMTP_USER,
   smtpPassword: process.env.SMTP_PASSWORD,
   smtpFrom: process.env.SMTP_FROM,
+
+  webhooks: JSON.parse(process.env.WEBHOOKS || '[]'), // TODO: validate structure
 
   slackBotToken: process.env.SLACK_BOT_TOKEN,
   slackChannelId: process.env.SLACK_CHANNEL_ID,

@@ -5,7 +5,16 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const SortTypes = {
+  NAME_ASC: 'name_asc',
+  DUE_DATE_ASC: 'dueDate_asc',
+  CREATED_AT_ASC: 'createdAt_asc',
+  CREATED_AT_DESC: 'createdAt_desc',
+};
+
 module.exports = {
+  SortTypes,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗

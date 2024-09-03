@@ -4,7 +4,7 @@ module.exports = {
       type: 'json',
       required: true,
     },
-    user: {
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -20,7 +20,7 @@ module.exports = {
 
     const projectManager = await ProjectManager.create({
       projectId: project.id,
-      userId: inputs.user.id,
+      userId: inputs.actorUser.id,
     }).fetch();
 
     sails.sockets.broadcast(
@@ -31,6 +31,14 @@ module.exports = {
       },
       inputs.request,
     );
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'projectCreate',
+      data: {
+        item: project,
+      },
+      user: inputs.actorUser,
+    });
 
     return {
       project,

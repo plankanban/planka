@@ -21,7 +21,23 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
+      type: 'ref',
+      required: true,
+    },
+    card: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -57,6 +73,8 @@ module.exports = {
             position: nextPosition,
           },
         });
+
+        // TODO: send webhooks
       });
     }
 
@@ -71,6 +89,20 @@ module.exports = {
         },
         inputs.request,
       );
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'taskUpdate',
+        data: {
+          item: task,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+            lists: [inputs.list],
+            cards: [inputs.card],
+          },
+        },
+        user: inputs.actorUser,
+      });
     }
 
     return task;

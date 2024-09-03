@@ -28,6 +28,11 @@ module.exports = {
       type: 'ref',
       columnName: 'due_date',
     },
+    isDueDateCompleted: {
+      type: 'boolean',
+      allowNull: true,
+      columnName: 'is_due_date_completed',
+    },
     stopwatch: {
       type: 'json',
     },

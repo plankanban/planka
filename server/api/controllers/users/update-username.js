@@ -83,7 +83,7 @@ module.exports = {
       .with({
         values,
         record: user,
-        user: currentUser,
+        actorUser: currentUser,
         request: this.req,
       })
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);

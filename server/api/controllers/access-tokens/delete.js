@@ -1,20 +1,22 @@
 module.exports = {
   async fn() {
-    const { accessToken } = this.req;
+    const { currentSession } = this.req;
 
     await Session.updateOne({
-      accessToken,
+      id: currentSession.id,
       deletedAt: null,
     }).set({
       deletedAt: new Date().toISOString(),
     });
 
-    if (this.req.isSocket) {
-      sails.sockets.leaveAll(`@accessToken:${accessToken}`);
+    sails.sockets.leaveAll(`@accessToken:${currentSession.accessToken}`);
+
+    if (currentSession.httpOnlyToken && !this.req.isSocket) {
+      sails.helpers.utils.clearHttpOnlyTokenCookie(this.res);
     }
 
     return {
-      item: accessToken,
+      item: currentSession.accessToken,
     };
   },
 };

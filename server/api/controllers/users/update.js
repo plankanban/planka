@@ -36,7 +36,7 @@ module.exports = {
     },
     language: {
       type: 'string',
-      isNotEmptyString: true,
+      isIn: User.LANGUAGES,
       allowNull: true,
     },
     subscribeToOwnCards: {
@@ -95,7 +95,7 @@ module.exports = {
     user = await sails.helpers.users.updateOne.with({
       values,
       record: user,
-      user: currentUser,
+      actorUser: currentUser,
       request: this.req,
     });
 

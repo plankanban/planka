@@ -56,6 +56,11 @@ module.exports = {
     dueDate: {
       type: 'string',
       custom: dueDateValidator,
+      allowNull: true,
+    },
+    isDueDateCompleted: {
+      type: 'boolean',
+      allowNull: true,
     },
     stopwatch: {
       type: 'json',
@@ -78,7 +83,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board, list } = await sails.helpers.lists
+    const { list, board, project } = await sails.helpers.lists
       .getProjectPath(inputs.listId)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
@@ -95,10 +100,18 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'stopwatch']);
+    const values = _.pick(inputs, [
+      'position',
+      'name',
+      'description',
+      'dueDate',
+      'isDueDateCompleted',
+      'stopwatch',
+    ]);
 
     const card = await sails.helpers.cards.createOne
       .with({
+        project,
         board,
         values: {
           ...values,

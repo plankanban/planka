@@ -36,6 +36,7 @@ module.exports = {
 
     project = await sails.helpers.projects.deleteOne.with({
       record: project,
+      actorUser: currentUser,
       request: this.req,
     });
 

@@ -25,6 +25,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
       type: 'ref',
       required: true,
@@ -43,6 +47,14 @@ module.exports = {
 
     if (_.isUndefined(values.position)) {
       throw 'positionMustBeInValues';
+    }
+
+    if (values.dueDate) {
+      if (_.isNil(values.isDueDateCompleted)) {
+        values.isDueDateCompleted = false;
+      }
+    } else {
+      delete values.isDueDateCompleted;
     }
 
     const cards = await sails.helpers.lists.getCards(values.list.id);
@@ -66,6 +78,8 @@ module.exports = {
           position: nextPosition,
         },
       });
+
+      // TODO: send webhooks
     });
 
     const card = await Card.create({
@@ -85,6 +99,19 @@ module.exports = {
       inputs.request,
     );
 
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'cardCreate',
+      data: {
+        item: card,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [values.list],
+        },
+      },
+      user: values.creatorUser,
+    });
+
     if (values.creatorUser.subscribeToOwnCards) {
       await CardSubscription.create({
         cardId: card.id,
@@ -97,6 +124,8 @@ module.exports = {
           isSubscribed: true,
         },
       });
+
+      // TODO: send webhooks
     }
 
     await sails.helpers.actions.createOne.with({
@@ -108,7 +137,10 @@ module.exports = {
         },
         user: values.creatorUser,
       },
+      project: inputs.project,
       board: inputs.board,
+      list: values.list,
+      request: inputs.request,
     });
 
     return card;

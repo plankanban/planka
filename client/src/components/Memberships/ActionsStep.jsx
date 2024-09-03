@@ -3,6 +3,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
+import { Popup } from '../../lib/custom-ui';
 
 import { useSteps } from '../../hooks';
 import User from '../User';
@@ -19,6 +20,7 @@ const ActionsStep = React.memo(
   ({
     membership,
     permissionsSelectStep,
+    title,
     leaveButtonContent,
     leaveConfirmationTitle,
     leaveConfirmationContent,
@@ -31,6 +33,7 @@ const ActionsStep = React.memo(
     canLeave,
     onUpdate,
     onDelete,
+    onBack,
     onClose,
   }) => {
     const [t] = useTranslation();
@@ -52,6 +55,11 @@ const ActionsStep = React.memo(
       },
       [onUpdate],
     );
+
+    const handleDeleteConfirm = useCallback(() => {
+      onDelete();
+      onClose();
+    }, [onDelete, onClose]);
 
     if (step) {
       switch (step.type) {
@@ -81,7 +89,7 @@ const ActionsStep = React.memo(
                   ? leaveConfirmationButtonContent
                   : deleteConfirmationButtonContent
               }
-              onConfirm={onDelete}
+              onConfirm={handleDeleteConfirm}
               onBack={handleBack}
             />
           );
@@ -89,7 +97,7 @@ const ActionsStep = React.memo(
       }
     }
 
-    return (
+    const contentNode = (
       <>
         <span className={styles.user}>
           <User name={membership.user.name} avatarUrl={membership.user.avatarUrl} size="large" />
@@ -125,12 +133,26 @@ const ActionsStep = React.memo(
             )}
       </>
     );
+
+    return onBack ? (
+      <>
+        <Popup.Header onBack={onBack}>
+          {t(title, {
+            context: 'title',
+          })}
+        </Popup.Header>
+        <Popup.Content>{contentNode}</Popup.Content>
+      </>
+    ) : (
+      contentNode
+    );
   },
 );
 
 ActionsStep.propTypes = {
   membership: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   permissionsSelectStep: PropTypes.elementType,
+  title: PropTypes.string,
   leaveButtonContent: PropTypes.string,
   leaveConfirmationTitle: PropTypes.string,
   leaveConfirmationContent: PropTypes.string,
@@ -143,11 +165,13 @@ ActionsStep.propTypes = {
   canLeave: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func,
   onDelete: PropTypes.func.isRequired,
+  onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
 ActionsStep.defaultProps = {
   permissionsSelectStep: undefined,
+  title: 'common.memberActions',
   leaveButtonContent: 'action.leaveBoard',
   leaveConfirmationTitle: 'common.leaveBoard',
   leaveConfirmationContent: 'common.areYouSureYouWantToLeaveBoard',
@@ -157,6 +181,7 @@ ActionsStep.defaultProps = {
   deleteConfirmationContent: 'common.areYouSureYouWantToRemoveThisMemberFromBoard',
   deleteConfirmationButtonContent: 'action.removeMember',
   onUpdate: undefined,
+  onBack: undefined,
 };
 
 export default ActionsStep;

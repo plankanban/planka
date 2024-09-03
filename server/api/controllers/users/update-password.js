@@ -48,7 +48,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { currentUser } = this.req;
+    const { currentSession, currentUser } = this.req;
 
     if (inputs.id === currentUser.id) {
       if (!inputs.currentPassword) {
@@ -80,7 +80,7 @@ module.exports = {
     user = await sails.helpers.users.updateOne.with({
       values,
       record: user,
-      user: currentUser,
+      actorUser: currentUser,
       request: this.req,
     });
 
@@ -89,10 +89,14 @@ module.exports = {
     }
 
     if (user.id === currentUser.id) {
-      const accessToken = sails.helpers.utils.createToken(user.id, user.passwordUpdatedAt);
+      const { token: accessToken } = sails.helpers.utils.createJwtToken(
+        user.id,
+        user.passwordUpdatedAt,
+      );
 
       await Session.create({
         accessToken,
+        httpOnlyToken: currentSession.httpOnlyToken,
         userId: user.id,
         remoteAddress: getRemoteAddress(this.req),
         userAgent: this.req.headers['user-agent'],

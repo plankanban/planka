@@ -45,12 +45,12 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     const boardMembership = await BoardMembership.findOne({
-      boardId: card.boardId,
+      boardId: board.id,
       userId: currentUser.id,
     });
 
@@ -64,7 +64,7 @@ module.exports = {
 
     const label = await Label.findOne({
       id: inputs.labelId,
-      boardId: card.boardId,
+      boardId: board.id,
     });
 
     if (!label) {
@@ -73,10 +73,14 @@ module.exports = {
 
     const cardLabel = await sails.helpers.cardLabels.createOne
       .with({
+        project,
+        board,
+        list,
         values: {
           card,
           label,
         },
+        actorUser: currentUser,
         request: this.req,
       })
       .intercept('labelAlreadyInCard', () => Errors.LABEL_ALREADY_IN_CARD);

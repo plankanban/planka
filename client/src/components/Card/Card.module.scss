@@ -21,6 +21,14 @@
       background: #ebeef0;
       color: #516b7a;
     }
+
+    @media only screen and (max-width: 797px) {
+      &:focus,
+      &:active {
+        background: #ebeef0;
+        color: #516b7a;
+      }
+    }
   }
 
   .attachment {
@@ -54,6 +62,12 @@
     border-radius: 3px;
     box-shadow: 0 1px 0 #ccc;
     position: relative;
+
+    @media only screen and (max-width: 797px) {
+      .target {
+        opacity: 1;
+      }
+    }
 
     &:hover {
       background: #f5f6f7;

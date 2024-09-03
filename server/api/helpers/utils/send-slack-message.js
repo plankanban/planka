@@ -1,6 +1,8 @@
 const POST_MESSAGE_API_URL = 'https://slack.com/api/chat.postMessage';
 
 module.exports = {
+  // TODO: make sync?
+
   inputs: {
     markdown: {
       type: 'string',

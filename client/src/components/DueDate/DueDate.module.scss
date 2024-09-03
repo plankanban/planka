@@ -8,16 +8,17 @@
     padding: 0;
   }
 
+  .statusIcon {
+    line-height: 1;
+    margin: 0 0 0 8px;
+  }
+
   .wrapper {
     background: #dce0e4;
-    border: none;
     border-radius: 3px;
     color: #6a808b;
     display: inline-block;
-    outline: none;
-    text-align: left;
     transition: background 0.3s ease;
-    vertical-align: top;
   }
 
   .wrapperHoverable:hover {
@@ -42,5 +43,22 @@
   .wrapperMedium {
     line-height: 20px;
     padding: 6px 12px;
+  }
+
+  /* Statuses */
+
+  .wrapperDueSoon {
+    background: #f2711c;
+    color: #fff;
+  }
+
+  .wrapperOverdue {
+    background: #db2828;
+    color: #fff;
+  }
+
+  .wrapperCompleted {
+    background: #21ba45;
+    color: #fff;
   }
 }

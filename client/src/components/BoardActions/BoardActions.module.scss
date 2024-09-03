@@ -1,12 +1,15 @@
 :global(#app) {
   .action {
+    align-items: center;
+    display: flex;
     flex: 0 0 auto;
-    margin-right: 20px;
   }
 
   .actions {
     align-items: center;
     display: flex;
+    gap: 20px;
+    justify-content: flex-start;
     margin: 20px 20px;
   }
 

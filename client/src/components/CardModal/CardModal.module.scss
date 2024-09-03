@@ -20,12 +20,20 @@
 
   .actionIcon {
     color: #17394d;
-    display: inline;
     margin-right: 8px;
   }
 
   .actions {
     margin-bottom: 24px;
+
+    @media only screen and (max-width: 797px) {
+      flex: 1;
+    }
+
+    @media only screen and (max-width: 425px) {
+      padding: 0;
+      width: 100%;
+    }
   }
 
   .actionsTitle {
@@ -50,6 +58,12 @@
     max-width: 100%;
   }
 
+  .attachmentDueDate {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+  }
+
   .attachments {
     display: inline-block;
     margin: 0 8px 8px 0;
@@ -63,6 +77,11 @@
 
   .contentPadding {
     padding: 8px 8px 0 16px;
+
+    @media only screen and (max-width: 797px) {
+      padding-right: 16px;
+      width: 100% !important;
+    }
   }
 
   .cursorPointer {
@@ -155,6 +174,11 @@
 
   .modalPadding {
     padding: 0px;
+
+    @media only screen and (max-width: 797px) {
+      display: flex;
+      flex-flow: column nowrap;
+    }
   }
 
   .moduleHeader {
@@ -185,6 +209,15 @@
 
   .sidebarPadding {
     padding: 8px 16px 0 8px;
+
+    @media only screen and (max-width: 797px) {
+      align-items: flex-start;
+      display: flex;
+      flex-flow: row wrap;
+      gap: 10px;
+      padding-left: 16px;
+      width: 100% !important;
+    }
   }
 
   .text {

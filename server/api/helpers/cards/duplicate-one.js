@@ -25,6 +25,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
     board: {
       type: 'ref',
       required: true,
@@ -62,6 +66,8 @@ module.exports = {
           position: nextPosition,
         },
       });
+
+      // TODO: send webhooks
     });
 
     const card = await Card.create({
@@ -71,6 +77,7 @@ module.exports = {
         'name',
         'description',
         'dueDate',
+        'isDueDateCompleted',
         'stopwatch',
       ]),
       ...values,
@@ -108,6 +115,19 @@ module.exports = {
       inputs.request,
     );
 
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'cardCreate',
+      data: {
+        item: card,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+        },
+      },
+      user: values.creatorUser,
+    });
+
     if (values.creatorUser.subscribeToOwnCards) {
       await CardSubscription.create({
         cardId: card.id,
@@ -120,6 +140,8 @@ module.exports = {
           isSubscribed: true,
         },
       });
+
+      // TODO: send webhooks
     }
 
     await sails.helpers.actions.createOne.with({
@@ -131,7 +153,10 @@ module.exports = {
         },
         user: values.creatorUser,
       },
+      project: inputs.project,
       board: inputs.board,
+      list: inputs.list,
+      request: inputs.request,
     });
 
     return {

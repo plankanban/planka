@@ -80,6 +80,10 @@ module.exports = {
       custom: dueDateValidator,
       allowNull: true,
     },
+    isDueDateCompleted: {
+      type: 'boolean',
+      allowNull: true,
+    },
     stopwatch: {
       type: 'json',
       custom: stopwatchValidator,
@@ -118,7 +122,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     let { card } = path;
-    const { list, board } = path;
+    const { list, board, project } = path;
 
     let boardMembership = await BoardMembership.findOne({
       boardId: board.id,
@@ -133,9 +137,11 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
+    let nextProject;
     let nextBoard;
+
     if (!_.isUndefined(inputs.boardId)) {
-      ({ board: nextBoard } = await sails.helpers.boards
+      ({ board: nextBoard, project: nextProject } = await sails.helpers.boards
         .getProjectPath(inputs.boardId)
         .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND));
 
@@ -171,21 +177,24 @@ module.exports = {
       'name',
       'description',
       'dueDate',
+      'isDueDateCompleted',
       'stopwatch',
       'isSubscribed',
     ]);
 
     card = await sails.helpers.cards.updateOne
       .with({
+        project,
         board,
         list,
         record: card,
         values: {
           ...values,
+          project: nextProject,
           board: nextBoard,
           list: nextList,
         },
-        user: currentUser,
+        actorUser: currentUser,
         request: this.req,
       })
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT)

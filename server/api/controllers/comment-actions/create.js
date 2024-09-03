@@ -32,7 +32,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board, card } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
@@ -55,7 +55,9 @@ module.exports = {
     };
 
     const action = await sails.helpers.actions.createOne.with({
+      project,
       board,
+      list,
       values: {
         ...values,
         card,

@@ -7,8 +7,14 @@ const valuesValidator = (value) => {
     return false;
   }
 
-  if (!_.isUndefined(value.board) && !_.isPlainObject(value.board)) {
-    return false;
+  if (!_.isUndefined(value.board)) {
+    if (!_.isPlainObject(value.project)) {
+      return false;
+    }
+
+    if (!_.isPlainObject(value.board)) {
+      return false;
+    }
   }
 
   if (!_.isUndefined(value.list) && !_.isPlainObject(value.list)) {
@@ -29,14 +35,21 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
-    user: {
+    project: {
       type: 'ref',
+      required: true,
     },
     board: {
       type: 'ref',
+      required: true,
     },
     list: {
       type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
     },
     request: {
       type: 'ref',
@@ -45,65 +58,56 @@ module.exports = {
 
   exits: {
     positionMustBeInValues: {},
+    boardInValuesMustBelongToProject: {},
     listMustBeInValues: {},
     listInValuesMustBelongToBoard: {},
-    userMustBePresent: {},
-    boardMustBePresent: {},
-    listMustBePresent: {},
   },
 
   async fn(inputs) {
     const { isSubscribed, ...values } = inputs.values;
 
-    if (values.board || values.list || !_.isUndefined(values.position)) {
-      if (!inputs.board) {
-        throw 'boardMustBePresent';
+    if (values.project && values.project.id === inputs.project.id) {
+      delete values.project;
+    }
+
+    const project = values.project || inputs.project;
+
+    if (values.board) {
+      if (values.board.projectId !== project.id) {
+        throw 'boardInValuesMustBelongToProject';
       }
 
-      if (values.board) {
-        if (values.board.id === inputs.board.id) {
-          delete values.board;
-        } else {
-          values.boardId = values.board.id;
-        }
-      }
-
-      const board = values.board || inputs.board;
-
-      if (values.list) {
-        if (!inputs.list) {
-          throw 'listMustBePresent';
-        }
-
-        if (values.list.boardId !== board.id) {
-          throw 'listInValuesMustBelongToBoard';
-        }
-
-        if (values.list.id === inputs.list.id) {
-          delete values.list;
-        } else {
-          values.listId = values.list.id;
-        }
-      }
-
-      if (values.list) {
-        if (_.isUndefined(values.position)) {
-          throw 'positionMustBeInValues';
-        }
-      } else if (values.board) {
-        throw 'listMustBeInValues';
+      if (values.board.id === inputs.board.id) {
+        delete values.board;
+      } else {
+        values.boardId = values.board.id;
       }
     }
 
-    if ((!_.isUndefined(isSubscribed) || values.board || values.list) && !inputs.user) {
-      throw 'userMustBePresent';
+    const board = values.board || inputs.board;
+
+    if (values.list) {
+      if (values.list.boardId !== board.id) {
+        throw 'listInValuesMustBelongToBoard';
+      }
+
+      if (values.list.id === inputs.list.id) {
+        delete values.list;
+      } else {
+        values.listId = values.list.id;
+      }
+    } else if (values.board) {
+      throw 'listMustBeInValues';
+    }
+
+    const list = values.list || inputs.list;
+
+    if (values.list && _.isUndefined(values.position)) {
+      throw 'positionMustBeInValues';
     }
 
     if (!_.isUndefined(values.position)) {
-      const boardId = values.boardId || inputs.record.boardId;
-      const listId = values.listId || inputs.record.listId;
-
-      const cards = await sails.helpers.lists.getCards(listId, inputs.record.id);
+      const cards = await sails.helpers.lists.getCards(list.id, inputs.record.id);
 
       const { position, repositions } = sails.helpers.utils.insertToPositionables(
         values.position,
@@ -115,18 +119,34 @@ module.exports = {
       repositions.forEach(async ({ id, position: nextPosition }) => {
         await Card.update({
           id,
-          listId,
+          listId: list.id,
         }).set({
           position: nextPosition,
         });
 
-        sails.sockets.broadcast(`board:${boardId}`, 'cardUpdate', {
+        sails.sockets.broadcast(`board:${board.id}`, 'cardUpdate', {
           item: {
             id,
             position: nextPosition,
           },
         });
+
+        // TODO: send webhooks
       });
+    }
+
+    const dueDate = _.isUndefined(values.dueDate) ? inputs.record.dueDate : values.dueDate;
+
+    if (dueDate) {
+      const isDueDateCompleted = _.isUndefined(values.isDueDateCompleted)
+        ? inputs.record.isDueDateCompleted
+        : values.isDueDateCompleted;
+
+      if (_.isNull(isDueDateCompleted)) {
+        values.isDueDateCompleted = false;
+      }
+    } else {
+      values.isDueDateCompleted = null;
     }
 
     let card;
@@ -175,10 +195,12 @@ module.exports = {
             }
 
             const { id } = await sails.helpers.labels.createOne.with({
+              project,
               values: {
                 ..._.omit(label, ['id', 'boardId']),
                 board: values.board,
               },
+              actorUser: inputs.actorUser,
             });
 
             return id;
@@ -196,6 +218,15 @@ module.exports = {
           ),
         );
 
+        sails.sockets.broadcast(
+          `board:${inputs.record.boardId}`,
+          'cardDelete', // TODO: introduce separate event
+          {
+            item: inputs.record,
+          },
+          inputs.request,
+        );
+
         sails.sockets.broadcast(`board:${card.boardId}`, 'cardUpdate', {
           item: card,
         });
@@ -209,6 +240,8 @@ module.exports = {
               isSubscribed: true,
             },
           });
+
+          // TODO: send webhooks
         });
       } else {
         sails.sockets.broadcast(
@@ -221,18 +254,34 @@ module.exports = {
         );
       }
 
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'cardUpdate',
+        data: {
+          item: card,
+          included: {
+            projects: [project],
+            boards: [board],
+            lists: [list],
+          },
+        },
+        user: inputs.actorUser,
+      });
+
       if (!values.board && values.list) {
         await sails.helpers.actions.createOne.with({
+          project,
+          board,
+          list,
           values: {
             card,
-            user: inputs.user,
+            user: inputs.actorUser,
             type: Action.Types.MOVE_CARD,
             data: {
               fromList: _.pick(inputs.list, ['id', 'name']),
               toList: _.pick(values.list, ['id', 'name']),
             },
           },
-          board: inputs.board,
+          request: inputs.request,
         });
       }
 
@@ -240,23 +289,26 @@ module.exports = {
     }
 
     if (!_.isUndefined(isSubscribed)) {
-      const prevIsSubscribed = await sails.helpers.users.isCardSubscriber(inputs.user.id, card.id);
+      const prevIsSubscribed = await sails.helpers.users.isCardSubscriber(
+        inputs.actorUser.id,
+        card.id,
+      );
 
       if (isSubscribed !== prevIsSubscribed) {
         if (isSubscribed) {
           await CardSubscription.create({
             cardId: card.id,
-            userId: inputs.user.id,
+            userId: inputs.actorUser.id,
           }).tolerate('E_UNIQUE');
         } else {
           await CardSubscription.destroyOne({
             cardId: card.id,
-            userId: inputs.user.id,
+            userId: inputs.actorUser.id,
           });
         }
 
         sails.sockets.broadcast(
-          `user:${inputs.user.id}`,
+          `user:${inputs.actorUser.id}`,
           'cardUpdate',
           {
             item: {
@@ -266,6 +318,8 @@ module.exports = {
           },
           inputs.request,
         );
+
+        // TODO: send webhooks
       }
     }
 

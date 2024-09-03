@@ -80,6 +80,12 @@
     &:hover .target {
       opacity: 1;
     }
+
+    @media only screen and (max-width: 797px) {
+      .target {
+        opacity: 1;
+      }
+    }
   }
 
   .headerEditable {
@@ -102,6 +108,14 @@
     &:hover {
       background: rgba(9, 30, 66, 0.13);
       color: #516b7a;
+    }
+
+    @media only screen and (max-width: 797px) {
+      &:focus,
+      &:active {
+        background: rgba(9, 30, 66, 0.13);
+        color: #516b7a;
+      }
     }
   }
 

@@ -1,3 +1,9 @@
+const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
+};
+
 module.exports = {
   inputs: {
     name: {
@@ -6,14 +12,24 @@ module.exports = {
     },
   },
 
+  exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
+  },
+
   async fn(inputs) {
     const { currentUser } = this.req;
+
+    if (!currentUser.isAdmin && !sails.config.custom.allowAllToCreateProjects) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
 
     const values = _.pick(inputs, ['name']);
 
     const { project, projectManager } = await sails.helpers.projects.createOne.with({
       values,
-      user: currentUser,
+      actorUser: currentUser,
       request: this.req,
     });
 

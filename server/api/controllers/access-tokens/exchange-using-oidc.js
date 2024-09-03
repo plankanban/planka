@@ -1,8 +1,13 @@
+const { v4: uuid } = require('uuid');
+
 const { getRemoteAddress } = require('../../../utils/remoteAddress');
 
 const Errors = {
   INVALID_CODE_OR_NONCE: {
     invalidCodeOrNonce: 'Invalid code or nonce',
+  },
+  INVALID_USERINFO_SIGNATURE: {
+    invalidUserinfoSignature: 'Invalid signature on userinfo due to client misconfiguration',
   },
   EMAIL_ALREADY_IN_USE: {
     emailAlreadyInUse: 'Email already in use',
@@ -25,10 +30,17 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    withHttpOnlyToken: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
   },
 
   exits: {
     invalidCodeOrNonce: {
+      responseType: 'unauthorized',
+    },
+    invalidUserinfoSignature: {
       responseType: 'unauthorized',
     },
     emailAlreadyInUse: {
@@ -51,18 +63,28 @@ module.exports = {
         sails.log.warn(`Invalid code or nonce! (IP: ${remoteAddress})`);
         return Errors.INVALID_CODE_OR_NONCE;
       })
+      .intercept('invalidUserinfoSignature', () => Errors.INVALID_USERINFO_SIGNATURE)
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)
       .intercept('missingValues', () => Errors.MISSING_VALUES);
 
-    const accessToken = sails.helpers.utils.createToken(user.id);
+    const { token: accessToken, payload: accessTokenPayload } = sails.helpers.utils.createJwtToken(
+      user.id,
+    );
+
+    const httpOnlyToken = inputs.withHttpOnlyToken ? uuid() : null;
 
     await Session.create({
       accessToken,
+      httpOnlyToken,
       remoteAddress,
       userId: user.id,
       userAgent: this.req.headers['user-agent'],
     });
+
+    if (httpOnlyToken && !this.req.isSocket) {
+      sails.helpers.utils.setHttpOnlyTokenCookie(httpOnlyToken, accessTokenPayload, this.res);
+    }
 
     return {
       item: accessToken,

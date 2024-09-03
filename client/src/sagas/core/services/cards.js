@@ -81,9 +81,30 @@ export function* updateCurrentCard(data) {
   yield call(updateCard, cardId, data);
 }
 
-// TODO: handle card transfer
 export function* handleCardUpdate(card) {
-  yield put(actions.handleCardUpdate(card));
+  let fetch = false;
+  if (card.boardId) {
+    const prevCard = yield select(selectors.selectCardById, card.id);
+    fetch = !prevCard || prevCard.boardId !== card.boardId;
+  }
+
+  let cardMemberships;
+  let cardLabels;
+  let tasks;
+  let attachments;
+
+  if (fetch) {
+    try {
+      ({
+        item: card, // eslint-disable-line no-param-reassign
+        included: { cardMemberships, cardLabels, tasks, attachments },
+      } = yield call(request, api.getCard, card.id));
+    } catch (error) {
+      fetch = false;
+    }
+  }
+
+  yield put(actions.handleCardUpdate(card, fetch, cardMemberships, cardLabels, tasks, attachments));
 }
 
 export function* moveCard(id, listId, index = 0) {
@@ -207,6 +228,12 @@ export function* handleCardDelete(card) {
   yield put(actions.handleCardDelete(card));
 }
 
+export function* handleTextFilter(text) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield put(actions.filterText(boardId, text));
+}
+
 export default {
   createCard,
   handleCardCreate,
@@ -222,4 +249,5 @@ export default {
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,
+  handleTextFilter,
 };

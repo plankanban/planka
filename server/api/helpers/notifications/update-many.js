@@ -12,8 +12,9 @@ module.exports = {
       type: 'json',
       required: true,
     },
-    user: {
+    actorUser: {
       type: 'ref',
+      required: true,
     },
     request: {
       type: 'ref',
@@ -23,16 +24,14 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const criteria = {};
+    const criteria = {
+      userId: inputs.actorUser.id,
+    };
 
     if (_.every(inputs.recordsOrIds, _.isPlainObject)) {
       criteria.id = sails.helpers.utils.mapRecords(inputs.recordsOrIds);
     } else if (_.every(inputs.recordsOrIds, _.isString)) {
       criteria.id = inputs.recordsOrIds;
-    }
-
-    if (inputs.user) {
-      criteria.userId = inputs.user.id;
     }
 
     const notifications = await Notification.update(criteria)
@@ -48,6 +47,14 @@ module.exports = {
         },
         inputs.request,
       );
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'notificationUpdate',
+        data: {
+          item: notification,
+        },
+        user: inputs.actorUser,
+      });
     });
 
     return notifications;

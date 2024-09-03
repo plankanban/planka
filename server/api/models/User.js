@@ -5,7 +5,42 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const LANGUAGES = [
+  'bg-BG',
+  'cs-CZ',
+  'da-DK',
+  'de-DE',
+  'en-US',
+  'es-ES',
+  'fa-IR',
+  'fr-FR',
+  'hu-HU',
+  'id-ID',
+  'it-IT',
+  'ja-JP',
+  'ko-KR',
+  'nl-NL',
+  'pl-PL',
+  'pt-BR',
+  'ro-RO',
+  'ru-RU',
+  'sk-SK',
+  'sv-SE',
+  'tr-TR',
+  'uk-UA',
+  'uz-UZ',
+  'zh-CN',
+  'zh-TW',
+];
+
+const OIDC = {
+  id: '_oidc',
+};
+
 module.exports = {
+  LANGUAGES,
+  OIDC,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
@@ -56,7 +91,7 @@ module.exports = {
     },
     language: {
       type: 'string',
-      isNotEmptyString: true,
+      isIn: LANGUAGES,
       allowNull: true,
     },
     subscribeToOwnCards: {

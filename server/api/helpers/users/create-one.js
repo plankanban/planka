@@ -27,6 +27,10 @@ module.exports = {
       custom: valuesValidator,
       required: true,
     },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -82,6 +86,14 @@ module.exports = {
         },
         inputs.request,
       );
+    });
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'userCreate',
+      data: {
+        item: user,
+      },
+      user: inputs.actorUser,
     });
 
     return user;

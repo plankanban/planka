@@ -17,6 +17,16 @@ fullnameOverride: ""
 # Generate a secret using openssl rand -base64 45
 secretkey: ""
 
+## @param existingSecretkeySecret Name of an existing secret containing the session key string
+## NOTE: Must contain key `key`
+## NOTE: When it's set, the secretkey parameter is ignored
+existingSecretkeySecret: ""
+
+## @param existingAdminCredsSecret Name of an existing secret containing the admin username and password
+## NOTE: Must contain keys `username` and `password`
+## NOTE: When it's set, the `admin_username` and `admin_password` parameters are ignored
+existingAdminCredsSecret: ""
+
 # Base url for Planka. Will override `ingress.hosts[0].host`
 # Defaults to `http://localhost:3000` if ingress is disabled.
 baseUrl: ""
@@ -105,8 +115,14 @@ postgresql:
   serviceBindings:
     enabled: true
 
-## Set this if you disable the built-in postgresql deployment
+## Set this or existingDburlSecret if you disable the built-in postgresql deployment
 dburl:
+
+## @param existingDburlSecret Name of an existing secret containing a DBurl connection string
+## NOTE: Must contain key `uri`
+## NOTE: When it's set, the `dburl` parameter is ignored
+##
+existingDburlSecret: ""
 
 ## PVC-based data storage configuration
 persistence:

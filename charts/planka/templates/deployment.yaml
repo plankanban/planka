@@ -64,8 +64,16 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
           {{- if not .Values.postgresql.enabled }}
+          {{- if .Values.existingDburlSecret }}
             - name: DATABASE_URL
-              value: {{ required "If the included postgresql deployment is disabled you need to define a Database URL in 'dburl'" .Values.dburl }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingDburlSecret }}
+                  key: uri
+          {{- else }}
+            - name: DATABASE_URL
+              value: {{ required "If the included postgresql deployment is disabled you need to provide an existing secret in .Values.existingDburlSecret or define a Database URL in 'dburl'" .Values.dburl }}
+          {{- end }}
           {{- else }}
             - name: DATABASE_URL
               valueFrom:
@@ -82,17 +90,37 @@ spec:
               value: http://localhost:3000
               {{- end }}
             - name: SECRET_KEY
+              {{- if .Values.existingSecretkeySecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingSecretkeySecret }}
+                  key: key
+              {{- else }}
               value: {{ required "A secret key needs to be generated using 'openssl rand -hex 64' and assigned to secretkey." .Values.secretkey }}
+              {{- end }}
             - name: TRUST_PROXY
               value: "0"
             - name: DEFAULT_ADMIN_EMAIL
               value: {{ .Values.admin_email }}
-            - name: DEFAULT_ADMIN_PASSWORD
-              value: {{ .Values.admin_password }}
             - name: DEFAULT_ADMIN_NAME
               value: {{ .Values.admin_name }}
+            {{- if .Values.existingAdminCredsSecret }}
+            - name: DEFAULT_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingAdminCredsSecret }}
+                  key: username
+            - name: DEFAULT_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingAdminCredsSecret }}
+                  key: password
+            {{- else }}
             - name: DEFAULT_ADMIN_USERNAME
               value: {{ .Values.admin_username }}
+            - name: DEFAULT_ADMIN_PASSWORD
+              value: {{ .Values.admin_password }}
+            {{- end }}
           {{ range $k, $v := .Values.env }}
             - name: {{ $k | quote }}
               value: {{ $v | quote }}

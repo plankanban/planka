@@ -20,6 +20,12 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_MOVE, ({ payload: { id, index } }) =>
       services.moveList(id, index),
     ),
+    takeEvery(EntryActionTypes.LIST_SORT, ({ payload: { id, data } }) =>
+      services.sortList(id, data),
+    ),
+    takeEvery(EntryActionTypes.LIST_SORT_HANDLE, ({ payload: { list, cards } }) =>
+      services.handleListSort(list, cards),
+    ),
     takeEvery(EntryActionTypes.LIST_DELETE, ({ payload: { id } }) => services.deleteList(id)),
     takeEvery(EntryActionTypes.LIST_DELETE_HANDLE, ({ payload: { list } }) =>
       services.handleListDelete(list),

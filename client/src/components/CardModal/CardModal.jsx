@@ -1,8 +1,8 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
+import { Button, Checkbox, Grid, Icon, Modal } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 import { Markdown } from '../../lib/custom-ui';
 
@@ -32,6 +32,7 @@ const CardModal = React.memo(
     name,
     description,
     dueDate,
+    isDueDateCompleted,
     stopwatch,
     isSubscribed,
     isActivitiesFetching,
@@ -81,6 +82,7 @@ const CardModal = React.memo(
     onClose,
   }) => {
     const [t] = useTranslation();
+    const [isLinkCopied, setIsLinkCopied] = useState(false);
 
     const isGalleryOpened = useRef(false);
 
@@ -117,6 +119,12 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
+    const handleDueDateCompletionChange = useCallback(() => {
+      onUpdate({
+        isDueDateCompleted: !isDueDateCompleted,
+      });
+    }, [isDueDateCompleted, onUpdate]);
+
     const handleStopwatchUpdate = useCallback(
       (newStopwatch) => {
         onUpdate({
@@ -145,6 +153,14 @@ const CardModal = React.memo(
       onDuplicate();
       onClose();
     }, [onDuplicate, onClose]);
+
+    const handleCopyLinkClick = useCallback(() => {
+      navigator.clipboard.writeText(window.location.href);
+      setIsLinkCopied(true);
+      setTimeout(() => {
+        setIsLinkCopied(false);
+      }, 5000);
+    }, []);
 
     const handleGalleryOpen = useCallback(() => {
       isGalleryOpened.current = true;
@@ -291,13 +307,24 @@ const CardModal = React.memo(
                         context: 'title',
                       })}
                     </div>
-                    <span className={styles.attachment}>
+                    <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
                       {canEdit ? (
-                        <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
-                          <DueDate value={dueDate} />
-                        </DueDateEditPopup>
+                        <>
+                          <Checkbox
+                            checked={isDueDateCompleted}
+                            disabled={!canEdit}
+                            onChange={handleDueDateCompletionChange}
+                          />
+                          <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                            <DueDate
+                              withStatusIcon
+                              value={dueDate}
+                              isCompleted={isDueDateCompleted}
+                            />
+                          </DueDateEditPopup>
+                        </>
                       ) : (
-                        <DueDate value={dueDate} />
+                        <DueDate withStatusIcon value={dueDate} isCompleted={isDueDateCompleted} />
                       )}
                     </span>
                   </div>
@@ -506,6 +533,19 @@ const CardModal = React.memo(
                   <Icon name="copy outline" className={styles.actionIcon} />
                   {t('action.duplicate')}
                 </Button>
+                {window.isSecureContext && (
+                  <Button fluid className={styles.actionButton} onClick={handleCopyLinkClick}>
+                    <Icon
+                      name={isLinkCopied ? 'linkify' : 'unlink'}
+                      className={styles.actionIcon}
+                    />
+                    {isLinkCopied
+                      ? t('common.linkIsCopied')
+                      : t('action.copyLink', {
+                          context: 'title',
+                        })}
+                  </Button>
+                )}
                 <DeletePopup
                   title="common.deleteCard"
                   content="common.areYouSureYouWantToDeleteThisCard"
@@ -540,6 +580,7 @@ CardModal.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   dueDate: PropTypes.instanceOf(Date),
+  isDueDateCompleted: PropTypes.bool,
   stopwatch: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isSubscribed: PropTypes.bool.isRequired,
   isActivitiesFetching: PropTypes.bool.isRequired,
@@ -594,6 +635,7 @@ CardModal.propTypes = {
 CardModal.defaultProps = {
   description: undefined,
   dueDate: undefined,
+  isDueDateCompleted: false,
   stopwatch: undefined,
 };
 

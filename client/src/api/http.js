@@ -5,7 +5,7 @@ import Config from '../constants/Config';
 const http = {};
 
 // TODO: add all methods
-['GET', 'POST'].forEach((method) => {
+['GET', 'POST', 'DELETE'].forEach((method) => {
   http[method.toLowerCase()] = (url, data, headers) => {
     const formData =
       data &&
@@ -19,6 +19,7 @@ const http = {};
       method,
       headers,
       body: formData,
+      credentials: 'include',
     })
       .then((response) =>
         response.json().then((body) => ({

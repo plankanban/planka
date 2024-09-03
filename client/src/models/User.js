@@ -298,7 +298,7 @@ export default class extends BaseModel {
   static getOrderedUndeletedQuerySet() {
     return this.filter({
       deletedAt: null,
-    }).orderBy('createdAt');
+    }).orderBy((user) => user.name.toLocaleLowerCase());
   }
 
   getOrderedProjectManagersQuerySet() {
@@ -358,5 +358,19 @@ export default class extends BaseModel {
         deletedAt: new Date(),
       },
     );
+  }
+
+  static findUsersFromText(filterText, users) {
+    const selectUser = filterText.toLocaleLowerCase();
+    const matchingUsers = users.filter(
+      (user) =>
+        user.name.toLocaleLowerCase().startsWith(selectUser) ||
+        user.username.toLocaleLowerCase().startsWith(selectUser),
+    );
+    if (matchingUsers.length === 1) {
+      // Appens the user to the filter
+      return matchingUsers[0].id;
+    }
+    return null;
   }
 }

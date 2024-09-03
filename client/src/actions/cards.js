@@ -57,10 +57,15 @@ updateCard.failure = (id, error) => ({
   },
 });
 
-const handleCardUpdate = (card) => ({
+const handleCardUpdate = (card, isFetched, cardMemberships, cardLabels, tasks, attachments) => ({
   type: ActionTypes.CARD_UPDATE_HANDLE,
   payload: {
     card,
+    isFetched,
+    cardMemberships,
+    cardLabels,
+    tasks,
+    attachments,
   },
 });
 
@@ -121,6 +126,14 @@ const handleCardDelete = (card) => ({
   },
 });
 
+const filterText = (boardId, text) => ({
+  type: ActionTypes.TEXT_FILTER_IN_CURRENT_BOARD,
+  payload: {
+    boardId,
+    text,
+  },
+});
+
 export default {
   createCard,
   handleCardCreate,
@@ -129,4 +142,5 @@ export default {
   duplicateCard,
   deleteCard,
   handleCardDelete,
+  filterText,
 };

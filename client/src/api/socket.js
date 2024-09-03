@@ -13,7 +13,7 @@ io.sails.environment = process.env.NODE_ENV;
 
 const { socket } = io;
 
-socket.path = `${Config.BASE_PATH}/socket.io`;
+socket.path = `${Config.SERVER_BASE_PATH}/socket.io`;
 socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
 
 ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach((method) => {

@@ -55,17 +55,14 @@ export const selectMembershipsForCurrentBoard = createSelector(
       return boardModel;
     }
 
-    return boardModel
-      .getOrderedMembershipsQuerySet()
-      .toModelArray()
-      .map((boardMembershipModel) => ({
-        ...boardMembershipModel.ref,
-        isPersisted: !isLocalId(boardMembershipModel.id),
-        user: {
-          ...boardMembershipModel.user.ref,
-          isCurrent: boardMembershipModel.user.id === currentUserId,
-        },
-      }));
+    return boardModel.getOrderedMembershipsModelArray().map((boardMembershipModel) => ({
+      ...boardMembershipModel.ref,
+      isPersisted: !isLocalId(boardMembershipModel.id),
+      user: {
+        ...boardMembershipModel.user.ref,
+        isCurrent: boardMembershipModel.user.id === currentUserId,
+      },
+    }));
   },
 );
 
@@ -175,6 +172,24 @@ export const selectFilterLabelsForCurrentBoard = createSelector(
   },
 );
 
+export const selectFilterTextForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel.filterText;
+  },
+);
+
 export const selectIsBoardWithIdExists = createSelector(
   orm,
   (_, id) => id,
@@ -191,5 +206,6 @@ export default {
   selectListIdsForCurrentBoard,
   selectFilterUsersForCurrentBoard,
   selectFilterLabelsForCurrentBoard,
+  selectFilterTextForCurrentBoard,
   selectIsBoardWithIdExists,
 };
