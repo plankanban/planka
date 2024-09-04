@@ -14,7 +14,7 @@ const valuesValidator = (value) => {
   return true;
 };
 
-const buildAndSendSlackMessage = async (card, action, actorUser) => {
+const buildAndSendMessage = async (card, action, actorUser, send) => {
   const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
 
   let markdown;
@@ -35,7 +35,7 @@ const buildAndSendSlackMessage = async (card, action, actorUser) => {
       return;
   }
 
-  await sails.helpers.utils.sendSlackMessage(markdown);
+  await send(markdown);
 };
 
 module.exports = {
@@ -94,10 +94,6 @@ module.exports = {
       user: values.user,
     });
 
-    if (sails.config.custom.slackBotToken) {
-      buildAndSendSlackMessage(values.card, action, values.user);
-    }
-
     const subscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(
       action.cardId,
       action.userId,
@@ -119,6 +115,18 @@ module.exports = {
       ),
     );
 
+    if (sails.config.custom.slackBotToken) {
+      buildAndSendMessage(values.card, action, values.user, sails.helpers.utils.sendSlackMessage);
+    }
+
+    if (sails.config.custom.googleChatWebhookUrl) {
+      buildAndSendMessage(
+        values.card,
+        action,
+        values.user,
+        sails.helpers.utils.sendGoogleChatMessage,
+      );
+    }
     return action;
   },
 };

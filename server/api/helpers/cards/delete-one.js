@@ -1,5 +1,5 @@
-const buildAndSendSlackMessage = async (card, actorUser) => {
-  await sails.helpers.utils.sendSlackMessage(`*${card.name}* was deleted by ${actorUser.name}`);
+const buildAndSendMessage = async (card, actorUser, send) => {
+  await send(`*${card.name}* was deleted by ${actorUser.name}`);
 };
 
 module.exports = {
@@ -56,7 +56,11 @@ module.exports = {
       });
 
       if (sails.config.custom.slackBotToken) {
-        buildAndSendSlackMessage(card, inputs.actorUser);
+        buildAndSendMessage(card, inputs.actorUser, sails.helpers.utils.sendSlackMessage);
+      }
+
+      if (sails.config.custom.googleChatWebhookUrl) {
+        buildAndSendMessage(card, inputs.actorUser, sails.helpers.utils.sendGoogleChatMessage);
       }
     }
 
