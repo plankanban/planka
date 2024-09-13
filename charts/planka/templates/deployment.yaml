@@ -11,6 +11,10 @@ spec:
   selector:
     matchLabels:
       {{- include "planka.selectorLabels" . | nindent 6 }}
+  {{- if .Values.persistence.enabled }}
+  strategy:
+    type: Recreate
+  {{- end }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
