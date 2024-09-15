@@ -6,8 +6,8 @@
       border: 0;
       color: #444444;
       font-size: 14px;
-      font-family: "Museo Sans", "Helvetica Neue", Arial, Helvetica, sans-serif;
-      font-weight: 400;
+      font-family: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif;
+      // font-weight: 400;
       width: 100%;
       padding-bottom: 8px;
     }
@@ -19,7 +19,7 @@
     .react-datepicker__current-month,
     .react-datepicker-time__header {
       color: #444;
-      font-weight: 500;
+      font-weight: normal;
       font-size: 14px;
       line-height: 32px;
       padding-bottom: 4px;
@@ -38,7 +38,7 @@
       color: #444;
       display: inline-block;
       width: 40px;
-      font-weight: 500;
+      font-weight: normal;
       line-height: 28px;
       text-align: center;
       margin: 0;

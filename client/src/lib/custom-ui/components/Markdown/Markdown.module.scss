@@ -64,7 +64,7 @@
 
   .markdown-body b,
   .markdown-body strong {
-    font-weight: 600;
+    font-weight: bold; // 600
   }
 
   .markdown-body dfn {
@@ -73,7 +73,7 @@
 
   .markdown-body h1 {
     margin: .67em 0;
-    font-weight: 600;
+    font-weight: bold; // 600
     padding-bottom: .3em;
     font-size: 2em;
     border-bottom: 1px solid hsla(210, 18%, 87%, 1);
@@ -253,34 +253,34 @@
   .markdown-body h6 {
     margin-top: 24px;
     margin-bottom: 16px;
-    font-weight: 600;
+    font-weight: bold; // 600
     line-height: 1.25;
   }
 
   .markdown-body h2 {
-    font-weight: 600;
+    font-weight: bold; // 600
     padding-bottom: .3em;
     font-size: 1.5em;
     border-bottom: 1px solid hsla(210, 18%, 87%, 1);
   }
 
   .markdown-body h3 {
-    font-weight: 600;
+    font-weight: bold; // 600
     font-size: 1.25em;
   }
 
   .markdown-body h4 {
-    font-weight: 600;
+    font-weight: bold; // 600
     font-size: 1em;
   }
 
   .markdown-body h5 {
-    font-weight: 600;
+    font-weight: bold; // 600
     font-size: .875em;
   }
 
   .markdown-body h6 {
-    font-weight: 600;
+    font-weight: bold; // 600
     font-size: .85em;
     color: #57606a;
   }
@@ -481,7 +481,7 @@
     font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1em;
     font-style: normal !important;
-    font-weight: 400;
+    font-weight: normal; // 400
     line-height: 1;
     vertical-align: -0.075em;
   }
@@ -650,7 +650,7 @@
     margin-top: 16px;
     font-size: 1em;
     font-style: italic;
-    font-weight: 600;
+    font-weight: bold; // 600
   }
 
   .markdown-body dl dd {
@@ -659,7 +659,7 @@
   }
 
   .markdown-body table th {
-    font-weight: 600;
+    font-weight: bold; // 600
   }
 
   .markdown-body table th,
@@ -868,7 +868,7 @@
   }
 
   .markdown-body .csv-data th {
-    font-weight: 600;
+    font-weight: bold; // 600
     background: #f6f8fa;
     border-top: 0;
   }
@@ -912,7 +912,7 @@
   }
 
   .markdown-body .task-list-item label {
-    font-weight: 400;
+    font-weight: normal;
   }
 
   .markdown-body .task-list-item.enabled label {
