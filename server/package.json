@@ -30,7 +30,6 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
-    "filenamify": "^4.3.0",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "lodash": "^4.17.21",

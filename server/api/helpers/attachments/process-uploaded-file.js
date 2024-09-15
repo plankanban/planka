@@ -2,9 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const rimraf = require('rimraf');
 const moveFile = require('move-file');
-const filenamify = require('filenamify');
 const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
+
+const filenamify = require('../../../utils/filenamify');
 
 module.exports = {
   inputs: {
@@ -17,7 +18,6 @@ module.exports = {
   async fn(inputs) {
     const dirname = uuid();
 
-    // FIXME: https://github.com/sindresorhus/filenamify/issues/13
     const filename = filenamify(inputs.file.filename);
 
     const rootPath = path.join(sails.config.custom.attachmentsPath, dirname);
