@@ -35,27 +35,27 @@
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "move-file": "^2.1.0",
-    "nodemailer": "^6.9.13",
-    "openid-client": "^5.6.5",
-    "rimraf": "^5.0.7",
+    "nodemailer": "^6.9.15",
+    "openid-client": "^5.7.0",
+    "rimraf": "^5.0.10",
     "sails": "^1.5.11",
     "sails-hook-orm": "^4.0.3",
-    "sails-hook-sockets": "^3.0.0",
+    "sails-hook-sockets": "^3.0.1",
     "sails-postgresql": "^5.0.1",
-    "sharp": "^0.33.4",
+    "sharp": "^0.33.5",
     "stream-to-array": "^2.3.0",
     "uuid": "^9.0.1",
     "validator": "^13.12.0",
-    "winston": "^3.13.0",
+    "winston": "^3.14.2",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "chai": "^4.4.1",
+    "chai": "^4.5.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.29.1",
-    "mocha": "^10.4.0",
-    "nodemon": "^3.1.2"
+    "eslint-plugin-import": "^2.30.0",
+    "mocha": "^10.7.3",
+    "nodemon": "^3.1.4"
   },
   "engines": {
     "node": ">=18"
