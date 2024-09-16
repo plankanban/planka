@@ -8,6 +8,7 @@
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "preinstall": "npx npm-force-resolutions",
     "start": "nodemon",
     "start:prod": "node app.js --prod",
     "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
@@ -56,6 +57,11 @@
     "eslint-plugin-import": "^2.30.0",
     "mocha": "^10.7.3",
     "nodemon": "^3.1.4"
+  },
+  "resolutions": {
+    "body-parser": "1.20.3",
+    "express": "4.21.0",
+    "send": "0.19.0"
   },
   "engines": {
     "node": ">=18"
