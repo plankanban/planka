@@ -6,6 +6,7 @@
  */
 
 const LANGUAGES = [
+  'ar-YE',
   'bg-BG',
   'cs-CZ',
   'da-DK',
