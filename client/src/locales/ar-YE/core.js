@@ -1,4 +1,8 @@
+import dateFns from 'date-fns/locale/ar';
+
 export default {
+  dateFns,
+
   format: {
     date: 'M/d/yyyy',
     time: 'p',
@@ -153,8 +157,7 @@ export default {
       subscribeToMyOwnCardsByDefault: 'الاشتراك في بطاقاتي الخاصة إفتراضياً',
       taskActions_title: 'إجراءات المهمة',
       tasks: 'المهام',
-      thereIsNoPreviewAvailableForThisAttachment:
-        'لا يوجد معاينة متاحة لهذا المرفق.',
+      thereIsNoPreviewAvailableForThisAttachment: 'لا يوجد معاينة متاحة لهذا المرفق.',
       time: 'الوقت',
       title: 'العنوان',
       userActions_title: 'إجراءات المستخدم',
