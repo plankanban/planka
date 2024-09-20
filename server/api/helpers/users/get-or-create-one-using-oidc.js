@@ -1,3 +1,4 @@
+const { email } = require('sails-hook-orm/constants/deprecated-validations.list');
 module.exports = {
   inputs: {
     code: {
@@ -22,8 +23,9 @@ module.exports = {
     const client = sails.hooks.oidc.getClient();
 
     let userInfo;
+    let tokenSet;
     try {
-      const tokenSet = await client.callback(
+      tokenSet = await client.callback(
         sails.config.custom.oidcRedirectUri,
         {
           iss: sails.config.custom.oidcIssuer,
@@ -33,7 +35,9 @@ module.exports = {
           nonce: inputs.nonce,
         },
       );
+
       userInfo = await client.userinfo(tokenSet);
+
     } catch (e) {
       if (
         e instanceof SyntaxError &&
@@ -47,10 +51,21 @@ module.exports = {
       throw 'invalidCodeOrNonce';
     }
 
-    if (
-      !userInfo[sails.config.custom.oidcEmailAttribute] ||
-      !userInfo[sails.config.custom.oidcNameAttribute]
-    ) {
+    /*
+      Try to take the emailAttribute (configured in parameter OIDC_EMAIL_ATTRIBUTE in .env)
+      from standard OIDC userInfo attribute
+    */
+    let emailAttribute = userInfo[sails.config.custom.oidcEmailAttribute];
+
+    /*
+      If undefined, I try to retrieve the token from the tokenSet.claims() that converts the
+      id_token in a token_array
+    */
+    if(!emailAttribute) {
+      emailAttribute = tokenSet.claims()[sails.config.custom.oidcEmailAttribute];
+    }
+
+    if (!emailAttribute || !userInfo[sails.config.custom.oidcNameAttribute]) {
       throw 'missingValues';
     }
 
@@ -68,7 +83,7 @@ module.exports = {
 
     const values = {
       isAdmin,
-      email: userInfo[sails.config.custom.oidcEmailAttribute],
+      email: emailAttribute,
       isSso: true,
       name: userInfo[sails.config.custom.oidcNameAttribute],
       subscribeToOwnCards: false,
