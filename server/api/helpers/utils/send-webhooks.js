@@ -130,8 +130,8 @@ async function sendWebhook(webhook, event, data, user) {
         `Webhook ${webhook.url} failed with status ${response.status} and message: ${message}`,
       );
     }
-  } catch (e) {
-    sails.log.error(`Webhook ${webhook.url} failed with error message: ${e.message}`);
+  } catch (error) {
+    sails.log.error(`Webhook ${webhook.url} failed with error: ${error}`);
   }
 }
 

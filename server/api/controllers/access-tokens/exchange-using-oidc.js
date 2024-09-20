@@ -6,8 +6,8 @@ const Errors = {
   INVALID_CODE_OR_NONCE: {
     invalidCodeOrNonce: 'Invalid code or nonce',
   },
-  INVALID_USERINFO_SIGNATURE: {
-    invalidUserinfoSignature: 'Invalid signature on userinfo due to client misconfiguration',
+  INVALID_USERINFO_CONFIGURATION: {
+    invalidUserinfoConfiguration: 'Invalid userinfo configuration',
   },
   EMAIL_ALREADY_IN_USE: {
     emailAlreadyInUse: 'Email already in use',
@@ -40,7 +40,7 @@ module.exports = {
     invalidCodeOrNonce: {
       responseType: 'unauthorized',
     },
-    invalidUserinfoSignature: {
+    invalidUserinfoConfiguration: {
       responseType: 'unauthorized',
     },
     emailAlreadyInUse: {
@@ -63,7 +63,7 @@ module.exports = {
         sails.log.warn(`Invalid code or nonce! (IP: ${remoteAddress})`);
         return Errors.INVALID_CODE_OR_NONCE;
       })
-      .intercept('invalidUserinfoSignature', () => Errors.INVALID_USERINFO_SIGNATURE)
+      .intercept('invalidUserinfoConfiguration', () => Errors.INVALID_USERINFO_CONFIGURATION)
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)
       .intercept('missingValues', () => Errors.MISSING_VALUES);
