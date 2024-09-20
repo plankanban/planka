@@ -1,6 +1,3 @@
-const util = require('util');
-const { v4: uuid } = require('uuid');
-
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -61,16 +58,9 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const upload = util.promisify((options, callback) =>
-      this.req.file('file').upload(options, (error, files) => callback(error, files)),
-    );
-
     let files;
     try {
-      files = await upload({
-        saveAs: uuid(),
-        maxBytes: null,
-      });
+      files = await sails.helpers.utils.receiveFile('file', this.req);
     } catch (error) {
       return exits.uploadError(error.message); // TODO: add error
     }
