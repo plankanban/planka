@@ -1,4 +1,3 @@
-const { email } = require('sails-hook-orm/constants/deprecated-validations.list');
 module.exports = {
   inputs: {
     code: {
