@@ -1,6 +1,4 @@
-const util = require('util');
 const rimraf = require('rimraf');
-const { v4: uuid } = require('uuid');
 
 const Errors = {
   USER_NOT_FOUND: {
@@ -54,16 +52,9 @@ module.exports = {
       user = currentUser;
     }
 
-    const upload = util.promisify((options, callback) =>
-      this.req.file('file').upload(options, (error, files) => callback(error, files)),
-    );
-
     let files;
     try {
-      files = await upload({
-        saveAs: uuid(),
-        maxBytes: null,
-      });
+      files = await sails.helpers.utils.receiveFile('file', this.req);
     } catch (error) {
       return exits.uploadError(error.message); // TODO: add error
     }

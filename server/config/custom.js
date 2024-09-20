@@ -27,6 +27,9 @@ module.exports.custom = {
 
   tokenExpiresIn: parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365,
 
+  // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
+  fileUploadTmpDir: null,
+
   userAvatarsPath: path.join(sails.config.paths.public, 'user-avatars'),
   userAvatarsUrl: `${process.env.BASE_URL}/user-avatars`,
 
