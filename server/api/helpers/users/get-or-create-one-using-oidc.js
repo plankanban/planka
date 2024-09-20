@@ -12,7 +12,7 @@ module.exports = {
 
   exits: {
     invalidCodeOrNonce: {},
-    invalidUserinfoSignature: {},
+    invalidUserinfoConfiguration: {},
     missingValues: {},
     emailAlreadyInUse: {},
     usernameAlreadyInUse: {},
@@ -21,7 +21,6 @@ module.exports = {
   async fn(inputs) {
     const client = sails.hooks.oidc.getClient();
 
-    let userInfo;
     let tokenSet;
     try {
       tokenSet = await client.callback(
@@ -34,37 +33,37 @@ module.exports = {
           nonce: inputs.nonce,
         },
       );
-
-      userInfo = await client.userinfo(tokenSet);
-
-    } catch (e) {
-      if (
-        e instanceof SyntaxError &&
-        e.message.includes('Unexpected token e in JSON at position 0')
-      ) {
-        sails.log.warn('Error while exchanging OIDC code: userinfo response is signed');
-        throw 'invalidUserinfoSignature';
-      }
-
-      sails.log.warn(`Error while exchanging OIDC code: ${e}`);
+    } catch (error) {
+      sails.log.warn(`Error while exchanging OIDC code: ${error}`);
       throw 'invalidCodeOrNonce';
     }
 
-    /*
-      Try to take the emailAttribute (configured in parameter OIDC_EMAIL_ATTRIBUTE in .env)
-      from standard OIDC userInfo attribute
-    */
-    let emailAttribute = userInfo[sails.config.custom.oidcEmailAttribute];
+    let claims;
+    if (sails.config.custom.oidcClaimsSource === 'id_token') {
+      claims = tokenSet.claims();
+    } else {
+      try {
+        claims = await client.userinfo(tokenSet);
+      } catch (error) {
+        let errorText;
+        if (
+          error instanceof SyntaxError &&
+          error.message.includes('Unexpected token e in JSON at position 0')
+        ) {
+          errorText = 'response is signed';
+        } else {
+          errorText = error.toString();
+        }
 
-    /*
-      If undefined, I try to retrieve the token from the tokenSet.claims() that converts the
-      id_token in a token_array
-    */
-    if(!emailAttribute) {
-      emailAttribute = tokenSet.claims()[sails.config.custom.oidcEmailAttribute];
+        sails.log.warn(`Error while fetching OIDC userinfo: ${errorText}`);
+        throw 'invalidUserinfoConfiguration';
+      }
     }
 
-    if (!emailAttribute || !userInfo[sails.config.custom.oidcNameAttribute]) {
+    if (
+      !claims[sails.config.custom.oidcEmailAttribute] ||
+      !claims[sails.config.custom.oidcNameAttribute]
+    ) {
       throw 'missingValues';
     }
 
@@ -72,23 +71,23 @@ module.exports = {
     if (sails.config.custom.oidcAdminRoles.includes('*')) {
       isAdmin = true;
     } else {
-      const roles = userInfo[sails.config.custom.oidcRolesAttribute];
+      const roles = claims[sails.config.custom.oidcRolesAttribute];
       if (Array.isArray(roles)) {
         // Use a Set here to avoid quadratic time complexity
-        const userRoles = new Set(userInfo[sails.config.custom.oidcRolesAttribute]);
+        const userRoles = new Set(claims[sails.config.custom.oidcRolesAttribute]);
         isAdmin = sails.config.custom.oidcAdminRoles.findIndex((role) => userRoles.has(role)) > -1;
       }
     }
 
     const values = {
       isAdmin,
-      email: emailAttribute,
+      email: claims[sails.config.custom.oidcEmailAttribute],
       isSso: true,
-      name: userInfo[sails.config.custom.oidcNameAttribute],
+      name: claims[sails.config.custom.oidcNameAttribute],
       subscribeToOwnCards: false,
     };
     if (!sails.config.custom.oidcIgnoreUsername) {
-      values.username = userInfo[sails.config.custom.oidcUsernameAttribute];
+      values.username = claims[sails.config.custom.oidcUsernameAttribute];
     }
 
     let user;
@@ -98,7 +97,7 @@ module.exports = {
     // concurrently with logging in via OIDC.
     let identityProviderUser = await IdentityProviderUser.findOne({
       issuer: sails.config.custom.oidcIssuer,
-      sub: userInfo.sub,
+      sub: claims.sub,
     });
 
     if (identityProviderUser) {
@@ -122,7 +121,7 @@ module.exports = {
       identityProviderUser = await IdentityProviderUser.create({
         userId: user.id,
         issuer: sails.config.custom.oidcIssuer,
-        sub: userInfo.sub,
+        sub: claims.sub,
       });
     }
 

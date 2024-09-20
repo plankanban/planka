@@ -52,6 +52,7 @@ module.exports.custom = {
   oidcResponseMode: process.env.OIDC_RESPONSE_MODE || 'fragment',
   oidcUseDefaultResponseMode: process.env.OIDC_USE_DEFAULT_RESPONSE_MODE === 'true',
   oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
+  oidcClaimsSource: process.env.OIDC_CLAIMS_SOURCE || 'userinfo',
   oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
   oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
   oidcUsernameAttribute: process.env.OIDC_USERNAME_ATTRIBUTE || 'preferred_username',
