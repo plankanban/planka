@@ -54,6 +54,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
+  annotations: {}
   type: ClusterIP
   port: 1337
   ## @param service.containerPort Planka HTTP container port
