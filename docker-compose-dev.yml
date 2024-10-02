@@ -54,6 +54,7 @@ services:
       # - SMTP_USER=
       # - SMTP_PASSWORD=
       # - SMTP_FROM="Demo Demo" <demo@demo.demo>
+      # - SMTP_TLS_REJECT_UNAUTHORIZED=false
 
       # Optional fields: accessToken, events, excludedEvents
       # - |
