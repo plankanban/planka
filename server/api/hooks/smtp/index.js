@@ -33,6 +33,9 @@ module.exports = function defineSmtpHook(sails) {
           user: sails.config.custom.smtpUser,
           pass: sails.config.custom.smtpPassword,
         },
+        tls: {
+          rejectUnauthorized: sails.config.custom.smtpTlsRejectUnauthorized,
+        },
       });
     },
 
