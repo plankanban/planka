@@ -4,7 +4,6 @@ on:
   release:
     types: [created]
 
-
 jobs:
   build-and-publish-release-package:
     runs-on: ubuntu-latest
@@ -52,6 +51,6 @@ jobs:
 
       - name: Dist upload assets
         run: |
-          gh release upload ${{ github.event.release.tag_name }} planka-prebuild-${{ github.event.release.tag_name }}.zip
+          gh release upload ${{ github.event.release.tag_name }} planka-prebuild-${{ github.event.release.tag_name }}.zip#planka-prebuild.zip
         env:
           GH_TOKEN: ${{ github.token }}
