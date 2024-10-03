@@ -25,6 +25,12 @@ There are many ways to install Planka, [check them out](https://docs.planka.clou
 
 For configuration, please see the [configuration section](https://docs.planka.cloud/docs/category/configuration).
 
+## Mobile app
+
+Here is the [mobile app repository](https://github.com/LouisHDev/planka_app) maintained by the community, where you can build an app for iOS and Android.
+
+Alternatively, you can download the [Android APK](https://github.com/LouisHDev/planka_app/releases/latest/download/app-release.apk) directly.
+
 ## Contact
 
 - If you want to get a hosted version of Planka, you can contact us via email contact@planka.cloud
