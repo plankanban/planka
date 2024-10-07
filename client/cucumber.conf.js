@@ -3,15 +3,16 @@
 const { Before, BeforeAll, AfterAll, After, setDefaultTimeout } = require('@cucumber/cucumber');
 const { chromium } = require('playwright');
 const { deleteProject } = require('./tests/acceptance/testHelpers/apiHelpers');
+const config = require('./tests/acceptance/config');
 
-setDefaultTimeout(60000);
+setDefaultTimeout(config.timeout);
 
 // launch the browser
 BeforeAll(async function () {
   global.browser = await chromium.launch({
     // makes true for CI
-    headless: true,
-    slowMo: 1000,
+    headless: config.headless,
+    slowMo: config.slowMo,
   });
 });
 

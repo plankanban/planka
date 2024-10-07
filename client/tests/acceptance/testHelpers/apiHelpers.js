@@ -1,12 +1,13 @@
 const axios = require('axios');
+const config = require('../config');
 
 async function getXauthToken() {
   try {
     const res = await axios.post(
-      'http://localhost:1337/api/access-tokens',
+      `${config.baseUrl}api/access-tokens`,
       {
-        emailOrUsername: 'demo',
-        password: 'demo',
+        emailOrUsername: config.adminUser.email,
+        password: config.adminUser.password,
       },
       {
         headers: {
@@ -22,7 +23,7 @@ async function getXauthToken() {
 
 async function getProjectIDs() {
   try {
-    const res = await axios.get('http://localhost:1337/api/projects', {
+    const res = await axios.get(`${config.baseUrl}api/projects`, {
       headers: {
         Authorization: `Bearer ${await getXauthToken()}`,
       },
@@ -38,7 +39,7 @@ async function deleteProject() {
     const projectIDs = await getProjectIDs();
     await Promise.all(
       projectIDs.map(async (project) => {
-        await axios.delete(`http://localhost:1337/api/projects/${project}`, {
+        await axios.delete(`${config.baseUrl}api/projects/${project}`, {
           headers: {
             Authorization: `Bearer ${await getXauthToken()}`,
           },

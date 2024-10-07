@@ -1,9 +1,12 @@
+const config = require(`../config`);
+
 class LoginPage {
   constructor() {
     // url
-    this.homeUrl = 'http://localhost:1337';
-    this.loginUrl = `${this.homeUrl}/login`;
+    this.homeUrl = config.baseUrl;
+    this.loginUrl = `${this.homeUrl}login`;
 
+    // selectors
     this.loginButtonSelector = `//i[@class="right arrow icon"]`;
     this.usernameSelector = `//input[@name='emailOrUsername']`;
     this.passwordSelector = `//input[@name='password']`;
