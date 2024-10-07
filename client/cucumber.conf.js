@@ -2,6 +2,7 @@
 
 const { Before, BeforeAll, AfterAll, After, setDefaultTimeout } = require('@cucumber/cucumber');
 const { chromium } = require('playwright');
+const { deleteProject } = require('./tests/acceptance/testHelpers/apiHelpers');
 
 setDefaultTimeout(60000);
 
@@ -27,6 +28,7 @@ Before(async function () {
 
 // Cleanup after each scenario
 After(async function () {
+  await deleteProject();
   await global.page.close();
   await global.context.close();
 });
