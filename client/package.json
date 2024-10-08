@@ -7,7 +7,7 @@
     "lint": "eslint --ext js,jsx src config-overrides.js",
     "start": "react-app-rewired start",
     "test": "react-app-rewired test",
-    "test:e2e": "cucumber-js --require cucumber.conf.js --require tests/acceptance/stepDefinitions/**/*.js --format @cucumber/pretty-formatter"
+    "test:acceptance": "cucumber-js --require cucumber.conf.js --require tests/acceptance/stepDefinitions/**/*.js --format @cucumber/pretty-formatter"
   },
   "browserslist": {
     "production": [
