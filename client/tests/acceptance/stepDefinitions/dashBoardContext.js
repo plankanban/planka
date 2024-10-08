@@ -1,4 +1,6 @@
 const { When, Then } = require('@cucumber/cucumber');
+const util = require('util');
+const { expect } = require('playwright/test');
 
 const DashboardPage = require('../pageObjects/DashboardPage');
 
@@ -9,5 +11,7 @@ When('the user creates a project with name {string} using the webUI', async func
 });
 
 Then('the created project {string} should be opened', async function (project) {
-  dashboardPage.checkForProjectOpenedOrNot(project);
+  expect(
+    await page.locator(util.format(dashboardPage.projectTitleSelector, project)),
+  ).toBeVisible();
 });
