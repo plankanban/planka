@@ -51,6 +51,6 @@ jobs:
 
       - name: Dist upload assets
         run: |
-          gh release upload ${{ github.event.release.tag_name }} planka-prebuild-${{ github.event.release.tag_name }}.zip#planka-prebuild.zip
+          gh release upload ${{ github.event.release.tag_name }} planka-prebuild.zip#planka-prebuild-${{ github.event.release.tag_name }}.zip
         env:
           GH_TOKEN: ${{ github.token }}
