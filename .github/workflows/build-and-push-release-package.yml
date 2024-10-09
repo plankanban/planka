@@ -47,10 +47,10 @@ jobs:
       - name: Dist create .zip file
         run: |
           mv dist/ planka/
-          zip -r planka-prebuild-${{ github.event.release.tag_name }}.zip planka
+          zip -r planka-prebuild.zip planka
 
       - name: Dist upload assets
         run: |
-          gh release upload ${{ github.event.release.tag_name }} planka-prebuild.zip#planka-prebuild-${{ github.event.release.tag_name }}.zip
+          gh release upload ${{ github.event.release.tag_name }} planka-prebuild.zip
         env:
           GH_TOKEN: ${{ github.token }}
