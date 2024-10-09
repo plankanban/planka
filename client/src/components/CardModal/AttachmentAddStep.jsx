@@ -28,7 +28,7 @@ const AttachmentAddStep = React.memo(({ onCreate, onClose }) => {
       </Popup.Header>
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
-          <FilePicker onSelect={handleFileSelect}>
+          <FilePicker multiple onSelect={handleFileSelect}>
             <Menu.Item className={styles.menuItem}>
               {t('common.fromComputer', {
                 context: 'title',

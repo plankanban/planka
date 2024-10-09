@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { closePopup } from '../../../lib/popup';
 
 import { useModal } from '../../../hooks';
+import { isActiveTextElement } from '../../../utils/element-helpers';
 import TextFileAddModal from './TextFileAddModal';
 
 import styles from './AttachmentAddZone.module.scss';
@@ -24,13 +25,14 @@ const AttachmentAddZone = React.memo(({ children, onCreate }) => {
 
   const handleDropAccepted = useCallback(
     (files) => {
-      submit(files[0]);
+      files.forEach((file) => {
+        submit(file);
+      });
     },
     [submit],
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    multiple: false,
     noClick: true,
     noKeyboard: true,
     onDropAccepted: handleDropAccepted,
@@ -49,38 +51,43 @@ const AttachmentAddZone = React.memo(({ children, onCreate }) => {
         return;
       }
 
-      const file = event.clipboardData.files[0];
+      const { files, items } = event.clipboardData;
 
-      if (file) {
-        submit(file);
-        return;
-      }
-
-      const item = event.clipboardData.items[0];
-
-      if (!item) {
-        return;
-      }
-
-      if (item.kind === 'file') {
-        submit(item.getAsFile());
-        return;
-      }
-
-      if (
-        ['input', 'textarea'].includes(event.target.tagName.toLowerCase()) &&
-        event.target === document.activeElement
-      ) {
-        return;
-      }
-
-      closePopup();
-      event.preventDefault();
-
-      item.getAsString((content) => {
-        openModal({
-          content,
+      if (files.length > 0) {
+        [...files].forEach((file) => {
+          submit(file);
         });
+
+        return;
+      }
+
+      if (items.length === 0) {
+        return;
+      }
+
+      if (items[0].kind === 'string') {
+        if (isActiveTextElement(event.target)) {
+          return;
+        }
+
+        closePopup();
+        event.preventDefault();
+
+        items[0].getAsString((content) => {
+          openModal({
+            content,
+          });
+        });
+
+        return;
+      }
+
+      [...items].forEach((item) => {
+        if (item.kind !== 'file') {
+          return;
+        }
+
+        submit(item.getAsFile());
       });
     };
 
