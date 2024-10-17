@@ -32,7 +32,7 @@
     "test": "npm run server:test && npm run client:test"
   },
   "lint-staged": {
-    "client/**/*.{js,jsx}": [
+    "client/src/**/*.{js,jsx}": [
       "npm run client:lint"
     ],
     "server/**/*.js": [
