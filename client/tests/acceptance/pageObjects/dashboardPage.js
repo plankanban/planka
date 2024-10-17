@@ -1,20 +1,16 @@
-module.exports = {
-  url: function () {
-    return this.api.launchUrl + "/dashboard";
-  },
-  commands: {
-    isDashboardPage: async function () {
-      let result = false;
-      await this.waitForElementVisible("@dashboardHeader");
-      await this.isVisible("@dashboardHeader", (res) => {
-        result = res.value;
-      });
-      return result;
-    },
-  },
-  elements: {
-    dashboardHeader: {
-      selector: "a.Header_title__3SEjb",
-    },
-  },
-};
+class dashboardPage {
+  constructor() {
+    this.createProjectIconSelector = `.Projects_addTitle__tXhB4`;
+    this.projectTitleInputSelector = `input[name="name"]`;
+    this.createProjectButtonSelector = `//button[text()="Create project"]`;
+    this.projectTitleSelector = `//div[@class="item Header_item__OOEY7 Header_title__l+wMf"][text()="%s"]`;
+  }
+
+  async createProject(project) {
+    await page.click(this.createProjectIconSelector);
+    await page.fill(this.projectTitleInputSelector, project);
+    await page.click(this.createProjectButtonSelector);
+  }
+}
+
+module.exports = dashboardPage;
