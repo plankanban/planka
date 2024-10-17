@@ -1,4 +1,4 @@
-name: CI
+name: Build and test
 
 on:
   pull_request:
@@ -16,10 +16,10 @@ jobs:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -46,7 +46,7 @@ jobs:
           cd client
           npm run build
 
-      - name: server setup
+      - name: Setup server
         env:
           DEFAULT_ADMIN_EMAIL: demo@demo.demo
           DEFAULT_ADMIN_PASSWORD: demo
