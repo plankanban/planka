@@ -4,18 +4,30 @@ import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
+import { usePopup } from '../../lib/popup';
 
 import DroppableTypes from '../../constants/DroppableTypes';
 import CardContainer from '../../containers/CardContainer';
 import NameEdit from './NameEdit';
 import CardAdd from './CardAdd';
-import ActionsPopup from './ActionsPopup';
+import ActionsStep from './ActionsStep';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
 import styles from './List.module.scss';
 
 const List = React.memo(
-  ({ id, index, name, isPersisted, cardIds, canEdit, onUpdate, onDelete, onCardCreate }) => {
+  ({
+    id,
+    index,
+    name,
+    isPersisted,
+    cardIds,
+    canEdit,
+    onUpdate,
+    onDelete,
+    onSort,
+    onCardCreate,
+  }) => {
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
@@ -59,6 +71,8 @@ const List = React.memo(
       }
     }, [cardIds, isAddCardOpened]);
 
+    const ActionsPopup = usePopup(ActionsStep);
+
     const cardsNode = (
       <Droppable
         droppableId={`list:${id}`}
@@ -95,18 +109,14 @@ const List = React.memo(
             ref={innerRef}
             className={styles.innerWrapper}
           >
-            {/* eslint-disable jsx-a11y/click-events-have-key-events,
-                               jsx-a11y/no-static-element-interactions,
-                               react/jsx-props-no-spreading */}
             <div className={styles.outerWrapper}>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                           jsx-a11y/no-static-element-interactions */}
               <div
-                {...dragHandleProps}
+                {...dragHandleProps} // eslint-disable-line react/jsx-props-no-spreading
                 className={classNames(styles.header, canEdit && styles.headerEditable)}
                 onClick={handleHeaderClick}
               >
-                {/* eslint-enable jsx-a11y/click-events-have-key-events,
-                                jsx-a11y/no-static-element-interactions,
-                                react/jsx-props-no-spreading */}
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
                   <div className={styles.headerName}>{name}</div>
                 </NameEdit>
@@ -115,6 +125,7 @@ const List = React.memo(
                     onNameEdit={handleNameEdit}
                     onCardAdd={handleCardAdd}
                     onDelete={onDelete}
+                    onSort={onSort}
                   >
                     <Button className={classNames(styles.headerButton, styles.target)}>
                       <Icon fitted name="pencil" size="small" />
@@ -160,6 +171,7 @@ List.propTypes = {
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canEdit: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  onSort: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCardCreate: PropTypes.func.isRequired,
 };

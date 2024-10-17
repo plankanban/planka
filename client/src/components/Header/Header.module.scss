@@ -1,4 +1,20 @@
 :global(#app) {
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+    font-size: 15px;
+    line-height: 34px;
+    margin-left: 8px;
+    opacity: 0;
+    padding: 0;
+    width: 34px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
   .item {
     cursor: auto;
     user-select: auto;
@@ -7,9 +23,14 @@
       background: none;
     }
 
-    &:active, &:hover {
+    &:active,
+    &:hover {
       background: transparent;
       color: rgba(255, 255, 255, 0.9);
+
+      .target {
+        opacity: 1;
+      }
     }
   }
 
@@ -42,7 +63,6 @@
     height: 50px;
     margin: 0;
     width: 100%;
-    z-index: 1;
   }
 
   .notification {
@@ -64,6 +84,15 @@
   .title {
     font-size: 20px;
     font-weight: bold;
+  }
+
+  .userName {
+    display: none;
+    margin-right: 10px;
+
+    @media only screen and (min-width: 797px) {
+      display: block;
+    }
   }
 
   .wrapper {

@@ -4,7 +4,9 @@ import isUndefined from 'lodash/isUndefined';
 import orm from '../orm';
 import Config from '../constants/Config';
 
-export const isCoreInitializingSelector = ({ core: { isInitializing } }) => isInitializing;
+export const selectAccessToken = ({ auth: { accessToken } }) => accessToken;
+
+export const selectIsLogouting = ({ core: { isLogouting } }) => isLogouting;
 
 const nextPosition = (items, index, excludedId) => {
   const filteredItems = isUndefined(excludedId)
@@ -29,7 +31,7 @@ const nextPosition = (items, index, excludedId) => {
   return prevPosition + (nextItem.position - prevPosition) / 2;
 };
 
-export const nextBoardPositionSelector = createSelector(
+export const selectNextBoardPosition = createSelector(
   orm,
   (_, projectId) => projectId,
   (_, __, index) => index,
@@ -45,7 +47,23 @@ export const nextBoardPositionSelector = createSelector(
   },
 );
 
-export const nextListPositionSelector = createSelector(
+export const selectNextLabelPosition = createSelector(
+  orm,
+  (_, boardId) => boardId,
+  (_, __, index) => index,
+  (_, __, ___, excludedId) => excludedId,
+  ({ Board }, boardId, index, excludedId) => {
+    const boardModel = Board.withId(boardId);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return nextPosition(boardModel.getOrderedLabelsQuerySet().toRefArray(), index, excludedId);
+  },
+);
+
+export const selectNextListPosition = createSelector(
   orm,
   (_, boardId) => boardId,
   (_, __, index) => index,
@@ -61,7 +79,7 @@ export const nextListPositionSelector = createSelector(
   },
 );
 
-export const nextCardPositionSelector = createSelector(
+export const selectNextCardPosition = createSelector(
   orm,
   (_, listId) => listId,
   (_, __, index) => index,
@@ -73,6 +91,32 @@ export const nextCardPositionSelector = createSelector(
       return listModel;
     }
 
-    return nextPosition(listModel.getOrderedFilteredCardsModelArray(), index, excludedId);
+    return nextPosition(listModel.getFilteredOrderedCardsModelArray(), index, excludedId);
   },
 );
+
+export const selectNextTaskPosition = createSelector(
+  orm,
+  (_, cardId) => cardId,
+  (_, __, index) => index,
+  (_, __, ___, excludedId) => excludedId,
+  ({ Card }, cardId, index, excludedId) => {
+    const cardModel = Card.withId(cardId);
+
+    if (!cardModel) {
+      return cardModel;
+    }
+
+    return nextPosition(cardModel.getOrderedTasksQuerySet().toRefArray(), index, excludedId);
+  },
+);
+
+export default {
+  selectAccessToken,
+  selectIsLogouting,
+  selectNextBoardPosition,
+  selectNextLabelPosition,
+  selectNextListPosition,
+  selectNextCardPosition,
+  selectNextTaskPosition,
+};

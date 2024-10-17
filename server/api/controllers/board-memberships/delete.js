@@ -27,7 +27,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.BOARD_MEMBERSHIP_NOT_FOUND);
 
     let { boardMembership } = path;
-    const { project } = path;
+    const { board, project } = path;
 
     if (boardMembership.userId !== currentUser.id) {
       const isProjectManager = await sails.helpers.users.isProjectManager(
@@ -36,15 +36,17 @@ module.exports = {
       );
 
       if (!isProjectManager) {
-        throw Errors.BOARD_MEMBERSHIP_NOT_FOUND;
+        throw Errors.BOARD_MEMBERSHIP_NOT_FOUND; // Forbidden
       }
     }
 
-    boardMembership = await sails.helpers.boardMemberships.deleteOne(
-      boardMembership,
+    boardMembership = await sails.helpers.boardMemberships.deleteOne.with({
       project,
-      this.req,
-    );
+      board,
+      record: boardMembership,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!boardMembership) {
       throw Errors.BOARD_MEMBERSHIP_NOT_FOUND;

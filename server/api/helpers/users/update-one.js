@@ -1,6 +1,31 @@
 const path = require('path');
 const bcrypt = require('bcrypt');
 const rimraf = require('rimraf');
+const { v4: uuid } = require('uuid');
+
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.email) && !_.isString(value.email)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.password) && !_.isString(value.password)) {
+    return false;
+  }
+
+  if (!_.isNil(value.username) && !_.isString(value.username)) {
+    return false;
+  }
+
+  if (!_.isNil(value.avatar) && !_.isPlainObject(value.avatar)) {
+    return false;
+  }
+
+  return true;
+};
 
 module.exports = {
   inputs: {
@@ -10,29 +35,11 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.email) && !_.isString(value.email)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.password) && !_.isString(value.password)) {
-          return false;
-        }
-
-        if (value.username && !_.isString(value.username)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.avatarUrl) && !_.isNull(value.avatarUrl)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: valuesValidator,
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
       required: true,
     },
     request: {
@@ -46,39 +53,34 @@ module.exports = {
   },
 
   async fn(inputs) {
-    if (!_.isUndefined(inputs.values.email)) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.email = inputs.values.email.toLowerCase();
+    const { values } = inputs;
+
+    if (!_.isUndefined(values.email)) {
+      values.email = values.email.toLowerCase();
     }
 
     let isOnlyPasswordChange = false;
 
-    if (!_.isUndefined(inputs.values.password)) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.password = bcrypt.hashSync(inputs.values.password, 10);
-
-      if (Object.keys(inputs.values).length === 1) {
+    if (!_.isUndefined(values.password)) {
+      if (Object.keys(values).length === 1) {
         isOnlyPasswordChange = true;
       }
+
+      Object.assign(values, {
+        password: bcrypt.hashSync(values.password, 10),
+        passwordChangedAt: new Date().toUTCString(), // FIXME: hack
+      });
     }
 
-    if (inputs.values.username) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.username = inputs.values.username.toLowerCase();
-    }
-
-    if (!_.isUndefined(inputs.values.avatarUrl)) {
-      /* eslint-disable no-param-reassign */
-      inputs.values.avatarDirname = null;
-      delete inputs.values.avatarUrl;
-      /* eslint-enable no-param-reassign */
+    if (values.username) {
+      values.username = values.username.toLowerCase();
     }
 
     const user = await User.updateOne({
       id: inputs.record.id,
       deletedAt: null,
     })
-      .set(inputs.values)
+      .set({ ...values })
       .intercept(
         {
           message:
@@ -95,11 +97,37 @@ module.exports = {
       );
 
     if (user) {
-      if (inputs.record.avatarDirname && user.avatarDirname !== inputs.record.avatarDirname) {
+      if (
+        inputs.record.avatar &&
+        (!user.avatar || user.avatar.dirname !== inputs.record.avatar.dirname)
+      ) {
         try {
-          rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatarDirname));
+          rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatar.dirname));
         } catch (error) {
           console.warn(error.stack); // eslint-disable-line no-console
+        }
+      }
+
+      if (!_.isUndefined(values.password)) {
+        sails.sockets.broadcast(
+          `user:${user.id}`,
+          'userDelete', // TODO: introduce separate event
+          {
+            item: user,
+          },
+          inputs.request,
+        );
+
+        if (user.id === inputs.actorUser.id && inputs.request && inputs.request.isSocket) {
+          const tempRoom = uuid();
+
+          sails.sockets.addRoomMembersToRooms(`@user:${user.id}`, tempRoom, () => {
+            sails.sockets.leave(inputs.request, tempRoom, () => {
+              sails.sockets.leaveAll(tempRoom);
+            });
+          });
+        } else {
+          sails.sockets.leaveAll(`@user:${user.id}`);
         }
       }
 
@@ -124,6 +152,14 @@ module.exports = {
             },
             inputs.request,
           );
+        });
+
+        sails.helpers.utils.sendWebhooks.with({
+          event: 'userUpdate',
+          data: {
+            item: user,
+          },
+          user: inputs.actorUser,
         });
       }
     }

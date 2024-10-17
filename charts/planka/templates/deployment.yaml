@@ -1,0 +1,182 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "planka.fullname" . }}
+  labels:
+    {{- include "planka.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "planka.selectorLabels" . | nindent 6 }}
+  {{- if .Values.persistence.enabled }}
+  strategy:
+    type: Recreate
+  {{- end }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "planka.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "planka.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.containerPort | default 1337 }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - mountPath: /app/public/user-avatars
+              subPath: user-avatars
+              name: planka
+            - mountPath: /app/public/project-background-images
+              subPath: project-background-images
+              name: planka
+            - mountPath: /app/private/attachments
+              subPath: attachments
+              name: planka
+          {{- if .Values.securityContext.readOnlyRootFilesystem }}
+            - mountPath: /app/logs
+              subPath: app-logs
+              name: emptydir
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+          {{- if not .Values.postgresql.enabled }}
+          {{- if .Values.existingDburlSecret }}
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingDburlSecret }}
+                  key: uri
+          {{- else }}
+            - name: DATABASE_URL
+              value: {{ required "If the included postgresql deployment is disabled you need to provide an existing secret in .Values.existingDburlSecret or define a Database URL in 'dburl'" .Values.dburl }}
+          {{- end }}
+          {{- else }}
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: planka-postgresql-svcbind-custom-user
+                  key: uri
+          {{- end }}
+            - name: BASE_URL
+              {{- if .Values.baseUrl }}
+              value: {{ .Values.baseUrl }}
+              {{- else if .Values.ingress.enabled }}
+              value: {{ printf "https://%s" (first .Values.ingress.hosts).host }}
+              {{- else }}
+              value: http://localhost:3000
+              {{- end }}
+            - name: SECRET_KEY
+              {{- if .Values.existingSecretkeySecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingSecretkeySecret }}
+                  key: key
+              {{- else }}
+              value: {{ required "A secret key needs to be generated using 'openssl rand -hex 64' and assigned to secretkey." .Values.secretkey }}
+              {{- end }}
+            - name: TRUST_PROXY
+              value: "0"
+            - name: DEFAULT_ADMIN_EMAIL
+              value: {{ .Values.admin_email }}
+            - name: DEFAULT_ADMIN_NAME
+              value: {{ .Values.admin_name }}
+            {{- if .Values.existingAdminCredsSecret }}
+            - name: DEFAULT_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingAdminCredsSecret }}
+                  key: username
+            - name: DEFAULT_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.existingAdminCredsSecret }}
+                  key: password
+            {{- else }}
+            - name: DEFAULT_ADMIN_USERNAME
+              value: {{ .Values.admin_username }}
+            - name: DEFAULT_ADMIN_PASSWORD
+              value: {{ .Values.admin_password }}
+            {{- end }}
+          {{ range $k, $v := .Values.env }}
+            - name: {{ $k | quote }}
+              value: {{ $v | quote }}
+          {{- end }}
+          {{- if .Values.oidc.enabled }}
+          {{- $secretName := default (printf "%s-oidc" (include "planka.fullname" .)) .Values.oidc.existingSecret }}
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  key:  clientId
+                  name: {{ $secretName }}
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key:  clientSecret
+                  name: {{ $secretName }}
+            - name: OIDC_ISSUER
+              value: {{ required "issuerUrl is required when configuring OIDC" .Values.oidc.issuerUrl | quote }}
+            - name: OIDC_SCOPES
+              value: {{ join " " .Values.oidc.scopes | default "openid profile email" | quote }}
+          {{- if .Values.oidc.admin.roles }}
+            - name: OIDC_ADMIN_ROLES
+              value: {{ join "," .Values.oidc.admin.roles | quote }}
+          {{- end }}
+            - name: OIDC_ROLES_ATTRIBUTE
+              value: {{ .Values.oidc.admin.rolesAttribute | default "groups" | quote }}
+          {{- if .Values.oidc.admin.ignoreRoles }}
+            - name: OIDC_IGNORE_ROLES
+              value: {{ .Values.oidc.admin.ignoreRoles | quote }}
+          {{- end }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: planka
+    {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "planka.fullname" .) }}
+    {{- else }}
+          emptyDir: {}
+    {{- end }}
+    {{- if .Values.securityContext.readOnlyRootFilesystem }}
+        - name: emptydir
+          emptyDir: {}
+     {{- end }}

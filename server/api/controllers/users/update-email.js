@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   USER_NOT_FOUND: {
     userNotFound: 'User not found',
   },
@@ -31,6 +34,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     userNotFound: {
       responseType: 'notFound',
     },
@@ -59,6 +65,10 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
+    if (user.email === sails.config.custom.defaultAdminEmail || user.isSso) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
     if (
       inputs.id === currentUser.id &&
       !bcrypt.compareSync(inputs.currentPassword, user.password)
@@ -68,8 +78,13 @@ module.exports = {
 
     const values = _.pick(inputs, ['email']);
 
-    user = await sails.helpers.users
-      .update(user, values, this.req)
+    user = await sails.helpers.users.updateOne
+      .with({
+        values,
+        record: user,
+        actorUser: currentUser,
+        request: this.req,
+      })
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE);
 
     if (!user) {

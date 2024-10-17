@@ -19,10 +19,8 @@ module.exports = {
       type: 'string',
       required: true,
     },
-    isImage: {
-      type: 'boolean',
-      required: true,
-      columnName: 'is_image',
+    image: {
+      type: 'json',
     },
     name: {
       type: 'string',
@@ -51,10 +49,10 @@ module.exports = {
 
   customToJSON() {
     return {
-      ..._.omit(this, ['dirname', 'filename', 'isImage']),
-      url: `${sails.config.custom.attachmentsUrl}/${this.dirname}/${this.filename}`,
-      coverUrl: this.isImage
-        ? `${sails.config.custom.attachmentsUrl}/${this.dirname}/thumbnails/cover-256.jpg`
+      ..._.omit(this, ['dirname', 'filename', 'image.thumbnailsExtension']),
+      url: `${sails.config.custom.attachmentsUrl}/${this.id}/download/${this.filename}`,
+      coverUrl: this.image
+        ? `${sails.config.custom.attachmentsUrl}/${this.id}/download/thumbnails/cover-256.${this.image.thumbnailsExtension}`
         : null,
     };
   },

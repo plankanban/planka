@@ -17,7 +17,7 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
   const [t] = useTranslation();
   const [isOpened, setIsOpened] = useState(false);
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
-  const [selectNameFieldState, selectNameField] = useToggle();
+  const [focusNameFieldState, focusNameField] = useToggle();
 
   const nameField = useRef(null);
 
@@ -43,8 +43,8 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
     onCreate(cleanData);
 
     setData(DEFAULT_DATA);
-    selectNameField();
-  }, [onCreate, data, setData, selectNameField]);
+    focusNameField();
+  }, [onCreate, data, setData, focusNameField]);
 
   useImperativeHandle(
     ref,
@@ -81,13 +81,13 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
 
   useEffect(() => {
     if (isOpened) {
-      nameField.current.ref.current.select();
+      nameField.current.ref.current.focus();
     }
   }, [isOpened]);
 
   useDidUpdate(() => {
-    nameField.current.ref.current.select();
-  }, [selectNameFieldState]);
+    nameField.current.ref.current.focus();
+  }, [focusNameFieldState]);
 
   if (!isOpened) {
     return React.cloneElement(children, {

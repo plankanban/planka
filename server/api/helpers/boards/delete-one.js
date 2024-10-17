@@ -4,29 +4,54 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
   },
 
   async fn(inputs) {
-    await BoardMembership.destroy({
+    const boardMemberships = await BoardMembership.destroy({
       boardId: inputs.record.id,
     }).fetch();
 
     const board = await Board.archiveOne(inputs.record.id);
 
     if (board) {
-      sails.sockets.leaveAll(`board:${board.id}`);
+      sails.sockets.removeRoomMembersFromRooms(`board:${board.id}`, `board:${board.id}`);
 
-      sails.sockets.broadcast(
-        `project:${board.projectId}`,
-        'boardDelete',
-        {
+      const projectManagerUserIds = await sails.helpers.projects.getManagerUserIds(board.projectId);
+      const boardMemberUserIds = sails.helpers.utils.mapRecords(boardMemberships, 'userId');
+      const boardRelatedUserIds = _.union(projectManagerUserIds, boardMemberUserIds);
+
+      boardRelatedUserIds.forEach((userId) => {
+        sails.sockets.broadcast(
+          `user:${userId}`,
+          'boardDelete',
+          {
+            item: board,
+          },
+          inputs.request,
+        );
+      });
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'boardDelete',
+        data: {
           item: board,
+          included: {
+            projects: [inputs.project],
+          },
         },
-        inputs.request,
-      );
+        user: inputs.actorUser,
+      });
     }
 
     return board;

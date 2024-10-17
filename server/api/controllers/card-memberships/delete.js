@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
   },
@@ -22,6 +25,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     cardNotFound: {
       responseType: 'notFound',
     },
@@ -33,14 +39,21 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
+    }
+
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     let cardMembership = await CardMembership.findOne({
@@ -52,7 +65,15 @@ module.exports = {
       throw Errors.USER_NOT_CARD_MEMBER;
     }
 
-    cardMembership = await sails.helpers.cardMemberships.deleteOne(cardMembership, board, this.req);
+    cardMembership = await sails.helpers.cardMemberships.deleteOne.with({
+      project,
+      board,
+      list,
+      card,
+      record: cardMembership,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!cardMembership) {
       throw Errors.USER_NOT_CARD_MEMBER;

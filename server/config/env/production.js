@@ -21,6 +21,10 @@
 
 const url = require('url');
 
+const { customLogger } = require('../../utils/logger');
+
+const parsedBasedUrl = new url.URL(process.env.BASE_URL);
+
 module.exports = {
   /**
    *
@@ -129,9 +133,10 @@ module.exports = {
      */
 
     cors: {
-      // allowOrigins: [
-      //   'https://example.com',
-      // ],
+      allRoutes: false,
+      allowOrigins: '*',
+      allowRequestHeaders: 'content-type',
+      allowCredentials: false,
     },
   },
 
@@ -216,7 +221,7 @@ module.exports = {
      *
      */
 
-    onlyAllowOrigins: [new url.URL(process.env.BASE_URL).origin],
+    onlyAllowOrigins: [parsedBasedUrl.origin],
 
     /**
      *
@@ -244,7 +249,22 @@ module.exports = {
    */
 
   log: {
-    level: 'debug',
+    /**
+     * Passthrough plain log message(s) to
+     * custom Winston console and file logger.
+     *
+     * Note that Winston's log levels override Sails' log levels.
+     * Refer: https://github.com/winstonjs/winston#logging
+     */
+
+    inspect: false,
+    custom: customLogger,
+
+    /**
+     * Removes the Sail.js init success logs (ASCII ship art).
+     */
+
+    noShip: true,
   },
 
   http: {
@@ -273,7 +293,7 @@ module.exports = {
      *
      */
 
-    // trustProxy: true,
+    trustProxy: !!process.env.TRUST_PROXY,
   },
 
   /**

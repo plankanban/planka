@@ -1,14 +1,35 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.card)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.creatorUser)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
+      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
-    user: {
+    project: {
       type: 'ref',
       required: true,
     },
-    card: {
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
       type: 'ref',
       required: true,
     },
@@ -22,14 +43,16 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
     const attachment = await Attachment.create({
-      ...inputs.values,
-      cardId: inputs.card.id,
-      creatorUserId: inputs.user.id,
+      ...values,
+      cardId: values.card.id,
+      creatorUserId: values.creatorUser.id,
     }).fetch();
 
     sails.sockets.broadcast(
-      `board:${inputs.card.boardId}`,
+      `board:${values.card.boardId}`,
       'attachmentCreate',
       {
         item: attachment,
@@ -38,9 +61,30 @@ module.exports = {
       inputs.request,
     );
 
-    if (!inputs.card.coverAttachmentId && attachment.isImage) {
-      await sails.helpers.cards.updateOne(inputs.card, {
-        coverAttachmentId: attachment.id,
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'attachmentCreate',
+      data: {
+        item: attachment,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: values.creatorUser,
+    });
+
+    if (!values.card.coverAttachmentId && attachment.image) {
+      await sails.helpers.cards.updateOne.with({
+        record: values.card,
+        values: {
+          coverAttachmentId: attachment.id,
+        },
+        project: inputs.project,
+        board: inputs.board,
+        list: inputs.list,
+        actorUser: values.creatorUser,
       });
     }
 

@@ -1,33 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
+import { Route, Routes } from 'react-router-dom';
+import { ReduxRouter } from '../lib/redux-router';
 
 import Paths from '../constants/Paths';
-import LoginContainer from '../containers/LoginContainer';
-import CoreWrapperContainer from '../containers/CoreWrapperContainer';
+import LoginWrapperContainer from '../containers/LoginWrapperContainer';
+import CoreContainer from '../containers/CoreContainer';
 import NotFound from './NotFound';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import 'photoswipe/dist/photoswipe.css';
+import 'easymde/dist/easymde.min.css';
 import '../lib/custom-ui/styles.css';
-
+import '../assets/css/font-awesome.css';
 import '../styles.module.scss';
 
-const Root = ({ store, history }) => (
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <Switch>
-        <Route exact path={Paths.LOGIN} component={LoginContainer} />
-        <Route exact path={Paths.ROOT} component={CoreWrapperContainer} />
-        <Route exact path={Paths.PROJECTS} component={CoreWrapperContainer} />
-        <Route exact path={Paths.BOARDS} component={CoreWrapperContainer} />
-        <Route exact path={Paths.CARDS} component={CoreWrapperContainer} />
-        <Route path="*" component={NotFound} />
-      </Switch>
-    </ConnectedRouter>
-  </Provider>
-);
+function Root({ store, history }) {
+  return (
+    <Provider store={store}>
+      <ReduxRouter history={history}>
+        <Routes>
+          <Route path={Paths.LOGIN} element={<LoginWrapperContainer />} />
+          <Route path={Paths.OIDC_CALLBACK} element={<LoginWrapperContainer />} />
+          <Route path={Paths.ROOT} element={<CoreContainer />} />
+          <Route path={Paths.PROJECTS} element={<CoreContainer />} />
+          <Route path={Paths.BOARDS} element={<CoreContainer />} />
+          <Route path={Paths.CARDS} element={<CoreContainer />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </ReduxRouter>
+    </Provider>
+  );
+}
 
 Root.propTypes = {
   /* eslint-disable react/forbid-prop-types */

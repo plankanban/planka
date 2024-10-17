@@ -1,7 +1,7 @@
 import { ORM } from 'redux-orm';
 
 import {
-  Action,
+  Activity,
   Attachment,
   Board,
   BoardMembership,
@@ -30,7 +30,7 @@ orm.register(
   Card,
   Task,
   Attachment,
-  Action,
+  Activity,
   Notification,
 );
 

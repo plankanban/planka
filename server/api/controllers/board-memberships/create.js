@@ -22,6 +22,15 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    role: {
+      type: 'string',
+      isIn: Object.values(BoardMembership.Roles),
+      required: true,
+    },
+    canComment: {
+      type: 'boolean',
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -39,14 +48,11 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board } = await sails.helpers.boards
+    const { board, project } = await sails.helpers.boards
       .getProjectPath(inputs.boardId)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
-    const isProjectManager = await sails.helpers.users.isProjectManager(
-      currentUser.id,
-      board.projectId,
-    );
+    const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
     if (!isProjectManager) {
       throw Errors.BOARD_NOT_FOUND; // Forbidden
@@ -58,8 +64,19 @@ module.exports = {
       throw Error.USER_NOT_FOUND;
     }
 
-    const boardMembership = await sails.helpers.boardMemberships
-      .createOne(user, board, this.req)
+    const values = _.pick(inputs, ['role', 'canComment']);
+
+    const boardMembership = await sails.helpers.boardMemberships.createOne
+      .with({
+        project,
+        values: {
+          ...values,
+          board,
+          user,
+        },
+        actorUser: currentUser,
+        request: this.req,
+      })
       .intercept('userAlreadyBoardMember', () => Errors.USER_ALREADY_BOARD_MEMBER);
 
     return {

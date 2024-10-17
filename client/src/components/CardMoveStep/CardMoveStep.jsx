@@ -36,7 +36,7 @@ const CardMoveStep = React.memo(
       [selectedBoard, path.listId],
     );
 
-    const handleBoardIdFieldChange = useCallback(
+    const handleBoardIdChange = useCallback(
       (event, data) => {
         if (selectedProject.boards.find((board) => board.id === data.value).isFetching === null) {
           onBoardFetch(data.value);
@@ -102,7 +102,7 @@ const CardMoveStep = React.memo(
                   }
                   disabled={selectedProject.boards.length === 0}
                   className={styles.field}
-                  onChange={handleBoardIdFieldChange}
+                  onChange={handleBoardIdChange}
                 />
               </>
             )}

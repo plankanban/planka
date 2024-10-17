@@ -37,7 +37,7 @@ const TextFileAddModal = React.memo(({ content, onCreate, onClose }) => {
   }, [content, onCreate, onClose, data]);
 
   useEffect(() => {
-    nameField.current.select();
+    nameField.current.focus();
   }, []);
 
   return (

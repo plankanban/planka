@@ -1,17 +1,49 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isFinite(value.position)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.project)) {
+    return false;
+  }
+
+  return true;
+};
+
+const importValidator = (value) => {
+  if (!value.type || !Object.values(Board.ImportTypes).includes(value.type)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.board)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
+      type: 'ref',
+      custom: valuesValidator,
+      required: true,
+    },
+    import: {
       type: 'json',
-      custom: (value) => _.isPlainObject(value) && _.isFinite(value.position),
-      required: true,
+      custom: importValidator,
     },
-    user: {
+    actorUser: {
       type: 'ref',
       required: true,
     },
-    project: {
-      type: 'ref',
-      required: true,
+    requestId: {
+      type: 'string',
+      isNotEmptyString: true,
     },
     request: {
       type: 'ref',
@@ -19,55 +51,77 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const managerUserIds = await sails.helpers.projects.getManagerUserIds(inputs.project.id);
-    const boards = await sails.helpers.projects.getBoards(inputs.project.id);
+    const { values } = inputs;
+
+    const projectManagerUserIds = await sails.helpers.projects.getManagerUserIds(values.project.id);
+    const boards = await sails.helpers.projects.getBoards(values.project.id);
 
     const { position, repositions } = sails.helpers.utils.insertToPositionables(
-      inputs.values.position,
+      values.position,
       boards,
     );
 
     repositions.forEach(async ({ id, position: nextPosition }) => {
       await Board.update({
         id,
-        projectId: inputs.project.id,
+        projectId: values.project.id,
       }).set({
         position: nextPosition,
       });
 
-      const memberUserIds = await sails.helpers.boards.getMemberUserIds(id);
-      const userIds = _.union(managerUserIds, memberUserIds);
+      // TODO: move out of loop
+      const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(id);
+      const boardRelatedUserIds = _.union(projectManagerUserIds, boardMemberUserIds);
 
-      userIds.forEach((userId) => {
+      boardRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
           item: {
             id,
             position: nextPosition,
           },
         });
+
+        // TODO: send webhooks
       });
     });
 
     const board = await Board.create({
-      ...inputs.values,
+      ...values,
       position,
-      projectId: inputs.project.id,
+      projectId: values.project.id,
     }).fetch();
+
+    if (inputs.import && inputs.import.type === Board.ImportTypes.TRELLO) {
+      await sails.helpers.boards.importFromTrello(board, inputs.import.board, inputs.actorUser);
+    }
 
     const boardMembership = await BoardMembership.create({
       boardId: board.id,
-      userId: inputs.user.id,
+      userId: inputs.actorUser.id,
+      role: BoardMembership.Roles.EDITOR,
     }).fetch();
 
-    managerUserIds.forEach((userId) => {
+    projectManagerUserIds.forEach((userId) => {
       sails.sockets.broadcast(
         `user:${userId}`,
         'boardCreate',
         {
           item: board,
+          requestId: inputs.requestId,
         },
         inputs.request,
       );
+    });
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'boardCreate',
+      data: {
+        item: board,
+        included: {
+          projects: [values.project],
+        },
+      },
+      user: inputs.actorUser,
     });
 
     return {

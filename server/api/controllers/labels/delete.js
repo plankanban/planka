@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   LABEL_NOT_FOUND: {
     labelNotFound: 'Label not found',
   },
@@ -14,6 +17,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     labelNotFound: {
       responseType: 'notFound',
     },
@@ -22,17 +28,33 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let { label } = await sails.helpers.labels
+    const path = await sails.helpers.labels
       .getProjectPath(inputs.id)
       .intercept('pathNotFound', () => Errors.LABEL_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, label.boardId);
+    let { label } = path;
+    const { board, project } = path;
 
-    if (!isBoardMember) {
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
+
+    if (!boardMembership) {
       throw Errors.LABEL_NOT_FOUND; // Forbidden
     }
 
-    label = await sails.helpers.labels.deleteOne(label, this.req);
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
+    label = await sails.helpers.labels.deleteOne.with({
+      project,
+      board,
+      record: label,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!label) {
       throw Errors.LABEL_NOT_FOUND;

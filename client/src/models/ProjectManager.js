@@ -1,12 +1,16 @@
-import { Model, attr, fk } from 'redux-orm';
+import { attr, fk } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'ProjectManager';
 
   static fields = {
     id: attr(),
+    createdAt: attr({
+      getDefault: () => new Date(),
+    }),
     projectId: fk({
       to: 'Project',
       as: 'project',

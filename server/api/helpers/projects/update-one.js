@@ -1,6 +1,22 @@
 const path = require('path');
 const rimraf = require('rimraf');
 
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isNil(value.background) && !_.isPlainObject(value.background)) {
+    return false;
+  }
+
+  if (!_.isNil(value.backgroundImage) && !_.isPlainObject(value.backgroundImage)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     record: {
@@ -9,25 +25,11 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (
-          !_.isUndefined(value.background) &&
-          !_.isNull(value.background) &&
-          !_.isPlainObject(value.background)
-        ) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.backgroundImage) && !_.isNull(value.backgroundImage)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: valuesValidator,
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
       required: true,
     },
     request: {
@@ -36,64 +38,59 @@ module.exports = {
   },
 
   exits: {
-    backgroundImageDirnameMustBeNotNullInValues: {},
+    backgroundImageInValuesMustNotBeNull: {},
   },
 
   async fn(inputs) {
-    if (!_.isUndefined(inputs.values.backgroundImage)) {
-      /* eslint-disable no-param-reassign */
-      inputs.values.backgroundImageDirname = null;
-      delete inputs.values.backgroundImage;
-      /* eslint-enable no-param-reassign */
-    }
+    const { values } = inputs;
 
-    if (inputs.values.backgroundImageDirname) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.background = {
+    if (values.backgroundImage) {
+      values.background = {
         type: 'image',
       };
     } else if (
-      _.isNull(inputs.values.backgroundImageDirname) &&
+      _.isNull(values.backgroundImage) &&
       inputs.record.background &&
       inputs.record.background.type === 'image'
     ) {
-      inputs.values.background = null; // eslint-disable-line no-param-reassign
+      values.background = null;
     }
 
     let project;
-    if (inputs.values.background && inputs.values.background.type === 'image') {
-      if (_.isNull(inputs.values.backgroundImageDirname)) {
-        throw 'backgroundImageDirnameMustBeNotNullInValues';
+    if (values.background && values.background.type === 'image') {
+      if (_.isNull(values.backgroundImage)) {
+        throw 'backgroundImageInValuesMustNotBeNull';
       }
 
-      if (_.isUndefined(inputs.values.backgroundImageDirname)) {
+      if (_.isUndefined(values.backgroundImage)) {
         project = await Project.updateOne({
           id: inputs.record.id,
-          backgroundImageDirname: {
+          backgroundImage: {
             '!=': null,
           },
-        }).set(inputs.values);
+        }).set({ ...values });
 
         if (!project) {
-          delete inputs.values.background; // eslint-disable-line no-param-reassign
+          delete values.background;
         }
       }
     }
 
     if (!project) {
-      project = await Project.updateOne(inputs.record.id).set(inputs.values);
+      project = await Project.updateOne(inputs.record.id).set({ ...values });
     }
 
     if (project) {
       if (
-        inputs.record.backgroundImageDirname &&
-        project.backgroundImageDirname !== inputs.record.backgroundImageDirname
+        inputs.record.backgroundImage &&
+        (!project.backgroundImage ||
+          project.backgroundImage.dirname !== inputs.record.backgroundImage.dirname)
       ) {
         try {
           rimraf.sync(
             path.join(
               sails.config.custom.projectBackgroundImagesPath,
-              inputs.record.backgroundImageDirname,
+              inputs.record.backgroundImage.dirname,
             ),
           );
         } catch (error) {
@@ -101,9 +98,11 @@ module.exports = {
         }
       }
 
-      const userIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(project.id);
+      const projectRelatedUserIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
+        project.id,
+      );
 
-      userIds.forEach((userId) => {
+      projectRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectUpdate',
@@ -112,6 +111,14 @@ module.exports = {
           },
           inputs.request,
         );
+      });
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'projectUpdate',
+        data: {
+          item: project,
+        },
+        user: inputs.actorUser,
       });
     }
 

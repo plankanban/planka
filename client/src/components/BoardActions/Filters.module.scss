@@ -43,4 +43,36 @@
     line-height: 20px;
     padding: 2px 12px;
   }
+
+  .search {
+    height: 30px;
+    margin: 0 12px;
+    transition: width 0.2s ease;
+    width: 280px;
+
+    @media only screen and (max-width: 797px) {
+      width: 220px;
+    }
+
+    input {
+      font-size: 13px;
+    }
+  }
+
+  .searchInactive {
+    color: #fff;
+    height: 24px;
+    width: 220px;
+
+    input {
+      background: rgba(0, 0, 0, 0.24);
+      border: none;
+      color: #fff !important;
+      font-size: 12px;
+
+      &::placeholder {
+        color: #fff;
+      }
+    }
+  }
 }

@@ -33,7 +33,7 @@ const ProjectAddModal = React.memo(({ defaultData, isSubmitting, onCreate, onClo
   }, [onCreate, data]);
 
   useEffect(() => {
-    nameField.current.select();
+    nameField.current.focus();
   }, []);
 
   return (

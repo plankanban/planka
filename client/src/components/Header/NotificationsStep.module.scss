@@ -1,0 +1,65 @@
+:global(#app) {
+  .item {
+    padding: 12px;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+  }
+
+  .itemButton {
+    background: transparent;
+    box-shadow: none;
+    float: right;
+    height: 20px;
+    line-height: 20px;
+    margin: 0;
+    min-height: auto;
+    padding: 0;
+    transition: background 0.3s ease;
+    width: 20px;
+
+    &:hover {
+      background: #e9e9e9;
+    }
+  }
+
+  .itemContent {
+    display: inline-block;
+    font-size: 12px;
+    min-height: 36px;
+    overflow: hidden;
+    padding: 0 4px 0 8px;
+    vertical-align: top;
+    width: calc(100% - 56px);
+    word-break: break-word;
+  }
+
+  .itemDeleted {
+    display: inline-block;
+    line-height: 20px;
+    min-height: 20px;
+    padding: 0 4px 0 8px;
+    vertical-align: top;
+    width: calc(100% - 20px);
+  }
+
+  .wrapper {
+    margin: 0 -12px;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+    }
+  }
+}

@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
   },
@@ -18,6 +21,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     cardNotFound: {
       responseType: 'notFound',
     },
@@ -26,14 +32,21 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
+    }
+
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR && !boardMembership.canComment) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     const values = {
@@ -41,7 +54,17 @@ module.exports = {
       data: _.pick(inputs, ['text']),
     };
 
-    const action = await sails.helpers.actions.createOne(values, currentUser, card, this.req);
+    const action = await sails.helpers.actions.createOne.with({
+      project,
+      board,
+      list,
+      values: {
+        ...values,
+        card,
+        user: currentUser,
+      },
+      request: this.req,
+    });
 
     return {
       item: action,

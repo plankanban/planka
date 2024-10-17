@@ -1,12 +1,14 @@
-import { Model, attr, fk } from 'redux-orm';
+import { attr, fk } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Label';
 
   static fields = {
     id: attr(),
+    position: attr(),
     name: attr(),
     color: attr(),
     boardId: fk({
@@ -77,5 +79,17 @@ export default class extends Model {
       }
       default:
     }
+  }
+
+  static findLabelsFromText(filterText, labels) {
+    const selectLabel = filterText.toLocaleLowerCase();
+    const matchingLabels = labels.filter((label) =>
+      label.name ? label.name.toLocaleLowerCase().startsWith(selectLabel) : false,
+    );
+    if (matchingLabels.length === 1) {
+      // Appens the user to the filter
+      return matchingLabels[0].id;
+    }
+    return null;
   }
 }

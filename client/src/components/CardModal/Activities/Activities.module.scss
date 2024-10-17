@@ -1,0 +1,60 @@
+:global(#app) {
+  .contentModule {
+    margin-bottom: 24px;
+  }
+
+  .loader {
+    margin-top: 10px;
+  }
+
+  .moduleHeader {
+    align-items: center;
+    color: #17394d;
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    height: 36px;
+    justify-content: space-between;
+    margin: 0 0 4px;
+  }
+
+  .moduleIcon {
+    color: #17394d;
+    font-size: 17px;
+    height: 32px;
+    left: -40px;
+    line-height: 32px;
+    margin-right: 0;
+    position: absolute;
+    top: 2px;
+    width: 32px;
+  }
+
+  .moduleWrapper {
+    margin: 0 0 0 40px;
+    position: relative;
+  }
+
+  .toggleButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    float: right;
+    font-weight: normal;
+    margin-right: 0;
+    padding: 6px 11px;
+    text-align: left;
+    text-decoration: underline;
+    transition: none;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #092d42;
+    }
+  }
+
+  .wrapper {
+    margin-left: -40px;
+    margin-top: 12px;
+  }
+}

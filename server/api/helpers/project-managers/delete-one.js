@@ -4,20 +4,24 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    actorUser: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
   },
 
   async fn(inputs) {
-    const userIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
+    const projectRelatedUserIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
       inputs.record.projectId,
     );
 
     const projectManager = await ProjectManager.destroyOne(inputs.record.id);
 
     if (projectManager) {
-      userIds.forEach((userId) => {
+      projectRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectManagerDelete',
@@ -26,6 +30,14 @@ module.exports = {
           },
           inputs.request,
         );
+      });
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'projectManagerDelete',
+        data: {
+          item: projectManager,
+        },
+        user: inputs.actorUser,
       });
     }
 

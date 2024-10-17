@@ -1,13 +1,4 @@
 :global(#app) {
-  .board {
-    margin-top: 174px;
-  }
-
-  .flex {
-    display: flex;
-    height: 100%;
-  }
-
   .message {
     align-content: space-between;
     align-items: center;
@@ -34,7 +25,24 @@
     text-align: center;
   }
 
-  .root {
+  .wrapper {
+    height: 100%;
     margin-top: 50px;
+  }
+
+  .wrapperBoard {
+    margin-top: 174px;
+  }
+
+  .wrapperFlex {
+    display: flex;
+  }
+
+  .wrapperLoader {
+    position: relative;
+  }
+
+  .wrapperProject {
+    margin-top: 98px;
   }
 }

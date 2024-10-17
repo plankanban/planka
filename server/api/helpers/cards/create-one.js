@@ -1,21 +1,31 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.list)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.creatorUser)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
-          return false;
-        }
-
-        return true;
-      },
+      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
-    user: {
+    project: {
       type: 'ref',
       required: true,
     },
@@ -23,70 +33,61 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    list: {
-      type: 'ref',
-    },
     request: {
       type: 'ref',
     },
   },
 
   exits: {
-    listMustBePresent: {},
-    listMustBelongToBoard: {},
     positionMustBeInValues: {},
   },
 
   async fn(inputs) {
     const { values } = inputs;
 
-    if (inputs.board.type === Board.Types.KANBAN) {
-      if (!inputs.list) {
-        throw 'listMustBePresent';
+    if (_.isUndefined(values.position)) {
+      throw 'positionMustBeInValues';
+    }
+
+    if (values.dueDate) {
+      if (_.isNil(values.isDueDateCompleted)) {
+        values.isDueDateCompleted = false;
       }
+    } else {
+      delete values.isDueDateCompleted;
+    }
 
-      if (inputs.list.boardId !== inputs.board.id) {
-        throw 'listMustBelongToBoard';
-      }
+    const cards = await sails.helpers.lists.getCards(values.list.id);
 
-      values.listId = inputs.list.id;
+    const { position, repositions } = sails.helpers.utils.insertToPositionables(
+      values.position,
+      cards,
+    );
 
-      if (_.isUndefined(values.position)) {
-        throw 'positionMustBeInValues';
-      }
-
-      const cards = await sails.helpers.lists.getCards(inputs.list.id);
-
-      const { position, repositions } = sails.helpers.utils.insertToPositionables(
-        inputs.values.position,
-        cards,
-      );
-
-      repositions.forEach(async ({ id, position: nextPosition }) => {
-        await Card.update({
-          id,
-          listId: inputs.list.id,
-        }).set({
-          position: nextPosition,
-        });
-
-        sails.sockets.broadcast(`board:${inputs.board.id}`, 'cardUpdate', {
-          item: {
-            id,
-            position: nextPosition,
-          },
-        });
+    repositions.forEach(async ({ id, position: nextPosition }) => {
+      await Card.update({
+        id,
+        listId: values.list.id,
+      }).set({
+        position: nextPosition,
       });
 
-      values.position = position;
-    } else if (inputs.board.type === Board.Types.COLLECTION) {
-      delete values.position;
-    }
+      sails.sockets.broadcast(`board:${values.list.boardId}`, 'cardUpdate', {
+        item: {
+          id,
+          position: nextPosition,
+        },
+      });
+
+      // TODO: send webhooks
+    });
 
     const card = await Card.create({
       ...values,
-      boardId: inputs.board.id,
-      creatorUserId: inputs.user.id,
+      position,
+      boardId: values.list.boardId,
+      listId: values.list.id,
+      creatorUserId: values.creatorUser.id,
     }).fetch();
 
     sails.sockets.broadcast(
@@ -98,30 +99,49 @@ module.exports = {
       inputs.request,
     );
 
-    if (inputs.user.subscribeToOwnCards) {
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'cardCreate',
+      data: {
+        item: card,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [values.list],
+        },
+      },
+      user: values.creatorUser,
+    });
+
+    if (values.creatorUser.subscribeToOwnCards) {
       await CardSubscription.create({
         cardId: card.id,
-        userId: inputs.user.id,
+        userId: card.creatorUserId,
       }).tolerate('E_UNIQUE');
 
-      sails.sockets.broadcast(`user:${inputs.user.id}`, 'cardUpdate', {
+      sails.sockets.broadcast(`user:${card.creatorUserId}`, 'cardUpdate', {
         item: {
           id: card.id,
           isSubscribed: true,
         },
       });
+
+      // TODO: send webhooks
     }
 
-    await sails.helpers.actions.createOne(
-      {
+    await sails.helpers.actions.createOne.with({
+      values: {
+        card,
         type: Action.Types.CREATE_CARD,
         data: {
-          list: _.pick(inputs.list, ['id', 'name']),
+          list: _.pick(values.list, ['id', 'name']),
         },
+        user: values.creatorUser,
       },
-      inputs.user,
-      card,
-    );
+      project: inputs.project,
+      board: inputs.board,
+      list: values.list,
+      request: inputs.request,
+    });
 
     return card;
   },

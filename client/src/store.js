@@ -1,6 +1,6 @@
-import { applyMiddleware, createStore, compose as reduxCompose } from 'redux';
+import { applyMiddleware, legacy_createStore as createStore, compose as reduxCompose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware } from 'connected-react-router';
+import { createRouterMiddleware } from './lib/redux-router';
 
 import rootReducer from './reducers';
 import rootSaga from './sagas';
@@ -8,7 +8,7 @@ import history from './history';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middlewares = [sagaMiddleware, routerMiddleware(history)];
+const middlewares = [sagaMiddleware, createRouterMiddleware(history)];
 
 let compose = reduxCompose;
 

@@ -15,12 +15,12 @@ module.exports = {
 
     const values = _.pick(inputs, ['isRead']);
 
-    const notifications = await sails.helpers.notifications.updateMany(
-      inputs.ids.split(','),
+    const notifications = await sails.helpers.notifications.updateMany.with({
       values,
-      currentUser,
-      this.req,
-    );
+      recordsOrIds: inputs.ids.split(','),
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     return {
       items: notifications,

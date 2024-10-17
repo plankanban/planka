@@ -1,7 +1,6 @@
 import ActionTypes from '../constants/ActionTypes';
 
-// eslint-disable-next-line import/prefer-default-export
-export const initializeCore = (
+const initializeCore = (
   user,
   board,
   users,
@@ -16,7 +15,7 @@ export const initializeCore = (
   cardLabels,
   tasks,
   attachments,
-  actions,
+  activities,
   notifications,
 ) => ({
   type: ActionTypes.CORE_INITIALIZE,
@@ -35,7 +34,32 @@ export const initializeCore = (
     cardLabels,
     tasks,
     attachments,
-    actions,
+    activities,
     notifications,
   },
 });
+
+// TODO: with success?
+initializeCore.fetchConfig = (config) => ({
+  type: ActionTypes.CORE_INITIALIZE__CONFIG_FETCH,
+  payload: {
+    config,
+  },
+});
+
+const logout = (invalidateAccessToken) => ({
+  type: ActionTypes.LOGOUT,
+  payload: {
+    invalidateAccessToken,
+  },
+});
+
+logout.invalidateAccessToken = () => ({
+  type: ActionTypes.LOGOUT__ACCESS_TOKEN_INVALIDATE,
+  payload: {},
+});
+
+export default {
+  initializeCore,
+  logout,
+};

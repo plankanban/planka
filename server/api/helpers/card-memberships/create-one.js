@@ -1,11 +1,39 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.card)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.user) && !_.isString(value.userId)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
-    userOrId: {
+    values: {
       type: 'ref',
-      custom: (value) => _.isObjectLike(value) || _.isString(value),
+      custom: valuesValidator,
       required: true,
     },
-    card: {
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -19,23 +47,41 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { userId = inputs.userOrId } = inputs.userOrId;
+    const { values } = inputs;
+
+    if (values.user) {
+      values.userId = values.user.id;
+    }
 
     const cardMembership = await CardMembership.create({
-      userId,
-      cardId: inputs.card.id,
+      ...values,
+      cardId: values.card.id,
     })
       .intercept('E_UNIQUE', 'userAlreadyCardMember')
       .fetch();
 
     sails.sockets.broadcast(
-      `board:${inputs.card.boardId}`,
+      `board:${values.card.boardId}`,
       'cardMembershipCreate',
       {
         item: cardMembership,
       },
       inputs.request,
     );
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'cardMembershipCreate',
+      data: {
+        item: cardMembership,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: inputs.actorUser,
+    });
 
     const cardSubscription = await CardSubscription.create({
       cardId: cardMembership.cardId,
@@ -57,6 +103,8 @@ module.exports = {
         },
         inputs.request,
       );
+
+      // TODO: send webhooks
     }
 
     return cardMembership;

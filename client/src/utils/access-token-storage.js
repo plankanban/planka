@@ -1,11 +1,36 @@
-const ACCESS_TOKEN_KEY = 'accessToken';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
-export const getAccessToken = () => localStorage.getItem(ACCESS_TOKEN_KEY);
+import Config from '../constants/Config';
 
 export const setAccessToken = (accessToken) => {
-  localStorage.setItem(ACCESS_TOKEN_KEY, accessToken);
+  const { exp } = jwtDecode(accessToken);
+  const expires = new Date(exp * 1000);
+
+  Cookies.set(Config.ACCESS_TOKEN_KEY, accessToken, {
+    expires,
+    secure: window.location.protocol === 'https:',
+    sameSite: 'strict',
+  });
+
+  Cookies.set(Config.ACCESS_TOKEN_VERSION_KEY, Config.ACCESS_TOKEN_VERSION, {
+    expires,
+  });
 };
 
 export const removeAccessToken = () => {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  Cookies.remove(Config.ACCESS_TOKEN_KEY);
+  Cookies.remove(Config.ACCESS_TOKEN_VERSION_KEY);
+};
+
+export const getAccessToken = () => {
+  let accessToken = Cookies.get(Config.ACCESS_TOKEN_KEY);
+  const accessTokenVersion = Cookies.get(Config.ACCESS_TOKEN_VERSION_KEY);
+
+  if (accessToken && accessTokenVersion !== Config.ACCESS_TOKEN_VERSION) {
+    removeAccessToken();
+    accessToken = undefined;
+  }
+
+  return accessToken;
 };

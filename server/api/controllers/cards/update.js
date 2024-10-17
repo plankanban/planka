@@ -1,6 +1,9 @@
 const moment = require('moment');
 
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
   },
@@ -16,6 +19,28 @@ const Errors = {
   POSITION_MUST_BE_PRESENT: {
     positionMustBePresent: 'Position must be present',
   },
+};
+
+const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
+
+const stopwatchValidator = (value) => {
+  if (!_.isPlainObject(value) || _.size(value) !== 2) {
+    return false;
+  }
+
+  if (
+    !_.isNull(value.startedAt) &&
+    _.isString(value.startedAt) &&
+    !moment(value.startedAt, moment.ISO_8601, true).isValid()
+  ) {
+    return false;
+  }
+
+  if (!_.isFinite(value.total)) {
+    return false;
+  }
+
+  return true;
 };
 
 module.exports = {
@@ -52,30 +77,16 @@ module.exports = {
     },
     dueDate: {
       type: 'string',
-      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
+      custom: dueDateValidator,
       allowNull: true,
     },
-    timer: {
+    isDueDateCompleted: {
+      type: 'boolean',
+      allowNull: true,
+    },
+    stopwatch: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value) || _.size(value) !== 2) {
-          return false;
-        }
-
-        if (
-          !_.isNull(value.startedAt) &&
-          _.isString(value.startedAt) &&
-          !moment(value.startedAt, moment.ISO_8601, true).isValid()
-        ) {
-          return false;
-        }
-
-        if (!_.isFinite(value.total)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: stopwatchValidator,
     },
     isSubscribed: {
       type: 'boolean',
@@ -83,6 +94,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     cardNotFound: {
       responseType: 'notFound',
     },
@@ -108,24 +122,40 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
     let { card } = path;
-    const { list, board } = path;
+    const { list, board, project } = path;
 
-    let isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    let boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
+    let nextProject;
     let nextBoard;
+
     if (!_.isUndefined(inputs.boardId)) {
-      ({ board: nextBoard } = await sails.helpers.boards
+      ({ board: nextBoard, project: nextProject } = await sails.helpers.boards
         .getProjectPath(inputs.boardId)
         .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND));
 
-      isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, nextBoard.id);
+      boardMembership = await BoardMembership.findOne({
+        boardId: nextBoard.id,
+        userId: currentUser.id,
+      });
 
-      if (!isBoardMember) {
+      if (!boardMembership) {
         throw Errors.BOARD_NOT_FOUND; // Forbidden
+      }
+
+      if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
       }
     }
 
@@ -147,14 +177,28 @@ module.exports = {
       'name',
       'description',
       'dueDate',
-      'timer',
+      'isDueDateCompleted',
+      'stopwatch',
       'isSubscribed',
     ]);
 
-    card = await sails.helpers.cards
-      .updateOne(card, values, nextBoard, nextList, currentUser, board, list, this.req)
-      .intercept('nextListMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
-      .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
+    card = await sails.helpers.cards.updateOne
+      .with({
+        project,
+        board,
+        list,
+        record: card,
+        values: {
+          ...values,
+          project: nextProject,
+          board: nextBoard,
+          list: nextList,
+        },
+        actorUser: currentUser,
+        request: this.req,
+      })
+      .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT)
+      .intercept('listMustBeInValues', () => Errors.LIST_MUST_BE_PRESENT);
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;

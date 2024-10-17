@@ -1,15 +1,21 @@
 import { connect } from 'react-redux';
 
-import { currentModalSelector, currentProjectSelector } from '../selectors';
+import selectors from '../selectors';
 import Core from '../components/Core';
 
 const mapStateToProps = (state) => {
-  const currentModal = currentModalSelector(state);
-  const currentProject = currentProjectSelector(state);
+  const isInitializing = selectors.selectIsInitializing(state);
+  const isSocketDisconnected = selectors.selectIsSocketDisconnected(state);
+  const currentModal = selectors.selectCurrentModal(state);
+  const currentProject = selectors.selectCurrentProject(state);
+  const currentBoard = selectors.selectCurrentBoard(state);
 
   return {
+    isInitializing,
+    isSocketDisconnected,
     currentModal,
     currentProject,
+    currentBoard,
   };
 };
 

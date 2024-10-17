@@ -1,27 +1,29 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Button, Grid, Icon, Modal } from 'semantic-ui-react';
+import { Button, Checkbox, Grid, Icon, Modal } from 'semantic-ui-react';
+import { usePopup } from '../../lib/popup';
 import { Markdown } from '../../lib/custom-ui';
 
+import { startStopwatch, stopStopwatch } from '../../utils/stopwatch';
 import NameField from './NameField';
 import DescriptionEdit from './DescriptionEdit';
 import Tasks from './Tasks';
 import Attachments from './Attachments';
 import AttachmentAddZone from './AttachmentAddZone';
-import AttachmentAddPopup from './AttachmentAddPopup';
-import Actions from './Actions';
+import AttachmentAddStep from './AttachmentAddStep';
+import Activities from './Activities';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
-import Timer from '../Timer';
-import BoardMembershipsPopup from '../BoardMembershipsPopup';
-import LabelsPopup from '../LabelsPopup';
-import DueDateEditPopup from '../DueDateEditPopup';
-import TimerEditPopup from '../TimerEditPopup';
-import CardMovePopup from '../CardMovePopup';
-import DeletePopup from '../DeletePopup';
+import Stopwatch from '../Stopwatch';
+import BoardMembershipsStep from '../BoardMembershipsStep';
+import LabelsStep from '../LabelsStep';
+import DueDateEditStep from '../DueDateEditStep';
+import StopwatchEditStep from '../StopwatchEditStep';
+import CardMoveStep from '../CardMoveStep';
+import DeleteStep from '../DeleteStep';
 
 import styles from './CardModal.module.scss';
 
@@ -30,10 +32,13 @@ const CardModal = React.memo(
     name,
     description,
     dueDate,
-    timer,
+    isDueDateCompleted,
+    stopwatch,
     isSubscribed,
-    isActionsFetching,
-    isAllActionsFetched,
+    isActivitiesFetching,
+    isAllActivitiesFetched,
+    isActivitiesDetailsVisible,
+    isActivitiesDetailsFetching,
     listId,
     boardId,
     projectId,
@@ -41,15 +46,17 @@ const CardModal = React.memo(
     labels,
     tasks,
     attachments,
-    actions,
+    activities,
     allProjectsToLists,
     allBoardMemberships,
     allLabels,
     canEdit,
-    canEditAllCommentActions,
+    canEditCommentActivities,
+    canEditAllCommentActivities,
     onUpdate,
     onMove,
     onTransfer,
+    onDuplicate,
     onDelete,
     onUserAdd,
     onUserRemove,
@@ -58,20 +65,32 @@ const CardModal = React.memo(
     onLabelRemove,
     onLabelCreate,
     onLabelUpdate,
+    onLabelMove,
     onLabelDelete,
     onTaskCreate,
     onTaskUpdate,
+    onTaskMove,
     onTaskDelete,
     onAttachmentCreate,
     onAttachmentUpdate,
     onAttachmentDelete,
-    onActionsFetch,
-    onCommentActionCreate,
-    onCommentActionUpdate,
-    onCommentActionDelete,
+    onActivitiesFetch,
+    onActivitiesDetailsToggle,
+    onCommentActivityCreate,
+    onCommentActivityUpdate,
+    onCommentActivityDelete,
     onClose,
   }) => {
     const [t] = useTranslation();
+    const [isLinkCopied, setIsLinkCopied] = useState(false);
+
+    const isGalleryOpened = useRef(false);
+
+    const handleToggleStopwatchClick = useCallback(() => {
+      onUpdate({
+        stopwatch: stopwatch.startedAt ? stopStopwatch(stopwatch) : startStopwatch(stopwatch),
+      });
+    }, [stopwatch, onUpdate]);
 
     const handleNameUpdate = useCallback(
       (newName) => {
@@ -100,10 +119,16 @@ const CardModal = React.memo(
       [onUpdate],
     );
 
-    const handleTimerUpdate = useCallback(
-      (newTimer) => {
+    const handleDueDateCompletionChange = useCallback(() => {
+      onUpdate({
+        isDueDateCompleted: !isDueDateCompleted,
+      });
+    }, [isDueDateCompleted, onUpdate]);
+
+    const handleStopwatchUpdate = useCallback(
+      (newStopwatch) => {
         onUpdate({
-          timer: newTimer,
+          stopwatch: newStopwatch,
         });
       },
       [onUpdate],
@@ -123,6 +148,43 @@ const CardModal = React.memo(
         isSubscribed: !isSubscribed,
       });
     }, [isSubscribed, onUpdate]);
+
+    const handleDuplicateClick = useCallback(() => {
+      onDuplicate();
+      onClose();
+    }, [onDuplicate, onClose]);
+
+    const handleCopyLinkClick = useCallback(() => {
+      navigator.clipboard.writeText(window.location.href);
+      setIsLinkCopied(true);
+      setTimeout(() => {
+        setIsLinkCopied(false);
+      }, 5000);
+    }, []);
+
+    const handleGalleryOpen = useCallback(() => {
+      isGalleryOpened.current = true;
+    }, []);
+
+    const handleGalleryClose = useCallback(() => {
+      isGalleryOpened.current = false;
+    }, []);
+
+    const handleClose = useCallback(() => {
+      if (isGalleryOpened.current) {
+        return;
+      }
+
+      onClose();
+    }, [onClose]);
+
+    const AttachmentAddPopup = usePopup(AttachmentAddStep);
+    const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
+    const LabelsPopup = usePopup(LabelsStep);
+    const DueDateEditPopup = usePopup(DueDateEditStep);
+    const StopwatchEditPopup = usePopup(StopwatchEditStep);
+    const CardMovePopup = usePopup(CardMoveStep);
+    const DeletePopup = usePopup(DeleteStep);
 
     const userIds = users.map((user) => user.id);
     const labelIds = labels.map((label) => label.id);
@@ -145,7 +207,7 @@ const CardModal = React.memo(
         </Grid.Row>
         <Grid.Row className={styles.modalPadding}>
           <Grid.Column width={canEdit ? 12 : 16} className={styles.contentPadding}>
-            {(users.length > 0 || labels.length > 0 || dueDate || timer) && (
+            {(users.length > 0 || labels.length > 0 || dueDate || stopwatch) && (
               <div className={styles.moduleWrapper}>
                 {users.length > 0 && (
                   <div className={styles.attachments}>
@@ -177,6 +239,7 @@ const CardModal = React.memo(
                         onUserSelect={onUserAdd}
                         onUserDeselect={onUserRemove}
                       >
+                        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                         <button
                           type="button"
                           className={classNames(styles.attachment, styles.dueDate)}
@@ -205,6 +268,7 @@ const CardModal = React.memo(
                             onDeselect={onLabelRemove}
                             onCreate={onLabelCreate}
                             onUpdate={onLabelUpdate}
+                            onMove={onLabelMove}
                             onDelete={onLabelDelete}
                           >
                             <Label name={label.name} color={label.color} />
@@ -222,8 +286,10 @@ const CardModal = React.memo(
                         onDeselect={onLabelRemove}
                         onCreate={onLabelCreate}
                         onUpdate={onLabelUpdate}
+                        onMove={onLabelMove}
                         onDelete={onLabelDelete}
                       >
+                        {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                         <button
                           type="button"
                           className={classNames(styles.attachment, styles.dueDate)}
@@ -241,33 +307,61 @@ const CardModal = React.memo(
                         context: 'title',
                       })}
                     </div>
-                    <span className={styles.attachment}>
+                    <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
                       {canEdit ? (
-                        <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
-                          <DueDate value={dueDate} />
-                        </DueDateEditPopup>
+                        <>
+                          <Checkbox
+                            checked={isDueDateCompleted}
+                            disabled={!canEdit}
+                            onChange={handleDueDateCompletionChange}
+                          />
+                          <DueDateEditPopup defaultValue={dueDate} onUpdate={handleDueDateUpdate}>
+                            <DueDate
+                              withStatusIcon
+                              value={dueDate}
+                              isCompleted={isDueDateCompleted}
+                            />
+                          </DueDateEditPopup>
+                        </>
                       ) : (
-                        <DueDate value={dueDate} />
+                        <DueDate withStatusIcon value={dueDate} isCompleted={isDueDateCompleted} />
                       )}
                     </span>
                   </div>
                 )}
-                {timer && (
+                {stopwatch && (
                   <div className={styles.attachments}>
                     <div className={styles.text}>
-                      {t('common.timer', {
+                      {t('common.stopwatch', {
                         context: 'title',
                       })}
                     </div>
                     <span className={styles.attachment}>
                       {canEdit ? (
-                        <TimerEditPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
-                          <Timer startedAt={timer.startedAt} total={timer.total} />
-                        </TimerEditPopup>
+                        <StopwatchEditPopup
+                          defaultValue={stopwatch}
+                          onUpdate={handleStopwatchUpdate}
+                        >
+                          <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
+                        </StopwatchEditPopup>
                       ) : (
-                        <Timer startedAt={timer.startedAt} total={timer.total} />
+                        <Stopwatch startedAt={stopwatch.startedAt} total={stopwatch.total} />
                       )}
                     </span>
+                    {canEdit && (
+                      // eslint-disable-next-line jsx-a11y/control-has-associated-label
+                      <button
+                        type="button"
+                        className={classNames(styles.attachment, styles.dueDate)}
+                        onClick={handleToggleStopwatchClick}
+                      >
+                        <Icon
+                          name={stopwatch.startedAt ? 'pause' : 'play'}
+                          size="small"
+                          className={styles.addAttachment}
+                        />
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -280,7 +374,10 @@ const CardModal = React.memo(
                   {canEdit ? (
                     <DescriptionEdit defaultValue={description} onUpdate={handleDescriptionUpdate}>
                       {description ? (
-                        <button type="button" className={styles.descriptionText}>
+                        <button
+                          type="button"
+                          className={classNames(styles.descriptionText, styles.cursorPointer)}
+                        >
                           <Markdown linkStopPropagation linkTarget="_blank">
                             {description}
                           </Markdown>
@@ -313,6 +410,7 @@ const CardModal = React.memo(
                     canEdit={canEdit}
                     onCreate={onTaskCreate}
                     onUpdate={onTaskUpdate}
+                    onMove={onTaskMove}
                     onDelete={onTaskDelete}
                   />
                 </div>
@@ -325,23 +423,29 @@ const CardModal = React.memo(
                   <div className={styles.moduleHeader}>{t('common.attachments')}</div>
                   <Attachments
                     items={attachments}
+                    canEdit={canEdit}
                     onUpdate={onAttachmentUpdate}
                     onDelete={onAttachmentDelete}
                     onCoverUpdate={handleCoverUpdate}
+                    onGalleryOpen={handleGalleryOpen}
+                    onGalleryClose={handleGalleryClose}
                   />
                 </div>
               </div>
             )}
-            <Actions
-              items={actions}
-              isFetching={isActionsFetching}
-              isAllFetched={isAllActionsFetched}
-              canEdit={canEdit}
-              canEditAllComments={canEditAllCommentActions}
-              onFetch={onActionsFetch}
-              onCommentCreate={onCommentActionCreate}
-              onCommentUpdate={onCommentActionUpdate}
-              onCommentDelete={onCommentActionDelete}
+            <Activities
+              items={activities}
+              isFetching={isActivitiesFetching}
+              isAllFetched={isAllActivitiesFetched}
+              isDetailsVisible={isActivitiesDetailsVisible}
+              isDetailsFetching={isActivitiesDetailsFetching}
+              canEdit={canEditCommentActivities}
+              canEditAllComments={canEditAllCommentActivities}
+              onFetch={onActivitiesFetch}
+              onDetailsToggle={onActivitiesDetailsToggle}
+              onCommentCreate={onCommentActivityCreate}
+              onCommentUpdate={onCommentActivityUpdate}
+              onCommentDelete={onCommentActivityDelete}
             />
           </Grid.Column>
           {canEdit && (
@@ -366,6 +470,7 @@ const CardModal = React.memo(
                   onDeselect={onLabelRemove}
                   onCreate={onLabelCreate}
                   onUpdate={onLabelUpdate}
+                  onMove={onLabelMove}
                   onDelete={onLabelDelete}
                 >
                   <Button fluid className={styles.actionButton}>
@@ -381,12 +486,12 @@ const CardModal = React.memo(
                     })}
                   </Button>
                 </DueDateEditPopup>
-                <TimerEditPopup defaultValue={timer} onUpdate={handleTimerUpdate}>
+                <StopwatchEditPopup defaultValue={stopwatch} onUpdate={handleStopwatchUpdate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="clock outline" className={styles.actionIcon} />
-                    {t('common.timer')}
+                    {t('common.stopwatch')}
                   </Button>
-                </TimerEditPopup>
+                </StopwatchEditPopup>
                 <AttachmentAddPopup onCreate={onAttachmentCreate}>
                   <Button fluid className={styles.actionButton}>
                     <Icon name="attach" className={styles.actionIcon} />
@@ -424,12 +529,27 @@ const CardModal = React.memo(
                     {t('action.move')}
                   </Button>
                 </CardMovePopup>
+                <Button fluid className={styles.actionButton} onClick={handleDuplicateClick}>
+                  <Icon name="copy outline" className={styles.actionIcon} />
+                  {t('action.duplicate')}
+                </Button>
+                {window.isSecureContext && (
+                  <Button fluid className={styles.actionButton} onClick={handleCopyLinkClick}>
+                    <Icon
+                      name={isLinkCopied ? 'linkify' : 'unlink'}
+                      className={styles.actionIcon}
+                    />
+                    {isLinkCopied
+                      ? t('common.linkIsCopied')
+                      : t('action.copyLink', {
+                          context: 'title',
+                        })}
+                  </Button>
+                )}
                 <DeletePopup
-                  title={t('common.deleteCard', {
-                    context: 'title',
-                  })}
-                  content={t('common.areYouSureYouWantToDeleteThisCard')}
-                  buttonContent={t('action.deleteCard')}
+                  title="common.deleteCard"
+                  content="common.areYouSureYouWantToDeleteThisCard"
+                  buttonContent="action.deleteCard"
                   onConfirm={onDelete}
                 >
                   <Button fluid className={styles.actionButton}>
@@ -445,7 +565,7 @@ const CardModal = React.memo(
     );
 
     return (
-      <Modal open closeIcon size="small" centered={false} onClose={onClose}>
+      <Modal open closeIcon centered={false} onClose={handleClose} className={styles.wrapper}>
         {canEdit ? (
           <AttachmentAddZone onCreate={onAttachmentCreate}>{contentNode}</AttachmentAddZone>
         ) : (
@@ -460,10 +580,13 @@ CardModal.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string,
   dueDate: PropTypes.instanceOf(Date),
-  timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  isDueDateCompleted: PropTypes.bool,
+  stopwatch: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   isSubscribed: PropTypes.bool.isRequired,
-  isActionsFetching: PropTypes.bool.isRequired,
-  isAllActionsFetched: PropTypes.bool.isRequired,
+  isActivitiesFetching: PropTypes.bool.isRequired,
+  isAllActivitiesFetched: PropTypes.bool.isRequired,
+  isActivitiesDetailsVisible: PropTypes.bool.isRequired,
+  isActivitiesDetailsFetching: PropTypes.bool.isRequired,
   listId: PropTypes.string.isRequired,
   boardId: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
@@ -472,16 +595,18 @@ CardModal.propTypes = {
   labels: PropTypes.array.isRequired,
   tasks: PropTypes.array.isRequired,
   attachments: PropTypes.array.isRequired,
-  actions: PropTypes.array.isRequired,
+  activities: PropTypes.array.isRequired,
   allProjectsToLists: PropTypes.array.isRequired,
   allBoardMemberships: PropTypes.array.isRequired,
   allLabels: PropTypes.array.isRequired,
   /* eslint-enable react/forbid-prop-types */
   canEdit: PropTypes.bool.isRequired,
-  canEditAllCommentActions: PropTypes.bool.isRequired,
+  canEditCommentActivities: PropTypes.bool.isRequired,
+  canEditAllCommentActivities: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
+  onDuplicate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
@@ -490,24 +615,28 @@ CardModal.propTypes = {
   onLabelRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,
   onLabelUpdate: PropTypes.func.isRequired,
+  onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
   onTaskCreate: PropTypes.func.isRequired,
   onTaskUpdate: PropTypes.func.isRequired,
+  onTaskMove: PropTypes.func.isRequired,
   onTaskDelete: PropTypes.func.isRequired,
   onAttachmentCreate: PropTypes.func.isRequired,
   onAttachmentUpdate: PropTypes.func.isRequired,
   onAttachmentDelete: PropTypes.func.isRequired,
-  onActionsFetch: PropTypes.func.isRequired,
-  onCommentActionCreate: PropTypes.func.isRequired,
-  onCommentActionUpdate: PropTypes.func.isRequired,
-  onCommentActionDelete: PropTypes.func.isRequired,
+  onActivitiesFetch: PropTypes.func.isRequired,
+  onActivitiesDetailsToggle: PropTypes.func.isRequired,
+  onCommentActivityCreate: PropTypes.func.isRequired,
+  onCommentActivityUpdate: PropTypes.func.isRequired,
+  onCommentActivityDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
 CardModal.defaultProps = {
   description: undefined,
   dueDate: undefined,
-  timer: undefined,
+  isDueDateCompleted: false,
+  stopwatch: undefined,
 };
 
 export default CardModal;

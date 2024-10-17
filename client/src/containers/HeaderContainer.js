@@ -1,29 +1,20 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  currentProjectSelector,
-  currentUserSelector,
-  isCurrentUserManagerForCurrentProjectSelector,
-  notificationsForCurrentUserSelector,
-} from '../selectors';
-import {
-  deleteNotification,
-  logout,
-  openProjectSettingsModal,
-  openUserSettingsModal,
-  openUsersModal,
-} from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import Header from '../components/Header';
 
 const mapStateToProps = (state) => {
-  const currentUser = currentUserSelector(state);
-  const currentProject = currentProjectSelector(state);
-  const notifications = notificationsForCurrentUserSelector(state);
-  const isCurrentUserManager = isCurrentUserManagerForCurrentProjectSelector(state);
+  const isLogouting = selectors.selectIsLogouting(state);
+  const currentUser = selectors.selectCurrentUser(state);
+  const currentProject = selectors.selectCurrentProject(state);
+  const notifications = selectors.selectNotificationsForCurrentUser(state);
+  const isCurrentUserManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
 
   return {
     notifications,
+    isLogouting,
     project: currentProject,
     user: currentUser,
     canEditProject: isCurrentUserManager,
@@ -34,11 +25,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onProjectSettingsClick: openProjectSettingsModal,
-      onUsersClick: openUsersModal,
-      onNotificationDelete: deleteNotification,
-      onUserSettingsClick: openUserSettingsModal,
-      onLogout: logout,
+      onProjectSettingsClick: entryActions.openProjectSettingsModal,
+      onUsersClick: entryActions.openUsersModal,
+      onNotificationDelete: entryActions.deleteNotification,
+      onUserSettingsClick: entryActions.openUserSettingsModal,
+      onLogout: entryActions.logout,
     },
     dispatch,
   );

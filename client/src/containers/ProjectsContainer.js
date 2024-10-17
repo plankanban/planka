@@ -1,24 +1,25 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { currentUserSelector, projectsForCurrentUserSelector } from '../selectors';
-import { openProjectAddModal } from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import Projects from '../components/Projects';
 
 const mapStateToProps = (state) => {
-  const { isAdmin } = currentUserSelector(state);
-  const project = projectsForCurrentUserSelector(state);
+  const { allowAllToCreateProjects } = selectors.selectConfig(state);
+  const { isAdmin } = selectors.selectCurrentUser(state);
+  const projects = selectors.selectProjectsForCurrentUser(state);
 
   return {
-    items: project,
-    canAdd: isAdmin,
+    items: projects,
+    canAdd: allowAllToCreateProjects || isAdmin,
   };
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onAdd: openProjectAddModal,
+      onAdd: entryActions.openProjectAddModal,
     },
     dispatch,
   );

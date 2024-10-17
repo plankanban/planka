@@ -4,7 +4,6 @@
     box-shadow: none;
     flex: 0 0 auto;
     font-weight: normal;
-    margin: 0;
     padding: 8px 10px;
     text-decoration: underline;
 
@@ -13,15 +12,15 @@
     }
   }
 
-  .labelButton {
+  .name {
+    border-radius: 3px;
     color: #fff;
+    cursor: pointer;
     flex: 1 1 auto;
-    font-size: 14px;
     font-weight: bold;
     overflow: hidden;
     padding: 8px 32px 8px 10px;
     position: relative;
-    text-align: left;
     text-overflow: ellipsis;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 
@@ -30,7 +29,7 @@
     }
   }
 
-  .labelButtonActive:before {
+  .nameActive:before {
     bottom: 1px;
     content: "Г";
     font-size: 18px;

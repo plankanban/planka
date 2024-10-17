@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   BOARD_NOT_FOUND: {
     boardNotFound: 'Board not found',
   },
@@ -9,6 +12,10 @@ module.exports = {
     boardId: {
       type: 'string',
       regex: /^[0-9]+$/,
+      required: true,
+    },
+    position: {
+      type: 'number',
       required: true,
     },
     name: {
@@ -24,6 +31,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     boardNotFound: {
       responseType: 'notFound',
     },
@@ -32,18 +42,34 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board } = await sails.helpers.boards
+    const { board, project } = await sails.helpers.boards
       .getProjectPath(inputs.boardId)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.BOARD_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['name', 'color']);
-    const label = await sails.helpers.labels.createOne(values, board, this.req);
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
+    const values = _.pick(inputs, ['position', 'name', 'color']);
+
+    const label = await sails.helpers.labels.createOne.with({
+      project,
+      values: {
+        ...values,
+        board,
+      },
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     return {
       item: label,

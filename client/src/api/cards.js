@@ -8,11 +8,11 @@ export const transformCard = (card) => ({
   ...(card.dueDate && {
     dueDate: new Date(card.dueDate),
   }),
-  ...(card.timer && {
-    timer: {
-      ...card.timer,
-      ...(card.timer.startedAt && {
-        startedAt: new Date(card.timer.startedAt),
+  ...(card.stopwatch && {
+    stopwatch: {
+      ...card.stopwatch,
+      ...(card.stopwatch.startedAt && {
+        startedAt: new Date(card.stopwatch.startedAt),
       }),
     },
   }),
@@ -23,11 +23,11 @@ export const transformCardData = (data) => ({
   ...(data.dueDate && {
     dueDate: data.dueDate.toISOString(),
   }),
-  ...(data.timer && {
-    timer: {
-      ...data.timer,
-      ...(data.timer.startedAt && {
-        startedAt: data.timer.startedAt.toISOString(),
+  ...(data.stopwatch && {
+    stopwatch: {
+      ...data.stopwatch,
+      ...(data.stopwatch.startedAt && {
+        startedAt: data.stopwatch.startedAt.toISOString(),
       }),
     },
   }),
@@ -35,18 +35,8 @@ export const transformCardData = (data) => ({
 
 /* Actions */
 
-const getCards = (boardId, data, headers) =>
-  socket.get(`/board/${boardId}/cards`, data, headers).then((body) => ({
-    ...body,
-    items: body.items.map(transformCard),
-    included: {
-      ...body.included,
-      attachments: body.included.attachments.map(transformAttachment),
-    },
-  }));
-
-const createCard = (boardId, data, headers) =>
-  socket.post(`/boards/${boardId}/cards`, transformCardData(data), headers).then((body) => ({
+const createCard = (listId, data, headers) =>
+  socket.post(`/lists/${listId}/cards`, transformCardData(data), headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));
@@ -55,10 +45,20 @@ const getCard = (id, headers) =>
   socket.get(`/cards/${id}`, undefined, headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
+    included: {
+      ...body.included,
+      attachments: body.included.attachments.map(transformAttachment),
+    },
   }));
 
 const updateCard = (id, data, headers) =>
   socket.patch(`/cards/${id}`, transformCardData(data), headers).then((body) => ({
+    ...body,
+    item: transformCard(body.item),
+  }));
+
+const duplicateCard = (id, data, headers) =>
+  socket.post(`/cards/${id}/duplicate`, data, headers).then((body) => ({
     ...body,
     item: transformCard(body.item),
   }));
@@ -78,21 +78,16 @@ const makeHandleCardCreate = (next) => (body) => {
   });
 };
 
-const makeHandleCardUpdate = (next) => (body) => {
-  next({
-    ...body,
-    item: transformCard(body.item),
-  });
-};
+const makeHandleCardUpdate = makeHandleCardCreate;
 
-const makeHandleCardDelete = makeHandleCardUpdate;
+const makeHandleCardDelete = makeHandleCardCreate;
 
 export default {
-  getCards,
   createCard,
   getCard,
   updateCard,
   deleteCard,
+  duplicateCard,
   makeHandleCardCreate,
   makeHandleCardUpdate,
   makeHandleCardDelete,

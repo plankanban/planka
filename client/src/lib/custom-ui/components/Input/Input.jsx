@@ -3,9 +3,12 @@ import { Input as SemanticUIInput } from 'semantic-ui-react';
 import InputPassword from './InputPassword';
 import InputMask from './InputMask';
 
-const Input = SemanticUIInput;
+export default class Input extends SemanticUIInput {
+  static Password = InputPassword;
 
-Input.Password = InputPassword;
-Input.Mask = InputMask;
+  static Mask = InputMask;
 
-export default Input;
+  focus = (options) => this.inputRef.current.focus(options);
+
+  blur = () => this.inputRef.current.blur();
+}

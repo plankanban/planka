@@ -5,6 +5,7 @@ import { Modal, Tab } from 'semantic-ui-react';
 
 import AccountPane from './AccountPane';
 import PreferencesPane from './PreferencesPane';
+import AboutPane from './AboutPane';
 
 const UserSettingsModal = React.memo(
   ({
@@ -14,13 +15,17 @@ const UserSettingsModal = React.memo(
     avatarUrl,
     phone,
     organization,
+    language,
     subscribeToOwnCards,
+    isLocked,
+    isUsernameLocked,
     isAvatarUpdating,
     usernameUpdateForm,
     emailUpdateForm,
     passwordUpdateForm,
     onUpdate,
     onAvatarUpdate,
+    onLanguageUpdate,
     onUsernameUpdate,
     onUsernameUpdateMessageDismiss,
     onEmailUpdate,
@@ -44,12 +49,16 @@ const UserSettingsModal = React.memo(
             avatarUrl={avatarUrl}
             phone={phone}
             organization={organization}
+            language={language}
+            isLocked={isLocked}
+            isUsernameLocked={isUsernameLocked}
             isAvatarUpdating={isAvatarUpdating}
             usernameUpdateForm={usernameUpdateForm}
             emailUpdateForm={emailUpdateForm}
             passwordUpdateForm={passwordUpdateForm}
             onUpdate={onUpdate}
             onAvatarUpdate={onAvatarUpdate}
+            onLanguageUpdate={onLanguageUpdate}
             onUsernameUpdate={onUsernameUpdate}
             onUsernameUpdateMessageDismiss={onUsernameUpdateMessageDismiss}
             onEmailUpdate={onEmailUpdate}
@@ -66,6 +75,12 @@ const UserSettingsModal = React.memo(
         render: () => (
           <PreferencesPane subscribeToOwnCards={subscribeToOwnCards} onUpdate={onUpdate} />
         ),
+      },
+      {
+        menuItem: t('common.aboutPlanka', {
+          context: 'title',
+        }),
+        render: () => <AboutPane />,
       },
     ];
 
@@ -92,7 +107,10 @@ UserSettingsModal.propTypes = {
   avatarUrl: PropTypes.string,
   phone: PropTypes.string,
   organization: PropTypes.string,
+  language: PropTypes.string,
   subscribeToOwnCards: PropTypes.bool.isRequired,
+  isLocked: PropTypes.bool.isRequired,
+  isUsernameLocked: PropTypes.bool.isRequired,
   isAvatarUpdating: PropTypes.bool.isRequired,
   /* eslint-disable react/forbid-prop-types */
   usernameUpdateForm: PropTypes.object.isRequired,
@@ -101,6 +119,7 @@ UserSettingsModal.propTypes = {
   /* eslint-enable react/forbid-prop-types */
   onUpdate: PropTypes.func.isRequired,
   onAvatarUpdate: PropTypes.func.isRequired,
+  onLanguageUpdate: PropTypes.func.isRequired,
   onUsernameUpdate: PropTypes.func.isRequired,
   onUsernameUpdateMessageDismiss: PropTypes.func.isRequired,
   onEmailUpdate: PropTypes.func.isRequired,
@@ -115,6 +134,7 @@ UserSettingsModal.defaultProps = {
   avatarUrl: undefined,
   phone: undefined,
   organization: undefined,
+  language: undefined,
 };
 
 export default UserSettingsModal;

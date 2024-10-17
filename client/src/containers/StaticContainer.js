@@ -1,15 +1,16 @@
 import { connect } from 'react-redux';
 
-import { pathSelector } from '../selectors';
+import selectors from '../selectors';
 import Static from '../components/Static';
 
 const mapStateToProps = (state) => {
-  const { cardId, boardId, projectId } = pathSelector(state);
+  const { cardId, projectId } = selectors.selectPath(state);
+  const currentBoard = selectors.selectCurrentBoard(state);
 
   return {
-    cardId,
-    boardId,
     projectId,
+    cardId,
+    board: currentBoard,
   };
 };
 

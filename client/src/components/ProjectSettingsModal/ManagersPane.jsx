@@ -12,7 +12,9 @@ const ManagersPane = React.memo(({ items, allUsers, onCreate, onDelete }) => {
       <Memberships
         items={items}
         allUsers={allUsers}
+        title="common.managers"
         addTitle="common.addManager"
+        actionsTitle="common.managerActions"
         leaveButtonContent="action.leaveProject"
         leaveConfirmationTitle="common.leaveProject"
         leaveConfirmationContent="common.areYouSureYouWantToLeaveProject"

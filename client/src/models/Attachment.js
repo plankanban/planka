@@ -1,15 +1,20 @@
-import { Model, attr, fk } from 'redux-orm';
+import { attr, fk } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Attachment';
 
   static fields = {
     id: attr(),
     url: attr(),
     coverUrl: attr(),
+    image: attr(),
     name: attr(),
+    createdAt: attr({
+      getDefault: () => new Date(),
+    }),
     cardId: fk({
       to: 'Card',
       as: 'card',
@@ -23,6 +28,7 @@ export default class extends Model {
       case ActionTypes.CORE_INITIALIZE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+      case ActionTypes.CARD_UPDATE_HANDLE:
         if (payload.attachments) {
           payload.attachments.forEach((attachment) => {
             Attachment.upsert(attachment);

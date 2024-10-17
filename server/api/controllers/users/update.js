@@ -4,6 +4,8 @@ const Errors = {
   },
 };
 
+const avatarUrlValidator = (value) => _.isNull(value);
+
 module.exports = {
   inputs: {
     id: {
@@ -20,7 +22,7 @@ module.exports = {
     },
     avatarUrl: {
       type: 'json',
-      custom: (value) => _.isNull(value),
+      custom: avatarUrlValidator,
     },
     phone: {
       type: 'string',
@@ -30,6 +32,11 @@ module.exports = {
     organization: {
       type: 'string',
       isNotEmptyString: true,
+      allowNull: true,
+    },
+    language: {
+      type: 'string',
+      isIn: User.LANGUAGES,
       allowNull: true,
     },
     subscribeToOwnCards: {
@@ -60,16 +67,37 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    const values = _.pick(inputs, [
-      'isAdmin',
-      'name',
-      'avatarUrl',
-      'phone',
-      'organization',
-      'subscribeToOwnCards',
-    ]);
+    if (user.email === sails.config.custom.defaultAdminEmail) {
+      /* eslint-disable no-param-reassign */
+      delete inputs.isAdmin;
+      delete inputs.name;
+      /* eslint-enable no-param-reassign */
+    } else if (user.isSso) {
+      if (!sails.config.custom.oidcIgnoreRoles) {
+        delete inputs.isAdmin; // eslint-disable-line no-param-reassign
+      }
 
-    user = await sails.helpers.users.updateOne(user, values, this.req);
+      delete inputs.name; // eslint-disable-line no-param-reassign
+    }
+
+    const values = {
+      ..._.pick(inputs, [
+        'isAdmin',
+        'name',
+        'phone',
+        'organization',
+        'language',
+        'subscribeToOwnCards',
+      ]),
+      avatar: inputs.avatarUrl,
+    };
+
+    user = await sails.helpers.users.updateOne.with({
+      values,
+      record: user,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;

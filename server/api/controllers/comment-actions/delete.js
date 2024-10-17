@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   COMMENT_ACTION_NOT_FOUND: {
     commentActionNotFound: 'Comment action not found',
   },
@@ -14,6 +17,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     commentActionNotFound: {
       responseType: 'notFound',
     },
@@ -30,7 +36,7 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.COMMENT_ACTION_NOT_FOUND);
 
     let { action } = path;
-    const { board, project } = path;
+    const { card, list, board, project } = path;
 
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
@@ -39,14 +45,29 @@ module.exports = {
         throw Errors.COMMENT_ACTION_NOT_FOUND; // Forbidden
       }
 
-      const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+      const boardMembership = await BoardMembership.findOne({
+        boardId: board.id,
+        userId: currentUser.id,
+      });
 
-      if (!isBoardMember) {
+      if (!boardMembership) {
         throw Errors.COMMENT_ACTION_NOT_FOUND; // Forbidden
+      }
+
+      if (boardMembership.role !== BoardMembership.Roles.EDITOR && !boardMembership.canComment) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
       }
     }
 
-    action = await sails.helpers.actions.deleteOne(action, board, this.req);
+    action = await sails.helpers.actions.deleteOne.with({
+      project,
+      board,
+      list,
+      card,
+      record: action,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!action) {
       throw Errors.COMMENT_ACTION_NOT_FOUND;

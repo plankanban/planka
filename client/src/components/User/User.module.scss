@@ -14,12 +14,10 @@
   }
 
   .wrapper {
-    border: none;
     border-radius: 50%;
     color: #fff;
     display: inline-block;
     line-height: 1;
-    outline: none;
     text-align: center;
     vertical-align: top;
   }
@@ -32,7 +30,6 @@
 
   .wrapperTiny {
     font-size: 10px;
-    font-weight: 400;
     height: 24px;
     line-height: 20px;
     padding: 2px 0;
@@ -41,7 +38,6 @@
 
   .wrapperSmall {
     font-size: 12px;
-    font-weight: 400;
     height: 28px;
     padding: 8px 0;
     width: 28px;
@@ -49,7 +45,6 @@
 
   .wrapperMedium {
     font-size: 14px;
-    font-weight: 500;
     height: 32px;
     padding: 10px 0;
     width: 32px;
@@ -57,7 +52,6 @@
 
   .wrapperLarge {
     font-size: 14px;
-    font-weight: 500;
     height: 36px;
     padding: 12px 0 10px;
     width: 36px;
@@ -65,7 +59,6 @@
 
   .wrapperMassive {
     font-size: 36px;
-    font-weight: 500;
     height: 100px;
     padding: 32px 0 10px;
     width: 100px;

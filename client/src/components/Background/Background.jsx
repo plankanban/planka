@@ -9,18 +9,20 @@ import { ProjectBackgroundTypes } from '../../constants/Enums';
 import styles from './Background.module.scss';
 import globalStyles from '../../styles.module.scss';
 
-const Background = ({ type, name, imageUrl }) => (
-  <div
-    className={classNames(
-      styles.wrapper,
-      type === ProjectBackgroundTypes.GRADIENT &&
-        globalStyles[`background${upperFirst(camelCase(name))}`],
-    )}
-    style={{
-      background: type === 'image' && `url("${imageUrl}") center / cover`,
-    }}
-  />
-);
+function Background({ type, name, imageUrl }) {
+  return (
+    <div
+      className={classNames(
+        styles.wrapper,
+        type === ProjectBackgroundTypes.GRADIENT &&
+          globalStyles[`background${upperFirst(camelCase(name))}`],
+      )}
+      style={{
+        background: type === 'image' && `url("${imageUrl}") center / cover`,
+      }}
+    />
+  );
+}
 
 Background.propTypes = {
   type: PropTypes.string.isRequired,

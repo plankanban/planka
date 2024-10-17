@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   TASK_NOT_FOUND: {
     taskNotFound: 'Task not found',
   },
@@ -11,6 +14,9 @@ module.exports = {
       regex: /^[0-9]+$/,
       required: true,
     },
+    position: {
+      type: 'number',
+    },
     name: {
       type: 'string',
       isNotEmptyString: true,
@@ -21,6 +27,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     taskNotFound: {
       responseType: 'notFound',
     },
@@ -34,16 +43,33 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.TASK_NOT_FOUND);
 
     let { task } = path;
-    const { board } = path;
+    const { card, list, board, project } = path;
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.TASK_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['name', 'isCompleted']);
-    task = await sails.helpers.tasks.updateOne(task, values, board, this.req);
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
+    const values = _.pick(inputs, ['position', 'name', 'isCompleted']);
+
+    task = await sails.helpers.tasks.updateOne.with({
+      values,
+      project,
+      board,
+      list,
+      card,
+      record: task,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!task) {
       throw Errors.TASK_NOT_FOUND;

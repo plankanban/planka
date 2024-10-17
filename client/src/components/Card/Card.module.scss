@@ -21,6 +21,14 @@
       background: #ebeef0;
       color: #516b7a;
     }
+
+    @media only screen and (max-width: 797px) {
+      &:focus,
+      &:active {
+        background: #ebeef0;
+        color: #516b7a;
+      }
+    }
   }
 
   .attachment {
@@ -55,6 +63,12 @@
     box-shadow: 0 1px 0 #ccc;
     position: relative;
 
+    @media only screen and (max-width: 797px) {
+      .target {
+        opacity: 1;
+      }
+    }
+
     &:hover {
       background: #f5f6f7;
       border-bottom-color: rgba(9, 30, 66, 0.25);
@@ -77,7 +91,10 @@
 
   .cover {
     border-radius: 3px 3px 0 0;
+    margin-bottom: 2px;
+    padding: 2px 2px 0;
     vertical-align: middle;
+    width: 100%;
   }
 
   .details {
@@ -114,6 +131,7 @@
   }
 
   .wrapper {
+    cursor: auto;
     display: block;
     margin-bottom: 8px;
   }

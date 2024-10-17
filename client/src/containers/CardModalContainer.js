@@ -1,83 +1,62 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
 import omit from 'lodash/omit';
+import { push } from '../lib/redux-router';
 
-import {
-  actionsForCurrentCardSelector,
-  attachmentsForCurrentCardSelector,
-  currentCardSelector,
-  isCurrentUserManagerForCurrentProjectSelector,
-  isCurrentUserMemberForCurrentBoardSelector,
-  labelsForCurrentBoardSelector,
-  labelsForCurrentCardSelector,
-  membershipsForCurrentBoardSelector,
-  pathSelector,
-  projectsToListsForCurrentUserSelector,
-  tasksForCurrentCardSelector,
-  usersForCurrentCardSelector,
-} from '../selectors';
-import {
-  addLabelToCurrentCard,
-  addUserToCurrentCard,
-  createAttachmentInCurrentCard,
-  createCommentActionInCurrentCard,
-  createLabelInCurrentBoard,
-  createTaskInCurrentCard,
-  deleteAttachment,
-  deleteCommentAction,
-  deleteCurrentCard,
-  deleteLabel,
-  deleteTask,
-  fetchActionsInCurrentCard,
-  fetchBoard,
-  moveCurrentCard,
-  removeLabelFromCurrentCard,
-  removeUserFromCurrentCard,
-  transferCurrentCard,
-  updateAttachment,
-  updateCommentAction,
-  updateCurrentCard,
-  updateLabel,
-  updateTask,
-} from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
 import Paths from '../constants/Paths';
+import { BoardMembershipRoles } from '../constants/Enums';
 import CardModal from '../components/CardModal';
 
 const mapStateToProps = (state) => {
-  const { projectId } = pathSelector(state);
-  const allProjectsToLists = projectsToListsForCurrentUserSelector(state);
-  const isCurrentUserManager = isCurrentUserManagerForCurrentProjectSelector(state);
-  const allBoardMemberships = membershipsForCurrentBoardSelector(state);
-  const allLabels = labelsForCurrentBoardSelector(state);
-  const isCurrentUserMember = isCurrentUserMemberForCurrentBoardSelector(state);
+  const { projectId } = selectors.selectPath(state);
+  const allProjectsToLists = selectors.selectProjectsToListsForCurrentUser(state);
+  const isCurrentUserManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
+  const allBoardMemberships = selectors.selectMembershipsForCurrentBoard(state);
+  const allLabels = selectors.selectLabelsForCurrentBoard(state);
+  const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
   const {
     name,
     description,
     dueDate,
-    timer,
+    isDueDateCompleted,
+    stopwatch,
     isSubscribed,
-    isActionsFetching,
-    isAllActionsFetched,
+    isActivitiesFetching,
+    isAllActivitiesFetched,
+    isActivitiesDetailsVisible,
+    isActivitiesDetailsFetching,
     boardId,
     listId,
-  } = currentCardSelector(state);
+  } = selectors.selectCurrentCard(state);
 
-  const users = usersForCurrentCardSelector(state);
-  const labels = labelsForCurrentCardSelector(state);
-  const tasks = tasksForCurrentCardSelector(state);
-  const attachments = attachmentsForCurrentCardSelector(state);
-  const actions = actionsForCurrentCardSelector(state);
+  const users = selectors.selectUsersForCurrentCard(state);
+  const labels = selectors.selectLabelsForCurrentCard(state);
+  const tasks = selectors.selectTasksForCurrentCard(state);
+  const attachments = selectors.selectAttachmentsForCurrentCard(state);
+  const activities = selectors.selectActivitiesForCurrentCard(state);
+
+  let isCurrentUserEditor = false;
+  let isCurrentUserEditorOrCanComment = false;
+
+  if (currentUserMembership) {
+    isCurrentUserEditor = currentUserMembership.role === BoardMembershipRoles.EDITOR;
+    isCurrentUserEditorOrCanComment = isCurrentUserEditor || currentUserMembership.canComment;
+  }
 
   return {
     name,
     description,
     dueDate,
-    timer,
+    isDueDateCompleted,
+    stopwatch,
     isSubscribed,
-    isActionsFetching,
-    isAllActionsFetched,
+    isActivitiesFetching,
+    isAllActivitiesFetched,
+    isActivitiesDetailsVisible,
+    isActivitiesDetailsFetching,
     listId,
     boardId,
     projectId,
@@ -85,40 +64,45 @@ const mapStateToProps = (state) => {
     labels,
     tasks,
     attachments,
-    actions,
+    activities,
     allProjectsToLists,
     allBoardMemberships,
     allLabels,
-    canEdit: isCurrentUserMember,
-    canEditAllCommentActions: isCurrentUserManager,
+    canEdit: isCurrentUserEditor,
+    canEditCommentActivities: isCurrentUserEditorOrCanComment,
+    canEditAllCommentActivities: isCurrentUserManager,
   };
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
-      onUpdate: updateCurrentCard,
-      onMove: moveCurrentCard,
-      onTransfer: transferCurrentCard,
-      onDelete: deleteCurrentCard,
-      onUserAdd: addUserToCurrentCard,
-      onUserRemove: removeUserFromCurrentCard,
-      onBoardFetch: fetchBoard,
-      onLabelAdd: addLabelToCurrentCard,
-      onLabelRemove: removeLabelFromCurrentCard,
-      onLabelCreate: createLabelInCurrentBoard,
-      onLabelUpdate: updateLabel,
-      onLabelDelete: deleteLabel,
-      onTaskCreate: createTaskInCurrentCard,
-      onTaskUpdate: updateTask,
-      onTaskDelete: deleteTask,
-      onAttachmentCreate: createAttachmentInCurrentCard,
-      onAttachmentUpdate: updateAttachment,
-      onAttachmentDelete: deleteAttachment,
-      onActionsFetch: fetchActionsInCurrentCard,
-      onCommentActionCreate: createCommentActionInCurrentCard,
-      onCommentActionUpdate: updateCommentAction,
-      onCommentActionDelete: deleteCommentAction,
+      onUpdate: entryActions.updateCurrentCard,
+      onMove: entryActions.moveCurrentCard,
+      onTransfer: entryActions.transferCurrentCard,
+      onDuplicate: entryActions.duplicateCurrentCard,
+      onDelete: entryActions.deleteCurrentCard,
+      onUserAdd: entryActions.addUserToCurrentCard,
+      onUserRemove: entryActions.removeUserFromCurrentCard,
+      onBoardFetch: entryActions.fetchBoard,
+      onLabelAdd: entryActions.addLabelToCurrentCard,
+      onLabelRemove: entryActions.removeLabelFromCurrentCard,
+      onLabelCreate: entryActions.createLabelInCurrentBoard,
+      onLabelUpdate: entryActions.updateLabel,
+      onLabelMove: entryActions.moveLabel,
+      onLabelDelete: entryActions.deleteLabel,
+      onTaskCreate: entryActions.createTaskInCurrentCard,
+      onTaskUpdate: entryActions.updateTask,
+      onTaskMove: entryActions.moveTask,
+      onTaskDelete: entryActions.deleteTask,
+      onAttachmentCreate: entryActions.createAttachmentInCurrentCard,
+      onAttachmentUpdate: entryActions.updateAttachment,
+      onAttachmentDelete: entryActions.deleteAttachment,
+      onActivitiesFetch: entryActions.fetchActivitiesInCurrentCard,
+      onActivitiesDetailsToggle: entryActions.toggleActivitiesDetailsInCurrentCard,
+      onCommentActivityCreate: entryActions.createCommentActivityInCurrentCard,
+      onCommentActivityUpdate: entryActions.updateCommentActivity,
+      onCommentActivityDelete: entryActions.deleteCommentActivity,
       push,
     },
     dispatch,

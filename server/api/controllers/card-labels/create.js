@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
   },
@@ -25,6 +28,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     cardNotFound: {
       responseType: 'notFound',
     },
@@ -39,27 +45,44 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card } = await sails.helpers.cards
+    const { card, list, board, project } = await sails.helpers.cards
       .getProjectPath(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
+    }
+
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     const label = await Label.findOne({
       id: inputs.labelId,
-      boardId: card.boardId,
+      boardId: board.id,
     });
 
     if (!label) {
       throw Errors.LABEL_NOT_FOUND;
     }
 
-    const cardLabel = await sails.helpers.cardLabels
-      .createOne(label, card, this.req)
+    const cardLabel = await sails.helpers.cardLabels.createOne
+      .with({
+        project,
+        board,
+        list,
+        values: {
+          card,
+          label,
+        },
+        actorUser: currentUser,
+        request: this.req,
+      })
       .intercept('labelAlreadyInCard', () => Errors.LABEL_ALREADY_IN_CARD);
 
     return {

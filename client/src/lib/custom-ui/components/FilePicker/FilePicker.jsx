@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './FilePicker.module.css';
 
-const FilePicker = React.memo(({ children, accept, onSelect }) => {
+const FilePicker = React.memo(({ children, accept, multiple, onSelect }) => {
   const field = useRef(null);
 
   const handleTriggerClick = useCallback(() => {
@@ -12,11 +12,11 @@ const FilePicker = React.memo(({ children, accept, onSelect }) => {
 
   const handleFieldChange = useCallback(
     ({ target }) => {
-      if (target.files[0]) {
-        onSelect(target.files[0]);
+      [...target.files].forEach((file) => {
+        onSelect(file);
+      });
 
-        target.value = null; // eslint-disable-line no-param-reassign
-      }
+      target.value = null; // eslint-disable-line no-param-reassign
     },
     [onSelect],
   );
@@ -32,6 +32,7 @@ const FilePicker = React.memo(({ children, accept, onSelect }) => {
         ref={field}
         type="file"
         accept={accept}
+        multiple={multiple}
         className={styles.field}
         onChange={handleFieldChange}
       />
@@ -42,11 +43,13 @@ const FilePicker = React.memo(({ children, accept, onSelect }) => {
 FilePicker.propTypes = {
   children: PropTypes.element.isRequired,
   accept: PropTypes.string,
+  multiple: PropTypes.bool,
   onSelect: PropTypes.func.isRequired,
 };
 
 FilePicker.defaultProps = {
   accept: undefined,
+  multiple: false,
 };
 
 export default FilePicker;

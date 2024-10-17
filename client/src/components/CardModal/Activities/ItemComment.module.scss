@@ -1,0 +1,48 @@
+:global(#app) {
+  .author {
+    color: #17394d;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 20px;
+    margin-right: 8px;
+  }
+
+  .content {
+    border-bottom: 1px solid #092d4221;
+    display: inline-block;
+    padding-bottom: 14px;
+    vertical-align: top;
+    width: calc(100% - 40px);
+  }
+
+  .date {
+    color: #6b808c;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .text {
+    background: #fff;
+    border-radius: 0px 8px 8px;
+    box-shadow: 0 1px 2px -1px rgba(9, 30, 66, 0.25),
+      0 0 0 1px rgba(9, 30, 66, 0.08);
+    box-sizing: border-box;
+    color: #17394d;
+    display: inline-block;
+    margin: 1px 2px 4px 1px;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 8px 12px;
+  }
+
+  .title {
+    padding-bottom: 4px;
+  }
+
+  .user {
+    display: inline-block;
+    padding: 4px 8px 0 0;
+    vertical-align: top;
+  }
+}

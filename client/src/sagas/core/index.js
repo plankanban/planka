@@ -1,9 +1,9 @@
-import { all, apply, call, fork, take } from 'redux-saga/effects';
+import { all, apply, fork, select, take } from 'redux-saga/effects';
 
 import watchers from './watchers';
-import { initializeCoreService } from './services';
+import services from './services';
+import selectors from '../../selectors';
 import { socket } from '../../api';
-import { removeAccessToken } from '../../utils/access-token-storage';
 import ActionTypes from '../../constants/ActionTypes';
 import Paths from '../../constants/Paths';
 
@@ -11,10 +11,16 @@ export default function* coreSaga() {
   yield all(watchers.map((watcher) => fork(watcher)));
 
   yield apply(socket, socket.connect);
-  yield fork(initializeCoreService);
+  yield fork(services.initializeCore);
 
   yield take(ActionTypes.LOGOUT);
 
-  yield call(removeAccessToken);
-  window.location.href = Paths.LOGIN;
+  const oidcConfig = yield select(selectors.selectOidcConfig);
+
+  if (oidcConfig && oidcConfig.endSessionUrl !== null) {
+    // Redirect the user to the IDP to log out.
+    window.location.href = oidcConfig.endSessionUrl;
+  } else {
+    window.location.href = Paths.LOGIN;
+  }
 }

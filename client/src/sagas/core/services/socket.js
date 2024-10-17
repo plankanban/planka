@@ -1,40 +1,38 @@
 import { call, put, select } from 'redux-saga/effects';
 
-import { fetchCoreRequest } from '../requests';
-import { currentUserIdSelector, pathSelector } from '../../../selectors';
-import { handleSocketDisconnect, handleSocketReconnect } from '../../../actions';
+import requests from '../requests';
+import selectors from '../../../selectors';
+import actions from '../../../actions';
 
-export function* handleSocketDisconnectService() {
-  yield put(handleSocketDisconnect());
+export function* handleSocketDisconnect() {
+  yield put(actions.handleSocketDisconnect());
 }
 
-export function* handleSocketReconnectService() {
-  const currentUserId = yield select(currentUserIdSelector);
-  const { boardId } = yield select(pathSelector);
+export function* handleSocketReconnect() {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  const { boardId } = yield select(selectors.selectPath);
 
-  yield put(handleSocketReconnect.fetchCore(currentUserId, boardId));
+  yield put(actions.handleSocketReconnect.fetchCore(currentUserId, boardId));
 
-  const {
-    user,
-    board,
-    users,
-    projects,
-    projectManagers,
-    boards,
-    boardMemberships,
-    labels,
-    lists,
-    cards,
-    cardMemberships,
-    cardLabels,
-    tasks,
-    attachments,
-    actions,
-    notifications,
-  } = yield call(fetchCoreRequest); // TODO: handle error
+  let user;
+  let board;
+  let users;
+  let projects;
+  let projectManagers;
+  let boards;
+  let boardMemberships;
+  let labels;
+  let lists;
+  let cards;
+  let cardMemberships;
+  let cardLabels;
+  let tasks;
+  let attachments;
+  let activities;
+  let notifications;
 
-  yield put(
-    handleSocketReconnect(
+  try {
+    ({
       user,
       board,
       users,
@@ -49,8 +47,36 @@ export function* handleSocketReconnectService() {
       cardLabels,
       tasks,
       attachments,
-      actions,
+      activities,
+      notifications,
+    } = yield call(requests.fetchCore));
+  } catch (error) {
+    return;
+  }
+
+  yield put(
+    actions.handleSocketReconnect(
+      user,
+      board,
+      users,
+      projects,
+      projectManagers,
+      boards,
+      boardMemberships,
+      labels,
+      lists,
+      cards,
+      cardMemberships,
+      cardLabels,
+      tasks,
+      attachments,
+      activities,
       notifications,
     ),
   );
 }
+
+export default {
+  handleSocketDisconnect,
+  handleSocketReconnect,
+};

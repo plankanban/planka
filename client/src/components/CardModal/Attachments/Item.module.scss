@@ -29,14 +29,13 @@
     padding: 6px 32px 6px 128px;
     margin: 0;
     min-height: 80px;
-    z-index: 0;
   }
 
   .extension {
     color: #5e6c84;
     display: block;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: bold;
     height: 100%;
     line-height: 80px;
     overflow: hidden;
@@ -51,7 +50,7 @@
   .name {
     color: #17394d;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: bold;
     line-height: 20px;
     word-wrap: break-word;
   }
@@ -95,7 +94,6 @@
     text-decoration: none;
     top: 50%;
     width: 112px;
-    z-index: 1;
   }
 
   .thumbnailLabel {

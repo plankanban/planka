@@ -1,11 +1,11 @@
 import i18n from 'i18next';
-import languageDetector from 'i18next-browser-languagedetector';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import formatDate from 'date-fns/format';
 import parseDate from 'date-fns/parse';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 
-import { embedLocales, languages } from './locales';
+import { embeddedLocales, languages } from './locales';
 
 i18n.dateFns = {
   locales: {},
@@ -14,7 +14,7 @@ i18n.dateFns = {
 
     registerLocale(language, locale);
   },
-  getLocale(language = i18n.language) {
+  getLocale(language = i18n.resolvedLanguage) {
     return this.locales[language];
   },
   format(date, format, { language, ...options } = {}) {
@@ -31,8 +31,8 @@ i18n.dateFns = {
   },
 };
 
-i18n.on('languageChanged', (language) => {
-  setDefaultLocale(language);
+i18n.on('languageChanged', () => {
+  setDefaultLocale(i18n.resolvedLanguage);
 });
 
 const formatDatePostProcessor = {
@@ -52,14 +52,14 @@ const parseDatePostProcessor = {
 };
 
 i18n
-  .use(languageDetector)
+  .use(LanguageDetector)
   .use(formatDatePostProcessor)
   .use(parseDatePostProcessor)
   .use(initReactI18next)
   .init({
-    resources: embedLocales,
-    fallbackLng: false,
-    whitelist: languages,
+    resources: embeddedLocales,
+    fallbackLng: 'en-US',
+    supportedLngs: languages,
     load: 'currentOnly',
     interpolation: {
       escapeValue: false,
@@ -74,22 +74,41 @@ i18n
       },
     },
     react: {
-      useSuspense: false,
+      useSuspense: true,
     },
     debug: process.env.NODE_ENV !== 'production',
   });
 
-i18n.loadCoreLocale = (language) =>
-  import(`./locales/${language}/core`).then((module) => {
-    const locale = module.default;
+i18n.loadCoreLocale = async (language = i18n.resolvedLanguage) => {
+  if (language === i18n.options.fallbackLng[0]) {
+    return;
+  }
 
-    Object.keys(locale).forEach((namespace) => {
-      if (namespace === 'dateFns') {
-        i18n.dateFns.addLocale(language, locale[namespace]);
-      } else {
-        i18n.addResourceBundle(language, namespace, locale[namespace], true, true);
-      }
-    });
+  const { default: locale } = await import(`./locales/${language}/core`);
+
+  Object.keys(locale).forEach((namespace) => {
+    if (namespace === 'dateFns') {
+      i18n.dateFns.addLocale(language, locale[namespace]);
+    } else {
+      i18n.addResourceBundle(language, namespace, locale[namespace], true, true);
+    }
   });
+};
+
+i18n.detectLanguage = () => {
+  const {
+    services: { languageDetector, languageUtils },
+  } = i18n;
+
+  localStorage.removeItem(languageDetector.options.lookupLocalStorage);
+
+  const detectedLanguages = languageDetector.detect();
+
+  i18n.language = languageUtils.getBestMatchFromCodes(detectedLanguages);
+  i18n.languages = languageUtils.toResolveHierarchy(i18n.language);
+
+  i18n.resolvedLanguage = undefined;
+  i18n.setResolvedLanguage(i18n.language);
+};
 
 export default i18n;

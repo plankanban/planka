@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import { Progress } from 'semantic-ui-react';
 import { useToggle } from '../../lib/hooks';
 
+import Linkify from '../Linkify';
+
 import styles from './Tasks.module.scss';
 
 const Tasks = React.memo(({ items }) => {
@@ -22,11 +24,9 @@ const Tasks = React.memo(({ items }) => {
 
   return (
     <>
-      {/* eslint-disable jsx-a11y/click-events-have-key-events,
-                         jsx-a11y/no-static-element-interactions */}
+      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                   jsx-a11y/no-static-element-interactions */}
       <div className={styles.button} onClick={handleToggleClick}>
-        {/* eslint-enable jsx-a11y/click-events-have-key-events,
-                          jsx-a11y/no-static-element-interactions */}
         <span className={styles.progressWrapper}>
           <Progress
             autoSuccess
@@ -40,9 +40,7 @@ const Tasks = React.memo(({ items }) => {
         <span
           className={classNames(styles.count, isOpened ? styles.countOpened : styles.countClosed)}
         >
-          {completedItems.length}
-          {'/'}
-          {items.length}
+          {completedItems.length}/{items.length}
         </span>
       </div>
       {isOpened && (
@@ -52,7 +50,7 @@ const Tasks = React.memo(({ items }) => {
               key={item.id}
               className={classNames(styles.task, item.isCompleted && styles.taskCompleted)}
             >
-              {item.name}
+              <Linkify linkStopPropagation>{item.name}</Linkify>
             </li>
           ))}
         </ul>

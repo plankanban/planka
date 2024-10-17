@@ -1,6 +1,12 @@
 const bcrypt = require('bcrypt');
+const zxcvbn = require('zxcvbn');
+
+const { getRemoteAddress } = require('../../../utils/remoteAddress');
 
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   USER_NOT_FOUND: {
     userNotFound: 'User not found',
   },
@@ -8,6 +14,8 @@ const Errors = {
     invalidCurrentPassword: 'Invalid current password',
   },
 };
+
+const passwordValidator = (value) => zxcvbn(value).score >= 2; // TODO: move to config
 
 module.exports = {
   inputs: {
@@ -18,6 +26,7 @@ module.exports = {
     },
     password: {
       type: 'string',
+      custom: passwordValidator,
       required: true,
     },
     currentPassword: {
@@ -27,6 +36,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     userNotFound: {
       responseType: 'notFound',
     },
@@ -36,7 +48,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { currentUser } = this.req;
+    const { currentSession, currentUser } = this.req;
 
     if (inputs.id === currentUser.id) {
       if (!inputs.currentPassword) {
@@ -52,6 +64,10 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
+    if (user.email === sails.config.custom.defaultAdminEmail || user.isSso) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
     if (
       inputs.id === currentUser.id &&
       !bcrypt.compareSync(inputs.currentPassword, user.password)
@@ -60,10 +76,38 @@ module.exports = {
     }
 
     const values = _.pick(inputs, ['password']);
-    user = await sails.helpers.users.updateOne(user, values, this.req);
+
+    user = await sails.helpers.users.updateOne.with({
+      values,
+      record: user,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
+    }
+
+    if (user.id === currentUser.id) {
+      const { token: accessToken } = sails.helpers.utils.createJwtToken(
+        user.id,
+        user.passwordUpdatedAt,
+      );
+
+      await Session.create({
+        accessToken,
+        httpOnlyToken: currentSession.httpOnlyToken,
+        userId: user.id,
+        remoteAddress: getRemoteAddress(this.req),
+        userAgent: this.req.headers['user-agent'],
+      });
+
+      return {
+        item: user,
+        included: {
+          accessTokens: [accessToken],
+        },
+      };
     }
 
     return {

@@ -2,42 +2,34 @@ import { createSelector as createReselectSelector } from 'reselect';
 import { createSelector as createReduxOrmSelector } from 'redux-orm';
 
 import orm from '../orm';
-import { currentUserIdSelector } from './user';
+import { selectCurrentUserId } from './users';
 import matchPaths from '../utils/match-paths';
 import Paths from '../constants/Paths';
 
-export const pathnameSelector = ({
+export const selectPathname = ({
   router: {
     location: { pathname },
   },
 }) => pathname;
 
-export const pathsMatchSelector = createReselectSelector(pathnameSelector, (pathname) =>
+export const selectPathsMatch = createReselectSelector(selectPathname, (pathname) =>
   matchPaths(pathname, Object.values(Paths)),
 );
 
-export const pathSelector = createReduxOrmSelector(
+export const selectPath = createReduxOrmSelector(
   orm,
-  pathsMatchSelector,
-  (state) => currentUserIdSelector(state),
+  selectPathsMatch,
+  (state) => selectCurrentUserId(state),
   ({ Project, Board, Card }, pathsMatch, currentUserId) => {
     if (pathsMatch) {
-      switch (pathsMatch.path) {
+      switch (pathsMatch.pattern.path) {
         case Paths.PROJECTS: {
           const projectModel = Project.withId(pathsMatch.params.id);
 
-          if (!projectModel) {
+          if (!projectModel || !projectModel.isAvailableForUser(currentUserId)) {
             return {
               projectId: null,
             };
-          }
-
-          if (!projectModel.hasManagerUser(currentUserId)) {
-            if (!projectModel.hasMemberUserForAnyBoard(currentUserId)) {
-              return {
-                projectId: null,
-              };
-            }
           }
 
           return {
@@ -46,35 +38,23 @@ export const pathSelector = createReduxOrmSelector(
         }
         case Paths.BOARDS: {
           const boardModel = Board.withId(pathsMatch.params.id);
-          const projectModel = boardModel && boardModel.project;
 
-          if (!projectModel) {
+          if (!boardModel || !boardModel.isAvailableForUser(currentUserId)) {
             return {
               boardId: null,
               projectId: null,
             };
           }
 
-          if (!projectModel.hasManagerUser(currentUserId)) {
-            if (!boardModel.hasMemberUser(currentUserId)) {
-              return {
-                boardId: null,
-                projectId: null,
-              };
-            }
-          }
-
           return {
             boardId: boardModel.id,
-            projectId: projectModel.id,
+            projectId: boardModel.projectId,
           };
         }
         case Paths.CARDS: {
           const cardModel = Card.withId(pathsMatch.params.id);
-          const boardModel = cardModel && cardModel.board;
-          const projectModel = boardModel && boardModel.project;
 
-          if (!projectModel) {
+          if (!cardModel || !cardModel.isAvailableForUser(currentUserId)) {
             return {
               cardId: null,
               boardId: null,
@@ -82,20 +62,10 @@ export const pathSelector = createReduxOrmSelector(
             };
           }
 
-          if (!projectModel.hasManagerUser(currentUserId)) {
-            if (!boardModel.hasMemberUser(currentUserId)) {
-              return {
-                cardId: null,
-                boardId: null,
-                projectId: null,
-              };
-            }
-          }
-
           return {
             cardId: cardModel.id,
-            boardId: boardModel.id,
-            projectId: projectModel.id,
+            boardId: cardModel.boardId,
+            projectId: cardModel.board.projectId,
           };
         }
         default:
@@ -105,3 +75,9 @@ export const pathSelector = createReduxOrmSelector(
     return {};
   },
 );
+
+export default {
+  selectPathname,
+  selectPathsMatch,
+  selectPath,
+};

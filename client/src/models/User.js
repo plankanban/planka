@@ -1,5 +1,6 @@
-import { Model, attr } from 'redux-orm';
+import { attr } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
 const DEFAULT_EMAIL_UPDATE_FORM = {
@@ -29,20 +30,27 @@ const DEFAULT_USERNAME_UPDATE_FORM = {
   error: null,
 };
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'User';
 
   static fields = {
     id: attr(),
     email: attr(),
+    username: attr(),
     name: attr(),
     avatarUrl: attr(),
     phone: attr(),
     organization: attr(),
+    language: attr(),
     subscribeToOwnCards: attr(),
+    isAdmin: attr(),
+    isLocked: attr(),
+    isRoleLocked: attr(),
+    isUsernameLocked: attr(),
+    isDeletionLocked: attr(),
     deletedAt: attr(),
-    isAdmin: attr({
-      getDefault: () => false,
+    createdAt: attr({
+      getDefault: () => new Date(),
     }),
     isAvatarUpdating: attr({
       getDefault: () => false,
@@ -140,6 +148,18 @@ export default class extends Model {
 
         break;
       }
+      case ActionTypes.USER_EMAIL_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          emailUpdateForm: {
+            ...userModel.emailUpdateForm,
+            error: null,
+          },
+        });
+
+        break;
+      }
       case ActionTypes.USER_PASSWORD_UPDATE: {
         const userModel = User.withId(payload.id);
 
@@ -169,6 +189,18 @@ export default class extends Model {
             ...userModel.passwordUpdateForm,
             isSubmitting: false,
             error: payload.error,
+          },
+        });
+
+        break;
+      }
+      case ActionTypes.USER_PASSWORD_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          passwordUpdateForm: {
+            ...userModel.passwordUpdateForm,
+            error: null,
           },
         });
 
@@ -208,6 +240,18 @@ export default class extends Model {
 
         break;
       }
+      case ActionTypes.USER_USERNAME_UPDATE_ERROR_CLEAR: {
+        const userModel = User.withId(payload.id);
+
+        userModel.update({
+          usernameUpdateForm: {
+            ...userModel.usernameUpdateForm,
+            error: null,
+          },
+        });
+
+        break;
+      }
       case ActionTypes.USER_AVATAR_UPDATE:
         User.withId(payload.id).update({
           isAvatarUpdating: true,
@@ -240,7 +284,7 @@ export default class extends Model {
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_FETCH__SUCCESS:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
-      case ActionTypes.ACTIONS_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_FETCH__SUCCESS:
       case ActionTypes.NOTIFICATION_CREATE_HANDLE:
         payload.users.forEach((user) => {
           User.upsert(user);
@@ -254,15 +298,15 @@ export default class extends Model {
   static getOrderedUndeletedQuerySet() {
     return this.filter({
       deletedAt: null,
-    }).orderBy('id');
+    }).orderBy((user) => user.name.toLocaleLowerCase());
   }
 
   getOrderedProjectManagersQuerySet() {
-    return this.projectManagers.orderBy('id');
+    return this.projectManagers.orderBy('createdAt');
   }
 
   getOrderedBoardMembershipsQuerySet() {
-    return this.boardMemberships.orderBy('id');
+    return this.boardMemberships.orderBy('createdAt');
   }
 
   getOrderedUnreadNotificationsQuerySet() {
@@ -270,7 +314,7 @@ export default class extends Model {
       .filter({
         isRead: false,
       })
-      .orderBy('id', false);
+      .orderBy('createdAt', false);
   }
 
   getOrderedAvailableProjectsModelArray() {
@@ -314,5 +358,19 @@ export default class extends Model {
         deletedAt: new Date(),
       },
     );
+  }
+
+  static findUsersFromText(filterText, users) {
+    const selectUser = filterText.toLocaleLowerCase();
+    const matchingUsers = users.filter(
+      (user) =>
+        user.name.toLocaleLowerCase().startsWith(selectUser) ||
+        user.username.toLocaleLowerCase().startsWith(selectUser),
+    );
+    if (matchingUsers.length === 1) {
+      // Appens the user to the filter
+      return matchingUsers[0].id;
+    }
+    return null;
   }
 }

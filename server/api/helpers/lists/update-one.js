@@ -1,3 +1,15 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     record: {
@@ -6,17 +18,19 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: valuesValidator,
+      required: true,
+    },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
       required: true,
     },
     request: {
@@ -25,15 +39,17 @@ module.exports = {
   },
 
   async fn(inputs) {
-    if (!_.isUndefined(inputs.values.position)) {
+    const { values } = inputs;
+
+    if (!_.isUndefined(values.position)) {
       const lists = await sails.helpers.boards.getLists(inputs.record.boardId, inputs.record.id);
 
       const { position, repositions } = sails.helpers.utils.insertToPositionables(
-        inputs.values.position,
+        values.position,
         lists,
       );
 
-      inputs.values.position = position; // eslint-disable-line no-param-reassign
+      values.position = position;
 
       repositions.forEach(async ({ id, position: nextPosition }) => {
         await List.update({
@@ -49,10 +65,12 @@ module.exports = {
             position: nextPosition,
           },
         });
+
+        // TODO: send webhooks
       });
     }
 
-    const list = await List.updateOne(inputs.record.id).set(inputs.values);
+    const list = await List.updateOne(inputs.record.id).set({ ...values });
 
     if (list) {
       sails.sockets.broadcast(
@@ -63,6 +81,18 @@ module.exports = {
         },
         inputs.request,
       );
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'listUpdate',
+        data: {
+          item: list,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+          },
+        },
+        user: inputs.actorUser,
+      });
     }
 
     return list;

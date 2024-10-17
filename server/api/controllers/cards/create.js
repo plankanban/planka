@@ -1,30 +1,45 @@
 const moment = require('moment');
 
 const Errors = {
-  BOARD_NOT_FOUND: {
-    boardNotFound: 'Board not found',
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
   },
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
-  },
-  LIST_MUST_BE_PRESENT: {
-    listMustBePresent: 'List must be present',
   },
   POSITION_MUST_BE_PRESENT: {
     positionMustBePresent: 'Position must be present',
   },
 };
 
+const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
+
+const stopwatchValidator = (value) => {
+  if (!_.isPlainObject(value) || _.size(value) !== 2) {
+    return false;
+  }
+
+  if (
+    !_.isNull(value.startedAt) &&
+    _.isString(value.startedAt) &&
+    !moment(value.startedAt, moment.ISO_8601, true).isValid()
+  ) {
+    return false;
+  }
+
+  if (!_.isFinite(value.total)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
-    boardId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
-      required: true,
-    },
     listId: {
       type: 'string',
       regex: /^[0-9]+$/,
+      required: true,
     },
     position: {
       type: 'number',
@@ -40,41 +55,25 @@ module.exports = {
     },
     dueDate: {
       type: 'string',
-      custom: (value) => moment(value, moment.ISO_8601, true).isValid(),
+      custom: dueDateValidator,
+      allowNull: true,
     },
-    timer: {
+    isDueDateCompleted: {
+      type: 'boolean',
+      allowNull: true,
+    },
+    stopwatch: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value) || _.size(value) !== 2) {
-          return false;
-        }
-
-        if (
-          !_.isNull(value.startedAt) &&
-          _.isString(value.startedAt) &&
-          !moment(value.startedAt, moment.ISO_8601, true).isValid()
-        ) {
-          return false;
-        }
-
-        if (!_.isFinite(value.total)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: stopwatchValidator,
     },
   },
 
   exits: {
-    boardNotFound: {
-      responseType: 'notFound',
+    notEnoughRights: {
+      responseType: 'forbidden',
     },
     listNotFound: {
       responseType: 'notFound',
-    },
-    listMustBePresent: {
-      responseType: 'unprocessableEntity',
     },
     positionMustBePresent: {
       responseType: 'unprocessableEntity',
@@ -84,33 +83,43 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board } = await sails.helpers.boards
-      .getProjectPath(inputs.boardId)
-      .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
+    const { list, board, project } = await sails.helpers.lists
+      .getProjectPath(inputs.listId)
+      .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
-      throw Errors.BOARD_NOT_FOUND; // Forbidden
+    if (!boardMembership) {
+      throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
-    let list;
-    if (!_.isUndefined(inputs.listId)) {
-      list = await List.findOne({
-        id: inputs.listId,
-        boardId: board.id,
-      });
-
-      if (!list) {
-        throw Errors.LIST_NOT_FOUND;
-      }
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name', 'description', 'dueDate', 'timer']);
+    const values = _.pick(inputs, [
+      'position',
+      'name',
+      'description',
+      'dueDate',
+      'isDueDateCompleted',
+      'stopwatch',
+    ]);
 
-    const card = await sails.helpers.cards
-      .createOne(values, currentUser, board, list, this.req)
-      .intercept('listMustBePresent', () => Errors.LIST_MUST_BE_PRESENT)
+    const card = await sails.helpers.cards.createOne
+      .with({
+        project,
+        board,
+        values: {
+          ...values,
+          list,
+          creatorUser: currentUser,
+        },
+        request: this.req,
+      })
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT);
 
     return {

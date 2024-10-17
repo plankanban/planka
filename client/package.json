@@ -2,11 +2,11 @@
   "name": "planka-client",
   "private": true,
   "scripts": {
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
     "eject": "react-scripts eject",
-    "lint": "eslint --ext js,jsx src",
-    "start": "react-scripts start",
-    "test": "react-scripts test",
+    "lint": "eslint --ext js,jsx src config-overrides.js",
+    "start": "react-app-rewired start",
+    "test": "react-app-rewired test",
     "test:webui": "cucumber-js --require tests/acceptance/cucumber.conf.js --require tests/acceptance/stepDefinitions -f @cucumber/pretty-formatter"
   },
   "browserslist": {
@@ -26,16 +26,22 @@
       "browser": true,
       "jest": true
     },
-    "parser": "babel-eslint",
-    "plugins": [
-      "prettier"
-    ],
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "babelOptions": {
+        "presets": [
+          "airbnb"
+        ]
+      },
+      "requireConfigFile": false
+    },
     "extends": [
       "airbnb",
       "airbnb/hooks",
-      "plugin:prettier/recommended"
+      "../package.json"
     ],
     "rules": {
+      "no-unused-vars": "warn",
       "import/no-extraneous-dependencies": [
         "error",
         {
@@ -48,67 +54,76 @@
       "prettier/prettier": [
         "error",
         {
-          "printWidth": 100,
-          "singleQuote": true,
-          "trailingComma": "all"
+          "endOfLine": "auto"
         }
       ]
     }
   },
   "dependencies": {
-    "classnames": "^2.2.6",
-    "connected-react-router": "^6.8.0",
-    "date-fns": "^2.23.0",
-    "dequal": "^2.0.2",
-    "history": "^4.10.1",
-    "i18next": "^20.3.5",
-    "i18next-browser-languagedetector": "^6.1.2",
-    "initials": "^3.1.1",
-    "lodash": "^4.17.20",
-    "node-sass": "^6.0.1",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-beautiful-dnd": "^13.0.0",
-    "react-datepicker": "^4.1.1",
-    "react-dom": "^17.0.1",
-    "react-dropzone": "^11.3.4",
-    "react-i18next": "^11.11.4",
+    "@juggle/resize-observer": "^3.4.0",
+    "classnames": "^2.5.1",
+    "date-fns": "^2.30.0",
+    "dequal": "^2.0.3",
+    "easymde": "^2.18.0",
+    "history": "^5.3.0",
+    "i18next": "^23.15.1",
+    "i18next-browser-languagedetector": "^8.0.0",
+    "initials": "^3.1.2",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
+    "linkify-react": "^4.1.3",
+    "linkifyjs": "^4.1.3",
+    "lodash": "^4.17.21",
+    "nanoid": "^5.0.7",
+    "node-sass": "^9.0.0",
+    "photoswipe": "^5.4.4",
+    "prop-types": "^15.8.1",
+    "react": "18.2.0",
+    "react-app-rewired": "^2.2.1",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-datepicker": "^4.25.0",
+    "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-i18next": "^15.0.2",
     "react-input-mask": "^2.0.4",
-    "react-markdown": "^6.0.3",
-    "react-redux": "^7.2.4",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "react-textarea-autosize": "^8.3.3",
-    "redux": "^4.1.0",
+    "react-markdown": "^8.0.7",
+    "react-photoswipe-gallery": "^2.2.7",
+    "react-redux": "^8.1.3",
+    "react-router-dom": "^6.26.2",
+    "react-scripts": "5.0.1",
+    "react-simplemde-editor": "^5.2.0",
+    "react-textarea-autosize": "^8.5.3",
+    "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-orm": "^0.16.2",
-    "redux-saga": "^1.1.3",
-    "remark-gfm": "^1.0.0",
-    "reselect": "^4.0.0",
+    "redux-saga": "^1.3.0",
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^3.0.1",
+    "reselect": "^4.1.8",
     "sails.io.js": "^1.2.1",
-    "semantic-ui-react": "^2.0.3",
-    "socket.io-client": "^2.3.1",
-    "validator": "^13.6.0",
-    "whatwg-fetch": "^3.5.0"
+    "semantic-ui-react": "^2.1.5",
+    "socket.io-client": "^2.5.0",
+    "validator": "^13.12.0",
+    "whatwg-fetch": "^3.6.20",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@cucumber/cucumber": "^7.3.1",
     "@cucumber/pretty-formatter": "^1.0.0-alpha.1",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
-    "chai": "^4.3.0",
-    "enzyme": "^3.11.0",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "jest-enzyme": "^7.1.2",
+    "@testing-library/jest-dom": "^6.5.0",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
+    "babel-preset-airbnb": "^5.0.0",
+    "chai": "^4.5.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.36.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "nightwatch": "^1.7.8",
     "nightwatch-api": "^3.0.2",
-    "prettier": "2.3.2",
-    "react-test-renderer": "^17.0.1"
+    "react-test-renderer": "18.2.0"
   }
 }

@@ -1,10 +1,31 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.board)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.user)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
-    user: {
+    values: {
+      type: 'ref',
+      custom: valuesValidator,
+      required: true,
+    },
+    project: {
       type: 'ref',
       required: true,
     },
-    board: {
+    actorUser: {
       type: 'ref',
       required: true,
     },
@@ -18,9 +39,20 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
+    if (values.role === BoardMembership.Roles.EDITOR) {
+      delete values.canComment;
+    } else if (values.role === BoardMembership.Roles.VIEWER) {
+      if (_.isNil(values.canComment)) {
+        values.canComment = false;
+      }
+    }
+
     const boardMembership = await BoardMembership.create({
-      boardId: inputs.board.id,
-      userId: inputs.user.id,
+      ...values,
+      boardId: values.board.id,
+      userId: values.user.id,
     })
       .intercept('E_UNIQUE', 'userAlreadyBoardMember')
       .fetch();
@@ -42,6 +74,19 @@ module.exports = {
       },
       inputs.request,
     );
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'boardMembershipCreate',
+      data: {
+        item: boardMembership,
+        included: {
+          users: [values.user],
+          projects: [inputs.project],
+          boards: [values.board],
+        },
+      },
+      user: inputs.actorUser,
+    });
 
     return boardMembership;
   },

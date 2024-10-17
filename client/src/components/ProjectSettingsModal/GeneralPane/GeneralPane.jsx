@@ -2,14 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Header, Tab } from 'semantic-ui-react';
+import { usePopup } from '../../../lib/popup';
 
 import InformationEdit from './InformationEdit';
-import DeletePopup from '../../DeletePopup';
+import DeleteStep from '../../DeleteStep';
 
 import styles from './GeneralPane.module.scss';
 
 const GeneralPane = React.memo(({ name, onUpdate, onDelete }) => {
   const [t] = useTranslation();
+
+  const DeletePopup = usePopup(DeleteStep);
 
   return (
     <Tab.Pane attached={false} className={styles.wrapper}>
@@ -28,11 +31,9 @@ const GeneralPane = React.memo(({ name, onUpdate, onDelete }) => {
       </Divider>
       <div className={styles.action}>
         <DeletePopup
-          title={t('common.deleteProject', {
-            context: 'title',
-          })}
-          content={t('common.areYouSureYouWantToDeleteThisProject')}
-          buttonContent={t('action.deleteProject')}
+          title="common.deleteProject"
+          content="common.areYouSureYouWantToDeleteThisProject"
+          buttonContent="action.deleteProject"
           onConfirm={onDelete}
         >
           <Button className={styles.actionButton}>

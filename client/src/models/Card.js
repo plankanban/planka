@@ -1,9 +1,12 @@
-import { Model, attr, fk, many, oneToOne } from 'redux-orm';
+import pick from 'lodash/pick';
+import { attr, fk, many, oneToOne } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
+import { ActivityTypes } from '../constants/Enums';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Card';
 
   static fields = {
@@ -11,15 +14,27 @@ export default class extends Model {
     position: attr(),
     name: attr(),
     description: attr(),
+    creatorUserId: oneToOne({
+      to: 'User',
+      as: 'creatorUser',
+      relatedName: 'ownCards',
+    }),
     dueDate: attr(),
-    timer: attr(),
+    isDueDateCompleted: attr(),
+    stopwatch: attr(),
     isSubscribed: attr({
       getDefault: () => false,
     }),
-    isActionsFetching: attr({
+    isActivitiesFetching: attr({
       getDefault: () => false,
     }),
-    isAllActionsFetched: attr({
+    isAllActivitiesFetched: attr({
+      getDefault: () => false,
+    }),
+    isActivitiesDetailsVisible: attr({
+      getDefault: () => false,
+    }),
+    isActivitiesDetailsFetching: attr({
       getDefault: () => false,
     }),
     boardId: fk({
@@ -67,7 +82,11 @@ export default class extends Model {
 
         break;
       case ActionTypes.SOCKET_RECONNECT_HANDLE:
-        Card.all().delete();
+        Card.all()
+          .toModelArray()
+          .forEach((cardModel) => {
+            cardModel.deleteWithClearable();
+          });
 
         if (payload.cards) {
           payload.cards.forEach((card) => {
@@ -152,10 +171,16 @@ export default class extends Model {
         } catch {} // eslint-disable-line no-empty
 
         break;
+      case ActionTypes.LIST_SORT__SUCCESS:
+      case ActionTypes.LIST_SORT_HANDLE:
+      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
+        payload.cards.forEach((card) => {
+          Card.upsert(card);
+        });
+
+        break;
       case ActionTypes.CARD_CREATE:
-      case ActionTypes.CARD_CREATE_HANDLE:
       case ActionTypes.CARD_UPDATE__SUCCESS:
-      case ActionTypes.CARD_UPDATE_HANDLE:
         Card.upsert(payload.card);
 
         break;
@@ -164,12 +189,107 @@ export default class extends Model {
         Card.upsert(payload.card);
 
         break;
-      case ActionTypes.CARD_UPDATE:
-        Card.withId(payload.id).update(payload.data);
+      case ActionTypes.CARD_CREATE_HANDLE: {
+        const cardModel = Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ userId }) => {
+          cardModel.users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ labelId }) => {
+          cardModel.labels.add(labelId);
+        });
 
         break;
+      }
+      case ActionTypes.CARD_UPDATE: {
+        const cardModel = Card.withId(payload.id);
+
+        // TODO: introduce separate action?
+        if (payload.data.boardId && payload.data.boardId !== cardModel.boardId) {
+          cardModel.deleteWithRelated();
+        } else {
+          cardModel.update({
+            ...payload.data,
+            ...(payload.data.dueDate === null && {
+              isDueDateCompleted: null,
+            }),
+            ...(payload.data.dueDate &&
+              !cardModel.dueDate && {
+                isDueDateCompleted: false,
+              }),
+          });
+        }
+
+        break;
+      }
+      case ActionTypes.CARD_UPDATE_HANDLE:
+        if (payload.isFetched) {
+          const cardModel = Card.withId(payload.card.id);
+
+          if (cardModel) {
+            cardModel.deleteWithRelated();
+          }
+        }
+
+        Card.upsert(payload.card);
+
+        if (payload.cardMemberships) {
+          payload.cardMemberships.forEach(({ cardId, userId }) => {
+            Card.withId(cardId).users.add(userId);
+          });
+        }
+
+        if (payload.cardLabels) {
+          payload.cardLabels.forEach(({ cardId, labelId }) => {
+            Card.withId(cardId).labels.add(labelId);
+          });
+        }
+
+        break;
+      case ActionTypes.CARD_DUPLICATE: {
+        const cardModel = Card.withId(payload.id);
+
+        const nextCardModel = Card.upsert({
+          ...pick(cardModel.ref, [
+            'boardId',
+            'listId',
+            'position',
+            'name',
+            'description',
+            'dueDate',
+            'isDueDateCompleted',
+            'stopwatch',
+          ]),
+          ...payload.card,
+        });
+
+        cardModel.users.toRefArray().forEach(({ id }) => {
+          nextCardModel.users.add(id);
+        });
+
+        cardModel.labels.toRefArray().forEach(({ id }) => {
+          nextCardModel.labels.add(id);
+        });
+
+        break;
+      }
+      case ActionTypes.CARD_DUPLICATE__SUCCESS: {
+        Card.withId(payload.localId).deleteWithRelated();
+        const cardModel = Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ userId }) => {
+          cardModel.users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ labelId }) => {
+          cardModel.labels.add(labelId);
+        });
+
+        break;
+      }
       case ActionTypes.CARD_DELETE:
-        Card.withId(payload.id).delete();
+        Card.withId(payload.id).deleteWithRelated();
 
         break;
       case ActionTypes.CARD_DELETE__SUCCESS:
@@ -182,39 +302,63 @@ export default class extends Model {
 
         break;
       }
-      case ActionTypes.ACTIONS_FETCH:
+      case ActionTypes.ACTIVITIES_FETCH:
         Card.withId(payload.cardId).update({
-          isActionsFetching: true,
+          isActivitiesFetching: true,
         });
 
         break;
-      case ActionTypes.ACTIONS_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_FETCH__SUCCESS:
         Card.withId(payload.cardId).update({
-          isActionsFetching: false,
-          isAllActionsFetched: payload.actions.length < Config.ACTIONS_LIMIT,
+          isActivitiesFetching: false,
+          isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
         });
 
         break;
-      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
-        payload.cards.forEach((card) => {
-          Card.upsert(card);
-        });
+      case ActionTypes.ACTIVITIES_DETAILS_TOGGLE: {
+        const cardModel = Card.withId(payload.cardId);
+        cardModel.isActivitiesDetailsVisible = payload.isVisible;
+
+        if (payload.isVisible) {
+          cardModel.isActivitiesDetailsFetching = true;
+        }
 
         break;
+      }
+      case ActionTypes.ACTIVITIES_DETAILS_TOGGLE__SUCCESS: {
+        const cardModel = Card.withId(payload.cardId);
+
+        cardModel.update({
+          isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
+          isActivitiesDetailsFetching: false,
+        });
+
+        cardModel.deleteActivities();
+
+        break;
+      }
       default:
     }
   }
 
   getOrderedTasksQuerySet() {
-    return this.tasks.orderBy('id');
+    return this.tasks.orderBy('position');
   }
 
   getOrderedAttachmentsQuerySet() {
-    return this.attachments.orderBy('id', false);
+    return this.attachments.orderBy('createdAt', false);
   }
 
-  getOrderedInCardActionsQuerySet() {
-    return this.actions.orderBy('id', false);
+  getFilteredOrderedInCardActivitiesQuerySet() {
+    const filter = {
+      isInCard: true,
+    };
+
+    if (!this.isActivitiesDetailsVisible) {
+      filter.type = ActivityTypes.COMMENT_CARD;
+    }
+
+    return this.activities.filter(filter).orderBy('createdAt', false);
   }
 
   getUnreadNotificationsQuerySet() {
@@ -223,10 +367,37 @@ export default class extends Model {
     });
   }
 
+  isAvailableForUser(userId) {
+    return this.board && this.board.isAvailableForUser(userId);
+  }
+
+  deleteClearable() {
+    this.users.clear();
+    this.labels.clear();
+  }
+
+  deleteActivities() {
+    this.activities.toModelArray().forEach((activityModel) => {
+      if (activityModel.notification) {
+        activityModel.update({
+          isInCard: false,
+        });
+      } else {
+        activityModel.delete();
+      }
+    });
+  }
+
   deleteRelated() {
+    this.deleteClearable();
     this.tasks.delete();
     this.attachments.delete();
-    this.actions.delete();
+    this.deleteActivities();
+  }
+
+  deleteWithClearable() {
+    this.deleteClearable();
+    this.delete();
   }
 
   deleteWithRelated() {

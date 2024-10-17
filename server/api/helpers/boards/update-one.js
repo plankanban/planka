@@ -1,3 +1,15 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     record: {
@@ -6,17 +18,15 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: valuesValidator,
+      required: true,
+    },
+    project: {
+      type: 'ref',
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
       required: true,
     },
     request: {
@@ -25,22 +35,27 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const userIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
+    const { values } = inputs;
+
+    const projectManagerUserIds = await sails.helpers.projects.getManagerUserIds(
       inputs.record.projectId,
     );
 
-    if (!_.isUndefined(inputs.values.position)) {
+    const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(inputs.record.id);
+    const boardRelatedUserIds = _.union(projectManagerUserIds, boardMemberUserIds);
+
+    if (!_.isUndefined(values.position)) {
       const boards = await sails.helpers.projects.getBoards(
         inputs.record.projectId,
         inputs.record.id,
       );
 
       const { position, repositions } = sails.helpers.utils.insertToPositionables(
-        inputs.values.position,
+        values.position,
         boards,
       );
 
-      inputs.values.position = position; // eslint-disable-line no-param-reassign
+      values.position = position;
 
       repositions.forEach(async ({ id, position: nextPosition }) => {
         await Board.update({
@@ -50,21 +65,23 @@ module.exports = {
           position: nextPosition,
         });
 
-        userIds.forEach((userId) => {
+        boardRelatedUserIds.forEach((userId) => {
           sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
             item: {
               id,
               position: nextPosition,
             },
           });
+
+          // TODO: send webhooks
         });
       });
     }
 
-    const board = await Board.updateOne(inputs.record.id).set(inputs.values);
+    const board = await Board.updateOne(inputs.record.id).set({ ...values });
 
     if (board) {
-      userIds.forEach((userId) => {
+      boardRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'boardUpdate',
@@ -73,6 +90,17 @@ module.exports = {
           },
           inputs.request,
         );
+      });
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'boardUpdate',
+        data: {
+          item: board,
+          included: {
+            projects: [inputs.project],
+          },
+        },
+        user: inputs.actorUser,
       });
     }
 

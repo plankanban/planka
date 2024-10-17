@@ -1,19 +1,15 @@
-import React, { useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useCallback, useImperativeHandle, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Form, TextArea } from 'semantic-ui-react';
-
-import { useClosableForm, useField } from '../../hooks';
+import { Button, Form } from 'semantic-ui-react';
+import SimpleMDE from 'react-simplemde-editor';
 
 import styles from './DescriptionEdit.module.scss';
 
 const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, ref) => {
   const [t] = useTranslation();
   const [isOpened, setIsOpened] = useState(false);
-  const [value, handleFieldChange, setValue] = useField(null);
-
-  const field = useRef(null);
+  const [value, setValue] = useState(null);
 
   const open = useCallback(() => {
     setIsOpened(true);
@@ -55,20 +51,38 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
     [close],
   );
 
-  const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
-    close,
-    isOpened,
-  );
-
   const handleSubmit = useCallback(() => {
     close();
   }, [close]);
 
-  useEffect(() => {
-    if (isOpened) {
-      field.current.ref.current.select();
-    }
-  }, [isOpened]);
+  const mdEditorOptions = useMemo(
+    () => ({
+      autoDownloadFontAwesome: false,
+      autofocus: true,
+      spellChecker: false,
+      status: false,
+      toolbar: [
+        'bold',
+        'italic',
+        'heading',
+        'strikethrough',
+        '|',
+        'quote',
+        'unordered-list',
+        'ordered-list',
+        'table',
+        '|',
+        'link',
+        'image',
+        '|',
+        'undo',
+        'redo',
+        '|',
+        'guide',
+      ],
+    }),
+    [],
+  );
 
   if (!isOpened) {
     return React.cloneElement(children, {
@@ -78,26 +92,16 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
 
   return (
     <Form onSubmit={handleSubmit}>
-      <TextArea
-        ref={field}
-        as={TextareaAutosize}
+      <SimpleMDE
         value={value}
+        options={mdEditorOptions}
         placeholder={t('common.enterDescription')}
-        minRows={3}
-        spellCheck={false}
         className={styles.field}
         onKeyDown={handleFieldKeyDown}
-        onChange={handleFieldChange}
-        onBlur={handleFieldBlur}
+        onChange={setValue}
       />
       <div className={styles.controls}>
-        {/* eslint-disable-next-line jsx-a11y/mouse-events-have-key-events */}
-        <Button
-          positive
-          content={t('action.save')}
-          onMouseOver={handleControlMouseOver}
-          onMouseOut={handleControlMouseOut}
-        />
+        <Button positive content={t('action.save')} />
       </div>
     </Form>
   );

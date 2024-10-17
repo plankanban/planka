@@ -8,7 +8,7 @@ import List from './List';
 import Card from './Card';
 import Task from './Task';
 import Attachment from './Attachment';
-import Action from './Action';
+import Activity from './Activity';
 import Notification from './Notification';
 
 export {
@@ -22,6 +22,6 @@ export {
   Card,
   Task,
   Attachment,
-  Action,
+  Activity,
   Notification,
 };

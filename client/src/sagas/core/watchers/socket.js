@@ -1,211 +1,185 @@
 import { eventChannel } from 'redux-saga';
 import { all, call, cancelled, put, take, takeEvery } from 'redux-saga/effects';
 
-import { handleSocketDisconnectService, handleSocketReconnectService } from '../services';
-import {
-  handleProjectManagerCreate as handleProjectManagerCreateAction,
-  handleProjectManagerDelete as handleProjectManagerDeleteAction,
-  handleBoardCreate as handleBoardCreateAction,
-  handleBoardUpdate as handleBoardUpdateAction,
-  handleBoardDelete as handleBoardDeleteAction,
-  handleBoardMembershipCreate as handleBoardMembershipCreateAction,
-  handleBoardMembershipDelete as handleBoardMembershipDeleteAction,
-  handleListCreate as handleListCreateAction,
-  handleListUpdate as handleListUpdateAction,
-  handleListDelete as handleListDeleteAction,
-  handleLabelCreate as handleLabelCreateAction,
-  handleLabelUpdate as handleLabelUpdateAction,
-  handleLabelDelete as handleLabelDeleteAction,
-  handleCardCreate as handleCardCreateAction,
-  handleCardUpdate as handleCardUpdateAction,
-  handleCardDelete as handleCardDeleteAction,
-  handleUserToCardAdd as handleUserToCardAddAction,
-  handleUserFromCardRemove as handleUserFromCardRemoveAction,
-  handleLabelToCardAdd as handleLabelToCardAddAction,
-  handleLabelFromCardRemove as handleLabelFromCardRemoveAction,
-  handleTaskCreate as handleTaskCreateAction,
-  handleTaskUpdate as handleTaskUpdateAction,
-  handleTaskDelete as handleTaskDeleteAction,
-  handleAttachmentCreate as handleAttachmentCreateAction,
-  handleAttachmentUpdate as handleAttachmentUpdateAction,
-  handleAttachmentDelete as handleAttachmentDeleteAction,
-  handleActionCreate as handleActionCreateAction,
-  handleActionUpdate as handleActionUpdateAction,
-  handleActionDelete as handleActionDeleteAction,
-  handleNotificationCreate as handleNotificationCreateAction,
-  handleNotificationDelete as handleNotificationDeleteAction,
-  handleSocketDisconnect as handleSocketDisconnectAction,
-  handleUserCreate as handleUserCreateAction,
-  handleUserUpdate as handleUserUpdateAction,
-  handleUserDelete as handleUserDeleteAction,
-  handleProjectCreate as handleProjectCreateAction,
-  handleProjectUpdate as handleProjectUpdateAction,
-  handleProjectDelete as handleProjectDeleteAction,
-  handleSocketReconnect as handleSocketReconnectAction,
-} from '../../../actions/entry';
+import services from '../services';
+import entryActions from '../../../entry-actions';
 import api, { socket } from '../../../api';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 const createSocketEventsChannel = () =>
   eventChannel((emit) => {
     const handleDisconnect = () => {
-      emit(handleSocketDisconnectAction());
+      emit(entryActions.handleSocketDisconnect());
     };
 
     const handleReconnect = () => {
-      emit(handleSocketReconnectAction());
+      emit(entryActions.handleSocketReconnect());
     };
 
-    const handleUserCreate = ({ item }) => {
-      emit(handleUserCreateAction(item));
+    const handleLogout = () => {
+      emit(entryActions.logout(false));
     };
 
-    const handleUserUpdate = ({ item }) => {
-      emit(handleUserUpdateAction(item));
-    };
+    const handleUserCreate = api.makeHandleUserCreate(({ item }) => {
+      emit(entryActions.handleUserCreate(item));
+    });
 
-    const handleUserDelete = ({ item }) => {
-      emit(handleUserDeleteAction(item));
-    };
+    const handleUserUpdate = api.makeHandleUserUpdate(({ item }) => {
+      emit(entryActions.handleUserUpdate(item));
+    });
+
+    const handleUserDelete = api.makeHandleUserDelete(({ item }) => {
+      emit(entryActions.handleUserDelete(item));
+    });
 
     const handleProjectCreate = ({ item }) => {
-      emit(handleProjectCreateAction(item));
+      emit(entryActions.handleProjectCreate(item));
     };
 
     const handleProjectUpdate = ({ item }) => {
-      emit(handleProjectUpdateAction(item));
+      emit(entryActions.handleProjectUpdate(item));
     };
 
     const handleProjectDelete = ({ item }) => {
-      emit(handleProjectDeleteAction(item));
+      emit(entryActions.handleProjectDelete(item));
     };
 
-    const handleProjectManagerCreate = ({ item }) => {
-      emit(handleProjectManagerCreateAction(item));
-    };
+    const handleProjectManagerCreate = api.makeHandleProjectManagerCreate(({ item }) => {
+      emit(entryActions.handleProjectManagerCreate(item));
+    });
 
-    const handleProjectManagerDelete = ({ item }) => {
-      emit(handleProjectManagerDeleteAction(item));
-    };
+    const handleProjectManagerDelete = api.makeHandleProjectManagerDelete(({ item }) => {
+      emit(entryActions.handleProjectManagerDelete(item));
+    });
 
-    const handleBoardCreate = ({ item }) => {
-      emit(handleBoardCreateAction(item));
+    const handleBoardCreate = ({ item, requestId }) => {
+      emit(entryActions.handleBoardCreate(item, requestId));
     };
 
     const handleBoardUpdate = ({ item }) => {
-      emit(handleBoardUpdateAction(item));
+      emit(entryActions.handleBoardUpdate(item));
     };
 
     const handleBoardDelete = ({ item }) => {
-      emit(handleBoardDeleteAction(item));
+      emit(entryActions.handleBoardDelete(item));
     };
 
-    const handleBoardMembershipCreate = ({ item }) => {
-      emit(handleBoardMembershipCreateAction(item));
-    };
+    const handleBoardMembershipCreate = api.makeHandleBoardMembershipCreate(({ item }) => {
+      emit(entryActions.handleBoardMembershipCreate(item));
+    });
 
-    const handleBoardMembershipDelete = ({ item }) => {
-      emit(handleBoardMembershipDeleteAction(item));
-    };
+    const handleBoardMembershipUpdate = api.makeHandleBoardMembershipUpdate(({ item }) => {
+      emit(entryActions.handleBoardMembershipUpdate(item));
+    });
+
+    const handleBoardMembershipDelete = api.makeHandleBoardMembershipDelete(({ item }) => {
+      emit(entryActions.handleBoardMembershipDelete(item));
+    });
 
     const handleListCreate = ({ item }) => {
-      emit(handleListCreateAction(item));
+      emit(entryActions.handleListCreate(item));
     };
 
     const handleListUpdate = ({ item }) => {
-      emit(handleListUpdateAction(item));
+      emit(entryActions.handleListUpdate(item));
     };
 
+    const handleListSort = api.makeHandleListSort(({ item, included: { cards } }) => {
+      emit(entryActions.handleListSort(item, cards));
+    });
+
     const handleListDelete = ({ item }) => {
-      emit(handleListDeleteAction(item));
+      emit(entryActions.handleListDelete(item));
     };
 
     const handleLabelCreate = ({ item }) => {
-      emit(handleLabelCreateAction(item));
+      emit(entryActions.handleLabelCreate(item));
     };
 
     const handleLabelUpdate = ({ item }) => {
-      emit(handleLabelUpdateAction(item));
+      emit(entryActions.handleLabelUpdate(item));
     };
 
     const handleLabelDelete = ({ item }) => {
-      emit(handleLabelDeleteAction(item));
+      emit(entryActions.handleLabelDelete(item));
     };
 
     const handleCardCreate = api.makeHandleCardCreate(({ item }) => {
-      emit(handleCardCreateAction(item));
+      emit(entryActions.handleCardCreate(item));
     });
 
     const handleCardUpdate = api.makeHandleCardUpdate(({ item }) => {
-      emit(handleCardUpdateAction(item));
+      emit(entryActions.handleCardUpdate(item));
     });
 
     const handleCardDelete = api.makeHandleCardDelete(({ item }) => {
-      emit(handleCardDeleteAction(item));
+      emit(entryActions.handleCardDelete(item));
     });
 
     const handleUserToCardAdd = ({ item }) => {
-      emit(handleUserToCardAddAction(item));
+      emit(entryActions.handleUserToCardAdd(item));
     };
 
     const handleUserFromCardRemove = ({ item }) => {
-      emit(handleUserFromCardRemoveAction(item));
+      emit(entryActions.handleUserFromCardRemove(item));
     };
 
     const handleLabelToCardAdd = ({ item }) => {
-      emit(handleLabelToCardAddAction(item));
+      emit(entryActions.handleLabelToCardAdd(item));
     };
 
     const handleLabelFromCardRemove = ({ item }) => {
-      emit(handleLabelFromCardRemoveAction(item));
+      emit(entryActions.handleLabelFromCardRemove(item));
     };
 
     const handleTaskCreate = ({ item }) => {
-      emit(handleTaskCreateAction(item));
+      emit(entryActions.handleTaskCreate(item));
     };
 
     const handleTaskUpdate = ({ item }) => {
-      emit(handleTaskUpdateAction(item));
+      emit(entryActions.handleTaskUpdate(item));
     };
 
     const handleTaskDelete = ({ item }) => {
-      emit(handleTaskDeleteAction(item));
+      emit(entryActions.handleTaskDelete(item));
     };
 
     const handleAttachmentCreate = api.makeHandleAttachmentCreate(({ item, requestId }) => {
-      emit(handleAttachmentCreateAction(item, requestId));
+      emit(entryActions.handleAttachmentCreate(item, requestId));
     });
 
     const handleAttachmentUpdate = api.makeHandleAttachmentUpdate(({ item }) => {
-      emit(handleAttachmentUpdateAction(item));
+      emit(entryActions.handleAttachmentUpdate(item));
     });
 
     const handleAttachmentDelete = api.makeHandleAttachmentDelete(({ item }) => {
-      emit(handleAttachmentDeleteAction(item));
+      emit(entryActions.handleAttachmentDelete(item));
     });
 
-    const handleActionCreate = api.makeHandleActionCreate(({ item }) => {
-      emit(handleActionCreateAction(item));
+    const handleActivityCreate = api.makeHandleActivityCreate(({ item }) => {
+      emit(entryActions.handleActivityCreate(item));
     });
 
-    const handleActionUpdate = api.makeHandleActionUpdate(({ item }) => {
-      emit(handleActionUpdateAction(item));
+    const handleActivityUpdate = api.makeHandleActivityUpdate(({ item }) => {
+      emit(entryActions.handleActivityUpdate(item));
     });
 
-    const handleActionDelete = api.makeHandleActionDelete(({ item }) => {
-      emit(handleActionDeleteAction(item));
+    const handleActivityDelete = api.makeHandleActivityDelete(({ item }) => {
+      emit(entryActions.handleActivityDelete(item));
     });
 
-    const handleNotificationCreate = ({ item }) => {
-      emit(handleNotificationCreateAction(item));
-    };
+    const handleNotificationCreate = api.makeHandleNotificationCreate(({ item }) => {
+      emit(entryActions.handleNotificationCreate(item));
+    });
 
-    const handleNotificationDelete = ({ item }) => {
-      emit(handleNotificationDeleteAction(item));
-    };
+    const handleNotificationUpdate = api.makeHandleNotificationUpdate(({ item }) => {
+      emit(entryActions.handleNotificationDelete(item));
+    });
 
     socket.on('disconnect', handleDisconnect);
     socket.on('reconnect', handleReconnect);
+
+    socket.on('logout', handleLogout);
 
     socket.on('userCreate', handleUserCreate);
     socket.on('userUpdate', handleUserUpdate);
@@ -223,10 +197,12 @@ const createSocketEventsChannel = () =>
     socket.on('boardDelete', handleBoardDelete);
 
     socket.on('boardMembershipCreate', handleBoardMembershipCreate);
+    socket.on('boardMembershipUpdate', handleBoardMembershipUpdate);
     socket.on('boardMembershipDelete', handleBoardMembershipDelete);
 
     socket.on('listCreate', handleListCreate);
     socket.on('listUpdate', handleListUpdate);
+    socket.on('listSort', handleListSort);
     socket.on('listDelete', handleListDelete);
 
     socket.on('labelCreate', handleLabelCreate);
@@ -251,16 +227,18 @@ const createSocketEventsChannel = () =>
     socket.on('attachmentUpdate', handleAttachmentUpdate);
     socket.on('attachmentDelete', handleAttachmentDelete);
 
-    socket.on('actionCreate', handleActionCreate);
-    socket.on('actionUpdate', handleActionUpdate);
-    socket.on('actionDelete', handleActionDelete);
+    socket.on('actionCreate', handleActivityCreate);
+    socket.on('actionUpdate', handleActivityUpdate);
+    socket.on('actionDelete', handleActivityDelete);
 
     socket.on('notificationCreate', handleNotificationCreate);
-    socket.on('notificationUpdate', handleNotificationDelete);
+    socket.on('notificationUpdate', handleNotificationUpdate);
 
     return () => {
       socket.off('disconnect', handleDisconnect);
       socket.off('reconnect', handleReconnect);
+
+      socket.off('logout', handleLogout);
 
       socket.off('userCreate', handleUserCreate);
       socket.off('userUpdate', handleUserUpdate);
@@ -278,10 +256,12 @@ const createSocketEventsChannel = () =>
       socket.off('boardDelete', handleBoardDelete);
 
       socket.off('boardMembershipCreate', handleBoardMembershipCreate);
+      socket.off('boardMembershipUpdate', handleBoardMembershipUpdate);
       socket.off('boardMembershipDelete', handleBoardMembershipDelete);
 
       socket.off('listCreate', handleListCreate);
       socket.off('listUpdate', handleListUpdate);
+      socket.off('listSort', handleListSort);
       socket.off('listDelete', handleListDelete);
 
       socket.off('labelCreate', handleLabelCreate);
@@ -306,21 +286,23 @@ const createSocketEventsChannel = () =>
       socket.off('attachmentUpdate', handleAttachmentUpdate);
       socket.off('attachmentDelete', handleAttachmentDelete);
 
-      socket.off('actionCreate', handleActionCreate);
-      socket.off('actionUpdate', handleActionUpdate);
-      socket.off('actionDelete', handleActionDelete);
+      socket.off('actionCreate', handleActivityCreate);
+      socket.off('actionUpdate', handleActivityUpdate);
+      socket.off('actionDelete', handleActivityDelete);
 
       socket.off('notificationCreate', handleNotificationCreate);
-      socket.off('notificationUpdate', handleNotificationDelete);
+      socket.off('notificationUpdate', handleNotificationUpdate);
     };
   });
 
 export default function* socketWatchers() {
   yield all([
     yield takeEvery(EntryActionTypes.SOCKET_DISCONNECT_HANDLE, () =>
-      handleSocketDisconnectService(),
+      services.handleSocketDisconnect(),
     ),
-    yield takeEvery(EntryActionTypes.SOCKET_RECONNECT_HANDLE, () => handleSocketReconnectService()),
+    yield takeEvery(EntryActionTypes.SOCKET_RECONNECT_HANDLE, () =>
+      services.handleSocketReconnect(),
+    ),
   ]);
 
   const socketEventsChannel = yield call(createSocketEventsChannel);

@@ -5,12 +5,12 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
-import { closePopup } from '../../lib/popup';
+import { closePopup, usePopup } from '../../lib/popup';
 
 import Paths from '../../constants/Paths';
 import DroppableTypes from '../../constants/DroppableTypes';
-import AddPopup from './AddPopup';
-import EditPopup from './EditPopup';
+import AddStep from './AddStep';
+import EditStep from './EditStep';
 
 import styles from './Boards.module.scss';
 
@@ -51,6 +51,9 @@ const Boards = React.memo(({ items, currentId, canEdit, onCreate, onUpdate, onMo
     },
     [onDelete],
   );
+
+  const AddPopup = usePopup(AddStep);
+  const EditPopup = usePopup(EditStep);
 
   const itemsNode = items.map((item, index) => (
     <Draggable

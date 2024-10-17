@@ -29,7 +29,7 @@
   }
 
   .link {
-    color: #fff;
+    color: rgba(255, 255, 255, 0.72);
     cursor: pointer;
     display: block;
     line-height: 20px;
@@ -60,6 +60,11 @@
     &:hover {
       background: rgba(0, 0, 0, 0.32);
     }
+
+    .link {
+      color: #fff;
+      font-weight: bold;
+    }
   }
 
   .tabWrapper {
@@ -80,7 +85,6 @@
     height: 56px;
     overflow-x: auto;
     overflow-y: hidden;
-    scrollbar-width: thin;
 
     &:hover {
       height: 38px;

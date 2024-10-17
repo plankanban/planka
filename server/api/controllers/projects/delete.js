@@ -34,7 +34,11 @@ module.exports = {
       throw Errors.PROJECT_NOT_FOUND; // Forbidden
     }
 
-    project = await sails.helpers.projects.deleteOne(project, this.req);
+    project = await sails.helpers.projects.deleteOne.with({
+      record: project,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;

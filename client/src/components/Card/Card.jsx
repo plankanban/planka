@@ -4,15 +4,17 @@ import classNames from 'classnames';
 import { Button, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Draggable } from 'react-beautiful-dnd';
+import { usePopup } from '../../lib/popup';
 
+import { startStopwatch, stopStopwatch } from '../../utils/stopwatch';
 import Paths from '../../constants/Paths';
 import Tasks from './Tasks';
 import NameEdit from './NameEdit';
-import ActionsPopup from './ActionsPopup';
+import ActionsStep from './ActionsStep';
 import User from '../User';
 import Label from '../Label';
 import DueDate from '../DueDate';
-import Timer from '../Timer';
+import Stopwatch from '../Stopwatch';
 
 import styles from './Card.module.scss';
 
@@ -22,7 +24,8 @@ const Card = React.memo(
     index,
     name,
     dueDate,
-    timer,
+    isDueDateCompleted,
+    stopwatch,
     coverUrl,
     boardId,
     listId,
@@ -39,6 +42,7 @@ const Card = React.memo(
     onUpdate,
     onMove,
     onTransfer,
+    onDuplicate,
     onDelete,
     onUserAdd,
     onUserRemove,
@@ -47,6 +51,7 @@ const Card = React.memo(
     onLabelRemove,
     onLabelCreate,
     onLabelUpdate,
+    onLabelMove,
     onLabelDelete,
   }) => {
     const nameEdit = useRef(null);
@@ -56,6 +61,17 @@ const Card = React.memo(
         document.activeElement.blur();
       }
     }, []);
+
+    const handleToggleStopwatchClick = useCallback(
+      (event) => {
+        event.preventDefault();
+
+        onUpdate({
+          stopwatch: stopwatch.startedAt ? stopStopwatch(stopwatch) : startStopwatch(stopwatch),
+        });
+      },
+      [stopwatch, onUpdate],
+    );
 
     const handleNameUpdate = useCallback(
       (newName) => {
@@ -69,6 +85,8 @@ const Card = React.memo(
     const handleNameEdit = useCallback(() => {
       nameEdit.current.open();
     }, []);
+
+    const ActionsPopup = usePopup(ActionsStep);
 
     const contentNode = (
       <>
@@ -88,7 +106,7 @@ const Card = React.memo(
           )}
           <div className={styles.name}>{name}</div>
           {tasks.length > 0 && <Tasks items={tasks} />}
-          {(dueDate || timer || notificationsTotal > 0) && (
+          {(dueDate || stopwatch || notificationsTotal > 0) && (
             <span className={styles.attachments}>
               {notificationsTotal > 0 && (
                 <span
@@ -103,12 +121,18 @@ const Card = React.memo(
               )}
               {dueDate && (
                 <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                  <DueDate value={dueDate} size="tiny" />
+                  <DueDate value={dueDate} isCompleted={isDueDateCompleted} size="tiny" />
                 </span>
               )}
-              {timer && (
+              {stopwatch && (
                 <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                  <Timer startedAt={timer.startedAt} total={timer.total} size="tiny" />
+                  <Stopwatch
+                    as="span"
+                    startedAt={stopwatch.startedAt}
+                    total={stopwatch.total}
+                    size="tiny"
+                    onClick={canEdit ? handleToggleStopwatchClick : undefined}
+                  />
                 </span>
               )}
             </span>
@@ -148,14 +172,11 @@ const Card = React.memo(
                     {canEdit && (
                       <ActionsPopup
                         card={{
-                          id,
-                          name,
                           dueDate,
-                          timer,
+                          stopwatch,
                           boardId,
                           listId,
                           projectId,
-                          isPersisted,
                         }}
                         projectsToLists={allProjectsToLists}
                         boardMemberships={allBoardMemberships}
@@ -166,6 +187,7 @@ const Card = React.memo(
                         onUpdate={onUpdate}
                         onMove={onMove}
                         onTransfer={onTransfer}
+                        onDuplicate={onDuplicate}
                         onDelete={onDelete}
                         onUserAdd={onUserAdd}
                         onUserRemove={onUserRemove}
@@ -174,6 +196,7 @@ const Card = React.memo(
                         onLabelRemove={onLabelRemove}
                         onLabelCreate={onLabelCreate}
                         onLabelUpdate={onLabelUpdate}
+                        onLabelMove={onLabelMove}
                         onLabelDelete={onLabelDelete}
                       >
                         <Button className={classNames(styles.actionsButton, styles.target)}>
@@ -199,7 +222,8 @@ Card.propTypes = {
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   dueDate: PropTypes.instanceOf(Date),
-  timer: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  isDueDateCompleted: PropTypes.bool,
+  stopwatch: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   coverUrl: PropTypes.string,
   boardId: PropTypes.string.isRequired,
   listId: PropTypes.string.isRequired,
@@ -218,6 +242,7 @@ Card.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onMove: PropTypes.func.isRequired,
   onTransfer: PropTypes.func.isRequired,
+  onDuplicate: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onUserAdd: PropTypes.func.isRequired,
   onUserRemove: PropTypes.func.isRequired,
@@ -226,12 +251,14 @@ Card.propTypes = {
   onLabelRemove: PropTypes.func.isRequired,
   onLabelCreate: PropTypes.func.isRequired,
   onLabelUpdate: PropTypes.func.isRequired,
+  onLabelMove: PropTypes.func.isRequired,
   onLabelDelete: PropTypes.func.isRequired,
 };
 
 Card.defaultProps = {
   dueDate: undefined,
-  timer: undefined,
+  isDueDateCompleted: undefined,
+  stopwatch: undefined,
   coverUrl: undefined,
 };
 

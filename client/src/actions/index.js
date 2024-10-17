@@ -1,19 +1,39 @@
-export * from './router';
-export * from './socket';
-export * from './login';
-export * from './core';
-export * from './modal';
-export * from './user';
-export * from './project';
-export * from './project-manager';
-export * from './board';
-export * from './board-membership';
-export * from './label';
-export * from './list';
-export * from './card';
-export * from './task';
-export * from './attachment';
-export * from './actions';
-export * from './action';
-export * from './comment-action';
-export * from './notification';
+import router from './router';
+import socket from './socket';
+import login from './login';
+import core from './core';
+import modals from './modals';
+import users from './users';
+import projects from './projects';
+import projectManagers from './project-managers';
+import boards from './boards';
+import boardMemberships from './board-memberships';
+import labels from './labels';
+import lists from './lists';
+import cards from './cards';
+import tasks from './tasks';
+import attachments from './attachments';
+import activities from './activities';
+import commentActivities from './comment-activities';
+import notifications from './notifications';
+
+export default {
+  ...router,
+  ...socket,
+  ...login,
+  ...core,
+  ...modals,
+  ...users,
+  ...projects,
+  ...projectManagers,
+  ...boards,
+  ...boardMemberships,
+  ...labels,
+  ...lists,
+  ...cards,
+  ...tasks,
+  ...attachments,
+  ...activities,
+  ...commentActivities,
+  ...notifications,
+};

@@ -9,16 +9,37 @@
 module.exports = function defineCurrentUserHook(sails) {
   const TOKEN_PATTERN = /^Bearer /;
 
-  const getUser = async (accessToken) => {
-    let id;
-
+  const getSessionAndUser = async (accessToken, httpOnlyToken) => {
+    let payload;
     try {
-      id = sails.helpers.utils.verifyToken(accessToken);
+      payload = sails.helpers.utils.verifyJwtToken(accessToken);
     } catch (error) {
       return null;
     }
 
-    return sails.helpers.users.getOne(id);
+    const session = await Session.findOne({
+      accessToken,
+      deletedAt: null,
+    });
+
+    if (!session) {
+      return null;
+    }
+
+    if (session.httpOnlyToken && httpOnlyToken !== session.httpOnlyToken) {
+      return null;
+    }
+
+    const user = await sails.helpers.users.getOne(payload.subject);
+
+    if (user && user.passwordChangedAt > payload.issuedAt) {
+      return null;
+    }
+
+    return {
+      session,
+      user,
+    };
   };
 
   return {
@@ -32,14 +53,49 @@ module.exports = function defineCurrentUserHook(sails) {
 
     routes: {
       before: {
-        '/*': {
+        '/api/*': {
           async fn(req, res, next) {
             const { authorization: authorizationHeader } = req.headers;
 
             if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
               const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
+              const { httpOnlyToken } = req.cookies;
 
-              req.currentUser = await getUser(accessToken);
+              const sessionAndUser = await getSessionAndUser(accessToken, httpOnlyToken);
+
+              if (sessionAndUser) {
+                const { session, user } = sessionAndUser;
+
+                Object.assign(req, {
+                  currentSession: session,
+                  currentUser: user,
+                });
+
+                if (req.isSocket) {
+                  sails.sockets.join(req, `@accessToken:${session.accessToken}`);
+                  sails.sockets.join(req, `@user:${user.id}`);
+                }
+              }
+            }
+
+            return next();
+          },
+        },
+        '/attachments/*': {
+          async fn(req, res, next) {
+            const { accessToken, httpOnlyToken } = req.cookies;
+
+            if (accessToken) {
+              const sessionAndUser = await getSessionAndUser(accessToken, httpOnlyToken);
+
+              if (sessionAndUser) {
+                const { session, user } = sessionAndUser;
+
+                Object.assign(req, {
+                  currentSession: session,
+                  currentUser: user,
+                });
+              }
             }
 
             return next();

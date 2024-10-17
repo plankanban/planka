@@ -1,16 +1,20 @@
+const recordsOrIdsValidator = (value) =>
+  _.every(value, _.isPlainObject) || _.every(value, _.isString);
+
 module.exports = {
   inputs: {
     recordsOrIds: {
       type: 'json',
-      custom: (value) => _.every(value, _.isObjectLike) || _.every(value, _.isString),
+      custom: recordsOrIdsValidator,
       required: true,
     },
     values: {
       type: 'json',
       required: true,
     },
-    user: {
+    actorUser: {
       type: 'ref',
+      required: true,
     },
     request: {
       type: 'ref',
@@ -18,19 +22,21 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const criteria = {};
+    const { values } = inputs;
 
-    if (_.every(inputs.recordsOrIds, _.isObjectLike)) {
+    const criteria = {
+      userId: inputs.actorUser.id,
+    };
+
+    if (_.every(inputs.recordsOrIds, _.isPlainObject)) {
       criteria.id = sails.helpers.utils.mapRecords(inputs.recordsOrIds);
     } else if (_.every(inputs.recordsOrIds, _.isString)) {
       criteria.id = inputs.recordsOrIds;
     }
 
-    if (inputs.user) {
-      criteria.userId = inputs.user.id;
-    }
-
-    const notifications = await Notification.update(criteria).set(inputs.values).fetch();
+    const notifications = await Notification.update(criteria)
+      .set({ ...values })
+      .fetch();
 
     notifications.forEach((notification) => {
       sails.sockets.broadcast(
@@ -41,6 +47,14 @@ module.exports = {
         },
         inputs.request,
       );
+
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'notificationUpdate',
+        data: {
+          item: notification,
+        },
+        user: inputs.actorUser,
+      });
     });
 
     return notifications;

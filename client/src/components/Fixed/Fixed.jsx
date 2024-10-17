@@ -7,13 +7,15 @@ import BoardActionsContainer from '../../containers/BoardActionsContainer';
 
 import styles from './Fixed.module.scss';
 
-const Fixed = ({ projectId, board }) => (
-  <div className={styles.wrapper}>
-    <HeaderContainer />
-    {projectId && <ProjectContainer />}
-    {board && !board.isFetching && <BoardActionsContainer />}
-  </div>
-);
+function Fixed({ projectId, board }) {
+  return (
+    <div className={styles.wrapper}>
+      <HeaderContainer />
+      {projectId && <ProjectContainer />}
+      {board && !board.isFetching && <BoardActionsContainer />}
+    </div>
+  );
+}
 
 Fixed.propTypes = {
   projectId: PropTypes.string,

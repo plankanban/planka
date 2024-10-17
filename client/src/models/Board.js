@@ -1,13 +1,17 @@
-import { Model, attr, fk, many } from 'redux-orm';
+import orderBy from 'lodash/orderBy';
+import { attr, fk, many } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+import User from './User';
+import Label from './Label';
+
+export default class extends BaseModel {
   static modelName = 'Board';
 
   static fields = {
     id: attr(),
-    type: attr(),
     position: attr(),
     name: attr(),
     isFetching: attr({
@@ -25,16 +29,20 @@ export default class extends Model {
     }),
     filterUsers: many('User', 'filterBoards'),
     filterLabels: many('Label', 'filterBoards'),
+    filterText: attr({
+      getDefault: () => '',
+    }),
   };
 
   static reducer({ type, payload }, Board) {
     switch (type) {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
-      case ActionTypes.BOARD_FETCH__SUCCESS:
-        Board.upsert({
-          ...payload.board,
-          isFetching: false,
-        });
+        if (payload.board) {
+          Board.upsert({
+            ...payload.board,
+            isFetching: false,
+          });
+        }
 
         break;
       case ActionTypes.LOCATION_CHANGE_HANDLE__BOARD_FETCH:
@@ -124,7 +132,10 @@ export default class extends Model {
         break;
       case ActionTypes.BOARD_CREATE__SUCCESS:
         Board.withId(payload.localId).delete();
+        Board.upsert(payload.board);
 
+        break;
+      case ActionTypes.BOARD_FETCH__SUCCESS:
         Board.upsert({
           ...payload.board,
           isFetching: false,
@@ -163,24 +174,85 @@ export default class extends Model {
         Board.withId(payload.boardId).filterLabels.remove(payload.id);
 
         break;
+      case ActionTypes.TEXT_FILTER_IN_CURRENT_BOARD: {
+        const board = Board.withId(payload.boardId);
+        let filterText = payload.text;
+        const posSpace = filterText.indexOf(' ');
+
+        // Shortcut to user filters
+        const posAT = filterText.indexOf('@');
+        if (posAT >= 0 && posSpace > 0 && posAT < posSpace) {
+          const userId = User.findUsersFromText(
+            filterText.substring(posAT + 1, posSpace),
+            board.memberships.toModelArray().map((membership) => membership.user),
+          );
+          if (
+            userId &&
+            board.filterUsers.toModelArray().filter((user) => user.id === userId).length === 0
+          ) {
+            board.filterUsers.add(userId);
+            filterText = filterText.substring(0, posAT);
+          }
+        }
+
+        // Shortcut to label filters
+        const posSharp = filterText.indexOf('#');
+        if (posSharp >= 0 && posSpace > 0 && posSharp < posSpace) {
+          const labelId = Label.findLabelsFromText(
+            filterText.substring(posSharp + 1, posSpace),
+            board.labels.toModelArray(),
+          );
+          if (
+            labelId &&
+            board.filterLabels.toModelArray().filter((label) => label.id === labelId).length === 0
+          ) {
+            board.filterLabels.add(labelId);
+            filterText = filterText.substring(0, posSharp);
+          }
+        }
+
+        board.update({ filterText });
+
+        break;
+      }
       default:
     }
   }
 
-  getOrderedMembershipsQuerySet() {
-    return this.memberships.orderBy('id');
+  getOrderedLabelsQuerySet() {
+    return this.labels.orderBy('position');
   }
 
   getOrderedListsQuerySet() {
     return this.lists.orderBy('position');
   }
 
-  hasMemberUser(userId) {
+  getOrderedMembershipsModelArray() {
+    return orderBy(this.memberships.toModelArray(), (boardMembershipModel) =>
+      boardMembershipModel.user.name.toLocaleLowerCase(),
+    );
+  }
+
+  getMembershipModelForUser(userId) {
+    return this.memberships
+      .filter({
+        userId,
+      })
+      .first();
+  }
+
+  hasMembershipForUser(userId) {
     return this.memberships
       .filter({
         userId,
       })
       .exists();
+  }
+
+  isAvailableForUser(userId) {
+    return (
+      this.project && (this.project.hasManagerForUser(userId) || this.hasMembershipForUser(userId))
+    );
   }
 
   deleteRelated(exceptMemberUserId) {

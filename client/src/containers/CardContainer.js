@@ -1,64 +1,43 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import {
-  isCurrentUserMemberForCurrentBoardSelector,
-  labelsForCurrentBoardSelector,
-  makeCardByIdSelector,
-  makeLabelsByCardIdSelector,
-  makeNotificationsTotalByCardIdSelector,
-  makeTasksByCardIdSelector,
-  makeUsersByCardIdSelector,
-  membershipsForCurrentBoardSelector,
-  pathSelector,
-  projectsToListsForCurrentUserSelector,
-} from '../selectors';
-import {
-  addLabelToCard,
-  addUserToCard,
-  createLabelInCurrentBoard,
-  deleteCard,
-  deleteLabel,
-  fetchBoard,
-  moveCard,
-  removeLabelFromCard,
-  removeUserFromCard,
-  transferCard,
-  updateLabel,
-  updateCard,
-} from '../actions/entry';
+import selectors from '../selectors';
+import entryActions from '../entry-actions';
+import { BoardMembershipRoles } from '../constants/Enums';
 import Card from '../components/Card';
 
 const makeMapStateToProps = () => {
-  const cardByIdSelector = makeCardByIdSelector();
-  const usersByCardIdSelector = makeUsersByCardIdSelector();
-  const labelsByCardIdSelector = makeLabelsByCardIdSelector();
-  const tasksByCardIdSelector = makeTasksByCardIdSelector();
-  const notificationsTotalByCardIdSelector = makeNotificationsTotalByCardIdSelector();
+  const selectCardById = selectors.makeSelectCardById();
+  const selectUsersByCardId = selectors.makeSelectUsersByCardId();
+  const selectLabelsByCardId = selectors.makeSelectLabelsByCardId();
+  const selectTasksByCardId = selectors.makeSelectTasksByCardId();
+  const selectNotificationsTotalByCardId = selectors.makeSelectNotificationsTotalByCardId();
 
   return (state, { id, index }) => {
-    const { projectId } = pathSelector(state);
-    const allProjectsToLists = projectsToListsForCurrentUserSelector(state);
-    const allBoardMemberships = membershipsForCurrentBoardSelector(state);
-    const allLabels = labelsForCurrentBoardSelector(state);
-    const isCurrentUserMember = isCurrentUserMemberForCurrentBoardSelector(state);
+    const { projectId } = selectors.selectPath(state);
+    const allProjectsToLists = selectors.selectProjectsToListsForCurrentUser(state);
+    const allBoardMemberships = selectors.selectMembershipsForCurrentBoard(state);
+    const allLabels = selectors.selectLabelsForCurrentBoard(state);
+    const currentUserMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
-    const { name, dueDate, timer, coverUrl, boardId, listId, isPersisted } = cardByIdSelector(
-      state,
-      id,
-    );
+    const { name, dueDate, isDueDateCompleted, stopwatch, coverUrl, boardId, listId, isPersisted } =
+      selectCardById(state, id);
 
-    const users = usersByCardIdSelector(state, id);
-    const labels = labelsByCardIdSelector(state, id);
-    const tasks = tasksByCardIdSelector(state, id);
-    const notificationsTotal = notificationsTotalByCardIdSelector(state, id);
+    const users = selectUsersByCardId(state, id);
+    const labels = selectLabelsByCardId(state, id);
+    const tasks = selectTasksByCardId(state, id);
+    const notificationsTotal = selectNotificationsTotalByCardId(state, id);
+
+    const isCurrentUserEditor =
+      !!currentUserMembership && currentUserMembership.role === BoardMembershipRoles.EDITOR;
 
     return {
       id,
       index,
       name,
       dueDate,
-      timer,
+      isDueDateCompleted,
+      stopwatch,
       coverUrl,
       boardId,
       listId,
@@ -71,7 +50,7 @@ const makeMapStateToProps = () => {
       allProjectsToLists,
       allBoardMemberships,
       allLabels,
-      canEdit: isCurrentUserMember,
+      canEdit: isCurrentUserEditor,
     };
   };
 };
@@ -79,18 +58,20 @@ const makeMapStateToProps = () => {
 const mapDispatchToProps = (dispatch, { id }) =>
   bindActionCreators(
     {
-      onUpdate: (data) => updateCard(id, data),
-      onMove: (listId, index) => moveCard(id, listId, index),
-      onTransfer: (boardId, listId) => transferCard(id, boardId, listId),
-      onDelete: () => deleteCard(id),
-      onUserAdd: (userId) => addUserToCard(userId, id),
-      onUserRemove: (userId) => removeUserFromCard(userId, id),
-      onBoardFetch: fetchBoard,
-      onLabelAdd: (labelId) => addLabelToCard(labelId, id),
-      onLabelRemove: (labelId) => removeLabelFromCard(labelId, id),
-      onLabelCreate: (data) => createLabelInCurrentBoard(data),
-      onLabelUpdate: (labelId, data) => updateLabel(labelId, data),
-      onLabelDelete: (labelId) => deleteLabel(labelId),
+      onUpdate: (data) => entryActions.updateCard(id, data),
+      onMove: (listId, index) => entryActions.moveCard(id, listId, index),
+      onTransfer: (boardId, listId) => entryActions.transferCard(id, boardId, listId),
+      onDuplicate: () => entryActions.duplicateCard(id),
+      onDelete: () => entryActions.deleteCard(id),
+      onUserAdd: (userId) => entryActions.addUserToCard(userId, id),
+      onUserRemove: (userId) => entryActions.removeUserFromCard(userId, id),
+      onBoardFetch: entryActions.fetchBoard,
+      onLabelAdd: (labelId) => entryActions.addLabelToCard(labelId, id),
+      onLabelRemove: (labelId) => entryActions.removeLabelFromCard(labelId, id),
+      onLabelCreate: (data) => entryActions.createLabelInCurrentBoard(data),
+      onLabelUpdate: (labelId, data) => entryActions.updateLabel(labelId, data),
+      onLabelMove: (labelId, index) => entryActions.moveLabel(labelId, index),
+      onLabelDelete: (labelId) => entryActions.deleteLabel(labelId),
     },
     dispatch,
   );

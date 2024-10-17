@@ -1,0 +1,18 @@
+:global(#app) {
+  .menu {
+    margin: 0 auto 8px;
+    width: 100%;
+  }
+
+  .menuItemDescription {
+    opacity: 0.5;
+  }
+
+  .menuItemTitle {
+    margin-bottom: 8px;
+  }
+
+  .settings {
+    margin: 0 0 8px;
+  }
+}

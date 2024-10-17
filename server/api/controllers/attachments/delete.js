@@ -1,4 +1,7 @@
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   ATTACHMENT_NOT_FOUND: {
     attachmentNotFound: 'Attachment not found',
   },
@@ -14,6 +17,9 @@ module.exports = {
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     attachmentNotFound: {
       responseType: 'notFound',
     },
@@ -27,15 +33,30 @@ module.exports = {
       .intercept('pathNotFound', () => Errors.ATTACHMENT_NOT_FOUND);
 
     let { attachment } = path;
-    const { card, board } = path;
+    const { card, list, board, project } = path;
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
+    const boardMembership = await BoardMembership.findOne({
+      boardId: board.id,
+      userId: currentUser.id,
+    });
 
-    if (!isBoardMember) {
+    if (!boardMembership) {
       throw Errors.ATTACHMENT_NOT_FOUND; // Forbidden
     }
 
-    attachment = await sails.helpers.attachments.deleteOne(attachment, board, card, this.req);
+    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
+    attachment = await sails.helpers.attachments.deleteOne.with({
+      project,
+      board,
+      list,
+      card,
+      record: attachment,
+      actorUser: currentUser,
+      request: this.req,
+    });
 
     if (!attachment) {
       throw Errors.ATTACHMENT_NOT_FOUND;

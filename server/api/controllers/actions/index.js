@@ -15,6 +15,9 @@ module.exports = {
       type: 'string',
       regex: /^[0-9]+$/,
     },
+    withDetails: {
+      type: 'boolean',
+    },
   },
 
   exits: {
@@ -43,7 +46,11 @@ module.exports = {
       }
     }
 
-    const actions = await sails.helpers.cards.getActions(card.id, inputs.beforeId);
+    const actions = await sails.helpers.cards.getActions(
+      card.id,
+      inputs.beforeId,
+      inputs.withDetails,
+    );
 
     const userIds = sails.helpers.utils.mapRecords(actions, 'userId', true);
     const users = await sails.helpers.users.getMany(userIds, true);

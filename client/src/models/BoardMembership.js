@@ -1,12 +1,18 @@
-import { Model, attr, fk } from 'redux-orm';
+import { attr, fk } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'BoardMembership';
 
   static fields = {
     id: attr(),
+    role: attr(),
+    canComment: attr(),
+    createdAt: attr({
+      getDefault: () => new Date(),
+    }),
     boardId: fk({
       to: 'Board',
       as: 'board',
@@ -64,6 +70,15 @@ export default class extends Model {
             BoardMembership.upsert(boardMembership);
           });
         }
+
+        break;
+      case ActionTypes.BOARD_MEMBERSHIP_UPDATE:
+        BoardMembership.withId(payload.id).update(payload.data);
+
+        break;
+      case ActionTypes.BOARD_MEMBERSHIP_UPDATE__SUCCESS:
+      case ActionTypes.BOARD_MEMBERSHIP_UPDATE_HANDLE:
+        BoardMembership.upsert(payload.boardMembership);
 
         break;
       case ActionTypes.BOARD_MEMBERSHIP_DELETE:

@@ -1,16 +1,18 @@
+const idOrIdsValidator = (value) => _.isString(value) || _.every(value, _.isString);
+
 module.exports = {
   inputs: {
     idOrIds: {
       type: 'json',
-      custom: (value) => _.isString(value) || _.every(value, _.isString),
+      custom: idOrIdsValidator,
       required: true,
     },
   },
 
   async fn(inputs) {
-    const managerUserIds = await sails.helpers.projects.getManagerUserIds(inputs.idOrIds);
-    const memberUserIds = await sails.helpers.projects.getBoardMemberUserIds(inputs.idOrIds);
+    const projectManagerUserIds = await sails.helpers.projects.getManagerUserIds(inputs.idOrIds);
+    const boardMemberUserIds = await sails.helpers.projects.getBoardMemberUserIds(inputs.idOrIds);
 
-    return _.union(managerUserIds, memberUserIds);
+    return _.union(projectManagerUserIds, boardMemberUserIds);
   },
 };

@@ -1,10 +1,29 @@
-*/node_modules
-*/.gitignore
 */README.md
+*/.gitignore
+*/node_modules
 
 **/.DS_Store
-**/.gitkeep
+
+server/**/.gitkeep
+
+server/.env
+server/.editorconfig
+server/.eslintignore
+server/.npmrc
+server/test
+server/logs
+server/.tmp
+
+server/views/*
 
 server/public/*
-server/views/*
+!server/public/user-avatars
+server/public/user-avatars/*
+!server/public/project-background-images
+server/public/project-background-images/*
+
+server/private/*
+!server/private/attachments
+server/private/attachments/*
+
 client/build

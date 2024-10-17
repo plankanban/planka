@@ -1,25 +1,26 @@
-import { LOCATION_CHANGE } from 'connected-react-router';
+import { LOCATION_CHANGE_HANDLE } from '../lib/redux-router';
 
 import ActionTypes from '../constants/ActionTypes';
 import ModalTypes from '../constants/ModalTypes';
 
 const initialState = {
-  isInitializing: true,
+  isLogouting: false,
   currentModal: null,
 };
 
+// eslint-disable-next-line default-param-last
 export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case LOCATION_CHANGE:
+    case LOCATION_CHANGE_HANDLE:
     case ActionTypes.MODAL_CLOSE:
       return {
         ...state,
         currentModal: null,
       };
-    case ActionTypes.CORE_INITIALIZE:
+    case ActionTypes.LOGOUT__ACCESS_TOKEN_INVALIDATE:
       return {
         ...state,
-        isInitializing: false,
+        isLogouting: true,
       };
     case ActionTypes.MODAL_OPEN:
       return {

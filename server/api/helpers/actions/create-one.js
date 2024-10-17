@@ -1,14 +1,59 @@
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.card)) {
+    return false;
+  }
+
+  if (!_.isPlainObject(value.user)) {
+    return false;
+  }
+
+  return true;
+};
+
+const buildAndSendMessage = async (card, action, actorUser, send) => {
+  const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
+
+  let markdown;
+  switch (action.type) {
+    case Action.Types.CREATE_CARD:
+      markdown = `${cardLink} was created by ${actorUser.name} in *${action.data.list.name}*`;
+
+      break;
+    case Action.Types.MOVE_CARD:
+      markdown = `${cardLink} was moved by ${actorUser.name} to *${action.data.toList.name}*`;
+
+      break;
+    case Action.Types.COMMENT_CARD:
+      markdown = `*${actorUser.name}* commented on ${cardLink}:\n>${action.data.text}`;
+
+      break;
+    default:
+      return;
+  }
+
+  await send(markdown);
+};
+
 module.exports = {
   inputs: {
     values: {
-      type: 'json',
+      type: 'ref',
+      custom: valuesValidator,
       required: true,
     },
-    user: {
+    project: {
       type: 'ref',
       required: true,
     },
-    card: {
+    board: {
+      type: 'ref',
+      required: true,
+    },
+    list: {
       type: 'ref',
       required: true,
     },
@@ -18,14 +63,16 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { values } = inputs;
+
     const action = await Action.create({
-      ...inputs.values,
-      cardId: inputs.card.id,
-      userId: inputs.user.id,
+      ...values,
+      cardId: values.card.id,
+      userId: values.user.id,
     }).fetch();
 
     sails.sockets.broadcast(
-      `board:${inputs.card.boardId}`,
+      `board:${values.card.boardId}`,
       'actionCreate',
       {
         item: action,
@@ -33,15 +80,53 @@ module.exports = {
       inputs.request,
     );
 
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'actionCreate',
+      data: {
+        item: action,
+        included: {
+          projects: [inputs.project],
+          boards: [inputs.board],
+          lists: [inputs.list],
+          cards: [values.card],
+        },
+      },
+      user: values.user,
+    });
+
     const subscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(
       action.cardId,
       action.userId,
     );
 
-    subscriptionUserIds.forEach(async (userId) => {
-      await sails.helpers.notifications.createOne(userId, action);
-    });
+    await Promise.all(
+      subscriptionUserIds.map(async (userId) =>
+        sails.helpers.notifications.createOne.with({
+          values: {
+            userId,
+            action,
+          },
+          project: inputs.project,
+          board: inputs.board,
+          list: inputs.list,
+          card: values.card,
+          actorUser: values.user,
+        }),
+      ),
+    );
 
+    if (sails.config.custom.slackBotToken) {
+      buildAndSendMessage(values.card, action, values.user, sails.helpers.utils.sendSlackMessage);
+    }
+
+    if (sails.config.custom.googleChatWebhookUrl) {
+      buildAndSendMessage(
+        values.card,
+        action,
+        values.user,
+        sails.helpers.utils.sendGoogleChatMessage,
+      );
+    }
     return action;
   },
 };

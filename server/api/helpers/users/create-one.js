@@ -1,28 +1,34 @@
 const bcrypt = require('bcrypt');
 
+const valuesValidator = (value) => {
+  if (!_.isPlainObject(value)) {
+    return false;
+  }
+
+  if (!_.isString(value.email)) {
+    return false;
+  }
+
+  if (!_.isNil(value.password) && !_.isString(value.password)) {
+    return false;
+  }
+
+  if (!_.isNil(value.username) && !_.isString(value.username)) {
+    return false;
+  }
+
+  return true;
+};
+
 module.exports = {
   inputs: {
     values: {
       type: 'json',
-      custom: (value) => {
-        if (!_.isPlainObject(value)) {
-          return false;
-        }
-
-        if (!_.isString(value.email)) {
-          return false;
-        }
-
-        if (!_.isString(value.password)) {
-          return false;
-        }
-
-        if (value.username && !_.isString(value.username)) {
-          return false;
-        }
-
-        return true;
-      },
+      custom: valuesValidator,
+      required: true,
+    },
+    actorUser: {
+      type: 'ref',
       required: true,
     },
     request: {
@@ -36,15 +42,19 @@ module.exports = {
   },
 
   async fn(inputs) {
-    if (inputs.values.username) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.values.username = inputs.values.username.toLowerCase();
+    const { values } = inputs;
+
+    if (values.password) {
+      values.password = bcrypt.hashSync(values.password, 10);
+    }
+
+    if (values.username) {
+      values.username = values.username.toLowerCase();
     }
 
     const user = await User.create({
-      ...inputs.values,
-      email: inputs.values.email.toLowerCase(),
-      password: bcrypt.hashSync(inputs.values.password, 10),
+      ...values,
+      email: values.email.toLowerCase(),
     })
       .intercept(
         {
@@ -76,6 +86,14 @@ module.exports = {
         },
         inputs.request,
       );
+    });
+
+    sails.helpers.utils.sendWebhooks.with({
+      event: 'userCreate',
+      data: {
+        item: user,
+      },
+      user: inputs.actorUser,
     });
 
     return user;

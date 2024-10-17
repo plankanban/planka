@@ -8,29 +8,19 @@
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "preinstall": "npx npm-force-resolutions",
     "start": "nodemon",
     "start:prod": "node app.js --prod",
-    "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js"
+    "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
   },
   "eslintConfig": {
-    "plugins": [
-      "prettier"
-    ],
     "extends": [
       "airbnb-base",
-      "plugin:prettier/recommended"
+      "../package.json"
     ],
     "rules": {
       "no-throw-literal": "off",
-      "no-undef": "off",
-      "prettier/prettier": [
-        "error",
-        {
-          "printWidth": 100,
-          "singleQuote": true,
-          "trailingComma": "all"
-        }
-      ]
+      "no-undef": "off"
     },
     "globals": {
       "_": true,
@@ -38,37 +28,43 @@
     }
   },
   "dependencies": {
-    "bcrypt": "^5.0.1",
-    "dotenv": "^10.0.0",
-    "dotenv-cli": "^4.0.0",
-    "filenamify": "^4.3.0",
-    "jsonwebtoken": "^8.5.1",
-    "knex": "^0.95.9",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
+    "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.1",
-    "rimraf": "^3.0.2",
-    "sails": "^1.4.4",
-    "sails-hook-orm": "^3.0.2",
-    "sails-hook-sockets": "^2.0.1",
-    "sails-postgresql-redacted": "^1.0.2-9",
-    "sharp": "^0.28.3",
+    "moment": "^2.30.1",
+    "move-file": "^2.1.0",
+    "nodemailer": "^6.9.15",
+    "openid-client": "^5.7.0",
+    "rimraf": "^5.0.10",
+    "sails": "^1.5.11",
+    "sails-hook-orm": "^4.0.3",
+    "sails-hook-sockets": "^3.0.1",
+    "sails-postgresql": "^5.0.1",
+    "serve-static": "^1.13.1",
+    "sharp": "^0.33.5",
     "stream-to-array": "^2.3.0",
-    "uuid": "^8.3.2",
-    "validator": "^13.6.0"
+    "uuid": "^9.0.1",
+    "validator": "^13.12.0",
+    "winston": "^3.14.2",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
-    "chai": "^4.3.4",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
-    "eslint-plugin-prettier": "^3.4.0",
-    "mocha": "^9.0.3",
-    "nodemon": "^2.0.12",
-    "prettier": "2.3.2",
-    "supertest": "^6.1.4"
+    "chai": "^4.5.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.30.0",
+    "mocha": "^10.7.3",
+    "nodemon": "^3.1.4"
+  },
+  "resolutions": {
+    "body-parser": "1.20.3",
+    "express": "4.21.0",
+    "send": "0.19.0"
   },
   "engines": {
-    "node": "^12.10"
+    "node": ">=18"
   }
 }

@@ -1,8 +1,9 @@
-import { Model, attr, fk } from 'redux-orm';
+import { attr, fk, oneToOne } from 'redux-orm';
 
+import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 
-export default class extends Model {
+export default class extends BaseModel {
   static modelName = 'Notification';
 
   static fields = {
@@ -15,15 +16,14 @@ export default class extends Model {
       as: 'user',
       relatedName: 'notifications',
     }),
-    actionId: fk({
-      to: 'Action',
-      as: 'action',
-      relatedName: 'notifications',
-    }),
     cardId: fk({
       to: 'Card',
       as: 'card',
       relatedName: 'notifications',
+    }),
+    activityId: oneToOne({
+      to: 'Activity',
+      as: 'activity',
     }),
   };
 
@@ -32,8 +32,8 @@ export default class extends Model {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
-        if (payload.notifications) {
-          payload.notifications.forEach((notification) => {
+        if (payload.deletedNotifications) {
+          payload.deletedNotifications.forEach((notification) => {
             Notification.withId(notification.id).deleteWithRelated();
           });
         }
