@@ -1,4 +1,4 @@
-class dashboardPage {
+class DashboardPage {
   constructor() {
     this.createProjectIconSelector = `.Projects_addTitle__tXhB4`;
     this.projectTitleInputSelector = `input[name="name"]`;
@@ -13,4 +13,4 @@ class dashboardPage {
   }
 }
 
-module.exports = dashboardPage;
+module.exports = DashboardPage;
