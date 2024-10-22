@@ -8,7 +8,6 @@
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "preinstall": "npx npm-force-resolutions",
     "start": "nodemon",
     "start:prod": "node app.js --prod",
     "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
@@ -39,7 +38,7 @@
     "nodemailer": "^6.9.15",
     "openid-client": "^5.7.0",
     "rimraf": "^5.0.10",
-    "sails": "^1.5.11",
+    "sails": "^1.5.12",
     "sails-hook-orm": "^4.0.3",
     "sails-hook-sockets": "^3.0.1",
     "sails-postgresql": "^5.0.1",
@@ -58,11 +57,6 @@
     "eslint-plugin-import": "^2.30.0",
     "mocha": "^10.7.3",
     "nodemon": "^3.1.4"
-  },
-  "resolutions": {
-    "body-parser": "1.20.3",
-    "express": "4.21.0",
-    "send": "0.19.0"
   },
   "engines": {
     "node": ">=18"
