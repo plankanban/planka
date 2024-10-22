@@ -35,6 +35,7 @@ const makeMapStateToProps = () => {
     const users = selectUsersByCardId(state, id);
     const labels = selectLabelsByCardId(state, id);
     const tasks = selectTasksByCardId(state, id);
+    const attachmentsTotal = selectors.selectAttachmentsTotalByCardId(state, id);
     const notificationsTotal = selectNotificationsTotalByCardId(state, id);
 
     const isCurrentUserEditor =
@@ -53,6 +54,7 @@ const makeMapStateToProps = () => {
       listId,
       projectId,
       isPersisted,
+      attachmentsTotal,
       notificationsTotal,
       users,
       labels,

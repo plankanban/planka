@@ -115,6 +115,23 @@ export const makeSelectTasksByCardId = () =>
 
 export const selectTasksByCardId = makeSelectTasksByCardId();
 
+export const makeSelectAttachmentsTotalByCardId = () =>
+  createSelector(
+    orm,
+    (_, id) => id,
+    ({ Card }, id) => {
+      const cardModel = Card.withId(id);
+
+      if (!cardModel) {
+        return cardModel;
+      }
+
+      return cardModel.attachments.count();
+    },
+  );
+
+export const selectAttachmentsTotalByCardId = makeSelectAttachmentsTotalByCardId();
+
 export const makeSelectLastActivityIdByCardId = () =>
   createSelector(
     orm,
@@ -334,6 +351,8 @@ export default {
   selectTaskIdsByCardId,
   makeSelectTasksByCardId,
   selectTasksByCardId,
+  makeSelectAttachmentsTotalByCardId,
+  selectAttachmentsTotalByCardId,
   makeSelectLastActivityIdByCardId,
   selectLastActivityIdByCardId,
   makeSelectNotificationsByCardId,
