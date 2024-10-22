@@ -32,6 +32,7 @@ const Card = React.memo(
     listId,
     projectId,
     isPersisted,
+    attachmentsTotal,
     notificationsTotal,
     users,
     labels,
@@ -107,7 +108,11 @@ const Card = React.memo(
           )}
           <div className={styles.name}>{name}</div>
           {tasks.length > 0 && <Tasks items={tasks} />}
-          {(description || dueDate || stopwatch || notificationsTotal > 0) && (
+          {(description ||
+            dueDate ||
+            stopwatch ||
+            attachmentsTotal > 0 ||
+            notificationsTotal > 0) && (
             <span className={styles.attachments}>
               {notificationsTotal > 0 && (
                 <span
@@ -140,6 +145,14 @@ const Card = React.memo(
                 <span className={classNames(styles.attachment, styles.attachmentLeft)}>
                   <span className={styles.attachmentContent}>
                     <Icon name="align left" />
+                  </span>
+                </span>
+              )}
+              {attachmentsTotal > 0 && (
+                <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                  <span className={styles.attachmentContent}>
+                    <Icon name="attach" />
+                    {attachmentsTotal}
                   </span>
                 </span>
               )}
@@ -238,6 +251,7 @@ Card.propTypes = {
   listId: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
+  attachmentsTotal: PropTypes.number.isRequired,
   notificationsTotal: PropTypes.number.isRequired,
   /* eslint-disable react/forbid-prop-types */
   users: PropTypes.array.isRequired,
