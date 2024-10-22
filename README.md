@@ -31,6 +31,8 @@ Here is the [mobile app repository](https://github.com/LouisHDev/planka_app) mai
 
 Alternatively, you can download the [Android APK](https://github.com/LouisHDev/planka_app/releases/latest/download/app-release.apk) directly.
 
+If you have an iOS device and would like to test the app, you can join [TestFlight](https://testflight.apple.com/join/Uwn41eY4) (limited to 200 participants).
+
 ## Contact
 
 - If you want to get a hosted version of Planka, you can contact us via email contact@planka.cloud
