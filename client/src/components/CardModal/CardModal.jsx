@@ -369,7 +369,7 @@ const CardModal = React.memo(
             {(description || canEdit) && (
               <div className={styles.contentModule}>
                 <div className={styles.moduleWrapper}>
-                  <Icon name="align justify" className={styles.moduleIcon} />
+                  <Icon name="align left" className={styles.moduleIcon} />
                   <div className={styles.moduleHeader}>{t('common.description')}</div>
                   {canEdit ? (
                     <DescriptionEdit defaultValue={description} onUpdate={handleDescriptionUpdate}>
