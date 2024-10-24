@@ -184,6 +184,7 @@ export default {
       addTask: 'Přidat úkol',
       addToCard: 'Přidat na kartu',
       addUser: 'Přidat uživatele',
+      copyLink_title: 'Zkopírovat odkaz',
       createBoard: 'Vytvořit tabuli',
       createFile: 'Vytvořit soubor',
       createLabel: 'Vytvořit štítek',
