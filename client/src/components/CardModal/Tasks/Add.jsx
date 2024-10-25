@@ -61,13 +61,17 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
 
   const handleFieldKeyDown = useCallback(
     (event) => {
-      if (event.key === 'Enter') {
+      if (event.ctrlKey && event.key === 'Enter') {
         event.preventDefault();
-
+        const lines = data.name.split('\n').filter(line => line.trim() !== '');
+        lines.forEach(line => onCreate({ name: line.trim() }));
+        setData({ ...data, name: '' });
+      } else if (event.key === 'Enter') {
+        event.preventDefault();
         submit();
       }
     },
-    [submit],
+    [data, onCreate, submit],
   );
 
   const [handleFieldBlur, handleControlMouseOver, handleControlMouseOut] = useClosableForm(
