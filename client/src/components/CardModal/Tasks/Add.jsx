@@ -13,6 +13,8 @@ const DEFAULT_DATA = {
   name: '',
 };
 
+const MULTIPLE_REGEX = /\s*\r?\n\s*/;
+
 const Add = React.forwardRef(({ children, onCreate }, ref) => {
   const [t] = useTranslation();
   const [isOpened, setIsOpened] = useState(false);
@@ -29,22 +31,34 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
     setIsOpened(false);
   }, []);
 
-  const submit = useCallback(() => {
-    const cleanData = {
-      ...data,
-      name: data.name.trim(),
-    };
+  const submit = useCallback(
+    (isMultiple = false) => {
+      const cleanData = {
+        ...data,
+        name: data.name.trim(),
+      };
 
-    if (!cleanData.name) {
-      nameField.current.ref.current.select();
-      return;
-    }
+      if (!cleanData.name) {
+        nameField.current.ref.current.select();
+        return;
+      }
 
-    onCreate(cleanData);
+      if (isMultiple) {
+        cleanData.name.split(MULTIPLE_REGEX).forEach((name) => {
+          onCreate({
+            ...cleanData,
+            name,
+          });
+        });
+      } else {
+        onCreate(cleanData);
+      }
 
-    setData(DEFAULT_DATA);
-    focusNameField();
-  }, [onCreate, data, setData, focusNameField]);
+      setData(DEFAULT_DATA);
+      focusNameField();
+    },
+    [onCreate, data, setData, focusNameField],
+  );
 
   useImperativeHandle(
     ref,
@@ -63,8 +77,7 @@ const Add = React.forwardRef(({ children, onCreate }, ref) => {
     (event) => {
       if (event.key === 'Enter') {
         event.preventDefault();
-
-        submit();
+        submit(event.ctrlKey);
       }
     },
     [submit],
