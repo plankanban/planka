@@ -78,8 +78,8 @@ const CommentEdit = React.forwardRef(({ defaultData, onUpdate, text, actions }, 
   if (!isOpened) {
     return (
       <>
-        {text}
         {actions}
+        {text}
       </>
     );
   }
