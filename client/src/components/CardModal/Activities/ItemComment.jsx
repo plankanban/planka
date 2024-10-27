@@ -40,12 +40,17 @@ const ItemComment = React.memo(
               })}
             </span>
           </div>
-          <CommentEdit ref={commentEdit} defaultData={data} onUpdate={onUpdate}>
-            <>
+          <CommentEdit
+            ref={commentEdit}
+            defaultData={data}
+            onUpdate={onUpdate}
+            text={
               <div className={styles.text}>
                 <Markdown linkTarget="_blank">{data.text}</Markdown>
               </div>
-              {canEdit && (
+            }
+            actions={
+              canEdit && (
                 <Comment.Actions>
                   <Comment.Action
                     as="button"
@@ -66,9 +71,9 @@ const ItemComment = React.memo(
                     />
                   </DeletePopup>
                 </Comment.Actions>
-              )}
-            </>
-          </CommentEdit>
+              )
+            }
+          />
         </div>
       </Comment>
     );
