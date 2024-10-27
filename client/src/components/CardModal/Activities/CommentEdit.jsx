@@ -10,7 +10,7 @@ import { focusEnd } from '../../../utils/element-helpers';
 
 import styles from './CommentEdit.module.scss';
 
-const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) => {
+const CommentEdit = React.forwardRef(({ defaultData, onUpdate, text, actions }, ref) => {
   const [t] = useTranslation();
   const [isOpened, setIsOpened] = useState(false);
   const [data, handleFieldChange, setData] = useForm(null);
@@ -76,7 +76,12 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
   }, [isOpened]);
 
   if (!isOpened) {
-    return children;
+    return (
+      <>
+        {actions}
+        {text}
+      </>
+    );
   }
 
   return (
@@ -101,9 +106,10 @@ const CommentEdit = React.forwardRef(({ children, defaultData, onUpdate }, ref) 
 });
 
 CommentEdit.propTypes = {
-  children: PropTypes.element.isRequired,
   defaultData: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   onUpdate: PropTypes.func.isRequired,
+  text: PropTypes.element.isRequired,
+  actions: PropTypes.element.isRequired,
 };
 
 export default React.memo(CommentEdit);

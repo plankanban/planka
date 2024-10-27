@@ -38,6 +38,12 @@
 
   .title {
     padding-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: -1em;
+    background: #f5f6f7;
   }
 
   .user {

@@ -31,44 +31,51 @@ const ItemComment = React.memo(
           <User name={user.name} avatarUrl={user.avatarUrl} />
         </span>
         <div className={classNames(styles.content)}>
-          <div className={styles.title}>
-            <span className={styles.author}>{user.name}</span>
-            <span className={styles.date}>
-              {t(`format:${getDateFormat(createdAt)}`, {
-                postProcess: 'formatDate',
-                value: createdAt,
-              })}
-            </span>
-          </div>
-          <CommentEdit ref={commentEdit} defaultData={data} onUpdate={onUpdate}>
-            <>
+          <CommentEdit
+            ref={commentEdit}
+            defaultData={data}
+            onUpdate={onUpdate}
+            text={
               <div className={styles.text}>
                 <Markdown linkTarget="_blank">{data.text}</Markdown>
               </div>
-              {canEdit && (
-                <Comment.Actions>
-                  <Comment.Action
-                    as="button"
-                    content={t('action.edit')}
-                    disabled={!isPersisted}
-                    onClick={handleEditClick}
-                  />
-                  <DeletePopup
-                    title="common.deleteComment"
-                    content="common.areYouSureYouWantToDeleteThisComment"
-                    buttonContent="action.deleteComment"
-                    onConfirm={onDelete}
-                  >
+            }
+            actions={
+              <div className={styles.title}>
+                <span>
+                  <span className={styles.author}>{user.name}</span>
+                  <span className={styles.date}>
+                    {t(`format:${getDateFormat(createdAt)}`, {
+                      postProcess: 'formatDate',
+                      value: createdAt,
+                    })}
+                  </span>
+                </span>
+                {canEdit && (
+                  <Comment.Actions>
                     <Comment.Action
                       as="button"
-                      content={t('action.delete')}
+                      content={t('action.edit')}
                       disabled={!isPersisted}
+                      onClick={handleEditClick}
                     />
-                  </DeletePopup>
-                </Comment.Actions>
-              )}
-            </>
-          </CommentEdit>
+                    <DeletePopup
+                      title="common.deleteComment"
+                      content="common.areYouSureYouWantToDeleteThisComment"
+                      buttonContent="action.deleteComment"
+                      onConfirm={onDelete}
+                    >
+                      <Comment.Action
+                        as="button"
+                        content={t('action.delete')}
+                        disabled={!isPersisted}
+                      />
+                    </DeletePopup>
+                  </Comment.Actions>
+                )}
+              </div>
+            }
+          />
         </div>
       </Comment>
     );
