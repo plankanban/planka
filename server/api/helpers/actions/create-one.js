@@ -38,6 +38,32 @@ const buildAndSendMessage = async (card, action, actorUser, send) => {
   await send(markdown);
 };
 
+const buildAndSendMessageForTelegramBot = async (card, action, actorUser, send) => {
+  const cardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}">${card.name}</a>`;
+
+  let html;
+  switch (action.type) {
+    case Action.Types.CREATE_CARD:
+      html = `${cardLink} was created by ${actorUser.name} in <b>${action.data.list.name}</b>`;
+
+      break;
+    case Action.Types.MOVE_CARD:
+      html = `${cardLink} was moved by ${actorUser.name} to <b>${action.data.toList.name}</b>`;
+
+      break;
+    case Action.Types.COMMENT_CARD: {
+      const commentedText =
+        action.data.text.length > 30 ? `${action.data.text.substring(0, 30)}...` : action.data.text;
+      html = `<b>${actorUser.name}</b> commented on ${cardLink}: <i>${commentedText}</i>`;
+
+      break;
+    }
+    default:
+      return;
+  }
+  await send(html);
+};
+
 module.exports = {
   inputs: {
     values: {
@@ -117,6 +143,15 @@ module.exports = {
 
     if (sails.config.custom.slackBotToken) {
       buildAndSendMessage(values.card, action, values.user, sails.helpers.utils.sendSlackMessage);
+    }
+
+    if (sails.config.custom.telegramChatId) {
+      buildAndSendMessageForTelegramBot(
+        values.card,
+        action,
+        values.user,
+        sails.helpers.utils.sendTelegramMessage,
+      );
     }
 
     if (sails.config.custom.googleChatWebhookUrl) {

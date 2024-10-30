@@ -2,6 +2,10 @@ const buildAndSendMessage = async (card, actorUser, send) => {
   await send(`*${card.name}* was deleted by ${actorUser.name}`);
 };
 
+const buildAndSendMessageForTelegramBot = async (card, actorUser, send) => {
+  await send(`<b>${card.name}</b> was deleted by ${actorUser.name}`);
+};
+
 module.exports = {
   inputs: {
     record: {
@@ -57,6 +61,14 @@ module.exports = {
 
       if (sails.config.custom.slackBotToken) {
         buildAndSendMessage(card, inputs.actorUser, sails.helpers.utils.sendSlackMessage);
+      }
+
+      if (sails.config.custom.telegramChatId) {
+        buildAndSendMessageForTelegramBot(
+          card,
+          inputs.actorUser,
+          sails.helpers.utils.sendTelegramMessage,
+        );
       }
 
       if (sails.config.custom.googleChatWebhookUrl) {
