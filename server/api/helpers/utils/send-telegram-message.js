@@ -1,4 +1,4 @@
-const POST_MESSAGE_API_URL = (telegramBotToken) =>
+const buildSendMessageApiUrl = (telegramBotToken) =>
   `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
 
 module.exports = {
@@ -8,6 +8,7 @@ module.exports = {
       required: true,
     },
   },
+
   async fn(inputs) {
     const headers = {
       'Content-Type': 'application/json; charset=utf-8',
@@ -25,7 +26,7 @@ module.exports = {
 
     let response;
     try {
-      response = await fetch(POST_MESSAGE_API_URL(sails.config.custom.telegramBotToken), {
+      response = await fetch(buildSendMessageApiUrl(sails.config.custom.telegramBotToken), {
         headers,
         method: 'POST',
         body: JSON.stringify(body),
@@ -36,8 +37,8 @@ module.exports = {
     }
 
     if (!response.ok) {
-      const responseErrorJson = await response.json();
-      sails.log.error(`Error sending to Telegram: ${responseErrorJson.description}`);
+      const responseJson = await response.json();
+      sails.log.error(`Error sending to Telegram: ${responseJson.description}`);
     }
   },
 };

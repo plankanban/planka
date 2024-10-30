@@ -14,7 +14,10 @@ const valuesValidator = (value) => {
   return true;
 };
 
-const buildAndSendMessage = async (card, action, actorUser, send) => {
+const truncateString = (string, maxLength = 30) =>
+  string.length > maxLength ? `${string.substring(0, 30)}...` : string;
+
+const buildAndSendMarkdownMessage = async (card, action, actorUser, send) => {
   const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
 
   let markdown;
@@ -28,6 +31,7 @@ const buildAndSendMessage = async (card, action, actorUser, send) => {
 
       break;
     case Action.Types.COMMENT_CARD:
+      // TODO: truncate text?
       markdown = `*${actorUser.name}* commented on ${cardLink}:\n>${action.data.text}`;
 
       break;
@@ -38,7 +42,7 @@ const buildAndSendMessage = async (card, action, actorUser, send) => {
   await send(markdown);
 };
 
-const buildAndSendMessageForTelegramBot = async (card, action, actorUser, send) => {
+const buildAndSendHtmlMessage = async (card, action, actorUser, send) => {
   const cardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}">${card.name}</a>`;
 
   let html;
@@ -52,15 +56,14 @@ const buildAndSendMessageForTelegramBot = async (card, action, actorUser, send) 
 
       break;
     case Action.Types.COMMENT_CARD: {
-      const commentedText =
-        action.data.text.length > 30 ? `${action.data.text.substring(0, 30)}...` : action.data.text;
-      html = `<b>${actorUser.name}</b> commented on ${cardLink}: <i>${commentedText}</i>`;
+      html = `<b>${actorUser.name}</b> commented on ${cardLink}:\n<i>${truncateString(action.data.text)}</i>`;
 
       break;
     }
     default:
       return;
   }
+
   await send(html);
 };
 
@@ -142,11 +145,25 @@ module.exports = {
     );
 
     if (sails.config.custom.slackBotToken) {
-      buildAndSendMessage(values.card, action, values.user, sails.helpers.utils.sendSlackMessage);
+      buildAndSendMarkdownMessage(
+        values.card,
+        action,
+        values.user,
+        sails.helpers.utils.sendSlackMessage,
+      );
     }
 
-    if (sails.config.custom.telegramChatId) {
-      buildAndSendMessageForTelegramBot(
+    if (sails.config.custom.googleChatWebhookUrl) {
+      buildAndSendMarkdownMessage(
+        values.card,
+        action,
+        values.user,
+        sails.helpers.utils.sendGoogleChatMessage,
+      );
+    }
+
+    if (sails.config.custom.telegramBotToken) {
+      buildAndSendHtmlMessage(
         values.card,
         action,
         values.user,
@@ -154,14 +171,6 @@ module.exports = {
       );
     }
 
-    if (sails.config.custom.googleChatWebhookUrl) {
-      buildAndSendMessage(
-        values.card,
-        action,
-        values.user,
-        sails.helpers.utils.sendGoogleChatMessage,
-      );
-    }
     return action;
   },
 };
