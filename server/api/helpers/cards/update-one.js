@@ -264,6 +264,9 @@ module.exports = {
             lists: [list],
           },
         },
+        prevData: {
+          item: inputs.record,
+        },
         user: inputs.actorUser,
       });
 
