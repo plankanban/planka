@@ -48,6 +48,7 @@ module.exports = {
         inputs.request,
       );
 
+      // TODO: with prevData?
       sails.helpers.utils.sendWebhooks.with({
         event: 'notificationUpdate',
         data: {

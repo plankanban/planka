@@ -159,6 +159,9 @@ module.exports = {
           data: {
             item: user,
           },
+          prevData: {
+            item: inputs.record,
+          },
           user: inputs.actorUser,
         });
       }

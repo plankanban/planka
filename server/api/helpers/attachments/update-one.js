@@ -59,6 +59,9 @@ module.exports = {
             cards: [inputs.card],
           },
         },
+        prevData: {
+          item: inputs.record,
+        },
         user: inputs.actorUser,
       });
     }

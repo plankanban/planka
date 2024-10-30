@@ -97,10 +97,11 @@ const jsonifyData = (data) => {
  * @param {*} webhook - Webhook configuration.
  * @param {string} event - The event (see {@link EVENT_TYPES}).
  * @param {Data} data - The data object containing event data and optionally included data.
+ * @param {Data} [prevData] - The data object containing previous state of data (optional).
  * @param {ref} user - User object associated with the event.
  * @returns {Promise<void>}
  */
-async function sendWebhook(webhook, event, data, user) {
+async function sendWebhook(webhook, event, data, prevData, user) {
   const headers = {
     'Content-Type': 'application/json',
     'User-Agent': `planka (+${sails.config.custom.baseUrl})`,
@@ -113,6 +114,7 @@ async function sendWebhook(webhook, event, data, user) {
   const body = JSON.stringify({
     event,
     data: jsonifyData(data),
+    prevData: prevData && jsonifyData(prevData),
     user: sails.helpers.utils.jsonifyRecord(user),
   });
 
@@ -148,6 +150,9 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    prevData: {
+      type: 'ref',
+    },
     user: {
       type: 'ref',
       required: true,
@@ -172,7 +177,7 @@ module.exports = {
         return;
       }
 
-      sendWebhook(webhook, inputs.event, inputs.data, inputs.user);
+      sendWebhook(webhook, inputs.event, inputs.data, inputs.prevData, inputs.user);
     });
   },
 };

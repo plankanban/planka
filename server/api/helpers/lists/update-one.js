@@ -91,6 +91,9 @@ module.exports = {
             boards: [inputs.board],
           },
         },
+        prevData: {
+          item: inputs.record,
+        },
         user: inputs.actorUser,
       });
     }

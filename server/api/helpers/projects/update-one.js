@@ -118,6 +118,9 @@ module.exports = {
         data: {
           item: project,
         },
+        prevData: {
+          item: inputs.record,
+        },
         user: inputs.actorUser,
       });
     }

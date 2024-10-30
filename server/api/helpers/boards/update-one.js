@@ -100,6 +100,9 @@ module.exports = {
             projects: [inputs.project],
           },
         },
+        prevData: {
+          item: inputs.record,
+        },
         user: inputs.actorUser,
       });
     }
