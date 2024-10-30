@@ -67,8 +67,12 @@ services:
 
       # - SLACK_BOT_TOKEN=
       # - SLACK_CHANNEL_ID=
+
+      # - TELEGRAM_BOT_TOKEN=
+      # - TELEGRAM_CHAT_ID=
+      # - TELEGRAM_THREAD_ID=
     working_dir: /app
-    command: ["sh", "-c", "npm run start"]
+    command: ['sh', '-c', 'npm run start']
     depends_on:
       postgres:
         condition: service_healthy
@@ -101,7 +105,7 @@ services:
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
     working_dir: /app
-    command: ["sh", "-c", "npm run db:init"]
+    command: ['sh', '-c', 'npm run db:init']
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -118,10 +122,10 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
-      - "5432:5432"
+      - '5432:5432'
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U user -d planka_db"]
+      test: ['CMD-SHELL', 'pg_isready -U user -d planka_db']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -129,7 +133,7 @@ services:
   proxy:
     image: nginx:alpine
     ports:
-      - "3000:80"
+      - '3000:80'
     volumes:
       - ./config/development/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
