@@ -82,6 +82,7 @@ module.exports.custom = {
 
   slackBotToken: process.env.SLACK_BOT_TOKEN,
   slackChannelId: process.env.SLACK_CHANNEL_ID,
+
   googleChatWebhookUrl: process.env.GOOGLE_CHAT_WEBHOOK_URL,
 
   telegramBotToken: process.env.TELEGRAM_BOT_TOKEN,
