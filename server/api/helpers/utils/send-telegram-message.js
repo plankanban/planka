@@ -18,6 +18,11 @@ module.exports = {
       text: inputs.html,
       parse_mode: 'HTML',
     };
+
+    if (sails.config.custom.telegramThreadId) {
+      body.message_thread_id = sails.config.custom.telegramThreadId;
+    }
+
     let response;
     try {
       response = await fetch(POST_MESSAGE_API_URL(sails.config.custom.telegramBotToken), {

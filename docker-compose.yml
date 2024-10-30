@@ -78,6 +78,7 @@ services:
 
       # - TELEGRAM_BOT_TOKEN=
       # - TELEGRAM_CHAT_ID=
+      # - TELEGRAM_THREAD_ID=
     depends_on:
       postgres:
         condition: service_healthy

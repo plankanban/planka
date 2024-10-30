@@ -70,6 +70,7 @@ services:
 
       # - TELEGRAM_BOT_TOKEN=
       # - TELEGRAM_CHAT_ID=
+      # - TELEGRAM_THREAD_ID=
     working_dir: /app
     command: ['sh', '-c', 'npm run start']
     depends_on:

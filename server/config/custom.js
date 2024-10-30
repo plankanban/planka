@@ -86,4 +86,5 @@ module.exports.custom = {
 
   telegramBotToken: process.env.TELEGRAM_BOT_TOKEN,
   telegramChatId: process.env.TELEGRAM_CHAT_ID,
+  telegramThreadId: process.env.TELEGRAM_THREAD_ID,
 };
