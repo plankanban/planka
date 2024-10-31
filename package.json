@@ -1,6 +1,6 @@
 {
   "name": "planka",
-  "version": "1.23.4",
+  "version": "1.23.5",
   "private": true,
   "homepage": "https://plankanban.github.io/planka",
   "repository": {
@@ -16,7 +16,7 @@
     "client:test": "npm test --prefix client",
     "docker:build": "docker build -t ghcr.io/plankanban/planka:local -f Dockerfile .",
     "docker:build:base": "docker build -t ghcr.io/plankanban/planka:base-local -f Dockerfile.base .",
-    "gv": "genversion --source ./ --template client/version-template.ejs client/src/version.js",
+    "gv": "npm i --package-lock-only --ignore-scripts && genversion --source ./ --template client/version-template.ejs client/src/version.js",
     "postinstall": "(cd server && npm i && cd ../client && npm i)",
     "lint": "npm run server:lint && npm run client:lint",
     "prepare": "husky",
