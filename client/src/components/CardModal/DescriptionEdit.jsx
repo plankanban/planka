@@ -1,8 +1,11 @@
-import React, { useCallback, useImperativeHandle, useMemo, useState } from 'react';
+import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
 import SimpleMDE from 'react-simplemde-editor';
+import { useClickAwayListener } from '../../lib/hooks';
+
+import { useNestedRef } from '../../hooks';
 
 import styles from './DescriptionEdit.module.scss';
 
@@ -10,6 +13,10 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
   const [t] = useTranslation();
   const [isOpened, setIsOpened] = useState(false);
   const [value, setValue] = useState(null);
+
+  const editorWrapperRef = useRef(null);
+  const codemirrorRef = useRef(null);
+  const [buttonRef, handleButtonRef] = useNestedRef();
 
   const open = useCallback(() => {
     setIsOpened(true);
@@ -55,6 +62,28 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
     close();
   }, [close]);
 
+  const handleAwayClick = useCallback(() => {
+    if (!isOpened) {
+      return;
+    }
+
+    close();
+  }, [isOpened, close]);
+
+  const handleClickAwayCancel = useCallback(() => {
+    codemirrorRef.current.focus();
+  }, []);
+
+  const clickAwayProps = useClickAwayListener(
+    [editorWrapperRef, buttonRef],
+    handleAwayClick,
+    handleClickAwayCancel,
+  );
+
+  const handleGetCodemirrorInstance = useCallback((codemirror) => {
+    codemirrorRef.current = codemirror;
+  }, []);
+
   const mdEditorOptions = useMemo(
     () => ({
       autoDownloadFontAwesome: false,
@@ -92,16 +121,20 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
 
   return (
     <Form onSubmit={handleSubmit}>
-      <SimpleMDE
-        value={value}
-        options={mdEditorOptions}
-        placeholder={t('common.enterDescription')}
-        className={styles.field}
-        onKeyDown={handleFieldKeyDown}
-        onChange={setValue}
-      />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+      <div {...clickAwayProps} ref={editorWrapperRef}>
+        <SimpleMDE
+          value={value}
+          options={mdEditorOptions}
+          placeholder={t('common.enterDescription')}
+          className={styles.field}
+          getCodemirrorInstance={handleGetCodemirrorInstance}
+          onKeyDown={handleFieldKeyDown}
+          onChange={setValue}
+        />
+      </div>
       <div className={styles.controls}>
-        <Button positive content={t('action.save')} />
+        <Button positive ref={handleButtonRef} content={t('action.save')} />
       </div>
     </Form>
   );
