@@ -31,9 +31,11 @@ module.exports = {
     },
     url: {
       type: 'string',
+      allowNull: true,
     },
     thumb: {
       type: 'string',
+      allowNull: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

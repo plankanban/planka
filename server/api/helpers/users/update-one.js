@@ -102,6 +102,21 @@ module.exports = {
         (!user.avatar || user.avatar.dirname !== inputs.record.avatar.dirname)
       ) {
         try {
+          if (sails.config.custom.s3Config) {
+            const client = await sails.helpers.utils.getSimpleStorageServiceClient();
+            if (client && inputs.record.avatar && inputs.record.avatar.original) {
+              const parsedUrl = new URL(inputs.record.avatar.original);
+              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
+            }
+            if (client && inputs.record.avatar && inputs.record.avatar.square) {
+              const parsedUrl = new URL(inputs.record.avatar.square);
+              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
+            }
+          }
+        } catch (error) {
+          console.warn(error.stack); // eslint-disable-line no-console
+        }
+        try {
           rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatar.dirname));
         } catch (error) {
           console.warn(error.stack); // eslint-disable-line no-console

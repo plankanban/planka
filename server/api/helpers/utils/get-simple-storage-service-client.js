@@ -37,8 +37,8 @@ class S3Client {
 
 module.exports = {
   fn() {
-    if (sails.config.custom.attachmentsS3) {
-      return new S3Client(sails.config.custom.attachmentsS3);
+    if (sails.config.custom.s3Config) {
+      return new S3Client(sails.config.custom.s3Config);
     }
     return null;
   },

@@ -23,11 +23,11 @@ module.exports = {
     const rootPath = path.join(sails.config.custom.attachmentsPath, dirname);
     const filePath = path.join(rootPath, filename);
 
-    if (sails.config.custom.attachmentsS3) {
-      const client = await sails.helpers.attachments.getSimpleStorageServiceClient();
+    if (sails.config.custom.s3Config) {
+      const client = await sails.helpers.utils.getSimpleStorageServiceClient();
       const s3Image = await client.upload({
         Body: fs.createReadStream(inputs.file.fd),
-        Key: `${dirname}/${filename}`,
+        Key: `attachments/${dirname}/${filename}`,
         ContentType: inputs.file.type,
       });
 
@@ -72,7 +72,7 @@ module.exports = {
             )
             .toBuffer();
           const s3Thumb = await client.upload({
-            Key: `${dirname}/thumbnails/cover-256.${thumbnailsExtension}`,
+            Key: `attachments/${dirname}/thumbnails/cover-256.${thumbnailsExtension}`,
             Body: resizeBuffer,
             ContentType: inputs.file.type,
           });
@@ -81,6 +81,12 @@ module.exports = {
         } catch (error1) {
           console.warn(error2.stack); // eslint-disable-line no-console
         }
+      }
+
+      try {
+        rimraf.sync(inputs.file.fd);
+      } catch (error) {
+        console.warn(error.stack); // eslint-disable-line no-console
       }
 
       return fileData;

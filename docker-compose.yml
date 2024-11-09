@@ -82,12 +82,12 @@ services:
       # - TELEGRAM_THREAD_ID=
 
       # Attachments S3
-      # - ATTACHMENTS_S3=true
-      # - ATTACHMENTS_S3_REGION=
-      # - ATTACHMENTS_S3_ENDPOINT=
-      # - ATTACHMENTS_S3_BUCKET=
-      # - ATTACHMENTS_S3_ACCESS_KEY=
-      # - ATTACHMENTS_S3_SECRET_KEY=
+      # - S3_ENABLE=true
+      # - S3_REGION=
+      # - S3_ENDPOINT=
+      # - S3_BUCKET=
+      # - S3_ACCESS_KEY=
+      # - S3_SECRET_KEY=
     depends_on:
       postgres:
         condition: service_healthy

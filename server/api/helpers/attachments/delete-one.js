@@ -53,16 +53,23 @@ module.exports = {
       try {
         const type = attachment.type || 'local';
         if (type === 's3') {
-          const client = await sails.helpers.attachments.getSimpleStorageServiceClient();
+          const client = await sails.helpers.utils.getSimpleStorageServiceClient();
           if (client) {
-            const file1 = `${attachment.dirname}/${attachment.filename}`;
-            const file2 = `${attachment.dirname}/thumbnails/cover-256.png`;
-            await client.delete({ Key: file1 });
-            await client.delete({ Key: file2 });
+            if (attachment.url) {
+              const parsedUrl = new URL(attachment.url);
+              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
+            }
+            if (attachment.thumb) {
+              const parsedUrl = new URL(attachment.thumb);
+              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
+            }
           }
-        } else {
-          rimraf.sync(path.join(sails.config.custom.attachmentsPath, attachment.dirname));
         }
+      } catch (error) {
+        console.warn(error.stack); // eslint-disable-line no-console
+      }
+      try {
+        rimraf.sync(path.join(sails.config.custom.attachmentsPath, attachment.dirname));
       } catch (error) {
         console.warn(error.stack); // eslint-disable-line no-console
       }
