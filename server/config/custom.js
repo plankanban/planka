@@ -36,6 +36,16 @@ module.exports.custom = {
   projectBackgroundImagesPath: path.join(sails.config.paths.public, 'project-background-images'),
   projectBackgroundImagesUrl: `${process.env.BASE_URL}/project-background-images`,
 
+  attachmentsS3:
+    process.env.ATTACHMENTS_S3 === 'true'
+      ? {
+          accessKeyId: process.env.ATTACHMENTS_S3_ACCESS_KEY,
+          secretAccessKey: process.env.ATTACHMENTS_S3_SECRET_KEY,
+          region: process.env.ATTACHMENTS_S3_REGION,
+          endpoint: process.env.ATTACHMENTS_S3_ENDPOINT,
+          bucket: process.env.ATTACHMENTS_S3_BUCKET,
+        }
+      : null,
   attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
   attachmentsUrl: `${process.env.BASE_URL}/attachments`,
 
