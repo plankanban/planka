@@ -39,6 +39,17 @@ module.exports.custom = {
   attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
   attachmentsUrl: `${process.env.BASE_URL}/attachments`,
 
+  s3Config:
+    process.env.S3_ENABLE === 'true'
+      ? {
+          accessKeyId: process.env.S3_ACCESS_KEY,
+          secretAccessKey: process.env.S3_SECRET_KEY,
+          region: process.env.S3_REGION,
+          endpoint: process.env.S3_ENDPOINT,
+          bucket: process.env.S3_BUCKET,
+        }
+      : null,
+
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 

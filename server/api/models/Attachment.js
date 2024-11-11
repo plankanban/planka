@@ -26,6 +26,17 @@ module.exports = {
       type: 'string',
       required: true,
     },
+    type: {
+      type: 'string',
+    },
+    url: {
+      type: 'string',
+      allowNull: true,
+    },
+    thumb: {
+      type: 'string',
+      allowNull: true,
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -48,12 +59,20 @@ module.exports = {
   },
 
   customToJSON() {
-    return {
-      ..._.omit(this, ['dirname', 'filename', 'image.thumbnailsExtension']),
-      url: `${sails.config.custom.attachmentsUrl}/${this.id}/download/${this.filename}`,
-      coverUrl: this.image
+    let { url, thumb } = this;
+    if (!url) {
+      url = `${sails.config.custom.attachmentsUrl}/${this.id}/download/${this.filename}`;
+    }
+    if (!thumb) {
+      thumb = this.image
         ? `${sails.config.custom.attachmentsUrl}/${this.id}/download/thumbnails/cover-256.${this.image.thumbnailsExtension}`
-        : null,
+        : null;
+    }
+
+    return {
+      ..._.omit(this, ['type', 'dirname', 'filename', 'image.thumbnailsExtension']),
+      url,
+      coverUrl: thumb,
     };
   },
 };
