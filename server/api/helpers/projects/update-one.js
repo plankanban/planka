@@ -87,6 +87,21 @@ module.exports = {
           project.backgroundImage.dirname !== inputs.record.backgroundImage.dirname)
       ) {
         try {
+          if (sails.config.custom.s3Config) {
+            const client = await sails.helpers.utils.getSimpleStorageServiceClient();
+            if (client && inputs.record.backgroundImage && inputs.record.backgroundImage.original) {
+              const parsedUrl = new URL(inputs.record.backgroundImage.original);
+              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
+            }
+            if (client && inputs.record.backgroundImage && inputs.record.backgroundImage.thumb) {
+              const parsedUrl = new URL(inputs.record.backgroundImage.thumb);
+              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
+            }
+          }
+        } catch (error) {
+          console.warn(error.stack); // eslint-disable-line no-console
+        }
+        try {
           rimraf.sync(
             path.join(
               sails.config.custom.projectBackgroundImagesPath,

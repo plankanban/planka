@@ -79,11 +79,26 @@ module.exports = {
   },
 
   customToJSON() {
+    let url = '';
+    let coverUrl = '';
+    if (this.backgroundImage) {
+      if (this.backgroundImage.original) {
+        url = this.backgroundImage.original;
+      } else {
+        url = `${sails.config.custom.projectBackgroundImagesUrl}/${this.backgroundImage.dirname}/original.${this.backgroundImage.extension}`;
+      }
+      if (this.backgroundImage.thumb) {
+        coverUrl = this.backgroundImage.thumb;
+      } else {
+        coverUrl = `${sails.config.custom.projectBackgroundImagesUrl}/${this.backgroundImage.dirname}/cover-336.${this.backgroundImage.extension}`;
+      }
+    }
+
     return {
       ..._.omit(this, ['backgroundImage']),
       backgroundImage: this.backgroundImage && {
-        url: `${sails.config.custom.projectBackgroundImagesUrl}/${this.backgroundImage.dirname}/original.${this.backgroundImage.extension}`,
-        coverUrl: `${sails.config.custom.projectBackgroundImagesUrl}/${this.backgroundImage.dirname}/cover-336.${this.backgroundImage.extension}`,
+        url,
+        coverUrl,
       },
     };
   },
