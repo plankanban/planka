@@ -16,12 +16,12 @@ module.exports = {
     const fileManager = sails.hooks['file-manager'].getInstance();
 
     const dirname = uuid();
-    const folderPathSegment = `${sails.config.custom.attachmentsPathSegment}/${dirname}`;
+    const dirPathSegment = `${sails.config.custom.attachmentsPathSegment}/${dirname}`;
     const filename = filenamify(inputs.file.filename);
 
     const filePath = await fileManager.move(
       inputs.file.fd,
-      `${folderPathSegment}/${filename}`,
+      `${dirPathSegment}/${filename}`,
       inputs.file.type,
     );
 
@@ -64,7 +64,7 @@ module.exports = {
           .toBuffer();
 
         await fileManager.save(
-          `${folderPathSegment}/thumbnails/cover-256.${thumbnailsExtension}`,
+          `${dirPathSegment}/thumbnails/cover-256.${thumbnailsExtension}`,
           resizeBuffer,
           inputs.file.type,
         );
