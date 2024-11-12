@@ -82,7 +82,7 @@ spec:
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
-                  name: planka-postgresql-svcbind-custom-user
+                  name: {{ include "planka.fullname" . }}-postgresql-svcbind-custom-user
                   key: uri
           {{- end }}
             - name: BASE_URL
