@@ -33,7 +33,7 @@ module.exports = {
     const fileManager = sails.hooks['file-manager'].getInstance();
 
     const dirname = uuid();
-    const folderPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${dirname}`;
+    const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${dirname}`;
 
     let { width, pageHeight: height = metadata.height } = metadata;
     if (metadata.orientation && metadata.orientation > 4) {
@@ -46,7 +46,7 @@ module.exports = {
       const originalBuffer = await image.toBuffer();
 
       await fileManager.save(
-        `${folderPathSegment}/original.${extension}`,
+        `${dirPathSegment}/original.${extension}`,
         originalBuffer,
         inputs.file.type,
       );
@@ -64,7 +64,7 @@ module.exports = {
         .toBuffer();
 
       await fileManager.save(
-        `${folderPathSegment}/square-100.${extension}`,
+        `${dirPathSegment}/square-100.${extension}`,
         square100Buffer,
         inputs.file.type,
       );
@@ -72,7 +72,7 @@ module.exports = {
       console.warn(error1.stack); // eslint-disable-line no-console
 
       try {
-        fileManager.deleteFolder(folderPathSegment);
+        fileManager.deleteDir(dirPathSegment);
       } catch (error2) {
         console.warn(error2.stack); // eslint-disable-line no-console
       }

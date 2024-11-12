@@ -50,7 +50,7 @@ module.exports = {
       const fileManager = sails.hooks['file-manager'].getInstance();
 
       try {
-        await fileManager.deleteFolder(
+        await fileManager.deleteDir(
           `${sails.config.custom.attachmentsPathSegment}/${attachment.dirname}`,
         );
       } catch (error) {

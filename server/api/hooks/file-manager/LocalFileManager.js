@@ -12,10 +12,10 @@ class LocalFileManager {
   async move(sourceFilePath, filePathSegment) {
     const { dir, base } = path.parse(filePathSegment);
 
-    const folderPath = buildPath(dir);
-    const filePath = path.join(folderPath, base);
+    const dirPath = buildPath(dir);
+    const filePath = path.join(dirPath, base);
 
-    await fs.promises.mkdir(folderPath);
+    await fs.promises.mkdir(dirPath);
     await fse.move(sourceFilePath, filePath);
 
     return filePath;
@@ -38,8 +38,8 @@ class LocalFileManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async deleteFolder(folderPathSegment) {
-    await rimraf(buildPath(folderPathSegment));
+  async deleteDir(dirPathSegment) {
+    await rimraf(buildPath(dirPathSegment));
   }
 
   // eslint-disable-next-line class-methods-use-this

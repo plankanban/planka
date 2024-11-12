@@ -102,7 +102,7 @@ module.exports = {
         const fileManager = sails.hooks['file-manager'].getInstance();
 
         try {
-          await fileManager.deleteFolder(
+          await fileManager.deleteDir(
             `${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.dirname}`,
           );
         } catch (error) {

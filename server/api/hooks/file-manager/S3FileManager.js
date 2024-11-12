@@ -45,10 +45,10 @@ class S3FileManager {
     return result.Body;
   }
 
-  async deleteFolder(folderPathSegment) {
+  async deleteDir(dirPathSegment) {
     const listObjectsCommand = new ListObjectsV2Command({
       Bucket: sails.config.custom.s3Bucket,
-      Prefix: folderPathSegment,
+      Prefix: dirPathSegment,
     });
 
     const result = await this.client.send(listObjectsCommand);
