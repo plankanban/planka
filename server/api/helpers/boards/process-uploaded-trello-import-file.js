@@ -1,5 +1,5 @@
-const fs = require('fs').promises;
-const rimraf = require('rimraf');
+const fs = require('fs');
+const { rimraf } = require('rimraf');
 
 module.exports = {
   inputs: {
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const content = await fs.readFile(inputs.file.fd);
+    const content = await fs.promises.readFile(inputs.file.fd);
     const trelloBoard = JSON.parse(content);
 
     if (
@@ -28,7 +28,7 @@ module.exports = {
     }
 
     try {
-      rimraf.sync(inputs.file.fd);
+      await rimraf(inputs.file.fd);
     } catch (error) {
       console.warn(error.stack); // eslint-disable-line no-console
     }

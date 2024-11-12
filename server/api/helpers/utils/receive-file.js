@@ -4,7 +4,7 @@ const { v4: uuid } = require('uuid');
 async function doUpload(paramName, req, options) {
   const uploadOptions = {
     ...options,
-    dirname: options.dirname || sails.config.custom.fileUploadTmpDir,
+    dirname: options.dirname || sails.config.custom.uploadsTempPath,
   };
   const upload = util.promisify((opts, callback) => {
     return req.file(paramName).upload(opts, (error, files) => callback(error, files));
@@ -33,7 +33,7 @@ module.exports = {
     exits.success(
       await doUpload(inputs.paramName, inputs.req, {
         saveAs: uuid(),
-        dirname: sails.config.custom.fileUploadTmpDir,
+        dirname: sails.config.custom.uploadsTempPath,
         maxBytes: null,
       }),
     );

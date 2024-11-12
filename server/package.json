@@ -27,15 +27,15 @@
     }
   },
   "dependencies": {
-    "aws-sdk": "^2.1692.0",
+    "@aws-sdk/client-s3": "^3.688.0",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.2",
+    "fs-extra": "^11.2.0",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
-    "move-file": "^2.1.0",
     "nodemailer": "^6.9.15",
     "openid-client": "^5.7.0",
     "rimraf": "^5.0.10",

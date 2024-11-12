@@ -1,6 +1,3 @@
-const path = require('path');
-const rimraf = require('rimraf');
-
 module.exports = {
   inputs: {
     record: {
@@ -50,26 +47,12 @@ module.exports = {
     const attachment = await Attachment.archiveOne(inputs.record.id);
 
     if (attachment) {
+      const fileManager = sails.hooks['file-manager'].getInstance();
+
       try {
-        const type = attachment.type || 'local';
-        if (type === 's3') {
-          const client = await sails.helpers.utils.getSimpleStorageServiceClient();
-          if (client) {
-            if (attachment.url) {
-              const parsedUrl = new URL(attachment.url);
-              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
-            }
-            if (attachment.thumb) {
-              const parsedUrl = new URL(attachment.thumb);
-              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
-            }
-          }
-        }
-      } catch (error) {
-        console.warn(error.stack); // eslint-disable-line no-console
-      }
-      try {
-        rimraf.sync(path.join(sails.config.custom.attachmentsPath, attachment.dirname));
+        await fileManager.deleteFolder(
+          `${sails.config.custom.attachmentsPathSegment}/${attachment.dirname}`,
+        );
       } catch (error) {
         console.warn(error.stack); // eslint-disable-line no-console
       }

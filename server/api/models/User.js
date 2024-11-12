@@ -147,15 +147,8 @@ module.exports = {
   tableName: 'user_account',
 
   customToJSON() {
+    const fileManager = sails.hooks['file-manager'].getInstance();
     const isDefaultAdmin = this.email === sails.config.custom.defaultAdminEmail;
-    let avatarUrl = '';
-    if (this.avatar) {
-      if (this.avatar.square) {
-        avatarUrl = this.avatar.square;
-      } else {
-        avatarUrl = `${sails.config.custom.userAvatarsUrl}/${this.avatar.dirname}/square-100.${this.avatar.extension}`;
-      }
-    }
 
     return {
       ..._.omit(this, ['password', 'isSso', 'avatar', 'passwordChangedAt']),
@@ -163,7 +156,9 @@ module.exports = {
       isRoleLocked: (this.isSso && !sails.config.custom.oidcIgnoreRoles) || isDefaultAdmin,
       isUsernameLocked: (this.isSso && !sails.config.custom.oidcIgnoreUsername) || isDefaultAdmin,
       isDeletionLocked: isDefaultAdmin,
-      avatarUrl,
+      avatarUrl:
+        this.avatar &&
+        `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${this.avatar.dirname}/square-100.${this.avatar.extension}`)}`,
     };
   },
 };
