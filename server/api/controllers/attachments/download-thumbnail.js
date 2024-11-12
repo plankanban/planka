@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const Errors = {
   ATTACHMENT_NOT_FOUND: {
     attachmentNotFound: 'Attachment not found',
@@ -46,20 +43,20 @@ module.exports = {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 
-    const filePath = path.join(
-      sails.config.custom.attachmentsPath,
-      attachment.dirname,
-      'thumbnails',
-      `cover-256.${attachment.image.thumbnailsExtension}`,
-    );
+    const fileManager = sails.hooks['file-manager'].getInstance();
 
-    if (!fs.existsSync(filePath)) {
+    let readStream;
+    try {
+      readStream = await fileManager.read(
+        `${sails.config.custom.attachmentsPathSegment}/${attachment.dirname}/thumbnails/cover-256.${attachment.image.thumbnailsExtension}`,
+      );
+    } catch (error) {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 
     this.res.type('image/jpeg');
     this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
 
-    return exits.success(fs.createReadStream(filePath));
+    return exits.success(readStream);
   },
 };

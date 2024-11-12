@@ -1,6 +1,4 @@
-const path = require('path');
 const bcrypt = require('bcrypt');
-const rimraf = require('rimraf');
 const { v4: uuid } = require('uuid');
 
 const valuesValidator = (value) => {
@@ -101,23 +99,12 @@ module.exports = {
         inputs.record.avatar &&
         (!user.avatar || user.avatar.dirname !== inputs.record.avatar.dirname)
       ) {
+        const fileManager = sails.hooks['file-manager'].getInstance();
+
         try {
-          if (sails.config.custom.s3Config) {
-            const client = await sails.helpers.utils.getSimpleStorageServiceClient();
-            if (client && inputs.record.avatar && inputs.record.avatar.original) {
-              const parsedUrl = new URL(inputs.record.avatar.original);
-              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
-            }
-            if (client && inputs.record.avatar && inputs.record.avatar.square) {
-              const parsedUrl = new URL(inputs.record.avatar.square);
-              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
-            }
-          }
-        } catch (error) {
-          console.warn(error.stack); // eslint-disable-line no-console
-        }
-        try {
-          rimraf.sync(path.join(sails.config.custom.userAvatarsPath, inputs.record.avatar.dirname));
+          await fileManager.deleteFolder(
+            `${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.dirname}`,
+          );
         } catch (error) {
           console.warn(error.stack); // eslint-disable-line no-console
         }

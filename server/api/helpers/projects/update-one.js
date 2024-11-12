@@ -1,6 +1,3 @@
-const path = require('path');
-const rimraf = require('rimraf');
-
 const valuesValidator = (value) => {
   if (!_.isPlainObject(value)) {
     return false;
@@ -86,27 +83,11 @@ module.exports = {
         (!project.backgroundImage ||
           project.backgroundImage.dirname !== inputs.record.backgroundImage.dirname)
       ) {
+        const fileManager = sails.hooks['file-manager'].getInstance();
+
         try {
-          if (sails.config.custom.s3Config) {
-            const client = await sails.helpers.utils.getSimpleStorageServiceClient();
-            if (client && inputs.record.backgroundImage && inputs.record.backgroundImage.original) {
-              const parsedUrl = new URL(inputs.record.backgroundImage.original);
-              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
-            }
-            if (client && inputs.record.backgroundImage && inputs.record.backgroundImage.thumb) {
-              const parsedUrl = new URL(inputs.record.backgroundImage.thumb);
-              await client.delete({ Key: parsedUrl.pathname.replace(/^\/+/, '') });
-            }
-          }
-        } catch (error) {
-          console.warn(error.stack); // eslint-disable-line no-console
-        }
-        try {
-          rimraf.sync(
-            path.join(
-              sails.config.custom.projectBackgroundImagesPath,
-              inputs.record.backgroundImage.dirname,
-            ),
+          await fileManager.deleteFolder(
+            `${sails.config.custom.projectBackgroundImagesPathSegment}/${inputs.record.backgroundImage.dirname}`,
           );
         } catch (error) {
           console.warn(error.stack); // eslint-disable-line no-console

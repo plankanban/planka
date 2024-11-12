@@ -1,6 +1,4 @@
-const fs = require('fs');
-const path = require('path');
-const rimraf = require('rimraf');
+const { rimraf } = require('rimraf');
 const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
 
@@ -32,7 +30,10 @@ module.exports = {
       throw 'fileIsNotImage';
     }
 
+    const fileManager = sails.hooks['file-manager'].getInstance();
+
     const dirname = uuid();
+    const folderPathSegment = `${sails.config.custom.projectBackgroundImagesPathSegment}/${dirname}`;
 
     let { width, pageHeight: height = metadata.height } = metadata;
     if (metadata.orientation && metadata.orientation > 4) {
@@ -41,68 +42,16 @@ module.exports = {
 
     const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
-    if (sails.config.custom.s3Config) {
-      const client = await sails.helpers.utils.getSimpleStorageServiceClient();
-      let originalUrl = '';
-      let thumbUrl = '';
-
-      try {
-        const s3Original = await client.upload({
-          Body: await image.toBuffer(),
-          Key: `project-background-images/${dirname}/original.${extension}`,
-          ContentType: inputs.file.type,
-        });
-        originalUrl = s3Original.Location;
-
-        const resizeBuffer = await image
-          .resize(
-            336,
-            200,
-            width < 336 || height < 200
-              ? {
-                  kernel: sharp.kernel.nearest,
-                }
-              : undefined,
-          )
-          .toBuffer();
-        const s3Thumb = await client.upload({
-          Body: resizeBuffer,
-          Key: `project-background-images/${dirname}/cover-336.${extension}`,
-          ContentType: inputs.file.type,
-        });
-        thumbUrl = s3Thumb.Location;
-      } catch (error1) {
-        try {
-          client.delete({ Key: `project-background-images/${dirname}/original.${extension}` });
-        } catch (error2) {
-          console.warn(error2.stack); // eslint-disable-line no-console
-        }
-
-        throw 'fileIsNotImage';
-      }
-
-      try {
-        rimraf.sync(inputs.file.fd);
-      } catch (error) {
-        console.warn(error.stack); // eslint-disable-line no-console
-      }
-
-      return {
-        dirname,
-        extension,
-        original: originalUrl,
-        thumb: thumbUrl,
-      };
-    }
-
-    const rootPath = path.join(sails.config.custom.projectBackgroundImagesPath, dirname);
-
-    fs.mkdirSync(rootPath);
-
     try {
-      await image.toFile(path.join(rootPath, `original.${extension}`));
+      const originalBuffer = await image.toBuffer();
 
-      await image
+      await fileManager.save(
+        `${folderPathSegment}/original.${extension}`,
+        originalBuffer,
+        inputs.file.type,
+      );
+
+      const cover336Buffer = await image
         .resize(
           336,
           200,
@@ -112,10 +61,18 @@ module.exports = {
               }
             : undefined,
         )
-        .toFile(path.join(rootPath, `cover-336.${extension}`));
+        .toBuffer();
+
+      await fileManager.save(
+        `${folderPathSegment}/cover-336.${extension}`,
+        cover336Buffer,
+        inputs.file.type,
+      );
     } catch (error1) {
+      console.warn(error1.stack); // eslint-disable-line no-console
+
       try {
-        rimraf.sync(rootPath);
+        fileManager.deleteFolder(folderPathSegment);
       } catch (error2) {
         console.warn(error2.stack); // eslint-disable-line no-console
       }
@@ -124,7 +81,7 @@ module.exports = {
     }
 
     try {
-      rimraf.sync(inputs.file.fd);
+      await rimraf(inputs.file.fd);
     } catch (error) {
       console.warn(error.stack); // eslint-disable-line no-console
     }

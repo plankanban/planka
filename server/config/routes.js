@@ -135,13 +135,21 @@ module.exports.routes = {
   'PATCH /api/notifications/:ids': 'notifications/update',
 
   'GET /user-avatars/*': {
-    fn: staticDirServer('/user-avatars', () => path.resolve(sails.config.custom.userAvatarsPath)),
+    fn: staticDirServer('/user-avatars', () =>
+      path.join(
+        path.resolve(sails.config.custom.uploadsBasePath),
+        sails.config.custom.userAvatarsPathSegment,
+      ),
+    ),
     skipAssets: false,
   },
 
   'GET /project-background-images/*': {
     fn: staticDirServer('/project-background-images', () =>
-      path.resolve(sails.config.custom.projectBackgroundImagesPath),
+      path.join(
+        path.resolve(sails.config.custom.uploadsBasePath),
+        sails.config.custom.projectBackgroundImagesPathSegment,
+      ),
     ),
     skipAssets: false,
   },

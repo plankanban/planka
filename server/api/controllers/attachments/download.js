@@ -1,4 +1,3 @@
-const fs = require('fs');
 const path = require('path');
 
 const Errors = {
@@ -42,13 +41,14 @@ module.exports = {
       }
     }
 
-    const filePath = path.join(
-      sails.config.custom.attachmentsPath,
-      attachment.dirname,
-      attachment.filename,
-    );
+    const fileManager = sails.hooks['file-manager'].getInstance();
 
-    if (!fs.existsSync(filePath)) {
+    let readStream;
+    try {
+      readStream = await fileManager.read(
+        `${sails.config.custom.attachmentsPathSegment}/${attachment.dirname}/${attachment.filename}`,
+      );
+    } catch (error) {
       throw Errors.ATTACHMENT_NOT_FOUND;
     }
 
@@ -58,6 +58,6 @@ module.exports = {
     }
     this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
 
-    return exits.success(fs.createReadStream(filePath));
+    return exits.success(readStream);
   },
 };

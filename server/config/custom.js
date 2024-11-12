@@ -8,11 +8,10 @@
  * https://sailsjs.com/config/custom
  */
 
-const url = require('url');
-const path = require('path');
+const { URL } = require('url');
 const sails = require('sails');
 
-const parsedBasedUrl = new url.URL(process.env.BASE_URL);
+const parsedBasedUrl = new URL(process.env.BASE_URL);
 
 module.exports.custom = {
   /**
@@ -28,34 +27,25 @@ module.exports.custom = {
   tokenExpiresIn: parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365,
 
   // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
-  fileUploadTmpDir: null,
+  uploadsTempPath: null,
+  uploadsBasePath: sails.config.appPath,
 
-  userAvatarsPath: path.join(sails.config.paths.public, 'user-avatars'),
-  userAvatarsUrl: `${process.env.BASE_URL}/user-avatars`,
-
-  projectBackgroundImagesPath: path.join(sails.config.paths.public, 'project-background-images'),
-  projectBackgroundImagesUrl: `${process.env.BASE_URL}/project-background-images`,
-
-  attachmentsPath: path.join(sails.config.appPath, 'private', 'attachments'),
-  attachmentsUrl: `${process.env.BASE_URL}/attachments`,
-
-  s3Config:
-    process.env.S3_ENABLE === 'true'
-      ? {
-          accessKeyId: process.env.S3_ACCESS_KEY,
-          secretAccessKey: process.env.S3_SECRET_KEY,
-          region: process.env.S3_REGION,
-          endpoint: process.env.S3_ENDPOINT,
-          bucket: process.env.S3_BUCKET,
-        }
-      : null,
+  userAvatarsPathSegment: 'public/user-avatars',
+  projectBackgroundImagesPathSegment: 'public/project-background-images',
+  attachmentsPathSegment: 'private/attachments',
 
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
-
   allowAllToCreateProjects: process.env.ALLOW_ALL_TO_CREATE_PROJECTS === 'true',
+
+  s3Endpoint: process.env.S3_ENDPOINT,
+  s3Region: process.env.S3_REGION,
+  s3AccessKeyId: process.env.S3_ACCESS_KEY_ID,
+  s3SecretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  s3Bucket: process.env.S3_BUCKET,
+  s3ForcePathStyle: process.env.S3_FORCE_PATH_STYLE === 'true',
 
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,

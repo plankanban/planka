@@ -19,11 +19,11 @@
  * https://sailsjs.com/docs/concepts/deployment
  */
 
-const url = require('url');
+const { URL } = require('url');
 
 const { customLogger } = require('../../utils/logger');
 
-const parsedBasedUrl = new url.URL(process.env.BASE_URL);
+const parsedBasedUrl = new URL(process.env.BASE_URL);
 
 module.exports = {
   /**
