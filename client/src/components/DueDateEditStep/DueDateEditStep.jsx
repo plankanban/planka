@@ -67,11 +67,18 @@ const DueDateEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose })
       return;
     }
 
-    const value = parseTime(data.time, nullableDate);
+    let value = t('format:dateTime', {
+      postProcess: 'parseDate',
+      value: `${data.date} ${data.time}`,
+    });
 
     if (Number.isNaN(value.getTime())) {
-      timeField.current.select();
-      return;
+      value = parseTime(data.time, nullableDate);
+
+      if (Number.isNaN(value.getTime())) {
+        timeField.current.select();
+        return;
+      }
     }
 
     if (!defaultValue || value.getTime() !== defaultValue.getTime()) {
@@ -79,7 +86,7 @@ const DueDateEditStep = React.memo(({ defaultValue, onUpdate, onBack, onClose })
     }
 
     onClose();
-  }, [defaultValue, onUpdate, onClose, data, nullableDate]);
+  }, [defaultValue, onUpdate, onClose, data, nullableDate, t]);
 
   const handleClearClick = useCallback(() => {
     if (defaultValue) {
