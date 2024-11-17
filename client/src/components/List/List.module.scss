@@ -40,7 +40,6 @@
   }
 
   .cardsInnerWrapper {
-    max-height: calc(100vh - 268px);
     overflow-x: hidden;
     overflow-y: auto;
     width: 290px;
@@ -60,10 +59,6 @@
     &::-webkit-scrollbar-thumb {
       border-radius: 3px;
     }
-  }
-
-  .cardsInnerWrapperFull {
-    max-height: calc(100vh - 232px);
   }
 
   .cardsOuterWrapper {
@@ -140,6 +135,9 @@
   .outerWrapper {
     background: #dfe3e6;
     border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 198px);
     overflow: hidden;
   }
 }
