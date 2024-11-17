@@ -11,6 +11,7 @@ import ListAdd from './ListAdd';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
 import styles from './Board.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const parseDndId = (dndId) => dndId.split(':')[1];
 
@@ -31,11 +32,14 @@ const Board = React.memo(
     }, []);
 
     const handleDragStart = useCallback(() => {
+      document.body.classList.add(globalStyles.dragging);
       closePopup();
     }, []);
 
     const handleDragEnd = useCallback(
       ({ draggableId, type, source, destination }) => {
+        document.body.classList.remove(globalStyles.dragging);
+
         if (
           !destination ||
           (source.droppableId === destination.droppableId && source.index === destination.index)

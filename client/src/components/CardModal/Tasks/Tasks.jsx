@@ -10,16 +10,20 @@ import Item from './Item';
 import Add from './Add';
 
 import styles from './Tasks.module.scss';
+import globalStyles from '../../../styles.module.scss';
 
 const Tasks = React.memo(({ items, canEdit, onCreate, onUpdate, onMove, onDelete }) => {
   const [t] = useTranslation();
 
   const handleDragStart = useCallback(() => {
+    document.body.classList.add(globalStyles.dragging);
     closePopup();
   }, []);
 
   const handleDragEnd = useCallback(
     ({ draggableId, source, destination }) => {
+      document.body.classList.remove(globalStyles.dragging);
+
       if (!destination || source.index === destination.index) {
         return;
       }
