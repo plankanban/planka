@@ -6,6 +6,9 @@ const Errors = {
   INVALID_CODE_OR_NONCE: {
     invalidCodeOrNonce: 'Invalid code or nonce',
   },
+  INVALID_OIDC_CONFIGURATION: {
+    invalidOIDCConfiguration: 'Invalid OIDC configuration',
+  },
   INVALID_USERINFO_CONFIGURATION: {
     invalidUserinfoConfiguration: 'Invalid userinfo configuration',
   },
@@ -37,6 +40,9 @@ module.exports = {
   },
 
   exits: {
+    invalidOIDCConfiguration: {
+      responseType: 'serverError',
+    },
     invalidCodeOrNonce: {
       responseType: 'unauthorized',
     },
@@ -63,6 +69,7 @@ module.exports = {
         sails.log.warn(`Invalid code or nonce! (IP: ${remoteAddress})`);
         return Errors.INVALID_CODE_OR_NONCE;
       })
+      .intercept('invalidOIDCConfiguration', () => Errors.INVALID_OIDC_CONFIGURATION)
       .intercept('invalidUserinfoConfiguration', () => Errors.INVALID_USERINFO_CONFIGURATION)
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)

@@ -15,37 +15,40 @@ module.exports = function defineOidcHook(sails) {
     /**
      * Runs when this Sails app loads/lifts.
      */
-
     async initialize() {
-      if (!sails.config.custom.oidcIssuer) {
+      if (!this.isActive()) {
         return;
       }
 
       sails.log.info('Initializing custom hook (`oidc`)');
-
-      const issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
-
-      const metadata = {
-        client_id: sails.config.custom.oidcClientId,
-        client_secret: sails.config.custom.oidcClientSecret,
-        redirect_uris: [sails.config.custom.oidcRedirectUri],
-        response_types: ['code'],
-        userinfo_signed_response_alg: sails.config.custom.oidcUserinfoSignedResponseAlg,
-      };
-
-      if (sails.config.custom.oidcIdTokenSignedResponseAlg) {
-        metadata.id_token_signed_response_alg = sails.config.custom.oidcIdTokenSignedResponseAlg;
-      }
-
-      client = new issuer.Client(metadata);
     },
 
-    getClient() {
+    async getClient() {
+      if (client === null && this.isActive()) {
+        sails.log.info('Initializing OIDC client');
+
+        const issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
+
+        const metadata = {
+          client_id: sails.config.custom.oidcClientId,
+          client_secret: sails.config.custom.oidcClientSecret,
+          redirect_uris: [sails.config.custom.oidcRedirectUri],
+          response_types: ['code'],
+          userinfo_signed_response_alg: sails.config.custom.oidcUserinfoSignedResponseAlg,
+        };
+
+        if (sails.config.custom.oidcIdTokenSignedResponseAlg) {
+          metadata.id_token_signed_response_alg = sails.config.custom.oidcIdTokenSignedResponseAlg;
+        }
+
+        client = new issuer.Client(metadata);
+      }
+
       return client;
     },
 
     isActive() {
-      return client !== null;
+      return sails.config.custom.oidcIssuer !== undefined;
     },
   };
 };
