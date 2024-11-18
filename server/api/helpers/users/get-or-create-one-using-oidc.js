@@ -11,8 +11,8 @@ module.exports = {
   },
 
   exits: {
-    invalidCodeOrNonce: {},
     invalidOIDCConfiguration: {},
+    invalidCodeOrNonce: {},
     invalidUserinfoConfiguration: {},
     missingValues: {},
     emailAlreadyInUse: {},

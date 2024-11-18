@@ -1,13 +1,13 @@
 const Errors = {
   INVALID_OIDC_CONFIGURATION: {
-    invalidOidcConfiguration: 'Invalid OIDC configuration'
+    invalidOidcConfiguration: 'Invalid OIDC configuration',
   },
 };
 
 module.exports = {
   exits: {
     invalidOidcConfiguration: {
-      responseType: 'serverError'
+      responseType: 'serverError',
     },
   },
 

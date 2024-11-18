@@ -3,11 +3,11 @@ const { v4: uuid } = require('uuid');
 const { getRemoteAddress } = require('../../../utils/remoteAddress');
 
 const Errors = {
-  INVALID_CODE_OR_NONCE: {
-    invalidCodeOrNonce: 'Invalid code or nonce',
-  },
   INVALID_OIDC_CONFIGURATION: {
     invalidOIDCConfiguration: 'Invalid OIDC configuration',
+  },
+  INVALID_CODE_OR_NONCE: {
+    invalidCodeOrNonce: 'Invalid code or nonce',
   },
   INVALID_USERINFO_CONFIGURATION: {
     invalidUserinfoConfiguration: 'Invalid userinfo configuration',
