@@ -1,4 +1,4 @@
-import dateFns from 'date-fns/locale/sr';
+import dateFns from 'date-fns/locale/sr-Latn';
 
 export default {
   dateFns,
