@@ -44,7 +44,7 @@ const DescriptionEdit = React.forwardRef(({ children, defaultValue, onUpdate }, 
   );
 
   const handleChildrenClick = useCallback(() => {
-    if (!getSelection().toString()) {
+    if (!window.getSelection().toString()) {
       open();
     }
   }, [open]);

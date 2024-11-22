@@ -146,6 +146,11 @@
     pointer-events: none;
   }
 
+  &.dragScrolling>* {
+    pointer-events: none;
+    user-select: none;
+  }
+
   /* Backgrounds */
 
   .backgroundBerryRed {
