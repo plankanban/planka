@@ -15,7 +15,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # Generate a secret using openssl rand -base64 45
-secretkey: ""
+secretkey: "88030836190636c899007865fafbf3074afdbe2a184300c75c15a3447a2734f77af6e32847b44993e49771bae9d6a95cd7c355385ba18959d6b9fbf6f1ed1bc2"
 
 ## @param existingSecretkeySecret Name of an existing secret containing the session key string
 ## NOTE: Must contain key `key`
@@ -42,10 +42,12 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
+podSecurityContext:
+  {}
   # fsGroup: 2000
 
-securityContext: {}
+securityContext:
+  {}
   # capabilities:
   #   drop:
   #   - ALL
@@ -65,11 +67,12 @@ service:
 ingress:
   enabled: false
   className: ""
-  annotations: {}
+  annotations:
+    {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-      # Used to set planka BASE_URL if no `baseurl` is provided.
+    # Used to set planka BASE_URL if no `baseurl` is provided.
     - host: planka.local
       paths:
         - path: /
@@ -79,7 +82,8 @@ ingress:
   #    hosts:
   #      - planka.local
 
-resources: {}
+resources:
+  {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -195,5 +199,19 @@ oidc:
 
     ## @param oidc.admin.roles The names of the admin groups
     ##
-    roles: []
+    roles:
+      []
       # - planka-admin
+
+## Extra environment variables for planka deployment
+## Supports hard coded and getting values from a k8s secret
+## - name: test
+##   value: valuetest
+## - name: another
+##   value: another
+## - name: test-secret
+##   valueFrom:
+##     secretName: k8s-secret-name
+##     key: key-inside-the-secret
+##
+extraEnv: []
