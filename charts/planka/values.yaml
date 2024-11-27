@@ -69,7 +69,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-      # Used to set planka BASE_URL if no `baseurl` is provided.
+    # Used to set planka BASE_URL if no `baseurl` is provided.
     - host: planka.local
       paths:
         - path: /
@@ -197,3 +197,16 @@ oidc:
     ##
     roles: []
       # - planka-admin
+
+## Extra environment variables for planka deployment
+## Supports hard coded and getting values from a k8s secret
+## - name: test
+##   value: valuetest
+## - name: another
+##   value: another
+## - name: test-secret
+##   valueFrom:
+##     secretName: k8s-secret-name
+##     key: key-inside-the-secret
+##
+extraEnv: []
