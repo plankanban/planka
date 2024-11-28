@@ -66,7 +66,7 @@
     "dequal": "^2.0.3",
     "easymde": "^2.18.0",
     "history": "^5.3.0",
-    "i18next": "^23.16.8",
+    "i18next": "23.15.2",
     "i18next-browser-languagedetector": "^8.0.0",
     "initials": "^3.1.2",
     "js-cookie": "^3.0.5",
