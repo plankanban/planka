@@ -6,7 +6,7 @@ RUN apk -U upgrade \
 
 WORKDIR /app/client
 COPY package.json package-lock.json /app/client/
-RUN npm install npm@latest --global \
+RUN npm install npm --global \
   && npm install pnpm --global \
   && pnpm import \
   && pnpm install

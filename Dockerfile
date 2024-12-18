@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY server/package.json server/package-lock.json ./
 
-RUN npm install npm@latest --global \
+RUN npm install npm --global \
   && npm install pnpm --global \
   && pnpm import \
   && pnpm install --prod
@@ -19,7 +19,7 @@ WORKDIR /app
 
 COPY client/package.json client/package-lock.json ./
 
-RUN npm install npm@latest --global \
+RUN npm install npm --global \
   && npm install pnpm --global \
   && pnpm import \
   && pnpm install --prod
