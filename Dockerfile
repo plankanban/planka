@@ -1,4 +1,4 @@
-FROM node:18-alpine as server-dependencies
+FROM node:18-alpine AS server-dependencies
 
 RUN apk -U upgrade \
   && apk add build-base python3 \
