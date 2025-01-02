@@ -1,4 +1,4 @@
-version: '3'
+version: :latest
 
 services:
   planka:
@@ -11,95 +11,65 @@ services:
     ports:
       - 3000:1337
     environment:
-      - BASE_URL=http://localhost:3000
-      - DATABASE_URL=postgresql://postgres@postgres/planka
-      - SECRET_KEY=notsecretkey
+      - BASE_URL=http://10.0.0.126:3000
+      - DATABASE_URL=postgresql://dummy_user:dummypassword@postgres/planka1 # Replace with your PostgreSQL username and password
+      - SECRET_KEY=super_64363465643 # Replace with a secure secret key for your application
 
-      # - TRUST_PROXY=0
+      - TRUST_PROXY=1
       # - TOKEN_EXPIRES_IN=365 # In days
 
-      # related: https://github.com/knex/knex/issues/2354
-      # As knex does not pass query parameters from the connection string we
-      # have to use environment variables in order to pass the desired values, e.g.
-      # - PGSSLMODE=<value>
-
-      # Configure knex to accept SSL certificates
+      # Uncomment for SSL configuration if needed
+      # - PGSSLMODE=require
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
 
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_EMAIL=bgfewggew@gco.co # Important to keep this for the admin
+      - DEFAULT_ADMIN_PASSWORD=h55yyfb5h5eay # Replace with a secure password
+      - DEFAULT_ADMIN_NAME=Marc van Heerden
+      - DEFAULT_ADMIN_USERNAME=billygoat
 
-      # - SHOW_DETAILED_AUTH_ERRORS=false # Set to true to show more detailed authentication error messages. It should not be enabled without a rate limiter for security reasons.
+      # Uncomment to show detailed errors (use caution).
+      # - SHOW_DETAILED_AUTH_ERRORS=false 
+
+      # Uncomment if you want to allow all users to create projects
       # - ALLOW_ALL_TO_CREATE_PROJECTS=true
 
-      # - S3_ENDPOINT=
-      # - S3_REGION=
-      # - S3_ACCESS_KEY_ID=
-      # - S3_SECRET_ACCESS_KEY=
-      # - S3_BUCKET=
-      # - S3_FORCE_PATH_STYLE=true
-
+      # OIDC configurations (uncomment and fill in when needed)
       # - OIDC_ISSUER=
       # - OIDC_CLIENT_ID=
       # - OIDC_CLIENT_SECRET=
-      # - OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG=
-      # - OIDC_USERINFO_SIGNED_RESPONSE_ALG=
-      # - OIDC_SCOPES=openid email profile
-      # - OIDC_RESPONSE_MODE=fragment
-      # - OIDC_USE_DEFAULT_RESPONSE_MODE=true
-      # - OIDC_ADMIN_ROLES=admin
-      # - OIDC_CLAIMS_SOURCE=userinfo
-      # - OIDC_EMAIL_ATTRIBUTE=email
-      # - OIDC_NAME_ATTRIBUTE=name
-      # - OIDC_USERNAME_ATTRIBUTE=preferred_username
-      # - OIDC_ROLES_ATTRIBUTE=groups
-      # - OIDC_IGNORE_USERNAME=true
-      # - OIDC_IGNORE_ROLES=true
-      # - OIDC_ENFORCED=true
-
-      # Email Notifications (https://nodemailer.com/smtp/)
+      
+      # Email Notifications (for SMTP)
       # - SMTP_HOST=
       # - SMTP_PORT=587
       # - SMTP_NAME=
       # - SMTP_SECURE=true
       # - SMTP_USER=
       # - SMTP_PASSWORD=
-      # - SMTP_FROM="Demo Demo" <demo@demo.demo>
+      # - SMTP_FROM="Demo User" <demo@example.com>
       # - SMTP_TLS_REJECT_UNAUTHORIZED=false
-
-      # Optional fields: accessToken, events, excludedEvents
-      # - |
-      #   WEBHOOKS=[{
-      #     "url": "http://localhost:3001",
-      #     "accessToken": "notaccesstoken",
-      #     "events": ["cardCreate", "cardUpdate", "cardDelete"],
-      #     "excludedEvents": ["notificationCreate", "notificationUpdate"]
-      #   }]
-
+      
+      # For webhooks and integrations, uncomment and configure as needed
+      # - WEBHOOKS=[{ "url": "http://localhost:3001", ... }]
       # - SLACK_BOT_TOKEN=
       # - SLACK_CHANNEL_ID=
-
       # - GOOGLE_CHAT_WEBHOOK_URL=
-
-      # - TELEGRAM_BOT_TOKEN=
-      # - TELEGRAM_CHAT_ID=
-      # - TELEGRAM_THREAD_ID=
+      
     depends_on:
       postgres:
         condition: service_healthy
 
   postgres:
-    image: postgres:16-alpine
+    image: postgres:14-alpine
     restart: on-failure
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=planka
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=planka1
+      - POSTGRES_USER=dummy_user # Replace with your desired PostgreSQL username
+      - POSTGRES_PASSWORD=dummypafsdfdsfsswfds4r4gord # Replace with a secure password for your PostgreSQL user
+      - POSTGRES_HOST_AUTH_METHOD=md5 # Change to 'md5' for better security
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
+      test: ["CMD-SHELL", "pg_isready -U dummy_user -d planka"] # Update to use your PostgreSQL username
       interval: 10s
       timeout: 5s
       retries: 5
