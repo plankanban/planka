@@ -13,6 +13,7 @@ import AddStep from './AddStep';
 import EditStep from './EditStep';
 
 import styles from './Boards.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const Boards = React.memo(({ items, currentId, canEdit, onCreate, onUpdate, onMove, onDelete }) => {
   const tabsWrapper = useRef(null);
@@ -24,11 +25,14 @@ const Boards = React.memo(({ items, currentId, canEdit, onCreate, onUpdate, onMo
   }, []);
 
   const handleDragStart = useCallback(() => {
+    document.body.classList.add(globalStyles.dragging);
     closePopup();
   }, []);
 
   const handleDragEnd = useCallback(
     ({ draggableId, source, destination }) => {
+      document.body.classList.remove(globalStyles.dragging);
+
       if (!destination || source.index === destination.index) {
         return;
       }

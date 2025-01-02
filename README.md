@@ -1,7 +1,7 @@
 # Planka
 #### Elegant open source project tracking.
 
-![David (path)](https://img.shields.io/github/package-json/v/plankanban/planka) ![Docker Pulls](https://img.shields.io/badge/docker_pulls-4M%2B-%23066da5) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
+![David (path)](https://img.shields.io/github/package-json/v/plankanban/planka) ![Docker Pulls](https://img.shields.io/badge/docker_pulls-5M%2B-%23066da5) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
 
 ![](https://raw.githubusercontent.com/plankanban/planka/master/demo.gif)
 

@@ -32,7 +32,7 @@ const List = React.memo(
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
 
     const nameEdit = useRef(null);
-    const listWrapper = useRef(null);
+    const cardsWrapper = useRef(null);
 
     const handleHeaderClick = useCallback(() => {
       if (isPersisted && canEdit) {
@@ -67,7 +67,7 @@ const List = React.memo(
 
     useEffect(() => {
       if (isAddCardOpened) {
-        listWrapper.current.scrollTop = listWrapper.current.scrollHeight;
+        cardsWrapper.current.scrollTop = cardsWrapper.current.scrollHeight;
       }
     }, [cardIds, isAddCardOpened]);
 
@@ -133,13 +133,7 @@ const List = React.memo(
                   </ActionsPopup>
                 )}
               </div>
-              <div
-                ref={listWrapper}
-                className={classNames(
-                  styles.cardsInnerWrapper,
-                  (isAddCardOpened || !canEdit) && styles.cardsInnerWrapperFull,
-                )}
-              >
+              <div ref={cardsWrapper} className={styles.cardsInnerWrapper}>
                 <div className={styles.cardsOuterWrapper}>{cardsNode}</div>
               </div>
               {!isAddCardOpened && canEdit && (

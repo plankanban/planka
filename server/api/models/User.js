@@ -27,6 +27,8 @@ const LANGUAGES = [
   'ro-RO',
   'ru-RU',
   'sk-SK',
+  'sr-Cyrl-CS',
+  'sr-Latn-CS',
   'sv-SE',
   'tr-TR',
   'uk-UA',
