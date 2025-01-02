@@ -12,8 +12,8 @@ services:
       - 3000:1337
     environment:
       - BASE_URL=http://10.0.0.126:3000
-      - DATABASE_URL=postgresql://dummy_user:dummypassword@postgres/planka1 # Replace with your PostgreSQL username and password
-      - SECRET_KEY=super_64363465643 # Replace with a secure secret key for your application
+      - DATABASE_URL=postgresql://dummy_user:dummypassword@postgres/planka # Replace with your PostgreSQL username and password
+      - SECRET_KEY=super_secret_key_123456 # Replace with a secure secret key for your application
 
       - TRUST_PROXY=1
       # - TOKEN_EXPIRES_IN=365 # In days
@@ -22,8 +22,8 @@ services:
       # - PGSSLMODE=require
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
 
-      - DEFAULT_ADMIN_EMAIL=bgfewggew@gco.co # Important to keep this for the admin
-      - DEFAULT_ADMIN_PASSWORD=h55yyfb5h5eay # Replace with a secure password
+      - DEFAULT_ADMIN_EMAIL=billygoat@p1ng.co.co # Important to keep this for the admin
+      - DEFAULT_ADMIN_PASSWORD=aKANP!NG0@0!0 # Replace with a secure password
       - DEFAULT_ADMIN_NAME=Marc van Heerden
       - DEFAULT_ADMIN_USERNAME=billygoat
 
@@ -64,9 +64,9 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=planka1
+      - POSTGRES_DB=planka
       - POSTGRES_USER=dummy_user # Replace with your desired PostgreSQL username
-      - POSTGRES_PASSWORD=dummypafsdfdsfsswfds4r4gord # Replace with a secure password for your PostgreSQL user
+      - POSTGRES_PASSWORD=dummypassword # Replace with a secure password for your PostgreSQL user
       - POSTGRES_HOST_AUTH_METHOD=md5 # Change to 'md5' for better security
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U dummy_user -d planka"] # Update to use your PostgreSQL username
