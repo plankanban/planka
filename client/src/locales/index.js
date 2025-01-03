@@ -19,6 +19,8 @@ import ptBR from './pt-BR';
 import roRO from './ro-RO';
 import ruRU from './ru-RU';
 import skSK from './sk-SK';
+import srCyrlCS from './sr-Cyrl-CS';
+import srLatnCS from './sr-Latn-CS';
 import svSE from './sv-SE';
 import trTR from './tr-TR';
 import ukUA from './uk-UA';
@@ -48,6 +50,8 @@ const locales = [
   roRO,
   ruRU,
   skSK,
+  srCyrlCS,
+  srLatnCS,
   svSE,
   trTR,
   ukUA,

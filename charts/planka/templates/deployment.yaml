@@ -67,6 +67,20 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
+          {{- if .Values.extraEnv }}
+          {{- range .Values.extraEnv }}
+            - name: {{ .name }}
+          {{- if  .value }}
+              value: {{ .value | quote}}
+          {{- end }}
+          {{- if .valueFrom }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .valueFrom.secretName }}
+                  key: {{ .valueFrom.key }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
           {{- if not .Values.postgresql.enabled }}
           {{- if .Values.existingDburlSecret }}
             - name: DATABASE_URL

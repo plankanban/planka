@@ -11,6 +11,7 @@ module.exports = {
   },
 
   exits: {
+    invalidOIDCConfiguration: {},
     invalidCodeOrNonce: {},
     invalidUserinfoConfiguration: {},
     missingValues: {},
@@ -19,7 +20,13 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const client = sails.hooks.oidc.getClient();
+    let client;
+    try {
+      client = await sails.hooks.oidc.getClient();
+    } catch (error) {
+      sails.log.warn(`Error while initializing OIDC client: ${error}`);
+      throw 'invalidOIDCConfiguration';
+    }
 
     let tokenSet;
     try {

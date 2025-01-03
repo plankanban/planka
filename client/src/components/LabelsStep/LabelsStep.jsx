@@ -13,6 +13,7 @@ import EditStep from './EditStep';
 import Item from './Item';
 
 import styles from './LabelsStep.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const StepTypes = {
   ADD: 'ADD',
@@ -77,8 +78,14 @@ const LabelsStep = React.memo(
       [onDeselect],
     );
 
+    const handleDragStart = useCallback(() => {
+      document.body.classList.add(globalStyles.dragging);
+    }, []);
+
     const handleDragEnd = useCallback(
       ({ draggableId, source, destination }) => {
+        document.body.classList.remove(globalStyles.dragging);
+
         if (!destination || source.index === destination.index) {
           return;
         }
@@ -159,7 +166,7 @@ const LabelsStep = React.memo(
             onChange={handleSearchChange}
           />
           {filteredItems.length > 0 && (
-            <DragDropContext onDragEnd={handleDragEnd}>
+            <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <Droppable droppableId="labels" type={DroppableTypes.LABEL}>
                 {({ innerRef, droppableProps, placeholder }) => (
                   <div

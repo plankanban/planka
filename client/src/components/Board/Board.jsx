@@ -11,6 +11,7 @@ import ListAdd from './ListAdd';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
 import styles from './Board.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const parseDndId = (dndId) => dndId.split(':')[1];
 
@@ -31,11 +32,14 @@ const Board = React.memo(
     }, []);
 
     const handleDragStart = useCallback(() => {
+      document.body.classList.add(globalStyles.dragging);
       closePopup();
     }, []);
 
     const handleDragEnd = useCallback(
       ({ draggableId, type, source, destination }) => {
+        document.body.classList.remove(globalStyles.dragging);
+
         if (
           !destination ||
           (source.droppableId === destination.droppableId && source.index === destination.index)
@@ -72,13 +76,16 @@ const Board = React.memo(
         }
 
         prevPosition.current = event.clientX;
+
+        window.getSelection().removeAllRanges();
+        document.body.classList.add(globalStyles.dragScrolling);
       },
       [wrapper],
     );
 
     const handleWindowMouseMove = useCallback(
       (event) => {
-        if (!prevPosition.current) {
+        if (prevPosition.current === null) {
           return;
         }
 
@@ -93,8 +100,13 @@ const Board = React.memo(
       [prevPosition],
     );
 
-    const handleWindowMouseUp = useCallback(() => {
+    const handleWindowMouseRelease = useCallback(() => {
+      if (prevPosition.current === null) {
+        return;
+      }
+
       prevPosition.current = null;
+      document.body.classList.remove(globalStyles.dragScrolling);
     }, [prevPosition]);
 
     useEffect(() => {
@@ -112,14 +124,20 @@ const Board = React.memo(
     }, [listIds, isListAddOpened]);
 
     useEffect(() => {
-      window.addEventListener('mouseup', handleWindowMouseUp);
       window.addEventListener('mousemove', handleWindowMouseMove);
 
+      window.addEventListener('mouseup', handleWindowMouseRelease);
+      window.addEventListener('blur', handleWindowMouseRelease);
+      window.addEventListener('contextmenu', handleWindowMouseRelease);
+
       return () => {
-        window.removeEventListener('mouseup', handleWindowMouseUp);
         window.removeEventListener('mousemove', handleWindowMouseMove);
+
+        window.removeEventListener('mouseup', handleWindowMouseRelease);
+        window.removeEventListener('blur', handleWindowMouseRelease);
+        window.removeEventListener('contextmenu', handleWindowMouseRelease);
       };
-    }, [handleWindowMouseUp, handleWindowMouseMove]);
+    }, [handleWindowMouseMove, handleWindowMouseRelease]);
 
     return (
       <>
