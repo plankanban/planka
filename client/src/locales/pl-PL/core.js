@@ -37,7 +37,7 @@ export default {
       areYouSureYouWantToDeleteThisTask: 'Jesteś pewien że chcesz usunąć to zadanie?',
       areYouSureYouWantToDeleteThisUser: 'Jesteś pewien że chcesz usunąć tego użytkownika?',
       areYouSureYouWantToRemoveThisManagerFromProject:
-      'Jesteś pewien że chcesz usunąć tego zarządce z projektu?',
+        'Jesteś pewien że chcesz usunąć tego zarządce z projektu?',
       areYouSureYouWantToRemoveThisMemberFromProject:
         'Jesteś pewien że chcesz usunąć tego członka z projektu?',
       attachment: 'Załącznik',
@@ -128,7 +128,7 @@ export default {
       noProjects: 'Brak projektów',
       notifications: 'Powiadomienia',
       noUnreadNotifications: 'Brak nieprzeczytanych powiadomień.',
-      oldestFirst: 'Najpierw najstarsze'
+      oldestFirst: 'Najpierw najstarsze',
       openBoard_title: 'Otwórz Tablicę',
       optional_inline: 'opcjonalny',
       organization: 'Organizacja',
@@ -155,8 +155,7 @@ export default {
       subscribeToMyOwnCardsByDefault: 'Zapisz mnie do moich kart automatycznie',
       taskActions_title: 'Akcje Zadania',
       tasks: 'Zadania',
-      thereIsNoPreviewAvailableForThisAttachment:
-        'Brak podglądu dostępnego dla tego załącznika.',
+      thereIsNoPreviewAvailableForThisAttachment: 'Brak podglądu dostępnego dla tego załącznika.',
       time: 'Czas',
       title: 'Tytuł',
       userActions_title: 'Akcje użytkownika',
