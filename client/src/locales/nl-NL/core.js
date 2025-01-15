@@ -197,6 +197,7 @@ export default {
       deleteLabel: 'Label verwijderen',
       deleteList: 'Lijst verwijderen',
       deleteList_title: 'Lijst verwijderen',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Project verwijderen',
       deleteProject_title: 'Project verwijderen',
       deleteTask: 'Taak verwijderen',

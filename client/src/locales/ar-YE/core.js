@@ -204,6 +204,7 @@ export default {
       deleteLabel: 'حذف الملصق',
       deleteList: 'حذف القائمة',
       deleteList_title: 'حذف القائمة',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'حذف المشروع',
       deleteProject_title: 'حذف المشروع',
       deleteTask: 'حذف المهمة',

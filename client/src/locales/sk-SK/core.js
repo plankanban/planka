@@ -176,6 +176,7 @@ export default {
       deleteLabel: 'Zmazať štítok',
       deleteList: 'Zmazať zoznam',
       deleteList_title: 'Zmazať zoznam',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Zmazať projekt',
       deleteProject_title: 'Zmazať projekt',
       deleteTask: 'Zmazať úlohu',

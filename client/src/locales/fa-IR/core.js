@@ -206,6 +206,7 @@ export default {
       deleteLabel: 'حذف برچسب',
       deleteList: 'حذف لیست',
       deleteList_title: 'حذف لیست',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'حذف پروژه',
       deleteProject_title: 'حذف پروژه',
       deleteTask: 'حذف وظیفه',

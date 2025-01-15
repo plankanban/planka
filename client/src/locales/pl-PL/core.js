@@ -203,6 +203,7 @@ export default {
       deleteLabel: 'Usuń oznaczenie',
       deleteList: 'Usuń listę',
       deleteList_title: 'Usuń Listę',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Usuń projekt',
       deleteProject_title: 'Usuń Projekt',
       deleteTask: 'Usuń zadanie',

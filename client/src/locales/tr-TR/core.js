@@ -179,6 +179,7 @@ export default {
       deleteLabel: 'Etiketi sil',
       deleteList: 'Listeyi sil',
       deleteList_title: 'Listeyi Sil',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Projeyi sil',
       deleteProject_title: 'Projeyi Sil',
       deleteTask: 'Görevi sil',

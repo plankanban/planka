@@ -206,6 +206,7 @@ export default {
       deleteLabel: 'Címke törlése',
       deleteList: 'Lista törlése',
       deleteList_title: 'Lista törlése',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Projekt törlése',
       deleteProject_title: 'Projekt törlése',
       deleteTask: 'Feladat törlése',

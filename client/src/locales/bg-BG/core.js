@@ -204,6 +204,7 @@ export default {
       deleteLabel: 'Изтриване на етикета',
       deleteList: 'Изтриване на списък',
       deleteList_title: 'Изтриване на списък',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Изтриване на проект',
       deleteProject_title: 'Изтриване на проект',
       deleteTask: 'Изтриване на задача',

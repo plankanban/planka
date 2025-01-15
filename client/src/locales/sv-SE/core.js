@@ -178,6 +178,7 @@ export default {
       deleteLabel: 'Ta bort etikett',
       deleteList: 'Ta bort lista',
       deleteList_title: 'Ta Bort Lista',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Ta bort projekt',
       deleteProject_title: 'Ta Bort Projekt',
       deleteTask: 'Ta bort uppgift',
