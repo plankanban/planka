@@ -164,6 +164,7 @@ export default {
       deleteLabel: 'Borrar etiqueta',
       deleteList: 'Borrar lista',
       deleteList_title: 'Borrar Lista',
+      deleteNotifications: 'Borrar notificaciones',
       deleteProject: 'Borrar proyecto',
       deleteProject_title: 'Borrar Proyecto',
       deleteTask: 'Borrar tarea',

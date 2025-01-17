@@ -175,6 +175,7 @@ export default {
       deleteLabel: "Yorliqni o'chirish",
       deleteList: "Ro'yxatni o'chirish",
       deleteList_title: "Ro'yxatni O'chirish",
+      deleteNotifications: 'Dismiss all',
       deleteProject: "Loyihani o'chirish",
       deleteProject_title: "Loyihani O'chirish",
       deleteTask: "Vazifani o'chirish",

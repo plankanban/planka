@@ -62,4 +62,19 @@
       border-radius: 3px;
     }
   }
+
+  .deleteAllButton {
+    background: transparent;
+    box-shadow: none;
+    transition: background 0.3s ease;
+
+    display: block;
+    margin: 0 auto;
+    padding: 0.5em 1em;
+    font-size: 0.875em;
+
+    &:hover {
+      background: #e9e9e9;
+    }
+  }
 }

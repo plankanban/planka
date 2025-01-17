@@ -205,6 +205,7 @@ export default {
       deleteLabel: 'Обриши ознаку',
       deleteList: 'Обриши списак',
       deleteList_title: 'Обриши списак',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Обриши пројекат',
       deleteProject_title: 'Обриши пројекат',
       deleteTask: 'Обриши задатак',

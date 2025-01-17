@@ -197,6 +197,7 @@ export default {
       deleteLabel: 'Ștergeți Eticheta',
       deleteList: 'Ștergeți lista',
       deleteList_title: 'Ștergeți Lista',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Ștergeți proiectul',
       deleteProject_title: 'Ștergeți Proiectul',
       deleteTask: 'Ștergeți sarcina',

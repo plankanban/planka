@@ -201,6 +201,7 @@ export default {
       deleteLabel: 'Delete label',
       deleteList: 'Delete list',
       deleteList_title: 'Delete List',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Delete project',
       deleteProject_title: 'Delete Project',
       deleteTask: 'Delete task',

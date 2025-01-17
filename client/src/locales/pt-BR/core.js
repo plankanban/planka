@@ -196,6 +196,7 @@ export default {
       deleteLabel: 'Excluir rótulo',
       deleteList: 'Excluir lista',
       deleteList_title: 'Excluir Lista',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Excluir projeto',
       deleteProject_title: 'Excluir Projeto',
       deleteTask: 'Excluir tarefa',

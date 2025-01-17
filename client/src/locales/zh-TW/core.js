@@ -192,6 +192,7 @@ export default {
       deleteLabel: '刪除標籤',
       deleteList: '刪除列表',
       deleteList_title: '刪除列表',
+      deleteNotifications: 'Dismiss all',
       deleteProject: '刪除專案',
       deleteProject_title: '刪除專案',
       deleteTask: '刪除任務',
