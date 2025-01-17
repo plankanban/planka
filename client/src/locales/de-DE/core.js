@@ -187,6 +187,7 @@ export default {
       deleteLabel: 'Label löschen',
       deleteList: 'Liste löschen',
       deleteList_title: 'Liste löschen',
+      deleteNotifications: 'Benachrichtigungen löschen',
       deleteProject: 'Projekt löschen',
       deleteProject_title: 'Projekt löschen',
       deleteTask: 'Aufgabe löschen',

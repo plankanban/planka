@@ -196,6 +196,7 @@ export default {
       deleteLabel: 'Hapus labek',
       deleteList: 'Hapus daftar',
       deleteList_title: 'Hapus Daftar',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Hapus proyek',
       deleteProject_title: 'Hapus Proyek',
       deleteTask: 'Hapus tugas',

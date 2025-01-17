@@ -195,6 +195,7 @@ export default {
       deleteLabel: '라벨 삭제',
       deleteList: '목록 삭제',
       deleteList_title: '목록 삭제',
+      deleteNotifications: 'Dismiss all',
       deleteProject: '프로젝트 삭제',
       deleteProject_title: '프로젝트 삭제',
       deleteTask: '업무 삭제',

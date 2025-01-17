@@ -175,6 +175,7 @@ export default {
       deleteLabel: 'Slet mærkat',
       deleteList: 'Slet liste',
       deleteList_title: 'Slet liste',
+      deleteNotifications: 'Slet notifikationer',
       deleteProject: 'Slet projekt',
       deleteProject_title: 'Slet projekt',
       deleteTask: 'Slet opgave',

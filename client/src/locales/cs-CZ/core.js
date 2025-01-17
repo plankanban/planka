@@ -201,6 +201,7 @@ export default {
       deleteLabel: 'Smazat štítek',
       deleteList: 'Smazat seznam',
       deleteList_title: 'Smazat seznam',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'Smazat projekt',
       deleteProject_title: 'Smazat projekt',
       deleteTask: 'Smazat úkol',

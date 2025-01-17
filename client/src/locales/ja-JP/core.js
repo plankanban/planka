@@ -196,6 +196,7 @@ export default {
       deleteLabel: 'ラベルを削除',
       deleteList: 'リストを削除',
       deleteList_title: 'リストを削除',
+      deleteNotifications: 'Dismiss all',
       deleteProject: 'プロジェクトを削除',
       deleteProject_title: 'プロジェクトを削除',
       deleteTask: 'タスクを削除',

@@ -22,6 +22,12 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
     [onDelete],
   );
 
+  const handleDeleteAll = useCallback(() => {
+    items.forEach((item) => {
+      onDelete(item.id);
+    });
+  }, [items, onDelete]);
+
   const renderItemContent = useCallback(
     ({ activity, card }) => {
       switch (activity.type) {
@@ -85,6 +91,15 @@ const NotificationsStep = React.memo(({ items, onDelete, onClose }) => {
       <Popup.Content>
         {items.length > 0 ? (
           <div className={styles.wrapper}>
+            {items.length > 1 && (
+              <Button
+                type="button"
+                icon="trash alternate outline"
+                content={t('action.deleteNotifications')}
+                onClick={handleDeleteAll}
+                className={styles.deleteAllButton}
+              />
+            )}
             {items.map((item) => (
               <div key={item.id} className={styles.item}>
                 {item.card && item.activity ? (
