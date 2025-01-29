@@ -39,7 +39,7 @@
     "nodemailer": "^6.9.16",
     "openid-client": "^5.7.1",
     "rimraf": "^5.0.10",
-    "sails": "^1.5.13",
+    "sails": "^1.5.14",
     "sails-hook-orm": "^4.0.3",
     "sails-hook-sockets": "^3.0.1",
     "sails-postgresql": "^5.0.1",
