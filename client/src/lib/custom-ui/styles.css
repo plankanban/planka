@@ -14,6 +14,7 @@
   src: url("./assets/fonts/Nunitoga-Light.woff2") format("woff2");
   font-weight: lighter;
   font-style: normal;
+  unicode-range: U+0000-036F, U+0400-1EFF, U+2000-10FFFF;
 }
 
 @font-face {
@@ -21,6 +22,7 @@
   src: url("./assets/fonts/Nunitoga-LightItalic.woff2") format("woff2");
   font-weight: lighter;
   font-style: italic;
+  unicode-range: U+0000-036F, U+0400-1EFF, U+2000-10FFFF;
 }
 
 @font-face {
@@ -28,6 +30,7 @@
   src: url("./assets/fonts/Nunitoga-Medium.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
+  unicode-range: U+0000-036F, U+0400-1EFF, U+2000-10FFFF;
 }
 
 @font-face {
@@ -35,6 +38,7 @@
   src: url("./assets/fonts/Nunitoga-MediumItalic.woff2") format("woff2");
   font-weight: normal;
   font-style: italic;
+  unicode-range: U+0000-036F, U+0400-1EFF, U+2000-10FFFF;
 }
 
 @font-face {
@@ -42,6 +46,7 @@
   src: url("./assets/fonts/Nunitoga-Bold.woff2") format("woff2");
   font-weight: bold;
   font-style: normal;
+  unicode-range: U+0000-036F, U+0400-1EFF, U+2000-10FFFF;
 }
 
 @font-face {
@@ -49,6 +54,7 @@
   src: url("./assets/fonts/Nunitoga-BoldItalic.woff2") format("woff2");
   font-weight: bold;
   font-style: italic;
+  unicode-range: U+0000-036F, U+0400-1EFF, U+2000-10FFFF;
 }
 
 /*!
