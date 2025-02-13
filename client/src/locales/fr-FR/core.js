@@ -27,7 +27,8 @@ export default {
       all: 'Tout',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Toutes les modifications seront automatiquement enregistrées<br />une fois la connexion rétablie.',
-      areYouSureYouWantToDeleteThisAttachment: 'Êtes-vous sûr de vouloir supprimer cette pièce jointe ?',
+      areYouSureYouWantToDeleteThisAttachment:
+        'Êtes-vous sûr de vouloir supprimer cette pièce jointe ?',
       areYouSureYouWantToDeleteThisBoard: 'Êtes-vous sûr de vouloir supprimer ce tableau ?',
       areYouSureYouWantToDeleteThisCard: 'Êtes-vous sûr de vouloir supprimer cette carte ?',
       areYouSureYouWantToDeleteThisComment: 'Êtes-vous sûr de vouloir supprimer ce commentaire ?',
