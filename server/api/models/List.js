@@ -12,6 +12,19 @@ const SortTypes = {
   CREATED_AT_DESC: 'createdAt_desc',
 };
 
+const COLORS = [
+  'berry-red',
+  'pumpkin-orange',
+  'lagoon-blue',
+  'pink-tulip',
+  'light-mud',
+  'orange-peel',
+  'bright-moss',
+  'antique-blue',
+  'dark-granite',
+  'lagune-blue',
+];
+
 module.exports = {
   SortTypes,
 
@@ -27,6 +40,11 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
+    },
+    color: {
+      type: 'string',
+      allowNull: true,
+      isIn: COLORS,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

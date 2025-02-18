@@ -11,6 +11,7 @@ export default class extends BaseModel {
     id: attr(),
     position: attr(),
     name: attr(),
+    color: attr(),
     boardId: fk({
       to: 'Board',
       as: 'board',

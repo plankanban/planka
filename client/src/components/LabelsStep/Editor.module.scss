@@ -1,43 +1,4 @@
 :global(#app) {
-  .colorButton {
-    float: left;
-    height: 40px;
-    margin: 4px;
-    padding: 0;
-    position: relative;
-    width: 49.6px;
-
-    &:hover {
-      opacity: 0.9;
-    }
-  }
-
-  .colorButtonActive:before {
-    bottom: 3px;
-    color: #ffffff;
-    content: "Г";
-    font-size: 18px;
-    line-height: 36px;
-    position: absolute;
-    right: 6px;
-    text-align: center;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
-    top: 0;
-    transform: rotate(-135deg);
-    width: 36px;
-  }
-
-  .colorButtons {
-    margin: -4px;
-    padding-bottom: 16px;
-
-    &:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-  }
-
   .field {
     margin-bottom: 8px;
   }
