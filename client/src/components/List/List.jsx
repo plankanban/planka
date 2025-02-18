@@ -1,25 +1,29 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import camelCase from 'lodash/camelCase';
 import { useTranslation } from 'react-i18next';
+import upperFirst from 'lodash/upperFirst';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 
 import DroppableTypes from '../../constants/DroppableTypes';
 import CardContainer from '../../containers/CardContainer';
-import NameEdit from './NameEdit';
 import CardAdd from './CardAdd';
+import NameEdit from './NameEdit';
 import ActionsStep from './ActionsStep';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
 import styles from './List.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const List = React.memo(
   ({
     id,
     index,
     name,
+    color,
     isPersisted,
     cardIds,
     canEdit,
@@ -44,6 +48,15 @@ const List = React.memo(
       (newName) => {
         onUpdate({
           name: newName,
+        });
+      },
+      [onUpdate],
+    );
+
+    const handleColorEdit = useCallback(
+      (newColor) => {
+        onUpdate({
+          color: newColor,
         });
       },
       [onUpdate],
@@ -109,7 +122,12 @@ const List = React.memo(
             ref={innerRef}
             className={styles.innerWrapper}
           >
-            <div className={styles.outerWrapper}>
+            <div
+              className={classNames(
+                styles.outerWrapper,
+                globalStyles[`background${upperFirst(camelCase(color))}`],
+              )}
+            >
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
                                            jsx-a11y/no-static-element-interactions */}
               <div
@@ -118,7 +136,9 @@ const List = React.memo(
                 onClick={handleHeaderClick}
               >
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
-                  <div className={styles.headerName}>{name}</div>
+                  <div className={classNames(styles.headerName, color && styles.whiteText)}>
+                    {name}
+                  </div>
                 </NameEdit>
                 {isPersisted && canEdit && (
                   <ActionsPopup
@@ -126,6 +146,8 @@ const List = React.memo(
                     onCardAdd={handleCardAdd}
                     onDelete={onDelete}
                     onSort={onSort}
+                    color={color}
+                    onColorEdit={handleColorEdit}
                   >
                     <Button className={classNames(styles.headerButton, styles.target)}>
                       <Icon fitted name="pencil" size="small" />
@@ -140,11 +162,16 @@ const List = React.memo(
                 <button
                   type="button"
                   disabled={!isPersisted}
-                  className={classNames(styles.addCardButton)}
+                  className={classNames(
+                    styles.addCardButton,
+                    globalStyles[`background${upperFirst(camelCase(color))}`],
+                  )}
                   onClick={handleAddCardClick}
                 >
-                  <PlusMathIcon className={styles.addCardButtonIcon} />
-                  <span className={styles.addCardButtonText}>
+                  <PlusMathIcon
+                    className={classNames(styles.addCardButtonIcon, color && styles.whiteText)}
+                  />
+                  <span className={classNames(styles.addCardButtonText, color && styles.whiteText)}>
                     {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
                   </span>
                 </button>
@@ -161,6 +188,7 @@ List.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   isPersisted: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canEdit: PropTypes.bool.isRequired,
