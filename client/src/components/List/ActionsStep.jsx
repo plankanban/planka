@@ -106,6 +106,11 @@ const ActionsStep = React.memo(
                 context: 'title',
               })}
             </Menu.Item>
+            <Menu.Item className={styles.menuItem} onClick={hanndleEditColorClick}>
+              {t('action.editColor', {
+                context: 'title',
+              })}
+            </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleAddCardClick}>
               {t('action.addCard', {
                 context: 'title',
@@ -113,11 +118,6 @@ const ActionsStep = React.memo(
             </Menu.Item>
             <Menu.Item className={styles.menuItem} onClick={handleSortClick}>
               {t('action.sortList', {
-                context: 'title',
-              })}
-            </Menu.Item>
-            <Menu.Item className={styles.menuItem} onClick={hanndleEditColorClick}>
-              {t('action.editColor', {
                 context: 'title',
               })}
             </Menu.Item>
@@ -140,7 +140,11 @@ ActionsStep.propTypes = {
   onSort: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onColorEdit: PropTypes.func.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
+};
+
+ActionsStep.defaultProps = {
+  color: undefined,
 };
 
 export default ActionsStep;

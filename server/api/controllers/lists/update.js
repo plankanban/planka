@@ -23,6 +23,7 @@ module.exports = {
     },
     color: {
       type: 'string',
+      isIn: List.COLORS,
       allowNull: true,
     },
   },

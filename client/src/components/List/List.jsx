@@ -122,12 +122,7 @@ const List = React.memo(
             ref={innerRef}
             className={styles.innerWrapper}
           >
-            <div
-              className={classNames(
-                styles.outerWrapper,
-                globalStyles[`background${upperFirst(camelCase(color))}`],
-              )}
-            >
+            <div className={styles.outerWrapper}>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
                                            jsx-a11y/no-static-element-interactions */}
               <div
@@ -136,7 +131,16 @@ const List = React.memo(
                 onClick={handleHeaderClick}
               >
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
-                  <div className={classNames(styles.headerName, color && styles.whiteText)}>
+                  <div className={styles.headerName}>
+                    {color && (
+                      <Icon
+                        name="circle"
+                        className={classNames(
+                          styles.headerNameColor,
+                          globalStyles[`color${upperFirst(camelCase(color))}`],
+                        )}
+                      />
+                    )}
                     {name}
                   </div>
                 </NameEdit>
@@ -162,16 +166,11 @@ const List = React.memo(
                 <button
                   type="button"
                   disabled={!isPersisted}
-                  className={classNames(
-                    styles.addCardButton,
-                    globalStyles[`background${upperFirst(camelCase(color))}`],
-                  )}
+                  className={styles.addCardButton}
                   onClick={handleAddCardClick}
                 >
-                  <PlusMathIcon
-                    className={classNames(styles.addCardButtonIcon, color && styles.whiteText)}
-                  />
-                  <span className={classNames(styles.addCardButtonText, color && styles.whiteText)}>
+                  <PlusMathIcon className={styles.addCardButtonIcon} />
+                  <span className={styles.addCardButtonText}>
                     {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
                   </span>
                 </button>
@@ -188,7 +187,7 @@ List.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  color: PropTypes.string,
   isPersisted: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canEdit: PropTypes.bool.isRequired,
@@ -196,6 +195,10 @@ List.propTypes = {
   onSort: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCardCreate: PropTypes.func.isRequired,
+};
+
+List.defaultProps = {
+  color: undefined,
 };
 
 export default List;

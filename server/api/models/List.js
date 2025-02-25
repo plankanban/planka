@@ -27,6 +27,7 @@ const COLORS = [
 
 module.exports = {
   SortTypes,
+  COLORS,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -43,8 +44,8 @@ module.exports = {
     },
     color: {
       type: 'string',
-      allowNull: true,
       isIn: COLORS,
+      allowNull: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

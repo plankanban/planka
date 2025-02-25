@@ -29,8 +29,8 @@ const ColorPicker = React.memo(({ current, onChange, colors, allowDeletion }) =>
           />
         ))}
       </div>
-      {allowDeletion && (
-        <Button fluid value={undefined} onClick={onChange} content={t('action.deleteColor')} />
+      {current && allowDeletion && (
+        <Button fluid value={undefined} onClick={onChange} content={t('action.removeColor')} />
       )}
     </>
   );
