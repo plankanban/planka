@@ -1,25 +1,29 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import camelCase from 'lodash/camelCase';
 import { useTranslation } from 'react-i18next';
+import upperFirst from 'lodash/upperFirst';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 
 import DroppableTypes from '../../constants/DroppableTypes';
 import CardContainer from '../../containers/CardContainer';
-import NameEdit from './NameEdit';
 import CardAdd from './CardAdd';
+import NameEdit from './NameEdit';
 import ActionsStep from './ActionsStep';
 import { ReactComponent as PlusMathIcon } from '../../assets/images/plus-math-icon.svg';
 
 import styles from './List.module.scss';
+import globalStyles from '../../styles.module.scss';
 
 const List = React.memo(
   ({
     id,
     index,
     name,
+    color,
     isPersisted,
     cardIds,
     canEdit,
@@ -44,6 +48,15 @@ const List = React.memo(
       (newName) => {
         onUpdate({
           name: newName,
+        });
+      },
+      [onUpdate],
+    );
+
+    const handleColorEdit = useCallback(
+      (newColor) => {
+        onUpdate({
+          color: newColor,
         });
       },
       [onUpdate],
@@ -118,7 +131,18 @@ const List = React.memo(
                 onClick={handleHeaderClick}
               >
                 <NameEdit ref={nameEdit} defaultValue={name} onUpdate={handleNameUpdate}>
-                  <div className={styles.headerName}>{name}</div>
+                  <div className={styles.headerName}>
+                    {color && (
+                      <Icon
+                        name="circle"
+                        className={classNames(
+                          styles.headerNameColor,
+                          globalStyles[`color${upperFirst(camelCase(color))}`],
+                        )}
+                      />
+                    )}
+                    {name}
+                  </div>
                 </NameEdit>
                 {isPersisted && canEdit && (
                   <ActionsPopup
@@ -126,6 +150,8 @@ const List = React.memo(
                     onCardAdd={handleCardAdd}
                     onDelete={onDelete}
                     onSort={onSort}
+                    color={color}
+                    onColorEdit={handleColorEdit}
                   >
                     <Button className={classNames(styles.headerButton, styles.target)}>
                       <Icon fitted name="pencil" size="small" />
@@ -140,7 +166,7 @@ const List = React.memo(
                 <button
                   type="button"
                   disabled={!isPersisted}
-                  className={classNames(styles.addCardButton)}
+                  className={styles.addCardButton}
                   onClick={handleAddCardClick}
                 >
                   <PlusMathIcon className={styles.addCardButtonIcon} />
@@ -161,6 +187,7 @@ List.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
+  color: PropTypes.string,
   isPersisted: PropTypes.bool.isRequired,
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   canEdit: PropTypes.bool.isRequired,
@@ -168,6 +195,10 @@ List.propTypes = {
   onSort: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCardCreate: PropTypes.func.isRequired,
+};
+
+List.defaultProps = {
+  color: undefined,
 };
 
 export default List;
