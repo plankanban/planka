@@ -21,6 +21,11 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
     },
+    color: {
+      type: 'string',
+      isIn: List.COLORS,
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -55,7 +60,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name']);
+    const values = _.pick(inputs, ['position', 'name', 'color']);
 
     list = await sails.helpers.lists.updateOne.with({
       values,

@@ -1,18 +1,15 @@
 import { dequal } from 'dequal';
-import upperFirst from 'lodash/upperFirst';
-import camelCase from 'lodash/camelCase';
 import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { Button, Image } from 'semantic-ui-react';
 import { FilePicker } from '../../lib/custom-ui';
 
 import ProjectBackgroundGradients from '../../constants/ProjectBackgroundGradients';
 import { ProjectBackgroundTypes } from '../../constants/Enums';
+import ColorPicker from '../ColorPicker';
 
 import styles from './BackgroundPane.module.scss';
-import globalStyles from '../../styles.module.scss';
 
 const BackgroundPane = React.memo(
   ({ item, imageCoverUrl, isImageUpdating, onUpdate, onImageUpdate, onImageDelete }) => {
@@ -68,23 +65,11 @@ const BackgroundPane = React.memo(
     return (
       <>
         <div className={styles.gradientButtons}>
-          {ProjectBackgroundGradients.map((gradient) => (
-            <Button
-              key={gradient}
-              type="button"
-              name="gradient"
-              value={gradient}
-              className={classNames(
-                styles.gradientButton,
-                item &&
-                  item.type === ProjectBackgroundTypes.GRADIENT &&
-                  gradient === item.name &&
-                  styles.gradientButtonActive,
-                globalStyles[`background${upperFirst(camelCase(gradient))}`],
-              )}
-              onClick={handleGradientClick}
-            />
-          ))}
+          <ColorPicker
+            colors={ProjectBackgroundGradients}
+            current={item?.name}
+            onChange={handleGradientClick}
+          />
         </div>
         {imageCoverUrl && (
           // TODO: wrap in button
