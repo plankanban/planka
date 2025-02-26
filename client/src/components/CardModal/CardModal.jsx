@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Button, Checkbox, Grid, Icon, Modal } from 'semantic-ui-react';
+import { Button, Checkbox, Grid, Icon, Modal, Input } from 'semantic-ui-react';
 import { usePopup } from '../../lib/popup';
 import { Markdown } from '../../lib/custom-ui';
 
@@ -83,6 +83,8 @@ const CardModal = React.memo(
   }) => {
     const [t] = useTranslation();
     const [isLinkCopied, setIsLinkCopied] = useState(false);
+    const [isGithubLinkInputVisible, setIsGithubLinkInputVisible] = useState(false);
+    const [githubLink, setGithubLink] = useState('');
 
     const isGalleryOpened = useRef(false);
 
@@ -177,6 +179,17 @@ const CardModal = React.memo(
 
       onClose();
     }, [onClose]);
+
+    const handleGithubLinkChange = useCallback((e) => {
+      setGithubLink(e.target.value);
+    }, []);
+
+    const handleGithubLinkSave = useCallback(() => {
+      onUpdate({
+        githubLink,
+      });
+      setIsGithubLinkInputVisible(false);
+    }, [githubLink, onUpdate]);
 
     const AttachmentAddPopup = usePopup(AttachmentAddStep);
     const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
@@ -433,6 +446,31 @@ const CardModal = React.memo(
                 </div>
               </div>
             )}
+            <div className={styles.contentModule}>
+              <div className={styles.moduleWrapper}>
+                <Icon name="github" className={styles.moduleIcon} />
+                <div className={styles.moduleHeader}>{t('common.githubLink')}</div>
+                {githubLink ? (
+                  <a href={githubLink} target="_blank" rel="noopener noreferrer">
+                    {githubLink}
+                  </a>
+                ) : (
+                  <Button onClick={() => setIsGithubLinkInputVisible(true)}>
+                    {t('action.addGithubLink')}
+                  </Button>
+                )}
+                {isGithubLinkInputVisible && (
+                  <div>
+                    <Input
+                      value={githubLink}
+                      onChange={handleGithubLinkChange}
+                      placeholder={t('common.enterGithubLink')}
+                    />
+                    <Button onClick={handleGithubLinkSave}>{t('action.save')}</Button>
+                  </div>
+                )}
+              </div>
+            </div>
             <Activities
               items={activities}
               isFetching={isActivitiesFetching}

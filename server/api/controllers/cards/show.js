@@ -46,12 +46,18 @@ module.exports = {
     const tasks = await sails.helpers.cards.getTasks(card.id);
     const attachments = await sails.helpers.cards.getAttachments(card.id);
 
+    // Include the githubLink attribute in the tasks
+    const tasksWithGithubLink = tasks.map((task) => ({
+      ...task,
+      githubLink: task.githubLink || null,
+    }));
+
     return {
       item: card,
       included: {
         cardMemberships,
         cardLabels,
-        tasks,
+        tasks: tasksWithGithubLink,
         attachments,
       },
     };

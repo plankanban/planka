@@ -14,6 +14,7 @@ export default class extends BaseModel {
     isCompleted: attr({
       getDefault: () => false,
     }),
+    githubLink: attr(), // New attribute for GitHub link
     cardId: fk({
       to: 'Card',
       as: 'card',

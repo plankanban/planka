@@ -43,6 +43,16 @@ const stopwatchValidator = (value) => {
   return true;
 };
 
+const githubLinkValidator = (value) => {
+  const urlPattern = new RegExp('^(https?:\\/\\/)?'+ // validate the protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // validate the domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR validate the IP (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // validate the port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate the query string
+    '(\\#[-a-z\\d_]*)?$','i'); // validate the fragment locator
+  return !!urlPattern.test(value) && value.startsWith('https://github.com/');
+};
+
 module.exports = {
   inputs: {
     id: {
@@ -90,6 +100,11 @@ module.exports = {
     },
     isSubscribed: {
       type: 'boolean',
+    },
+    githubLink: {
+      type: 'string',
+      custom: githubLinkValidator,
+      allowNull: true,
     },
   },
 
@@ -180,6 +195,7 @@ module.exports = {
       'isDueDateCompleted',
       'stopwatch',
       'isSubscribed',
+      'githubLink',
     ]);
 
     card = await sails.helpers.cards.updateOne
