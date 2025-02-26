@@ -16,7 +16,7 @@ jobs:
           cache: 'npm'
 
       - name: Workflow install pnpm
-        run: npm install pnpm -g
+        run: npm install pnpm@9 -g
 
       - name: Client install dependencies
         run: pnpm install

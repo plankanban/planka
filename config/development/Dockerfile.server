@@ -1,14 +1,13 @@
 FROM node:18-alpine AS server-dependencies
 
 RUN apk -U upgrade \
-  && apk add build-base python3 \
-  --no-cache
+  && apk add build-base python3 --no-cache
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json .
 
 RUN npm install npm --global \
-  && npm install pnpm --global \
+  && npm install pnpm@9 --global \
   && pnpm import \
   && pnpm install
