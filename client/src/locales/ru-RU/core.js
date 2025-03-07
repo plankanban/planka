@@ -206,7 +206,7 @@ export default {
       deleteLabel: 'Удалить метку',
       deleteList: 'Удалить список',
       deleteList_title: 'Удалить список',
-      deleteNotifications: 'Dismiss all',
+      deleteNotifications: 'Отклонить все',
       deleteProject: 'Удалить проект',
       deleteProject_title: 'Удалить проект',
       deleteTask: 'Удалить задачу',
