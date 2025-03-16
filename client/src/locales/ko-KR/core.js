@@ -6,7 +6,7 @@ export default {
   format: {
     date: 'yyyy년 M월 d일',
     time: 'a h시 m분',
-    dateTime: 'yyyy년 M월 d일 a h시 m분',
+    dateTime: '$t(format:date) $t(format:time)',
     longDate: 'M월 d일',
     longDateTime: 'M월 d일 a h시 m분',
     fullDate: 'yyyy년 M월 d일',
