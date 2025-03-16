@@ -115,7 +115,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^15.0.7",
     "@testing-library/user-event": "^14.5.2",
-    "axios": "^1.6.2",
+    "axios": "^1.8.2",
     "babel-preset-airbnb": "^5.0.0",
     "chai": "^4.5.0",
     "eslint": "8.57.0",
