@@ -10,7 +10,7 @@ export default {
     longDate: 'M월 d일',
     longDateTime: 'M월 d일 a h시 m분',
     fullDate: 'yyyy년 M월 d일',
-    fullDateTime: 'yyyy년 M월 d일 a h시 m분'
+    fullDateTime: 'yyyy년 M월 d일 a h시 m분',
   },
 
   translation: {
@@ -38,10 +38,8 @@ export default {
       areYouSureYouWantToDeleteThisUser: '이 사용자를 삭제하시겠습니까?',
       areYouSureYouWantToLeaveBoard: '이 보드를 떠나시겠습니까?',
       areYouSureYouWantToLeaveProject: '이 프로젝트를 떠나시겠습니까?',
-      areYouSureYouWantToRemoveThisManagerFromProject:
-        '이 관리자를 프로젝트에서 제거하시겠습니까?',
-      areYouSureYouWantToRemoveThisMemberFromBoard:
-        '이 멤버를 보드에서 제거하시겠습니까?',
+      areYouSureYouWantToRemoveThisManagerFromProject: '이 관리자를 프로젝트에서 제거하시겠습니까?',
+      areYouSureYouWantToRemoveThisMemberFromBoard: '이 멤버를 보드에서 제거하시겠습니까?',
       attachment: '첨부 파일',
       attachments: '첨부 파일들',
       authentication: '인증',
@@ -164,7 +162,8 @@ export default {
       userActions_title: '사용자 작업',
       userAddedThisCardToList: '<0>{{user}}</0><1>님이 이 카드를 {{list}}에 추가했습니다</1>',
       userLeftNewCommentToCard: '{{user}}님이 <2>{{card}}</2>에 새 댓글 «{{comment}}»을 남겼습니다',
-      userMovedCardFromListToList: '{{user}}님이 <2>{{card}}</2>를 {{fromList}}에서 {{toList}}로 이동했습니다',
+      userMovedCardFromListToList:
+        '{{user}}님이 <2>{{card}}</2>를 {{fromList}}에서 {{toList}}로 이동했습니다',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1>님이 이 카드를 {{fromList}}에서 {{toList}}로 이동했습니다</1>',
       username: '사용자 이름',
