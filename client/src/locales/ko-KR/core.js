@@ -4,13 +4,13 @@ export default {
   dateFns,
 
   format: {
-    date: 'yyyy. M. d.',
-    time: 'a h:mm',
-    dateTime: '$t(format:date) $t(format:time)',
-    longDate: 'MMM d일',
-    longDateTime: "MMMM d일 a h:mm",
-    fullDate: 'yyyy년 MMM d일',
-    fullDateTime: "yyyy년 MMM d일 a h:mm",
+    date: 'yyyy년 M월 d일',
+    time: 'a h시 m분',
+    dateTime: 'yyyy년 M월 d일 a h시 m분',
+    longDate: 'M월 d일',
+    longDateTime: 'M월 d일 a h시 m분',
+    fullDate: 'yyyy년 M월 d일',
+    fullDateTime: 'yyyy년 M월 d일 a h시 m분'
   },
 
   translation: {
