@@ -41,8 +41,8 @@ export default {
       areYouSureYouWantToLeaveProject: 'Êtes-vous sûr de vouloir quitter ce projet ?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Êtes-vous sûr de vouloir supprimer ce manager du projet ?',
-      areYouSureYouWantToRemoveThisMemberFromProject:
-        'Êtes-vous sûr de vouloir supprimer ce membre du projet ?',
+      areYouSureYouWantToRemoveThisMemberFromBoard:
+        'Êtes-vous sûr de vouloir supprimer ce membre du tableau ?',
       attachment: 'Pièce jointe',
       attachments: 'Pièces jointes',
       authentication: 'Authentification',
@@ -217,6 +217,7 @@ export default {
       duplicate: 'Dupliquer',
       duplicateCard_title: 'Dupliquer la carte',
       edit: 'Modifier',
+      editColor_title: 'Modifier la couleur',
       editDueDate_title: "Modifier la date d'échéance",
       editDescription_title: 'Modifier la description',
       editEmail_title: "Modifier l'e-mail",
@@ -236,8 +237,9 @@ export default {
       moveCard_title: 'Déplacer la carte',
       remove: 'Supprimer',
       removeBackground: "Supprimer l'arrière-plan",
+      removeColor: 'Supprimer la couleur',
       removeCover_title: 'Supprimer la couverture',
-      removeFromBoard: 'Supprimer le tableau',
+      removeFromBoard: 'Supprimer du tableau',
       removeFromProject: 'Supprimer du projet',
       removeManager: 'Supprimer le manager',
       removeMember: 'Supprimer le membre',
