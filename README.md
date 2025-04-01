@@ -33,6 +33,10 @@ Alternatively, you can download the [Android APK](https://github.com/LouisHDev/p
 
 If you have an iOS device and would like to test the app, you can join [TestFlight](https://testflight.apple.com/join/Uwn41eY4) (limited to 200 participants).
 
+## Planka postman api
+
+For external access api use [postman](https://documenter.getpostman.com/view/3360622/2sB2cRCPpU#3caa89a9-995d-4c17-b4ae-5cd136bb713f).
+
 ## Contact
 
 - If you want to get a hosted version of Planka, you can contact us via email contact@planka.cloud
