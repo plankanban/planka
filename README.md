@@ -35,7 +35,7 @@ If you have an iOS device and would like to test the app, you can join [TestFlig
 
 ## Planka postman api
 
-For external access api use [postman](https://github.com/LouisHDev/planka_app/releases/latest/download/app-release.apk](https://documenter.getpostman.com/view/3360622/2sB2cRCPpU#3caa89a9-995d-4c17-b4ae-5cd136bb713f) 
+For external access api use [postman](https://documenter.getpostman.com/view/3360622/2sB2cRCPpU#3caa89a9-995d-4c17-b4ae-5cd136bb713f).
 
 ## Contact
 
