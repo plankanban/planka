@@ -159,7 +159,6 @@ const Login = React.memo(
                   <div>
                     {message && (
                       <Message
-                        // eslint-disable-next-line react/jsx-props-no-spreading
                         {...{
                           [message.type]: true,
                         }}
