@@ -124,7 +124,6 @@ const Login = React.memo(
           case 'Invalid credentials':
           case 'Invalid email or username':
             emailOrUsernameField.current.select();
-
             break;
           case 'Invalid password':
             setData((prevData) => ({
@@ -132,7 +131,6 @@ const Login = React.memo(
               password: '',
             }));
             focusPasswordField();
-
             break;
           default:
         }
@@ -142,6 +140,13 @@ const Login = React.memo(
     useDidUpdate(() => {
       passwordField.current.focus();
     }, [focusPasswordFieldState]);
+
+    useEffect(() => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('enforce_oidc_login')) {
+        onAuthenticateUsingOidc();
+      }
+    }, [onAuthenticateUsingOidc]);
 
     return (
       <div className={classNames(styles.wrapper, styles.fullHeight)}>
@@ -159,7 +164,6 @@ const Login = React.memo(
                   <div>
                     {message && (
                       <Message
-                        // eslint-disable-next-line react/jsx-props-no-spreading
                         {...{
                           [message.type]: true,
                         }}
@@ -250,12 +254,10 @@ const Login = React.memo(
 );
 
 Login.propTypes = {
-  /* eslint-disable react/forbid-prop-types */
   defaultData: PropTypes.object.isRequired,
-  /* eslint-enable react/forbid-prop-types */
   isSubmitting: PropTypes.bool.isRequired,
   isSubmittingUsingOidc: PropTypes.bool.isRequired,
-  error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  error: PropTypes.object,
   withOidc: PropTypes.bool.isRequired,
   isOidcEnforced: PropTypes.bool.isRequired,
   onAuthenticate: PropTypes.func.isRequired,
