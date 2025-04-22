@@ -13,6 +13,8 @@ services:
       - DATABASE_URL=postgresql://user:password@postgres:5432/planka_db
       - SECRET_KEY=notsecretkey
 
+      # - LOG_LEVEL=warn
+
       # - TRUST_PROXY=0
       # - TOKEN_EXPIRES_IN=365 # In days
 
