@@ -27,7 +27,8 @@ export default {
       all: 'Alle',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Alle ændringer vil automatisk blive gemt<br />ved genoprettelse af forbindelsen.',
-      areYouSureYouWantToDeleteThisAttachment: 'Er du sikker på at du vil slette denne vedhæftede fil?',
+      areYouSureYouWantToDeleteThisAttachment:
+        'Er du sikker på at du vil slette denne vedhæftede fil?',
       areYouSureYouWantToDeleteThisBoard: 'Er du sikker på at du vil slette denne tavle?',
       areYouSureYouWantToDeleteThisCard: 'Er du sikker på at du vil slette dette kort?',
       areYouSureYouWantToDeleteThisComment: 'Er du sikker på at du vil slette denne kommentar?',
@@ -164,7 +165,8 @@ export default {
       userActions_title: 'Brugerhandlinger',
       userAddedThisCardToList: '<0>{{user}}</0><1> tilføjede kortet til {{list}}</1>',
       userLeftNewCommentToCard: '{{user}} skrevet en ny kommentar «{{comment}}» på <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} flyttede <2>{{card}}</2> fra {{fromList}} til {{toList}}',
+      userMovedCardFromListToList:
+        '{{user}} flyttede <2>{{card}}</2> fra {{fromList}} til {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> flyttede kortet fra {{fromList}} til {{toList}}</1>',
       username: 'Brugernavn',
