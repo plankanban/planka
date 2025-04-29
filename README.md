@@ -46,7 +46,7 @@ We do NOT offer any public support via email, please use GitHub.
 
 ## Development
 
-See the [development section](https://docs.planka.cloud/docs/development/).
+See the [development section](https://docs.planka.cloud/docs/category/development/).
 
 ## Tech stack
 
