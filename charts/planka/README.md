@@ -14,7 +14,7 @@ If you want to fully uninstall this chart including the data, follow [these step
 
 ## Usage
 
-If you just want to spin up an instance using help, please see [these docs](https://docs.planka.cloud/docs/installation/kubernetes/helm_chart/). If you want to make changes to the chart locally, and deploy them, see the below section.
+If you just want to spin up an instance using help, please see [these docs](https://docs.planka.cloud/docs/installation/kubernetes/helm-chart/). If you want to make changes to the chart locally, and deploy them, see the below section.
 
 ## Local Building and Using the Chart
 

@@ -148,7 +148,7 @@ persistence:
 ##
 ## ---------------
 ## NOTE: A minimal configuration requires setting `clientId`, `clientSecret` and `issuerUrl`. (plus `admin.roles` for administrators)
-## ref: https://docs.planka.cloud/docs/Configuration/OIDC
+## ref: https://docs.planka.cloud/docs/configuration/oidc/
 ##
 oidc:
   ## @param oidc.enabled Enable single sign-on (SSO) with OpenID Connect (OIDC)
