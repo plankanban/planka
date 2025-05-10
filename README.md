@@ -8,6 +8,8 @@
 
 [**Client demo**](https://plankanban.github.io/planka) (without server features).
 
+> ⚠️ The demo GIF and client demo are based on **v1** and will be updated soon.
+
 ## Key Features
 
 - **Collaborative Kanban Boards**: Create projects, boards, lists, cards, and manage tasks with an intuitive drag-and-drop interface
