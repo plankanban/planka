@@ -368,6 +368,7 @@ export default {
       editRole_title: 'Modifica ruolo',
       editStopwatch_title: 'Modifica timer',
       editTitle_title: 'Modifica titolo',
+      editType_title: 'Modifica tipo',
       editUsername_title: 'Modifica username',
       emptyTrash: 'Svuota cestino',
       emptyTrash_title: 'Svuota cestino',
