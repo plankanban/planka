@@ -34,7 +34,8 @@ COPY --chown=node:node server .
 
 RUN python3 -m venv .venv \
   && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
-  && mv .env.sample .env
+  && mv .env.sample .env \
+  && npm config set update-notifier false
 
 COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
 
