@@ -21,13 +21,6 @@ export default defineConfig({
       'source-map-js': 'source-map',
     },
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      },
-    },
-  },
   server: {
     port: 3000,
     open: true,
