@@ -1,24 +1,26 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './FilePicker.module.css';
 
 const FilePicker = React.memo(({ children, accept, multiple, onSelect }) => {
-  const field = useRef(null);
+  const fieldRef = useRef(null);
 
   const handleTriggerClick = useCallback(() => {
-    field.current.click();
+    fieldRef.current.click();
   }, []);
 
   const handleFieldChange = useCallback(
     ({ target }) => {
-      [...target.files].forEach((file) => {
-        onSelect(file);
-      });
-
+      onSelect(multiple ? [...target.files] : target.files[0]);
       target.value = null; // eslint-disable-line no-param-reassign
     },
-    [onSelect],
+    [multiple, onSelect],
   );
 
   const tigger = React.cloneElement(children, {
@@ -29,7 +31,7 @@ const FilePicker = React.memo(({ children, accept, multiple, onSelect }) => {
     <>
       {tigger}
       <input
-        ref={field}
+        ref={fieldRef}
         type="file"
         accept={accept}
         multiple={multiple}
@@ -49,7 +51,7 @@ FilePicker.propTypes = {
 
 FilePicker.defaultProps = {
   accept: undefined,
-  multiple: false,
+  multiple: undefined,
 };
 
 export default FilePicker;

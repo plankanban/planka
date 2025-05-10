@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
 const createBoardMembership = (boardMembership) => ({
@@ -25,10 +30,13 @@ createBoardMembership.failure = (localId, error) => ({
 
 const handleBoardMembershipCreate = (
   boardMembership,
+  isProjectAvailable,
   project,
   board,
   users,
   projectManagers,
+  backgroundImages,
+  baseCustomFieldGroups,
   boards,
   boardMemberships,
   labels,
@@ -36,17 +44,25 @@ const handleBoardMembershipCreate = (
   cards,
   cardMemberships,
   cardLabels,
+  taskLists,
   tasks,
   attachments,
-  deletedNotifications,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+  notificationsToDelete,
+  notificationServices,
 ) => ({
   type: ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE,
   payload: {
     boardMembership,
+    isProjectAvailable,
     project,
     board,
     users,
     projectManagers,
+    backgroundImages,
+    baseCustomFieldGroups,
     boards,
     boardMemberships,
     labels,
@@ -54,18 +70,14 @@ const handleBoardMembershipCreate = (
     cards,
     cardMemberships,
     cardLabels,
+    taskLists,
     tasks,
     attachments,
-    deletedNotifications,
-  },
-});
-
-handleBoardMembershipCreate.fetchProject = (id, currentUserId, currentBoardId) => ({
-  type: ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE__PROJECT_FETCH,
-  payload: {
-    id,
-    currentUserId,
-    currentBoardId,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
+    notificationsToDelete,
+    notificationServices,
   },
 });
 
@@ -99,17 +111,19 @@ const handleBoardMembershipUpdate = (boardMembership) => ({
   },
 });
 
-const deleteBoardMembership = (id) => ({
+const deleteBoardMembership = (id, isCurrentUser) => ({
   type: ActionTypes.BOARD_MEMBERSHIP_DELETE,
   payload: {
     id,
+    isCurrentUser,
   },
 });
 
-deleteBoardMembership.success = (boardMembership) => ({
+deleteBoardMembership.success = (boardMembership, isCurrentUser) => ({
   type: ActionTypes.BOARD_MEMBERSHIP_DELETE__SUCCESS,
   payload: {
     boardMembership,
+    isCurrentUser,
   },
 });
 
@@ -121,10 +135,11 @@ deleteBoardMembership.failure = (id, error) => ({
   },
 });
 
-const handleBoardMembershipDelete = (boardMembership) => ({
+const handleBoardMembershipDelete = (boardMembership, isCurrentUser) => ({
   type: ActionTypes.BOARD_MEMBERSHIP_DELETE_HANDLE,
   payload: {
     boardMembership,
+    isCurrentUser,
   },
 });
 

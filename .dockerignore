@@ -12,18 +12,22 @@ server/.eslintignore
 server/.npmrc
 server/test
 server/logs
+server/.venv
 server/.tmp
 
 server/views/*
 
 server/public/*
+!server/public/preloaded-favicons
+!server/public/favicons
+server/public/favicons/*
 !server/public/user-avatars
 server/public/user-avatars/*
-!server/public/project-background-images
-server/public/project-background-images/*
+!server/public/background-images
+server/public/background-images/*
 
 server/private/*
 !server/private/attachments
 server/private/attachments/*
 
-client/build
+client/dist

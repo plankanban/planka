@@ -1,0 +1,28 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .content {
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .contentViewer {
+    height: 90%;
+    width: MIN(90%, 1120px); // https://github.com/sass/node-sass/issues/2815
+  }
+
+  .contentError {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    height: 20px;
+    width: 470px;
+  }
+}

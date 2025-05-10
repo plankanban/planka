@@ -1,29 +1,23 @@
 {
   "name": "planka",
-  "version": "1.26.2",
+  "version": "2.0.0-rc.2",
   "private": true,
-  "homepage": "https://plankanban.github.io/planka",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/plankanban/planka.git"
-  },
-  "license": "AGPL-3.0",
-  "author": "Maksim Eltyshev",
   "scripts": {
     "client:build": "npm run build --prefix client",
     "client:lint": "npm run lint --prefix client",
     "client:start": "npm start --prefix client",
     "client:test": "npm test --prefix client",
-    "docker:build": "docker build -t ghcr.io/plankanban/planka:local -f Dockerfile .",
-    "docker:build:base": "docker build -t ghcr.io/plankanban/planka:base-local -f Dockerfile.base .",
-    "gv": "npm i --package-lock-only --ignore-scripts && genversion --source ./ --template client/version-template.ejs client/src/version.js",
-    "postinstall": "(cd server && npm i && cd ../client && npm i)",
+    "docker:build": "docker build -t planka .",
+    "gv": "npm i --package-lock-only --ignore-scripts && genversion --source . --template server/version-template.ejs server/version.js && genversion --source . --template client/version-template.ejs client/src/version.js",
+    "postinstall": "npm i --prefix server && npm i --prefix client",
     "lint": "npm run server:lint && npm run client:lint",
     "prepare": "husky",
     "server:console": "npm run console --prefix server",
+    "server:db:create-admin-user": "npm run db:create-admin-user --prefix server",
     "server:db:init": "npm run db:init --prefix server",
     "server:db:migrate": "npm run db:migrate --prefix server",
     "server:db:seed": "npm run db:seed --prefix server",
+    "server:db:upgrade": "npm run db:upgrade --prefix server",
     "server:lint": "npm run lint --prefix server",
     "server:start": "npm start --prefix server",
     "server:start:prod": "npm run start:prod --prefix server",
@@ -39,33 +33,10 @@
       "npm run server:lint"
     ]
   },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "trailingComma": "all"
-  },
-  "eslintConfig": {
-    "plugins": [
-      "prettier"
-    ],
-    "extends": [
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "no-undef": "off",
-      "prettier/prettier": "error"
-    }
-  },
   "dependencies": {
     "concurrently": "^8.2.2",
     "genversion": "^3.2.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.10"
-  },
-  "devDependencies": {
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "prettier": "^3.3.3"
+    "lint-staged": "^15.5.2"
   }
 }

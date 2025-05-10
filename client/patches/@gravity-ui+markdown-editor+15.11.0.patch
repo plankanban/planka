@@ -1,0 +1,53 @@
+diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
+index 2152fd6..ceda0c1 100644
+--- a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
++++ b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
+@@ -101,7 +101,6 @@ export const BundlePreset = (builder, opts) => {
+             enableNewImageSizeCalculation: opts.enableNewImageSizeCalculation,
+             ...opts.imgSize,
+         },
+-        checkbox: { checkboxLabelPlaceholder: () => i18nPlaceholder('checkbox'), ...opts.checkbox },
+         deflist: {
+             deflistTermPlaceholder: () => i18nPlaceholder('deflist_term'),
+             deflistDescPlaceholder: () => i18nPlaceholder('deflist_desc'),
+@@ -118,11 +117,6 @@ export const BundlePreset = (builder, opts) => {
+             ...opts.yfmNote,
+         },
+         yfmTable: { yfmTableCellPlaceholder: () => i18nPlaceholder('table_cell'), ...opts.yfmTable },
+-        yfmFile: {
+-            fileUploadHandler: opts.fileUploadHandler,
+-            needToSetDimensionsForUploadedImages: opts.needToSetDimensionsForUploadedImages,
+-            ...opts.yfmFile,
+-        },
+         yfmHeading: {
+             h1Key: f.toPM(A.Heading1),
+             h2Key: f.toPM(A.Heading2),
+diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js b/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
+index ed2a9db..f95b693 100644
+--- a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
++++ b/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
+@@ -1,5 +1,5 @@
+ import { Deflist, Subscript, Superscript, Underline, } from "../extensions/markdown/index.js";
+-import { Checkbox, ImgSize, Monospace, Video, YfmConfigs, YfmCut, YfmFile, YfmHeading, YfmNote, YfmTable, YfmTabs, } from "../extensions/yfm/index.js";
++import { ImgSize, Monospace, Video, YfmConfigs, YfmCut, YfmHeading, YfmNote, YfmTable } from "../extensions/yfm/index.js";
+ import { DefaultPreset } from "./default.js";
+ export const YfmPreset = (builder, opts) => {
+     builder.use(DefaultPreset, { ...opts, image: false, heading: false });
+@@ -8,16 +8,13 @@ export const YfmPreset = (builder, opts) => {
+         .use(Subscript)
+         .use(Superscript)
+         .use(Underline, opts.underline ?? {})
+-        .use(Checkbox, opts.checkbox ?? {})
+         .use(ImgSize, opts.imgSize ?? {})
+         .use(Monospace)
+         .use(Video, opts.video ?? {})
+         .use(YfmConfigs, opts.yfmConfigs ?? {})
+         .use(YfmCut, opts.yfmCut ?? {})
+         .use(YfmNote, opts.yfmNote ?? {})
+-        .use(YfmFile, opts.yfmFile ?? {})
+         .use(YfmHeading, opts.yfmHeading ?? {})
+-        .use(YfmTable, opts.yfmTable ?? {})
+-        .use(YfmTabs);
++        .use(YfmTable, opts.yfmTable ?? {});
+ };
+ //# sourceMappingURL=yfm.js.map

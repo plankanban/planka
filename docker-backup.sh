@@ -3,9 +3,9 @@
 # Stop on Error
 set -e
 
-# Configure those to match your Planka Docker container names
-PLANKA_DOCKER_CONTAINER_POSTGRES="planka_postgres_1"
-PLANKA_DOCKER_CONTAINER_PLANKA="planka_planka_1"
+# Configure those to match your PLANKA Docker container names
+PLANKA_DOCKER_CONTAINER_POSTGRES="planka-postgres-1"
+PLANKA_DOCKER_CONTAINER_PLANKA="planka-planka-1"
 
 # Create Temporary folder
 BACKUP_DATETIME=$(date --utc +%FT%H-%M-%SZ)
@@ -17,11 +17,14 @@ docker exec -t "$PLANKA_DOCKER_CONTAINER_POSTGRES" pg_dumpall -c -U postgres > "
 echo "Success!"
 
 # Export Docker Voumes
+echo -n "Exporting favicons ... "
+docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/public/favicons /backup/favicons
+echo "Success!"
 echo -n "Exporting user-avatars ... "
 docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/public/user-avatars /backup/user-avatars
 echo "Success!"
-echo -n "Exporting project-background-images ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/public/project-background-images /backup/project-background-images
+echo -n "Exporting background-images ... "
+docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/public/background-images /backup/background-images
 echo "Success!"
 echo -n "Exporting attachments ... "
 docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/private/attachments /backup/attachments
@@ -31,8 +34,9 @@ echo "Success!"
 echo -n "Creating final tarball $BACKUP_DATETIME-backup.tgz ... "
 tar -czf "$BACKUP_DATETIME-backup.tgz" \
     "$BACKUP_DATETIME-backup/postgres.sql" \
+    "$BACKUP_DATETIME-backup/favicons" \
     "$BACKUP_DATETIME-backup/user-avatars" \
-    "$BACKUP_DATETIME-backup/project-background-images" \
+    "$BACKUP_DATETIME-backup/background-images" \
     "$BACKUP_DATETIME-backup/attachments"
 echo "Success!"
 

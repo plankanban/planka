@@ -1,9 +1,67 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
-const createCard = (card) => ({
+const fetchCards = (listId) => ({
+  type: ActionTypes.CARDS_FETCH,
+  payload: {
+    listId,
+  },
+});
+
+fetchCards.success = (
+  listId,
+  cards,
+  users,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+) => ({
+  type: ActionTypes.CARDS_FETCH__SUCCESS,
+  payload: {
+    listId,
+    cards,
+    users,
+    cardMemberships,
+    cardLabels,
+    taskLists,
+    tasks,
+    attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
+  },
+});
+
+fetchCards.failure = (listId, error) => ({
+  type: ActionTypes.CARDS_FETCH__FAILURE,
+  payload: {
+    listId,
+    error,
+  },
+});
+
+const handleCardsUpdate = (cards, activities) => ({
+  type: ActionTypes.CARDS_UPDATE_HANDLE,
+  payload: {
+    cards,
+    activities,
+  },
+});
+
+const createCard = (card, autoOpen) => ({
   type: ActionTypes.CARD_CREATE,
   payload: {
     card,
+    autoOpen,
   },
 });
 
@@ -23,14 +81,30 @@ createCard.failure = (localId, error) => ({
   },
 });
 
-const handleCardCreate = (card, cardMemberships, cardLabels, tasks, attachments) => ({
+const handleCardCreate = (
+  card,
+  users,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+) => ({
   type: ActionTypes.CARD_CREATE_HANDLE,
   payload: {
     card,
+    users,
     cardMemberships,
     cardLabels,
+    taskLists,
     tasks,
     attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
   },
 });
 
@@ -57,42 +131,75 @@ updateCard.failure = (id, error) => ({
   },
 });
 
-const handleCardUpdate = (card, isFetched, cardMemberships, cardLabels, tasks, attachments) => ({
+const handleCardUpdate = (
+  card,
+  isFetched,
+  users,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+) => ({
   type: ActionTypes.CARD_UPDATE_HANDLE,
   payload: {
     card,
     isFetched,
+    users,
     cardMemberships,
     cardLabels,
+    taskLists,
     tasks,
     attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
   },
 });
 
-const duplicateCard = (id, card, taskIds) => ({
+const duplicateCard = (id, localId, data) => ({
   type: ActionTypes.CARD_DUPLICATE,
   payload: {
     id,
-    card,
-    taskIds,
+    localId,
+    data,
   },
 });
 
-duplicateCard.success = (localId, card, cardMemberships, cardLabels, tasks) => ({
+duplicateCard.success = (
+  localId,
+  card,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+) => ({
   type: ActionTypes.CARD_DUPLICATE__SUCCESS,
   payload: {
     localId,
     card,
     cardMemberships,
     cardLabels,
+    taskLists,
     tasks,
+    attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
   },
 });
 
-duplicateCard.failure = (id, error) => ({
+duplicateCard.failure = (localId, error) => ({
   type: ActionTypes.CARD_DUPLICATE__FAILURE,
   payload: {
-    id,
+    localId,
     error,
   },
 });
@@ -126,15 +233,9 @@ const handleCardDelete = (card) => ({
   },
 });
 
-const filterText = (boardId, text) => ({
-  type: ActionTypes.TEXT_FILTER_IN_CURRENT_BOARD,
-  payload: {
-    boardId,
-    text,
-  },
-});
-
 export default {
+  fetchCards,
+  handleCardsUpdate,
   createCard,
   handleCardCreate,
   updateCard,
@@ -142,5 +243,4 @@ export default {
   duplicateCard,
   deleteCard,
   handleCardDelete,
-  filterText,
 };

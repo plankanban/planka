@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
 const createList = (list) => ({
@@ -84,25 +89,75 @@ sortList.failure = (id, error) => ({
   },
 });
 
-const handleListSort = (list, cards) => ({
-  type: ActionTypes.LIST_SORT_HANDLE,
+const moveListCards = (id, nextId, cardIds) => ({
+  type: ActionTypes.LIST_CARDS_MOVE,
   payload: {
-    list,
-    cards,
+    id,
+    nextId,
+    cardIds,
   },
 });
 
-const deleteList = (id) => ({
-  type: ActionTypes.LIST_DELETE,
+moveListCards.success = (list, cards, activities) => ({
+  type: ActionTypes.LIST_CARDS_MOVE__SUCCESS,
+  payload: {
+    list,
+    cards,
+    activities,
+  },
+});
+
+moveListCards.failure = (id, error) => ({
+  type: ActionTypes.LIST_CARDS_MOVE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const clearList = (id) => ({
+  type: ActionTypes.LIST_CLEAR,
   payload: {
     id,
   },
 });
 
-deleteList.success = (list) => ({
+clearList.success = (list) => ({
+  type: ActionTypes.LIST_CLEAR__SUCCESS,
+  payload: {
+    list,
+  },
+});
+
+clearList.failure = (id, error) => ({
+  type: ActionTypes.LIST_CLEAR__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const handleListClear = (list) => ({
+  type: ActionTypes.LIST_CLEAR_HANDLE,
+  payload: {
+    list,
+  },
+});
+
+const deleteList = (id, trashId, cardIds) => ({
+  type: ActionTypes.LIST_DELETE,
+  payload: {
+    id,
+    trashId,
+    cardIds,
+  },
+});
+
+deleteList.success = (list, cards) => ({
   type: ActionTypes.LIST_DELETE__SUCCESS,
   payload: {
     list,
+    cards,
   },
 });
 
@@ -114,10 +169,11 @@ deleteList.failure = (id, error) => ({
   },
 });
 
-const handleListDelete = (list) => ({
+const handleListDelete = (list, cards) => ({
   type: ActionTypes.LIST_DELETE_HANDLE,
   payload: {
     list,
+    cards,
   },
 });
 
@@ -127,7 +183,9 @@ export default {
   updateList,
   handleListUpdate,
   sortList,
-  handleListSort,
+  moveListCards,
+  clearList,
+  handleListClear,
   deleteList,
   handleListDelete,
 };

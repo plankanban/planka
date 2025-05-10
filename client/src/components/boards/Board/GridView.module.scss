@@ -1,0 +1,65 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .addCardButton {
+    background: rgba(0, 0, 0, 0.24);
+    border: none;
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+    display: block;
+    fill: rgba(255, 255, 255, 0.72);
+    font-weight: normal;
+    height: 42px;
+    min-height: 42px;
+    padding: 11px;
+    text-align: left;
+    transition: background 85ms ease-in, opacity 40ms ease-in,
+      border-color 85ms ease-in;
+    width: 100%;
+
+    &:active {
+      outline: none;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .addCardButtonIcon {
+    height: 20px;
+    padding: 0.64px;
+    width: 20px;
+  }
+
+  .addCardButtonText {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: top;
+  }
+
+  .card {
+    background: rgba(223, 227, 230, 0.8);
+    border-radius: 3px;
+    padding: 4px;
+  }
+
+  .loaderWrapper {
+    margin: 40px 0;
+  }
+
+  .wrapper {
+    overflow-y: scroll;
+    padding-left: 20px;
+    width: 100%;
+
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(0, 0, 0, 0.32) rgba(0, 0, 0, 0.08);
+    }
+  }
+}

@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { createSelector as createReselectSelector } from 'reselect';
 import { createSelector as createReduxOrmSelector } from 'redux-orm';
 
@@ -20,13 +25,15 @@ export const selectPath = createReduxOrmSelector(
   orm,
   selectPathsMatch,
   (state) => selectCurrentUserId(state),
-  ({ Project, Board, Card }, pathsMatch, currentUserId) => {
+  ({ User, Project, Board, Card }, pathsMatch, currentUserId) => {
     if (pathsMatch) {
+      const currentUserModel = User.withId(currentUserId);
+
       switch (pathsMatch.pattern.path) {
         case Paths.PROJECTS: {
           const projectModel = Project.withId(pathsMatch.params.id);
 
-          if (!projectModel || !projectModel.isAvailableForUser(currentUserId)) {
+          if (!projectModel || !projectModel.isAvailableForUser(currentUserModel)) {
             return {
               projectId: null,
             };
@@ -39,7 +46,7 @@ export const selectPath = createReduxOrmSelector(
         case Paths.BOARDS: {
           const boardModel = Board.withId(pathsMatch.params.id);
 
-          if (!boardModel || !boardModel.isAvailableForUser(currentUserId)) {
+          if (!boardModel || !boardModel.isAvailableForUser(currentUserModel)) {
             return {
               boardId: null,
               projectId: null,
@@ -54,7 +61,7 @@ export const selectPath = createReduxOrmSelector(
         case Paths.CARDS: {
           const cardModel = Card.withId(pathsMatch.params.id);
 
-          if (!cardModel || !cardModel.isAvailableForUser(currentUserId)) {
+          if (!cardModel || !cardModel.isAvailableForUser(currentUserModel)) {
             return {
               cardId: null,
               boardId: null,

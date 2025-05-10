@@ -1,24 +1,16 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
-  if (!_.isPlainObject(value.board)) {
-    return false;
-  }
+const { v4: uuid } = require('uuid');
 
-  if (!_.isPlainObject(value.user)) {
-    return false;
-  }
-
-  return true;
-};
+const normalizeValues = require('../../../utils/normalize-values');
 
 module.exports = {
   inputs: {
     values: {
       type: 'ref',
-      custom: valuesValidator,
       required: true,
     },
     project: {
@@ -41,21 +33,29 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    if (values.role === BoardMembership.Roles.EDITOR) {
-      delete values.canComment;
-    } else if (values.role === BoardMembership.Roles.VIEWER) {
-      if (_.isNil(values.canComment)) {
-        values.canComment = false;
-      }
-    }
+    const normalizedValues = normalizeValues(
+      {
+        ...BoardMembership.SHARED_RULES,
+        ...BoardMembership.RULES_BY_ROLE[values.role],
+      },
+      values,
+    );
 
-    const boardMembership = await BoardMembership.create({
-      ...values,
-      boardId: values.board.id,
-      userId: values.user.id,
-    })
-      .intercept('E_UNIQUE', 'userAlreadyBoardMember')
-      .fetch();
+    let boardMembership;
+    try {
+      boardMembership = await BoardMembership.qm.createOne({
+        ...normalizedValues,
+        projectId: values.board.projectId,
+        boardId: values.board.id,
+        userId: values.user.id,
+      });
+    } catch (error) {
+      if (error.code === 'E_UNIQUE') {
+        throw 'userAlreadyBoardMember';
+      }
+
+      throw error;
+    }
 
     sails.sockets.broadcast(
       `user:${boardMembership.userId}`,
@@ -66,25 +66,36 @@ module.exports = {
       inputs.request,
     );
 
-    sails.sockets.broadcast(
-      `board:${boardMembership.boardId}`,
-      'boardMembershipCreate',
-      {
-        item: boardMembership,
-      },
-      inputs.request,
-    );
+    const tempRoom = uuid();
+
+    sails.sockets.addRoomMembersToRooms(`board:${boardMembership.boardId}`, tempRoom, () => {
+      sails.sockets.removeRoomMembersFromRooms(`user:${boardMembership.userId}`, tempRoom, () => {
+        sails.sockets.broadcast(
+          tempRoom,
+          'boardMembershipCreate',
+          {
+            item: boardMembership,
+            included: {
+              users: [sails.helpers.users.presentOne(values.user, {})], // FIXME: hack
+            },
+          },
+          inputs.request,
+        );
+
+        sails.sockets.removeRoomMembersFromRooms(tempRoom, tempRoom);
+      });
+    });
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'boardMembershipCreate',
-      data: {
+      buildData: () => ({
         item: boardMembership,
         included: {
-          users: [values.user],
+          users: [sails.helpers.users.presentOne(values.user)],
           projects: [inputs.project],
           boards: [values.board],
         },
-      },
+      }),
       user: inputs.actorUser,
     });
 

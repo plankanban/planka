@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 /**
  * Task.js
  *
@@ -33,10 +38,14 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
-    cardId: {
-      model: 'Card',
+    taskListId: {
+      model: 'TaskList',
       required: true,
-      columnName: 'card_id',
+      columnName: 'task_list_id',
+    },
+    assigneeUserId: {
+      model: 'User',
+      columnName: 'assignee_user_id',
     },
   },
 };

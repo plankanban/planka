@@ -1,11 +1,20 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { call, put, select } from 'redux-saga/effects';
 
 import { changeCoreLanguage, logout } from './core';
 import request from '../request';
+import requests from '../requests';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { setAccessToken } from '../../../utils/access-token-storage';
+import mergeRecords from '../../../utils/merge-records';
+import { isUserAdminOrProjectOwner } from '../../../utils/record-helpers';
+import { UserRoles } from '../../../constants/Enums';
 
 export function* createUser(data) {
   yield put(actions.createUser(data));
@@ -44,21 +53,147 @@ export function* updateUser(id, data) {
 }
 
 export function* updateCurrentUser(data) {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(updateUser, id, data);
+  yield call(updateUser, currentUserId, data);
 }
 
 export function* handleUserUpdate(user) {
-  const currentUser = yield select(selectors.selectCurrentUser);
-  const isCurrent = user.id === currentUser.id;
+  const prevUser = yield select(selectors.selectUserById, user.id);
 
-  let users;
-  if (isCurrent && !currentUser.isAdmin && user.isAdmin) {
-    ({ items: users } = yield call(request, api.getUsers));
+  const isChangedToAdminOrProjectOwner =
+    (!prevUser || (prevUser.role !== user.role && prevUser.role !== UserRoles.ADMIN)) &&
+    isUserAdminOrProjectOwner(user);
+
+  const currentUser = yield select(selectors.selectCurrentUser);
+  const isCurrentUser = user.id === currentUser.id;
+
+  let config;
+  let board;
+  let users1;
+  let users2;
+  let users3;
+  let projects;
+  let projectManagers;
+  let backgroundImages;
+  let baseCustomFieldGroups;
+  let boards;
+  let boardMemberships1;
+  let boardMemberships2;
+  let labels;
+  let lists;
+  let cards;
+  let cardMemberships;
+  let cardLabels;
+  let taskLists;
+  let tasks;
+  let attachments;
+  let customFieldGroups;
+  let customFields1;
+  let customFields2;
+  let customFieldValues;
+  let notificationsToDelete;
+  let notificationServices;
+
+  if (isCurrentUser && isChangedToAdminOrProjectOwner) {
+    const { boardId } = yield select(selectors.selectPath);
+
+    ({ items: users1 } = yield call(request, api.getUsers));
+
+    if (user.role === UserRoles.ADMIN) {
+      ({ item: config } = yield call(request, api.getConfig));
+
+      ({
+        items: projects,
+        included: {
+          projectManagers,
+          backgroundImages,
+          baseCustomFieldGroups,
+          boards,
+          notificationServices,
+          users: users2,
+          boardMemberships: boardMemberships1,
+          customFields: customFields1,
+        },
+      } = yield call(request, api.getProjects));
+
+      if (boardId === null) {
+        let body;
+        try {
+          body = yield call(requests.fetchBoardByCurrentPath);
+        } catch {
+          /* empty */
+        }
+
+        if (body) {
+          ({
+            board,
+            labels,
+            lists,
+            cards,
+            cardMemberships,
+            cardLabels,
+            taskLists,
+            tasks,
+            attachments,
+            customFieldGroups,
+            customFieldValues,
+            users: users3,
+            boardMemberships: boardMemberships2,
+            customFields: customFields2,
+          } = body);
+
+          if (body.card) {
+            notificationsToDelete = yield select(
+              selectors.selectNotificationsByCardId,
+              body.card.id,
+            );
+          }
+        }
+      }
+    }
   }
 
-  yield put(actions.handleUserUpdate(user, users, isCurrent));
+  const projectIds = yield select(selectors.selectProjectIdsForCurrentUser);
+  const boardIds = yield select(selectors.selectBoardIdsForCurrentUser);
+
+  yield put(
+    actions.handleUserUpdate(
+      user,
+      projectIds,
+      boardIds,
+      config,
+      board,
+      mergeRecords(users1, users2, users3),
+      projects,
+      projectManagers,
+      backgroundImages,
+      baseCustomFieldGroups,
+      boards,
+      mergeRecords(boardMemberships1, boardMemberships2),
+      labels,
+      lists,
+      cards,
+      cardMemberships,
+      cardLabels,
+      taskLists,
+      tasks,
+      attachments,
+      customFieldGroups,
+      mergeRecords(customFields1, customFields2),
+      customFieldValues,
+      notificationsToDelete,
+      notificationServices,
+    ),
+  );
+
+  if (isCurrentUser) {
+    const isAvailableForCurrentUser = yield select(selectors.isCurrentModalAvailableForCurrentUser);
+
+    if (!isAvailableForCurrentUser) {
+      yield put(actions.closeModal());
+    }
+  }
 }
 
 // TODO: add loading state
@@ -71,9 +206,9 @@ export function* updateUserLanguage(id, language) {
 }
 
 export function* updateCurrentUserLanguage(language) {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(updateUserLanguage, id, language);
+  yield call(updateUserLanguage, currentUserId, language);
 }
 
 export function* updateUserEmail(id, data) {
@@ -91,9 +226,9 @@ export function* updateUserEmail(id, data) {
 }
 
 export function* updateCurrentUserEmail(data) {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(updateUserEmail, id, data);
+  yield call(updateUserEmail, currentUserId, data);
 }
 
 export function* clearUserEmailUpdateError(id) {
@@ -101,9 +236,9 @@ export function* clearUserEmailUpdateError(id) {
 }
 
 export function* clearCurrentUserEmailUpdateError() {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(clearUserEmailUpdateError, id);
+  yield call(clearUserEmailUpdateError, currentUserId);
 }
 
 export function* updateUserPassword(id, data) {
@@ -134,9 +269,9 @@ export function* updateUserPassword(id, data) {
 }
 
 export function* updateCurrentUserPassword(data) {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(updateUserPassword, id, data);
+  yield call(updateUserPassword, currentUserId, data);
 }
 
 export function* clearUserPasswordUpdateError(id) {
@@ -144,9 +279,9 @@ export function* clearUserPasswordUpdateError(id) {
 }
 
 export function* clearCurrentUserPasswordUpdateError() {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(clearUserPasswordUpdateError, id);
+  yield call(clearUserPasswordUpdateError, currentUserId);
 }
 
 export function* updateUserUsername(id, data) {
@@ -164,9 +299,9 @@ export function* updateUserUsername(id, data) {
 }
 
 export function* updateCurrentUserUsername(data) {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(updateUserUsername, id, data);
+  yield call(updateUserUsername, currentUserId, data);
 }
 
 export function* clearUserUsernameUpdateError(id) {
@@ -174,9 +309,9 @@ export function* clearUserUsernameUpdateError(id) {
 }
 
 export function* clearCurrentUserUsernameUpdateError() {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(clearUserUsernameUpdateError, id);
+  yield call(clearUserUsernameUpdateError, currentUserId);
 }
 
 export function* updateUserAvatar(id, data) {
@@ -194,9 +329,9 @@ export function* updateUserAvatar(id, data) {
 }
 
 export function* updateCurrentUserAvatar(data) {
-  const id = yield select(selectors.selectCurrentUserId);
+  const currentUserId = yield select(selectors.selectCurrentUserId);
 
-  yield call(updateUserAvatar, id, data);
+  yield call(updateUserAvatar, currentUserId, data);
 }
 
 export function* deleteUser(id) {
@@ -248,6 +383,12 @@ export function* addUserToCurrentCard(id) {
   yield call(addUserToCard, id, cardId);
 }
 
+export function* addCurrentUserToCurrentCard() {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+
+  yield call(addUserToCurrentCard, currentUserId);
+}
+
 export function* handleUserToCardAdd(cardMembership) {
   yield put(actions.handleUserToCardAdd(cardMembership));
 }
@@ -272,22 +413,32 @@ export function* removeUserFromCurrentCard(id) {
   yield call(removeUserFromCard, id, cardId);
 }
 
+export function* removeCurrentUserFromCurrentCard() {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+
+  yield call(removeUserFromCurrentCard, currentUserId);
+}
+
 export function* handleUserFromCardRemove(cardMembership) {
   yield put(actions.handleUserFromCardRemove(cardMembership));
 }
 
-export function* addUserToBoardFilter(id, boardId) {
-  yield put(actions.addUserToBoardFilter(id, boardId));
+export function* addUserToBoardFilter(id, boardId, replace) {
+  const currentListId = yield select(selectors.selectCurrentListId);
+
+  yield put(actions.addUserToBoardFilter(id, boardId, replace, currentListId));
 }
 
-export function* addUserToFilterInCurrentBoard(id) {
+export function* addUserToFilterInCurrentBoard(id, replace) {
   const { boardId } = yield select(selectors.selectPath);
 
-  yield call(addUserToBoardFilter, id, boardId);
+  yield call(addUserToBoardFilter, id, boardId, replace);
 }
 
 export function* removeUserFromBoardFilter(id, boardId) {
-  yield put(actions.removeUserFromBoardFilter(id, boardId));
+  const currentListId = yield select(selectors.selectCurrentListId);
+
+  yield put(actions.removeUserFromBoardFilter(id, boardId, currentListId));
 }
 
 export function* removeUserFromFilterInCurrentBoard(id) {
@@ -323,9 +474,11 @@ export default {
   handleUserDelete,
   addUserToCard,
   addUserToCurrentCard,
+  addCurrentUserToCurrentCard,
   handleUserToCardAdd,
   removeUserFromCard,
   removeUserFromCurrentCard,
+  removeCurrentUserFromCurrentCard,
   handleUserFromCardRemove,
   addUserToBoardFilter,
   addUserToFilterInCurrentBoard,

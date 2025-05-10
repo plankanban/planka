@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { ID_REGEX, MAX_STRING_ID, isIdInRange } = require('../../../utils/validators');
+
 const Errors = {
   USER_NOT_FOUND: {
     userNotFound: 'User not found',
@@ -6,11 +13,17 @@ const Errors = {
 
 const CURRENT_USER_ID = 'me';
 
+const ID_OR_CURRENT_USER_ID_REGEX = new RegExp(`${ID_REGEX}|^${CURRENT_USER_ID}$`);
+
+const isCurrentUserIdOrIdInRange = (value) => value === CURRENT_USER_ID || isIdInRange(value);
+
 module.exports = {
   inputs: {
     id: {
       type: 'string',
-      regex: /^[0-9]+|me$/,
+      maxLength: MAX_STRING_ID.length,
+      regex: ID_OR_CURRENT_USER_ID_REGEX,
+      custom: isCurrentUserIdOrIdInRange,
       required: true,
     },
     subscribe: {
@@ -19,21 +32,30 @@ module.exports = {
   },
 
   exits: {
-    boardNotFound: {
+    userNotFound: {
       responseType: 'notFound',
     },
   },
 
   async fn(inputs) {
+    const { currentUser } = this.req;
+
     let user;
-    if (inputs.id === CURRENT_USER_ID) {
-      ({ currentUser: user } = this.req);
+    let notificationServices = [];
+
+    if (inputs.id === CURRENT_USER_ID || inputs.id === currentUser.id) {
+      user = currentUser;
+      notificationServices = await NotificationService.qm.getByUserId(currentUser.id);
 
       if (inputs.subscribe && this.req.isSocket) {
         sails.sockets.join(this.req, `user:${user.id}`);
       }
     } else {
-      user = await sails.helpers.users.getOne(inputs.id);
+      if (!sails.helpers.users.isAdminOrProjectOwner(currentUser)) {
+        throw Errors.USER_NOT_FOUND; // Forbidden
+      }
+
+      user = await User.qm.getOneById(inputs.id);
 
       if (!user) {
         throw Errors.USER_NOT_FOUND;
@@ -41,7 +63,10 @@ module.exports = {
     }
 
     return {
-      item: user,
+      item: sails.helpers.users.presentOne(user, currentUser),
+      included: {
+        notificationServices,
+      },
     };
   },
 };

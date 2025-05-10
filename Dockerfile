@@ -5,12 +5,10 @@ RUN apk -U upgrade \
 
 WORKDIR /app
 
-COPY server/package.json server/package-lock.json ./
+COPY server/package.json server/package-lock.json server/requirements.txt ./
 
 RUN npm install npm --global \
-  && npm install pnpm@9 --global \
-  && pnpm import \
-  && pnpm install --prod
+  && npm install --omit=dev
 
 FROM node:lts AS client
 
@@ -19,33 +17,33 @@ WORKDIR /app
 COPY client .
 
 RUN npm install npm --global \
-  && npm install pnpm@9 --global \
-  && pnpm import \
-  && pnpm install --prod
+  && npm install --omit=dev
 
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
 FROM node:18-alpine
 
 RUN apk -U upgrade \
-  && apk add bash --no-cache
+  && apk add bash python3 --no-cache \
+  && npm install npm --global
 
 USER node
 WORKDIR /app
 
-COPY --chown=node:node start.sh .
-COPY --chown=node:node healthcheck.js .
 COPY --chown=node:node server .
 
-RUN mv .env.sample .env
+RUN python3 -m venv .venv \
+  && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
+  && mv .env.sample .env
 
 COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
 
-COPY --from=client --chown=node:node /app/build public
-COPY --from=client --chown=node:node /app/build/index.html views/index.ejs
+COPY --from=client --chown=node:node /app/dist public
+COPY --from=client --chown=node:node /app/dist/index.html views
 
+VOLUME /app/public/favicons
 VOLUME /app/public/user-avatars
-VOLUME /app/public/project-background-images
+VOLUME /app/public/background-images
 VOLUME /app/private/attachments
 
 EXPOSE 1337

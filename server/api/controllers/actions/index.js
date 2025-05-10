@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
@@ -7,17 +14,10 @@ const Errors = {
 module.exports = {
   inputs: {
     cardId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
-    beforeId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
-    },
-    withDetails: {
-      type: 'boolean',
-    },
+    beforeId: idInput,
   },
 
   exits: {
@@ -30,35 +30,38 @@ module.exports = {
     const { currentUser } = this.req;
 
     const { card, project } = await sails.helpers.cards
-      .getProjectPath(inputs.cardId)
+      .getPathToProjectById(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      card.boardId,
+      currentUser.id,
+    );
 
-    if (!isBoardMember) {
-      const isProjectManager = await sails.helpers.users.isProjectManager(
-        currentUser.id,
-        project.id,
-      );
+    if (!boardMembership) {
+      if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
+        const isProjectManager = await sails.helpers.users.isProjectManager(
+          currentUser.id,
+          project.id,
+        );
 
-      if (!isProjectManager) {
-        throw Errors.BOARD_NOT_FOUND; // Forbidden
+        if (!isProjectManager) {
+          throw Errors.CARD_NOT_FOUND; // Forbidden
+        }
       }
     }
 
-    const actions = await sails.helpers.cards.getActions(
-      card.id,
-      inputs.beforeId,
-      inputs.withDetails,
-    );
+    const actions = await Action.qm.getByCardId(card.id, {
+      beforeId: inputs.beforeId,
+    });
 
-    const userIds = sails.helpers.utils.mapRecords(actions, 'userId', true);
-    const users = await sails.helpers.users.getMany(userIds, true);
+    const userIds = sails.helpers.utils.mapRecords(actions, 'userId', true, true);
+    const users = await User.qm.getByIds(userIds);
 
     return {
       items: actions,
       included: {
-        users,
+        users: sails.helpers.users.presentMany(users, currentUser),
       },
     };
   },

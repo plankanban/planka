@@ -1,4 +1,30 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
+
+const searchProjects = (value) => ({
+  type: EntryActionTypes.PROJECTS_SEARCH,
+  payload: {
+    value,
+  },
+});
+
+const updateProjectsOrder = (value) => ({
+  type: EntryActionTypes.PROJECTS_ORDER_UPDATE,
+  payload: {
+    value,
+  },
+});
+
+const toggleHiddenProjects = (isVisible) => ({
+  type: EntryActionTypes.HIDDEN_PROJECTS_TOGGLE,
+  payload: {
+    isVisible,
+  },
+});
 
 const createProject = (data) => ({
   type: EntryActionTypes.PROJECT_CREATE,
@@ -11,6 +37,14 @@ const handleProjectCreate = (project) => ({
   type: EntryActionTypes.PROJECT_CREATE_HANDLE,
   payload: {
     project,
+  },
+});
+
+const updateProject = (id, data) => ({
+  type: EntryActionTypes.PROJECT_UPDATE,
+  payload: {
+    id,
+    data,
   },
 });
 
@@ -28,13 +62,6 @@ const handleProjectUpdate = (project) => ({
   },
 });
 
-const updateCurrentProjectBackgroundImage = (data) => ({
-  type: EntryActionTypes.CURRENT_PROJECT_BACKGROUND_IMAGE_UPDATE,
-  payload: {
-    data,
-  },
-});
-
 const deleteCurrentProject = () => ({
   type: EntryActionTypes.CURRENT_PROJECT_DELETE,
   payload: {},
@@ -48,11 +75,14 @@ const handleProjectDelete = (project) => ({
 });
 
 export default {
+  searchProjects,
+  updateProjectsOrder,
+  toggleHiddenProjects,
   createProject,
   handleProjectCreate,
+  updateProject,
   updateCurrentProject,
   handleProjectUpdate,
-  updateCurrentProjectBackgroundImage,
   deleteCurrentProject,
   handleProjectDelete,
 };

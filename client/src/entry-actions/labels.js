@@ -1,8 +1,21 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const createLabelInCurrentBoard = (data) => ({
   type: EntryActionTypes.LABEL_IN_CURRENT_BOARD_CREATE,
   payload: {
+    data,
+  },
+});
+
+const createLabelFromCard = (cardId, data) => ({
+  type: EntryActionTypes.LABEL_FROM_CARD_CREATE,
+  payload: {
+    cardId,
     data,
   },
 });
@@ -111,6 +124,7 @@ const removeLabelFromFilterInCurrentBoard = (id) => ({
 
 export default {
   createLabelInCurrentBoard,
+  createLabelFromCard,
   handleLabelCreate,
   updateLabel,
   handleLabelUpdate,

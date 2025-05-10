@@ -1,14 +1,7 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
@@ -18,7 +11,6 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: valuesValidator,
       required: true,
     },
     project: {
@@ -37,6 +29,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    taskList: {
+      type: 'ref',
+      required: true,
+    },
     actorUser: {
       type: 'ref',
       required: true,
@@ -46,11 +42,32 @@ module.exports = {
     },
   },
 
+  exits: {
+    taskListInValuesMustBelongToCard: {},
+  },
+
+  // TODO: use normalizeValues
   async fn(inputs) {
     const { values } = inputs;
 
+    if (values.taskList) {
+      if (values.taskList.cardId !== inputs.card.id) {
+        throw 'taskListInValuesMustBelongToCard';
+      }
+
+      if (values.taskList.id === inputs.taskList.id) {
+        delete values.taskList;
+      } else {
+        values.taskListId = values.taskList.id;
+      }
+    }
+
+    const taskList = values.taskList || inputs.taskList;
+
     if (!_.isUndefined(values.position)) {
-      const tasks = await sails.helpers.cards.getTasks(inputs.record.cardId, inputs.record.id);
+      const tasks = await Task.qm.getByTaskListId(taskList.id, {
+        exceptIdOrIds: inputs.record.id,
+      });
 
       const { position, repositions } = sails.helpers.utils.insertToPositionables(
         values.position,
@@ -59,26 +76,31 @@ module.exports = {
 
       values.position = position;
 
-      repositions.forEach(async ({ id, position: nextPosition }) => {
-        await Task.update({
-          id,
-          cardId: inputs.record.cardId,
-        }).set({
-          position: nextPosition,
-        });
+      // eslint-disable-next-line no-restricted-syntax
+      for (const reposition of repositions) {
+        // eslint-disable-next-line no-await-in-loop
+        await Task.qm.updateOne(
+          {
+            id: reposition.record.id,
+            taskListId: reposition.record.taskListId,
+          },
+          {
+            position: reposition.position,
+          },
+        );
 
         sails.sockets.broadcast(`board:${inputs.board.id}`, 'taskUpdate', {
           item: {
-            id,
-            position: nextPosition,
+            id: reposition.record.id,
+            position: reposition.position,
           },
         });
 
         // TODO: send webhooks
-      });
+      }
     }
 
-    const task = await Task.updateOne(inputs.record.id).set({ ...values });
+    const task = await Task.qm.updateOne(inputs.record.id, values);
 
     if (task) {
       sails.sockets.broadcast(
@@ -92,18 +114,22 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'taskUpdate',
-        data: {
+        buildData: () => ({
           item: task,
           included: {
             projects: [inputs.project],
             boards: [inputs.board],
             lists: [inputs.list],
             cards: [inputs.card],
+            taskLists: [taskList],
           },
-        },
-        prevData: {
+        }),
+        buildPrevData: () => ({
           item: inputs.record,
-        },
+          included: {
+            taskLists: [inputs.taskList],
+          },
+        }),
         user: inputs.actorUser,
       });
     }

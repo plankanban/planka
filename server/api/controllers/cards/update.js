@@ -1,4 +1,10 @@
-const moment = require('moment');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { isDueDate, isStopwatch } = require('../../../utils/validators');
+const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
@@ -13,80 +19,60 @@ const Errors = {
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
   },
+  COVER_ATTACHMENT_NOT_FOUND: {
+    coverAttachmentNotFound: 'Cover attachment not found',
+  },
   LIST_MUST_BE_PRESENT: {
     listMustBePresent: 'List must be present',
+  },
+  COVER_ATTACHMENT_MUST_CONTAIN_IMAGE: {
+    coverAttachmentMustContainImage: 'Cover attachment must contain image',
   },
   POSITION_MUST_BE_PRESENT: {
     positionMustBePresent: 'Position must be present',
   },
 };
 
-const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
-
-const stopwatchValidator = (value) => {
-  if (!_.isPlainObject(value) || _.size(value) !== 2) {
-    return false;
-  }
-
-  if (
-    !_.isNull(value.startedAt) &&
-    _.isString(value.startedAt) &&
-    !moment(value.startedAt, moment.ISO_8601, true).isValid()
-  ) {
-    return false;
-  }
-
-  if (!_.isFinite(value.total)) {
-    return false;
-  }
-
-  return true;
-};
-
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
-    boardId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
-    },
-    listId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
-    },
+    boardId: idInput,
+    listId: idInput,
     coverAttachmentId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       allowNull: true,
+    },
+    type: {
+      type: 'string',
+      isIn: Object.values(Card.Types),
     },
     position: {
       type: 'number',
+      min: 0,
+      allowNull: true,
     },
     name: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 1024,
     },
     description: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 1048576,
       allowNull: true,
     },
     dueDate: {
       type: 'string',
-      custom: dueDateValidator,
-      allowNull: true,
-    },
-    isDueDateCompleted: {
-      type: 'boolean',
+      custom: isDueDate,
       allowNull: true,
     },
     stopwatch: {
       type: 'json',
-      custom: stopwatchValidator,
+      custom: isStopwatch,
     },
     isSubscribed: {
       type: 'boolean',
@@ -106,7 +92,13 @@ module.exports = {
     listNotFound: {
       responseType: 'notFound',
     },
+    coverAttachmentNotFound: {
+      responseType: 'notFound',
+    },
     listMustBePresent: {
+      responseType: 'unprocessableEntity',
+    },
+    coverAttachmentMustContainImage: {
       responseType: 'unprocessableEntity',
     },
     positionMustBePresent: {
@@ -117,23 +109,38 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const path = await sails.helpers.cards
-      .getProjectPath(inputs.id)
+    const pathToProject = await sails.helpers.cards
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    let { card } = path;
-    const { list, board, project } = path;
+    let { card } = pathToProject;
+    const { list, board, project } = pathToProject;
 
-    let boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    let boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
-    if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+    const availableInputKeys = ['id', 'isSubscribed'];
+    if (boardMembership.role === BoardMembership.Roles.EDITOR) {
+      availableInputKeys.push(
+        'boardId',
+        'listId',
+        'coverAttachmentId',
+        'type',
+        'position',
+        'name',
+        'description',
+        'dueDate',
+        'stopwatch',
+      );
+    }
+
+    if (_.difference(Object.keys(inputs), availableInputKeys).length > 0) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
@@ -142,13 +149,13 @@ module.exports = {
 
     if (!_.isUndefined(inputs.boardId)) {
       ({ board: nextBoard, project: nextProject } = await sails.helpers.boards
-        .getProjectPath(inputs.boardId)
+        .getPathToProjectById(inputs.boardId)
         .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND));
 
-      boardMembership = await BoardMembership.findOne({
-        boardId: nextBoard.id,
-        userId: currentUser.id,
-      });
+      boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+        nextBoard.id,
+        currentUser.id,
+      );
 
       if (!boardMembership) {
         throw Errors.BOARD_NOT_FOUND; // Forbidden
@@ -161,23 +168,33 @@ module.exports = {
 
     let nextList;
     if (!_.isUndefined(inputs.listId)) {
-      nextList = await List.findOne({
-        id: inputs.listId,
+      nextList = await List.qm.getOneById(inputs.listId, {
         boardId: (nextBoard || board).id,
       });
 
       if (!nextList) {
-        throw Errors.LIST_NOT_FOUND; // Forbidden
+        throw Errors.LIST_NOT_FOUND;
+      }
+    }
+
+    let nextCoverAttachment;
+    if (inputs.coverAttachmentId) {
+      nextCoverAttachment = await Attachment.qm.getOneById(inputs.coverAttachmentId, {
+        cardId: card.id,
+      });
+
+      if (!nextCoverAttachment || nextCoverAttachment.type !== Attachment.Types.FILE) {
+        throw Errors.COVER_ATTACHMENT_NOT_FOUND;
       }
     }
 
     const values = _.pick(inputs, [
       'coverAttachmentId',
+      'type',
       'position',
       'name',
       'description',
       'dueDate',
-      'isDueDateCompleted',
       'stopwatch',
       'isSubscribed',
     ]);
@@ -193,12 +210,17 @@ module.exports = {
           project: nextProject,
           board: nextBoard,
           list: nextList,
+          coverAttachment: nextCoverAttachment,
         },
         actorUser: currentUser,
         request: this.req,
       })
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT)
-      .intercept('listMustBeInValues', () => Errors.LIST_MUST_BE_PRESENT);
+      .intercept('listMustBeInValues', () => Errors.LIST_MUST_BE_PRESENT)
+      .intercept(
+        'coverAttachmentInValuesMustContainImage',
+        () => Errors.COVER_ATTACHMENT_MUST_CONTAIN_IMAGE,
+      );
 
     if (!card) {
       throw Errors.CARD_NOT_FOUND;

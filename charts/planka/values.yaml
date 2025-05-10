@@ -27,7 +27,7 @@ existingSecretkeySecret: ""
 ## NOTE: When it's set, the `admin_username` and `admin_password` parameters are ignored
 existingAdminCredsSecret: ""
 
-# Base url for Planka. Will override `ingress.hosts[0].host`
+# Base url for PLANKA. Will override `ingress.hosts[0].host`
 # Defaults to `http://localhost:3000` if ingress is disabled.
 baseUrl: ""
 
@@ -57,7 +57,7 @@ service:
   annotations: {}
   type: ClusterIP
   port: 1337
-  ## @param service.containerPort Planka HTTP container port
+  ## @param service.containerPort PLANKA HTTP container port
   ## If empty will default to 1337
   ##
   containerPort: 1337
@@ -176,7 +176,7 @@ oidc:
 
   ## @param oidc.scopes A list of scopes required for OIDC client.
   ## If empty will default to `openid`, `profile` and `email`
-  ## NOTE: Planka needs the email and name claims
+  ## NOTE: PLANKA needs the email and name claims
   ##
   scopes: []
 

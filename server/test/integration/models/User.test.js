@@ -2,9 +2,10 @@ const { expect } = require('chai');
 
 describe('User (model)', () => {
   before(async () => {
-    await User.create({
+    await User.qm.createOne({
       email: 'test@test.test',
       password: 'test',
+      role: User.Roles.ADMIN,
       name: 'test',
     });
   });

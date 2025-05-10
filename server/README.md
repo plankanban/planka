@@ -1,1 +1,0 @@
-# Planka server

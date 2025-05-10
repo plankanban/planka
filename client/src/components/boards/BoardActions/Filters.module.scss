@@ -1,0 +1,91 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .filter {
+    margin-right: 10px;
+  }
+
+  .filterButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    padding: 0;
+
+    &:not(:first-of-type) {
+      margin-left: 6px;
+    }
+  }
+
+  .filterItem {
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+    margin-right: 4px;
+    max-width: 190px;
+    vertical-align: top;
+  }
+
+  .filterLabel {
+    background: rgba(0, 0, 0, 0.24);
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 2px 8px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .filterLabelIcon {
+    line-height: 1;
+  }
+
+  .filterTitle {
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 2px 12px;
+  }
+
+  .search {
+    height: 30px;
+    margin: 0 12px;
+    transition: width 0.2s ease;
+    width: 280px;
+
+    @media only screen and (width < 768px) {
+      width: 220px;
+    }
+
+    input {
+      font-size: 13px;
+    }
+  }
+
+  .searchInactive {
+    color: #fff;
+    height: 24px;
+    width: 220px;
+
+    input {
+      background: rgba(0, 0, 0, 0.24);
+      border: none;
+      color: #fff !important;
+      font-size: 12px;
+
+      &::placeholder {
+        color: #fff;
+      }
+    }
+  }
+}

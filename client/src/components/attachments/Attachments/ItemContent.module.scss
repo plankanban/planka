@@ -1,0 +1,126 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .details {
+    box-sizing: border-box;
+    padding: 6px 32px 6px 128px;
+    margin: 0;
+    min-height: 80px;
+  }
+
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    line-height: 28px;
+    margin: 0;
+    min-height: auto;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 28px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
+  }
+
+  .information {
+    display: block;
+    color: #6b808c;
+    line-height: 20px;
+    margin-bottom: 6px;
+  }
+
+  .name {
+    color: #17394d;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    word-wrap: break-word;
+  }
+
+  .option {
+    background: none;
+    border: none;
+    color: #6b808c;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+
+    &:hover {
+      color: #172b4d;
+    }
+  }
+
+  .optionIcon {
+    margin-right: 6px;
+  }
+
+  .optionText {
+    text-decoration: underline;
+  }
+
+  .options {
+    display: block;
+    color: #6b808c;
+    line-height: 20px;
+  }
+
+  .thumbnail {
+    align-items: center;
+    background: rgba(9, 30, 66, 0.04);
+    border-radius: 3px;
+    display: flex;
+    height: 80px;
+    justify-content: center;
+    margin-top: -40px;
+    position: absolute;
+    top: 50%;
+    width: 112px;
+  }
+
+  .thumbnailExtension {
+    color: #5e6c84;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: hidden;
+    padding: 0 20px 0 20px;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+  }
+
+  .thumbnailLabel {
+    border-color: rgba(29, 46, 63, 0.8);
+
+    i {
+      cursor: inherit;
+    }
+  }
+
+  .wrapper {
+    cursor: pointer;
+    margin-bottom: 8px;
+    min-height: 80px;
+    position: relative;
+
+    &:hover {
+      .details {
+        background: rgba(9, 30, 66, 0.04);
+      }
+
+      .editButton {
+        opacity: 1;
+      }
+    }
+  }
+
+  .wrapperSubmitting {
+    background: rgba(9, 30, 66, 0.04);
+  }
+}

@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const createListInCurrentBoard = (data) => ({
@@ -47,11 +52,22 @@ const sortList = (id, data) => {
   };
 };
 
-const handleListSort = (list, cards) => ({
-  type: EntryActionTypes.LIST_SORT_HANDLE,
+const moveListCardsToArchiveList = (id) => ({
+  type: EntryActionTypes.LIST_CARDS_TO_ARCHIVE_LIST_MOVE,
+  payload: {
+    id,
+  },
+});
+
+const clearTrashListInCurrentBoard = () => ({
+  type: EntryActionTypes.TRASH_LIST_IN_CURRENT_BOARD_CLEAR,
+  payload: {},
+});
+
+const handleListClear = (list) => ({
+  type: EntryActionTypes.LIST_CLEAR_HANDLE,
   payload: {
     list,
-    cards,
   },
 });
 
@@ -62,10 +78,11 @@ const deleteList = (id) => ({
   },
 });
 
-const handleListDelete = (list) => ({
+const handleListDelete = (list, cards) => ({
   type: EntryActionTypes.LIST_DELETE_HANDLE,
   payload: {
     list,
+    cards,
   },
 });
 
@@ -76,7 +93,9 @@ export default {
   handleListUpdate,
   moveList,
   sortList,
-  handleListSort,
+  moveListCardsToArchiveList,
+  clearTrashListInCurrentBoard,
+  handleListClear,
   deleteList,
   handleListDelete,
 };

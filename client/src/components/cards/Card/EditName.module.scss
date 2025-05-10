@@ -1,0 +1,31 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .field {
+    border: none;
+    margin-bottom: 4px;
+    outline: none;
+    overflow: hidden;
+    padding: 0;
+    resize: none;
+    width: 100%;
+    word-wrap: break-word;
+  }
+
+  .fieldWrapper {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 #ccc;
+    margin-bottom: 8px;
+    min-height: 20px;
+    padding: 6px 8px 2px;
+  }
+
+  .submitButton {
+    margin-bottom: 8px;
+    vertical-align: top;
+  }
+}

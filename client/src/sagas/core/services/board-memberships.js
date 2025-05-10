@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { call, put, select } from 'redux-saga/effects';
 
 import { goToProject } from './router';
@@ -37,16 +42,22 @@ export function* createMembershipInCurrentBoard(data) {
   yield call(createBoardMembership, boardId, data);
 }
 
-export function* handleBoardMembershipCreate(boardMembership) {
+export function* handleBoardMembershipCreate(boardMembership, users) {
   const currentUserId = yield select(selectors.selectCurrentUserId);
   const isCurrentUser = boardMembership.userId === currentUserId;
 
-  let user;
+  const isExternalAccessibleForCurrentUser = yield select(
+    selectors.selectIsProjectWithIdExternalAccessibleForCurrentUser,
+    boardMembership.projectId,
+  );
+
   let project;
-  let board1;
+  let board;
   let users1;
   let users2;
   let projectManagers;
+  let backgroundImages;
+  let baseCustomFieldGroups;
   let boards;
   let boardMemberships1;
   let boardMemberships2;
@@ -55,72 +66,86 @@ export function* handleBoardMembershipCreate(boardMembership) {
   let cards;
   let cardMemberships;
   let cardLabels;
+  let taskLists;
   let tasks;
   let attachments;
-  let deletedNotifications;
+  let customFieldGroups;
+  let customFields1;
+  let customFields2;
+  let customFieldValues;
+  let notificationsToDelete;
+  let notificationServices;
 
-  if (isCurrentUser) {
-    let board2;
-    try {
-      ({ item: board2 } = yield call(request, api.getBoard, boardMembership.boardId, false));
-    } catch {
-      return;
-    }
-
+  if (isCurrentUser && !isExternalAccessibleForCurrentUser) {
     const { boardId } = yield select(selectors.selectPath);
-
-    yield put(
-      actions.handleBoardMembershipCreate.fetchProject(board2.projectId, currentUserId, boardId),
-    );
 
     try {
       ({
         item: project,
-        included: { users: users1, projectManagers, boards, boardMemberships: boardMemberships1 },
-      } = yield call(request, api.getProject, board2.projectId));
+        included: {
+          projectManagers,
+          backgroundImages,
+          baseCustomFieldGroups,
+          boards,
+          notificationServices,
+          users: users1,
+          boardMemberships: boardMemberships1,
+          customFields: customFields1,
+        },
+      } = yield call(request, api.getProject, boardMembership.projectId));
     } catch {
       return;
     }
 
-    let body;
-    try {
-      body = yield call(requests.fetchBoardByCurrentPath);
-    } catch {} // eslint-disable-line no-empty
+    if (boardId === null) {
+      let body;
+      try {
+        body = yield call(requests.fetchBoardByCurrentPath);
+      } catch {
+        /* empty */
+      }
 
-    if (body && body.project && body.project.id === board2.projectId) {
-      ({
-        project,
-        board: board1,
-        users: users2,
-        boardMemberships: boardMemberships2,
-        labels,
-        lists,
-        cards,
-        cardMemberships,
-        cardLabels,
-        tasks,
-        attachments,
-      } = body);
+      if (body) {
+        ({
+          project,
+          board,
+          labels,
+          lists,
+          cards,
+          cardMemberships,
+          cardLabels,
+          taskLists,
+          tasks,
+          attachments,
+          customFieldGroups,
+          customFieldValues,
+          users: users2,
+          boardMemberships: boardMemberships2,
+          customFields: customFields2,
+        } = body);
 
-      if (body.card) {
-        deletedNotifications = yield select(selectors.selectNotificationsByCardId, body.card.id);
+        if (body.card) {
+          notificationsToDelete = yield select(selectors.selectNotificationsByCardId, body.card.id);
+        }
       }
     }
-  } else {
-    try {
-      ({ item: user } = yield call(request, api.getUser, boardMembership.userId));
-    } catch {
-      return;
-    }
   }
+
+  const isProjectAvailable = yield select(
+    selectors.selectIsProjectWithIdAvailableForCurrentUser,
+    boardMembership.projectId,
+  );
 
   yield put(
     actions.handleBoardMembershipCreate(
       boardMembership,
+      isProjectAvailable,
       project,
-      board1,
-      isCurrentUser ? mergeRecords(users1, users2) : [user],
+      board,
+      mergeRecords(users, users1, users2),
       projectManagers,
+      backgroundImages,
+      baseCustomFieldGroups,
       boards,
       mergeRecords(boardMemberships1, boardMemberships2),
       labels,
@@ -128,9 +153,14 @@ export function* handleBoardMembershipCreate(boardMembership) {
       cards,
       cardMemberships,
       cardLabels,
+      taskLists,
       tasks,
       attachments,
-      deletedNotifications,
+      customFieldGroups,
+      mergeRecords(customFields1, customFields2),
+      customFieldValues,
+      notificationsToDelete,
+      notificationServices,
     ),
   );
 }
@@ -156,20 +186,23 @@ export function* handleBoardMembershipUpdate(boardMembership) {
 export function* deleteBoardMembership(id) {
   let boardMembership = yield select(selectors.selectBoardMembershipById, id);
 
-  const currentUserId = yield select(selectors.selectCurrentUserId);
   const { boardId, projectId } = yield select(selectors.selectPath);
 
-  if (boardMembership.userId === currentUserId && boardMembership.boardId === boardId) {
-    const isCurrentUserManager = yield select(
-      selectors.selectIsCurrentUserManagerForCurrentProject,
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  const isCurrentUser = boardMembership.userId === currentUserId;
+
+  yield put(actions.deleteBoardMembership(id, isCurrentUser));
+
+  if (isCurrentUser && boardMembership.boardId === boardId) {
+    const isAvailableForCurrentUser = yield select(
+      selectors.selectIsBoardWithIdAvailableForCurrentUser,
+      boardMembership.boardId,
     );
 
-    if (!isCurrentUserManager) {
+    if (!isAvailableForCurrentUser) {
       yield call(goToProject, projectId);
     }
   }
-
-  yield put(actions.deleteBoardMembership(id));
 
   try {
     ({ item: boardMembership } = yield call(request, api.deleteBoardMembership, id));
@@ -178,24 +211,27 @@ export function* deleteBoardMembership(id) {
     return;
   }
 
-  yield put(actions.deleteBoardMembership.success(boardMembership));
+  yield put(actions.deleteBoardMembership.success(boardMembership, isCurrentUser));
 }
 
 export function* handleBoardMembershipDelete(boardMembership) {
-  const currentUserId = yield select(selectors.selectCurrentUserId);
   const { boardId, projectId } = yield select(selectors.selectPath);
 
-  if (boardMembership.userId === currentUserId && boardMembership.boardId === boardId) {
-    const isCurrentUserManager = yield select(
-      selectors.selectIsCurrentUserManagerForCurrentProject,
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  const isCurrentUser = boardMembership.userId === currentUserId;
+
+  yield put(actions.handleBoardMembershipDelete(boardMembership, isCurrentUser));
+
+  if (isCurrentUser && boardMembership.boardId === boardId) {
+    const isAvailableForCurrentUser = yield select(
+      selectors.selectIsBoardWithIdAvailableForCurrentUser,
+      boardMembership.boardId,
     );
 
-    if (!isCurrentUserManager) {
+    if (!isAvailableForCurrentUser) {
       yield call(goToProject, projectId);
     }
   }
-
-  yield put(actions.handleBoardMembershipDelete(boardMembership));
 }
 
 export default {

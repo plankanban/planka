@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -10,8 +17,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -28,7 +34,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let user = await sails.helpers.users.getOne(inputs.id);
+    let user = await User.qm.getOneById(inputs.id);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
@@ -49,7 +55,7 @@ module.exports = {
     }
 
     return {
-      item: user,
+      item: sails.helpers.users.presentOne(user, currentUser),
     };
   },
 };

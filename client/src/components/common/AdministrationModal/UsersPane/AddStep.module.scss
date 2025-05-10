@@ -1,0 +1,53 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .button {
+    white-space: nowrap;
+  }
+
+  .controls {
+    display: flex;
+    max-width: 280px;
+
+    @media only screen and (width < 768px) {
+      max-width: 226px;
+    }
+  }
+
+  .field {
+    margin-bottom: 8px;
+  }
+
+  .selectRoleButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    font-weight: normal;
+    margin-left: auto;
+    margin-right: 0;
+    overflow: hidden;
+    text-align: left;
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    transition: none;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #092d42;
+    }
+  }
+
+  .selectRoleButtonIcon {
+    text-decoration: none;
+  }
+
+  .text {
+    color: #444444;
+    font-size: 12px;
+    font-weight: bold;
+    padding-bottom: 6px;
+  }
+}

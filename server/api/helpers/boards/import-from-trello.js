@@ -1,4 +1,9 @@
-const POSITION_GAP = 65535; // TODO: move to config
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { POSITION_GAP } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -6,151 +11,122 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    trelloBoard: {
-      type: 'json',
+    lists: {
+      type: 'ref',
       required: true,
     },
-    actorUser: {
-      type: 'ref',
+    trelloBoard: {
+      type: 'json',
       required: true,
     },
   },
 
   async fn(inputs) {
-    const trelloToPlankaLabels = {};
+    const convertLabelColor = (trelloLabelColor) =>
+      Label.COLORS.find((color) => color.includes(trelloLabelColor)) || 'desert-sand';
 
-    const getTrelloLists = () => inputs.trelloBoard.lists.filter((list) => !list.closed);
-
-    const getUsedTrelloLabels = () => {
-      const result = {};
-      inputs.trelloBoard.cards
-        .map((card) => card.labels)
-        .flat()
-        .forEach((label) => {
-          result[label.id] = label;
+    const labelIdByTrelloLabelId = {};
+    await Promise.all(
+      inputs.trelloBoard.labels.map(async (trelloLabel, index) => {
+        const { id } = await Label.qm.createOne({
+          boardId: inputs.board.id,
+          position: POSITION_GAP * (index + 1),
+          name: trelloLabel.name || null,
+          color: convertLabelColor(trelloLabel.color),
         });
 
-      return Object.values(result);
-    };
+        labelIdByTrelloLabelId[trelloLabel.id] = id;
+      }),
+    );
 
-    const getTrelloCardsOfList = (listId) =>
-      inputs.trelloBoard.cards.filter((card) => card.idList === listId && !card.closed);
+    const openedTrelloLists = inputs.trelloBoard.lists.filter((list) => !list.closed);
 
-    const getAllTrelloCheckItemsOfCard = (cardId) =>
-      inputs.trelloBoard.checklists
-        .filter((checklist) => checklist.idCard === cardId)
-        .map((checklist) => checklist.checkItems)
-        .flat();
+    const listIdByTrelloListId = {};
+    await Promise.all(
+      openedTrelloLists.map(async (trelloList) => {
+        const { id } = await List.qm.createOne({
+          boardId: inputs.board.id,
+          type: List.Types.ACTIVE,
+          position: trelloList.pos,
+          name: trelloList.name,
+        });
 
-    const getTrelloCommentsOfCard = (cardId) =>
-      inputs.trelloBoard.actions.filter(
-        (action) =>
-          action.type === 'commentCard' &&
-          action.data &&
-          action.data.card &&
-          action.data.card.id === cardId,
-      );
+        listIdByTrelloListId[trelloList.id] = id;
+      }),
+    );
 
-    const getPlankaLabelColor = (trelloLabelColor) =>
-      Label.COLORS.find((color) => color.indexOf(trelloLabelColor) !== -1) || 'desert-sand';
+    const { id: archiveListId } = inputs.lists.find((list) => list.type === List.Types.ARCHIVE);
 
-    const importCardLabels = async (plankaCard, trelloCard) => {
-      return Promise.all(
-        trelloCard.labels.map(async (trelloLabel) => {
-          return CardLabel.create({
-            cardId: plankaCard.id,
-            labelId: trelloToPlankaLabels[trelloLabel.id].id,
+    const cardIdByTrelloCardId = {};
+    await Promise.all(
+      inputs.trelloBoard.cards.map(async (trelloCard) => {
+        const values = {
+          boardId: inputs.board.id,
+          type: Card.Types.PROJECT,
+          position: trelloCard.pos,
+          name: trelloCard.name,
+          description: trelloCard.desc || null,
+          dueDate: trelloCard.due,
+          listChangedAt: new Date().toISOString(),
+        };
+
+        const listId = listIdByTrelloListId[trelloCard.idList];
+
+        if (trelloCard.closed) {
+          Object.assign(values, {
+            listId: archiveListId,
+            prevListId: listId,
           });
+        } else {
+          values.listId = listId || archiveListId;
+        }
+
+        const { id } = await Card.qm.createOne(values);
+        cardIdByTrelloCardId[trelloCard.id] = id;
+
+        return Promise.all(
+          trelloCard.idLabels.map(async (trelloLabelId) =>
+            CardLabel.qm.createOne({
+              cardId: id,
+              labelId: labelIdByTrelloLabelId[trelloLabelId],
+            }),
+          ),
+        );
+      }),
+    );
+
+    await Promise.all(
+      inputs.trelloBoard.checklists.map(async (trelloChecklist) => {
+        const { id } = await TaskList.qm.createOne({
+          cardId: cardIdByTrelloCardId[trelloChecklist.idCard],
+          position: trelloChecklist.pos,
+          name: trelloChecklist.name,
+        });
+
+        return Promise.all(
+          trelloChecklist.checkItems.map(async (trelloCheckItem) =>
+            Task.qm.createOne({
+              taskListId: id,
+              position: trelloCheckItem.pos,
+              name: trelloCheckItem.name,
+              isCompleted: trelloCheckItem.state === 'complete',
+            }),
+          ),
+        );
+      }),
+    );
+
+    const trelloCommentActions = inputs.trelloBoard.actions
+      .filter((action) => action.type === 'commentCard')
+      .reverse();
+
+    await Promise.all(
+      trelloCommentActions.map(async (trelloAction) =>
+        Comment.qm.createOne({
+          cardId: cardIdByTrelloCardId[trelloAction.data.card.id],
+          text: `${trelloAction.data.text}\n\n---\n*Note: imported comment, originally posted by\n${trelloAction.memberCreator.fullName} (${trelloAction.memberCreator.username}) on ${trelloAction.date}*`,
         }),
-      );
-    };
-
-    const importTasks = async (plankaCard, trelloCard) => {
-      // TODO find workaround for tasks/checklist mismapping, see issue trello2planka#5
-      return Promise.all(
-        getAllTrelloCheckItemsOfCard(trelloCard.id).map(async (trelloCheckItem) => {
-          return Task.create({
-            cardId: plankaCard.id,
-            position: trelloCheckItem.pos,
-            name: trelloCheckItem.name,
-            isCompleted: trelloCheckItem.state === 'complete',
-          }).fetch();
-        }),
-      );
-    };
-
-    const importComments = async (plankaCard, trelloCard) => {
-      const trelloComments = getTrelloCommentsOfCard(trelloCard.id);
-      trelloComments.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-
-      return Promise.all(
-        trelloComments.map(async (trelloComment) => {
-          return Action.create({
-            cardId: plankaCard.id,
-            userId: inputs.actorUser.id,
-            type: 'commentCard',
-            data: {
-              text:
-                `${trelloComment.data.text}\n\n---\n*Note: imported comment, originally posted by ` +
-                `\n${trelloComment.memberCreator.fullName} (${trelloComment.memberCreator.username}) on ${trelloComment.date}*`,
-            },
-          }).fetch();
-        }),
-      );
-    };
-
-    const importCards = async (plankaList, trelloList) => {
-      return Promise.all(
-        getTrelloCardsOfList(trelloList.id).map(async (trelloCard) => {
-          const plankaCard = await Card.create({
-            boardId: inputs.board.id,
-            listId: plankaList.id,
-            creatorUserId: inputs.actorUser.id,
-            position: trelloCard.pos,
-            name: trelloCard.name,
-            description: trelloCard.desc || null,
-            dueDate: trelloCard.due,
-          }).fetch();
-
-          await importCardLabels(plankaCard, trelloCard);
-          await importTasks(plankaCard, trelloCard);
-          await importComments(plankaCard, trelloCard);
-
-          return plankaCard;
-        }),
-      );
-    };
-
-    const importLabels = async () => {
-      return Promise.all(
-        getUsedTrelloLabels().map(async (trelloLabel, index) => {
-          const plankaLabel = await Label.create({
-            boardId: inputs.board.id,
-            position: POSITION_GAP * (index + 1),
-            name: trelloLabel.name || null,
-            color: getPlankaLabelColor(trelloLabel.color),
-          }).fetch();
-
-          trelloToPlankaLabels[trelloLabel.id] = plankaLabel;
-        }),
-      );
-    };
-
-    const importLists = async () => {
-      return Promise.all(
-        getTrelloLists().map(async (trelloList) => {
-          const plankaList = await List.create({
-            boardId: inputs.board.id,
-            name: trelloList.name,
-            position: trelloList.pos,
-          }).fetch();
-
-          return importCards(plankaList, trelloList);
-        }),
-      );
-    };
-
-    await importLabels();
-    await importLists();
+      ),
+    );
   },
 };

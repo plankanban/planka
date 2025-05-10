@@ -1,7 +1,9 @@
 import dateFns from 'date-fns/locale/id';
+import timeAgo from 'javascript-time-ago/locale/id';
 
 export default {
   dateFns,
+  timeAgo,
 
   format: {
     date: 'dd MMM yyyy',
@@ -15,15 +17,13 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Tentang Planka',
+      aboutPlanka: 'Tentang PLANKA',
       account: 'Akun',
       actions: 'Tindakan',
       addAttachment_title: 'Tambah Lampiran',
-      addComment: 'Tambahkan komentar',
       addManager_title: 'Tambahkan Manager',
       addMember_title: 'Tambahkan Anggota',
       addUser_title: 'Tambahkan Pengguna',
-      administrator: 'Administrator',
       all: 'Semua',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Semua perubahan akan disimpan<br />setelah koneksi pulih.',
@@ -49,11 +49,9 @@ export default {
       board: 'Papan',
       boardNotFound_title: 'Papan Tidak Ditemukan',
       canComment: 'Bisa berkomentar',
-      canEditContentOfBoard: 'Bisa mengubah isi papan.',
       canOnlyViewBoard: 'Hanya dapat menglihat isi papan.',
       cardActions_title: 'Aksi Kartu',
       cardNotFound_title: 'Kartu Tidak Ditemukan',
-      cardOrActionAreDeleted: 'Kartu atau aksi telah dihapus.',
       color: 'Warna',
       createBoard_title: 'Buat Papan',
       createLabel_title: 'Buat Label',
@@ -79,7 +77,6 @@ export default {
       editor: 'Pengubah',
       editAttachment_title: 'Ubah Lampiran',
       editAvatar_title: 'Ubah Avatar',
-      editBoard_title: 'Ubah Papan',
       editDueDate_title: 'Ubah Tenggat Waktu',
       editEmail_title: 'Ubah E-mail',
       editInformation_title: 'Ubah Informasi',
@@ -89,12 +86,10 @@ export default {
       editStopwatch_title: 'Ubah Stopwatch',
       editUsername_title: 'Ubah Username',
       email: 'E-mail',
-      emailAlreadyInUse: 'E-mail telah digunakan',
-      enterCardTitle: 'Masukkan judul kartu... [Ctrl+Enter] untuk membuka otomatis.',
+      enterCardTitle: 'Masukkan judul kartu...',
       enterDescription: 'Masukkan deskripsi...',
       enterFilename: 'Masukkan nama berkas...',
       enterListTitle: 'Masukkan judul daftar...',
-      enterProjectTitle: 'Masukkan judul proyek',
       enterTaskDescription: 'Masukkan deskripsi tugas...',
       filterByLabels_title: 'Saring berdasarkan Label',
       filterByMembers_title: 'Saring berdasarkan Anggota',
@@ -147,7 +142,6 @@ export default {
       stopwatch: 'Stopwatch',
       subscribeToMyOwnCardsByDefault: 'Berlangganan kartu saya sendiri secara default',
       taskActions_title: 'Aksi Tugas',
-      tasks: 'Tugas',
       thereIsNoPreviewAvailableForThisAttachment:
         'Tidak ada pratinjau yang tersedia untuk lampiran ini.',
       time: 'Waktu',
@@ -160,9 +154,7 @@ export default {
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> memindahkan kartu ini dari {{fromList}} ke {{toList}}</1>',
       username: 'Username',
-      usernameAlreadyInUse: 'Username telah digunakan',
       users: 'Pengguna',
-      version: 'Versi',
       viewer: 'Penglihat',
       writeComment: 'Tuliskan komentar...',
     },
@@ -192,11 +184,9 @@ export default {
       deleteCard: 'Hapus kartu',
       deleteCard_title: 'Hapus Kartu',
       deleteComment: 'Hapus komentar',
-      deleteImage: 'Hapus gambar',
       deleteLabel: 'Hapus labek',
       deleteList: 'Hapus daftar',
       deleteList_title: 'Hapus Daftar',
-      deleteNotifications: 'Dismiss all',
       deleteProject: 'Hapus proyek',
       deleteProject_title: 'Hapus Proyek',
       deleteTask: 'Hapus tugas',
@@ -212,7 +202,6 @@ export default {
       editStopwatch_title: 'Ubah Stopwatch',
       editTitle_title: 'Ubah Judul',
       editUsername_title: 'Ubah Username',
-      hideDetails: 'Sembunyikan detail',
       import: 'Impor',
       leaveBoard: 'Keluar dari papan',
       leaveProject: 'Keluar dari proyek',
@@ -221,7 +210,6 @@ export default {
       move: 'Pindah',
       moveCard_title: 'Pindahkan Kartu',
       remove: 'Hapus',
-      removeBackground: 'Hapus latar belakang',
       removeCover_title: 'Hapus Cover',
       removeFromBoard: 'Hapus dari papan',
       removeFromProject: 'Hapus dari proyek',
@@ -229,7 +217,6 @@ export default {
       removeMember: 'Hapus papan',
       save: 'Simpan',
       showAllAttachments: 'Tampilkan semua lampiran ({{hidden}} tersembunyi)',
-      showDetails: 'Tampilkan detail',
       showFewerAttachments: 'Tampilkan lampiran lebih sedikit',
       start: 'Mulai',
       stop: 'Berhenti',

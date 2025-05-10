@@ -1,35 +1,24 @@
-// cucumber.conf.js file
+import { After, AfterAll, Before, BeforeAll, setDefaultTimeout } from '@cucumber/cucumber';
+import { chromium } from 'playwright';
 
-const { Before, BeforeAll, AfterAll, After, setDefaultTimeout } = require('@cucumber/cucumber');
-const { chromium } = require('playwright');
-const { deleteProject } = require('./testHelpers/apiHelpers');
-const config = require('./config');
+import Config from './Config.js';
 
-setDefaultTimeout(config.timeout);
+setDefaultTimeout(Config.TIMEOUT);
 
-// launch the browser
-BeforeAll(async function () {
-  global.browser = await chromium.launch({
-    // makes true for CI
-    headless: config.headless,
-    slowMo: config.slowMo,
-  });
+BeforeAll(async () => {
+  global.browser = await chromium.launch(Config.PLAYWRIGHT);
 });
 
-// close the browser
-AfterAll(async function () {
-  await global.browser.close();
-});
-
-// Create a new browser context and page per scenario
-Before(async function () {
+Before(async () => {
   global.context = await global.browser.newContext();
   global.page = await global.context.newPage();
 });
 
-// Cleanup after each scenario
-After(async function () {
-  await deleteProject();
+After(async () => {
   await global.page.close();
   await global.context.close();
+});
+
+AfterAll(async () => {
+  await global.browser.close();
 });

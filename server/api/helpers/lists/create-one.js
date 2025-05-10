@@ -1,24 +1,12 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isFinite(value.position)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.board)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
     values: {
       type: 'ref',
-      custom: valuesValidator,
       required: true,
     },
     project: {
@@ -37,36 +25,43 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const lists = await sails.helpers.boards.getLists(values.board.id);
+    const lists = await sails.helpers.boards.getFiniteListsById(values.board.id);
 
     const { position, repositions } = sails.helpers.utils.insertToPositionables(
       values.position,
       lists,
     );
 
-    repositions.forEach(async ({ id, position: nextPosition }) => {
-      await List.update({
-        id,
-        boardId: values.board.id,
-      }).set({
-        position: nextPosition,
-      });
+    if (repositions.length > 0) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const reposition of repositions) {
+        // eslint-disable-next-line no-await-in-loop
+        await List.qm.updateOne(
+          {
+            id: reposition.record.id,
+            boardId: reposition.record.boardId,
+          },
+          {
+            position: reposition.position,
+          },
+        );
 
-      sails.sockets.broadcast(`board:${values.board.id}`, 'listUpdate', {
-        item: {
-          id,
-          position: nextPosition,
-        },
-      });
+        sails.sockets.broadcast(`board:${values.board.id}`, 'listUpdate', {
+          item: {
+            id: reposition.record.id,
+            position: reposition.position,
+          },
+        });
 
-      // TODO: send webhooks
-    });
+        // TODO: send webhooks
+      }
+    }
 
-    const list = await List.create({
+    const list = await List.qm.createOne({
       ...values,
       position,
       boardId: values.board.id,
-    }).fetch();
+    });
 
     sails.sockets.broadcast(
       `board:${list.boardId}`,
@@ -79,13 +74,13 @@ module.exports = {
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'listCreate',
-      data: {
+      buildData: () => ({
         item: list,
         included: {
           projects: [inputs.project],
           boards: [values.board],
         },
-      },
+      }),
       user: inputs.actorUser,
     });
 

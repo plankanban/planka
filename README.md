@@ -1,63 +1,55 @@
-# Planka
-#### Elegant open source project tracking.
+# PLANKA
 
-![David (path)](https://img.shields.io/github/package-json/v/plankanban/planka) ![Docker Pulls](https://img.shields.io/badge/docker_pulls-5M%2B-%23066da5) ![GitHub](https://img.shields.io/github/license/plankanban/planka)
+**Project mastering driven by fun**
 
-![](https://raw.githubusercontent.com/plankanban/planka/master/demo.gif)
+![Version](https://img.shields.io/github/package-json/v/plankanban/planka?style=flat-square) ![Docker Pulls](https://img.shields.io/badge/docker_pulls-5M%2B-%23066da5?style=flat-square&color=%23e05d44) ![Contributors](https://img.shields.io/github/contributors/plankanban/planka?style=flat-square)
+
+![Demo](https://raw.githubusercontent.com/plankanban/planka/master/assets/demo.gif)
 
 [**Client demo**](https://plankanban.github.io/planka) (without server features).
 
-## Features
+## Key Features
 
-- Create projects, boards, lists, cards, labels and tasks
-- Add card members, track time, set due dates, add attachments, write comments
-- Markdown support in card description and comments
-- Filter by members and labels
-- Customize project backgrounds
-- Real-time updates
-- Internal notifications
-- Multiple interface languages
-- Single sign-on via OpenID Connect
+- **Collaborative Kanban Boards**: Create projects, boards, lists, cards, and manage tasks with an intuitive drag-and-drop interface
+- **Real-Time Updates**: Instant syncing across all users, no refresh needed
+- **Rich Markdown Support**: Write beautifully formatted card descriptions with a powerful markdown editor
+- **Flexible Notifications**: Get alerts through 140+ providers, fully customizable to your workflow
+- **Seamless Authentication**: Single sign-on with OpenID Connect integration
+- **Multilingual & Easy to Translate**: Full internationalization support for a global audience
 
-## How to deploy Planka
+## How to Deploy
 
-There are many ways to install Planka, [check them out](https://docs.planka.cloud/docs/welcome/).
+PLANKA is easy to install using multiple methods - learn more in the [installation guide](https://docs.planka.cloud/docs/welcome/).
 
-For configuration, please see the [configuration section](https://docs.planka.cloud/docs/category/configuration/).
-
-## Mobile app
-
-Here is the [mobile app repository](https://github.com/LouisHDev/planka_app) maintained by the community, where you can build an app for iOS and Android.
-
-Alternatively, you can download the [Android APK](https://github.com/LouisHDev/planka_app/releases/latest/download/app-release.apk) directly.
-
-If you have an iOS device and would like to test the app, you can join [TestFlight](https://testflight.apple.com/join/Uwn41eY4) (limited to 200 participants).
-
-## Planka postman api
-
-For external access api use [postman](https://documenter.getpostman.com/view/3360622/2sB2cRCPpU#3caa89a9-995d-4c17-b4ae-5cd136bb713f).
+For configuration and environment settings, see the [configuration section](https://docs.planka.cloud/docs/category/configuration/).
 
 ## Contact
 
-- If you want to get a hosted version of Planka, you can contact us via email contact@planka.cloud
-- For any security issues, please do not create a public issue on GitHub, instead please write to security@planka.cloud
+Interested in a hosted version of PLANKA? Email us at [github@planka.group](mailto:github@planka.group).
 
-We do NOT offer any public support via email, please use GitHub.
+For any security issues, please do not create a public issue on GitHub - instead, report it privately by emailing [security@planka.group](mailto:security@planka.group).
 
-## Development
+**Note:** We do NOT offer any public support via email, please use GitHub.
 
-See the [development section](https://docs.planka.cloud/docs/category/development/).
-
-## Tech stack
-
-- React, Redux, Redux-Saga, Redux-ORM, Semantic UI React, react-beautiful-dnd
-- Sails.js, Knex.js
-- PostgreSQL
+**Join our community:** Get help, share ideas, or contribute on our [Discord server](https://discord.gg/WqqYNd7Jvt).
 
 ## License
 
-Planka is [AGPL-3.0 licensed](https://github.com/plankanban/planka/blob/master/LICENSE).
+PLANKA is [fair-code](https://faircode.io) distributed under the [Fair Use License](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Community%20License%20EN.md) and [PLANKA Enterprise License](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Enterprise%20License%20EN.md).
 
-## Contributors
+- **Source Available**: The source code is always visible
+- **Self-Hostable**: Deploy and host it anywhere
+- **Extensible**: Customize with your own functionality
+- **Enterprise Licenses**: Available for additional features and support
 
-[![](https://contrib.rocks/image?repo=plankanban/planka)](https://github.com/plankanban/planka/graphs/contributors)
+For more details, check the [License Guide](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20License%20Guide%20EN.md).
+
+## Contributing
+
+Found a bug or have a feature request? Check out our [Contributing Guide](https://github.com/plankanban/planka/blob/master/CONTRIBUTING.md) to get started.
+
+For setting up the project locally, see the [development section](https://docs.planka.cloud/docs/category/development/).
+
+**Thanks to all our contributors!**
+
+[![Contributors](https://contrib.rocks/image?repo=plankanban/planka)](https://github.com/plankanban/planka/graphs/contributors)

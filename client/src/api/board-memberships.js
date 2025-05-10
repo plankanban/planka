@@ -1,50 +1,23 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import socket from './socket';
-
-/* Transformers */
-
-export const transformBoardMembership = (boardMembership) => ({
-  ...boardMembership,
-  createdAt: new Date(boardMembership.createdAt),
-});
 
 /* Actions */
 
 const createBoardMembership = (boardId, data, headers) =>
-  socket.post(`/boards/${boardId}/memberships`, data, headers).then((body) => ({
-    ...body,
-    item: transformBoardMembership(body.item),
-  }));
+  socket.post(`/boards/${boardId}/board-memberships`, data, headers);
 
 const updateBoardMembership = (id, data, headers) =>
-  socket.patch(`/board-memberships/${id}`, data, headers).then((body) => ({
-    ...body,
-    item: transformBoardMembership(body.item),
-  }));
+  socket.patch(`/board-memberships/${id}`, data, headers);
 
 const deleteBoardMembership = (id, headers) =>
-  socket.delete(`/board-memberships/${id}`, undefined, headers).then((body) => ({
-    ...body,
-    item: transformBoardMembership(body.item),
-  }));
-
-/* Event handlers */
-
-const makeHandleBoardMembershipCreate = (next) => (body) => {
-  next({
-    ...body,
-    item: transformBoardMembership(body.item),
-  });
-};
-
-const makeHandleBoardMembershipUpdate = makeHandleBoardMembershipCreate;
-
-const makeHandleBoardMembershipDelete = makeHandleBoardMembershipCreate;
+  socket.delete(`/board-memberships/${id}`, undefined, headers);
 
 export default {
   createBoardMembership,
   updateBoardMembership,
   deleteBoardMembership,
-  makeHandleBoardMembershipCreate,
-  makeHandleBoardMembershipUpdate,
-  makeHandleBoardMembershipDelete,
 };

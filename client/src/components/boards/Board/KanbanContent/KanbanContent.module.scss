@@ -1,0 +1,59 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .addListButton {
+    background: rgba(0, 0, 0, 0.24);
+    border: none;
+    border-radius: 3px;
+    color: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+    display: block;
+    fill: rgba(255, 255, 255, 0.72);
+    font-weight: normal;
+    height: 42px;
+    padding: 11px;
+    text-align: left;
+    transition: background 85ms ease-in, opacity 40ms ease-in,
+      border-color 85ms ease-in;
+    width: 100%;
+
+    &:active {
+      outline: none;
+    }
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+  }
+
+  .addListButtonIcon {
+    height: 20px;
+    padding: 0.64px;
+    width: 20px;
+  }
+
+  .addListButtonText {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: top;
+  }
+
+  .list {
+    margin-right: 8px;
+    width: 272px;
+  }
+
+  .lists {
+    display: inline-flex;
+    height: 100%;
+    min-width: 100%;
+  }
+
+  .wrapper {
+    padding: 0 12px 0 20px;
+  }
+}

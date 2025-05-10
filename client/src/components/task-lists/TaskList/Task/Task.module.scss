@@ -1,0 +1,102 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .actions {
+    display: flex;
+    gap: 2px;
+    position: absolute;
+    right: 0;
+    top: 4px;
+  }
+
+  .actionsEditable {
+    right: 4px;
+  }
+
+  .assigneeUserAvatar {
+    padding: 2px;
+  }
+
+  .button {
+    background: transparent;
+    box-shadow: none;
+    line-height: 28px;
+    margin: 0;
+    min-height: auto;
+    opacity: 0;
+    padding: 0;
+    width: 28px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
+  }
+
+  .checkboxWrapper {
+    display: inline-block;
+    padding: 10px 15px 0px 8px;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    left: 0;
+    vertical-align: top;
+    z-index: 2000;
+    line-height: 1;
+    height: 100%;
+  }
+
+  .contentHoverable:hover {
+    background: rgba(9, 30, 66, 0.04);
+
+    .button {
+      opacity: 1;
+    }
+  }
+
+  .task {
+    display: inline-block;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding: 8px 0;
+    vertical-align: top;
+    width: 100%;
+  }
+
+  .taskCompleted {
+    color: #aaa;
+    text-decoration: line-through;
+  }
+
+  .text {
+    background: transparent;
+    border-radius: 3px;
+    color: #17394d;
+    display: inline-block;
+    font-size: 15px;
+    line-height: 1.5;
+    min-height: 32px;
+    padding: 0 34px 0 40px;
+    width: 100%;
+  }
+
+  .textEditable {
+    cursor: pointer;
+    padding-right: 68px;
+  }
+
+  .wrapper {
+    border-radius: 3px;
+    cursor: auto;
+    margin-left: -40px;
+    min-height: 32px;
+    position: relative;
+    width: calc(100% + 40px);
+  }
+
+  .wrapperDragging {
+    background: rgba(247, 246, 247, 0.8);
+  }
+}

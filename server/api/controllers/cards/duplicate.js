@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -10,16 +17,18 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
     position: {
       type: 'number',
+      min: 0,
       required: true,
     },
     name: {
       type: 'string',
+      maxLength: 1024,
+      required: true,
     },
   },
 
@@ -36,16 +45,21 @@ module.exports = {
     const { currentUser } = this.req;
 
     const { card, list, board, project } = await sails.helpers.cards
-      .getProjectPath(inputs.id)
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
+    }
+
+    // TODO: allow for endless lists?
+    if (!sails.helpers.lists.isFinite(list)) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
@@ -58,7 +72,12 @@ module.exports = {
       card: nextCard,
       cardMemberships,
       cardLabels,
+      taskLists,
       tasks,
+      attachments,
+      customFieldGroups,
+      customFields,
+      customFieldValues,
     } = await sails.helpers.cards.duplicateOne.with({
       project,
       board,
@@ -76,7 +95,12 @@ module.exports = {
       included: {
         cardMemberships,
         cardLabels,
+        taskLists,
         tasks,
+        customFieldGroups,
+        customFields,
+        customFieldValues,
+        attachments: sails.helpers.attachments.presentMany(attachments),
       },
     };
   },

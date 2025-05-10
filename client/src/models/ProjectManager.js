@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { attr, fk } from 'redux-orm';
 
 import BaseModel from './BaseModel';
@@ -8,9 +13,6 @@ export default class extends BaseModel {
 
   static fields = {
     id: attr(),
-    createdAt: attr({
-      getDefault: () => new Date(),
-    }),
     projectId: fk({
       to: 'Project',
       as: 'project',
@@ -41,6 +43,16 @@ export default class extends BaseModel {
         });
 
         break;
+      case ActionTypes.USER_UPDATE_HANDLE:
+      case ActionTypes.PROJECT_UPDATE_HANDLE:
+      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+        if (payload.projectManagers) {
+          payload.projectManagers.forEach((projectManager) => {
+            ProjectManager.upsert(projectManager);
+          });
+        }
+
+        break;
       case ActionTypes.PROJECT_MANAGER_CREATE:
         ProjectManager.upsert(payload.projectManager);
 
@@ -48,6 +60,10 @@ export default class extends BaseModel {
       case ActionTypes.PROJECT_MANAGER_CREATE__SUCCESS:
         ProjectManager.withId(payload.localId).delete();
         ProjectManager.upsert(payload.projectManager);
+
+        break;
+      case ActionTypes.PROJECT_MANAGER_CREATE__FAILURE:
+        ProjectManager.withId(payload.localId).delete();
 
         break;
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
@@ -74,14 +90,6 @@ export default class extends BaseModel {
 
         break;
       }
-      case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
-        if (payload.projectManagers) {
-          payload.projectManagers.forEach((projectManager) => {
-            ProjectManager.upsert(projectManager);
-          });
-        }
-
-        break;
       default:
     }
   }

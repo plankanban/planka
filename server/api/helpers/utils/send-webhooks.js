@@ -1,23 +1,33 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const EVENT_TYPES = {
   ACTION_CREATE: 'actionCreate',
-  ACTION_DELETE: 'actionDelete',
-  ACTION_UPDATE: 'actionUpdate',
 
   ATTACHMENT_CREATE: 'attachmentCreate',
-  ATTACHMENT_DELETE: 'attachmentDelete',
   ATTACHMENT_UPDATE: 'attachmentUpdate',
+  ATTACHMENT_DELETE: 'attachmentDelete',
+
+  BACKGROUND_IMAGE_CREATE: 'backgroundImageCreate',
+  BACKGROUND_IMAGE_DELETE: 'backgroundImageDelete',
+
+  BASE_CUSTOM_FIELD_GROUP_CREATE: 'baseCustomFieldGroupCreate',
+  BASE_CUSTOM_FIELD_GROUP_UPDATE: 'baseCustomFieldGroupUpdate',
+  BASE_CUSTOM_FIELD_GROUP_DELETE: 'baseCustomFieldGroupDelete',
 
   BOARD_CREATE: 'boardCreate',
-  BOARD_DELETE: 'boardDelete',
   BOARD_UPDATE: 'boardUpdate',
+  BOARD_DELETE: 'boardDelete',
 
   BOARD_MEMBERSHIP_CREATE: 'boardMembershipCreate',
-  BOARD_MEMBERSHIP_DELETE: 'boardMembershipDelete',
   BOARD_MEMBERSHIP_UPDATE: 'boardMembershipUpdate',
+  BOARD_MEMBERSHIP_DELETE: 'boardMembershipDelete',
 
   CARD_CREATE: 'cardCreate',
-  CARD_DELETE: 'cardDelete',
   CARD_UPDATE: 'cardUpdate',
+  CARD_DELETE: 'cardDelete',
 
   CARD_LABEL_CREATE: 'cardLabelCreate',
   CARD_LABEL_DELETE: 'cardLabelDelete',
@@ -25,64 +35,73 @@ const EVENT_TYPES = {
   CARD_MEMBERSHIP_CREATE: 'cardMembershipCreate',
   CARD_MEMBERSHIP_DELETE: 'cardMembershipDelete',
 
+  COMMENT_CREATE: 'commentCreate',
+  COMMENT_UPDATE: 'commentUpdate',
+  COMMENT_DELETE: 'commentDelete',
+
+  CUSTOM_FIELD_CREATE: 'customFieldCreate',
+  CUSTOM_FIELD_UPDATE: 'customFieldUpdate',
+  CUSTOM_FIELD_DELETE: 'customFieldDelete',
+
+  CUSTOM_FIELD_GROUP_CREATE: 'customFieldGroupCreate',
+  CUSTOM_FIELD_GROUP_UPDATE: 'customFieldGroupUpdate',
+  CUSTOM_FIELD_GROUP_DELETE: 'customFieldGroupDelete',
+
+  CUSTOM_FIELD_VALUE_UPDATE: 'customFieldValueUpdate',
+  CUSTOM_FIELD_VALUE_DELETE: 'customFieldValueDelete',
+
   LABEL_CREATE: 'labelCreate',
-  LABEL_DELETE: 'labelDelete',
   LABEL_UPDATE: 'labelUpdate',
+  LABEL_DELETE: 'labelDelete',
 
   LIST_CREATE: 'listCreate',
-  LIST_DELETE: 'listDelete',
-  LIST_SORT: 'listSort',
   LIST_UPDATE: 'listUpdate',
+  LIST_CLEAR: 'listClear',
+  LIST_DELETE: 'listDelete',
 
   NOTIFICATION_CREATE: 'notificationCreate',
   NOTIFICATION_UPDATE: 'notificationUpdate',
 
+  NOTIFICATION_SERVICE_CREATE: 'notificationServiceCreate',
+  NOTIFICATION_SERVICE_UPDATE: 'notificationServiceUpdate',
+  NOTIFICATION_SERVICE_DELETE: 'notificationServiceDelete',
+
   PROJECT_CREATE: 'projectCreate',
-  PROJECT_DELETE: 'projectDelete',
   PROJECT_UPDATE: 'projectUpdate',
+  PROJECT_DELETE: 'projectDelete',
 
   PROJECT_MANAGER_CREATE: 'projectManagerCreate',
   PROJECT_MANAGER_DELETE: 'projectManagerDelete',
 
   TASK_CREATE: 'taskCreate',
-  TASK_DELETE: 'taskDelete',
   TASK_UPDATE: 'taskUpdate',
+  TASK_DELETE: 'taskDelete',
+
+  TASK_LIST_CREATE: 'taskListCreate',
+  TASK_LIST_UPDATE: 'taskListUpdate',
+  TASK_LIST_DELETE: 'taskListDelete',
 
   USER_CREATE: 'userCreate',
-  USER_DELETE: 'userDelete',
   USER_UPDATE: 'userUpdate',
-};
-
-const jsonifyData = (data) => {
-  const nextData = {};
-
-  if (data.item) {
-    nextData.item = sails.helpers.utils.jsonifyRecord(data.item);
-  }
-
-  if (data.items) {
-    nextData.items = data.items.map((item) => sails.helpers.utils.jsonifyRecord(item));
-  }
-
-  if (data.included) {
-    nextData.included = Object.entries(data.included).reduce(
-      (result, [key, items]) => ({
-        ...result,
-        [key]: items.map((item) => sails.helpers.utils.jsonifyRecord(item)),
-      }),
-      {},
-    );
-  }
-
-  return nextData;
+  USER_DELETE: 'userDelete',
 };
 
 /**
  * @typedef {Object} Included
+ * @property {any[]} [users] - Array of users (optional).
  * @property {any[]} [projects] - Array of projects (optional).
+ * @property {any[]} [baseCustomFieldGroups] - Array of base custom field groups (optional).
  * @property {any[]} [boards] - Array of boards (optional).
+ * @property {any[]} [boardMemberships] - Array of board memberships (optional).
+ * @property {any[]} [labels] - Array of labels (optional).
  * @property {any[]} [lists] - Array of lists (optional).
  * @property {any[]} [cards] - Array of cards (optional).
+ * @property {any[]} [cardMemberships] - Array of card memberships (optional).
+ * @property {any[]} [taskLists] - Array of task lists (optional).
+ * @property {any[]} [customFieldGroups] - Array of custom field groups (optional).
+ * @property {any[]} [customFields] - Array of custom fields (optional).
+ * @property {any[]} [comments] - Array of comments (optional).
+ * @property {any[]} [actions] - Array of actions (optional).
  */
 
 /**
@@ -113,9 +132,9 @@ async function sendWebhook(webhook, event, data, prevData, user) {
 
   const body = JSON.stringify({
     event,
-    data: jsonifyData(data),
-    prevData: prevData && jsonifyData(prevData),
-    user: sails.helpers.utils.jsonifyRecord(user),
+    data,
+    prevData,
+    user,
   });
 
   try {
@@ -146,11 +165,11 @@ module.exports = {
       required: true,
       isIn: Object.values(EVENT_TYPES),
     },
-    data: {
+    buildData: {
       type: 'ref',
       required: true,
     },
-    prevData: {
+    buildPrevData: {
       type: 'ref',
     },
     user: {
@@ -164,20 +183,37 @@ module.exports = {
       return;
     }
 
-    sails.config.custom.webhooks.forEach((webhook) => {
+    const webhooks = sails.config.custom.webhooks.filter((webhook) => {
       if (!webhook.url) {
-        return;
+        return false;
       }
 
       if (webhook.excludedEvents && webhook.excludedEvents.includes(inputs.event)) {
-        return;
+        return false;
       }
 
       if (webhook.events && !webhook.events.includes(inputs.event)) {
-        return;
+        return false;
       }
 
-      sendWebhook(webhook, inputs.event, inputs.data, inputs.prevData, inputs.user);
+      return true;
+    });
+
+    if (webhooks.length === 0) {
+      return;
+    }
+
+    const data = inputs.buildData();
+    const prevData = inputs.buildPrevData && inputs.buildPrevData();
+
+    webhooks.forEach((webhook) => {
+      sendWebhook(
+        webhook,
+        inputs.event,
+        data,
+        prevData,
+        sails.helpers.users.presentOne(inputs.user),
+      );
     });
   },
 };

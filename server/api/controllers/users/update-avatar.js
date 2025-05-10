@@ -1,4 +1,9 @@
-const rimraf = require('rimraf');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
   USER_NOT_FOUND: {
@@ -15,8 +20,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -40,8 +44,8 @@ module.exports = {
     const { currentUser } = this.req;
 
     let user;
-    if (currentUser.isAdmin) {
-      user = await sails.helpers.users.getOne(inputs.id);
+    if (currentUser.role === User.Roles.ADMIN) {
+      user = await User.qm.getOneById(inputs.id);
 
       if (!user) {
         throw Errors.USER_NOT_FOUND;
@@ -65,22 +69,14 @@ module.exports = {
 
     const file = _.last(files);
 
-    const fileData = await sails.helpers.users
+    const avatar = await sails.helpers.users
       .processUploadedAvatarFile(file)
-      .intercept('fileIsNotImage', () => {
-        try {
-          rimraf.sync(file.fd);
-        } catch (error) {
-          console.warn(error.stack); // eslint-disable-line no-console
-        }
-
-        return Errors.FILE_IS_NOT_IMAGE;
-      });
+      .intercept('fileIsNotImage', () => Errors.FILE_IS_NOT_IMAGE);
 
     user = await sails.helpers.users.updateOne.with({
       record: user,
       values: {
-        avatar: fileData,
+        avatar,
       },
       actorUser: currentUser,
       request: this.req,
@@ -91,7 +87,7 @@ module.exports = {
     }
 
     return exits.success({
-      item: user,
+      item: sails.helpers.users.presentOne(user, currentUser),
     });
   },
 };

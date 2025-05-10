@@ -1,0 +1,302 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .actionButton {
+    background: #ebeef0;
+    box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.13);
+    color: #444;
+    margin-top: 8px;
+    padding: 6px 8px 6px 18px;
+    text-align: left;
+    transition: background 85ms ease;
+
+    &:hover {
+      background: #dfe3e6;
+      box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.25);
+      color: #4c4c4c;
+    }
+  }
+
+  .actionIcon {
+    color: #17394d;
+    margin-right: 8px;
+  }
+
+  .actions {
+    margin-bottom: 24px;
+
+    @media only screen and (width < 768px) {
+      flex: 1;
+
+      &:first-child {
+        flex: 0 0 100%;
+      }
+    }
+  }
+
+  .actionsTitle {
+    color: #8c8c8c;
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    margin-top: 16px;
+    text-transform: uppercase;
+    line-height: 20px;
+    margin-bottom: -4px;
+  }
+
+  .addAttachment {
+    margin: 0 -4.3px;
+    text-decoration: none;
+  }
+
+  .attachment {
+    display: inline-block;
+    margin: 0 4px 4px 0;
+    max-width: 100%;
+    vertical-align: top;
+  }
+
+  .attachments {
+    display: inline-block;
+    margin: 0 8px 8px 0;
+    max-width: 100%;
+    vertical-align: top;
+  }
+
+  .attachmentsList {
+    width: 100%;
+  }
+
+  .contentModule {
+    margin-bottom: 24px;
+  }
+
+  .contentModuleDescription:hover {
+    .editButton {
+      opacity: 1;
+    }
+  }
+
+  .contentPadding {
+    padding: 8px 24px 0 16px;
+
+    @media only screen and (width < 768px) {
+      padding-right: 16px;
+      width: 100% !important;
+    }
+  }
+
+  .cursorPointer {
+    cursor: pointer;
+  }
+
+  .dueDate {
+    background: rgba(9, 30, 66, 0.04);
+    border: none;
+    border-radius: 3px;
+    color: #6b808c;
+    cursor: pointer;
+    line-height: 20px;
+    outline: none;
+    padding: 6px 14px;
+    text-align: left;
+    text-decoration: underline;
+    transition: background 0.3s ease;
+    vertical-align: top;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #17394d;
+    }
+  }
+
+  .descriptionButton {
+    background: rgba(9, 30, 66, 0.04);
+    border: none;
+    border-radius: 3px;
+    display: block;
+    color: #6b808c;
+    cursor: pointer;
+    min-height: 54px;
+    outline: none;
+    padding: 8px 12px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    width: 100%;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #092d42;
+    }
+  }
+
+  .descriptionButtonText {
+    position: absolute;
+    top: 12px;
+  }
+
+  .draftChip {
+    background: #f1eee2;
+    border-radius: 3px;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 14px;
+    font-weight: normal;
+    margin-left: 8px;
+    padding: 2px 8px;
+  }
+
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    line-height: 28px;
+    margin: 0;
+    min-height: auto;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 4px;
+    width: 28px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
+  }
+
+  .headerPadding {
+    padding: 0;
+  }
+
+  .headerTitle {
+    color: #17394d;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 24px;
+    word-wrap: break-word;
+  }
+
+  .headerTitleWrapper {
+    margin: 4px 0;
+    padding: 6px 0 0;
+  }
+
+  .headerWrapper {
+    margin: 12px 48px 12px 56px;
+    position: relative;
+  }
+
+  .hidable {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .list {
+    align-items: center;
+    background: rgba(9, 30, 66, 0.04);
+    border: none;
+    border-radius: 3px;
+    color: #6b808c;
+    display: flex;
+    line-height: 20px;
+    outline: none;
+    padding: 6px 12px;
+    transition: background 0.3s ease;
+  }
+
+  .listButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    max-width: 100%;
+    outline: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  .listHoverable:hover {
+    background: rgba(9, 30, 66, 0.08);
+    color: #17394d;
+  }
+
+  .listIcon {
+    margin: 0 8px 0 0;
+  }
+
+  .modalPadding {
+    padding: 0px;
+  }
+
+  .moduleHeader {
+    color: #17394d;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+    margin: 0 0 4px;
+    padding: 6px 0;
+    word-wrap: break-word;
+  }
+
+  .moduleIcon {
+    color: #17394d;
+    font-size: 17px;
+    height: 32px;
+    left: -40px;
+    line-height: 32px;
+    margin-right: 0;
+    position: absolute;
+    top: 2px;
+    width: 32px;
+  }
+
+  .moduleWrapper {
+    margin: 0 0 0 40px;
+    position: relative;
+  }
+
+  .sidebarPadding {
+    padding: 8px 16px 8px 8px;
+
+    @media only screen and (width < 768px) {
+      padding-left: 16px;
+      width: 100% !important;
+    }
+  }
+
+  .sticky {
+    position: sticky;
+    top: 0;
+
+    @media only screen and (width < 768px) {
+      display: flex;
+      flex-flow: row wrap;
+      gap: 10px;
+    }
+  }
+
+  .text {
+    color: #6b808c;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    line-height: 20px;
+    margin: 0 8px 4px 0;
+    text-transform: uppercase;
+  }
+
+  .textList {
+    font-weight: normal;
+  }
+
+  .wrapper {
+    background: #f5f6f7;
+    border-radius: 4px;
+    margin: 0;
+  }
+}

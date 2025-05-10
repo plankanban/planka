@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     record: {
@@ -20,6 +25,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    taskList: {
+      type: 'ref',
+      required: true,
+    },
     actorUser: {
       type: 'ref',
       required: true,
@@ -30,7 +39,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const task = await Task.archiveOne(inputs.record.id);
+    const task = await Task.qm.deleteOne(inputs.record.id);
 
     if (task) {
       sails.sockets.broadcast(
@@ -44,15 +53,16 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'taskDelete',
-        data: {
+        buildData: () => ({
           item: task,
           included: {
             projects: [inputs.project],
             boards: [inputs.board],
             lists: [inputs.list],
             cards: [inputs.card],
+            taskLists: [inputs.taskList],
           },
-        },
+        }),
         user: inputs.actorUser,
       });
     }

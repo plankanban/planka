@@ -87,6 +87,7 @@ config/local.js
 ################################################
 
 node_modules
+.venv
 
 ################################################
 #
@@ -129,12 +130,16 @@ lib-cov
 *.pid
 
 public/*
+!public/preloaded-favicons
+!public/favicons
+public/favicons/*
+!public/favicons/.gitkeep
 !public/user-avatars
 public/user-avatars/*
 !public/user-avatars/.gitkeep
-!public/project-background-images
-public/project-background-images/*
-!public/project-background-images/.gitkeep
+!public/background-images
+public/background-images/*
+!public/background-images/.gitkeep
 
 private/*
 !private/attachments

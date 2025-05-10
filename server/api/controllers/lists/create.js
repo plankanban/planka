@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -10,16 +17,22 @@ const Errors = {
 module.exports = {
   inputs: {
     boardId: {
+      ...idInput,
+      required: true,
+    },
+    type: {
       type: 'string',
-      regex: /^[0-9]+$/,
+      isIn: List.FINITE_TYPES,
       required: true,
     },
     position: {
       type: 'number',
+      min: 0,
       required: true,
     },
     name: {
       type: 'string',
+      maxLength: 128,
       required: true,
     },
   },
@@ -37,13 +50,13 @@ module.exports = {
     const { currentUser } = this.req;
 
     const { board, project } = await sails.helpers.boards
-      .getProjectPath(inputs.boardId)
+      .getPathToProjectById(inputs.boardId)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
       throw Errors.BOARD_NOT_FOUND; // Forbidden
@@ -53,7 +66,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name']);
+    const values = _.pick(inputs, ['type', 'position', 'name']);
 
     const list = await sails.helpers.lists.createOne.with({
       project,

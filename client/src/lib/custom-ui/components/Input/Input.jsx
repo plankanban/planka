@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { Input as SemanticUIInput } from 'semantic-ui-react';
 
 import InputPassword from './InputPassword';
@@ -7,8 +12,4 @@ export default class Input extends SemanticUIInput {
   static Password = InputPassword;
 
   static Mask = InputMask;
-
-  focus = (options) => this.inputRef.current.focus(options);
-
-  blur = () => this.inputRef.current.blur();
 }

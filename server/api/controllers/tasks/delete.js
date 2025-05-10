@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -10,8 +17,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -28,17 +34,17 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const path = await sails.helpers.tasks
-      .getProjectPath(inputs.id)
+    const pathToProject = await sails.helpers.tasks
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.TASK_NOT_FOUND);
 
-    let { task } = path;
-    const { card, list, board, project } = path;
+    let { task } = pathToProject;
+    const { taskList, card, list, board, project } = pathToProject;
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
       throw Errors.TASK_NOT_FOUND; // Forbidden
@@ -53,6 +59,7 @@ module.exports = {
       board,
       list,
       card,
+      taskList,
       record: task,
       actorUser: currentUser,
       request: this.req,

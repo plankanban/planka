@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 /**
  * BoardMembership.js
  *
@@ -10,8 +15,24 @@ const Roles = {
   VIEWER: 'viewer',
 };
 
+const SHARED_RULES = {
+  role: {},
+  canComment: { setTo: null },
+};
+
+const RULES_BY_ROLE = {
+  [Roles.EDITOR]: {
+    canComment: { setTo: null },
+  },
+  [Roles.VIEWER]: {
+    canComment: { defaultTo: false },
+  },
+};
+
 module.exports = {
   Roles,
+  SHARED_RULES,
+  RULES_BY_ROLE,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -37,6 +58,12 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+    // Denormalization
+    projectId: {
+      model: 'Project',
+      required: true,
+      columnName: 'project_id',
+    },
     boardId: {
       model: 'Board',
       required: true,

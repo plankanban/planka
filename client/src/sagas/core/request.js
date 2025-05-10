@@ -1,4 +1,9 @@
-import { call, fork, join, put, select, take } from 'redux-saga/effects';
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+import { call, join, put, select, spawn, take } from 'redux-saga/effects';
 
 import selectors from '../../selectors';
 import entryActions from '../../entry-actions';
@@ -10,7 +15,9 @@ function* queueRequest(method, ...args) {
   if (lastRequestTask) {
     try {
       yield join(lastRequestTask);
-    } catch {} // eslint-disable-line no-empty
+    } catch {
+      /* empty */
+    }
   }
 
   const accessToken = yield select(selectors.selectAccessToken);
@@ -30,7 +37,7 @@ function* queueRequest(method, ...args) {
 }
 
 export default function* request(method, ...args) {
-  lastRequestTask = yield fork(queueRequest, method, ...args);
+  lastRequestTask = yield spawn(queueRequest, method, ...args);
 
   return yield join(lastRequestTask);
 }

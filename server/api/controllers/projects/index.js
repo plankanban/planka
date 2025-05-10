@@ -1,53 +1,104 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   async fn() {
     const { currentUser } = this.req;
 
-    const managerProjectIds = await sails.helpers.users.getManagerProjectIds(currentUser.id);
-    const managerProjects = await sails.helpers.projects.getMany(managerProjectIds);
+    let sharedProjects;
+    let sharedProjectIds;
 
-    let boardMemberships = await sails.helpers.users.getBoardMemberships(currentUser.id);
+    const managerProjectIds = await sails.helpers.users.getManagerProjectIds(currentUser.id);
+    const fullyVisibleProjectIds = [...managerProjectIds];
+
+    if (currentUser.role === User.Roles.ADMIN) {
+      sharedProjects = await Project.qm.getShared({
+        exceptIdOrIds: managerProjectIds,
+      });
+
+      sharedProjectIds = sails.helpers.utils.mapRecords(sharedProjects);
+      fullyVisibleProjectIds.push(...sharedProjectIds);
+    }
+
+    const boardMemberships = await BoardMembership.qm.getByUserId(currentUser.id);
     const membershipBoardIds = sails.helpers.utils.mapRecords(boardMemberships, 'boardId');
 
-    let membershipBoards = await sails.helpers.boards.getMany({
-      id: membershipBoardIds,
-      projectId: {
-        '!=': managerProjectIds,
-      },
+    const membershipBoards = await Board.qm.getByIds(membershipBoardIds, {
+      exceptProjectIdOrIds: fullyVisibleProjectIds,
     });
 
-    let membershipProjectIds = sails.helpers.utils.mapRecords(membershipBoards, 'projectId', true);
-    const membershipProjects = await sails.helpers.projects.getMany(membershipProjectIds);
-
-    membershipProjectIds = sails.helpers.utils.mapRecords(membershipProjects);
+    const membershipProjectIds = sails.helpers.utils.mapRecords(
+      membershipBoards,
+      'projectId',
+      true,
+    );
 
     const projectIds = [...managerProjectIds, ...membershipProjectIds];
-    const projects = [...managerProjects, ...membershipProjects];
+    const projects = await Project.qm.getByIds(projectIds);
 
-    const projectManagers = await sails.helpers.projects.getProjectManagers(projectIds);
+    if (sharedProjectIds) {
+      projectIds.push(...sharedProjectIds);
+      projects.push(...sharedProjects);
+    }
+
+    const fullyVisibleBoards = await Board.qm.getByProjectIds(fullyVisibleProjectIds);
+    const boards = [...fullyVisibleBoards, ...membershipBoards];
+
+    const projectFavorites = await ProjectFavorite.qm.getByProjectIdsAndUserId(
+      projectIds,
+      currentUser.id,
+    );
+
+    const projectManagers = await ProjectManager.qm.getByProjectIds(projectIds);
 
     const userIds = sails.helpers.utils.mapRecords(projectManagers, 'userId', true);
-    const users = await sails.helpers.users.getMany(userIds);
+    const users = await User.qm.getByIds(userIds);
 
-    const managerBoards = await sails.helpers.projects.getBoards(managerProjectIds);
+    const backgroundImages = await BackgroundImage.qm.getByProjectIds(projectIds);
 
-    membershipBoards = membershipBoards.filter((membershipBoard) =>
-      membershipProjectIds.includes(membershipBoard.projectId),
+    const baseCustomFieldGroups = await BaseCustomFieldGroup.qm.getByProjectIds(projectIds);
+    const baseCustomFieldGroupsIds = sails.helpers.utils.mapRecords(baseCustomFieldGroups);
+
+    const customFields =
+      await CustomField.qm.getByBaseCustomFieldGroupIds(baseCustomFieldGroupsIds);
+
+    let notificationServices = [];
+    if (managerProjectIds.length > 0) {
+      const managerProjectIdsSet = new Set(managerProjectIds);
+
+      const managerBoardIds = boards.flatMap((board) =>
+        managerProjectIdsSet.has(board.projectId) ? board.id : [],
+      );
+
+      notificationServices = await NotificationService.qm.getByBoardIds(managerBoardIds);
+    }
+
+    const isFavoriteByProjectId = projectFavorites.reduce(
+      (result, projectFavorite) => ({
+        ...result,
+        [projectFavorite.projectId]: true,
+      }),
+      {},
     );
 
-    const boards = [...managerBoards, ...membershipBoards];
-    const boardIds = sails.helpers.utils.mapRecords(boards);
-
-    boardMemberships = boardMemberships.filter((boardMembership) =>
-      boardIds.includes(boardMembership.boardId),
-    );
+    projects.forEach((project) => {
+      // eslint-disable-next-line no-param-reassign
+      project.isFavorite = isFavoriteByProjectId[project.id] || false;
+    });
 
     return {
       items: projects,
       included: {
-        users,
         projectManagers,
+        baseCustomFieldGroups,
         boards,
         boardMemberships,
+        customFields,
+        notificationServices,
+        users: sails.helpers.users.presentMany(users, currentUser),
+        backgroundImages: sails.helpers.backgroundImages.presentMany(backgroundImages),
       },
     };
   },

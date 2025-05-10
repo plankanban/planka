@@ -1,0 +1,112 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .attachment {
+    display: inline-block;
+    line-height: 0;
+    margin: 0 0 6px 0;
+    max-width: 100%;
+    vertical-align: top;
+  }
+
+  .attachmentContent {
+    color: #6a808b;
+    font-size: 12px;
+    line-height: 20px;
+    max-width: 176px;
+    outline: none;
+    overflow: hidden;
+    padding: 0px 3px;
+    text-overflow: ellipsis;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .attachmentLeft {
+    margin-right: 4px;
+  }
+
+  .attachmentRight {
+    margin-left: 2px;
+  }
+
+  .attachments {
+    display: inline-block;
+    padding-bottom: 2px;
+  }
+
+  .attachmentsRight {
+    float: right;
+    line-height: 0;
+    margin-top: 6px;
+  }
+
+  .cover {
+    max-height: 340px;
+    object-fit: cover;
+    transform-origin: bottom;
+    transition: all .6s cubic-bezier(0.25, 0.1, 0.25, 1);
+    vertical-align: middle;
+    width: 100%;
+  }
+
+  .coverWrapper {
+    border-radius: 3px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+
+  .creatorDivider {
+    background: #dce0e4;
+    display: inline-block;
+    height: 24px;
+    margin: 2px 2px 0 4px;
+    width: 1px;
+  }
+
+  .labels {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .labelsFull {
+    display: block;
+  }
+
+  .name {
+    color: #17394d;
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 8px;
+    word-wrap: break-word;
+  }
+
+  .notification {
+    background: #eb5a46;
+    color: #fff;
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0px 6px;
+    border: none;
+    border-radius: 3px;
+    display: inline-block;
+    outline: none;
+    text-align: left;
+    transition: background 0.3s ease;
+    vertical-align: top;
+  }
+
+  .wrapper {
+    padding: 6px 8px 0;
+  }
+
+  :global(.card):hover {
+    .cover {
+      filter: brightness(1.1);
+      transform: scale(1.05);
+    }
+  }
+}

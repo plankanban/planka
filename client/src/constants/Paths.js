@@ -1,11 +1,14 @@
-import Config from './Config';
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
-const ROOT = `${Config.BASE_PATH}/`;
-const LOGIN = `${Config.BASE_PATH}/login`;
-const OIDC_CALLBACK = `${Config.BASE_PATH}/oidc-callback`;
-const PROJECTS = `${Config.BASE_PATH}/projects/:id`;
-const BOARDS = `${Config.BASE_PATH}/boards/:id`;
-const CARDS = `${Config.BASE_PATH}/cards/:id`;
+const ROOT = '/';
+const LOGIN = '/login';
+const OIDC_CALLBACK = '/oidc-callback';
+const PROJECTS = '/projects/:id';
+const BOARDS = '/boards/:id';
+const CARDS = '/cards/:id';
 
 export default {
   ROOT,

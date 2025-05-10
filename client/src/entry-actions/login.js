@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const authenticate = (data) => ({
@@ -7,8 +12,8 @@ const authenticate = (data) => ({
   },
 });
 
-const authenticateUsingOidc = () => ({
-  type: EntryActionTypes.USING_OIDC_AUTHENTICATE,
+const authenticateWithOidc = () => ({
+  type: EntryActionTypes.WITH_OIDC_AUTHENTICATE,
   payload: {},
 });
 
@@ -19,6 +24,6 @@ const clearAuthenticateError = () => ({
 
 export default {
   authenticate,
-  authenticateUsingOidc,
+  authenticateWithOidc,
   clearAuthenticateError,
 };

@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 /**
  * Attachment.js
  *
@@ -5,22 +10,27 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const Types = {
+  FILE: 'file',
+  LINK: 'link',
+};
+
 module.exports = {
+  Types,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    dirname: {
+    type: {
       type: 'string',
+      isIn: Object.values(Types),
       required: true,
     },
-    filename: {
-      type: 'string',
-      required: true,
-    },
-    image: {
+    data: {
       type: 'json',
+      required: true,
     },
     name: {
       type: 'string',
@@ -42,18 +52,7 @@ module.exports = {
     },
     creatorUserId: {
       model: 'User',
-      required: true,
       columnName: 'creator_user_id',
     },
-  },
-
-  customToJSON() {
-    return {
-      ..._.omit(this, ['dirname', 'filename', 'image.thumbnailsExtension']),
-      url: `${sails.config.custom.baseUrl}/attachments/${this.id}/download/${this.filename}`,
-      coverUrl: this.image
-        ? `${sails.config.custom.baseUrl}/attachments/${this.id}/download/thumbnails/cover-256.${this.image.thumbnailsExtension}`
-        : null,
-    };
   },
 };

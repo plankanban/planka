@@ -1,0 +1,172 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .addCard {
+    margin-bottom: 8px;
+  }
+
+  .addCardButton {
+    background: #dfe3e6;
+    border: none;
+    color: #6b808c;
+    cursor: pointer;
+    display: block;
+    fill: #6b808c;
+    flex: 0 0 auto;
+    font-weight: normal;
+    height: 36px;
+    outline: none;
+    padding: 8px;
+    text-align: left;
+    width: 100%;
+
+    &:hover {
+      background: #c3cbd0;
+      color: #17394d;
+      fill: #17394d;
+    }
+  }
+
+  .addCardButtonIcon {
+    height: 20px;
+    padding: 0.64px;
+    width: 20px;
+  }
+
+  .addCardButtonText {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 2px;
+    vertical-align: top;
+  }
+
+  .card {
+    margin-bottom: 8px;
+  }
+
+  .cards {
+    min-height: 1px;
+  }
+
+  .cardsInnerWrapper {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 290px;
+
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
+      scrollbar-width: thin;
+    }
+
+    &:hover {
+      width: 272px;
+    }
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+    }
+  }
+
+  .cardsOuterWrapper {
+    padding: 0 8px;
+    white-space: normal;
+    width: 272px;
+  }
+
+  .header {
+    outline: none;
+    padding: 6px 36px 6px 8px;
+    position: relative;
+
+    &:hover {
+      .headerButton {
+        opacity: 1;
+      }
+
+      .headerIconHidable {
+        opacity: 0;
+      }
+    }
+  }
+
+  .headerEditable {
+    cursor: pointer;
+  }
+
+  .headerButton {
+    background: none;
+    box-shadow: none;
+    color: #798d99;
+    line-height: 32px;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 32px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.13);
+      color: #516b7a;
+    }
+  }
+
+  .headerIcon {
+    color: #798d99;
+    position: absolute;
+    right: 8px;
+    top: 10px;
+  }
+
+  .headerName {
+    color: #17394d;
+    font-weight: bold;
+    line-height: 20px;
+    max-height: 256px;
+    outline: none;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    padding: 4px 8px;
+    word-break: break-word;
+  }
+
+  .headerNameColor {
+    line-height: 1;
+    margin-right: 6px;
+  }
+
+  .innerWrapper {
+    margin-right: 8px;
+    width: 272px;
+  }
+
+  .outerWrapper {
+    background: #dfe3e6;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 198px);
+    overflow: hidden;
+  }
+
+  .outerWrapperTransitioning {
+    transition: max-height 0.2s ease;
+  }
+
+  .outerWrapperWithFavorites {
+    max-height: calc(100vh - 288px);
+  }
+}

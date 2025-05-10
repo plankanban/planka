@@ -1,8 +1,17 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const { v4: uuid } = require('uuid');
 
 module.exports = {
   inputs: {
     record: {
+      type: 'ref',
+      required: true,
+    },
+    user: {
       type: 'ref',
       required: true,
     },
@@ -24,73 +33,89 @@ module.exports = {
   },
 
   async fn(inputs) {
+    await BoardSubscription.qm.delete({
+      boardId: inputs.record.boardId,
+      userId: inputs.user.id,
+    });
+
     const cardIds = await sails.helpers.boards.getCardIds(inputs.record.boardId);
 
-    await CardSubscription.destroy({
+    await CardSubscription.qm.delete({
       cardId: cardIds,
-      userId: inputs.record.userId,
+      userId: inputs.user.id,
     });
 
-    await CardMembership.destroy({
+    await CardMembership.qm.delete({
       cardId: cardIds,
-      userId: inputs.record.userId,
+      userId: inputs.user.id,
     });
 
-    const boardMembership = await BoardMembership.destroyOne(inputs.record.id);
+    const taskLists = await TaskList.qm.getByCardIds(cardIds);
+    const taskListIds = sails.helpers.utils.mapRecords(taskLists);
+
+    await Task.qm.update(
+      {
+        taskListId: taskListIds,
+        assigneeUserId: inputs.user.id,
+      },
+      {
+        assigneeUserId: null,
+      },
+    );
+
+    const boardMembership = await BoardMembership.qm.deleteOne(inputs.record.id);
 
     if (boardMembership) {
-      const notify = (room) => {
-        sails.sockets.broadcast(
-          room,
-          'boardMembershipDelete',
-          {
-            item: boardMembership,
-          },
-          inputs.request,
+      if (inputs.user.role !== User.Roles.ADMIN || inputs.project.ownerProjectManagerId) {
+        const isProjectManager = await sails.helpers.users.isProjectManager(
+          boardMembership.userId,
+          inputs.project.id,
         );
-      };
 
-      const isProjectManager = await sails.helpers.users.isProjectManager(
-        inputs.record.userId,
-        inputs.project.id,
+        if (!isProjectManager) {
+          sails.sockets.removeRoomMembersFromRooms(
+            `@user:${boardMembership.userId}`,
+            `board:${boardMembership.boardId}`,
+          );
+        }
+      }
+
+      sails.sockets.broadcast(
+        `user:${boardMembership.userId}`,
+        'boardMembershipDelete',
+        {
+          item: boardMembership,
+        },
+        inputs.request,
       );
 
-      if (!isProjectManager) {
-        sails.sockets.removeRoomMembersFromRooms(
-          `@user:${boardMembership.userId}`,
-          `board:${boardMembership.boardId}`,
-          () => {
-            notify(`board:${boardMembership.boardId}`);
-          },
-        );
-      }
+      const tempRoom = uuid();
 
-      notify(`user:${boardMembership.userId}`);
-
-      if (isProjectManager) {
-        const tempRoom = uuid();
-
-        sails.sockets.addRoomMembersToRooms(`board:${boardMembership.boardId}`, tempRoom, () => {
-          sails.sockets.removeRoomMembersFromRooms(
-            `user:${boardMembership.userId}`,
+      sails.sockets.addRoomMembersToRooms(`board:${boardMembership.boardId}`, tempRoom, () => {
+        sails.sockets.removeRoomMembersFromRooms(`user:${boardMembership.userId}`, tempRoom, () => {
+          sails.sockets.broadcast(
             tempRoom,
-            () => {
-              notify(tempRoom);
-              sails.sockets.removeRoomMembersFromRooms(tempRoom, tempRoom);
+            'boardMembershipDelete',
+            {
+              item: boardMembership,
             },
+            inputs.request,
           );
+
+          sails.sockets.removeRoomMembersFromRooms(tempRoom, tempRoom);
         });
-      }
+      });
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'boardMembershipDelete',
-        data: {
+        buildData: () => ({
           item: boardMembership,
           included: {
+            users: [sails.helpers.users.presentOne(inputs.user)],
             projects: [inputs.project],
             boards: [inputs.board],
           },
-        },
+        }),
         user: inputs.actorUser,
       });
     }

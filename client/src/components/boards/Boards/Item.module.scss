@@ -1,0 +1,90 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+    line-height: 32px;
+    margin-right: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 32px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .link {
+    cursor: pointer;
+    display: block;
+    line-height: 20px;
+    padding: 10px 34px 6px 14px;
+    text-overflow: ellipsis;
+    max-width: 400px;
+    overflow: hidden;
+  }
+
+  .name {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .notifications {
+    background: #eb5a46;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    line-height: 18px;
+    margin-right: 6px;
+    outline: none;
+    padding: 0px 6px;
+    transition: background 0.3s ease;
+    vertical-align: text-bottom;
+  }
+
+  .tab {
+    border-radius: 3px 3px 0 0;
+    min-width: 100px;
+    position: relative;
+    transition: all 0.1s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.12);
+
+      .name {
+        color: #fff;
+      }
+
+      .editButton {
+        opacity: 1;
+      }
+    }
+  }
+
+  .tabActive {
+    background: rgba(0, 0, 0, 0.24);
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.32);
+    }
+
+    .name {
+      color: #fff;
+      font-weight: bold;
+    }
+  }
+
+  .wrapper {
+    display: flex;
+    flex: 0 0 auto;
+  }
+}

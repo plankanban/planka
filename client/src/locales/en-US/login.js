@@ -1,23 +1,27 @@
 export default {
   translation: {
     common: {
+      activeUsersLimitReached: 'Active users limit reached',
+      emailAlreadyInUse: 'E-mail already in use',
       emailOrUsername: 'E-mail or username',
-      invalidEmailOrUsername: 'Invalid e-mail or username',
       invalidCredentials: 'Invalid credentials',
+      invalidEmailOrUsername: 'Invalid e-mail or username',
       invalidPassword: 'Invalid password',
-      logInToPlanka: 'Log in to Planka',
+      logIn_title: 'Log In',
       noInternetConnection: 'No internet connection',
+      or: 'Or',
       pageNotFound_title: 'Page Not Found',
       password: 'Password',
-      projectManagement: 'Project management',
+      poweredByPlanka: 'Powered by PLANKA',
       serverConnectionFailed: 'Server connection failed',
       unknownError: 'Unknown error, try again later',
+      usernameAlreadyInUse: 'Username already in use',
       useSingleSignOn: 'Use single sign-on',
     },
 
     action: {
       logIn: 'Log in',
-      logInWithSSO: 'Log in with SSO',
+      logInWithSso: 'Log in with SSO',
     },
   },
 };

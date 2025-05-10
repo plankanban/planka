@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 /**
  * current-user hook
  *
@@ -17,10 +22,7 @@ module.exports = function defineCurrentUserHook(sails) {
       return null;
     }
 
-    const session = await Session.findOne({
-      accessToken,
-      deletedAt: null,
-    });
+    const session = await Session.qm.getOneUndeletedByAccessToken(accessToken);
 
     if (!session) {
       return null;
@@ -30,9 +32,15 @@ module.exports = function defineCurrentUserHook(sails) {
       return null;
     }
 
-    const user = await sails.helpers.users.getOne(payload.subject);
+    const user = await User.qm.getOneById(payload.subject, {
+      withDeactivated: false,
+    });
 
-    if (user && user.passwordChangedAt > payload.issuedAt) {
+    if (!user) {
+      return null;
+    }
+
+    if (user.passwordChangedAt > payload.issuedAt) {
       return null;
     }
 
@@ -65,6 +73,10 @@ module.exports = function defineCurrentUserHook(sails) {
 
               if (sessionAndUser) {
                 const { session, user } = sessionAndUser;
+
+                if (user.language) {
+                  req.setLocale(user.language);
+                }
 
                 Object.assign(req, {
                   currentSession: session,

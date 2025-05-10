@@ -1,0 +1,116 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    padding: 0;
+  }
+
+  // TODO: provide for different sizes
+  .creatorIndicator {
+    background: #fff;
+    border-radius: 50%;
+    bottom: 0;
+    color: #6a808b;
+    font-size: 12px;
+    height: 10px;
+    line-height: 10px;
+    position: absolute;
+    right: 0;
+    width: 10px;
+  }
+
+  .initials {
+    margin: 0 auto;
+    text-transform: capitalize;
+  }
+
+  .wrapper {
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    line-height: 1;
+    position: relative;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  .wrapperHoverable:hover {
+    opacity: 0.75;
+  }
+
+  /* Sizes */
+
+  .wrapperTiny {
+    font-size: 10px;
+    height: 24px;
+    line-height: 20px;
+    padding: 2px 0;
+    width: 24px;
+  }
+
+  .wrapperSmall {
+    font-size: 12px;
+    height: 28px;
+    padding: 8px 0;
+    width: 28px;
+  }
+
+  .wrapperMedium {
+    font-size: 14px;
+    height: 32px;
+    padding: 10px 0;
+    width: 32px;
+  }
+
+  .wrapperLarge {
+    font-size: 14px;
+    height: 36px;
+    padding: 12px 0 10px;
+    width: 36px;
+  }
+
+  .wrapperMassive {
+    font-size: 36px;
+    height: 100px;
+    padding: 32px 0 10px;
+    width: 100px;
+  }
+
+  /* Backgrounds */
+
+  .backgroundEmerald {
+    background: #2ecc71;
+  }
+
+  .backgroundPeterRiver {
+    background: #3498db;
+  }
+
+  .backgroundWisteria {
+    background: #8e44ad;
+  }
+
+  .backgroundCarrot {
+    background: #e67e22;
+  }
+
+  .backgroundAlizarin {
+    background: #e74c3c;
+  }
+
+  .backgroundTurquoise {
+    background: #1abc9c;
+  }
+
+  .backgroundMidnightBlue {
+    background: #2c3e50;
+  }
+}

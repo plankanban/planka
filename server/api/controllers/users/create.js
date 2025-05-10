@@ -1,4 +1,9 @@
-const zxcvbn = require('zxcvbn');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { isPassword } = require('../../../utils/validators');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
@@ -10,24 +15,33 @@ const Errors = {
   USERNAME_ALREADY_IN_USE: {
     usernameAlreadyInUse: 'Username already in use',
   },
+  ACTIVE_LIMIT_REACHED: {
+    activeLimitReached: 'Active limit reached',
+  },
 };
-
-const passwordValidator = (value) => zxcvbn(value).score >= 2; // TODO: move to config
 
 module.exports = {
   inputs: {
     email: {
       type: 'string',
+      maxLength: 256,
       isEmail: true,
       required: true,
     },
     password: {
       type: 'string',
-      custom: passwordValidator,
+      maxLength: 256,
+      custom: isPassword,
+      required: true,
+    },
+    role: {
+      type: 'string',
+      isIn: Object.values(User.Roles),
       required: true,
     },
     name: {
       type: 'string',
+      maxLength: 128,
       required: true,
     },
     username: {
@@ -41,11 +55,13 @@ module.exports = {
     phone: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 128,
       allowNull: true,
     },
     organization: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 128,
       allowNull: true,
     },
     language: {
@@ -54,6 +70,12 @@ module.exports = {
       allowNull: true,
     },
     subscribeToOwnCards: {
+      type: 'boolean',
+    },
+    subscribeToCardWhenCommenting: {
+      type: 'boolean',
+    },
+    turnOffRecentCardHighlighting: {
       type: 'boolean',
     },
   },
@@ -68,6 +90,9 @@ module.exports = {
     usernameAlreadyInUse: {
       responseType: 'conflict',
     },
+    activeLimitReached: {
+      responseType: 'conflict',
+    },
   },
 
   async fn(inputs) {
@@ -80,12 +105,15 @@ module.exports = {
     const values = _.pick(inputs, [
       'email',
       'password',
+      'role',
       'name',
       'username',
       'phone',
       'organization',
       'language',
       'subscribeToOwnCards',
+      'subscribeToCardWhenCommenting',
+      'turnOffRecentCardHighlighting',
     ]);
 
     const user = await sails.helpers.users.createOne
@@ -95,10 +123,11 @@ module.exports = {
         request: this.req,
       })
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
-      .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE);
+      .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)
+      .intercept('activeLimitReached', () => Errors.ACTIVE_LIMIT_REACHED);
 
     return {
-      item: user,
+      item: sails.helpers.users.presentOne(user, currentUser),
     };
   },
 };

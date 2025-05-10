@@ -1,25 +1,33 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
   },
-  CARD_NOT_FOUND: {
-    cardNotFound: 'Card not found',
+  TASK_LIST_NOT_FOUND: {
+    taskListNotFound: 'Task list not found',
   },
 };
 
 module.exports = {
   inputs: {
-    cardId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+    taskListId: {
+      ...idInput,
       required: true,
     },
     position: {
       type: 'number',
+      min: 0,
       required: true,
     },
     name: {
       type: 'string',
+      maxLength: 1024,
       required: true,
     },
     isCompleted: {
@@ -31,7 +39,7 @@ module.exports = {
     notEnoughRights: {
       responseType: 'forbidden',
     },
-    cardNotFound: {
+    taskListNotFound: {
       responseType: 'notFound',
     },
   },
@@ -39,17 +47,17 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { card, list, board, project } = await sails.helpers.cards
-      .getProjectPath(inputs.cardId)
-      .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
+    const { taskList, card, list, board, project } = await sails.helpers.taskLists
+      .getPathToProjectById(inputs.taskListId)
+      .intercept('pathNotFound', () => Errors.TASK_LIST_NOT_FOUND);
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
-      throw Errors.CARD_NOT_FOUND; // Forbidden
+      throw Errors.TASK_LIST_NOT_FOUND; // Forbidden
     }
 
     if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
@@ -62,9 +70,10 @@ module.exports = {
       project,
       board,
       list,
+      card,
       values: {
         ...values,
-        card,
+        taskList,
       },
       actorUser: currentUser,
       request: this.req,

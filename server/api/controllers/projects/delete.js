@@ -1,14 +1,23 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   PROJECT_NOT_FOUND: {
     projectNotFound: 'Project not found',
+  },
+  MUST_NOT_HAVE_BOARDS: {
+    mustNotHaveBoards: 'Must not have boards',
   },
 };
 
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -17,12 +26,15 @@ module.exports = {
     projectNotFound: {
       responseType: 'notFound',
     },
+    mustNotHaveBoards: {
+      responseType: 'unprocessableEntity',
+    },
   },
 
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    let project = await Project.findOne(inputs.id);
+    let project = await Project.qm.getOneById(inputs.id);
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;
@@ -34,11 +46,13 @@ module.exports = {
       throw Errors.PROJECT_NOT_FOUND; // Forbidden
     }
 
-    project = await sails.helpers.projects.deleteOne.with({
-      record: project,
-      actorUser: currentUser,
-      request: this.req,
-    });
+    project = await sails.helpers.projects.deleteOne
+      .with({
+        record: project,
+        actorUser: currentUser,
+        request: this.req,
+      })
+      .intercept('mustNotHaveBoards', () => Errors.MUST_NOT_HAVE_BOARDS);
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;

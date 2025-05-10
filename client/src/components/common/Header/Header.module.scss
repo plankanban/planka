@@ -1,0 +1,110 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    color: #fff;
+    font-size: 15px;
+    line-height: 34px;
+    margin-left: 8px;
+    opacity: 0;
+    padding: 0;
+    width: 34px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .item {
+    cursor: auto;
+    user-select: auto;
+
+    &:before {
+      background: none;
+    }
+
+    &:active,
+    &:hover {
+      background: transparent;
+      color: rgba(255, 255, 255, 0.9);
+
+      .editButton {
+        opacity: 1;
+      }
+    }
+  }
+
+  .itemHoverable:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.32);
+  }
+
+  .itemIconEnabled {
+    color: #bdff22;
+  }
+
+  .logo {
+    color: #fff;
+    flex: 0 0 auto;
+    letter-spacing: 3.5px;
+    line-height: 50px;
+    padding: 0 16px;
+    text-transform: uppercase;
+
+    &:before {
+      background: none;
+    }
+  }
+
+  .menu {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: #fff;
+    flex: 1 1 auto;
+    height: 50px;
+    margin: 0;
+    width: 100%;
+  }
+
+  .notification {
+    background: #eb5a46;
+    border-radius: 8px;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: bold;
+    height: 16px;
+    left: 22px;
+    line-height: 16px;
+    min-width: 16px;
+    position: absolute;
+    text-align: center;
+    top: 8px;
+  }
+
+  .title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .userName {
+    margin-right: 10px;
+
+    @media only screen and (width < 768px) {
+      display: none;
+    }
+  }
+
+  .wrapper {
+    background: rgba(0, 0, 0, 0.24);
+    display: flex;
+    flex: 0 0 auto;
+  }
+}

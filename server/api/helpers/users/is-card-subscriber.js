@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     id: {
@@ -11,10 +16,10 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const cardSubscription = await CardSubscription.findOne({
-      cardId: inputs.cardId,
-      userId: inputs.id,
-    });
+    const cardSubscription = await CardSubscription.qm.getOneByCardIdAndUserId(
+      inputs.cardId,
+      inputs.id,
+    );
 
     return !!cardSubscription;
   },

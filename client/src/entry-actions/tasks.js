@@ -1,8 +1,14 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
-const createTaskInCurrentCard = (data) => ({
-  type: EntryActionTypes.TASK_IN_CURRENT_CARD_CREATE,
+const createTask = (taskListId, data) => ({
+  type: EntryActionTypes.TASK_CREATE,
   payload: {
+    taskListId,
     data,
   },
 });
@@ -29,10 +35,11 @@ const handleTaskUpdate = (task) => ({
   },
 });
 
-const moveTask = (id, index) => ({
+const moveTask = (id, taskListId, index) => ({
   type: EntryActionTypes.TASK_MOVE,
   payload: {
     id,
+    taskListId,
     index,
   },
 });
@@ -52,7 +59,7 @@ const handleTaskDelete = (task) => ({
 });
 
 export default {
-  createTaskInCurrentCard,
+  createTask,
   handleTaskCreate,
   updateTask,
   handleTaskUpdate,

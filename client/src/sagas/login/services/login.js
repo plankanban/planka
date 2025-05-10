@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { nanoid } from 'nanoid';
 import { call, put, select } from 'redux-saga/effects';
 import { replace } from '../../../lib/redux-router';
@@ -29,7 +34,7 @@ export function* authenticate(data) {
   yield put(actions.authenticate.success(accessToken));
 }
 
-export function* authenticateUsingOidc() {
+export function* authenticateWithOidc() {
   const oidcConfig = yield select(selectors.selectOidcConfig);
 
   const state = nanoid();
@@ -45,7 +50,7 @@ export function* authenticateUsingOidc() {
   window.location.href = redirectUrl;
 }
 
-export function* authenticateUsingOidcCallback() {
+export function* authenticateWithOidcCallback() {
   // https://github.com/plankanban/planka/issues/511#issuecomment-1771385639
   const params = new URLSearchParams(window.location.hash.substring(1) || window.location.search);
 
@@ -59,7 +64,7 @@ export function* authenticateUsingOidcCallback() {
 
   if (params.get('error') !== null) {
     yield put(
-      actions.authenticateUsingOidc.failure(
+      actions.authenticateWithOidc.failure(
         new Error(
           `OIDC Authorization error: ${params.get('error')}: ${params.get('error_description')}`,
         ),
@@ -71,14 +76,14 @@ export function* authenticateUsingOidcCallback() {
   const code = params.get('code');
   if (code === null) {
     yield put(
-      actions.authenticateUsingOidc.failure(new Error('Invalid OIDC response: no code parameter')),
+      actions.authenticateWithOidc.failure(new Error('Invalid OIDC response: no code parameter')),
     );
     return;
   }
 
   if (params.get('state') !== state) {
     yield put(
-      actions.authenticateUsingOidc.failure(
+      actions.authenticateWithOidc.failure(
         new Error('Unable to process OIDC response: state mismatch'),
       ),
     );
@@ -87,7 +92,7 @@ export function* authenticateUsingOidcCallback() {
 
   if (nonce === null) {
     yield put(
-      actions.authenticateUsingOidc.failure(
+      actions.authenticateWithOidc.failure(
         new Error('Unable to process OIDC response: no nonce issued'),
       ),
     );
@@ -96,17 +101,17 @@ export function* authenticateUsingOidcCallback() {
 
   let accessToken;
   try {
-    ({ item: accessToken } = yield call(api.exchangeForAccessTokenUsingOidc, {
+    ({ item: accessToken } = yield call(api.exchangeForAccessTokenWithOidc, {
       code,
       nonce,
     }));
   } catch (error) {
-    yield put(actions.authenticateUsingOidc.failure(error));
+    yield put(actions.authenticateWithOidc.failure(error));
     return;
   }
 
   yield call(setAccessToken, accessToken);
-  yield put(actions.authenticateUsingOidc.success(accessToken));
+  yield put(actions.authenticateWithOidc.success(accessToken));
 }
 
 export function* clearAuthenticateError() {
@@ -116,7 +121,7 @@ export function* clearAuthenticateError() {
 export default {
   initializeLogin,
   authenticate,
-  authenticateUsingOidc,
-  authenticateUsingOidcCallback,
+  authenticateWithOidc,
+  authenticateWithOidcCallback,
   clearAuthenticateError,
 };

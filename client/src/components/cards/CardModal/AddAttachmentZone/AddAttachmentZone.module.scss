@@ -1,0 +1,20 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .dropzone {
+    background: white;
+    font-size: 20px;
+    font-weight: bold;
+    height: 100%;
+    line-height: 30px;
+    opacity: 0.7;
+    padding: 200px 50px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 2001;
+  }
+}

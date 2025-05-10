@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   BOARD_NOT_FOUND: {
     boardNotFound: 'Board not found',
@@ -7,8 +14,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -22,16 +28,12 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const path = await sails.helpers.boards
-      .getProjectPath(inputs.id)
+    const pathToProject = await sails.helpers.boards
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
-    let { board } = path;
-    const { project } = path;
-
-    if (!board) {
-      throw Errors.BOARD_NOT_FOUND;
-    }
+    let { board } = pathToProject;
+    const { project } = pathToProject;
 
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 

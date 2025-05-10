@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 /**
  * Label.js
  *
@@ -6,31 +11,48 @@
  */
 
 const COLORS = [
-  'berry-red',
-  'pumpkin-orange',
-  'lagoon-blue',
-  'pink-tulip',
-  'light-mud',
-  'orange-peel',
-  'bright-moss',
-  'antique-blue',
-  'dark-granite',
-  'lagune-blue',
-  'sunny-grass',
+  'muddy-grey',
+  'autumn-leafs',
   'morning-sky',
-  'light-orange',
-  'midnight-blue',
-  'tank-green',
-  'gun-metal',
-  'wet-moss',
-  'red-burgundy',
-  'light-concrete',
-  'apricot-red',
-  'desert-sand',
-  'navy-blue',
+  'antique-blue',
   'egg-yellow',
-  'coral-green',
+  'desert-sand',
+  'dark-granite',
+  'fresh-salad',
+  'lagoon-blue',
+  'midnight-blue',
+  'light-orange',
+  'pumpkin-orange',
+  'light-concrete',
+  'sunny-grass',
+  'navy-blue',
+  'lilac-eyes',
+  'apricot-red',
+  'orange-peel',
+  'silver-glint',
+  'bright-moss',
+  'deep-ocean',
+  'summer-sky',
+  'berry-red',
   'light-cocoa',
+  'grey-stone',
+  'tank-green',
+  'coral-green',
+  'sugar-plum',
+  'pink-tulip',
+  'shady-rust',
+  'wet-rock',
+  'wet-moss',
+  'turquoise-sea',
+  'lavender-fields',
+  'piggy-red',
+  'light-mud',
+  'gun-metal',
+  'modern-green',
+  'french-coast',
+  'sweet-lilac',
+  'red-burgundy',
+  'pirate-gold',
 ];
 
 module.exports = {

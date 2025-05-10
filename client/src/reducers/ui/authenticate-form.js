@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { LOCATION_CHANGE_HANDLE } from '../../lib/redux-router';
 
 import ActionTypes from '../../constants/ActionTypes';
@@ -9,7 +14,7 @@ const initialState = {
     password: '',
   },
   isSubmitting: false,
-  isSubmittingUsingOidc: false,
+  isSubmittingWithOidc: false,
   error: null,
 };
 
@@ -20,7 +25,7 @@ export default (state = initialState, { type, payload }) => {
       if (payload.location.pathname === Paths.OIDC_CALLBACK) {
         return {
           ...state,
-          isSubmittingUsingOidc: true,
+          isSubmittingWithOidc: true,
         };
       }
 
@@ -35,7 +40,7 @@ export default (state = initialState, { type, payload }) => {
         isSubmitting: true,
       };
     case ActionTypes.AUTHENTICATE__SUCCESS:
-    case ActionTypes.USING_OIDC_AUTHENTICATE__SUCCESS:
+    case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
       return initialState;
     case ActionTypes.AUTHENTICATE__FAILURE:
       return {
@@ -43,10 +48,10 @@ export default (state = initialState, { type, payload }) => {
         isSubmitting: false,
         error: payload.error,
       };
-    case ActionTypes.USING_OIDC_AUTHENTICATE__FAILURE:
+    case ActionTypes.WITH_OIDC_AUTHENTICATE__FAILURE:
       return {
         ...state,
-        isSubmittingUsingOidc: false,
+        isSubmittingWithOidc: false,
         error: payload.error,
       };
     case ActionTypes.AUTHENTICATE_ERROR_CLEAR:

@@ -1,7 +1,9 @@
 import dateFns from 'date-fns/locale/ro';
+import timeAgo from 'javascript-time-ago/locale/ro';
 
 export default {
   dateFns,
+  timeAgo,
 
   format: {
     date: 'P',
@@ -15,15 +17,13 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Despre Planka',
+      aboutPlanka: 'Despre PLANKA',
       account: 'Cont',
       actions: 'Acțiuni',
       addAttachment_title: 'Adauga atasament',
-      addComment: 'Adaugă comentariu',
       addManager_title: 'Adaugă Manager',
       addMember_title: 'Adaugă Membru',
       addUser_title: 'Adaugă Utilizator',
-      administrator: 'Administrator',
       all: 'Toate',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Toate modificarile vor fi salvate automat<br />dupa restabilirea conexiunii.',
@@ -49,11 +49,9 @@ export default {
       board: 'Tabla',
       boardNotFound_title: 'Tabla nu a fost găsită',
       canComment: 'Poate comenta',
-      canEditContentOfBoard: 'Poate edita conținutul tablei.',
       canOnlyViewBoard: 'Poate doar vizualiza tabla.',
       cardActions_title: 'Acțiuni cu carduri',
       cardNotFound_title: 'Cardul nu a fost găsit',
-      cardOrActionAreDeleted: 'Cardul sau acțiunea sunt șterse.',
       color: 'Culoarea',
       createBoard_title: 'Creare Tabla',
       createLabel_title: 'Creați etichetă',
@@ -79,7 +77,6 @@ export default {
       editor: 'Editor',
       editAttachment_title: 'Editați atașamentul',
       editAvatar_title: 'Editați avatarul',
-      editBoard_title: 'Editați tabla',
       editDueDate_title: 'Editați data scadentă',
       editEmail_title: 'Editați E-mail',
       editInformation_title: 'Editați informații',
@@ -89,12 +86,10 @@ export default {
       editStopwatch_title: 'Editați cronometrul',
       editUsername_title: 'Editați numele de utilizator',
       email: 'E-mail',
-      emailAlreadyInUse: 'E-mail deja utilizat',
-      enterCardTitle: 'Introduceți titlul cardului... [Ctrl+Enter] pentru a se deschide automat.',
+      enterCardTitle: 'Introduceți titlul cardului...',
       enterDescription: 'Introduceți descrierea...',
       enterFilename: 'Introduceți numele fișierului',
       enterListTitle: 'Introduceți titlul listei...',
-      enterProjectTitle: 'Introduceți titlul proiectului',
       enterTaskDescription: 'Introduceți descrierea sarcinii...',
       filterByLabels_title: 'Filtrați după etichete',
       filterByMembers_title: 'Filtrați după membri',
@@ -147,7 +142,6 @@ export default {
       stopwatch: 'Cronometru',
       subscribeToMyOwnCardsByDefault: 'Abonați-vă la propriile carduri în mod implicit',
       taskActions_title: 'Acțiuni de sarcină',
-      tasks: 'Sarcini',
       thereIsNoPreviewAvailableForThisAttachment:
         'Nu există nicio previzualizare disponibilă pentru acest atașament.',
       time: 'Timp',
@@ -161,9 +155,7 @@ export default {
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> a mutat aceast card din {{fromList}} în {{toList}}</1>',
       username: 'Nume utilizator',
-      usernameAlreadyInUse: 'Nume utilizator deja exista',
       users: 'Utilizatori',
-      version: 'Versiunea',
       viewer: 'Vizualizator',
       writeComment: 'Scrie un comentariu...',
     },
@@ -193,11 +185,9 @@ export default {
       deleteCard: 'Ștergeți cardul',
       deleteCard_title: 'Ștergeți Cardul',
       deleteComment: 'Șterge comentariu',
-      deleteImage: 'Șterge imaginea',
       deleteLabel: 'Ștergeți Eticheta',
       deleteList: 'Ștergeți lista',
       deleteList_title: 'Ștergeți Lista',
-      deleteNotifications: 'Dismiss all',
       deleteProject: 'Ștergeți proiectul',
       deleteProject_title: 'Ștergeți Proiectul',
       deleteTask: 'Ștergeți sarcina',
@@ -213,7 +203,6 @@ export default {
       editStopwatch_title: 'Editați cronometrul',
       editTitle_title: 'Editați Titlul',
       editUsername_title: 'Editați Numele Utilizator',
-      hideDetails: 'Ascunde detalii',
       import: 'Import',
       leaveBoard: 'Părăsiți bordul',
       leaveProject: 'Părăsiți proiect',
@@ -222,7 +211,6 @@ export default {
       move: 'Mutați',
       moveCard_title: 'Mutați cardul',
       remove: 'Eliminați',
-      removeBackground: 'Eliminați fundalul',
       removeCover_title: 'Eliminați Coperta',
       removeFromBoard: 'Eliminați din Tabla',
       removeFromProject: 'Eliminați din proiect',
@@ -230,7 +218,6 @@ export default {
       removeMember: 'Eliminați membrul',
       save: 'Salveaza',
       showAllAttachments: 'Afișați toate atașamentele ({{hidden}} ascunse)',
-      showDetails: 'Arată detalii',
       showFewerAttachments: 'Afișați mai puține atașamente',
       start: 'Start',
       stop: 'Stop',

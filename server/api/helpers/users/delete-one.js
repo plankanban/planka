@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     record: {
@@ -14,51 +19,46 @@ module.exports = {
   },
 
   async fn(inputs) {
-    await IdentityProviderUser.destroy({
-      userId: inputs.record.id,
-    });
+    const { projectManagers, boardMemberships } = await sails.helpers.users.deleteRelated(
+      inputs.record,
+    );
 
-    await ProjectManager.destroy({
-      userId: inputs.record.id,
-    });
-
-    await BoardMembership.destroy({
-      userId: inputs.record.id,
-    });
-
-    await CardSubscription.destroy({
-      userId: inputs.record.id,
-    });
-
-    await CardMembership.destroy({
-      userId: inputs.record.id,
-    });
-
-    const user = await User.updateOne({
-      id: inputs.record.id,
-      deletedAt: null,
-    }).set({
-      deletedAt: new Date().toISOString(),
-    });
+    const user = await User.qm.deleteOne(inputs.record.id);
 
     if (user) {
-      /* const projectIds = await sails.helpers.users.getManagerProjectIds(user.id);
+      sails.helpers.users.removeRelatedFiles(user);
 
-      const userIds = _.union(
-        [user.id],
-        await sails.helpers.users.getAdminIds(),
-        await sails.helpers.projects.getManagerAndBoardMemberUserIds(projectIds),
-      ); */
+      const scoper = sails.helpers.users.makeScoper(user);
+      scoper.boardMemberships = boardMemberships;
 
-      const users = await sails.helpers.users.getMany();
-      const userIds = [inputs.record.id, ...sails.helpers.utils.mapRecords(users)];
+      const privateUserRelatedUserIds = await scoper.getPrivateUserRelatedUserIds();
 
-      userIds.forEach((userId) => {
+      privateUserRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
           'userDelete',
           {
-            item: user,
+            // FIXME: hack
+            item: sails.helpers.users.presentOne(user, {
+              id: userId,
+              role: User.Roles.ADMIN,
+            }),
+          },
+          inputs.request,
+        );
+      });
+
+      const publicUserRelatedUserIds = await scoper.getPublicUserRelatedUserIds();
+
+      publicUserRelatedUserIds.forEach((userId) => {
+        sails.sockets.broadcast(
+          `user:${userId}`,
+          'userDelete',
+          {
+            // FIXME: hack
+            item: sails.helpers.users.presentOne(user, {
+              id: userId,
+            }),
           },
           inputs.request,
         );
@@ -66,11 +66,29 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'userDelete',
-        data: {
-          item: user,
-        },
+        buildData: () => ({
+          item: sails.helpers.users.presentOne(user),
+        }),
         user: inputs.actorUser,
       });
+
+      sails.sockets.leaveAll(`@user:${user.id}`);
+
+      const projectIds = await sails.helpers.utils.mapRecords(projectManagers, 'projectId', true);
+      const lonelyProjects = await sails.helpers.projects.getLonelyByIds(projectIds);
+
+      await Promise.all(
+        lonelyProjects.map((project) =>
+          // TODO: optimize with scoper
+          sails.helpers.projectManagers.createOne.with({
+            values: {
+              project,
+              user: inputs.actorUser,
+            },
+            actorUser: inputs.actorUser,
+          }),
+        ),
+      );
     }
 
     return user;

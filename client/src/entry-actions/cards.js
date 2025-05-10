@@ -1,9 +1,43 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
+
+const fetchCardsInCurrentList = () => ({
+  type: EntryActionTypes.CARDS_IN_CURRENT_LIST_FETCH,
+  payload: {},
+});
+
+const handleCardsUpdate = (cards, activities) => ({
+  type: EntryActionTypes.CARDS_UPDATE_HANDLE,
+  payload: {
+    cards,
+    activities,
+  },
+});
 
 const createCard = (listId, data, autoOpen) => ({
   type: EntryActionTypes.CARD_CREATE,
   payload: {
     listId,
+    data,
+    autoOpen,
+  },
+});
+
+const createCardInCurrentList = (data, autoOpen) => ({
+  type: EntryActionTypes.CARD_IN_CURRENT_LIST_CREATE,
+  payload: {
+    data,
+    autoOpen,
+  },
+});
+
+const createCardInFirstFiniteList = (data, autoOpen) => ({
+  type: EntryActionTypes.CARD_IN_FIRST_FINITE_LIST_CREATE,
+  payload: {
     data,
     autoOpen,
   },
@@ -38,7 +72,7 @@ const handleCardUpdate = (card) => ({
   },
 });
 
-const moveCard = (id, listId, index) => ({
+const moveCard = (id, listId, index = 0) => ({
   type: EntryActionTypes.CARD_MOVE,
   payload: {
     id,
@@ -47,15 +81,40 @@ const moveCard = (id, listId, index) => ({
   },
 });
 
-const moveCurrentCard = (listId, index) => ({
+const moveCurrentCard = (listId, index = 0, autoClose = false) => ({
   type: EntryActionTypes.CURRENT_CARD_MOVE,
   payload: {
     listId,
     index,
+    autoClose,
   },
 });
 
-const transferCard = (id, boardId, listId, index) => ({
+const moveCardToArchive = (id) => ({
+  type: EntryActionTypes.CARD_TO_ARCHIVE_MOVE,
+  payload: {
+    id,
+  },
+});
+
+const moveCurrentCardToArchive = () => ({
+  type: EntryActionTypes.CURRENT_CARD_TO_ARCHIVE_MOVE,
+  payload: {},
+});
+
+const moveCardToTrash = (id) => ({
+  type: EntryActionTypes.CARD_TO_TRASH_MOVE,
+  payload: {
+    id,
+  },
+});
+
+const moveCurrentCardToTrash = () => ({
+  type: EntryActionTypes.CURRENT_CARD_TO_TRASH_MOVE,
+  payload: {},
+});
+
+const transferCard = (id, boardId, listId, index = 0) => ({
   type: EntryActionTypes.CARD_TRANSFER,
   payload: {
     id,
@@ -65,7 +124,7 @@ const transferCard = (id, boardId, listId, index) => ({
   },
 });
 
-const transferCurrentCard = (boardId, listId, index) => ({
+const transferCurrentCard = (boardId, listId, index = 0) => ({
   type: EntryActionTypes.CURRENT_CARD_TRANSFER,
   payload: {
     boardId,
@@ -74,16 +133,26 @@ const transferCurrentCard = (boardId, listId, index) => ({
   },
 });
 
-const duplicateCard = (id) => ({
+const duplicateCard = (id, data) => ({
   type: EntryActionTypes.CARD_DUPLICATE,
   payload: {
     id,
+    data,
   },
 });
 
-const duplicateCurrentCard = () => ({
+const duplicateCurrentCard = (data) => ({
   type: EntryActionTypes.CURRENT_CARD_DUPLICATE,
-  payload: {},
+  payload: {
+    data,
+  },
+});
+
+const goToAdjacentCard = (direction) => ({
+  type: EntryActionTypes.TO_ADJACENT_CARD_GO,
+  payload: {
+    direction,
+  },
 });
 
 const deleteCard = (id) => ({
@@ -105,27 +174,28 @@ const handleCardDelete = (card) => ({
   },
 });
 
-const filterText = (text) => ({
-  type: EntryActionTypes.TEXT_FILTER_IN_CURRENT_BOARD,
-  payload: {
-    text,
-  },
-});
-
 export default {
+  fetchCardsInCurrentList,
+  handleCardsUpdate,
   createCard,
+  createCardInCurrentList,
+  createCardInFirstFiniteList,
   handleCardCreate,
   updateCard,
   updateCurrentCard,
   handleCardUpdate,
   moveCard,
   moveCurrentCard,
+  moveCardToArchive,
+  moveCurrentCardToArchive,
+  moveCardToTrash,
+  moveCurrentCardToTrash,
   transferCard,
   transferCurrentCard,
   duplicateCard,
   duplicateCurrentCard,
+  goToAdjacentCard,
   deleteCard,
   deleteCurrentCard,
   handleCardDelete,
-  filterText,
 };

@@ -1,16 +1,17 @@
 export default {
   translation: {
     common: {
+      emailAlreadyInUse: 'E-mail Adresse wird bereits benutzt',
       emailOrUsername: 'E-Mail-Adresse oder Benutzername',
       invalidEmailOrUsername: 'Ungültige E-Mail-Adresse oder Benutzername',
       invalidPassword: 'Ungültiges Passwort',
-      logInToPlanka: 'Einloggen',
+      logIn_title: 'Anmelden',
       noInternetConnection: 'Keine Internetverbindung',
       pageNotFound_title: 'Seite nicht gefunden',
       password: 'Passwort',
-      projectManagement: 'Projekt-Management',
       serverConnectionFailed: 'Serververbindung fehlgeschlagen',
       unknownError: 'Unbekannter Fehler, bitte später erneut versuchen',
+      usernameAlreadyInUse: 'Benutzername wird bereits verwendet',
     },
 
     action: {

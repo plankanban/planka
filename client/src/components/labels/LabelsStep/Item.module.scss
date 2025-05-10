@@ -1,0 +1,56 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .editButton {
+    background: transparent;
+    box-shadow: none;
+    flex: 0 0 auto;
+    font-weight: normal;
+    padding: 8px 10px;
+    text-decoration: underline;
+
+    &:hover {
+      background: #e9e9e9;
+    }
+  }
+
+  .name {
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    flex: 1 1 auto;
+    font-weight: bold;
+    overflow: hidden;
+    padding: 8px 32px 8px 10px;
+    position: relative;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .nameActive:before {
+    bottom: 1px;
+    content: "Г";
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 36px;
+    position: absolute;
+    right: 2px;
+    text-align: center;
+    transform: rotate(-135deg);
+    width: 36px;
+  }
+
+  .wrapper {
+    display: flex;
+    margin-bottom: 4px;
+    max-width: 280px;
+    white-space: nowrap;
+  }
+}

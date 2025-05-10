@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -5,18 +12,25 @@ const Errors = {
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
   },
+  CANNOT_BE_SORTED_AS_ENDLESS_LIST: {
+    cannotBeSortedAsEndlessList: 'Cannot be sorted as endless list',
+  },
 };
 
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
-    type: {
+    fieldName: {
       type: 'string',
-      isIn: Object.values(List.SortTypes),
+      isIn: Object.values(List.SortFieldNames),
+      required: true,
+    },
+    order: {
+      type: 'string',
+      isIn: Object.values(List.SortOrders),
     },
   },
 
@@ -27,36 +41,43 @@ module.exports = {
     listNotFound: {
       responseType: 'notFound',
     },
+    cannotBeSortedAsEndlessList: {
+      responseType: 'unprocessableEntity',
+    },
   },
 
   async fn(inputs) {
     const { currentUser } = this.req;
 
     const { list, board, project } = await sails.helpers.lists
-      .getProjectPath(inputs.id)
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
-      throw Errors.LIST_NOT_FOUND;
+      throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
     if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const cards = await sails.helpers.lists.sortOne.with({
-      project,
-      board,
-      record: list,
-      type: inputs.type,
-      actorUser: currentUser,
-      request: this.req,
-    });
+    const options = _.pick(inputs, ['fieldName', 'order']);
+
+    const cards = await sails.helpers.lists.sortOne
+      .with({
+        options,
+        project,
+        board,
+        record: list,
+        actorUser: currentUser,
+        request: this.req,
+      })
+      .intercept('cannotBeSortedAsEndlessList', () => Errors.CANNOT_BE_SORTED_AS_ENDLESS_LIST);
 
     return {
       item: list,

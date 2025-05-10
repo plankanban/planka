@@ -11,6 +11,15 @@
 const { URL } = require('url');
 const sails = require('sails');
 
+const version = require('../version');
+
+const envToNumber = (value) => {
+  const number = parseInt(value, 10);
+  return Number.isNaN(number) ? null : number;
+};
+
+const envToArray = (value) => (value ? value.split(',') : []);
+
 const parsedBasedUrl = new URL(process.env.BASE_URL);
 
 module.exports.custom = {
@@ -19,6 +28,8 @@ module.exports.custom = {
    * Any other custom config this Sails app should use during development.
    *
    */
+
+  version,
 
   baseUrl: process.env.BASE_URL,
   baseUrlPath: parsedBasedUrl.pathname,
@@ -30,15 +41,17 @@ module.exports.custom = {
   uploadsTempPath: null,
   uploadsBasePath: sails.config.appPath,
 
+  preloadedFaviconsPathSegment: 'public/preloaded-favicons',
+  faviconsPathSegment: 'public/favicons',
   userAvatarsPathSegment: 'public/user-avatars',
-  projectBackgroundImagesPathSegment: 'public/project-background-images',
+  backgroundImagesPathSegment: 'public/background-images',
   attachmentsPathSegment: 'private/attachments',
 
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
+  activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
-  allowAllToCreateProjects: process.env.ALLOW_ALL_TO_CREATE_PROJECTS === 'true',
 
   s3Endpoint: process.env.S3_ENDPOINT,
   s3Region: process.env.S3_REGION,
@@ -55,7 +68,9 @@ module.exports.custom = {
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
   oidcResponseMode: process.env.OIDC_RESPONSE_MODE || 'fragment',
   oidcUseDefaultResponseMode: process.env.OIDC_USE_DEFAULT_RESPONSE_MODE === 'true',
-  oidcAdminRoles: process.env.OIDC_ADMIN_ROLES ? process.env.OIDC_ADMIN_ROLES.split(',') : [],
+  oidcAdminRoles: envToArray(process.env.OIDC_ADMIN_ROLES),
+  oidcProjectOwnerRoles: envToArray(process.env.OIDC_PROJECT_OWNER_ROLES),
+  oidcBoardUserRoles: envToArray(process.env.OIDC_BOARD_USER_ROLES),
   oidcClaimsSource: process.env.OIDC_CLAIMS_SOURCE || 'userinfo',
   oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
   oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
@@ -80,13 +95,4 @@ module.exports.custom = {
   smtpTlsRejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
 
   webhooks: JSON.parse(process.env.WEBHOOKS || '[]'), // TODO: validate structure
-
-  slackBotToken: process.env.SLACK_BOT_TOKEN,
-  slackChannelId: process.env.SLACK_CHANNEL_ID,
-
-  googleChatWebhookUrl: process.env.GOOGLE_CHAT_WEBHOOK_URL,
-
-  telegramBotToken: process.env.TELEGRAM_BOT_TOKEN,
-  telegramChatId: process.env.TELEGRAM_CHAT_ID,
-  telegramThreadId: process.env.TELEGRAM_THREAD_ID,
 };

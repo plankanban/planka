@@ -1,23 +1,23 @@
 export default {
   translation: {
     common: {
+      emailAlreadyInUse: 'Е-пошта је већ у употреби',
       emailOrUsername: 'Е-пошта или корисничко име',
-      invalidEmailOrUsername: 'Неисправна е-пошта или корисничко име',
       invalidCredentials: 'Неисправни акредитиви',
+      invalidEmailOrUsername: 'Неисправна е-пошта или корисничко име',
       invalidPassword: 'Неисправна лозинка',
-      logInToPlanka: 'Пријавите се у Planka',
       noInternetConnection: 'Нема конекције са интернетом',
       pageNotFound_title: 'Страница није пронађена',
       password: 'Лозинка',
-      projectManagement: 'Управљање пројектима',
       serverConnectionFailed: 'Неуспешна конекција са сервером',
       unknownError: 'Непозната грешка, покушајте поново касније',
+      usernameAlreadyInUse: 'Корисничко име је већ у употреби',
       useSingleSignOn: 'Користи универзалну пријаву',
     },
 
     action: {
       logIn: 'Пријава',
-      logInWithSSO: 'Пријава са УП',
+      logInWithSso: 'Пријава са УП',
     },
   },
 };

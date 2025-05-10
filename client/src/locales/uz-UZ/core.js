@@ -1,7 +1,9 @@
 import dateFns from 'date-fns/locale/uz';
+import timeAgo from 'javascript-time-ago/locale/uz';
 
 export default {
   dateFns,
+  timeAgo,
 
   format: {
     date: 'M/d/yyyy',
@@ -18,11 +20,9 @@ export default {
       account: 'Profil',
       actions: 'Amallar',
       addAttachment_title: "Ilova Qo'shish",
-      addComment: "Izoh qo'shish",
       addManager_title: "Boshqaruvchi Qo'shish",
       addMember_title: "Yangi a'zo Qo'shish",
       addUser_title: "Foydalanuvchi Qo'shish",
-      administrator: 'Administrator',
       all: 'Barchasi',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         "Barcha o'zgarishlar tarmoq ulanishi tiklangandan so'ng<br />avtomatik saqlanadi.",
@@ -48,7 +48,6 @@ export default {
       boardNotFound_title: 'Doska Topilmadi',
       cardActions_title: 'Karta Amallari',
       cardNotFound_title: 'Karta Topilmadi',
-      cardOrActionAreDeleted: "Karta yoki amal o'chirilgan.",
       color: 'Rang',
       createBoard_title: 'Doska Yaratish',
       createLabel_title: 'Yorliq Yaratish',
@@ -72,7 +71,6 @@ export default {
       dropFileToUpload: 'Faylni yuklash uchun qoldiring',
       editAttachment_title: 'Ilovani Tahrirlash',
       editAvatar_title: 'Avatarni Tahrirlash',
-      editBoard_title: 'Doskani Tahrirlash',
       editDueDate_title: 'Muddatni Tahrirlash',
       editEmail_title: 'E-mail ni Tahrirlash',
       editLabel_title: 'Yorliqni Tahrirlash',
@@ -80,12 +78,10 @@ export default {
       editStopwatch_title: 'Taymerni Tahrirlash',
       editUsername_title: 'Foydalanuvchi nomini Tahrirlash',
       email: 'E-mail',
-      emailAlreadyInUse: 'E-mail allaqachon mavjud',
       enterCardTitle: 'Karta sarlavhasini kiriting...',
       enterDescription: 'Tavsif kiriting...',
       enterFilename: 'Fayl nomini kiriting',
       enterListTitle: "Ro'yxat sarlavhasini kiriting...",
-      enterProjectTitle: 'Loyiha sarlavhasini kiriting',
       enterTaskDescription: 'Topshiriq sarlavhasini kiriting...',
       filterByLabels_title: "Yorliq bo'yicha filter",
       filterByMembers_title: "A'zolar bo'yicha filter",
@@ -131,7 +127,6 @@ export default {
       stopwatch: 'Taymer',
       subscribeToMyOwnCardsByDefault: "Odatiy holda o'z kartalarimga obuna bo'ling",
       taskActions_title: 'Vazifa Amallari',
-      tasks: 'Vazifalar',
       time: 'Vaqt',
       title: 'Sarlavha',
       userActions_title: 'Foydalanuvchi Amallari',
@@ -142,7 +137,6 @@ export default {
       userMovedThisCardFromListToList:
         "<0>{{user}}</0><1> ushbu kartani {{fromList}} dan {{toList}}</1> ga ko'chirdi",
       username: 'Foydalanuvchi nomi',
-      usernameAlreadyInUse: 'Foydalanuvchi nomi allaqachon mavjud',
       users: 'Foydalanuvchilar',
       writeComment: 'Izoh yozish...',
     },
@@ -171,11 +165,9 @@ export default {
       deleteCard: "Kartani o'chirish",
       deleteCard_title: "Kartani O'chirish",
       deleteComment: "Izohni o'chirish",
-      deleteImage: "Rasmni o'chirish",
       deleteLabel: "Yorliqni o'chirish",
       deleteList: "Ro'yxatni o'chirish",
       deleteList_title: "Ro'yxatni O'chirish",
-      deleteNotifications: 'Dismiss all',
       deleteProject: "Loyihani o'chirish",
       deleteProject_title: "Loyihani O'chirish",
       deleteTask: "Vazifani o'chirish",
@@ -196,7 +188,6 @@ export default {
       move: "Ko'chirish",
       moveCard_title: "Kartani Ko'chirish",
       remove: "O'chirish",
-      removeBackground: "Orqa fonni o'chirish",
       removeCover_title: "Muqovani O'chirish",
       removeFromBoard: "Doskadan o'chirish",
       removeFromProject: "Loyihadan o'chirish",

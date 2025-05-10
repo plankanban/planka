@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
 const createBoard = (board) => ({
@@ -24,10 +29,11 @@ createBoard.failure = (localId, error) => ({
   },
 });
 
-const handleBoardCreate = (board) => ({
+const handleBoardCreate = (board, boardMemberships) => ({
   type: ActionTypes.BOARD_CREATE_HANDLE,
   payload: {
     board,
+    boardMemberships,
   },
 });
 
@@ -48,8 +54,12 @@ fetchBoard.success = (
   cards,
   cardMemberships,
   cardLabels,
+  taskLists,
   tasks,
   attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
 ) => ({
   type: ActionTypes.BOARD_FETCH__SUCCESS,
   payload: {
@@ -62,8 +72,12 @@ fetchBoard.success = (
     cards,
     cardMemberships,
     cardLabels,
+    taskLists,
     tasks,
     attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
   },
 });
 
@@ -105,6 +119,23 @@ const handleBoardUpdate = (board) => ({
   },
 });
 
+const updateBoardContext = (id, value) => ({
+  type: ActionTypes.BOARD_CONTEXT_UPDATE,
+  payload: {
+    id,
+    value,
+  },
+});
+
+const searchInBoard = (id, value, currentListId) => ({
+  type: ActionTypes.IN_BOARD_SEARCH,
+  payload: {
+    id,
+    value,
+    currentListId,
+  },
+});
+
 const deleteBoard = (id) => ({
   type: ActionTypes.BOARD_DELETE,
   payload: {
@@ -140,6 +171,8 @@ export default {
   fetchBoard,
   updateBoard,
   handleBoardUpdate,
+  updateBoardContext,
+  searchInBoard,
   deleteBoard,
   handleBoardDelete,
 };

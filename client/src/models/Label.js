@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { attr, fk } from 'redux-orm';
 
 import BaseModel from './BaseModel';
@@ -22,6 +27,8 @@ export default class extends BaseModel {
     switch (type) {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
       case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.USER_UPDATE_HANDLE:
+      case ActionTypes.PROJECT_UPDATE_HANDLE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
         if (payload.labels) {
@@ -48,6 +55,7 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.LABEL_CREATE:
+      case ActionTypes.LABEL_FROM_CARD_CREATE:
       case ActionTypes.LABEL_CREATE_HANDLE:
       case ActionTypes.LABEL_UPDATE__SUCCESS:
       case ActionTypes.LABEL_UPDATE_HANDLE:
@@ -55,8 +63,14 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.LABEL_CREATE__SUCCESS:
+      case ActionTypes.LABEL_FROM_CARD_CREATE__SUCCESS:
         Label.withId(payload.localId).delete();
         Label.upsert(payload.label);
+
+        break;
+      case ActionTypes.LABEL_CREATE__FAILURE:
+      case ActionTypes.LABEL_FROM_CARD_CREATE__FAILURE:
+        Label.withId(payload.localId).delete();
 
         break;
       case ActionTypes.LABEL_UPDATE:
@@ -64,7 +78,7 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.LABEL_DELETE:
-        Label.withId(payload.id).delete();
+        Label.withId(payload.id).deleteWithRelated();
 
         break;
       case ActionTypes.LABEL_DELETE__SUCCESS:
@@ -72,7 +86,7 @@ export default class extends BaseModel {
         const labelModel = Label.withId(payload.label.id);
 
         if (labelModel) {
-          labelModel.delete();
+          labelModel.deleteWithRelated();
         }
 
         break;
@@ -81,15 +95,24 @@ export default class extends BaseModel {
     }
   }
 
-  static findLabelsFromText(filterText, labels) {
-    const selectLabel = filterText.toLocaleLowerCase();
-    const matchingLabels = labels.filter((label) =>
-      label.name ? label.name.toLocaleLowerCase().startsWith(selectLabel) : false,
-    );
-    if (matchingLabels.length === 1) {
-      // Appens the user to the filter
-      return matchingLabels[0].id;
+  deleteRelated() {
+    this.board.cards.toModelArray().forEach((cardModel) => {
+      try {
+        cardModel.labels.remove(this.id);
+      } catch {
+        /* empty */
+      }
+    });
+
+    try {
+      this.board.filterLabels.remove(this.id);
+    } catch {
+      /* empty */
     }
-    return null;
+  }
+
+  deleteWithRelated() {
+    this.deleteRelated();
+    this.delete();
   }
 }

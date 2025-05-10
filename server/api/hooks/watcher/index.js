@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 /**
  * watcher hook
  *
@@ -8,7 +13,7 @@
 
 module.exports = function defineWatcherHook(sails) {
   const checkSocketConnectionsToLogout = () => {
-    Object.keys(sails.io.sockets.adapter.rooms).forEach((room) => {
+    [...sails.io.sockets.adapter.rooms.keys()].forEach((room) => {
       if (!room.startsWith('@accessToken:')) {
         return;
       }

@@ -1,77 +1,96 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
-  if (!_.isPlainObject(value.card)) {
-    return false;
-  }
+const escapeMarkdown = require('escape-markdown');
+const escapeHtml = require('escape-html');
 
-  if (!_.isPlainObject(value.user)) {
-    return false;
-  }
-
-  return true;
-};
-
-const truncateString = (string, maxLength = 30) =>
-  string.length > maxLength ? `${string.substring(0, 30)}...` : string;
-
-const buildAndSendMarkdownMessage = async (card, action, actorUser, send) => {
-  const cardLink = `<${sails.config.custom.baseUrl}/cards/${card.id}|${card.name}>`;
-
-  let markdown;
+const buildTitle = (action, t) => {
   switch (action.type) {
     case Action.Types.CREATE_CARD:
-      markdown = `${cardLink} was created by ${actorUser.name} in *${action.data.list.name}*`;
-
-      break;
+      return t('Card Created');
     case Action.Types.MOVE_CARD:
-      markdown = `${cardLink} was moved by ${actorUser.name} to *${action.data.toList.name}*`;
-
-      break;
-    case Action.Types.COMMENT_CARD:
-      // TODO: truncate text?
-      markdown = `*${actorUser.name}* commented on ${cardLink}:\n>${action.data.text}`;
-
-      break;
+      return t('Card Moved');
     default:
-      return;
+      return null;
   }
-
-  await send(markdown);
 };
 
-const buildAndSendHtmlMessage = async (card, action, actorUser, send) => {
-  const cardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}">${card.name}</a>`;
+const buildBodyByFormat = (board, card, action, actorUser, t) => {
+  const markdownCardLink = `[${escapeMarkdown(card.name)}](${sails.config.custom.baseUrl}/cards/${card.id})`;
+  const htmlCardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}}">${escapeHtml(card.name)}</a>`;
 
-  let html;
   switch (action.type) {
-    case Action.Types.CREATE_CARD:
-      html = `${cardLink} was created by ${actorUser.name} in <b>${action.data.list.name}</b>`;
+    case Action.Types.CREATE_CARD: {
+      const listName = sails.helpers.lists.makeName(action.data.list);
 
-      break;
-    case Action.Types.MOVE_CARD:
-      html = `${cardLink} was moved by ${actorUser.name} to <b>${action.data.toList.name}</b>`;
+      return {
+        text: t('%s created %s in %s on %s', actorUser.name, card.name, listName, board.name),
+        markdown: t(
+          '%s created %s in %s on %s',
+          escapeMarkdown(actorUser.name),
+          markdownCardLink,
+          `**${escapeMarkdown(listName)}**`,
+          escapeMarkdown(board.name),
+        ),
+        html: t(
+          '%s created %s in %s on %s',
+          escapeHtml(actorUser.name),
+          htmlCardLink,
+          `<b>${escapeHtml(listName)}</b>`,
+          escapeHtml(board.name),
+        ),
+      };
+    }
+    case Action.Types.MOVE_CARD: {
+      const fromListName = sails.helpers.lists.makeName(action.data.fromList);
+      const toListName = sails.helpers.lists.makeName(action.data.toList);
 
-      break;
-    case Action.Types.COMMENT_CARD: {
-      html = `<b>${actorUser.name}</b> commented on ${cardLink}:\n<i>${truncateString(action.data.text)}</i>`;
-
-      break;
+      return {
+        text: t(
+          '%s moved %s from %s to %s on %s',
+          actorUser.name,
+          card.name,
+          fromListName,
+          toListName,
+          board.name,
+        ),
+        markdown: t(
+          '%s moved %s from %s to %s on %s',
+          escapeMarkdown(actorUser.name),
+          markdownCardLink,
+          `**${escapeMarkdown(fromListName)}**`,
+          `**${escapeMarkdown(toListName)}**`,
+          escapeMarkdown(board.name),
+        ),
+        html: t(
+          '%s moved %s from %s to %s on %s',
+          escapeHtml(actorUser.name),
+          htmlCardLink,
+          `<b>${escapeHtml(fromListName)}</b>`,
+          `<b>${escapeHtml(toListName)}</b>`,
+          escapeHtml(board.name),
+        ),
+      };
     }
     default:
-      return;
+      return null;
   }
+};
 
-  await send(html);
+const buildAndSendNotifications = async (services, board, card, action, actorUser, t) => {
+  await sails.helpers.utils.sendNotifications(
+    services,
+    buildTitle(action, t),
+    buildBodyByFormat(board, card, action, actorUser, t),
+  );
 };
 
 module.exports = {
   inputs: {
     values: {
       type: 'ref',
-      custom: valuesValidator,
       required: true,
     },
     project: {
@@ -94,14 +113,14 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const action = await Action.create({
+    const action = await Action.qm.createOne({
       ...values,
       cardId: values.card.id,
       userId: values.user.id,
-    }).fetch();
+    });
 
     sails.sockets.broadcast(
-      `board:${values.card.boardId}`,
+      `board:${inputs.board.id}`,
       'actionCreate',
       {
         item: action,
@@ -111,7 +130,7 @@ module.exports = {
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'actionCreate',
-      data: {
+      buildData: () => ({
         item: action,
         included: {
           projects: [inputs.project],
@@ -119,55 +138,59 @@ module.exports = {
           lists: [inputs.list],
           cards: [values.card],
         },
-      },
+      }),
       user: values.user,
     });
 
-    const subscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(
-      action.cardId,
-      action.userId,
-    );
+    if (action.type !== Action.Types.CREATE_CARD) {
+      const cardSubscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(
+        action.cardId,
+        action.userId,
+      );
 
-    await Promise.all(
-      subscriptionUserIds.map(async (userId) =>
-        sails.helpers.notifications.createOne.with({
-          values: {
-            userId,
-            action,
-          },
-          project: inputs.project,
-          board: inputs.board,
-          list: inputs.list,
-          card: values.card,
-          actorUser: values.user,
-        }),
-      ),
-    );
+      const boardSubscriptionUserIds = await sails.helpers.boards.getSubscriptionUserIds(
+        inputs.board.id,
+        action.userId,
+      );
 
-    if (sails.config.custom.slackBotToken) {
-      buildAndSendMarkdownMessage(
-        values.card,
-        action,
-        values.user,
-        sails.helpers.utils.sendSlackMessage,
+      const notifiableUserIds = _.union(cardSubscriptionUserIds, boardSubscriptionUserIds);
+
+      await Promise.all(
+        notifiableUserIds.map((userId) =>
+          sails.helpers.notifications.createOne.with({
+            values: {
+              userId,
+              action,
+              type: action.type,
+              data: {
+                ...action.data,
+                card: _.pick(values.card, ['name']),
+              },
+              creatorUser: values.user,
+              card: values.card,
+            },
+            project: inputs.project,
+            board: inputs.board,
+            list: inputs.list,
+          }),
+        ),
       );
     }
 
-    if (sails.config.custom.googleChatWebhookUrl) {
-      buildAndSendMarkdownMessage(
-        values.card,
-        action,
-        values.user,
-        sails.helpers.utils.sendGoogleChatMessage,
-      );
-    }
+    const notificationServices = await NotificationService.qm.getByBoardId(inputs.board.id);
 
-    if (sails.config.custom.telegramBotToken) {
-      buildAndSendHtmlMessage(
+    if (notificationServices.length > 0) {
+      const services = notificationServices.map((notificationService) =>
+        _.pick(notificationService, ['url', 'format']),
+      );
+
+      buildAndSendNotifications(
+        services,
+        inputs.board,
         values.card,
         action,
         values.user,
-        sails.helpers.utils.sendTelegramMessage,
+        sails.helpers.utils.makeTranslator(),
       );
     }
 

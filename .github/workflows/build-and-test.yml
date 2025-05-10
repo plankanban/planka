@@ -1,4 +1,4 @@
-name: Build and test
+name: Build and Test
 
 on:
   pull_request:
@@ -9,23 +9,25 @@ on:
       - master
 
 jobs:
-  setup:
+  build-and-test:
     runs-on: ubuntu-latest
+
     env:
-      POSTGRES_DB: planka_db
+      POSTGRES_DB: planka
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
 
-      - name: Setup Node.js
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '18'
           cache: 'npm'
 
-      - name: Setup PostgreSQL
+      - name: Set up PostgreSQL
         uses: ikalnytskyi/action-setup-postgres@v5
         with:
           database: ${{ env.POSTGRES_DB }}
@@ -40,13 +42,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Install dependencies
+      - name: Install dependencies and build client
         run: |
           npm install
           cd client
           npm run build
 
-      - name: Setup server
+      - name: Set up and start server for testing
         env:
           DEFAULT_ADMIN_EMAIL: demo@demo.demo
           DEFAULT_ADMIN_PASSWORD: demo
@@ -60,14 +62,13 @@ jobs:
           npm run db:init
           npm start --prod &
 
-      - name: Wait for development server
+      - name: Wait for server to start
         run: |
           sudo apt-get install wait-for-it -y
           wait-for-it -h localhost -p 1337 -t 10
 
       - name: Run UI tests
         run: |
-          cd client
-          npm install
           npx playwright install chromium
-          npm run test:acceptance tests
+          npm run test:acceptance
+        working-directory: ./client

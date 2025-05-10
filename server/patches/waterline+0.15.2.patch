@@ -1,0 +1,22 @@
+diff --git a/node_modules/waterline/lib/waterline/utils/query/forge-adapter-error.js b/node_modules/waterline/lib/waterline/utils/query/forge-adapter-error.js
+index 3d4a77f..07d09ad 100644
+--- a/node_modules/waterline/lib/waterline/utils/query/forge-adapter-error.js
++++ b/node_modules/waterline/lib/waterline/utils/query/forge-adapter-error.js
+@@ -223,7 +223,7 @@ module.exports = function forgeAdapterError(err, omen, adapterMethodName, modelI
+ 
+ 
+           // If there were any unmatched keys, log a warning and silently ignore them.
+-          if (unmatchedKeys.length > 0) {
++          /* if (unmatchedKeys.length > 0) {
+             console.warn('\n'+
+               'Warning: Adapter sent back a uniqueness error, but that error references key(s) ('+unmatchedKeys+') which cannot\n'+
+               'be matched up with the column names of any attributes in this model (`'+modelIdentity+'`).  This probably\n'+
+@@ -232,7 +232,7 @@ module.exports = function forgeAdapterError(err, omen, adapterMethodName, modelI
+               'in uniqueness errors, then just use an empty array for the `keys` property of this error.)\n'+
+               '(Proceeding anyway as if these keys weren\'t included...)\n'
+             );
+-          }//>-
++          } */ //>-
+ 
+ 
+           // Build the customizations for our uniqueness error.

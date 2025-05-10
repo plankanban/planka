@@ -1,14 +1,7 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
@@ -18,7 +11,6 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: valuesValidator,
       required: true,
     },
     project: {
@@ -35,52 +27,72 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { values } = inputs;
+    const { isSubscribed, ...values } = inputs.values;
 
-    const projectManagerUserIds = await sails.helpers.projects.getManagerUserIds(
-      inputs.record.projectId,
-    );
-
-    const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(inputs.record.id);
-    const boardRelatedUserIds = _.union(projectManagerUserIds, boardMemberUserIds);
-
-    if (!_.isUndefined(values.position)) {
-      const boards = await sails.helpers.projects.getBoards(
-        inputs.record.projectId,
-        inputs.record.id,
-      );
-
-      const { position, repositions } = sails.helpers.utils.insertToPositionables(
-        values.position,
-        boards,
-      );
-
-      values.position = position;
-
-      repositions.forEach(async ({ id, position: nextPosition }) => {
-        await Board.update({
-          id,
-          projectId: inputs.record.projectId,
-        }).set({
-          position: nextPosition,
-        });
-
-        boardRelatedUserIds.forEach((userId) => {
-          sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
-            item: {
-              id,
-              position: nextPosition,
-            },
-          });
-
-          // TODO: send webhooks
-        });
+    let board;
+    if (_.isEmpty(values)) {
+      board = inputs.record;
+    } else {
+      const scoper = sails.helpers.projects.makeScoper.with({
+        record: inputs.project,
       });
-    }
 
-    const board = await Board.updateOne(inputs.record.id).set({ ...values });
+      if (!_.isUndefined(values.position)) {
+        const boards = await Board.qm.getByProjectId(inputs.record.projectId, {
+          exceptIdOrIds: inputs.record.id,
+        });
 
-    if (board) {
+        const { position, repositions } = sails.helpers.utils.insertToPositionables(
+          values.position,
+          boards,
+        );
+
+        values.position = position;
+
+        if (repositions.length > 0) {
+          await scoper.getUserIdsWithFullProjectVisibility();
+          const clonedScoper = scoper.clone();
+
+          // eslint-disable-next-line no-restricted-syntax
+          for (const reposition of repositions) {
+            // eslint-disable-next-line no-await-in-loop
+            await Board.qm.updateOne(
+              {
+                id: reposition.record.id,
+                projectId: reposition.record.projectId,
+              },
+              {
+                position: reposition.position,
+              },
+            );
+
+            clonedScoper.replaceBoard(reposition.record);
+            // eslint-disable-next-line no-await-in-loop
+            const boardRelatedUserIds = await clonedScoper.getBoardRelatedUserIds();
+
+            boardRelatedUserIds.forEach((userId) => {
+              sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
+                item: {
+                  id: reposition.record.id,
+                  position: reposition.position,
+                },
+              });
+            });
+
+            // TODO: send webhooks
+          }
+        }
+      }
+
+      board = await Board.qm.updateOne(inputs.record.id, values);
+
+      if (!board) {
+        return board;
+      }
+
+      scoper.board = board;
+      const boardRelatedUserIds = await scoper.getBoardRelatedUserIds();
+
       boardRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,
@@ -94,17 +106,58 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'boardUpdate',
-        data: {
+        buildData: () => ({
           item: board,
           included: {
             projects: [inputs.project],
           },
-        },
-        prevData: {
+        }),
+        buildPrevData: () => ({
           item: inputs.record,
-        },
+        }),
         user: inputs.actorUser,
       });
+    }
+
+    if (!_.isUndefined(isSubscribed)) {
+      const wasSubscribed = await sails.helpers.users.isBoardSubscriber(
+        inputs.actorUser.id,
+        board.id,
+      );
+
+      if (isSubscribed !== wasSubscribed) {
+        if (isSubscribed) {
+          try {
+            await BoardSubscription.qm.createOne({
+              boardId: board.id,
+              userId: inputs.actorUser.id,
+            });
+          } catch (error) {
+            if (error.code !== 'E_UNIQUE') {
+              throw error;
+            }
+          }
+        } else {
+          await BoardSubscription.qm.deleteOne({
+            boardId: board.id,
+            userId: inputs.actorUser.id,
+          });
+        }
+
+        sails.sockets.broadcast(
+          `user:${inputs.actorUser.id}`,
+          'boardUpdate',
+          {
+            item: {
+              isSubscribed,
+              id: board.id,
+            },
+          },
+          inputs.request,
+        );
+
+        // TODO: send webhooks
+      }
     }
 
     return board;

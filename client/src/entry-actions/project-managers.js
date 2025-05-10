@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const createManagerInCurrentProject = (data) => ({
@@ -7,10 +12,11 @@ const createManagerInCurrentProject = (data) => ({
   },
 });
 
-const handleProjectManagerCreate = (projectManager) => ({
+const handleProjectManagerCreate = (projectManager, users) => ({
   type: EntryActionTypes.PROJECT_MANAGER_CREATE_HANDLE,
   payload: {
     projectManager,
+    users,
   },
 });
 

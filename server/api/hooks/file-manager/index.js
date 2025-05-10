@@ -1,5 +1,7 @@
-const LocalFileManager = require('./LocalFileManager');
-const S3FileManager = require('./S3FileManager');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 /**
  * file-manager hook
@@ -9,11 +11,14 @@ const S3FileManager = require('./S3FileManager');
  * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
  */
 
+const LocalFileManager = require('./LocalFileManager');
+const S3FileManager = require('./S3FileManager');
+
 module.exports = function defineFileManagerHook(sails) {
   let instance = null;
 
   const createInstance = () => {
-    instance = sails.hooks.s3.isActive()
+    instance = sails.hooks.s3.isEnabled()
       ? new S3FileManager(sails.hooks.s3.getClient())
       : new LocalFileManager();
   };

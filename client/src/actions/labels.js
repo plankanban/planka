@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
 const createLabel = (label) => ({
@@ -18,6 +23,32 @@ createLabel.success = (localId, label) => ({
 createLabel.failure = (localId, error) => ({
   type: ActionTypes.LABEL_CREATE__FAILURE,
   payload: {
+    localId,
+    error,
+  },
+});
+
+const createLabelFromCard = (cardId, label) => ({
+  type: ActionTypes.LABEL_FROM_CARD_CREATE,
+  payload: {
+    cardId,
+    label,
+  },
+});
+
+createLabelFromCard.success = (localId, label, cardLabel) => ({
+  type: ActionTypes.LABEL_FROM_CARD_CREATE__SUCCESS,
+  payload: {
+    localId,
+    label,
+    cardLabel,
+  },
+});
+
+createLabelFromCard.failure = (cardId, localId, error) => ({
+  type: ActionTypes.LABEL_FROM_CARD_CREATE__FAILURE,
+  payload: {
+    cardId,
     localId,
     error,
   },
@@ -151,24 +182,27 @@ const handleLabelFromCardRemove = (cardLabel) => ({
   },
 });
 
-const addLabelToBoardFilter = (id, boardId) => ({
+const addLabelToBoardFilter = (id, boardId, currentListId) => ({
   type: ActionTypes.LABEL_TO_BOARD_FILTER_ADD,
   payload: {
     id,
     boardId,
+    currentListId,
   },
 });
 
-const removeLabelFromBoardFilter = (id, boardId) => ({
+const removeLabelFromBoardFilter = (id, boardId, currentListId) => ({
   type: ActionTypes.LABEL_FROM_BOARD_FILTER_REMOVE,
   payload: {
     id,
     boardId,
+    currentListId,
   },
 });
 
 export default {
   createLabel,
+  createLabelFromCard,
   handleLabelCreate,
   updateLabel,
   handleLabelUpdate,

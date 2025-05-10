@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   CARD_NOT_FOUND: {
     cardNotFound: 'Card not found',
@@ -7,8 +14,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -23,36 +29,57 @@ module.exports = {
     const { currentUser } = this.req;
 
     const { card, project } = await sails.helpers.cards
-      .getProjectPath(inputs.id)
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, card.boardId);
-
-    if (!isBoardMember) {
+    if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
       const isProjectManager = await sails.helpers.users.isProjectManager(
         currentUser.id,
         project.id,
       );
 
       if (!isProjectManager) {
-        throw Errors.CARD_NOT_FOUND; // Forbidden
+        const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+          card.boardId,
+          currentUser.id,
+        );
+
+        if (!boardMembership) {
+          throw Errors.CARD_NOT_FOUND; // Forbidden
+        }
       }
     }
 
     card.isSubscribed = await sails.helpers.users.isCardSubscriber(currentUser.id, card.id);
 
-    const cardMemberships = await sails.helpers.cards.getCardMemberships(card.id);
-    const cardLabels = await sails.helpers.cards.getCardLabels(card.id);
-    const tasks = await sails.helpers.cards.getTasks(card.id);
-    const attachments = await sails.helpers.cards.getAttachments(card.id);
+    const users = card.creatorUserId ? await User.qm.getByIds([card.creatorUserId]) : [];
+    const cardMemberships = await CardMembership.qm.getByCardId(card.id);
+    const cardLabels = await CardLabel.qm.getByCardId(card.id);
+
+    const taskLists = await TaskList.qm.getByCardId(card.id);
+    const taskListIds = sails.helpers.utils.mapRecords(taskLists);
+
+    const tasks = await Task.qm.getByTaskListIds(taskListIds);
+    const attachments = await Attachment.qm.getByCardId(card.id);
+
+    const customFieldGroups = await CustomFieldGroup.qm.getByCardId(card.id);
+    const customFieldGroupIds = sails.helpers.utils.mapRecords(customFieldGroups);
+
+    const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
+    const customFieldValues = await CustomFieldValue.qm.getByCardId(card.id);
 
     return {
       item: card,
       included: {
         cardMemberships,
         cardLabels,
+        taskLists,
         tasks,
-        attachments,
+        customFieldGroups,
+        customFields,
+        customFieldValues,
+        users: sails.helpers.users.presentMany(users, currentUser),
+        attachments: sails.helpers.attachments.presentMany(attachments),
       },
     };
   },

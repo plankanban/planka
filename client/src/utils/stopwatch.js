@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const getFullSeconds = ({ startedAt, total }) => {
   if (startedAt) {
     return Math.floor((new Date() - startedAt) / 1000) + total;
@@ -42,6 +47,5 @@ export const getStopwatchParts = (stopwatch) => {
 
 export const formatStopwatch = (stopwatch) => {
   const { hours, minutes, seconds } = getStopwatchParts(stopwatch);
-
   return [hours, ...[minutes, seconds].map((part) => (part < 10 ? `0${part}` : part))].join(':');
 };

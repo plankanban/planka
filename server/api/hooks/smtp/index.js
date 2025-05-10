@@ -1,4 +1,7 @@
-const nodemailer = require('nodemailer');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 /**
  * smtp hook
@@ -7,6 +10,8 @@ const nodemailer = require('nodemailer');
  *                 and/or initialization logic.
  * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
  */
+
+const nodemailer = require('nodemailer');
 
 module.exports = function defineSmtpHook(sails) {
   let transporter = null;
@@ -17,7 +22,7 @@ module.exports = function defineSmtpHook(sails) {
      */
 
     async initialize() {
-      if (!sails.config.custom.smtpHost) {
+      if (!this.isEnabled()) {
         return;
       }
 
@@ -43,8 +48,8 @@ module.exports = function defineSmtpHook(sails) {
       return transporter;
     },
 
-    isActive() {
-      return transporter !== null;
+    isEnabled() {
+      return !!sails.config.custom.smtpHost;
     },
   };
 };

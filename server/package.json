@@ -4,22 +4,37 @@
   "main": "app.js",
   "scripts": {
     "console": "dotenv sails console",
+    "db:create-admin-user": "node db/create-admin-user.js",
     "db:init": "node db/init.js",
     "db:migrate": "knex migrate:latest --cwd db",
     "db:seed": "knex seed:run --cwd db",
+    "db:upgrade": "node db/upgrade.js",
+    "postinstall": "patch-package && npm run setup-python",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
+    "setup-python": "python3 -m venv .venv && .venv/bin/pip3 install -r requirements.txt",
     "start": "nodemon",
-    "start:prod": "node app.js --prod",
+    "start:prod": "cross-env NODE_ENV=production node app.js --prod",
     "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
   },
   "eslintConfig": {
+    "plugins": [
+      "prettier"
+    ],
     "extends": [
       "airbnb-base",
-      "../package.json"
+      "plugin:prettier/recommended"
     ],
     "rules": {
       "no-throw-literal": "off",
-      "no-undef": "off"
+      "no-undef": "off",
+      "prettier/prettier": [
+        "error",
+        {
+          "printWidth": 100,
+          "singleQuote": true,
+          "trailingComma": "all"
+        }
+      ]
     },
     "globals": {
       "_": true,
@@ -27,27 +42,34 @@
     }
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.698.0",
+    "@aws-sdk/client-s3": "3.726.1",
     "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.5.0",
     "dotenv-cli": "^7.4.4",
-    "fs-extra": "^11.2.0",
+    "escape-html": "^1.0.3",
+    "escape-markdown": "^1.0.4",
+    "fs-extra": "^11.3.0",
+    "ico-to-png": "^0.2.2",
+    "istextorbinary": "^9.5.0",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",
     "lodash": "^4.17.21",
+    "mime": "^3.0.0",
     "moment": "^2.30.1",
-    "nodemailer": "^6.9.16",
+    "nodemailer": "^6.10.1",
     "openid-client": "^5.7.1",
+    "patch-package": "^8.0.0",
+    "read": "^4.1.0",
     "rimraf": "^5.0.10",
     "sails": "^1.5.14",
     "sails-hook-orm": "^4.0.3",
     "sails-hook-sockets": "^3.0.2",
     "sails-postgresql": "^5.0.1",
-    "serve-static": "^1.13.1",
+    "serve-static": "^1.16.2",
     "sharp": "^0.33.5",
-    "stream-to-array": "^2.3.0",
     "uuid": "^9.0.1",
-    "validator": "^13.12.0",
+    "validator": "^13.15.0",
     "winston": "^3.17.0",
     "zxcvbn": "^4.4.2"
   },
@@ -55,9 +77,13 @@
     "chai": "^4.5.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.4.0",
     "mocha": "^10.8.2",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.10",
+    "prettier": "3.3.3",
+    "supertest": "^7.1.0"
   },
   "engines": {
     "node": ">=18"

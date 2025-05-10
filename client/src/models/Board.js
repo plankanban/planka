@@ -1,11 +1,23 @@
-import orderBy from 'lodash/orderBy';
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { attr, fk, many } from 'redux-orm';
 
 import BaseModel from './BaseModel';
+import buildSearchParts from '../utils/build-search-parts';
+import { isListFinite } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
+import { BoardContexts, BoardViews } from '../constants/Enums';
 
-import User from './User';
-import Label from './Label';
+const prepareFetchedBoard = (board) => ({
+  ...board,
+  isFetching: false,
+  context: BoardContexts.BOARD,
+  view: board.defaultView,
+  search: '',
+});
 
 export default class extends BaseModel {
   static modelName = 'Board';
@@ -14,6 +26,16 @@ export default class extends BaseModel {
     id: attr(),
     position: attr(),
     name: attr(),
+    defaultView: attr(),
+    defaultCardType: attr(),
+    limitCardTypesToDefaultOne: attr(),
+    alwaysDisplayCardCreator: attr(),
+    context: attr(),
+    view: attr(),
+    search: attr(),
+    isSubscribed: attr({
+      getDefault: () => false,
+    }),
     isFetching: attr({
       getDefault: () => null,
     }),
@@ -29,19 +51,13 @@ export default class extends BaseModel {
     }),
     filterUsers: many('User', 'filterBoards'),
     filterLabels: many('Label', 'filterBoards'),
-    filterText: attr({
-      getDefault: () => '',
-    }),
   };
 
   static reducer({ type, payload }, Board) {
     switch (type) {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
         if (payload.board) {
-          Board.upsert({
-            ...payload.board,
-            isFetching: false,
-          });
+          Board.upsert(prepareFetchedBoard(payload.board));
         }
 
         break;
@@ -52,14 +68,25 @@ export default class extends BaseModel {
         });
 
         break;
-      case ActionTypes.SOCKET_RECONNECT_HANDLE:
-        Board.all().delete();
+      case ActionTypes.SOCKET_RECONNECT_HANDLE: {
+        const boardIds = payload.boards.map(({ id }) => id);
+
+        Board.all()
+          .toModelArray()
+          .forEach((boardModel) => {
+            if (boardModel.isFetching === null || !boardIds.includes(boardModel.id)) {
+              boardModel.deleteWithClearable();
+            }
+          });
 
         if (payload.board) {
-          Board.upsert({
-            ...payload.board,
-            isFetching: false,
-          });
+          const boardModel = Board.withId(payload.board.id);
+
+          if (boardModel) {
+            boardModel.update(payload.board);
+          } else {
+            Board.upsert(prepareFetchedBoard(payload.board));
+          }
         }
 
         payload.boards.forEach((board) => {
@@ -67,6 +94,7 @@ export default class extends BaseModel {
         });
 
         break;
+      }
       case ActionTypes.SOCKET_RECONNECT_HANDLE__CORE_FETCH:
         Board.all()
           .toModelArray()
@@ -83,10 +111,7 @@ export default class extends BaseModel {
         break;
       case ActionTypes.CORE_INITIALIZE:
         if (payload.board) {
-          Board.upsert({
-            ...payload.board,
-            isFetching: false,
-          });
+          Board.upsert(prepareFetchedBoard(payload.board));
         }
 
         payload.boards.forEach((board) => {
@@ -94,10 +119,37 @@ export default class extends BaseModel {
         });
 
         break;
-      case ActionTypes.USER_TO_BOARD_FILTER_ADD:
-        Board.withId(payload.boardId).filterUsers.add(payload.id);
+      case ActionTypes.USER_UPDATE_HANDLE:
+        Board.all()
+          .toModelArray()
+          .forEach((boardModel) => {
+            if (!payload.boardIds.includes(boardModel.id)) {
+              boardModel.deleteWithRelated();
+            }
+          });
+
+        if (payload.board) {
+          Board.upsert(prepareFetchedBoard(payload.board));
+        }
+
+        if (payload.boards) {
+          payload.boards.forEach((board) => {
+            Board.upsert(board);
+          });
+        }
 
         break;
+      case ActionTypes.USER_TO_BOARD_FILTER_ADD: {
+        const boardModel = Board.withId(payload.boardId);
+
+        if (payload.replace) {
+          boardModel.filterUsers.clear();
+        }
+
+        boardModel.filterUsers.add(payload.id);
+
+        break;
+      }
       case ActionTypes.USER_FROM_BOARD_FILTER_REMOVE:
         Board.withId(payload.boardId).filterUsers.remove(payload.id);
 
@@ -108,17 +160,16 @@ export default class extends BaseModel {
         });
 
         break;
+      case ActionTypes.PROJECT_UPDATE_HANDLE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+        if (payload.board) {
+          Board.upsert(prepareFetchedBoard(payload.board));
+        }
+
         if (payload.boards) {
           payload.boards.forEach((board) => {
-            Board.upsert({
-              ...board,
-              ...(payload.board &&
-                payload.board.id === board.id && {
-                  isFetching: false,
-                }),
-            });
+            Board.upsert(board);
           });
         }
 
@@ -135,11 +186,12 @@ export default class extends BaseModel {
         Board.upsert(payload.board);
 
         break;
+      case ActionTypes.BOARD_CREATE__FAILURE:
+        Board.withId(payload.localId).delete();
+
+        break;
       case ActionTypes.BOARD_FETCH__SUCCESS:
-        Board.upsert({
-          ...payload.board,
-          isFetching: false,
-        });
+        Board.upsert(prepareFetchedBoard(payload.board));
 
         break;
       case ActionTypes.BOARD_FETCH__FAILURE:
@@ -150,6 +202,22 @@ export default class extends BaseModel {
         break;
       case ActionTypes.BOARD_UPDATE:
         Board.withId(payload.id).update(payload.data);
+
+        break;
+      case ActionTypes.BOARD_CONTEXT_UPDATE: {
+        const boardModel = Board.withId(payload.id);
+
+        boardModel.update({
+          context: payload.value,
+          view: payload.value === BoardContexts.BOARD ? boardModel.defaultView : BoardViews.LIST,
+        });
+
+        break;
+      }
+      case ActionTypes.IN_BOARD_SEARCH:
+        Board.withId(payload.id).update({
+          search: payload.value,
+        });
 
         break;
       case ActionTypes.BOARD_DELETE:
@@ -174,66 +242,41 @@ export default class extends BaseModel {
         Board.withId(payload.boardId).filterLabels.remove(payload.id);
 
         break;
-      case ActionTypes.TEXT_FILTER_IN_CURRENT_BOARD: {
-        const board = Board.withId(payload.boardId);
-        let filterText = payload.text;
-        const posSpace = filterText.indexOf(' ');
-
-        // Shortcut to user filters
-        const posAT = filterText.indexOf('@');
-        if (posAT >= 0 && posSpace > 0 && posAT < posSpace) {
-          const userId = User.findUsersFromText(
-            filterText.substring(posAT + 1, posSpace),
-            board.memberships.toModelArray().map((membership) => membership.user),
-          );
-          if (
-            userId &&
-            board.filterUsers.toModelArray().filter((user) => user.id === userId).length === 0
-          ) {
-            board.filterUsers.add(userId);
-            filterText = filterText.substring(0, posAT);
-          }
-        }
-
-        // Shortcut to label filters
-        const posSharp = filterText.indexOf('#');
-        if (posSharp >= 0 && posSpace > 0 && posSharp < posSpace) {
-          const labelId = Label.findLabelsFromText(
-            filterText.substring(posSharp + 1, posSpace),
-            board.labels.toModelArray(),
-          );
-          if (
-            labelId &&
-            board.filterLabels.toModelArray().filter((label) => label.id === labelId).length === 0
-          ) {
-            board.filterLabels.add(labelId);
-            filterText = filterText.substring(0, posSharp);
-          }
-        }
-
-        board.update({ filterText });
-
-        break;
-      }
       default:
     }
   }
 
-  getOrderedLabelsQuerySet() {
-    return this.labels.orderBy('position');
+  getMembershipsQuerySet() {
+    return this.memberships.orderBy(['id.length', 'id']);
   }
 
-  getOrderedListsQuerySet() {
-    return this.lists.orderBy('position');
+  getLabelsQuerySet() {
+    return this.labels.orderBy(['position', 'id.length', 'id']);
   }
 
-  getOrderedMembershipsModelArray() {
-    return orderBy(this.memberships.toModelArray(), (boardMembershipModel) =>
-      boardMembershipModel.user.name.toLocaleLowerCase(),
-    );
+  getListsQuerySet() {
+    return this.lists.orderBy(['position', 'id.length', 'id']);
   }
 
-  getMembershipModelForUser(userId) {
+  getFiniteListsQuerySet() {
+    return this.getListsQuerySet().filter((list) => isListFinite(list));
+  }
+
+  getCustomFieldGroupsQuerySet() {
+    return this.customFieldGroups.orderBy(['position', 'id.length', 'id']);
+  }
+
+  getUnreadNotificationsQuerySet() {
+    return this.notifications.filter({
+      isRead: false,
+    });
+  }
+
+  getNotificationServicesQuerySet() {
+    return this.notificationServices.orderBy(['id.length', 'id']);
+  }
+
+  getMembershipModelByUserId(userId) {
     return this.memberships
       .filter({
         userId,
@@ -241,7 +284,70 @@ export default class extends BaseModel {
       .first();
   }
 
-  hasMembershipForUser(userId) {
+  getCardsModelArray() {
+    return this.getFiniteListsQuerySet()
+      .toModelArray()
+      .flatMap((listModel) => listModel.getCardsModelArray());
+  }
+
+  getFilteredCardsModelArray() {
+    let cardModels = this.getCardsModelArray();
+
+    if (cardModels.length === 0) {
+      return cardModels;
+    }
+
+    if (this.search) {
+      if (this.search.startsWith('/')) {
+        let searchRegex;
+        try {
+          searchRegex = new RegExp(this.search.substring(1), 'i');
+        } catch {
+          return [];
+        }
+
+        cardModels = cardModels.filter(
+          (cardModel) =>
+            searchRegex.test(cardModel.name) ||
+            (cardModel.description && searchRegex.test(cardModel.description)),
+        );
+      } else {
+        const searchParts = buildSearchParts(this.search);
+
+        cardModels = cardModels.filter((cardModel) => {
+          const name = cardModel.name.toLowerCase();
+          const description = cardModel.description && cardModel.description.toLowerCase();
+
+          return searchParts.every(
+            (searchPart) =>
+              name.includes(searchPart) || (description && description.includes(searchPart)),
+          );
+        });
+      }
+    }
+
+    const filterUserIds = this.filterUsers.toRefArray().map((user) => user.id);
+
+    if (filterUserIds.length > 0) {
+      cardModels = cardModels.filter((cardModel) => {
+        const users = cardModel.users.toRefArray();
+        return users.some((user) => filterUserIds.includes(user.id));
+      });
+    }
+
+    const filterLabelIds = this.filterLabels.toRefArray().map((label) => label.id);
+
+    if (filterLabelIds.length > 0) {
+      cardModels = cardModels.filter((cardModel) => {
+        const labels = cardModel.labels.toRefArray();
+        return labels.some((label) => filterLabelIds.includes(label.id));
+      });
+    }
+
+    return cardModels;
+  }
+
+  hasMembershipWithUserId(userId) {
     return this.memberships
       .filter({
         userId,
@@ -249,24 +355,48 @@ export default class extends BaseModel {
       .exists();
   }
 
-  isAvailableForUser(userId) {
+  isAvailableForUser(userModel) {
+    if (!this.project) {
+      return false;
+    }
+
     return (
-      this.project && (this.project.hasManagerForUser(userId) || this.hasMembershipForUser(userId))
+      this.project.isExternalAccessibleForUser(userModel) ||
+      this.hasMembershipWithUserId(userModel.id)
     );
   }
 
+  deleteListsWithRelated() {
+    this.lists.toModelArray().forEach((listModel) => {
+      listModel.deleteWithRelated();
+    });
+  }
+
+  deleteClearable() {
+    this.filterUsers.clear();
+    this.filterLabels.clear();
+  }
+
   deleteRelated(exceptMemberUserId) {
+    this.deleteClearable();
+
     this.memberships.toModelArray().forEach((boardMembershipModel) => {
       if (boardMembershipModel.userId !== exceptMemberUserId) {
         boardMembershipModel.deleteWithRelated();
       }
     });
 
-    this.labels.delete();
-
-    this.lists.toModelArray().forEach((listModel) => {
-      listModel.deleteWithRelated();
+    this.labels.toModelArray().forEach((labelModel) => {
+      labelModel.deleteWithRelated();
     });
+
+    this.deleteListsWithRelated();
+    this.notificationServices.delete();
+  }
+
+  deleteWithClearable() {
+    this.deleteClearable();
+    this.delete();
   }
 
   deleteWithRelated() {

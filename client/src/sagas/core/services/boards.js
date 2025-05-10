@@ -1,19 +1,27 @@
-import { call, put, select } from 'redux-saga/effects';
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+import { call, fork, put, select, take } from 'redux-saga/effects';
 
 import { goToBoard, goToProject } from './router';
+import { openModal } from './modals';
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
+import ActionTypes from '../../../constants/ActionTypes';
+import ModalTypes from '../../../constants/ModalTypes';
 
 export function* createBoard(projectId, { import: boardImport, ...data }) {
+  const localId = yield call(createLocalId);
+
   const nextData = {
     ...data,
     position: yield select(selectors.selectNextBoardPosition, projectId),
   };
-
-  const localId = yield call(createLocalId);
 
   yield put(
     actions.createBoard({
@@ -22,6 +30,11 @@ export function* createBoard(projectId, { import: boardImport, ...data }) {
       id: localId,
     }),
   );
+
+  // TODO: use race instead
+  const watchForCreateBoardActionTask = yield fork(function* watchForCreateBoardAction() {
+    yield take(ActionTypes.BOARD_CREATE);
+  });
 
   let board;
   let boardMemberships;
@@ -49,7 +62,14 @@ export function* createBoard(projectId, { import: boardImport, ...data }) {
   }
 
   yield put(actions.createBoard.success(localId, board, boardMemberships));
-  yield call(goToBoard, board.id);
+
+  if (watchForCreateBoardActionTask.isRunning()) {
+    yield call(goToBoard, board.id);
+    yield call(openModal, ModalTypes.BOARD_SETTINGS, {
+      id: board.id,
+      openPreferences: true,
+    });
+  }
 }
 
 export function* createBoardInCurrentProject(data) {
@@ -58,11 +78,11 @@ export function* createBoardInCurrentProject(data) {
   yield call(createBoard, projectId, data);
 }
 
-export function* handleBoardCreate(board, requestId) {
+export function* handleBoardCreate(board, boardMemberships, requestId) {
   const isExists = yield select(selectors.selectIsBoardWithIdExists, requestId);
 
   if (!isExists) {
-    yield put(actions.handleBoardCreate(board));
+    yield put(actions.handleBoardCreate(board, boardMemberships));
   }
 }
 
@@ -78,8 +98,12 @@ export function* fetchBoard(id) {
   let cards;
   let cardMemberships;
   let cardLabels;
+  let taskLists;
   let tasks;
   let attachments;
+  let customFieldGroups;
+  let customFields;
+  let customFieldValues;
 
   try {
     ({
@@ -93,8 +117,12 @@ export function* fetchBoard(id) {
         cards,
         cardMemberships,
         cardLabels,
+        taskLists,
         tasks,
         attachments,
+        customFieldGroups,
+        customFields,
+        customFieldValues,
       },
     } = yield call(request, api.getBoard, id, true));
   } catch (error) {
@@ -113,8 +141,12 @@ export function* fetchBoard(id) {
       cards,
       cardMemberships,
       cardLabels,
+      taskLists,
       tasks,
       attachments,
+      customFieldGroups,
+      customFields,
+      customFieldValues,
     ),
   );
 }
@@ -133,6 +165,12 @@ export function* updateBoard(id, data) {
   yield put(actions.updateBoard.success(board));
 }
 
+export function* updateCurrentBoard(data) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(updateBoard, boardId, data);
+}
+
 export function* handleBoardUpdate(board) {
   yield put(actions.handleBoardUpdate(board));
 }
@@ -146,14 +184,45 @@ export function* moveBoard(id, index) {
   });
 }
 
-export function* deleteBoard(id) {
-  const { boardId, projectId } = yield select(selectors.selectPath);
+export function* updateBoardContext(id, value) {
+  yield put(actions.updateBoardContext(id, value));
+}
 
-  if (id === boardId) {
-    yield call(goToProject, projectId);
-  }
+export function* updateContextInCurrentBoard(value) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(updateBoardContext, boardId, value);
+}
+
+export function* updateBoardView(id, value) {
+  yield put(
+    actions.updateBoard(id, {
+      view: value,
+    }),
+  );
+}
+
+export function* updateViewInCurrentBoard(value) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(updateBoardView, boardId, value);
+}
+
+export function* searchInCurrentBoard(value) {
+  const { boardId } = yield select(selectors.selectPath);
+  const currentListId = yield select(selectors.selectCurrentListId);
+
+  yield put(actions.searchInBoard(boardId, value, currentListId));
+}
+
+export function* deleteBoard(id) {
+  const currentBoard = yield select(selectors.selectCurrentBoard);
 
   yield put(actions.deleteBoard(id));
+
+  if (currentBoard && id === currentBoard.id) {
+    yield call(goToProject, currentBoard.projectId);
+  }
 
   let board;
   try {
@@ -167,13 +236,13 @@ export function* deleteBoard(id) {
 }
 
 export function* handleBoardDelete(board) {
-  const { boardId, projectId } = yield select(selectors.selectPath);
-
-  if (board.id === boardId) {
-    yield call(goToProject, projectId);
-  }
+  const { boardId } = yield select(selectors.selectPath);
 
   yield put(actions.handleBoardDelete(board));
+
+  if (board.id === boardId) {
+    yield call(goToProject, board.projectId);
+  }
 }
 
 export default {
@@ -182,8 +251,14 @@ export default {
   handleBoardCreate,
   fetchBoard,
   updateBoard,
+  updateCurrentBoard,
   handleBoardUpdate,
   moveBoard,
+  updateBoardContext,
+  updateContextInCurrentBoard,
+  updateBoardView,
+  updateViewInCurrentBoard,
+  searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,
 };

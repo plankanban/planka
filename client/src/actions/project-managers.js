@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
 const createProjectManager = (projectManager) => ({
@@ -25,10 +30,15 @@ createProjectManager.failure = (localId, error) => ({
 
 const handleProjectManagerCreate = (
   projectManager,
+  boardIds,
+  isCurrentUser,
+  isProjectAvailable,
   project,
   board,
   users,
   projectManagers,
+  backgroundImages,
+  baseCustomFieldGroups,
   boards,
   boardMemberships,
   labels,
@@ -36,17 +46,27 @@ const handleProjectManagerCreate = (
   cards,
   cardMemberships,
   cardLabels,
+  taskLists,
   tasks,
   attachments,
-  deletedNotifications,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+  notificationsToDelete,
+  notificationServices,
 ) => ({
   type: ActionTypes.PROJECT_MANAGER_CREATE_HANDLE,
   payload: {
     projectManager,
+    boardIds,
+    isCurrentUser,
+    isProjectAvailable,
     project,
     board,
     users,
     projectManagers,
+    backgroundImages,
+    baseCustomFieldGroups,
     boards,
     boardMemberships,
     labels,
@@ -54,27 +74,21 @@ const handleProjectManagerCreate = (
     cards,
     cardMemberships,
     cardLabels,
+    taskLists,
     tasks,
     attachments,
-    deletedNotifications,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
+    notificationsToDelete,
+    notificationServices,
   },
 });
 
-handleProjectManagerCreate.fetchProject = (id, currentUserId, currentBoardId) => ({
-  type: ActionTypes.PROJECT_MANAGER_CREATE_HANDLE__PROJECT_FETCH,
-  payload: {
-    id,
-    currentUserId,
-    currentBoardId,
-  },
-});
-
-const deleteProjectManager = (id, isCurrentUser, isCurrentProject) => ({
+const deleteProjectManager = (id) => ({
   type: ActionTypes.PROJECT_MANAGER_DELETE,
   payload: {
     id,
-    isCurrentUser,
-    isCurrentProject,
   },
 });
 
@@ -93,12 +107,10 @@ deleteProjectManager.failure = (id, error) => ({
   },
 });
 
-const handleProjectManagerDelete = (projectManager, isCurrentUser, isCurrentProject) => ({
+const handleProjectManagerDelete = (projectManager) => ({
   type: ActionTypes.PROJECT_MANAGER_DELETE_HANDLE,
   payload: {
     projectManager,
-    isCurrentUser,
-    isCurrentProject,
   },
 });
 

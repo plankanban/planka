@@ -1,24 +1,12 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.card)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.user) && !_.isString(value.userId)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
     values: {
       type: 'ref',
-      custom: valuesValidator,
       required: true,
     },
     project: {
@@ -53,15 +41,22 @@ module.exports = {
       values.userId = values.user.id;
     }
 
-    const cardMembership = await CardMembership.create({
-      ...values,
-      cardId: values.card.id,
-    })
-      .intercept('E_UNIQUE', 'userAlreadyCardMember')
-      .fetch();
+    let cardMembership;
+    try {
+      cardMembership = await CardMembership.qm.createOne({
+        ...values,
+        cardId: values.card.id,
+      });
+    } catch (error) {
+      if (error.code === 'E_UNIQUE') {
+        throw 'userAlreadyCardMember';
+      }
+
+      throw error;
+    }
 
     sails.sockets.broadcast(
-      `board:${values.card.boardId}`,
+      `board:${inputs.board.id}`,
       'cardMembershipCreate',
       {
         item: cardMembership,
@@ -71,7 +66,7 @@ module.exports = {
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'cardMembershipCreate',
-      data: {
+      buildData: () => ({
         item: cardMembership,
         included: {
           projects: [inputs.project],
@@ -79,17 +74,22 @@ module.exports = {
           lists: [inputs.list],
           cards: [values.card],
         },
-      },
+      }),
       user: inputs.actorUser,
     });
 
-    const cardSubscription = await CardSubscription.create({
-      cardId: cardMembership.cardId,
-      userId: cardMembership.userId,
-      isPermanent: false,
-    })
-      .tolerate('E_UNIQUE')
-      .fetch();
+    let cardSubscription;
+    try {
+      cardSubscription = await CardSubscription.qm.createOne({
+        cardId: cardMembership.cardId,
+        userId: cardMembership.userId,
+        isPermanent: false,
+      });
+    } catch (error) {
+      if (error.code !== 'E_UNIQUE') {
+        throw error;
+      }
+    }
 
     if (cardSubscription) {
       sails.sockets.broadcast(

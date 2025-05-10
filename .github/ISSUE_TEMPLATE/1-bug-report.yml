@@ -1,5 +1,5 @@
 name: "🐛 Bug Report"
-description: Report a bug found while using Planka
+description: Report a bug found while using PLANKA
 title: "[Bug]: "
 labels: ["Type: Bug", "Status: Triage"]
 body:
@@ -27,7 +27,7 @@ body:
   - type: textarea
     id: current-behavior
     attributes:
-      label: Current behaviour
+      label: Current behavior
       description: A description of what is currently happening, including screenshots and other useful information (**DO NOT INCLUDE PRIVATE INFORMATION**).
       placeholder: Currently...
     validations:
@@ -35,7 +35,7 @@ body:
   - type: textarea
     id: desired-behavior
     attributes:
-      label: Desired behaviour
+      label: Desired behavior
       description: A clear description of what you think should happen.
       placeholder: In this situation, I expected ...
   - type: textarea
@@ -43,7 +43,7 @@ body:
     attributes:
       label: Steps to reproduce
       description: Clearly describe which steps or actions you have taken to arrive at the problem. If you have some experience with the code, please link to the specific pieces of code.
-      placeholder: I did X, then Y, before arriving at Z, when ERROR ...
+      placeholder: I did X, then Y, before arriving at Z, when ERROR...
     validations:
       required: true
   - type: textarea

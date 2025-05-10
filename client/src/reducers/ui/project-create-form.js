@@ -1,8 +1,16 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../../constants/ActionTypes';
+import { ProjectTypes } from '../../constants/Enums';
 
 const initialState = {
   data: {
     name: '',
+    description: '',
+    type: ProjectTypes.PRIVATE,
   },
   isSubmitting: false,
 };

@@ -1,5 +1,7 @@
-const { URL } = require('url');
-const { S3Client } = require('@aws-sdk/client-s3');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 /**
  * s3 hook
@@ -8,6 +10,9 @@ const { S3Client } = require('@aws-sdk/client-s3');
  *                 and/or initialization logic.
  * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
  */
+
+const { URL } = require('url');
+const { S3Client } = require('@aws-sdk/client-s3');
 
 module.exports = function defineS3Hook(sails) {
   let client = null;
@@ -18,7 +23,7 @@ module.exports = function defineS3Hook(sails) {
      */
 
     async initialize() {
-      if (!sails.config.custom.s3Endpoint && !sails.config.custom.s3Region) {
+      if (!this.isEnabled()) {
         return;
       }
 
@@ -57,8 +62,8 @@ module.exports = function defineS3Hook(sails) {
       return `https://${sails.config.custom.s3Bucket}.s3.${sails.config.custom.s3Region}.amazonaws.com`;
     },
 
-    isActive() {
-      return client !== null;
+    isEnabled() {
+      return !!sails.config.custom.s3Endpoint || !!sails.config.custom.s3Region;
     },
   };
 };

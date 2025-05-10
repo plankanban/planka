@@ -1,0 +1,65 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    padding: 0;
+  }
+
+  .statusIcon {
+    line-height: 1;
+    margin: 0 0 0 8px;
+  }
+
+  .wrapper {
+    background: #dce0e4;
+    border-radius: 3px;
+    color: #6a808b;
+    display: inline-block;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+  }
+
+  .wrapperHoverable:hover {
+    background: #d2d8dc;
+    color: #17394d;
+  }
+
+  /* Sizes */
+
+  .wrapperTiny {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0px 6px;
+  }
+
+  .wrapperSmall {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 2px 8px;
+  }
+
+  .wrapperMedium {
+    line-height: 20px;
+    padding: 6px 12px;
+  }
+
+  /* Statuses */
+
+  .wrapperDueSoon {
+    background: #f2711c;
+    color: #fff;
+  }
+
+  .wrapperOverdue {
+    background: #db2828;
+    color: #fff;
+  }
+}

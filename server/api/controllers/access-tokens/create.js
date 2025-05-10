@@ -1,8 +1,13 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const bcrypt = require('bcrypt');
-const validator = require('validator');
 const { v4: uuid } = require('uuid');
 
-const { getRemoteAddress } = require('../../../utils/remoteAddress');
+const { isEmailOrUsername } = require('../../../utils/validators');
+const { getRemoteAddress } = require('../../../utils/remote-address');
 
 const Errors = {
   INVALID_CREDENTIALS: {
@@ -19,20 +24,17 @@ const Errors = {
   },
 };
 
-const emailOrUsernameValidator = (value) =>
-  value.includes('@')
-    ? validator.isEmail(value)
-    : value.length >= 3 && value.length <= 16 && /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/.test(value);
-
 module.exports = {
   inputs: {
     emailOrUsername: {
       type: 'string',
-      custom: emailOrUsernameValidator,
+      maxLength: 256,
+      custom: isEmailOrUsername,
       required: true,
     },
     password: {
       type: 'string',
+      maxLength: 256,
       required: true,
     },
     withHttpOnlyToken: {
@@ -62,7 +64,7 @@ module.exports = {
     }
 
     const remoteAddress = getRemoteAddress(this.req);
-    const user = await sails.helpers.users.getOneByEmailOrUsername(inputs.emailOrUsername);
+    const user = await User.qm.getOneActiveByEmailOrUsername(inputs.emailOrUsername);
 
     if (!user) {
       sails.log.warn(
@@ -74,11 +76,13 @@ module.exports = {
         : Errors.INVALID_CREDENTIALS;
     }
 
-    if (user.isSso) {
+    if (user.isSsoUser) {
       throw Errors.USE_SINGLE_SIGN_ON;
     }
 
-    if (!bcrypt.compareSync(inputs.password, user.password)) {
+    const isPasswordValid = await bcrypt.compare(inputs.password, user.password);
+
+    if (!isPasswordValid) {
       sails.log.warn(`Invalid password! (IP: ${remoteAddress})`);
 
       throw sails.config.custom.showDetailedAuthErrors
@@ -92,7 +96,7 @@ module.exports = {
 
     const httpOnlyToken = inputs.withHttpOnlyToken ? uuid() : null;
 
-    await Session.create({
+    await Session.qm.createOne({
       accessToken,
       httpOnlyToken,
       remoteAddress,

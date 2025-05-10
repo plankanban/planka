@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { all, takeEvery } from 'redux-saga/effects';
 
 import services from '../services';
@@ -23,12 +28,18 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_SORT, ({ payload: { id, data } }) =>
       services.sortList(id, data),
     ),
-    takeEvery(EntryActionTypes.LIST_SORT_HANDLE, ({ payload: { list, cards } }) =>
-      services.handleListSort(list, cards),
+    takeEvery(EntryActionTypes.LIST_CARDS_TO_ARCHIVE_LIST_MOVE, ({ payload: { id } }) =>
+      services.moveListCardsToArchiveList(id),
+    ),
+    takeEvery(EntryActionTypes.TRASH_LIST_IN_CURRENT_BOARD_CLEAR, () =>
+      services.clearTrashListInCurrentBoard(),
+    ),
+    takeEvery(EntryActionTypes.LIST_CLEAR_HANDLE, ({ payload: { list } }) =>
+      services.handleListClear(list),
     ),
     takeEvery(EntryActionTypes.LIST_DELETE, ({ payload: { id } }) => services.deleteList(id)),
-    takeEvery(EntryActionTypes.LIST_DELETE_HANDLE, ({ payload: { list } }) =>
-      services.handleListDelete(list),
+    takeEvery(EntryActionTypes.LIST_DELETE_HANDLE, ({ payload: { list, cards } }) =>
+      services.handleListDelete(list, cards),
     ),
   ]);
 }

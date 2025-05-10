@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { all, takeEvery } from 'redux-saga/effects';
 
 import services from '../services';
@@ -8,8 +13,10 @@ export default function* projectManagersWatchers() {
     takeEvery(EntryActionTypes.MANAGER_IN_CURRENT_PROJECT_CREATE, ({ payload: { data } }) =>
       services.createManagerInCurrentProject(data),
     ),
-    takeEvery(EntryActionTypes.PROJECT_MANAGER_CREATE_HANDLE, ({ payload: { projectManager } }) =>
-      services.handleProjectManagerCreate(projectManager),
+    takeEvery(
+      EntryActionTypes.PROJECT_MANAGER_CREATE_HANDLE,
+      ({ payload: { projectManager, users } }) =>
+        services.handleProjectManagerCreate(projectManager, users),
     ),
     takeEvery(EntryActionTypes.PROJECT_MANAGER_DELETE, ({ payload: { id } }) =>
       services.deleteProjectManager(id),

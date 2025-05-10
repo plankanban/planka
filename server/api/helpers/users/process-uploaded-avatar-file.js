@@ -1,4 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const { rimraf } = require('rimraf');
+const mime = require('mime');
 const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
 
@@ -15,6 +21,12 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const mimeType = mime.getType(inputs.file.filename);
+    if (['image/svg+xml', 'application/pdf'].includes(mimeType)) {
+      await rimraf(inputs.file.fd);
+      throw 'fileIsNotImage';
+    }
+
     let image = sharp(inputs.file.fd, {
       animated: true,
     });
@@ -23,10 +35,7 @@ module.exports = {
     try {
       metadata = await image.metadata();
     } catch (error) {
-      throw 'fileIsNotImage';
-    }
-
-    if (['svg', 'pdf'].includes(metadata.format)) {
+      await rimraf(inputs.file.fd);
       throw 'fileIsNotImage';
     }
 
@@ -35,15 +44,16 @@ module.exports = {
     const dirname = uuid();
     const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${dirname}`;
 
-    let { width, pageHeight: height = metadata.height } = metadata;
     if (metadata.orientation && metadata.orientation > 4) {
-      [image, width, height] = [image.rotate(), height, width];
+      image = image.rotate();
     }
 
     const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
+    let sizeInBytes;
     try {
       const originalBuffer = await image.toBuffer();
+      sizeInBytes = originalBuffer.length;
 
       await fileManager.save(
         `${dirPathSegment}/original.${extension}`,
@@ -51,44 +61,36 @@ module.exports = {
         inputs.file.type,
       );
 
-      const square100Buffer = await image
-        .resize(
-          100,
-          100,
-          width < 100 || height < 100
-            ? {
-                kernel: sharp.kernel.nearest,
-              }
-            : undefined,
-        )
+      const cover180Buffer = await image
+        .resize(180, 180, {
+          withoutEnlargement: true,
+        })
+        .png({
+          quality: 75,
+          force: false,
+        })
         .toBuffer();
 
       await fileManager.save(
-        `${dirPathSegment}/square-100.${extension}`,
-        square100Buffer,
+        `${dirPathSegment}/cover-180.${extension}`,
+        cover180Buffer,
         inputs.file.type,
       );
-    } catch (error1) {
-      console.warn(error1.stack); // eslint-disable-line no-console
+    } catch (error) {
+      sails.log.warn(error.stack);
 
-      try {
-        fileManager.deleteDir(dirPathSegment);
-      } catch (error2) {
-        console.warn(error2.stack); // eslint-disable-line no-console
-      }
+      await fileManager.deleteDir(dirPathSegment);
+      await rimraf(inputs.file.fd);
 
       throw 'fileIsNotImage';
     }
 
-    try {
-      await rimraf(inputs.file.fd);
-    } catch (error) {
-      console.warn(error.stack); // eslint-disable-line no-console
-    }
+    await rimraf(inputs.file.fd);
 
     return {
       dirname,
       extension,
+      sizeInBytes,
     };
   },
 };

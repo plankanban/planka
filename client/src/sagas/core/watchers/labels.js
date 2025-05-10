@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { all, takeEvery } from 'redux-saga/effects';
 
 import services from '../services';
@@ -7,6 +12,9 @@ export default function* labelsWatchers() {
   yield all([
     takeEvery(EntryActionTypes.LABEL_IN_CURRENT_BOARD_CREATE, ({ payload: { data } }) =>
       services.createLabelInCurrentBoard(data),
+    ),
+    takeEvery(EntryActionTypes.LABEL_FROM_CARD_CREATE, ({ payload: { cardId, data } }) =>
+      services.createLabelFromCard(cardId, data),
     ),
     takeEvery(EntryActionTypes.LABEL_CREATE_HANDLE, ({ payload: { label } }) =>
       services.handleLabelCreate(label),

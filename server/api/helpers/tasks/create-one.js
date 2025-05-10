@@ -1,24 +1,12 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isFinite(value.position)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.card)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
     values: {
-      type: 'ref',
-      custom: valuesValidator,
+      type: 'json',
       required: true,
     },
     project: {
@@ -30,6 +18,10 @@ module.exports = {
       required: true,
     },
     list: {
+      type: 'ref',
+      required: true,
+    },
+    card: {
       type: 'ref',
       required: true,
     },
@@ -45,39 +37,44 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const tasks = await sails.helpers.cards.getTasks(values.card.id);
+    const tasks = await Task.qm.getByTaskListId(values.taskList.id);
 
     const { position, repositions } = sails.helpers.utils.insertToPositionables(
       values.position,
       tasks,
     );
 
-    repositions.forEach(async ({ id, position: nextPosition }) => {
-      await Task.update({
-        id,
-        cardId: values.card.id,
-      }).set({
-        position: nextPosition,
-      });
+    // eslint-disable-next-line no-restricted-syntax
+    for (const reposition of repositions) {
+      // eslint-disable-next-line no-await-in-loop
+      await Task.qm.updateOne(
+        {
+          id: reposition.record.id,
+          taskListId: reposition.record.taskListId,
+        },
+        {
+          position: reposition.position,
+        },
+      );
 
-      sails.sockets.broadcast(`board:${values.card.boardId}`, 'taskUpdate', {
+      sails.sockets.broadcast(`board:${inputs.board.id}`, 'taskUpdate', {
         item: {
-          id,
-          position: nextPosition,
+          id: reposition.record.id,
+          position: reposition.position,
         },
       });
 
       // TODO: send webhooks
-    });
+    }
 
-    const task = await Task.create({
+    const task = await Task.qm.createOne({
       ...values,
       position,
-      cardId: values.card.id,
-    }).fetch();
+      taskListId: values.taskList.id,
+    });
 
     sails.sockets.broadcast(
-      `board:${values.card.boardId}`,
+      `board:${inputs.board.id}`,
       'taskCreate',
       {
         item: task,
@@ -87,15 +84,16 @@ module.exports = {
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'taskCreate',
-      data: {
+      buildData: () => ({
         item: task,
         included: {
           projects: [inputs.project],
           boards: [inputs.board],
           lists: [inputs.list],
-          cards: [values.card],
+          cards: [inputs.card],
+          taskLists: [values.taskList],
         },
-      },
+      }),
       user: inputs.actorUser,
     });
 

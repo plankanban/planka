@@ -1,0 +1,75 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .cover {
+    background: url("../../../assets/images/cover.jpg") left / cover;
+  }
+
+  .coverOverlay {
+    background: rgba(33, 33, 33, 0.5);
+    bottom: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .divider {
+    font-weight: normal;
+  }
+
+  .formFooter {
+    color: #6b808c;
+    font-weight: lighter;
+    text-align: center;
+  }
+
+  .formTitle {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 36px;
+  }
+
+  .formSubtitle {
+    font-size: 28px;
+    font-weight: normal;
+    margin-bottom: 32px;
+  }
+
+  .formWrapper {
+    margin-bottom: 36px;
+  }
+
+  .fullHeight {
+    height: 100%;
+  }
+
+  .grid {
+    margin: 0;
+  }
+
+  .inputLabel {
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 4px;
+  }
+
+  .inputWrapper {
+    margin-bottom: 16px;
+  }
+
+  .loginWrapper {
+    margin: 0 auto;
+    max-width: 440px;
+    padding: 0 20px;
+  }
+
+  .wrapper {
+    background: #fff;
+  }
+}

@@ -1,0 +1,37 @@
+diff --git a/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js b/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js
+index 6d06078..fb7534d 100644
+--- a/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js
++++ b/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js
+@@ -17,13 +17,7 @@ var doesNodeContainClick = function doesNodeContainClick(node, e) {
+   if (_some([e, node], _isNil)) return false; // if there is an e.target and it is in the document, use a simple node.contains() check
+ 
+   if (e.target) {
+-    _invoke(e.target, 'setAttribute', 'data-suir-click-target', true);
+-
+-    if (document.querySelector('[data-suir-click-target=true]')) {
+-      _invoke(e.target, 'removeAttribute', 'data-suir-click-target');
+-
+-      return node.contains(e.target);
+-    }
++    return node.contains(e.target);
+   } // Below logic handles cases where the e.target is no longer in the document.
+   // The result of the click likely has removed the e.target node.
+   // Instead of node.contains(), we'll identify the click by X/Y position.
+diff --git a/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js b/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js
+index d1ae271..43e1170 100644
+--- a/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js
++++ b/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js
+@@ -14,12 +14,7 @@ const doesNodeContainClick = (node, e) => {
+ 
+   // if there is an e.target and it is in the document, use a simple node.contains() check
+   if (e.target) {
+-    _.invoke(e.target, 'setAttribute', 'data-suir-click-target', true)
+-
+-    if (document.querySelector('[data-suir-click-target=true]')) {
+-      _.invoke(e.target, 'removeAttribute', 'data-suir-click-target')
+-      return node.contains(e.target)
+-    }
++    return node.contains(e.target)
+   }
+ 
+   // Below logic handles cases where the e.target is no longer in the document.

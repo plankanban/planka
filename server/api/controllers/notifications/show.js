@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOTIFICATION_NOT_FOUND: {
     notificationNotFound: 'Notification not found',
@@ -7,8 +14,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -22,9 +28,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const notification = await Notification.findOne({
-      id: inputs.id,
-      isRead: false,
+    const notification = await Notification.qm.getOneById(inputs.id, {
       userId: currentUser.id,
     });
 
@@ -32,16 +36,14 @@ module.exports = {
       throw Errors.NOTIFICATION_NOT_FOUND;
     }
 
-    const action = await Action.findOne(notification.actionId);
-    const user = await sails.helpers.users.getOne(action.userId, true);
-    const card = await Card.findOne(notification.cardId);
+    const users = notification.creatorUserId
+      ? await User.qm.getByIds([notification.creatorUserId])
+      : [];
 
     return {
       item: notification,
       included: {
-        users: [user],
-        cards: [card],
-        actions: [action],
+        users,
       },
     };
   },

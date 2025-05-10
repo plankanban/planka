@@ -1,24 +1,12 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.project)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.user)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
     values: {
       type: 'ref',
-      custom: valuesValidator,
       required: true,
     },
     actorUser: {
@@ -31,22 +19,41 @@ module.exports = {
   },
 
   exits: {
+    projectInValuesMustBePrivate: {},
+    userInValuesMustBeAdminOrProjectOwner: {},
     userAlreadyProjectManager: {},
   },
 
   async fn(inputs) {
     const { values } = inputs;
 
-    const projectManager = await ProjectManager.create({
-      projectId: values.project.id,
-      userId: values.user.id,
-    })
-      .intercept('E_UNIQUE', 'userAlreadyProjectManager')
-      .fetch();
+    if (values.project.ownerProjectManagerId) {
+      throw 'projectInValuesMustBePrivate';
+    }
 
-    const projectRelatedUserIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
-      projectManager.projectId,
-    );
+    if (!sails.helpers.users.isAdminOrProjectOwner(values.user)) {
+      throw 'userInValuesMustBeAdminOrProjectOwner';
+    }
+
+    let projectManager;
+    try {
+      projectManager = await ProjectManager.qm.createOne({
+        projectId: values.project.id,
+        userId: values.user.id,
+      });
+    } catch (error) {
+      if (error.code === 'E_UNIQUE') {
+        throw 'userAlreadyProjectManager';
+      }
+
+      throw error;
+    }
+
+    const scoper = sails.helpers.projects.makeScoper.with({
+      record: values.project,
+    });
+
+    const projectRelatedUserIds = await scoper.getProjectRelatedUserIds();
 
     projectRelatedUserIds.forEach((userId) => {
       sails.sockets.broadcast(
@@ -54,6 +61,9 @@ module.exports = {
         'projectManagerCreate',
         {
           item: projectManager,
+          included: {
+            users: [sails.helpers.users.presentOne(values.user, {})], // FIXME: hack
+          },
         },
         inputs.request,
       );
@@ -61,13 +71,13 @@ module.exports = {
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'projectManagerCreate',
-      data: {
+      buildData: () => ({
         item: projectManager,
         included: {
-          users: [values.user],
+          users: [sails.helpers.users.presentOne(values.user)],
           projects: [values.project],
         },
-      },
+      }),
       user: inputs.actorUser,
     });
 

@@ -1,0 +1,81 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .actions {
+    border-top: 1px solid rgba(34, 36, 38, 0.15);
+    padding-top: 1rem;
+    text-align: right;
+
+    &:after {
+      clear: both;
+      content: "";
+      display: table;
+    }
+  }
+
+  .addButton {
+    margin-right: 0;
+  }
+
+  .addButtonCounter {
+    margin-left: 6px;
+    opacity: 0.5;
+  }
+
+  .tableWrapper {
+    margin-right: -2.5rem;
+    max-height: calc(100vh - 338px);
+    overflow: auto;
+    padding-right: 2.5rem;
+
+    @media (width < 768px) {
+      margin-right: -2rem;
+      max-height: calc(100vh - 296px);
+      padding-right: 2rem;
+    }
+
+    @media (768px <= width < 926px) {
+      max-height: calc(100vh - 310px);
+    }
+
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+    }
+  }
+
+  .toggleDeactivatedButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    float: left;
+    font-weight: normal;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 6px 11px;
+    text-align: left;
+    text-decoration: underline;
+    transition: none;
+    white-space: nowrap;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #092d42;
+    }
+  }
+
+  .wrapper {
+    border: none;
+    box-shadow: none;
+  }
+}

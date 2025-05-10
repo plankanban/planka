@@ -1,13 +1,23 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 :global {
   #app {
     background: #22252a;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      height: auto;
+    }
 
     .react-datepicker {
       border: 0;
       color: #444444;
       font-size: 14px;
       font-family: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif;
-      // font-weight: 400;
+      // font-weight: normal;
       width: 100%;
       padding-bottom: 8px;
     }
@@ -105,12 +115,183 @@
     .pswp .pswp__img--placeholder {
       display: none !important;
     }
+
+    .ui.input.error > input {
+      background-color: #fff6f6 !important;
+      border-color: #e0b4b4 !important;
+      color: #9f3a38 !important;
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+    }
+
+    .ui.page.dimmer {
+      -webkit-perspective: none;
+      perspective: none;
+    }
   }
 
   #root {
     display: flex;
     flex-direction: column;
     height: 100%;
+  }
+
+  .g-root {
+    --g-font-family-monospace: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace !important;
+    --g-font-family-sans: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif !important;
+
+    .g-md-settings-content__separator,
+    .g-md-settings-content__toolbar,
+    .g-md-settings-content__version {
+      display: none;
+    }
+  }
+
+  .yfm {
+    --yfm-color-text-private: #17394d !important;
+    --yfm-font-family-monospace: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace !important;
+    --yfm-font-family-sans: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif !important;
+
+    font-size: 1em !important;
+
+    a:hover {
+      color: var(--yfm-color-link) !important;
+      text-decoration: underline;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      line-height: 1.25 !important;
+    }
+
+    h1 {
+      font-size: 2em !important;
+    }
+
+    h2 {
+      font-size: 1.5em !important;
+    }
+
+    h3 {
+      font-size: 1.25em !important;
+    }
+
+    h4 {
+      font-size: 1em !important;
+    }
+
+    h5 {
+      font-size: .875em !important;
+    }
+
+    h6 {
+      font-size: .85em !important;
+    }
+
+    .yfm-clipboard:hover {
+      .yfm-clipboard-button {
+        min-height: auto;
+        min-width: auto;
+      }
+    }
+  }
+
+  .hljs {
+    display: block;
+    overflow-x: auto;
+    padding: .5em;
+    color: #333;
+    background: #f8f8f8
+  }
+
+  .hljs-comment,
+  .hljs-quote {
+    color: #998;
+    font-style: italic
+  }
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #333;
+    font-weight: bold;
+  }
+
+  .hljs-literal,
+  .hljs-number,
+  .hljs-tag .hljs-attr,
+  .hljs-template-variable,
+  .hljs-variable {
+    color: teal
+  }
+
+  .hljs-doctag,
+  .hljs-string {
+    color: #d14
+  }
+
+  .hljs-section,
+  .hljs-selector-id,
+  .hljs-title {
+    color: #900;
+    font-weight: bold;
+  }
+
+  .hljs-subst {
+    font-weight: normal
+  }
+
+  .hljs-class .hljs-title,
+  .hljs-type {
+    color: #458;
+    font-weight: bold;
+  }
+
+  .hljs-attribute,
+  .hljs-name,
+  .hljs-tag {
+    color: navy;
+    font-weight: normal
+  }
+
+  .hljs-link,
+  .hljs-regexp {
+    color: #009926
+  }
+
+  .hljs-bullet,
+  .hljs-symbol {
+    color: #990073
+  }
+
+  .hljs-built_in,
+  .hljs-builtin-name {
+    color: #0086b3
+  }
+
+  .hljs-meta {
+    color: #999;
+    font-weight: bold;
+  }
+
+  .hljs-deletion {
+    background: #fdd
+  }
+
+  .hljs-addition {
+    background: #dfd
+  }
+
+  .hljs-emphasis {
+    font-style: italic
+  }
+
+  .hljs-strong {
+    font-weight: bold;
   }
 
   ::-webkit-scrollbar {
@@ -142,115 +323,183 @@
 }
 
 :global(#app) {
-  &.dragging>* {
+  &.dragging > * {
     pointer-events: none;
   }
 
-  &.dragScrolling>* {
+  &.dragScrolling > * {
     pointer-events: none;
     user-select: none;
   }
 
   /* Backgrounds */
 
-  .backgroundBerryRed {
-    background: #e04556 !important;
+  .backgroundMuddyGrey {
+    background: #69655a !important;
   }
 
-  .backgroundPumpkinOrange {
-    background: #f0982d !important;
+  .backgroundAutumnLeafs {
+    background: #c9b037 !important;
   }
 
-  .backgroundLagoonBlue {
-    background: #109dc0 !important;
-  }
-
-  .backgroundPinkTulip {
-    background: #f97394 !important;
-  }
-
-  .backgroundLightMud {
-    background: #c7a57b !important;
-  }
-
-  .backgroundOrangePeel {
-    background: #fab623 !important;
-  }
-
-  .backgroundBrightMoss {
-    background: #a5c261 !important;
+  .backgroundMorningSky {
+    background: #52b9d5 !important;
   }
 
   .backgroundAntiqueBlue {
     background: #6c99bb !important;
   }
 
+  .backgroundEggYellow {
+    background: #f9c423 !important;
+  }
+
+  .backgroundDesertSand {
+    background: #fad371 !important;
+  }
+
   .backgroundDarkGranite {
     background: #8b8680 !important;
   }
 
-  .backgroundLaguneBlue {
-    background: #00b4b1 !important;
+  .backgroundFreshSalad {
+    background: #ced85e !important;
   }
 
-  .backgroundSunnyGrass {
-    background: #bfca02 !important;
-  }
-
-  .backgroundMorningSky {
-    background: #52bad5 !important;
-  }
-
-  .backgroundLightOrange {
-    background: #ffc66d !important;
+  .backgroundLagoonBlue {
+    background: #109dc0 !important;
   }
 
   .backgroundMidnightBlue {
-    background: #004d73 !important;
+    background: #0a63a0 !important;
   }
 
-  .backgroundTankGreen {
-    background: #8aa177 !important;
+  .backgroundLightOrange {
+    background: #fdae5f !important;
   }
 
-  .backgroundGunMetal {
-    background: #355263 !important;
-  }
-
-  .backgroundWetMoss {
-    background: #4a8753 !important;
-  }
-
-  .backgroundRedBurgundy {
-    background: #ad5f7d !important;
+  .backgroundPumpkinOrange {
+    background: #ed9223 !important;
   }
 
   .backgroundLightConcrete {
     background: #afb0a4 !important;
   }
 
-  .backgroundApricotRed {
-    background: #fc736d !important;
-  }
-
-  .backgroundDesertSand {
-    background: #edcb76 !important;
+  .backgroundSunnyGrass {
+    background: #beca02 !important;
   }
 
   .backgroundNavyBlue {
-    background: #166a8f !important;
+    background: #1d7299 !important;
   }
 
-  .backgroundEggYellow {
-    background: #f7d036 !important;
+  .backgroundLilacEyes {
+    background: #406cbd !important;
+  }
+
+  .backgroundApricotRed {
+    background: #fc736c !important;
+  }
+
+  .backgroundOrangePeel {
+    background: #de692f !important;
+  }
+
+  .backgroundSilverGlint {
+    background: linear-gradient(160deg, #adadad, #92908d, #e2e2e2, #928e8e, #726f6e) !important;
+  }
+
+  .backgroundBrightMoss {
+    background: #96b352 !important;
+  }
+
+  .backgroundDeepOcean {
+    background: #004c70 !important;
+  }
+
+  .backgroundSummerSky {
+    background: #5d9cec !important;
+  }
+
+  .backgroundBerryRed {
+    background: #e83855 !important;
+  }
+
+  .backgroundLightCocoa {
+    background: #a85540 !important;
+  }
+
+  .backgroundGreyStone {
+    background: #aab2bd !important;
+  }
+
+  .backgroundTankGreen {
+    background: #8aa177 !important;
   }
 
   .backgroundCoralGreen {
     background: #2b6a6c !important;
   }
 
-  .backgroundLightCocoa {
+  .backgroundSugarPlum {
+    background: #7e86c7 !important;
+  }
+
+  .backgroundPinkTulip {
+    background: #e34f7c !important;
+  }
+
+  .backgroundShadyRust {
     background: #87564a !important;
+  }
+
+  .backgroundWetRock {
+    background: #83949b !important;
+  }
+
+  .backgroundWetMoss {
+    background: #4a8753 !important;
+  }
+
+  .backgroundTurquoiseSea {
+    background: #00858a !important;
+  }
+
+  .backgroundLavenderFields {
+    background: #b287bd !important;
+  }
+
+  .backgroundPiggyRed {
+    background: #f97394 !important;
+  }
+
+  .backgroundLightMud {
+    background: #c7a57a !important;
+  }
+
+  .backgroundGunMetal {
+    background: #4f6573 !important;
+  }
+
+  .backgroundModernGreen {
+    background: #77ce87 !important;
+  }
+
+  .backgroundFrenchCoast {
+    background: #00b4b1 !important;
+  }
+
+  .backgroundSweetLilac {
+    background: #975298 !important;
+  }
+
+  .backgroundRedBurgundy {
+    background: #ad5f7d !important;
+  }
+
+  .backgroundPirateGold {
+    background: linear-gradient(160deg, #a54e07, #b47e11, #fef1a2, #bc881b, #a54e07) !important;
   }
 
   .backgroundOceanDive {
@@ -388,11 +637,11 @@
   /* Colors */
 
   .colorBerryRed {
-    color: #e04556 !important;
+    color: #e83855 !important;
   }
 
   .colorPumpkinOrange {
-    color: #f0982d !important;
+    color: #ed9223 !important;
   }
 
   .colorLagoonBlue {
@@ -400,19 +649,19 @@
   }
 
   .colorPinkTulip {
-    color: #f97394 !important;
+    color: #e34f7c !important;
   }
 
   .colorLightMud {
-    color: #c7a57b !important;
+    color: #c7a57a !important;
   }
 
   .colorOrangePeel {
-    color: #fab623 !important;
+    color: #de692f !important;
   }
 
   .colorBrightMoss {
-    color: #a5c261 !important;
+    color: #96b352 !important;
   }
 
   .colorAntiqueBlue {
@@ -423,7 +672,7 @@
     color: #8b8680 !important;
   }
 
-  .colorLaguneBlue {
-    color: #00b4b1 !important;
+  .colorTurquoiseSea {
+    color: #00858a !important;
   }
 }

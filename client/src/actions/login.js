@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
 const initializeLogin = (config) => ({
@@ -28,20 +33,20 @@ authenticate.failure = (error) => ({
   },
 });
 
-const authenticateUsingOidc = () => ({
-  type: ActionTypes.USING_OIDC_AUTHENTICATE,
+const authenticateWithOidc = () => ({
+  type: ActionTypes.WITH_OIDC_AUTHENTICATE,
   payload: {},
 });
 
-authenticateUsingOidc.success = (accessToken) => ({
-  type: ActionTypes.USING_OIDC_AUTHENTICATE__SUCCESS,
+authenticateWithOidc.success = (accessToken) => ({
+  type: ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS,
   payload: {
     accessToken,
   },
 });
 
-authenticateUsingOidc.failure = (error) => ({
-  type: ActionTypes.USING_OIDC_AUTHENTICATE__FAILURE,
+authenticateWithOidc.failure = (error) => ({
+  type: ActionTypes.WITH_OIDC_AUTHENTICATE__FAILURE,
   payload: {
     error,
   },
@@ -55,6 +60,6 @@ const clearAuthenticateError = () => ({
 export default {
   initializeLogin,
   authenticate,
-  authenticateUsingOidc,
+  authenticateWithOidc,
   clearAuthenticateError,
 };

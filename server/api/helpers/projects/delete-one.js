@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     record: {
@@ -13,25 +18,29 @@ module.exports = {
     },
   },
 
-  async fn(inputs) {
-    const projectManagers = await ProjectManager.destroy({
-      projectId: inputs.record.id,
-    }).fetch();
+  exits: {
+    mustNotHaveBoards: {},
+  },
 
-    const project = await Project.archiveOne(inputs.record.id);
+  async fn(inputs) {
+    const boardsTotal = await sails.helpers.projects.getBoardsTotalById(inputs.record.id);
+
+    if (boardsTotal > 0) {
+      throw 'mustNotHaveBoards';
+    }
+
+    const { projectManagers } = await sails.helpers.projects.deleteRelated(inputs.record);
+    const project = await Project.qm.deleteOne(inputs.record.id);
 
     if (project) {
-      const projectManagerUserIds = sails.helpers.utils.mapRecords(projectManagers, 'userId');
+      const scoper = sails.helpers.projects.makeScoper.with({
+        record: project,
+      });
 
-      const boardIds = await sails.helpers.projects.getBoardIds(project.id);
-      const boardRooms = boardIds.map((boardId) => `board:${boardId}`);
-
-      const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(boardIds);
-      const projectRelatedUserIds = _.union(projectManagerUserIds, boardMemberUserIds);
+      scoper.projectManagerUserIds = sails.helpers.utils.mapRecords(projectManagers, 'userId');
+      const projectRelatedUserIds = await scoper.getProjectRelatedUserIds();
 
       projectRelatedUserIds.forEach((userId) => {
-        sails.sockets.removeRoomMembersFromRooms(`@user:${userId}`, boardRooms);
-
         sails.sockets.broadcast(
           `user:${userId}`,
           'projectDelete',
@@ -44,9 +53,9 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'projectDelete',
-        data: {
+        buildData: () => ({
           item: project,
-        },
+        }),
         user: inputs.actorUser,
       });
     }

@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const createUser = (data) => ({
@@ -165,6 +170,11 @@ const addUserToCurrentCard = (id) => ({
   },
 });
 
+const addCurrentUserToCurrentCard = () => ({
+  type: EntryActionTypes.CURRENT_USER_TO_CURRENT_CARD_ADD,
+  payload: {},
+});
+
 const handleUserToCardAdd = (cardMembership) => ({
   type: EntryActionTypes.USER_TO_CARD_ADD_HANDLE,
   payload: {
@@ -187,6 +197,11 @@ const removeUserFromCurrentCard = (id) => ({
   },
 });
 
+const removeCurrentUserFromCurrentCard = () => ({
+  type: EntryActionTypes.CURRENT_USER_FROM_CURRENT_CARD_REMOVE,
+  payload: {},
+});
+
 const handleUserFromCardRemove = (cardMembership) => ({
   type: EntryActionTypes.USER_FROM_CARD_REMOVE_HANDLE,
   payload: {
@@ -194,10 +209,11 @@ const handleUserFromCardRemove = (cardMembership) => ({
   },
 });
 
-const addUserToFilterInCurrentBoard = (id) => ({
+const addUserToFilterInCurrentBoard = (id, replace = false) => ({
   type: EntryActionTypes.USER_TO_FILTER_IN_CURRENT_BOARD_ADD,
   payload: {
     id,
+    replace,
   },
 });
 
@@ -233,9 +249,11 @@ export default {
   handleUserDelete,
   addUserToCard,
   addUserToCurrentCard,
+  addCurrentUserToCurrentCard,
   handleUserToCardAdd,
   removeUserFromCard,
   removeUserFromCurrentCard,
+  removeCurrentUserFromCurrentCard,
   handleUserFromCardRemove,
   addUserToFilterInCurrentBoard,
   removeUserFromFilterInCurrentBoard,

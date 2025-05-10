@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -10,8 +17,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -28,27 +34,31 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const path = await sails.helpers.lists
-      .getProjectPath(inputs.id)
+    const pathToProject = await sails.helpers.lists
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
-    let { list } = path;
-    const { board, project } = path;
+    let { list } = pathToProject;
+    const { board, project } = pathToProject;
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
       throw Errors.LIST_NOT_FOUND; // Forbidden
+    }
+
+    if (!sails.helpers.lists.isFinite(list)) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
     if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    list = await sails.helpers.lists.deleteOne.with({
+    const result = await sails.helpers.lists.deleteOne.with({
       project,
       board,
       record: list,
@@ -56,12 +66,18 @@ module.exports = {
       request: this.req,
     });
 
+    ({ list } = result);
+    const { cards } = result;
+
     if (!list) {
       throw Errors.LIST_NOT_FOUND;
     }
 
     return {
       item: list,
+      included: {
+        cards,
+      },
     };
   },
 };

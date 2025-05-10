@@ -1,18 +1,7 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isNil(value.background) && !_.isPlainObject(value.background)) {
-    return false;
-  }
-
-  if (!_.isNil(value.backgroundImage) && !_.isPlainObject(value.backgroundImage)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
@@ -22,12 +11,14 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: valuesValidator,
       required: true,
     },
     actorUser: {
       type: 'ref',
       required: true,
+    },
+    scoper: {
+      type: 'ref',
     },
     request: {
       type: 'ref',
@@ -35,68 +26,140 @@ module.exports = {
   },
 
   exits: {
-    backgroundImageInValuesMustNotBeNull: {},
+    ownerProjectManagerInValuesMustBeLastManager: {},
+    backgroundImageInValuesMustBePresent: {},
+    backgroundGradientInValuesMustBePresent: {},
+    alreadyHasOwnerProjectManager: {},
   },
 
+  // TODO: use normalizeValues
   async fn(inputs) {
-    const { values } = inputs;
+    const { isFavorite, ...values } = inputs.values;
 
     if (values.backgroundImage) {
-      values.background = {
-        type: 'image',
-      };
-    } else if (
-      _.isNull(values.backgroundImage) &&
-      inputs.record.background &&
-      inputs.record.background.type === 'image'
-    ) {
-      values.background = null;
+      values.backgroundImageId = values.backgroundImage.id;
+    }
+
+    if (values.ownerProjectManager) {
+      if (inputs.record.ownerProjectManagerId) {
+        if (values.ownerProjectManager.id === inputs.record.ownerProjectManagerId) {
+          delete values.ownerProjectManager;
+        } else {
+          throw 'alreadyHasOwnerProjectManager';
+        }
+      } else {
+        const projectManagersLeft = await sails.helpers.projects.getProjectManagersTotalById(
+          inputs.record.id,
+          values.ownerProjectManager.id,
+        );
+
+        if (projectManagersLeft > 0) {
+          throw 'ownerProjectManagerInValuesMustBeLastManager';
+        }
+
+        values.ownerProjectManagerId = values.ownerProjectManager.id;
+      }
+    }
+
+    const backgroundType = _.isUndefined(values.backgroundType)
+      ? inputs.record.backgroundType
+      : values.backgroundType;
+
+    if (_.isNull(backgroundType)) {
+      Object.assign(values, {
+        backgroundImageId: null,
+        backgroundGradient: null,
+      });
+    } else if (backgroundType === Project.BackgroundTypes.GRADIENT) {
+      const backgroundGradient = _.isUndefined(values.backgroundGradient)
+        ? inputs.record.backgroundGradient
+        : values.backgroundGradient;
+
+      if (!backgroundGradient) {
+        throw 'backgroundGradientInValuesMustBePresent';
+      }
+
+      values.backgroundImageId = null;
+    } else if (backgroundType === Project.BackgroundTypes.IMAGE) {
+      const backgroundImageId = _.isUndefined(values.backgroundImageId)
+        ? inputs.record.backgroundImageId
+        : values.backgroundImageId;
+
+      if (!backgroundImageId) {
+        throw 'backgroundImageInValuesMustBePresent';
+      }
+
+      values.backgroundGradient = null;
     }
 
     let project;
-    if (values.background && values.background.type === 'image') {
-      if (_.isNull(values.backgroundImage)) {
-        throw 'backgroundImageInValuesMustNotBeNull';
+    if (_.isEmpty(values)) {
+      project = inputs.record;
+    } else {
+      project = await Project.qm.updateOne(inputs.record.id, values);
+
+      if (!project) {
+        return project;
       }
 
-      if (_.isUndefined(values.backgroundImage)) {
-        project = await Project.updateOne({
-          id: inputs.record.id,
-          backgroundImage: {
-            '!=': null,
-          },
-        }).set({ ...values });
+      const {
+        scoper = sails.helpers.projects.makeScoper.with({
+          record: project,
+        }),
+      } = inputs;
 
-        if (!project) {
-          delete values.background;
-        }
-      }
-    }
+      const projectRelatedUserIds = await scoper.getProjectRelatedUserIds();
 
-    if (!project) {
-      project = await Project.updateOne(inputs.record.id).set({ ...values });
-    }
+      if (values.ownerProjectManager) {
+        const boardIds = await sails.helpers.projects.getBoardIdsById(project.id);
 
-    if (project) {
-      if (
-        inputs.record.backgroundImage &&
-        (!project.backgroundImage ||
-          project.backgroundImage.dirname !== inputs.record.backgroundImage.dirname)
-      ) {
-        const fileManager = sails.hooks['file-manager'].getInstance();
+        const prevScoper = scoper.cloneForProject(inputs.record);
+        const adminUserIds = await prevScoper.getAdminUserIds();
+        const projectManagerUserIds = await prevScoper.getProjectManagerUserIds();
+        const boardMemberships = await prevScoper.getBoardMembershipsForWholeProject();
 
-        try {
-          await fileManager.deleteDir(
-            `${sails.config.custom.projectBackgroundImagesPathSegment}/${inputs.record.backgroundImage.dirname}`,
+        const nonProjectManagerAdminUserIds = _.difference(adminUserIds, projectManagerUserIds);
+
+        const boardMemberUserIdsByBoardId = boardMemberships.reduce(
+          (result, boardMembership) => ({
+            ...result,
+            [boardMembership.boardId]: [
+              ...(result[boardMembership.boardId] || []),
+              boardMembership.userId,
+            ],
+          }),
+          {},
+        );
+
+        boardIds.forEach((boardId) => {
+          const missingUserIds = _.difference(
+            nonProjectManagerAdminUserIds,
+            boardMemberUserIdsByBoardId[boardId] || [],
           );
-        } catch (error) {
-          console.warn(error.stack); // eslint-disable-line no-console
-        }
-      }
 
-      const projectRelatedUserIds = await sails.helpers.projects.getManagerAndBoardMemberUserIds(
-        project.id,
-      );
+          missingUserIds.forEach((userId) => {
+            sails.sockets.removeRoomMembersFromRooms(`@user:${userId}`, `board:${boardId}`);
+          });
+        });
+
+        const projectRelatedUserIdsSet = new Set(projectRelatedUserIds);
+        const prevProjectRelatedUserIds = await prevScoper.getProjectRelatedUserIds();
+
+        const missingProjectRelatedUserIds = prevProjectRelatedUserIds.filter(
+          (userId) => !projectRelatedUserIdsSet.has(userId),
+        );
+
+        missingProjectRelatedUserIds.forEach((userId) => {
+          sails.sockets.broadcast(
+            `user:${userId}`,
+            'projectUpdate',
+            {
+              item: _.pick(project, ['id', 'ownerProjectManagerId']),
+            },
+            inputs.request,
+          );
+        });
+      }
 
       projectRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
@@ -111,14 +174,55 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'projectUpdate',
-        data: {
+        buildData: () => ({
           item: project,
-        },
-        prevData: {
+        }),
+        buildPrevData: () => ({
           item: inputs.record,
-        },
+        }),
         user: inputs.actorUser,
       });
+    }
+
+    if (!_.isUndefined(isFavorite)) {
+      const wasFavorite = await sails.helpers.users.isProjectFavorite(
+        inputs.actorUser.id,
+        project.id,
+      );
+
+      if (isFavorite !== wasFavorite) {
+        if (isFavorite) {
+          try {
+            await ProjectFavorite.qm.createOne({
+              projectId: project.id,
+              userId: inputs.actorUser.id,
+            });
+          } catch (error) {
+            if (error.code !== 'E_UNIQUE') {
+              throw error;
+            }
+          }
+        } else {
+          await ProjectFavorite.qm.deleteOne({
+            projectId: project.id,
+            userId: inputs.actorUser.id,
+          });
+        }
+
+        sails.sockets.broadcast(
+          `user:${inputs.actorUser.id}`,
+          'projectUpdate',
+          {
+            item: {
+              isFavorite,
+              id: project.id,
+            },
+          },
+          inputs.request,
+        );
+
+        // TODO: send webhooks
+      }
     }
 
     return project;

@@ -1,30 +1,14 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const bcrypt = require('bcrypt');
-
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isString(value.email)) {
-    return false;
-  }
-
-  if (!_.isNil(value.password) && !_.isString(value.password)) {
-    return false;
-  }
-
-  if (!_.isNil(value.username) && !_.isString(value.username)) {
-    return false;
-  }
-
-  return true;
-};
 
 module.exports = {
   inputs: {
     values: {
       type: 'json',
-      custom: valuesValidator,
       required: true,
     },
     actorUser: {
@@ -39,50 +23,74 @@ module.exports = {
   exits: {
     emailAlreadyInUse: {},
     usernameAlreadyInUse: {},
+    activeLimitReached: {},
   },
 
   async fn(inputs) {
     const { values } = inputs;
 
     if (values.password) {
-      values.password = bcrypt.hashSync(values.password, 10);
+      values.password = await bcrypt.hash(values.password, 10);
     }
 
     if (values.username) {
       values.username = values.username.toLowerCase();
     }
 
-    const user = await User.create({
-      ...values,
-      email: values.email.toLowerCase(),
-    })
-      .intercept(
-        {
-          message:
-            'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"',
-        },
-        'emailAlreadyInUse',
-      )
-      .intercept(
-        {
-          message:
-            'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_username_unique"',
-        },
-        'usernameAlreadyInUse',
-      )
-      .fetch();
+    let user;
+    try {
+      user = await User.qm.createOne({
+        ...values,
+        email: values.email.toLowerCase(),
+      });
+    } catch (error) {
+      if (error.code === 'E_UNIQUE') {
+        throw 'emailAlreadyInUse';
+      }
 
-    // const userIds = await sails.helpers.users.getAdminIds();
+      if (
+        error.name === 'AdapterError' &&
+        error.raw.constraint === 'user_account_username_unique'
+      ) {
+        throw 'usernameAlreadyInUse';
+      }
 
-    const users = await sails.helpers.users.getMany();
-    const userIds = sails.helpers.utils.mapRecords(users);
+      if (error.message === 'activeLimitReached') {
+        throw 'activeLimitReached';
+      }
 
-    userIds.forEach((userId) => {
+      throw error;
+    }
+
+    const scoper = sails.helpers.users.makeScoper(user);
+    const privateUserRelatedUserIds = await scoper.getPrivateUserRelatedUserIds();
+
+    privateUserRelatedUserIds.forEach((userId) => {
       sails.sockets.broadcast(
         `user:${userId}`,
         'userCreate',
         {
-          item: user,
+          // FIXME: hack
+          item: sails.helpers.users.presentOne(user, {
+            id: userId,
+            role: User.Roles.ADMIN,
+          }),
+        },
+        inputs.request,
+      );
+    });
+
+    const publicUserRelatedUserIds = await scoper.getPublicUserRelatedUserIds(true);
+
+    publicUserRelatedUserIds.forEach((userId) => {
+      sails.sockets.broadcast(
+        `user:${userId}`,
+        'userCreate',
+        {
+          // FIXME: hack
+          item: sails.helpers.users.presentOne(user, {
+            id: userId,
+          }),
         },
         inputs.request,
       );
@@ -90,9 +98,9 @@ module.exports = {
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'userCreate',
-      data: {
-        item: user,
-      },
+      buildData: () => ({
+        item: sails.helpers.users.presentOne(user),
+      }),
       user: inputs.actorUser,
     });
 

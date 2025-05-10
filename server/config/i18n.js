@@ -19,7 +19,7 @@ module.exports.i18n = {
    *
    */
 
-  locales: ['en', 'es', 'fr', 'de'],
+  locales: ['en-GB', 'en-US', 'ru-RU'],
 
   /**
    *
@@ -30,7 +30,7 @@ module.exports.i18n = {
    *
    */
 
-  // defaultLocale: 'en',
+  defaultLocale: process.env.DEFAULT_LANGUAGE || 'en-US',
 
   /**
    *

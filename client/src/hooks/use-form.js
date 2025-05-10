@@ -1,12 +1,17 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { useCallback, useState } from 'react';
 
 export default (initialData) => {
   const [data, setData] = useState(initialData);
 
-  const handleFieldChange = useCallback((_, { name: fieldName, value }) => {
+  const handleFieldChange = useCallback((_, { type, name: fieldName, value, checked }) => {
     setData((prevData) => ({
       ...prevData,
-      [fieldName]: value,
+      [fieldName]: type === 'radio' ? checked : value,
     }));
   }, []);
 

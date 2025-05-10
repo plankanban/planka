@@ -1,0 +1,58 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    padding: 0;
+  }
+
+  .wrapper {
+    background: #dce0e4;
+    border-radius: 3px;
+    color: #6a808b;
+    display: inline-block;
+    font-variant-numeric: tabular-nums;
+    transition: background 0.3s ease;
+  }
+
+  .wrapperActive {
+    background: #21ba45;
+    color: #fff;
+
+    &.wrapperHoverable:hover {
+      background: #16ab39;
+      color: #fff;
+    }
+  }
+
+  .wrapperHoverable:hover {
+    background: #d2d8dc;
+    color: #17394d;
+  }
+
+  /* Sizes */
+
+  .wrapperTiny {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 0 6px;
+  }
+
+  .wrapperSmall {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 2px 8px;
+  }
+
+  .wrapperMedium {
+    line-height: 20px;
+    padding: 6px 12px;
+  }
+}

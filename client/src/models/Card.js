@@ -1,41 +1,51 @@
-import pick from 'lodash/pick';
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { attr, fk, many, oneToOne } from 'redux-orm';
 
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
-import { ActivityTypes } from '../constants/Enums';
 
 export default class extends BaseModel {
   static modelName = 'Card';
 
   static fields = {
     id: attr(),
+    type: attr(),
     position: attr(),
     name: attr(),
     description: attr(),
-    creatorUserId: oneToOne({
-      to: 'User',
-      as: 'creatorUser',
-      relatedName: 'ownCards',
-    }),
     dueDate: attr(),
-    isDueDateCompleted: attr(),
     stopwatch: attr(),
+    createdAt: attr({
+      getDefault: () => new Date(),
+    }),
+    listChangedAt: attr({
+      getDefault: () => new Date(),
+    }),
     isSubscribed: attr({
       getDefault: () => false,
+    }),
+    lastCommentId: attr({
+      getDefault: () => null,
+    }),
+    isCommentsFetching: attr({
+      getDefault: () => false,
+    }),
+    isAllCommentsFetched: attr({
+      getDefault: () => null,
+    }),
+    lastActivityId: attr({
+      getDefault: () => null,
     }),
     isActivitiesFetching: attr({
       getDefault: () => false,
     }),
     isAllActivitiesFetched: attr({
-      getDefault: () => false,
-    }),
-    isActivitiesDetailsVisible: attr({
-      getDefault: () => false,
-    }),
-    isActivitiesDetailsFetching: attr({
-      getDefault: () => false,
+      getDefault: () => null,
     }),
     boardId: fk({
       to: 'Board',
@@ -46,6 +56,16 @@ export default class extends BaseModel {
       to: 'List',
       as: 'list',
       relatedName: 'cards',
+    }),
+    creatorUserId: fk({
+      to: 'User',
+      as: 'creatorUser',
+      relatedName: 'createdCards',
+    }),
+    prevListId: fk({
+      to: 'List',
+      as: 'prevList',
+      relatedName: 'prevCards',
     }),
     coverAttachmentId: oneToOne({
       to: 'Attachment',
@@ -60,6 +80,8 @@ export default class extends BaseModel {
     switch (type) {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
       case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.USER_UPDATE_HANDLE:
+      case ActionTypes.PROJECT_UPDATE_HANDLE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
         if (payload.cards) {
@@ -121,7 +143,9 @@ export default class extends BaseModel {
       case ActionTypes.USER_TO_CARD_ADD_HANDLE:
         try {
           Card.withId(payload.cardMembership.cardId).users.add(payload.cardMembership.userId);
-        } catch {} // eslint-disable-line no-empty
+        } catch {
+          /* empty */
+        }
 
         break;
       case ActionTypes.USER_FROM_CARD_REMOVE:
@@ -132,7 +156,9 @@ export default class extends BaseModel {
       case ActionTypes.USER_FROM_CARD_REMOVE_HANDLE:
         try {
           Card.withId(payload.cardMembership.cardId).users.remove(payload.cardMembership.userId);
-        } catch {} // eslint-disable-line no-empty
+        } catch {
+          /* empty */
+        }
 
         break;
       case ActionTypes.BOARD_FETCH__SUCCESS:
@@ -149,6 +175,22 @@ export default class extends BaseModel {
         });
 
         break;
+      case ActionTypes.LABEL_FROM_CARD_CREATE:
+        Card.withId(payload.cardId).labels.add(payload.label.id);
+
+        break;
+      case ActionTypes.LABEL_FROM_CARD_CREATE__SUCCESS: {
+        const cardModel = Card.withId(payload.cardLabel.cardId);
+
+        cardModel.labels.remove(payload.localId);
+        cardModel.labels.add(payload.label.id);
+
+        break;
+      }
+      case ActionTypes.LABEL_FROM_CARD_CREATE__FAILURE:
+        Card.withId(payload.cardId).labels.remove(payload.localId);
+
+        break;
       case ActionTypes.LABEL_TO_CARD_ADD:
         Card.withId(payload.cardId).labels.add(payload.id);
 
@@ -157,7 +199,9 @@ export default class extends BaseModel {
       case ActionTypes.LABEL_TO_CARD_ADD_HANDLE:
         try {
           Card.withId(payload.cardLabel.cardId).labels.add(payload.cardLabel.labelId);
-        } catch {} // eslint-disable-line no-empty
+        } catch {
+          /* empty */
+        }
 
         break;
       case ActionTypes.LABEL_FROM_CARD_REMOVE:
@@ -168,14 +212,72 @@ export default class extends BaseModel {
       case ActionTypes.LABEL_FROM_CARD_REMOVE_HANDLE:
         try {
           Card.withId(payload.cardLabel.cardId).labels.remove(payload.cardLabel.labelId);
-        } catch {} // eslint-disable-line no-empty
+        } catch {
+          /* empty */
+        }
 
         break;
       case ActionTypes.LIST_SORT__SUCCESS:
-      case ActionTypes.LIST_SORT_HANDLE:
-      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
+      case ActionTypes.LIST_CARDS_MOVE__SUCCESS:
+      case ActionTypes.LIST_DELETE__SUCCESS:
+      case ActionTypes.CARDS_UPDATE_HANDLE:
         payload.cards.forEach((card) => {
           Card.upsert(card);
+        });
+
+        break;
+      case ActionTypes.LIST_CARDS_MOVE: {
+        const listChangedAt = new Date();
+
+        payload.cardIds.forEach((cardId) => {
+          const cardModel = Card.withId(cardId);
+
+          cardModel.update({
+            listChangedAt,
+            listId: payload.nextId,
+            prevListId: cardModel.listId,
+          });
+        });
+
+        break;
+      }
+      case ActionTypes.LIST_DELETE: {
+        const listChangedAt = new Date();
+
+        payload.cardIds.forEach((cardId) => {
+          Card.withId(cardId).update({
+            listChangedAt,
+            listId: payload.trashId,
+          });
+        });
+
+        break;
+      }
+      case ActionTypes.LIST_DELETE_HANDLE:
+        if (payload.cards) {
+          payload.cards.forEach((card) => {
+            Card.upsert(card);
+          });
+        }
+
+        break;
+      case ActionTypes.CARDS_FETCH__SUCCESS:
+        payload.cards.forEach((card) => {
+          const cardModel = Card.withId(card.id);
+
+          if (cardModel) {
+            cardModel.deleteWithRelated();
+          }
+
+          Card.upsert(card);
+        });
+
+        payload.cardMemberships.forEach(({ cardId, userId }) => {
+          Card.withId(cardId).users.add(userId);
+        });
+
+        payload.cardLabels.forEach(({ cardId, labelId }) => {
+          Card.withId(cardId).labels.add(labelId);
         });
 
         break;
@@ -185,23 +287,26 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.CARD_CREATE__SUCCESS:
-        Card.withId(payload.localId).delete();
+        Card.withId(payload.localId).deleteWithClearable();
         Card.upsert(payload.card);
 
         break;
-      case ActionTypes.CARD_CREATE_HANDLE: {
-        const cardModel = Card.upsert(payload.card);
+      case ActionTypes.CARD_CREATE__FAILURE:
+        Card.withId(payload.localId).deleteWithClearable();
 
-        payload.cardMemberships.forEach(({ userId }) => {
-          cardModel.users.add(userId);
+        break;
+      case ActionTypes.CARD_CREATE_HANDLE:
+        Card.upsert(payload.card);
+
+        payload.cardMemberships.forEach(({ cardId, userId }) => {
+          Card.withId(cardId).users.add(userId);
         });
 
-        payload.cardLabels.forEach(({ labelId }) => {
-          cardModel.labels.add(labelId);
+        payload.cardLabels.forEach(({ cardId, labelId }) => {
+          Card.withId(cardId).labels.add(labelId);
         });
 
         break;
-      }
       case ActionTypes.CARD_UPDATE: {
         const cardModel = Card.withId(payload.id);
 
@@ -209,22 +314,17 @@ export default class extends BaseModel {
         if (payload.data.boardId && payload.data.boardId !== cardModel.boardId) {
           cardModel.deleteWithRelated();
         } else {
-          cardModel.update({
-            ...payload.data,
-            ...(payload.data.dueDate === null && {
-              isDueDateCompleted: null,
-            }),
-            ...(payload.data.dueDate &&
-              !cardModel.dueDate && {
-                isDueDateCompleted: false,
-              }),
-          });
+          if (payload.data.listId && payload.data.listId !== cardModel.listId) {
+            payload.data.listChangedAt = new Date(); // eslint-disable-line no-param-reassign
+          }
+
+          cardModel.update(payload.data);
         }
 
         break;
       }
       case ActionTypes.CARD_UPDATE_HANDLE:
-        if (payload.isFetched) {
+        if (payload.card.boardId === null || payload.isFetched) {
           const cardModel = Card.withId(payload.card.id);
 
           if (cardModel) {
@@ -232,7 +332,9 @@ export default class extends BaseModel {
           }
         }
 
-        Card.upsert(payload.card);
+        if (payload.card.boardId !== null) {
+          Card.upsert(payload.card);
+        }
 
         if (payload.cardMemberships) {
           payload.cardMemberships.forEach(({ cardId, userId }) => {
@@ -247,35 +349,13 @@ export default class extends BaseModel {
         }
 
         break;
-      case ActionTypes.CARD_DUPLICATE: {
-        const cardModel = Card.withId(payload.id);
-
-        const nextCardModel = Card.upsert({
-          ...pick(cardModel.ref, [
-            'boardId',
-            'listId',
-            'position',
-            'name',
-            'description',
-            'dueDate',
-            'isDueDateCompleted',
-            'stopwatch',
-          ]),
-          ...payload.card,
-        });
-
-        cardModel.users.toRefArray().forEach(({ id }) => {
-          nextCardModel.users.add(id);
-        });
-
-        cardModel.labels.toRefArray().forEach(({ id }) => {
-          nextCardModel.labels.add(id);
-        });
+      case ActionTypes.CARD_DUPLICATE:
+        Card.withId(payload.id).duplicate(payload.localId, payload.data);
 
         break;
-      }
       case ActionTypes.CARD_DUPLICATE__SUCCESS: {
         Card.withId(payload.localId).deleteWithRelated();
+
         const cardModel = Card.upsert(payload.card);
 
         payload.cardMemberships.forEach(({ userId }) => {
@@ -288,6 +368,10 @@ export default class extends BaseModel {
 
         break;
       }
+      case ActionTypes.CARD_DUPLICATE__FAILURE:
+        Card.withId(payload.localId).deleteWithRelated();
+
+        break;
       case ActionTypes.CARD_DELETE:
         Card.withId(payload.id).deleteWithRelated();
 
@@ -302,6 +386,22 @@ export default class extends BaseModel {
 
         break;
       }
+      case ActionTypes.COMMENTS_FETCH:
+        Card.withId(payload.cardId).update({
+          isCommentsFetching: true,
+        });
+
+        break;
+      case ActionTypes.COMMENTS_FETCH__SUCCESS:
+        Card.withId(payload.cardId).update({
+          isCommentsFetching: false,
+          isAllCommentsFetched: payload.comments.length < Config.COMMENTS_LIMIT,
+          ...(payload.comments.length > 0 && {
+            lastCommentId: payload.comments[payload.comments.length - 1].id,
+          }),
+        });
+
+        break;
       case ActionTypes.ACTIVITIES_FETCH:
         Card.withId(payload.cardId).update({
           isActivitiesFetching: true,
@@ -312,53 +412,34 @@ export default class extends BaseModel {
         Card.withId(payload.cardId).update({
           isActivitiesFetching: false,
           isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
+          ...(payload.activities.length > 0 && {
+            lastActivityId: payload.activities[payload.activities.length - 1].id,
+          }),
         });
 
         break;
-      case ActionTypes.ACTIVITIES_DETAILS_TOGGLE: {
-        const cardModel = Card.withId(payload.cardId);
-        cardModel.isActivitiesDetailsVisible = payload.isVisible;
-
-        if (payload.isVisible) {
-          cardModel.isActivitiesDetailsFetching = true;
-        }
-
-        break;
-      }
-      case ActionTypes.ACTIVITIES_DETAILS_TOGGLE__SUCCESS: {
-        const cardModel = Card.withId(payload.cardId);
-
-        cardModel.update({
-          isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
-          isActivitiesDetailsFetching: false,
-        });
-
-        cardModel.deleteActivities();
-
-        break;
-      }
       default:
     }
   }
 
-  getOrderedTasksQuerySet() {
-    return this.tasks.orderBy('position');
+  getTaskListsQuerySet() {
+    return this.taskLists.orderBy(['position', 'id.length', 'id']);
   }
 
-  getOrderedAttachmentsQuerySet() {
-    return this.attachments.orderBy('createdAt', false);
+  getAttachmentsQuerySet() {
+    return this.attachments.orderBy(['id.length', 'id'], ['desc', 'desc']);
   }
 
-  getFilteredOrderedInCardActivitiesQuerySet() {
-    const filter = {
-      isInCard: true,
-    };
+  getCustomFieldGroupsQuerySet() {
+    return this.customFieldGroups.orderBy(['position', 'id.length', 'id']);
+  }
 
-    if (!this.isActivitiesDetailsVisible) {
-      filter.type = ActivityTypes.COMMENT_CARD;
-    }
+  getCommentsQuerySet() {
+    return this.comments.orderBy(['id.length', 'id'], ['desc', 'desc']);
+  }
 
-    return this.activities.filter(filter).orderBy('createdAt', false);
+  getActivitiesQuerySet() {
+    return this.activities.orderBy(['id.length', 'id'], ['desc', 'desc']);
   }
 
   getUnreadNotificationsQuerySet() {
@@ -367,8 +448,143 @@ export default class extends BaseModel {
     });
   }
 
-  isAvailableForUser(userId) {
-    return this.board && this.board.isAvailableForUser(userId);
+  getShownOnFrontOfCardTaskListsModelArray() {
+    return this.getTaskListsQuerySet()
+      .toModelArray()
+      .filter((taskListModel) => taskListModel.showOnFrontOfCard);
+  }
+
+  getCommentsModelArray() {
+    if (this.isAllCommentsFetched === null) {
+      return [];
+    }
+
+    const commentModels = this.getCommentsQuerySet().toModelArray();
+
+    if (this.lastCommentId && this.isAllCommentsFetched === false) {
+      return commentModels.filter((commentModel) => {
+        if (commentModel.id.length > this.lastCommentId.length) {
+          return true;
+        }
+
+        if (commentModel.id.length < this.lastCommentId.length) {
+          return false;
+        }
+
+        return commentModel.id >= this.lastCommentId;
+      });
+    }
+
+    return commentModels;
+  }
+
+  getActivitiesModelArray() {
+    if (this.isAllActivitiesFetched === null) {
+      return [];
+    }
+
+    const activityModels = this.getActivitiesQuerySet().toModelArray();
+
+    if (this.lastActivityId && this.isAllActivitiesFetched === false) {
+      return activityModels.filter((activityModel) => {
+        if (activityModel.id.length > this.lastActivityId.length) {
+          return true;
+        }
+
+        if (activityModel.id.length < this.lastActivityId.length) {
+          return false;
+        }
+
+        return activityModel.id >= this.lastActivityId;
+      });
+    }
+
+    return activityModels;
+  }
+
+  hasUserWithId(userId) {
+    return this.cardusersSet
+      .filter({
+        toUserId: userId,
+      })
+      .exists();
+  }
+
+  isAvailableForUser(userModel) {
+    return !!this.list && this.list.isAvailableForUser(userModel);
+  }
+
+  duplicate(id, data, rootId) {
+    if (rootId === undefined) {
+      rootId = id; // eslint-disable-line no-param-reassign
+    }
+
+    const cardModel = this.getClass().create({
+      id,
+      boardId: this.boardId,
+      listId: this.listId,
+      creatorUserId: this.creatorUserId,
+      prevListId: this.prevListId,
+      coverAttachmentId: this.coverAttachmentId && `${this.coverAttachmentId}-${rootId}`,
+      type: this.type,
+      position: this.position,
+      name: this.name,
+      description: this.description,
+      dueDate: this.dueDate,
+      stopwatch: this.stopwatch,
+      ...data,
+    });
+
+    this.users.toRefArray().forEach((user) => {
+      cardModel.users.add(user.id);
+    });
+
+    this.labels.toRefArray().forEach((label) => {
+      cardModel.labels.add(label.id);
+    });
+
+    this.taskLists.toModelArray().forEach((taskListModel) => {
+      taskListModel.duplicate(`${taskListModel.id}-${rootId}`, {
+        cardId: cardModel.id,
+      });
+    });
+
+    this.attachments.toModelArray().forEach((attachmentModel) => {
+      attachmentModel.duplicate(`${attachmentModel.id}-${rootId}`, {
+        cardId: cardModel.id,
+        ...(data.creatorUserId && {
+          creatorUserId: data.creatorUserId,
+        }),
+      });
+    });
+
+    this.customFieldGroups.toModelArray().forEach((customFieldGroupModel) => {
+      customFieldGroupModel.duplicate(
+        `${customFieldGroupModel.id}-${rootId}`,
+        {
+          cardId: cardModel.id,
+        },
+        rootId,
+      );
+    });
+
+    this.customFieldValues.toModelArray().forEach((customFieldValueModel) => {
+      const customFieldValueData = {
+        cardId: cardModel.id,
+      };
+
+      if (customFieldValueModel.customFieldGroup.cardId) {
+        customFieldValueData.customFieldGroupId = `${customFieldValueModel.customFieldGroupId}-${rootId}`;
+
+        if (customFieldValueModel.customField.customFieldGroupId) {
+          customFieldValueData.customFieldId = `${customFieldValueModel.customFieldId}-${rootId}`;
+        }
+      }
+
+      customFieldValueModel.duplicate(customFieldValueData);
+    });
+
+    return cardModel;
   }
 
   deleteClearable() {
@@ -376,23 +592,22 @@ export default class extends BaseModel {
     this.labels.clear();
   }
 
-  deleteActivities() {
-    this.activities.toModelArray().forEach((activityModel) => {
-      if (activityModel.notification) {
-        activityModel.update({
-          isInCard: false,
-        });
-      } else {
-        activityModel.delete();
-      }
-    });
-  }
-
   deleteRelated() {
     this.deleteClearable();
-    this.tasks.delete();
+
+    this.taskLists.toModelArray().forEach((taskListModel) => {
+      taskListModel.deleteWithRelated();
+    });
+
     this.attachments.delete();
-    this.deleteActivities();
+
+    this.customFieldGroups.toModelArray().forEach((customFieldGroupModel) => {
+      customFieldGroupModel.deleteWithRelated();
+    });
+
+    this.customFieldValues.delete();
+    this.comments.delete();
+    this.activities.delete();
   }
 
   deleteWithClearable() {

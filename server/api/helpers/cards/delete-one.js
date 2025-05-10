@@ -1,10 +1,7 @@
-const buildAndSendMarkdownMessage = async (card, actorUser, send) => {
-  await send(`*${card.name}* was deleted by ${actorUser.name}`);
-};
-
-const buildAndSendHtmlMessage = async (card, actorUser, send) => {
-  await send(`<b>${card.name}</b> was deleted by ${actorUser.name}`);
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
@@ -34,7 +31,9 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const card = await Card.archiveOne(inputs.record.id);
+    await sails.helpers.cards.deleteRelated(inputs.record);
+
+    const card = await Card.qm.deleteOne(inputs.record.id);
 
     if (card) {
       sails.sockets.broadcast(
@@ -48,32 +47,16 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'cardDelete',
-        data: {
+        buildData: () => ({
           item: card,
           included: {
             projects: [inputs.project],
             boards: [inputs.board],
             lists: [inputs.list],
           },
-        },
+        }),
         user: inputs.actorUser,
       });
-
-      if (sails.config.custom.slackBotToken) {
-        buildAndSendMarkdownMessage(card, inputs.actorUser, sails.helpers.utils.sendSlackMessage);
-      }
-
-      if (sails.config.custom.googleChatWebhookUrl) {
-        buildAndSendMarkdownMessage(
-          card,
-          inputs.actorUser,
-          sails.helpers.utils.sendGoogleChatMessage,
-        );
-      }
-
-      if (sails.config.custom.telegramBotToken) {
-        buildAndSendHtmlMessage(card, inputs.actorUser, sails.helpers.utils.sendTelegramMessage);
-      }
     }
 
     return card;

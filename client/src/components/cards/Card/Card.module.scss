@@ -1,0 +1,86 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .actionsButton {
+    background: none;
+    box-shadow: none;
+    border-radius: 3px;
+    box-sizing: content-box;
+    color: #798d99;
+    display: inline-block;
+    margin: 0;
+    min-height: auto;
+    opacity: 0;
+    outline: none;
+    padding: 4px;
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    transition: background 85ms ease;
+    width: 20px;
+
+    &:hover {
+      background: #ebeef0;
+      color: #516b7a;
+    }
+  }
+
+  .content {
+    cursor: pointer;
+
+    &:after {
+      clear: both;
+      content: "";
+      display: table;
+    }
+  }
+
+  .wrapper {
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 #ccc;
+    position: relative;
+
+    &:hover {
+      background: #f5f6f7;
+      border-bottom-color: rgba(9, 30, 66, 0.25);
+
+      .actionsButton {
+        opacity: 1;
+      }
+    }
+  }
+
+  .wrapperDisabled {
+    filter: saturate(0.5);
+    opacity: 0.64;
+  }
+
+  .wrapperRecent:not(:hover) {
+    overflow: hidden;
+
+    &:after {
+      animation: slide 4s infinite 2s;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.64) 50%, rgba(128, 186, 232, 0) 99%, rgba(125, 185, 232, 0) 100%);
+      content: '';
+      height: 100%;
+      position: absolute;
+      top: 0;
+      transform: translateX(100%);
+      width: 100%;
+
+      @keyframes slide {
+        0% {
+          transform: translateX(-100%);
+        }
+
+        50% {
+          transform: translateX(100%);
+        }
+      }
+    }
+  }
+}

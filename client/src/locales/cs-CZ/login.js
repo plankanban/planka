@@ -1,17 +1,17 @@
 export default {
   translation: {
     common: {
+      emailAlreadyInUse: 'E-mail se již používá',
       emailOrUsername: 'E-mail nebo uživatelské jméno',
-      invalidEmailOrUsername: 'Nesprávný e-mail nebo uživatelské jméno',
       invalidCredentials: 'Neplatné přihlašovací údaje',
+      invalidEmailOrUsername: 'Nesprávný e-mail nebo uživatelské jméno',
       invalidPassword: 'Nesprávné heslo',
-      logInToPlanka: 'Přihlásit se do Planka',
       noInternetConnection: 'Bez připojení k internetu',
       pageNotFound_title: 'Stránka nenalezena',
       password: 'Heslo',
-      projectManagement: 'Správa projektu',
       serverConnectionFailed: 'Připojení k serveru selhalo',
       unknownError: 'Neznámá chyba, zkuste to později',
+      usernameAlreadyInUse: 'Uživatelské jméno se již používá',
       useSingleSignOn: 'Použít jednorázové přihlášení',
     },
 

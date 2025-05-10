@@ -1,17 +1,20 @@
-const idOrIdsValidator = (value) => _.isString(value) || _.every(value, _.isString);
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
-    idOrIds: {
-      type: 'json',
-      custom: idOrIdsValidator,
+    id: {
+      type: 'string',
       required: true,
     },
   },
 
   async fn(inputs) {
-    const labelIds = await sails.helpers.cards.getLabelIds(inputs.idOrIds);
+    const cardLabels = await CardLabel.qm.getByCardId(inputs.id);
+    const labelIds = sails.helpers.utils.mapRecords(cardLabels, 'labelId');
 
-    return sails.helpers.labels.getMany(labelIds);
+    return Label.qm.getByIds(labelIds);
   },
 };

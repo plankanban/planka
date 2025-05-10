@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     record: {
@@ -30,7 +35,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const cardMembership = await CardMembership.destroyOne(inputs.record.id);
+    const cardMembership = await CardMembership.qm.deleteOne(inputs.record.id);
 
     if (cardMembership) {
       sails.sockets.broadcast(
@@ -44,7 +49,7 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'cardMembershipDelete',
-        data: {
+        buildData: () => ({
           item: cardMembership,
           included: {
             projects: [inputs.project],
@@ -52,11 +57,11 @@ module.exports = {
             lists: [inputs.list],
             cards: [inputs.card],
           },
-        },
+        }),
         user: inputs.actorUser,
       });
 
-      const cardSubscription = await CardSubscription.destroyOne({
+      const cardSubscription = await CardSubscription.qm.deleteOne({
         cardId: cardMembership.cardId,
         userId: cardMembership.userId,
         isPermanent: false,
@@ -69,8 +74,6 @@ module.exports = {
             isSubscribed: false,
           },
         });
-
-        // TODO: send webhook
       }
     }
 

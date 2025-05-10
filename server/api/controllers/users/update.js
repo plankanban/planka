@@ -1,37 +1,51 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
   USER_NOT_FOUND: {
     userNotFound: 'User not found',
   },
+  ACTIVE_LIMIT_REACHED: {
+    activeLimitReached: 'Active limit reached',
+  },
 };
-
-const avatarUrlValidator = (value) => _.isNull(value);
 
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
-    isAdmin: {
-      type: 'boolean',
+    role: {
+      type: 'string',
+      isIn: Object.values(User.Roles),
     },
     name: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 128,
     },
-    avatarUrl: {
+    avatar: {
       type: 'json',
-      custom: avatarUrlValidator,
+      custom: _.isNull,
     },
     phone: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 128,
       allowNull: true,
     },
     organization: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 128,
       allowNull: true,
     },
     language: {
@@ -42,69 +56,115 @@ module.exports = {
     subscribeToOwnCards: {
       type: 'boolean',
     },
+    subscribeToCardWhenCommenting: {
+      type: 'boolean',
+    },
+    turnOffRecentCardHighlighting: {
+      type: 'boolean',
+    },
+    enableFavoritesByDefault: {
+      type: 'boolean',
+    },
+    defaultEditorMode: {
+      type: 'string',
+      isIn: Object.values(User.EditorModes),
+    },
+    defaultHomeView: {
+      type: 'string',
+      isIn: Object.values(User.HomeViews),
+    },
+    defaultProjectsOrder: {
+      type: 'string',
+      isIn: Object.values(User.ProjectOrders),
+    },
+    isDeactivated: {
+      type: 'boolean',
+    },
   },
 
   exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
     userNotFound: {
       responseType: 'notFound',
+    },
+    activeLimitReached: {
+      responseType: 'conflict',
     },
   },
 
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    if (!currentUser.isAdmin) {
-      if (inputs.id !== currentUser.id) {
-        throw Errors.USER_NOT_FOUND; // Forbidden
-      }
-
-      delete inputs.isAdmin; // eslint-disable-line no-param-reassign
+    const availableInputKeys = ['id', 'name', 'avatar', 'phone', 'organization'];
+    if (inputs.id === currentUser.id) {
+      availableInputKeys.push(...User.PERSONAL_FIELD_NAMES);
+    } else if (currentUser.role === User.Roles.ADMIN) {
+      availableInputKeys.push('role', 'isDeactivated');
+    } else {
+      throw Errors.USER_NOT_FOUND; // Forbidden
     }
 
-    let user = await sails.helpers.users.getOne(inputs.id);
+    if (_.difference(Object.keys(inputs), availableInputKeys).length > 0) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
+    let user = await User.qm.getOneById(inputs.id);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
+    // TODO: refactor
     if (user.email === sails.config.custom.defaultAdminEmail) {
-      /* eslint-disable no-param-reassign */
-      delete inputs.isAdmin;
-      delete inputs.name;
-      /* eslint-enable no-param-reassign */
-    } else if (user.isSso) {
-      if (!sails.config.custom.oidcIgnoreRoles) {
-        delete inputs.isAdmin; // eslint-disable-line no-param-reassign
+      if (inputs.role || inputs.name) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    } else if (user.isSsoUser) {
+      if (!sails.config.custom.oidcIgnoreRoles && inputs.role) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
       }
 
-      delete inputs.name; // eslint-disable-line no-param-reassign
+      if (inputs.name) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
     }
 
     const values = {
       ..._.pick(inputs, [
-        'isAdmin',
+        'role',
         'name',
+        'avatar',
         'phone',
         'organization',
         'language',
         'subscribeToOwnCards',
+        'subscribeToCardWhenCommenting',
+        'turnOffRecentCardHighlighting',
+        'enableFavoritesByDefault',
+        'defaultEditorMode',
+        'defaultHomeView',
+        'defaultProjectsOrder',
+        'isDeactivated',
       ]),
-      avatar: inputs.avatarUrl,
     };
 
-    user = await sails.helpers.users.updateOne.with({
-      values,
-      record: user,
-      actorUser: currentUser,
-      request: this.req,
-    });
+    user = await sails.helpers.users.updateOne
+      .with({
+        values,
+        record: user,
+        actorUser: currentUser,
+        request: this.req,
+      })
+      .intercept('activeLimitReached', () => Errors.ACTIVE_LIMIT_REACHED);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
     return {
-      item: user,
+      item: sails.helpers.users.presentOne(user, currentUser),
     };
   },
 };

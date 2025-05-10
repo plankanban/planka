@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { getAccessToken } from '../utils/access-token-storage';
 import ActionTypes from '../constants/ActionTypes';
 
@@ -10,7 +15,7 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.AUTHENTICATE__SUCCESS:
-    case ActionTypes.USING_OIDC_AUTHENTICATE__SUCCESS:
+    case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
       return {
         ...state,
         accessToken: payload.accessToken,

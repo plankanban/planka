@@ -1,4 +1,10 @@
-const moment = require('moment');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { isDueDate, isStopwatch } = require('../../../utils/validators');
+const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
@@ -12,59 +18,40 @@ const Errors = {
   },
 };
 
-const dueDateValidator = (value) => moment(value, moment.ISO_8601, true).isValid();
-
-const stopwatchValidator = (value) => {
-  if (!_.isPlainObject(value) || _.size(value) !== 2) {
-    return false;
-  }
-
-  if (
-    !_.isNull(value.startedAt) &&
-    _.isString(value.startedAt) &&
-    !moment(value.startedAt, moment.ISO_8601, true).isValid()
-  ) {
-    return false;
-  }
-
-  if (!_.isFinite(value.total)) {
-    return false;
-  }
-
-  return true;
-};
-
 module.exports = {
   inputs: {
     listId: {
+      ...idInput,
+      required: true,
+    },
+    type: {
       type: 'string',
-      regex: /^[0-9]+$/,
+      isIn: Object.values(Card.Types),
       required: true,
     },
     position: {
       type: 'number',
+      min: 0,
+      allowNull: true,
     },
     name: {
       type: 'string',
+      maxLength: 1024,
       required: true,
     },
     description: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 1048576,
       allowNull: true,
     },
     dueDate: {
       type: 'string',
-      custom: dueDateValidator,
-      allowNull: true,
-    },
-    isDueDateCompleted: {
-      type: 'boolean',
-      allowNull: true,
+      custom: isDueDate,
     },
     stopwatch: {
       type: 'json',
-      custom: stopwatchValidator,
+      custom: isStopwatch,
     },
   },
 
@@ -84,13 +71,13 @@ module.exports = {
     const { currentUser } = this.req;
 
     const { list, board, project } = await sails.helpers.lists
-      .getProjectPath(inputs.listId)
+      .getPathToProjectById(inputs.listId)
       .intercept('pathNotFound', () => Errors.LIST_NOT_FOUND);
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
       throw Errors.LIST_NOT_FOUND; // Forbidden
@@ -101,20 +88,20 @@ module.exports = {
     }
 
     const values = _.pick(inputs, [
+      'type',
       'position',
       'name',
       'description',
       'dueDate',
-      'isDueDateCompleted',
       'stopwatch',
     ]);
 
     const card = await sails.helpers.cards.createOne
       .with({
         project,
-        board,
         values: {
           ...values,
+          board,
           list,
           creatorUser: currentUser,
         },

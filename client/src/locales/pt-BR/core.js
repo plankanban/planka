@@ -1,7 +1,9 @@
 import dateFns from 'date-fns/locale/pt-BR';
+import timeAgo from 'javascript-time-ago/locale/pt';
 
 export default {
   dateFns,
+  timeAgo,
 
   format: {
     date: 'dd/MM/yyyy',
@@ -15,15 +17,13 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Sobre o Planka',
+      aboutPlanka: 'Sobre o PLANKA',
       account: 'Conta',
       actions: 'Ações',
       addAttachment_title: 'Adicionar Anexo',
-      addComment: 'Adicionar comentário',
       addManager_title: 'Adicionar Gerente',
       addMember_title: 'Adicionar Membro',
       addUser_title: 'Adicionar Usuário',
-      administrator: 'Administrador',
       all: 'Todos',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Todas as alterações serão salvas automaticamente<br />após a conexão ser restaurada.',
@@ -49,11 +49,9 @@ export default {
       board: 'Quadro',
       boardNotFound_title: 'Quadro não encontrado',
       canComment: 'Pode comentar',
-      canEditContentOfBoard: 'Pode editar o conteúdo do quadro.',
       canOnlyViewBoard: 'Só pode visualizar o quadro.',
       cardActions_title: 'Ações do Cartão',
       cardNotFound_title: 'Cartão não encontrado',
-      cardOrActionAreDeleted: 'Cartão ou ação foram excluídos.',
       color: 'Cor',
       createBoard_title: 'Criar Quadro',
       createLabel_title: 'Criar Rótulo',
@@ -79,7 +77,6 @@ export default {
       editor: 'Editor',
       editAttachment_title: 'Editar Anexo',
       editAvatar_title: 'Editar Avatar',
-      editBoard_title: 'Editar Quadro',
       editDueDate_title: 'Editar Data de Vencimento',
       editEmail_title: 'Editar E-mail',
       editInformation_title: 'Editar Informações',
@@ -89,12 +86,10 @@ export default {
       editStopwatch_title: 'Editar Cronômetro',
       editUsername_title: 'Editar Nome de Usuário',
       email: 'E-mail',
-      emailAlreadyInUse: 'E-mail já está em uso',
-      enterCardTitle: 'Digite o título do cartão... [Ctrl+Enter] para abrir automaticamente.',
+      enterCardTitle: 'Digite o título do cartão...',
       enterDescription: 'Digite a descrição...',
       enterFilename: 'Digite o nome do arquivo',
       enterListTitle: 'Digite o título da lista...',
-      enterProjectTitle: 'Digite o título do projeto',
       enterTaskDescription: 'Digite a descrição da tarefa...',
       filterByLabels_title: 'Filtrar por Rótulos',
       filterByMembers_title: 'Filtrar por Membros',
@@ -147,7 +142,6 @@ export default {
       stopwatch: 'Cronômetro',
       subscribeToMyOwnCardsByDefault: 'Inscrever-se automaticamente em meus próprios cartões',
       taskActions_title: 'Ações da Tarefa',
-      tasks: 'Tarefas',
       thereIsNoPreviewAvailableForThisAttachment:
         'Não há pré-visualização disponível para este anexo.',
       time: 'Tempo',
@@ -160,9 +154,7 @@ export default {
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> moveu este cartão de {{fromList}} para {{toList}}</1>',
       username: 'Nome de usuário',
-      usernameAlreadyInUse: 'Nome de usuário já está em uso',
       users: 'Usuários',
-      version: 'Versão',
       viewer: 'Visualizador',
       writeComment: 'Escreva um comentário...',
     },
@@ -192,11 +184,9 @@ export default {
       deleteCard: 'Excluir cartão',
       deleteCard_title: 'Excluir Cartão',
       deleteComment: 'Excluir comentário',
-      deleteImage: 'Excluir imagem',
       deleteLabel: 'Excluir rótulo',
       deleteList: 'Excluir lista',
       deleteList_title: 'Excluir Lista',
-      deleteNotifications: 'Dismiss all',
       deleteProject: 'Excluir projeto',
       deleteProject_title: 'Excluir Projeto',
       deleteTask: 'Excluir tarefa',
@@ -212,7 +202,6 @@ export default {
       editStopwatch_title: 'Editar Cronômetro',
       editTitle_title: 'Editar Título',
       editUsername_title: 'Editar Nome de Usuário',
-      hideDetails: 'Ocultar detalhes',
       import: 'Importar',
       leaveBoard: 'Sair do quadro',
       leaveProject: 'Sair do projeto',
@@ -221,7 +210,6 @@ export default {
       move: 'Mover',
       moveCard_title: 'Mover Cartão',
       remove: 'Remover',
-      removeBackground: 'Remover fundo',
       removeCover_title: 'Remover Capa',
       removeFromBoard: 'Remover do quadro',
       removeFromProject: 'Remover do projeto',
@@ -229,7 +217,6 @@ export default {
       removeMember: 'Remover membro',
       save: 'Salvar',
       showAllAttachments: 'Mostrar todos os anexos ({{hidden}} ocultos)',
-      showDetails: 'Mostrar detalhes',
       showFewerAttachments: 'Mostrar menos anexos',
       start: 'Iniciar',
       stop: 'Parar',

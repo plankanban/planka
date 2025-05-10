@@ -1,11 +1,16 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { useEffect, useRef } from 'react';
 
 export default (value) => {
-  const prevValue = useRef();
+  const prevValueRef = useRef();
 
   useEffect(() => {
-    prevValue.current = value;
+    prevValueRef.current = value;
   }, [value]);
 
-  return prevValue.current;
+  return prevValueRef.current;
 };

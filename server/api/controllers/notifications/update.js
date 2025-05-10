@@ -1,29 +1,59 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
+const Errors = {
+  NOTIFICATION_NOT_FOUND: {
+    notificationNotFound: 'Notification not found',
+  },
+};
+
 module.exports = {
   inputs: {
-    ids: {
-      type: 'string',
+    id: {
+      ...idInput,
       required: true,
-      regex: /^[0-9]+(,[0-9]+)*$/,
     },
     isRead: {
       type: 'boolean',
     },
   },
 
+  exits: {
+    notificationNotFound: {
+      responseType: 'notFound',
+    },
+  },
+
   async fn(inputs) {
     const { currentUser } = this.req;
 
+    let notification = await Notification.qm.getOneById(inputs.id, {
+      userId: currentUser.id,
+    });
+
+    if (!notification) {
+      throw Errors.NOTIFICATION_NOT_FOUND;
+    }
+
     const values = _.pick(inputs, ['isRead']);
 
-    const notifications = await sails.helpers.notifications.updateMany.with({
+    notification = await sails.helpers.notifications.updateOne.with({
       values,
-      recordsOrIds: inputs.ids.split(','),
+      record: notification,
       actorUser: currentUser,
       request: this.req,
     });
 
+    if (!notification) {
+      throw Errors.NOTIFICATION_NOT_FOUND;
+    }
+
     return {
-      items: notifications,
+      item: notification,
     };
   },
 };

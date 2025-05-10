@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { all, apply, fork, select, take } from 'redux-saga/effects';
 
 import watchers from './watchers';
@@ -18,9 +23,14 @@ export default function* coreSaga() {
   const oidcConfig = yield select(selectors.selectOidcConfig);
 
   if (oidcConfig && oidcConfig.endSessionUrl !== null) {
-    // Redirect the user to the IDP to log out.
-    window.location.href = oidcConfig.endSessionUrl;
-  } else {
-    window.location.href = Paths.LOGIN;
+    const currentUser = yield select(selectors.selectCurrentUser);
+
+    if (!currentUser || currentUser.isSsoUser) {
+      // Redirect the user to the IDP to log out.
+      window.location.href = oidcConfig.endSessionUrl;
+      return;
+    }
   }
+
+  window.location.href = Paths.LOGIN;
 }

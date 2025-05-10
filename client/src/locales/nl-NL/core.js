@@ -1,7 +1,9 @@
 import dateFns from 'date-fns/locale/nl';
+import timeAgo from 'javascript-time-ago/locale/nl';
 
 export default {
   dateFns,
+  timeAgo,
 
   format: {
     date: 'd-M-yyyy',
@@ -15,15 +17,13 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Over Planka',
+      aboutPlanka: 'Over PLANKA',
       account: 'Account',
       actions: 'Acties',
       addAttachment_title: 'Bijlage toevoegen',
-      addComment: 'Opmerking toevoegen',
       addManager_title: 'Manager toevoegen',
       addMember_title: 'Lid toevoegen',
       addUser_title: 'Gebruiker toevoegen',
-      administrator: 'Beheerder',
       all: 'Alle',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Alle wijzigingen worden automatisch opgeslagen<br />nadat de verbinding is hersteld.',
@@ -49,11 +49,9 @@ export default {
       board: 'Bord',
       boardNotFound_title: 'Bord niet gevonden',
       canComment: 'Kan opmerking plaatsen',
-      canEditContentOfBoard: 'Kan de inhoud van het bord bewerken.',
       canOnlyViewBoard: 'Kan alleen het bord bekijken.',
       cardActions_title: 'Kaartacties',
       cardNotFound_title: 'Kaart niet gevonden',
-      cardOrActionAreDeleted: 'Kaart of actie zijn verwijderd.',
       color: 'Kleur',
       createBoard_title: 'Bord aanmaken',
       createLabel_title: 'Label aanmaken',
@@ -79,7 +77,6 @@ export default {
       editor: 'Editor',
       editAttachment_title: 'Bijlage bewerken',
       editAvatar_title: 'Avatar bewerken',
-      editBoard_title: 'Bord bewerken',
       editDueDate_title: 'Vervaldatum bewerken',
       editEmail_title: 'E-mail bewerken',
       editInformation_title: 'Informatie bewerken',
@@ -89,12 +86,10 @@ export default {
       editStopwatch_title: 'Stopwatch bewerken',
       editUsername_title: 'Gebruikersnaam bewerken',
       email: 'E-mail',
-      emailAlreadyInUse: 'E-mail is al in gebruik',
-      enterCardTitle: 'Voer kaarttitel in... [Ctrl+Enter] om automatisch te openen.',
+      enterCardTitle: 'Voer kaarttitel in...',
       enterDescription: 'Beschrijving invoeren...',
       enterFilename: 'Bestandsnaam invoeren',
       enterListTitle: 'Voer lijsttitel in...',
-      enterProjectTitle: 'Voer projecttitel in',
       enterTaskDescription: 'Taakbeschrijving invoeren...',
       filterByLabels_title: 'Filteren op labels',
       filterByMembers_title: 'Filteren op leden',
@@ -147,7 +142,6 @@ export default {
       stopwatch: 'Stopwatch',
       subscribeToMyOwnCardsByDefault: 'Standaard abonneren op mijn eigen kaarten',
       taskActions_title: 'Takenacties',
-      tasks: 'Taken',
       thereIsNoPreviewAvailableForThisAttachment:
         'Er is geen voorbeeld beschikbaar voor deze bijlage.',
       time: 'Tijd',
@@ -161,9 +155,7 @@ export default {
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> heeft deze kaart verplaatst van {{fromList}} naar {{toList}}</1>',
       username: 'Gebruikersnaam',
-      usernameAlreadyInUse: 'Gebruikersnaam is al in gebruik',
       users: 'Gebruikers',
-      version: 'Versie',
       viewer: 'Kijker',
       writeComment: 'Schrijf een opmerking...',
     },
@@ -193,11 +185,9 @@ export default {
       deleteCard: 'Kaart verwijderen',
       deleteCard_title: 'Kaart verwijderen',
       deleteComment: 'Opmerking verwijderen',
-      deleteImage: 'Afbeelding verwijderen',
       deleteLabel: 'Label verwijderen',
       deleteList: 'Lijst verwijderen',
       deleteList_title: 'Lijst verwijderen',
-      deleteNotifications: 'Dismiss all',
       deleteProject: 'Project verwijderen',
       deleteProject_title: 'Project verwijderen',
       deleteTask: 'Taak verwijderen',
@@ -213,7 +203,6 @@ export default {
       editStopwatch_title: 'Stopwatch bewerken',
       editTitle_title: 'Titel bewerken',
       editUsername_title: 'Gebruikersnaam bewerken',
-      hideDetails: 'Details verbergen',
       import: 'Importeren',
       leaveBoard: 'Bord verlaten',
       leaveProject: 'Project verlaten',
@@ -222,7 +211,6 @@ export default {
       move: 'Verplaatsen',
       moveCard_title: 'Kaart verplaatsen',
       remove: 'Verwijderen',
-      removeBackground: 'Achtergrond verwijderen',
       removeCover_title: 'Omslag verwijderen',
       removeFromBoard: 'Verwijderen van bord',
       removeFromProject: 'Verwijderen van project',
@@ -230,7 +218,6 @@ export default {
       removeMember: 'Lid verwijderen',
       save: 'Opslaan',
       showAllAttachments: 'Alle bijlagen weergeven ({{hidden}} verbergen)',
-      showDetails: 'Details weergeven',
       showFewerAttachments: 'Minder bijlagen weergeven',
       start: 'Start',
       stop: 'Stop',

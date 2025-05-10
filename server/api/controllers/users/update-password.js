@@ -1,37 +1,42 @@
-const bcrypt = require('bcrypt');
-const zxcvbn = require('zxcvbn');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
-const { getRemoteAddress } = require('../../../utils/remoteAddress');
+const bcrypt = require('bcrypt');
+
+const { isPassword } = require('../../../utils/validators');
+const { idInput } = require('../../../utils/inputs');
+const { getRemoteAddress } = require('../../../utils/remote-address');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
   },
-  USER_NOT_FOUND: {
-    userNotFound: 'User not found',
-  },
   INVALID_CURRENT_PASSWORD: {
     invalidCurrentPassword: 'Invalid current password',
   },
+  USER_NOT_FOUND: {
+    userNotFound: 'User not found',
+  },
 };
-
-const passwordValidator = (value) => zxcvbn(value).score >= 2; // TODO: move to config
 
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
     password: {
       type: 'string',
-      custom: passwordValidator,
+      maxLength: 256,
+      custom: isPassword,
       required: true,
     },
     currentPassword: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 256,
     },
   },
 
@@ -39,11 +44,11 @@ module.exports = {
     notEnoughRights: {
       responseType: 'forbidden',
     },
-    userNotFound: {
-      responseType: 'notFound',
-    },
     invalidCurrentPassword: {
       responseType: 'forbidden',
+    },
+    userNotFound: {
+      responseType: 'notFound',
     },
   },
 
@@ -54,25 +59,26 @@ module.exports = {
       if (!inputs.currentPassword) {
         throw Errors.INVALID_CURRENT_PASSWORD;
       }
-    } else if (!currentUser.isAdmin) {
+    } else if (currentUser.role !== User.Roles.ADMIN) {
       throw Errors.USER_NOT_FOUND; // Forbidden
     }
 
-    let user = await sails.helpers.users.getOne(inputs.id);
+    let user = await User.qm.getOneById(inputs.id);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
     }
 
-    if (user.email === sails.config.custom.defaultAdminEmail || user.isSso) {
+    if (user.email === sails.config.custom.defaultAdminEmail || user.isSsoUser) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    if (
-      inputs.id === currentUser.id &&
-      !bcrypt.compareSync(inputs.currentPassword, user.password)
-    ) {
-      throw Errors.INVALID_CURRENT_PASSWORD;
+    if (inputs.id === currentUser.id) {
+      const isCurrentPasswordValid = await bcrypt.compare(inputs.currentPassword, user.password);
+
+      if (!isCurrentPasswordValid) {
+        throw Errors.INVALID_CURRENT_PASSWORD;
+      }
     }
 
     const values = _.pick(inputs, ['password']);
@@ -91,10 +97,10 @@ module.exports = {
     if (user.id === currentUser.id) {
       const { token: accessToken } = sails.helpers.utils.createJwtToken(
         user.id,
-        user.passwordUpdatedAt,
+        user.passwordChangedAt,
       );
 
-      await Session.create({
+      await Session.qm.createOne({
         accessToken,
         httpOnlyToken: currentSession.httpOnlyToken,
         userId: user.id,
@@ -103,7 +109,7 @@ module.exports = {
       });
 
       return {
-        item: user,
+        item: sails.helpers.users.presentOne(user, currentUser),
         included: {
           accessTokens: [accessToken],
         },
@@ -111,7 +117,7 @@ module.exports = {
     }
 
     return {
-      item: user,
+      item: sails.helpers.users.presentOne(user, currentUser),
     };
   },
 };

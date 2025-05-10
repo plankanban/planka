@@ -1,28 +1,9 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
-  if (!_.isUndefined(value.position) && !_.isFinite(value.position)) {
-    return false;
-  }
-
-  if (!_.isUndefined(value.board)) {
-    if (!_.isPlainObject(value.project)) {
-      return false;
-    }
-
-    if (!_.isPlainObject(value.board)) {
-      return false;
-    }
-  }
-
-  if (!_.isUndefined(value.list) && !_.isPlainObject(value.list)) {
-    return false;
-  }
-
-  return true;
-};
+const { POSITION_GAP } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -31,8 +12,7 @@ module.exports = {
       required: true,
     },
     values: {
-      type: 'ref',
-      custom: valuesValidator,
+      type: 'json',
       required: true,
     },
     project: {
@@ -61,8 +41,10 @@ module.exports = {
     boardInValuesMustBelongToProject: {},
     listMustBeInValues: {},
     listInValuesMustBelongToBoard: {},
+    coverAttachmentInValuesMustContainImage: {},
   },
 
+  // TODO: use normalizeValues and refactor
   async fn(inputs) {
     const { isSubscribed, ...values } = inputs.values;
 
@@ -102,90 +84,314 @@ module.exports = {
 
     const list = values.list || inputs.list;
 
-    if (values.list && _.isUndefined(values.position)) {
-      throw 'positionMustBeInValues';
-    }
-
-    if (!_.isUndefined(values.position)) {
-      const cards = await sails.helpers.lists.getCards(list.id, inputs.record.id);
-
-      const { position, repositions } = sails.helpers.utils.insertToPositionables(
-        values.position,
-        cards,
-      );
-
-      values.position = position;
-
-      repositions.forEach(async ({ id, position: nextPosition }) => {
-        await Card.update({
-          id,
-          listId: list.id,
-        }).set({
-          position: nextPosition,
-        });
-
-        sails.sockets.broadcast(`board:${board.id}`, 'cardUpdate', {
-          item: {
-            id,
-            position: nextPosition,
-          },
-        });
-
-        // TODO: send webhooks
-      });
-    }
-
-    const dueDate = _.isUndefined(values.dueDate) ? inputs.record.dueDate : values.dueDate;
-
-    if (dueDate) {
-      const isDueDateCompleted = _.isUndefined(values.isDueDateCompleted)
-        ? inputs.record.isDueDateCompleted
-        : values.isDueDateCompleted;
-
-      if (_.isNull(isDueDateCompleted)) {
-        values.isDueDateCompleted = false;
+    if (sails.helpers.lists.isFinite(list)) {
+      if (values.list && _.isUndefined(values.position)) {
+        throw 'positionMustBeInValues';
       }
     } else {
-      values.isDueDateCompleted = null;
+      values.position = null;
+    }
+
+    if (values.coverAttachment) {
+      if (!values.coverAttachment.data.image) {
+        throw 'coverAttachmentInValuesMustContainImage';
+      }
+
+      values.coverAttachmentId = values.coverAttachment.id;
     }
 
     let card;
     if (_.isEmpty(values)) {
       card = inputs.record;
     } else {
-      let prevLabels;
-      if (values.board) {
-        const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(values.board.id);
-
-        await CardSubscription.destroy({
-          cardId: inputs.record.id,
-          userId: {
-            '!=': boardMemberUserIds,
-          },
+      if (!_.isNil(values.position)) {
+        const cards = await Card.qm.getByListId(list.id, {
+          exceptIdOrIds: inputs.record.id,
         });
 
-        await CardMembership.destroy({
-          cardId: inputs.record.id,
-          userId: {
-            '!=': boardMemberUserIds,
-          },
-        });
+        const { position, repositions } = sails.helpers.utils.insertToPositionables(
+          values.position,
+          cards,
+        );
 
-        prevLabels = await sails.helpers.cards.getLabels(inputs.record.id);
+        values.position = position;
 
-        await CardLabel.destroy({
-          cardId: inputs.record.id,
-        });
+        if (repositions.length > 0) {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const reposition of repositions) {
+            // eslint-disable-next-line no-await-in-loop
+            await Card.qm.updateOne(
+              {
+                id: reposition.record.id,
+                listId: reposition.record.listId,
+              },
+              {
+                position: reposition.position,
+              },
+            );
+
+            sails.sockets.broadcast(`board:${board.id}`, 'cardUpdate', {
+              item: {
+                id: reposition.record.id,
+                position: reposition.position,
+              },
+            });
+
+            // TODO: send webhooks
+          }
+        }
       }
 
-      card = await Card.updateOne(inputs.record.id).set({ ...values });
+      let prevLabels;
+      if (values.board) {
+        prevLabels = await sails.helpers.cards.getLabels(inputs.record.id);
+
+        const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(values.board.id);
+
+        await CardSubscription.qm.delete({
+          cardId: inputs.record.id,
+          userId: {
+            '!=': boardMemberUserIds,
+          },
+        });
+
+        await CardMembership.qm.delete({
+          cardId: inputs.record.id,
+          userId: {
+            '!=': boardMemberUserIds,
+          },
+        });
+
+        await CardLabel.qm.delete({
+          cardId: inputs.record.id,
+        });
+
+        const taskLists = await TaskList.qm.getByCardId(inputs.record.id);
+        const taskListIds = sails.helpers.utils.mapRecords(taskLists);
+
+        await Task.qm.update(
+          {
+            taskListId: taskListIds,
+            assigneeUserId: {
+              '!=': boardMemberUserIds,
+            },
+          },
+          {
+            assigneeUserId: null,
+          },
+        );
+
+        const boardCustomFieldGroups = await CustomFieldGroup.qm.getByBoardId(inputs.board.id);
+        const boardCustomFieldGroupIds = sails.helpers.utils.mapRecords(boardCustomFieldGroups);
+
+        const boardCustomFields =
+          await CustomField.qm.getByCustomFieldGroupIds(boardCustomFieldGroupIds);
+
+        const cardCustomFieldGroups = await CustomFieldGroup.qm.getByCardId(inputs.record.id);
+
+        let basedCardCustomFieldGroups;
+        let basedCustomFieldGroups;
+        let baseCustomFieldGroupById;
+        let customFieldsByBaseCustomFieldGroupId;
+
+        if (values.project) {
+          const basedBoardCustomFieldGroups = boardCustomFieldGroups.filter(
+            ({ baseCustomFieldGroupId }) => baseCustomFieldGroupId,
+          );
+
+          basedCardCustomFieldGroups = cardCustomFieldGroups.filter(
+            ({ baseCustomFieldGroupId }) => baseCustomFieldGroupId,
+          );
+
+          basedCustomFieldGroups = [...basedBoardCustomFieldGroups, ...basedCardCustomFieldGroups];
+
+          const baseCustomFieldGroupIds = sails.helpers.utils.mapRecords(
+            basedCustomFieldGroups,
+            'baseCustomFieldGroupId',
+            true,
+          );
+
+          const baseCustomFieldGroups =
+            await BaseCustomFieldGroup.qm.getByIds(baseCustomFieldGroupIds);
+
+          baseCustomFieldGroupById = _.keyBy(baseCustomFieldGroups, 'id');
+
+          const baseCustomFields = await CustomField.qm.getByBaseCustomFieldGroupIds(
+            Object.keys(baseCustomFieldGroupById),
+          );
+
+          customFieldsByBaseCustomFieldGroupId = _.groupBy(
+            baseCustomFields,
+            'baseCustomFieldGroupId',
+          );
+        }
+
+        let idsTotal = boardCustomFieldGroups.length + boardCustomFields.length;
+
+        if (values.project) {
+          idsTotal += basedCustomFieldGroups.reduce((result, customFieldGroup) => {
+            const customFieldsItem =
+              customFieldsByBaseCustomFieldGroupId[customFieldGroup.baseCustomFieldGroupId];
+
+            return result + (customFieldsItem ? customFieldsItem.length : 0);
+          }, 0);
+        }
+
+        const ids = await sails.helpers.utils.generateIds(idsTotal);
+
+        const nextCustomFieldGroupIdByCustomFieldGroupId = {};
+        const nextCustomFieldGroupsValues = boardCustomFieldGroups.map(
+          (customFieldGroup, index) => {
+            const id = ids.shift();
+            nextCustomFieldGroupIdByCustomFieldGroupId[customFieldGroup.id] = id;
+
+            const nextValues = {
+              ..._.pick(customFieldGroup, ['baseCustomFieldGroupId', 'name']),
+              id,
+              cardId: inputs.record.id,
+              position: POSITION_GAP * (index + 1),
+            };
+
+            if (values.project && customFieldGroup.baseCustomFieldGroupId) {
+              nextValues.baseCustomFieldGroupId = null;
+
+              if (!customFieldGroup.name) {
+                nextValues.name =
+                  baseCustomFieldGroupById[customFieldGroup.baseCustomFieldGroupId].name;
+              }
+            }
+
+            return nextValues;
+          },
+        );
+
+        if (nextCustomFieldGroupsValues.length > 0) {
+          const { position } = nextCustomFieldGroupsValues[nextCustomFieldGroupsValues.length - 1];
+
+          await Promise.all(
+            cardCustomFieldGroups.map((customFieldGroup) =>
+              CustomFieldGroup.qm.updateOne(customFieldGroup.id, {
+                position: customFieldGroup.position + position,
+              }),
+            ),
+          );
+        }
+
+        await CustomFieldGroup.qm.create(nextCustomFieldGroupsValues);
+
+        if (values.project) {
+          await CustomFieldGroup.qm.update(
+            {
+              cardId: inputs.record.id,
+              baseCustomFieldGroupId: {
+                '!=': null,
+              },
+            },
+            {
+              baseCustomFieldGroupId: null,
+            },
+          );
+
+          const unnamedCustomFieldGroups = basedCardCustomFieldGroups.filter(({ name }) => !name);
+
+          await Promise.all(
+            unnamedCustomFieldGroups.map((customFieldGroup) =>
+              CustomFieldGroup.qm.updateOne(customFieldGroup.id, {
+                name: baseCustomFieldGroupById[customFieldGroup.baseCustomFieldGroupId].name,
+              }),
+            ),
+          );
+        }
+
+        const nextCustomFieldIdByCustomFieldId = {};
+        const nextCustomFieldsValues = boardCustomFields.map((customField) => {
+          const id = ids.shift();
+          nextCustomFieldIdByCustomFieldId[customField.id] = id;
+
+          return {
+            ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position']),
+            id,
+            customFieldGroupId:
+              nextCustomFieldGroupIdByCustomFieldGroupId[customField.customFieldGroupId],
+          };
+        });
+
+        if (values.project) {
+          basedCustomFieldGroups.forEach((customFieldGroup) => {
+            const customFieldsItem =
+              customFieldsByBaseCustomFieldGroupId[customFieldGroup.baseCustomFieldGroupId];
+
+            if (!customFieldsItem) {
+              return;
+            }
+
+            customFieldsItem.forEach((customField) => {
+              const id = ids.shift();
+              nextCustomFieldIdByCustomFieldId[`${customFieldGroup.id}:${customField.id}`] = id;
+
+              nextCustomFieldsValues.push({
+                ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position']),
+                id,
+                customFieldGroupId:
+                  nextCustomFieldGroupIdByCustomFieldGroupId[customFieldGroup.id] ||
+                  customFieldGroup.id,
+              });
+            });
+          });
+        }
+
+        await CustomField.qm.create(nextCustomFieldsValues);
+
+        const customFieldGroupIds = boardCustomFieldGroupIds;
+        if (values.project) {
+          customFieldGroupIds.push(...sails.helpers.utils.mapRecords(basedCardCustomFieldGroups));
+        }
+
+        const customFieldValues = await CustomFieldValue.qm.getByCardId(inputs.record.id, {
+          customFieldGroupIdOrIds: customFieldGroupIds,
+        });
+
+        await Promise.all(
+          customFieldValues.map((customFieldValue) => {
+            const updateValues = {
+              customFieldGroupId:
+                nextCustomFieldGroupIdByCustomFieldGroupId[customFieldValue.customFieldGroupId],
+            };
+
+            const nextCustomFieldId =
+              nextCustomFieldIdByCustomFieldId[
+                `${customFieldValue.customFieldGroupId}:${customFieldValue.customFieldId}`
+              ] || nextCustomFieldIdByCustomFieldId[customFieldValue.customFieldId];
+
+            if (nextCustomFieldId) {
+              updateValues.customFieldId = nextCustomFieldId;
+            }
+
+            return CustomFieldValue.qm.updateOne(customFieldValue.id, updateValues);
+          }),
+        );
+      }
+
+      if (values.list) {
+        values.listChangedAt = new Date().toISOString();
+
+        if (values.board || inputs.list.type === List.Types.TRASH) {
+          values.prevListId = null;
+        } else if (sails.helpers.lists.isArchiveOrTrash(values.list)) {
+          values.prevListId = inputs.list.id;
+        } else if (inputs.list.type === List.Types.ARCHIVE) {
+          values.prevListId = null;
+        }
+      }
+
+      card = await Card.qm.updateOne(inputs.record.id, values);
 
       if (!card) {
         return card;
       }
 
       if (values.board) {
-        const labels = await sails.helpers.boards.getLabels(card.boardId);
+        const labels = await Label.qm.getByBoardId(card.boardId);
         const labelByName = _.keyBy(labels, 'name');
 
         const labelIds = await Promise.all(
@@ -197,8 +403,8 @@ module.exports = {
             const { id } = await sails.helpers.labels.createOne.with({
               project,
               values: {
-                ..._.omit(label, ['id', 'boardId']),
-                board: values.board,
+                ..._.omit(label, ['id', 'boardId', 'createdAt', 'updatedAt']),
+                board,
               },
               actorUser: inputs.actorUser,
             });
@@ -208,21 +414,30 @@ module.exports = {
         );
 
         await Promise.all(
-          labelIds.map(async (labelId) =>
-            CardLabel.create({
-              labelId,
-              cardId: card.id,
-            })
-              .tolerate('E_UNIQUE')
-              .fetch(),
-          ),
+          labelIds.map((labelId) => {
+            try {
+              return CardLabel.qm.createOne({
+                labelId,
+                cardId: card.id,
+              });
+            } catch (error) {
+              if (error.code !== 'E_UNIQUE') {
+                throw error;
+              }
+            }
+
+            return Promise.resolve();
+          }),
         );
 
         sails.sockets.broadcast(
-          `board:${inputs.record.boardId}`,
-          'cardDelete', // TODO: introduce separate event
+          `board:${inputs.board.id}`,
+          'cardUpdate',
           {
-            item: inputs.record,
+            item: {
+              id: card.id,
+              boardId: null,
+            },
           },
           inputs.request,
         );
@@ -231,18 +446,7 @@ module.exports = {
           item: card,
         });
 
-        const subscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(card.id);
-
-        subscriptionUserIds.forEach((userId) => {
-          sails.sockets.broadcast(`user:${userId}`, 'cardUpdate', {
-            item: {
-              id: card.id,
-              isSubscribed: true,
-            },
-          });
-
-          // TODO: send webhooks
-        });
+        // TODO: add transfer action
       } else {
         sails.sockets.broadcast(
           `board:${card.boardId}`,
@@ -252,59 +456,67 @@ module.exports = {
           },
           inputs.request,
         );
+
+        if (values.list) {
+          await sails.helpers.actions.createOne.with({
+            values: {
+              card,
+              type: Action.Types.MOVE_CARD,
+              data: {
+                fromList: _.pick(inputs.list, ['id', 'type', 'name']),
+                toList: _.pick(values.list, ['id', 'type', 'name']),
+              },
+              user: inputs.actorUser,
+            },
+            project: inputs.project,
+            board: inputs.board,
+            list: values.list,
+          });
+        }
       }
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'cardUpdate',
-        data: {
+        buildData: () => ({
           item: card,
           included: {
             projects: [project],
             boards: [board],
             lists: [list],
           },
-        },
-        prevData: {
+        }),
+        buildPrevData: () => ({
           item: inputs.record,
-        },
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+            lists: [inputs.list],
+          },
+        }),
         user: inputs.actorUser,
       });
-
-      if (!values.board && values.list) {
-        await sails.helpers.actions.createOne.with({
-          project,
-          board,
-          list,
-          values: {
-            card,
-            user: inputs.actorUser,
-            type: Action.Types.MOVE_CARD,
-            data: {
-              fromList: _.pick(inputs.list, ['id', 'name']),
-              toList: _.pick(values.list, ['id', 'name']),
-            },
-          },
-          request: inputs.request,
-        });
-      }
-
-      // TODO: add transfer action
     }
 
     if (!_.isUndefined(isSubscribed)) {
-      const prevIsSubscribed = await sails.helpers.users.isCardSubscriber(
+      const wasSubscribed = await sails.helpers.users.isCardSubscriber(
         inputs.actorUser.id,
         card.id,
       );
 
-      if (isSubscribed !== prevIsSubscribed) {
+      if (isSubscribed !== wasSubscribed) {
         if (isSubscribed) {
-          await CardSubscription.create({
-            cardId: card.id,
-            userId: inputs.actorUser.id,
-          }).tolerate('E_UNIQUE');
+          try {
+            await CardSubscription.qm.createOne({
+              cardId: card.id,
+              userId: inputs.actorUser.id,
+            });
+          } catch (error) {
+            if (error.code !== 'E_UNIQUE') {
+              throw error;
+            }
+          }
         } else {
-          await CardSubscription.destroyOne({
+          await CardSubscription.qm.deleteOne({
             cardId: card.id,
             userId: inputs.actorUser.id,
           });

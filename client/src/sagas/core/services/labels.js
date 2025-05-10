@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { call, put, select } from 'redux-saga/effects';
 
 import request from '../request';
@@ -7,12 +12,12 @@ import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createLabel(boardId, data) {
+  const localId = yield call(createLocalId);
+
   const nextData = {
     ...data,
     position: yield select(selectors.selectNextLabelPosition, boardId),
   };
-
-  const localId = yield call(createLocalId);
 
   yield put(
     actions.createLabel({
@@ -37,6 +42,44 @@ export function* createLabelInCurrentBoard(data) {
   const { boardId } = yield select(selectors.selectPath);
 
   yield call(createLabel, boardId, data);
+}
+
+export function* createLabelFromCard(cardId, data) {
+  const localId = yield call(createLocalId);
+  const { boardId } = yield select(selectors.selectCardById, cardId);
+
+  const nextData = {
+    ...data,
+    position: yield select(selectors.selectNextLabelPosition, boardId),
+  };
+
+  yield put(
+    actions.createLabelFromCard(cardId, {
+      ...nextData,
+      boardId,
+      id: localId,
+    }),
+  );
+
+  let label;
+  try {
+    ({ item: label } = yield call(request, api.createLabel, boardId, nextData));
+  } catch (error) {
+    yield put(actions.createLabelFromCard.failure(cardId, localId, error));
+    return;
+  }
+
+  let cardLabel;
+  try {
+    ({ item: cardLabel } = yield call(request, api.createCardLabel, cardId, {
+      labelId: label.id,
+    }));
+  } catch (error) {
+    yield put(actions.createLabelFromCard.failure(cardId, localId, error));
+    return;
+  }
+
+  yield put(actions.createLabelFromCard.success(localId, label, cardLabel));
 }
 
 export function* handleLabelCreate(label) {
@@ -139,7 +182,9 @@ export function* handleLabelFromCardRemove(cardLabel) {
 }
 
 export function* addLabelToBoardFilter(id, boardId) {
-  yield put(actions.addLabelToBoardFilter(id, boardId));
+  const currentListId = yield select(selectors.selectCurrentListId);
+
+  yield put(actions.addLabelToBoardFilter(id, boardId, currentListId));
 }
 
 export function* addLabelToFilterInCurrentBoard(id) {
@@ -149,7 +194,9 @@ export function* addLabelToFilterInCurrentBoard(id) {
 }
 
 export function* removeLabelFromBoardFilter(id, boardId) {
-  yield put(actions.removeLabelFromBoardFilter(id, boardId));
+  const currentListId = yield select(selectors.selectCurrentListId);
+
+  yield put(actions.removeLabelFromBoardFilter(id, boardId, currentListId));
 }
 
 export function* removeLabelFromFilterInCurrentBoard(id) {
@@ -161,6 +208,7 @@ export function* removeLabelFromFilterInCurrentBoard(id) {
 export default {
   createLabel,
   createLabelInCurrentBoard,
+  createLabelFromCard,
   handleLabelCreate,
   updateLabel,
   handleLabelUpdate,

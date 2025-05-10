@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { call, put, select } from 'redux-saga/effects';
 
 import request from '../request';
@@ -6,37 +11,31 @@ import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
-export function* createTask(cardId, data) {
+export function* createTask(taskListId, data) {
+  const localId = yield call(createLocalId);
+
   const nextData = {
     ...data,
-    position: yield select(selectors.selectNextTaskPosition, cardId),
+    position: yield select(selectors.selectNextTaskPosition, taskListId),
   };
-
-  const localId = yield call(createLocalId);
 
   yield put(
     actions.createTask({
       ...nextData,
-      cardId,
+      taskListId,
       id: localId,
     }),
   );
 
   let task;
   try {
-    ({ item: task } = yield call(request, api.createTask, cardId, nextData));
+    ({ item: task } = yield call(request, api.createTask, taskListId, nextData));
   } catch (error) {
     yield put(actions.createTask.failure(localId, error));
     return;
   }
 
   yield put(actions.createTask.success(localId, task));
-}
-
-export function* createTaskInCurrentCard(data) {
-  const { cardId } = yield select(selectors.selectPath);
-
-  yield call(createTask, cardId, data);
 }
 
 export function* handleTaskCreate(task) {
@@ -61,11 +60,11 @@ export function* handleTaskUpdate(task) {
   yield put(actions.handleTaskUpdate(task));
 }
 
-export function* moveTask(id, index) {
-  const { cardId } = yield select(selectors.selectTaskById, id);
-  const position = yield select(selectors.selectNextTaskPosition, cardId, index, id);
+export function* moveTask(id, taskListId, index) {
+  const position = yield select(selectors.selectNextTaskPosition, taskListId, index, id);
 
   yield call(updateTask, id, {
+    taskListId,
     position,
   });
 }
@@ -90,7 +89,6 @@ export function* handleTaskDelete(task) {
 
 export default {
   createTask,
-  createTaskInCurrentCard,
   handleTaskCreate,
   updateTask,
   handleTaskUpdate,

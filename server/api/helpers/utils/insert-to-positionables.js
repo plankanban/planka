@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const GAP = 2 ** 14;
 const MIN_GAP = 0.125;
 const MAX_POSITION = 2 ** 50;
@@ -106,14 +111,14 @@ module.exports = {
 
     const repositions = [];
 
-    _.forEachRight(inputs.records, ({ id, position: currentPosition }) => {
-      if (_.isEmpty(repositionsMap[currentPosition])) {
+    _.forEachRight(inputs.records, (record) => {
+      if (_.isEmpty(repositionsMap[record.position])) {
         return;
       }
 
       repositions.unshift({
-        id,
-        position: repositionsMap[currentPosition].pop(),
+        record,
+        position: repositionsMap[record.position].pop(),
       });
     });
 

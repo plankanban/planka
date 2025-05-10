@@ -1,14 +1,21 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const bcrypt = require('bcrypt');
+
+const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
   },
-  USER_NOT_FOUND: {
-    userNotFound: 'User not found',
-  },
   INVALID_CURRENT_PASSWORD: {
     invalidCurrentPassword: 'Invalid current password',
+  },
+  USER_NOT_FOUND: {
+    userNotFound: 'User not found',
   },
   USERNAME_ALREADY_IN_USE: {
     usernameAlreadyInUse: 'Username already in use',
@@ -18,11 +25,11 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
     username: {
+      type: 'string',
       isNotEmptyString: true,
       minLength: 3,
       maxLength: 16,
@@ -32,6 +39,7 @@ module.exports = {
     currentPassword: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 256,
     },
   },
 
@@ -39,11 +47,11 @@ module.exports = {
     notEnoughRights: {
       responseType: 'forbidden',
     },
-    userNotFound: {
-      responseType: 'notFound',
-    },
     invalidCurrentPassword: {
       responseType: 'forbidden',
+    },
+    userNotFound: {
+      responseType: 'notFound',
     },
     usernameAlreadyInUse: {
       responseType: 'conflict',
@@ -53,11 +61,11 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    if (inputs.id !== currentUser.id && !currentUser.isAdmin) {
+    if (inputs.id !== currentUser.id && currentUser.role !== User.Roles.ADMIN) {
       throw Errors.USER_NOT_FOUND; // Forbidden
     }
 
-    let user = await sails.helpers.users.getOne(inputs.id);
+    let user = await User.qm.getOneById(inputs.id);
 
     if (!user) {
       throw Errors.USER_NOT_FOUND;
@@ -67,12 +75,18 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    if (user.isSso) {
+    if (user.isSsoUser) {
       if (!sails.config.custom.oidcIgnoreUsername) {
         throw Errors.NOT_ENOUGH_RIGHTS;
       }
     } else if (inputs.id === currentUser.id) {
-      if (!inputs.currentPassword || !bcrypt.compareSync(inputs.currentPassword, user.password)) {
+      if (!inputs.currentPassword) {
+        throw Errors.INVALID_CURRENT_PASSWORD;
+      }
+
+      const isCurrentPasswordValid = await bcrypt.compare(inputs.currentPassword, user.password);
+
+      if (!isCurrentPasswordValid) {
         throw Errors.INVALID_CURRENT_PASSWORD;
       }
     }
@@ -93,7 +107,7 @@ module.exports = {
     }
 
     return {
-      item: user,
+      item: sails.helpers.users.presentOne(user, currentUser),
     };
   },
 };

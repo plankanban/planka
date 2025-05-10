@@ -1,4 +1,9 @@
-const POSITION_GAP = 65535;
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { POSITION_GAP } = require('../constants');
 
 const addPosition = async (knex, tableName, parentFieldName) => {
   await knex.schema.table(tableName, (table) => {

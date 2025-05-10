@@ -1,22 +1,22 @@
 export default {
   translation: {
     common: {
+      emailAlreadyInUse: 'Имейлът вече се използва',
       emailOrUsername: 'Имейл или потребителско име',
       invalidEmailOrUsername: 'Невалиден имейл или потребителско име',
       invalidPassword: 'Невалидна парола',
-      logInToPlanka: 'Влезте в Planka',
       noInternetConnection: 'Няма интернет връзка',
       pageNotFound_title: 'Страницата не е намерена',
       password: 'Парола',
-      projectManagement: 'Управление на проекти',
       serverConnectionFailed: 'Неуспешна връзка със сървъра',
       unknownError: 'Неизвестна грешка, опитайте отново по-късно',
+      usernameAlreadyInUse: 'Потребителското име вече се използва',
       useSingleSignOn: 'Използване на single sign-on',
     },
 
     action: {
       logIn: 'Вход',
-      logInWithSSO: 'Вход чрез SSO',
+      logInWithSso: 'Вход чрез SSO',
     },
   },
 };

@@ -1,0 +1,12 @@
+{
+	"Card Created": "Карточка создана",
+	"Card Moved": "Карточка перемещена",
+	"New Comment": "Новый комментарий",
+	"Test Title": "Тестовый заголовок",
+	"This is a test text message!": "Это тестовое сообщение!",
+	"This is a *test* **markdown** `message`!": "Это *тестовое* **markdown** `сообщение`!",
+	"This is a <i>test</i> <b>html</b> <code>message</code>": "Это <i>тестовое</i> <b>html</b> <code>сообщение</code>",
+	"%s created %s in %s on %s": "%s создал(а) %s в %s на %s",
+	"%s left a new comment to %s on %s": "%s оставил(а) новый комментарий к %s на %s",
+	"%s moved %s from %s to %s on %s": "%s переместил(а) %s из %s в %s на %s"
+}

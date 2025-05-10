@@ -1,4 +1,9 @@
-const List = require('../../models/List');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { POSITION_GAP } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -6,10 +11,9 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    type: {
-      type: 'string',
-      isIn: Object.values(List.SortTypes),
-      defaultsTo: List.SortTypes.NAME_ASC,
+    options: {
+      type: 'json',
+      required: true,
     },
     project: {
       type: 'ref',
@@ -28,66 +32,88 @@ module.exports = {
     },
   },
 
-  async fn(inputs) {
-    let cards = await sails.helpers.lists.getCards(inputs.record.id);
+  exits: {
+    cannotBeSortedAsEndlessList: {},
+    invalidFieldName: {},
+  },
 
-    switch (inputs.type) {
-      case List.SortTypes.NAME_ASC:
-        cards.sort((a, b) => a.name.localeCompare(b.name));
-        break;
-      case List.SortTypes.DUE_DATE_ASC:
-        cards.sort((a, b) => {
-          if (a.dueDate === null) return 1;
-          if (b.dueDate === null) return -1;
-          return new Date(a.dueDate) - new Date(b.dueDate);
-        });
-        break;
-      case List.SortTypes.CREATED_AT_ASC:
-        cards.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        break;
-      case List.SortTypes.CREATED_AT_DESC:
-        cards.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      default:
-        throw new Error('Invalid sort type specified');
+  async fn(inputs) {
+    const { options } = inputs;
+
+    if (!sails.helpers.lists.isFinite(inputs.record)) {
+      throw 'cannotBeSortedAsEndlessList';
     }
 
-    const positions = cards.map((c) => c.position).sort((a, b) => a - b);
+    let cards = await Card.qm.getByListId(inputs.record.id);
+
+    switch (options.fieldName) {
+      case List.SortFieldNames.NAME:
+        cards.sort((card1, card2) => card1.name.localeCompare(card2.name));
+
+        break;
+      case List.SortFieldNames.DUE_DATE:
+        cards.sort((card1, card2) => {
+          if (card1.dueDate === null) {
+            return 1;
+          }
+
+          if (card2.dueDate === null) {
+            return -1;
+          }
+
+          return new Date(card1.dueDate) - new Date(card2.dueDate);
+        });
+
+        break;
+      case List.SortFieldNames.CREATED_AT:
+        cards.sort((card1, card2) => new Date(card1.createdAt) - new Date(card2.createdAt));
+
+        break;
+      default:
+        throw 'invalidFieldName';
+    }
+
+    if (options.order === List.SortOrders.DESC) {
+      cards.reverse();
+    }
 
     cards = await Promise.all(
-      cards.map(({ id }, index) =>
-        Card.updateOne({
-          id,
-          listId: inputs.record.id,
-        }).set({
-          position: positions[index],
-        }),
+      cards.map((card, index) =>
+        Card.qm.updateOne(
+          {
+            id: card.id,
+            listId: card.listId,
+          },
+          {
+            position: POSITION_GAP * (index + 1),
+          },
+        ),
       ),
     );
 
     sails.sockets.broadcast(
-      `board:${inputs.record.boardId}`,
-      'listSort',
+      `board:${inputs.board.id}`,
+      'cardsUpdate',
       {
-        item: inputs.record,
-        included: {
-          cards,
-        },
+        items: cards,
       },
       inputs.request,
     );
 
-    sails.helpers.utils.sendWebhooks.with({
-      event: 'listSort',
-      data: {
-        item: inputs.record,
-        included: {
-          cards,
-          projects: [inputs.project],
-          boards: [inputs.board],
-        },
-      },
-      user: inputs.actorUser,
+    cards.forEach((card) => {
+      // TODO: with prevData?
+      sails.helpers.utils.sendWebhooks.with({
+        event: 'cardUpdate',
+        buildData: () => ({
+          item: card,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+            lists: [inputs.record],
+          },
+        }),
+        user: inputs.actorUser,
+      });
     });
 
     return cards;

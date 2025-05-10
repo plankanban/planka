@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   BOARD_NOT_FOUND: {
     boardNotFound: 'Board not found',
@@ -7,8 +14,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
     subscribe: {
@@ -26,42 +32,67 @@ module.exports = {
     const { currentUser } = this.req;
 
     const { board, project } = await sails.helpers.boards
-      .getProjectPath(inputs.id)
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
 
-    const isBoardMember = await sails.helpers.users.isBoardMember(currentUser.id, board.id);
-
-    if (!isBoardMember) {
+    if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
       const isProjectManager = await sails.helpers.users.isProjectManager(
         currentUser.id,
         project.id,
       );
 
       if (!isProjectManager) {
-        throw Errors.BOARD_NOT_FOUND; // Forbidden
+        const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+          board.id,
+          currentUser.id,
+        );
+
+        if (!boardMembership) {
+          throw Errors.BOARD_NOT_FOUND; // Forbidden
+        }
       }
     }
 
-    const boardMemberships = await sails.helpers.boards.getBoardMemberships(board.id);
+    board.isSubscribed = await sails.helpers.users.isBoardSubscriber(currentUser.id, board.id);
 
-    const userIds = sails.helpers.utils.mapRecords(boardMemberships, 'userId');
-    const users = await sails.helpers.users.getMany(userIds);
+    const boardMemberships = await BoardMembership.qm.getByBoardId(board.id);
+    const labels = await Label.qm.getByBoardId(board.id);
+    const lists = await List.qm.getByBoardId(board.id);
 
-    const labels = await sails.helpers.boards.getLabels(board.id);
-    const lists = await sails.helpers.boards.getLists(board.id);
+    const finiteLists = lists.filter((list) => sails.helpers.lists.isFinite(list));
+    const finiteListIds = sails.helpers.utils.mapRecords(finiteLists);
 
-    const cards = await sails.helpers.boards.getCards(board.id);
+    const cards = await Card.qm.getByListIds(finiteListIds);
     const cardIds = sails.helpers.utils.mapRecords(cards);
 
-    const cardSubscriptions = await sails.helpers.cardSubscriptions.getMany({
-      cardId: cardIds,
-      userId: currentUser.id,
-    });
+    const userIds = _.union(
+      sails.helpers.utils.mapRecords(boardMemberships, 'userId'),
+      sails.helpers.utils.mapRecords(cards, 'creatorUserId', true, true),
+    );
 
-    const cardMemberships = await sails.helpers.cards.getCardMemberships(cardIds);
-    const cardLabels = await sails.helpers.cards.getCardLabels(cardIds);
-    const tasks = await sails.helpers.cards.getTasks(cardIds);
-    const attachments = await sails.helpers.cards.getAttachments(cardIds);
+    const users = await User.qm.getByIds(userIds);
+    const cardMemberships = await CardMembership.qm.getByCardIds(cardIds);
+    const cardLabels = await CardLabel.qm.getByCardIds(cardIds);
+
+    const taskLists = await TaskList.qm.getByCardIds(cardIds);
+    const taskListIds = sails.helpers.utils.mapRecords(taskLists);
+
+    const tasks = await Task.qm.getByTaskListIds(taskListIds);
+    const attachments = await Attachment.qm.getByCardIds(cardIds);
+
+    const boardCustomFieldGroups = await CustomFieldGroup.qm.getByBoardId(board.id);
+    const cardCustomFieldGroups = await CustomFieldGroup.qm.getByCardIds(cardIds);
+
+    const customFieldGroups = [...boardCustomFieldGroups, ...cardCustomFieldGroups];
+    const customFieldGroupIds = sails.helpers.utils.mapRecords(customFieldGroups);
+
+    const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
+    const customFieldValues = await CustomFieldValue.qm.getByCardIds(cardIds);
+
+    const cardSubscriptions = await CardSubscription.qm.getByCardIdsAndUserId(
+      cardIds,
+      currentUser.id,
+    );
 
     const isSubscribedByCardId = cardSubscriptions.reduce(
       (result, cardSubscription) => ({
@@ -83,16 +114,20 @@ module.exports = {
     return {
       item: board,
       included: {
-        users,
         boardMemberships,
         labels,
         lists,
         cards,
         cardMemberships,
         cardLabels,
+        taskLists,
         tasks,
-        attachments,
+        customFieldGroups,
+        customFields,
+        customFieldValues,
+        users: sails.helpers.users.presentMany(users, currentUser),
         projects: [project],
+        attachments: sails.helpers.attachments.presentMany(attachments),
       },
     };
   },

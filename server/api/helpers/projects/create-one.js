@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     values: {
@@ -16,27 +21,34 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const project = await Project.create({ ...values }).fetch();
+    const { project, projectManager } = await Project.qm.createOne(values, {
+      user: inputs.actorUser,
+    });
 
-    const projectManager = await ProjectManager.create({
-      projectId: project.id,
-      userId: inputs.actorUser.id,
-    }).fetch();
+    const scoper = sails.helpers.projects.makeScoper.with({
+      record: project,
+    });
 
-    sails.sockets.broadcast(
-      `user:${projectManager.userId}`,
-      'projectCreate',
-      {
-        item: project,
-      },
-      inputs.request,
-    );
+    scoper.projectManagerUserIds = [projectManager.userId];
+    const userIdsWithFullProjectVisibility = await scoper.getUserIdsWithFullProjectVisibility();
+
+    userIdsWithFullProjectVisibility.forEach((userId) => {
+      // TODO: send projectManager in included
+      sails.sockets.broadcast(
+        `user:${userId}`,
+        'projectCreate',
+        {
+          item: project,
+        },
+        inputs.request,
+      );
+    });
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'projectCreate',
-      data: {
+      buildData: () => ({
         item: project,
-      },
+      }),
       user: inputs.actorUser,
     });
 

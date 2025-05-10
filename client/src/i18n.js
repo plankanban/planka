@@ -1,18 +1,36 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 import formatDate from 'date-fns/format';
 import parseDate from 'date-fns/parse';
-import { registerLocale, setDefaultLocale } from 'react-datepicker';
+import {
+  registerLocale as registerDatepickerLocale,
+  setDefaultLocale as setDefaultDatepickerLocale,
+} from 'react-datepicker';
+import timeAgoDefaultLocale from 'javascript-time-ago/locale/en';
+import TimeAgo from 'javascript-time-ago';
+import { configure as configureMarkdownEditor } from '@gravity-ui/markdown-editor';
+// eslint-disable-next-line import/no-unresolved
+import { i18n as markdownEditorI18n } from '@gravity-ui/markdown-editor/_/i18n/i18n';
 
 import { embeddedLocales, languages } from './locales';
 
+const FALLBACK_LANGUAGE = 'en-US';
+
 i18n.dateFns = {
   locales: {},
+  init() {},
   addLocale(language, locale) {
     this.locales[language] = locale;
-
-    registerLocale(language, locale);
+    registerDatepickerLocale(language, locale);
+  },
+  setLanguage(language) {
+    setDefaultDatepickerLocale(language);
   },
   getLocale(language = i18n.resolvedLanguage) {
     return this.locales[language];
@@ -31,8 +49,41 @@ i18n.dateFns = {
   },
 };
 
+i18n.timeAgo = {
+  init() {
+    TimeAgo.addDefaultLocale(timeAgoDefaultLocale);
+  },
+  addLocale(_, locale) {
+    TimeAgo.addLocale(locale);
+  },
+  setLanguage() {},
+};
+
+i18n.markdownEditor = {
+  init() {
+    markdownEditorI18n.setFallbackLang(FALLBACK_LANGUAGE);
+    this.addLocale(FALLBACK_LANGUAGE, embeddedLocales[FALLBACK_LANGUAGE].markdownEditor);
+  },
+  addLocale(language, locale) {
+    Object.entries(locale).forEach(([keyset, data]) => {
+      markdownEditorI18n.registerKeyset(language, keyset, data);
+    });
+  },
+  setLanguage(language) {
+    configureMarkdownEditor({
+      lang: language,
+    });
+  },
+};
+
+i18n.dateFns.init();
+i18n.timeAgo.init();
+i18n.markdownEditor.init();
+
 i18n.on('languageChanged', () => {
-  setDefaultLocale(i18n.resolvedLanguage);
+  i18n.dateFns.setLanguage(i18n.resolvedLanguage);
+  i18n.timeAgo.setLanguage(i18n.resolvedLanguage);
+  i18n.markdownEditor.setLanguage(i18n.resolvedLanguage);
 });
 
 const formatDatePostProcessor = {
@@ -58,7 +109,7 @@ i18n
   .use(initReactI18next)
   .init({
     resources: embeddedLocales,
-    fallbackLng: 'en-US',
+    fallbackLng: FALLBACK_LANGUAGE,
     supportedLngs: languages,
     load: 'currentOnly',
     interpolation: {
@@ -76,21 +127,26 @@ i18n
     react: {
       useSuspense: true,
     },
-    debug: process.env.NODE_ENV !== 'production',
+    debug: import.meta.env.DEV,
   });
 
 i18n.loadCoreLocale = async (language = i18n.resolvedLanguage) => {
-  if (language === i18n.options.fallbackLng[0]) {
+  if (language === FALLBACK_LANGUAGE) {
     return;
   }
 
-  const { default: locale } = await import(`./locales/${language}/core`);
+  const { default: locale } = await import(`./locales/${language}/core.js`);
 
   Object.keys(locale).forEach((namespace) => {
-    if (namespace === 'dateFns') {
-      i18n.dateFns.addLocale(language, locale[namespace]);
-    } else {
-      i18n.addResourceBundle(language, namespace, locale[namespace], true, true);
+    switch (namespace) {
+      case 'dateFns':
+      case 'timeAgo':
+      case 'markdownEditor':
+        i18n[namespace].addLocale(language, locale[namespace]);
+
+        break;
+      default:
+        i18n.addResourceBundle(language, namespace, locale[namespace], true, true);
     }
   });
 };
@@ -101,7 +157,6 @@ i18n.detectLanguage = () => {
   } = i18n;
 
   localStorage.removeItem(languageDetector.options.lookupLocalStorage);
-
   const detectedLanguages = languageDetector.detect();
 
   i18n.language = languageUtils.getBestMatchFromCodes(detectedLanguages);

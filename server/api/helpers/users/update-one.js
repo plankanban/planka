@@ -1,29 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 const bcrypt = require('bcrypt');
 const { v4: uuid } = require('uuid');
-
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isUndefined(value.email) && !_.isString(value.email)) {
-    return false;
-  }
-
-  if (!_.isUndefined(value.password) && !_.isString(value.password)) {
-    return false;
-  }
-
-  if (!_.isNil(value.username) && !_.isString(value.username)) {
-    return false;
-  }
-
-  if (!_.isNil(value.avatar) && !_.isPlainObject(value.avatar)) {
-    return false;
-  }
-
-  return true;
-};
 
 module.exports = {
   inputs: {
@@ -33,7 +14,6 @@ module.exports = {
     },
     values: {
       type: 'json',
-      custom: valuesValidator,
       required: true,
     },
     actorUser: {
@@ -48,6 +28,7 @@ module.exports = {
   exits: {
     emailAlreadyInUse: {},
     usernameAlreadyInUse: {},
+    activeLimitReached: {},
   },
 
   async fn(inputs) {
@@ -57,70 +38,81 @@ module.exports = {
       values.email = values.email.toLowerCase();
     }
 
+    let isOnlyEmailChange = false;
     let isOnlyPasswordChange = false;
+    let isOnlyPersonalFieldsChange = false;
+    let isDeactivatedChangeToTrue = false;
+
+    if (!_.isUndefined(values.email) && Object.keys(values).length === 1) {
+      isOnlyEmailChange = true;
+    }
+
+    if (_.difference(Object.keys(values), User.PERSONAL_FIELD_NAMES).length === 0) {
+      isOnlyPersonalFieldsChange = true;
+    }
 
     if (!_.isUndefined(values.password)) {
       if (Object.keys(values).length === 1) {
         isOnlyPasswordChange = true;
       }
 
-      Object.assign(values, {
-        password: bcrypt.hashSync(values.password, 10),
-        passwordChangedAt: new Date().toUTCString(), // FIXME: hack
-      });
+      values.password = await bcrypt.hash(values.password, 10);
+      values.passwordChangedAt = new Date().toUTCString(); // FIXME: hack
     }
 
     if (values.username) {
       values.username = values.username.toLowerCase();
     }
 
-    const user = await User.updateOne({
-      id: inputs.record.id,
-      deletedAt: null,
-    })
-      .set({ ...values })
-      .intercept(
-        {
-          message:
-            'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_email_unique"',
-        },
-        'emailAlreadyInUse',
-      )
-      .intercept(
-        {
-          message:
-            'Unexpected error from database adapter: conflicting key value violates exclusion constraint "user_username_unique"',
-        },
-        'usernameAlreadyInUse',
-      );
+    if (values.isDeactivated && values.isDeactivated !== inputs.record.isDeactivated) {
+      isDeactivatedChangeToTrue = true;
+    }
+
+    let user;
+    try {
+      user = await User.qm.updateOne(inputs.record.id, values);
+    } catch (error) {
+      if (error.code === 'E_UNIQUE') {
+        throw 'emailAlreadyInUse';
+      }
+
+      if (
+        error.name === 'AdapterError' &&
+        error.raw.constraint === 'user_account_username_unique'
+      ) {
+        throw 'usernameAlreadyInUse';
+      }
+
+      if (error.message === 'activeLimitReached') {
+        throw 'activeLimitReached';
+      }
+
+      throw error;
+    }
 
     if (user) {
-      if (
-        inputs.record.avatar &&
-        (!user.avatar || user.avatar.dirname !== inputs.record.avatar.dirname)
-      ) {
-        const fileManager = sails.hooks['file-manager'].getInstance();
-
-        try {
-          await fileManager.deleteDir(
-            `${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.dirname}`,
-          );
-        } catch (error) {
-          console.warn(error.stack); // eslint-disable-line no-console
+      if (inputs.record.avatar) {
+        if (!user.avatar || user.avatar.dirname !== inputs.record.avatar.dirname) {
+          sails.helpers.users.removeRelatedFiles(inputs.record);
         }
       }
 
-      if (!_.isUndefined(values.password)) {
+      if (!_.isUndefined(values.password) || isDeactivatedChangeToTrue) {
         sails.sockets.broadcast(
           `user:${user.id}`,
           'userDelete', // TODO: introduce separate event
           {
-            item: user,
+            item: sails.helpers.users.presentOne(user, user),
           },
           inputs.request,
         );
 
-        if (user.id === inputs.actorUser.id && inputs.request && inputs.request.isSocket) {
+        if (
+          !isDeactivatedChangeToTrue &&
+          user.id === inputs.actorUser.id &&
+          inputs.request &&
+          inputs.request.isSocket
+        ) {
           const tempRoom = uuid();
 
           sails.sockets.addRoomMembersToRooms(`@user:${user.id}`, tempRoom, () => {
@@ -134,36 +126,88 @@ module.exports = {
       }
 
       if (!isOnlyPasswordChange) {
-        /* const projectIds = await sails.helpers.users.getManagerProjectIds(user.id);
-
-        const userIds = _.union(
-          [user.id],
-          await sails.helpers.users.getAdminIds(),
-          await sails.helpers.projects.getManagerAndBoardMemberUserIds(projectIds),
-        ); */
-
-        const users = await sails.helpers.users.getMany();
-        const userIds = sails.helpers.utils.mapRecords(users);
-
-        userIds.forEach((userId) => {
+        if (isOnlyPersonalFieldsChange) {
           sails.sockets.broadcast(
-            `user:${userId}`,
+            `user:${user.id}`,
             'userUpdate',
             {
-              item: user,
+              item: sails.helpers.users.presentOne(user, user),
             },
             inputs.request,
           );
-        });
+        } else {
+          const scoper = sails.helpers.users.makeScoper(user);
+          const privateUserRelatedUserIds = await scoper.getPrivateUserRelatedUserIds();
+
+          privateUserRelatedUserIds.forEach((userId) => {
+            sails.sockets.broadcast(
+              `user:${userId}`,
+              'userUpdate',
+              {
+                // FIXME: hack
+                item: sails.helpers.users.presentOne(user, {
+                  id: userId,
+                  role: User.Roles.ADMIN,
+                }),
+              },
+              inputs.request,
+            );
+          });
+
+          if (!isOnlyEmailChange) {
+            if (inputs.record.role === User.Roles.ADMIN && user.role !== User.Roles.ADMIN) {
+              const managerProjectIds = await sails.helpers.users.getManagerProjectIds(user.id);
+
+              const sharedProjects = await Project.qm.getShared({
+                exceptIdOrIds: managerProjectIds,
+              });
+
+              const projectIds = sails.helpers.utils.mapRecords(sharedProjects);
+
+              const boards = await Board.qm.getByProjectIds(projectIds);
+              const boardIds = sails.helpers.utils.mapRecords(boards);
+
+              const boardMemberships = await BoardMembership.qm.getByBoardIdsAndUserId(
+                boardIds,
+                user.id,
+              );
+
+              const missingBoardIds = _.difference(
+                boardIds,
+                sails.helpers.utils.mapRecords(boardMemberships, 'boardId'),
+              );
+
+              missingBoardIds.forEach((boardId) => {
+                sails.sockets.removeRoomMembersFromRooms(`@user:${user.id}`, `board:${boardId}`);
+              });
+            }
+
+            const publicUserRelatedUserIds = await scoper.getPublicUserRelatedUserIds();
+
+            publicUserRelatedUserIds.forEach((userId) => {
+              sails.sockets.broadcast(
+                `user:${userId}`,
+                'userUpdate',
+                {
+                  // FIXME: hack
+                  item: sails.helpers.users.presentOne(user, {
+                    id: userId,
+                  }),
+                },
+                inputs.request,
+              );
+            });
+          }
+        }
 
         sails.helpers.utils.sendWebhooks.with({
           event: 'userUpdate',
-          data: {
-            item: user,
-          },
-          prevData: {
-            item: inputs.record,
-          },
+          buildData: () => ({
+            item: sails.helpers.users.presentOne(user),
+          }),
+          buildPrevData: () => ({
+            item: sails.helpers.users.presentOne(inputs.record),
+          }),
           user: inputs.actorUser,
         });
       }

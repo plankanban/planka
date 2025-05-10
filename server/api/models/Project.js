@@ -1,9 +1,19 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 /**
  * Project.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
+
+const Types = {
+  PRIVATE: 'private',
+  SHARED: 'shared',
+};
 
 const BackgroundTypes = {
   GRADIENT: 'gradient',
@@ -39,6 +49,7 @@ const BACKGROUND_GRADIENTS = [
 ];
 
 module.exports = {
+  Types,
   BackgroundTypes,
   BACKGROUND_GRADIENTS,
 
@@ -51,12 +62,27 @@ module.exports = {
       type: 'string',
       required: true,
     },
-    background: {
-      type: 'json',
+    description: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
     },
-    backgroundImage: {
-      type: 'json',
-      columnName: 'background_image',
+    backgroundType: {
+      type: 'string',
+      isIn: Object.values(BackgroundTypes),
+      allowNull: true,
+      columnName: 'background_type',
+    },
+    backgroundGradient: {
+      type: 'string',
+      isIn: BACKGROUND_GRADIENTS,
+      allowNull: true,
+      columnName: 'background_gradient',
+    },
+    isHidden: {
+      type: 'boolean',
+      defaultsTo: false, // TODO: implement via normalizeValues?
+      columnName: 'is_hidden',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -67,6 +93,14 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+    ownerProjectManagerId: {
+      model: 'ProjectManager',
+      columnName: 'owner_project_manager_id',
+    },
+    backgroundImageId: {
+      model: 'BackgroundImage',
+      columnName: 'background_image_id',
+    },
     managerUsers: {
       collection: 'User',
       via: 'projectId',
@@ -76,17 +110,5 @@ module.exports = {
       collection: 'Board',
       via: 'projectId',
     },
-  },
-
-  customToJSON() {
-    const fileManager = sails.hooks['file-manager'].getInstance();
-
-    return {
-      ..._.omit(this, ['backgroundImage']),
-      backgroundImage: this.backgroundImage && {
-        url: `${fileManager.buildUrl(`${sails.config.custom.projectBackgroundImagesPathSegment}/${this.backgroundImage.dirname}/original.${this.backgroundImage.extension}`)}`,
-        coverUrl: `${fileManager.buildUrl(`${sails.config.custom.projectBackgroundImagesPathSegment}/${this.backgroundImage.dirname}/cover-336.${this.backgroundImage.extension}`)}`,
-      },
-    };
   },
 };

@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import ActionTypes from '../constants/ActionTypes';
 
 const createUser = (data) => ({
@@ -56,12 +61,60 @@ updateUser.failure = (id, error) => ({
   },
 });
 
-const handleUserUpdate = (user, users, isCurrent) => ({
+const handleUserUpdate = (
+  user,
+  projectIds,
+  boardIds,
+  config,
+  board,
+  users,
+  projects,
+  projectManagers,
+  backgroundImages,
+  baseCustomFieldGroups,
+  boards,
+  boardMemberships,
+  labels,
+  lists,
+  cards,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+  notificationsToDelete,
+  notificationServices,
+) => ({
   type: ActionTypes.USER_UPDATE_HANDLE,
   payload: {
     user,
+    projectIds,
+    boardIds,
+    config,
+    board,
     users,
-    isCurrent,
+    projects,
+    projectManagers,
+    backgroundImages,
+    baseCustomFieldGroups,
+    boards,
+    boardMemberships,
+    labels,
+    lists,
+    cards,
+    cardMemberships,
+    cardLabels,
+    taskLists,
+    tasks,
+    attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
+    notificationsToDelete,
+    notificationServices,
   },
 });
 
@@ -270,19 +323,22 @@ const handleUserFromCardRemove = (cardMembership) => ({
   },
 });
 
-const addUserToBoardFilter = (id, boardId) => ({
+const addUserToBoardFilter = (id, boardId, replace, currentListId) => ({
   type: ActionTypes.USER_TO_BOARD_FILTER_ADD,
   payload: {
     id,
     boardId,
+    replace,
+    currentListId,
   },
 });
 
-const removeUserFromBoardFilter = (id, boardId) => ({
+const removeUserFromBoardFilter = (id, boardId, currentListId) => ({
   type: ActionTypes.USER_FROM_BOARD_FILTER_REMOVE,
   payload: {
     id,
     boardId,
+    currentListId,
   },
 });
 

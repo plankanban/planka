@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     record: {
@@ -22,7 +27,22 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const list = await List.archiveOne(inputs.record.id);
+    const trashList = await List.qm.getOneTrashByBoardId(inputs.board.id);
+
+    const cards = await Card.qm.update(
+      {
+        listId: inputs.record.id,
+      },
+      {
+        listId: trashList.id,
+        position: null,
+        listChangedAt: new Date().toISOString(),
+      },
+    );
+
+    // TODO: create actions and notifications
+
+    const list = await List.qm.deleteOne(inputs.record.id);
 
     if (list) {
       sails.sockets.broadcast(
@@ -30,23 +50,26 @@ module.exports = {
         'listDelete',
         {
           item: list,
+          included: {
+            cards,
+          },
         },
         inputs.request,
       );
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'listDelete',
-        data: {
+        buildData: () => ({
           item: list,
           included: {
             projects: [inputs.project],
             boards: [inputs.board],
           },
-        },
+        }),
         user: inputs.actorUser,
       });
     }
 
-    return list;
+    return { list, cards };
   },
 };

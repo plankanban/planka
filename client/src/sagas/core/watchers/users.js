@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { all, takeEvery } from 'redux-saga/effects';
 
 import services from '../services';
@@ -71,6 +76,9 @@ export default function* usersWatchers() {
     takeEvery(EntryActionTypes.USER_TO_CURRENT_CARD_ADD, ({ payload: { id } }) =>
       services.addUserToCurrentCard(id),
     ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TO_CURRENT_CARD_ADD, () =>
+      services.addCurrentUserToCurrentCard(),
+    ),
     takeEvery(EntryActionTypes.USER_TO_CARD_ADD_HANDLE, ({ payload: { cardMembership } }) =>
       services.handleUserToCardAdd(cardMembership),
     ),
@@ -80,11 +88,15 @@ export default function* usersWatchers() {
     takeEvery(EntryActionTypes.USER_FROM_CURRENT_CARD_REMOVE, ({ payload: { id } }) =>
       services.removeUserFromCurrentCard(id),
     ),
+    takeEvery(EntryActionTypes.CURRENT_USER_FROM_CURRENT_CARD_REMOVE, () =>
+      services.removeCurrentUserFromCurrentCard(),
+    ),
     takeEvery(EntryActionTypes.USER_FROM_CARD_REMOVE_HANDLE, ({ payload: { cardMembership } }) =>
       services.handleUserFromCardRemove(cardMembership),
     ),
-    takeEvery(EntryActionTypes.USER_TO_FILTER_IN_CURRENT_BOARD_ADD, ({ payload: { id } }) =>
-      services.addUserToFilterInCurrentBoard(id),
+    takeEvery(
+      EntryActionTypes.USER_TO_FILTER_IN_CURRENT_BOARD_ADD,
+      ({ payload: { id, replace } }) => services.addUserToFilterInCurrentBoard(id, replace),
     ),
     takeEvery(EntryActionTypes.USER_FROM_FILTER_IN_CURRENT_BOARD_REMOVE, ({ payload: { id } }) =>
       services.removeUserFromFilterInCurrentBoard(id),

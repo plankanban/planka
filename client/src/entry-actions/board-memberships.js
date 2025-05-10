@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const createMembershipInCurrentBoard = (data) => ({
@@ -7,10 +12,11 @@ const createMembershipInCurrentBoard = (data) => ({
   },
 });
 
-const handleBoardMembershipCreate = (boardMembership) => ({
+const handleBoardMembershipCreate = (boardMembership, users) => ({
   type: EntryActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE,
   payload: {
     boardMembership,
+    users,
   },
 });
 

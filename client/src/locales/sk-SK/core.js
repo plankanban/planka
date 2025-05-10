@@ -1,7 +1,9 @@
 import dateFns from 'date-fns/locale/sk';
+import timeAgo from 'javascript-time-ago/locale/sk';
 
 export default {
   dateFns,
+  timeAgo,
 
   format: {
     date: 'd.M.yyyy',
@@ -18,11 +20,9 @@ export default {
       account: 'Účet',
       actions: 'Akcia',
       addAttachment_title: 'Pridať prílohu',
-      addComment: 'Pridať komentár',
       addManager_title: 'Pridať správcu',
       addMember_title: 'Pridať člena',
       addUser_title: 'Pridať používateľa',
-      administrator: 'Administrátor',
       all: 'Všetko',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Všetky zmeny budú automaticky uložené<br />po obnovení spojenia.',
@@ -49,7 +49,6 @@ export default {
       boardNotFound_title: 'Tabuľa neexistuje',
       cardActions_title: 'Akcie na karte',
       cardNotFound_title: 'Karta neexistuje',
-      cardOrActionAreDeleted: 'Karta alebo akcia sú zmazané.',
       color: 'Farba',
       createBoard_title: 'Vytvoriť tabuľu',
       createLabel_title: 'Vytvoriť štítok',
@@ -73,7 +72,6 @@ export default {
       dropFileToUpload: 'Potiahnutím nahraj súbor',
       editAttachment_title: 'Upraviť prílohu',
       editAvatar_title: 'Upraviť avatar',
-      editBoard_title: 'Upraviť tabuľu',
       editDueDate_title: 'Upraviť Termín do',
       editEmail_title: 'Upraviť e-mail',
       editInformation_title: 'Upraviť informácie',
@@ -82,12 +80,10 @@ export default {
       editStopwatch_title: 'Upraviť časovač',
       editUsername_title: 'Upraviť používateľské meno',
       email: 'E-mail',
-      emailAlreadyInUse: 'E-mail je už použitý',
       enterCardTitle: 'Vlož názov karty...',
       enterDescription: 'Vlož popis...',
       enterFilename: 'Vlož názov súboru',
       enterListTitle: 'Vlož názov zoznamu...',
-      enterProjectTitle: 'Vlož názov projektu',
       enterTaskDescription: 'Vlož popis úlohy...',
       filterByLabels_title: 'Filtruj podľa štítku',
       filterByMembers_title: 'Filtruj podľa člena',
@@ -133,7 +129,6 @@ export default {
       stopwatch: 'Časovač',
       subscribeToMyOwnCardsByDefault: 'Predvolene odoberať vlastné karty',
       taskActions_title: 'Akcie na úlohe',
-      tasks: 'Úlohy',
       time: 'Čas',
       title: 'Názov',
       userActions_title: 'Akcie na používateľovi',
@@ -143,7 +138,6 @@ export default {
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> presunul túto kartu z {{fromList}} do {{toList}}</1>',
       username: 'Používateľské meno',
-      usernameAlreadyInUse: 'Používateľské meno je zabrané',
       users: 'Používatelia',
       writeComment: 'Napísať komentár...',
     },
@@ -172,11 +166,9 @@ export default {
       deleteCard: 'Zmazať kartu',
       deleteCard_title: 'Zmazať kartu',
       deleteComment: 'Zmazať komentár',
-      deleteImage: 'Zmazať obrázok',
       deleteLabel: 'Zmazať štítok',
       deleteList: 'Zmazať zoznam',
       deleteList_title: 'Zmazať zoznam',
-      deleteNotifications: 'Dismiss all',
       deleteProject: 'Zmazať projekt',
       deleteProject_title: 'Zmazať projekt',
       deleteTask: 'Zmazať úlohu',
@@ -198,7 +190,6 @@ export default {
       move: 'Presunúť',
       moveCard_title: 'Presunúť kartu',
       remove: 'Odstrániť',
-      removeBackground: 'Odstrániť pozadie',
       removeCover_title: 'Odstrániť obal',
       removeFromBoard: 'Odstrániť z tabule',
       removeFromProject: 'Odstrániť z projektu',

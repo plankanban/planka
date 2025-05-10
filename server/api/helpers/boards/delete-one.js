@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 module.exports = {
   inputs: {
     record: {
@@ -18,18 +23,20 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const boardMemberships = await BoardMembership.destroy({
-      boardId: inputs.record.id,
-    }).fetch();
+    const { boardMemberships } = await sails.helpers.boards.deleteRelated(inputs.record);
 
-    const board = await Board.archiveOne(inputs.record.id);
+    const board = await Board.qm.deleteOne(inputs.record.id);
 
     if (board) {
-      sails.sockets.removeRoomMembersFromRooms(`board:${board.id}`, `board:${board.id}`);
+      const scoper = sails.helpers.projects.makeScoper.with({
+        board,
+        record: inputs.project,
+      });
 
-      const projectManagerUserIds = await sails.helpers.projects.getManagerUserIds(board.projectId);
-      const boardMemberUserIds = sails.helpers.utils.mapRecords(boardMemberships, 'userId');
-      const boardRelatedUserIds = _.union(projectManagerUserIds, boardMemberUserIds);
+      scoper.boardMemberships = boardMemberships;
+      const boardRelatedUserIds = await scoper.getBoardRelatedUserIds();
+
+      sails.sockets.removeRoomMembersFromRooms(`board:${board.id}`, `board:${board.id}`);
 
       boardRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
@@ -44,12 +51,12 @@ module.exports = {
 
       sails.helpers.utils.sendWebhooks.with({
         event: 'boardDelete',
-        data: {
+        buildData: () => ({
           item: board,
           included: {
             projects: [inputs.project],
           },
-        },
+        }),
         user: inputs.actorUser,
       });
     }

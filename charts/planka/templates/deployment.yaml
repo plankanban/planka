@@ -50,11 +50,14 @@ spec:
               path: /
               port: http
           volumeMounts:
+            - mountPath: /app/public/favicons
+              subPath: favicons
+              name: planka
             - mountPath: /app/public/user-avatars
               subPath: user-avatars
               name: planka
-            - mountPath: /app/public/project-background-images
-              subPath: project-background-images
+            - mountPath: /app/public/background-images
+              subPath: background-images
               name: planka
             - mountPath: /app/private/attachments
               subPath: attachments

@@ -1,0 +1,115 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .addButton {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    color: rgba(255, 255, 255, 0.48);
+    cursor: pointer;
+    fill: rgba(255, 255, 255, 0.48);
+    overflow: hidden;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    width: 100%;
+
+    &:hover {
+      .addButtonCover {
+        filter: brightness(0.8);
+      }
+    }
+  }
+
+  .addButtonCover {
+    background: rgba(107, 128, 140, 0.08);
+    bottom: 0;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: filter 0.2s ease;
+  }
+
+  .addButtonTitle {
+    display: table-cell;
+    font-size: 16px;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .addButtonTitleIcon {
+    display: block;
+    margin: 0 auto 12px;
+    width: 36px;
+  }
+
+  .addButtonTitleWrapper {
+    display: table;
+    height: 100%;
+    padding: 35px 21px;
+    width: 100%;
+  }
+
+  .card {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.1);
+    height: 150px;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1), 0 32px 64px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .column {
+    @media only screen and (width < 840px) {
+      width: 50% !important;
+    }
+
+    @media only screen and (840px <= width < 1120px) {
+      width: 33.3333333333% !important;
+    }
+
+    @media only screen and (1120px <= width < 1400px) {
+      width: 25% !important;
+    }
+
+    @media only screen and (1400px <= width < 1680px) {
+      width: 20% !important;
+    }
+
+    @media only screen and (1680px <= width < 1960px) {
+      width: 16.6666666667% !important;
+    }
+
+    @media only screen and (1960px <= width < 2240px) {
+      width: 14.2857142857% !important;
+    }
+
+    @media only screen and (width >= 2240px) {
+      width: 12.5% !important;
+    }
+  }
+
+  .title {
+    color: #6b808c;
+    font-size: 16px;
+    padding: 14px 0 14px 2px;
+  }
+
+  .titleIcon {
+    margin-right: 10px;
+  }
+
+  .wrapper:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  .wrapperWithoutTitle {
+    margin-top: 14px;
+  }
+}

@@ -5,7 +5,6 @@
   "hooks": {
     "blueprints": false,
     "grunt": false,
-    "i18n": false,
     "session": false
   },
   "paths": {

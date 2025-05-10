@@ -1,122 +1,35 @@
-import { createSelector } from 'redux-orm';
-import isUndefined from 'lodash/isUndefined';
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
-import orm from '../orm';
-import Config from '../constants/Config';
-
-export const selectAccessToken = ({ auth: { accessToken } }) => accessToken;
+export const selectIsContentFetching = ({ core: { isContentFetching } }) => isContentFetching;
 
 export const selectIsLogouting = ({ core: { isLogouting } }) => isLogouting;
 
-const nextPosition = (items, index, excludedId) => {
-  const filteredItems = isUndefined(excludedId)
-    ? items
-    : items.filter((item) => item.id !== excludedId);
+export const selectIsFavoritesEnabled = ({ core: { isFavoritesEnabled } }) => isFavoritesEnabled;
 
-  if (isUndefined(index)) {
-    const lastItem = filteredItems[filteredItems.length - 1];
+export const selectIsEditModeEnabled = ({ core: { isEditModeEnabled } }) => isEditModeEnabled;
 
-    return (lastItem ? lastItem.position : 0) + Config.POSITION_GAP;
-  }
+export const selectRecentCardId = ({ core: { recentCardId } }) => recentCardId;
 
-  const prevItem = filteredItems[index - 1];
-  const nextItem = filteredItems[index];
+export const selectHomeView = ({ core: { homeView } }) => homeView;
 
-  const prevPosition = prevItem ? prevItem.position : 0;
+export const selectProjectsSearch = ({ core: { projectsSearch } }) => projectsSearch;
 
-  if (!nextItem) {
-    return prevPosition + Config.POSITION_GAP;
-  }
+export const selectProjectsOrder = ({ core: { projectsOrder } }) => projectsOrder;
 
-  return prevPosition + (nextItem.position - prevPosition) / 2;
-};
-
-export const selectNextBoardPosition = createSelector(
-  orm,
-  (_, projectId) => projectId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Project }, projectId, index, excludedId) => {
-    const projectModel = Project.withId(projectId);
-
-    if (!projectModel) {
-      return projectModel;
-    }
-
-    return nextPosition(projectModel.getOrderedBoardsQuerySet().toRefArray(), index, excludedId);
-  },
-);
-
-export const selectNextLabelPosition = createSelector(
-  orm,
-  (_, boardId) => boardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Board }, boardId, index, excludedId) => {
-    const boardModel = Board.withId(boardId);
-
-    if (!boardModel) {
-      return boardModel;
-    }
-
-    return nextPosition(boardModel.getOrderedLabelsQuerySet().toRefArray(), index, excludedId);
-  },
-);
-
-export const selectNextListPosition = createSelector(
-  orm,
-  (_, boardId) => boardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Board }, boardId, index, excludedId) => {
-    const boardModel = Board.withId(boardId);
-
-    if (!boardModel) {
-      return boardModel;
-    }
-
-    return nextPosition(boardModel.getOrderedListsQuerySet().toRefArray(), index, excludedId);
-  },
-);
-
-export const selectNextCardPosition = createSelector(
-  orm,
-  (_, listId) => listId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ List }, listId, index, excludedId) => {
-    const listModel = List.withId(listId);
-
-    if (!listModel) {
-      return listModel;
-    }
-
-    return nextPosition(listModel.getFilteredOrderedCardsModelArray(), index, excludedId);
-  },
-);
-
-export const selectNextTaskPosition = createSelector(
-  orm,
-  (_, cardId) => cardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Card }, cardId, index, excludedId) => {
-    const cardModel = Card.withId(cardId);
-
-    if (!cardModel) {
-      return cardModel;
-    }
-
-    return nextPosition(cardModel.getOrderedTasksQuerySet().toRefArray(), index, excludedId);
-  },
-);
+export const selectIsHiddenProjectsVisible = ({ core: { isHiddenProjectsVisible } }) =>
+  isHiddenProjectsVisible;
 
 export default {
-  selectAccessToken,
+  selectIsContentFetching,
   selectIsLogouting,
-  selectNextBoardPosition,
-  selectNextLabelPosition,
-  selectNextListPosition,
-  selectNextCardPosition,
-  selectNextTaskPosition,
+  selectIsFavoritesEnabled,
+  selectIsEditModeEnabled,
+  selectRecentCardId,
+  selectHomeView,
+  selectProjectsSearch,
+  selectProjectsOrder,
+  selectIsHiddenProjectsVisible,
 };

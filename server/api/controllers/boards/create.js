@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   PROJECT_NOT_FOUND: {
     projectNotFound: 'Project not found',
@@ -13,16 +20,17 @@ const Errors = {
 module.exports = {
   inputs: {
     projectId: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
     position: {
       type: 'number',
+      min: 0,
       required: true,
     },
     name: {
       type: 'string',
+      maxLength: 128,
       required: true,
     },
     importType: {
@@ -32,6 +40,7 @@ module.exports = {
     requestId: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 128,
     },
   },
 
@@ -42,6 +51,9 @@ module.exports = {
     noImportFileWasUploaded: {
       responseType: 'unprocessableEntity',
     },
+    invalidImportFile: {
+      responseType: 'unprocessableEntity',
+    },
     uploadError: {
       responseType: 'unprocessableEntity',
     },
@@ -50,7 +62,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const project = await Project.findOne(inputs.projectId);
+    const project = await Project.qm.getOneById(inputs.projectId);
 
     if (!project) {
       throw Errors.PROJECT_NOT_FOUND;
@@ -62,10 +74,8 @@ module.exports = {
       throw Errors.PROJECT_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['position', 'name']);
-
     let boardImport;
-    if (inputs.importType && Object.values(Board.ImportTypes).includes(inputs.importType)) {
+    if (inputs.importType) {
       let files;
       try {
         files = await sails.helpers.utils.receiveFile('importFile', this.req);
@@ -80,12 +90,18 @@ module.exports = {
       const file = _.last(files);
 
       if (inputs.importType === Board.ImportTypes.TRELLO) {
+        const trelloBoard = await sails.helpers.boards
+          .processUploadedTrelloImportFile(file)
+          .intercept('invalidFile', () => Errors.INVALID_IMPORT_FILE);
+
         boardImport = {
           type: inputs.importType,
-          board: await sails.helpers.boards.processUploadedTrelloImportFile(file),
+          board: trelloBoard,
         };
       }
     }
+
+    const values = _.pick(inputs, ['position', 'name']);
 
     const { board, boardMembership } = await sails.helpers.boards.createOne.with({
       values: {

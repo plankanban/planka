@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
 
@@ -5,15 +10,14 @@ import Config from '../constants/Config';
 
 const io = sailsIOClient(socketIOClient);
 
-io.sails.url = Config.SERVER_HOST_NAME;
+io.sails.url = Config.SERVER_BASE_URL;
 io.sails.autoConnect = false;
 io.sails.reconnection = true;
 io.sails.useCORSRouteToGetCookie = false;
-io.sails.environment = process.env.NODE_ENV;
+io.sails.environment = import.meta.env.MODE;
 
 const { socket } = io;
 
-socket.path = `${Config.SERVER_BASE_PATH}/socket.io`;
 socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
 
 ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach((method) => {

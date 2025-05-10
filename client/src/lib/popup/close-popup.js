@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 export default () => {
-  document.dispatchEvent(new MouseEvent('click')); // FIXME: hack
+  document.body.click(); // FIXME: hack
 };

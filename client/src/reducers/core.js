@@ -1,11 +1,26 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { LOCATION_CHANGE_HANDLE } from '../lib/redux-router';
 
 import ActionTypes from '../constants/ActionTypes';
 import ModalTypes from '../constants/ModalTypes';
+import { HomeViews, ProjectOrders } from '../constants/Enums';
 
 const initialState = {
+  isContentFetching: false,
   isLogouting: false,
-  currentModal: null,
+  isFavoritesEnabled: false,
+  isEditModeEnabled: false,
+  modal: null,
+  boardId: null,
+  recentCardId: null,
+  homeView: HomeViews.GROUPED_PROJECTS,
+  projectsSearch: '',
+  projectsOrder: ProjectOrders.BY_DEFAULT,
+  isHiddenProjectsVisible: false, // TODO: refactor?
 };
 
 // eslint-disable-next-line default-param-last
@@ -15,7 +30,53 @@ export default (state = initialState, { type, payload }) => {
     case ActionTypes.MODAL_CLOSE:
       return {
         ...state,
-        currentModal: null,
+        modal: null,
+      };
+    case ActionTypes.LOCATION_CHANGE_HANDLE: {
+      const nextState = {
+        ...state,
+        isContentFetching: false,
+        boardId: payload.currentBoardId,
+      };
+
+      if (payload.currentCardId) {
+        nextState.recentCardId = payload.currentCardId;
+      } else if (nextState.boardId !== state.boardId) {
+        nextState.recentCardId = null;
+      }
+
+      if (payload.isEditModeEnabled !== undefined) {
+        nextState.isEditModeEnabled = payload.isEditModeEnabled;
+      }
+
+      return nextState;
+    }
+    case ActionTypes.LOCATION_CHANGE_HANDLE__CONTENT_FETCH:
+      return {
+        ...state,
+        isContentFetching: true,
+      };
+    case ActionTypes.CORE_INITIALIZE:
+      return {
+        ...state,
+        isFavoritesEnabled: payload.user.enableFavoritesByDefault,
+        homeView: payload.user.defaultHomeView,
+        projectsOrder: payload.user.defaultProjectsOrder,
+      };
+    case ActionTypes.FAVORITES_TOGGLE:
+      return {
+        ...state,
+        isFavoritesEnabled: payload.isEnabled,
+      };
+    case ActionTypes.EDIT_MODE_TOGGLE:
+      return {
+        ...state,
+        isEditModeEnabled: payload.isEnabled,
+      };
+    case ActionTypes.HOME_VIEW_UPDATE:
+      return {
+        ...state,
+        homeView: payload.value,
       };
     case ActionTypes.LOGOUT__ACCESS_TOKEN_INVALIDATE:
       return {
@@ -25,27 +86,45 @@ export default (state = initialState, { type, payload }) => {
     case ActionTypes.MODAL_OPEN:
       return {
         ...state,
-        currentModal: payload.type,
+        modal: payload,
       };
-    case ActionTypes.USER_UPDATE_HANDLE:
-      if (state.currentModal === ModalTypes.USERS && payload.isCurrent && !payload.user.isAdmin) {
+    case ActionTypes.PROJECTS_SEARCH:
+      return {
+        ...state,
+        projectsSearch: payload.value,
+      };
+    case ActionTypes.PROJECTS_ORDER_UPDATE:
+      return {
+        ...state,
+        projectsOrder: payload.value,
+      };
+    case ActionTypes.HIDDEN_PROJECTS_TOGGLE:
+      return {
+        ...state,
+        isHiddenProjectsVisible: payload.isVisible,
+      };
+    case ActionTypes.BOARD_DELETE:
+      if (
+        state.modal &&
+        state.modal.type === ModalTypes.BOARD_SETTINGS &&
+        state.modal.params.id === payload.id
+      ) {
         return {
           ...state,
-          currentModal: null,
+          modal: null,
         };
       }
 
       return state;
-    case ActionTypes.PROJECT_MANAGER_DELETE:
-    case ActionTypes.PROJECT_MANAGER_DELETE_HANDLE:
+    case ActionTypes.BOARD_DELETE_HANDLE:
       if (
-        state.currentModal === ModalTypes.PROJECT_SETTINGS &&
-        payload.isCurrentUser &&
-        payload.isCurrentProject
+        state.modal &&
+        state.modal.type === ModalTypes.BOARD_SETTINGS &&
+        state.modal.params.id === payload.board.id
       ) {
         return {
           ...state,
-          currentModal: null,
+          modal: null,
         };
       }
 

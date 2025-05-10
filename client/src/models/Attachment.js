@@ -1,16 +1,41 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { attr, fk } from 'redux-orm';
 
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
+import { AttachmentTypes } from '../constants/Enums';
+
+const prepareAttachment = (attachment) => {
+  if (attachment.type !== AttachmentTypes.FILE || !attachment.data) {
+    return attachment;
+  }
+
+  const filename = attachment.data.url.split('/').pop().toLowerCase();
+
+  let extension = filename.slice((Math.max(0, filename.lastIndexOf('.')) || Infinity) + 1);
+  extension = extension ? extension.toLowerCase() : null;
+
+  return {
+    ...attachment,
+    data: {
+      ...attachment.data,
+      filename,
+      extension,
+    },
+  };
+};
 
 export default class extends BaseModel {
   static modelName = 'Attachment';
 
   static fields = {
     id: attr(),
-    url: attr(),
-    coverUrl: attr(),
-    image: attr(),
+    type: attr(),
+    data: attr(),
     name: attr(),
     createdAt: attr({
       getDefault: () => new Date(),
@@ -20,46 +45,45 @@ export default class extends BaseModel {
       as: 'card',
       relatedName: 'attachments',
     }),
+    creatorUserId: fk({
+      to: 'User',
+      as: 'creatorUser',
+      relatedName: 'createdAttachments',
+    }),
   };
 
   static reducer({ type, payload }, Attachment) {
     switch (type) {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
       case ActionTypes.CORE_INITIALIZE:
+      case ActionTypes.USER_UPDATE_HANDLE:
+      case ActionTypes.PROJECT_UPDATE_HANDLE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
       case ActionTypes.CARD_UPDATE_HANDLE:
         if (payload.attachments) {
           payload.attachments.forEach((attachment) => {
-            Attachment.upsert(attachment);
+            Attachment.upsert(prepareAttachment(attachment));
           });
         }
 
         break;
       case ActionTypes.SOCKET_RECONNECT_HANDLE:
+        Attachment.all().delete();
+
         if (payload.attachments) {
-          // FIXME: bug with oneToOne relation in Redux-ORM
-          const attachmentIds = payload.attachments.map((attachment) => attachment.id);
-
-          Attachment.all()
-            .toModelArray()
-            .forEach((attachmentModel) => {
-              if (!attachmentIds.includes(attachmentModel.id)) {
-                attachmentModel.delete();
-              }
-            });
-
           payload.attachments.forEach((attachment) => {
-            Attachment.upsert(attachment);
+            Attachment.upsert(prepareAttachment(attachment));
           });
-        } else {
-          Attachment.all().delete();
         }
 
         break;
       case ActionTypes.BOARD_FETCH__SUCCESS:
+      case ActionTypes.CARDS_FETCH__SUCCESS:
+      case ActionTypes.CARD_CREATE_HANDLE:
+      case ActionTypes.CARD_DUPLICATE__SUCCESS:
         payload.attachments.forEach((attachment) => {
-          Attachment.upsert(attachment);
+          Attachment.upsert(prepareAttachment(attachment));
         });
 
         break;
@@ -67,12 +91,16 @@ export default class extends BaseModel {
       case ActionTypes.ATTACHMENT_CREATE_HANDLE:
       case ActionTypes.ATTACHMENT_UPDATE__SUCCESS:
       case ActionTypes.ATTACHMENT_UPDATE_HANDLE:
-        Attachment.upsert(payload.attachment);
+        Attachment.upsert(prepareAttachment(payload.attachment));
 
         break;
       case ActionTypes.ATTACHMENT_CREATE__SUCCESS:
         Attachment.withId(payload.localId).delete();
-        Attachment.upsert(payload.attachment);
+        Attachment.upsert(prepareAttachment(payload.attachment));
+
+        break;
+      case ActionTypes.ATTACHMENT_CREATE__FAILURE:
+        Attachment.withId(payload.localId).delete();
 
         break;
       case ActionTypes.ATTACHMENT_UPDATE:
@@ -95,5 +123,17 @@ export default class extends BaseModel {
       }
       default:
     }
+  }
+
+  duplicate(id, data) {
+    return this.getClass().create({
+      id,
+      cardId: this.cardId,
+      creatorUserId: this.creatorUserId,
+      type: this.type,
+      data: this.data,
+      name: this.name,
+      ...data,
+    });
   }
 }

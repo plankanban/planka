@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 export const LOCATION_CHANGE_HANDLE = '@@router/LOCATION_CHANGE_HANDLE';
 
 export const handleLocationChange = (location, action, isFirstRendering = false) => ({

@@ -1,4 +1,7 @@
-const openidClient = require('openid-client');
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 /**
  * oidc hook
@@ -8,6 +11,8 @@ const openidClient = require('openid-client');
  * @docs        :: https://sailsjs.com/docs/concepts/extending-sails/hooks
  */
 
+const openidClient = require('openid-client');
+
 module.exports = function defineOidcHook(sails) {
   let client = null;
 
@@ -16,18 +21,25 @@ module.exports = function defineOidcHook(sails) {
      * Runs when this Sails app loads/lifts.
      */
     async initialize() {
-      if (!this.isActive()) {
+      if (!this.isEnabled()) {
         return;
       }
 
       sails.log.info('Initializing custom hook (`oidc`)');
     },
 
+    // TODO: wait for initialization if called more than once
     async getClient() {
-      if (client === null && this.isActive()) {
+      if (this.isEnabled() && !this.isActive()) {
         sails.log.info('Initializing OIDC client');
 
-        const issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
+        let issuer;
+        try {
+          issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
+        } catch (error) {
+          sails.log.warn(`Error while initializing OIDC client: ${error}`);
+          return null;
+        }
 
         const metadata = {
           client_id: sails.config.custom.oidcClientId,
@@ -47,8 +59,12 @@ module.exports = function defineOidcHook(sails) {
       return client;
     },
 
+    isEnabled() {
+      return !!sails.config.custom.oidcIssuer;
+    },
+
     isActive() {
-      return sails.config.custom.oidcIssuer !== undefined;
+      return client !== null;
     },
   };
 };

@@ -1,0 +1,196 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .content {
+    color: #fff;
+  }
+
+  .cover {
+    background: #555;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: filter 0.2s ease;
+
+    &::after {
+      background: #000;
+      bottom: 0;
+      content: "";
+      left: 0;
+      opacity: 0.3;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  .description {
+    border-left: 1px solid;
+    display: -webkit-box;
+    font-weight: lighter;
+    hyphens: auto;
+    left: 0;
+    line-height: 1.2;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translate(-40px, 0);
+    white-space: pre-line;
+    word-break: break-word;
+    -webkit-box-orient: vertical;
+  }
+
+  .favoriteButton {
+    background: none;
+    box-shadow: none;
+    height: 36px;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 36px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .favoriteButtonAppearable {
+    opacity: 0;
+  }
+
+  .icon {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+  }
+
+  .information {
+    height: 100%;
+    position: relative;
+  }
+
+  .notifications {
+    background: #eb5a46;
+    border: none;
+    border-radius: 3px;
+    outline: none;
+    padding: 0px 6px;
+    position: absolute;
+    transition: background 0.3s ease;
+  }
+
+  .title {
+    bottom: 0;
+    display: -webkit-box;
+    hyphens: auto;
+    left: 0;
+    line-height: 1.1;
+    overflow: hidden;
+    position: absolute;
+    word-break: break-word;
+    -webkit-box-orient: vertical;
+  }
+
+  .titleActivatable {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  .titleActive {
+    color: #fff;
+    font-weight: bold;
+  }
+
+  .typeIndicator {
+    bottom: 12px;
+    margin-top: auto;
+    position: absolute;
+    right: 12px;
+  }
+
+  .typeIndicatorIcon {
+    opacity: 0.8;
+  }
+
+  .typeIndicatorWithUser {
+    bottom: 12px;
+    right: 8px;
+  }
+
+  .wrapper {
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+
+    &:hover {
+      .cover {
+        filter: brightness(0.8);
+      }
+
+      .description {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+
+      .favoriteButtonAppearable {
+        opacity: 1;
+      }
+
+      .titleActivatable {
+        color: #fff;
+      }
+    }
+  }
+
+  .wrapperHidden {
+    opacity: 0.5;
+  }
+
+  /* Sizes */
+
+  .wrapperSmall {
+    .notifications {
+      font-size: 10px;
+      line-height: 18px;
+    }
+
+    .title {
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      margin: 0 12px 10px 12px;
+    }
+  }
+
+  .wrapperLarge {
+    .description {
+      line-clamp: 3;
+      -webkit-line-clamp: 3;
+      margin: 24px 20px 0 20px;
+      padding-left: 10px;
+    }
+
+    .informationWithSidebar {
+      margin-right: 20px;
+    }
+
+    .notifications {
+      font-size: 12px;
+      line-height: 20px;
+    }
+
+    .title {
+      font-size: 22px;
+      line-clamp: 2;
+      -webkit-line-clamp: 2;
+      margin: 0 20px 14px 20px;
+    }
+  }
+}

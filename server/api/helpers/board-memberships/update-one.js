@@ -1,3 +1,12 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { v4: uuid } = require('uuid');
+
+const normalizeValues = require('../../../utils/normalize-values');
+
 module.exports = {
   inputs: {
     record: {
@@ -27,25 +36,21 @@ module.exports = {
 
   async fn(inputs) {
     const { values } = inputs;
-    const role = values.role || inputs.record.role;
 
-    if (role === BoardMembership.Roles.EDITOR) {
-      values.canComment = null;
-    } else if (role === BoardMembership.Roles.VIEWER) {
-      const canComment = _.isUndefined(values.canComment)
-        ? inputs.record.canComment
-        : values.canComment;
+    const normalizedValues = normalizeValues(
+      {
+        ...BoardMembership.SHARED_RULES,
+        ...BoardMembership.RULES_BY_ROLE[values.role || inputs.record.role],
+      },
+      values,
+      inputs.record,
+    );
 
-      if (_.isNull(canComment)) {
-        values.canComment = false;
-      }
-    }
-
-    const boardMembership = await BoardMembership.updateOne(inputs.record.id).set({ ...values });
+    const boardMembership = await BoardMembership.qm.updateOne(inputs.record.id, normalizedValues);
 
     if (boardMembership) {
       sails.sockets.broadcast(
-        `board:${boardMembership.boardId}`,
+        `user:${boardMembership.userId}`,
         'boardMembershipUpdate',
         {
           item: boardMembership,
@@ -53,18 +58,35 @@ module.exports = {
         inputs.request,
       );
 
+      const tempRoom = uuid();
+
+      sails.sockets.addRoomMembersToRooms(`board:${boardMembership.boardId}`, tempRoom, () => {
+        sails.sockets.removeRoomMembersFromRooms(`user:${boardMembership.userId}`, tempRoom, () => {
+          sails.sockets.broadcast(
+            tempRoom,
+            'boardMembershipUpdate',
+            {
+              item: boardMembership,
+            },
+            inputs.request,
+          );
+
+          sails.sockets.removeRoomMembersFromRooms(tempRoom, tempRoom);
+        });
+      });
+
       sails.helpers.utils.sendWebhooks.with({
         event: 'boardMembershipUpdate',
-        data: {
+        buildData: () => ({
           item: boardMembership,
           included: {
             projects: [inputs.project],
             boards: [inputs.board],
           },
-        },
-        prevData: {
+        }),
+        buildPrevData: () => ({
           item: inputs.record,
-        },
+        }),
         user: inputs.actorUser,
       });
     }

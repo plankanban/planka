@@ -1,8 +1,16 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const fsPromises = require('fs').promises;
 const { rimraf } = require('rimraf');
-const { v4: uuid } = require('uuid');
+const { getEncoding } = require('istextorbinary');
+const mime = require('mime');
 const sharp = require('sharp');
 
 const filenamify = require('../../../utils/filenamify');
+const { MAX_SIZE_IN_BYTES_TO_GET_ENCODING } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -15,9 +23,27 @@ module.exports = {
   async fn(inputs) {
     const fileManager = sails.hooks['file-manager'].getInstance();
 
-    const dirname = uuid();
-    const dirPathSegment = `${sails.config.custom.attachmentsPathSegment}/${dirname}`;
+    const { id: fileReferenceId } = await FileReference.create().fetch();
+    const dirPathSegment = `${sails.config.custom.attachmentsPathSegment}/${fileReferenceId}`;
     const filename = filenamify(inputs.file.filename);
+
+    const mimeType = mime.getType(filename);
+    const sizeInBytes = inputs.file.size;
+
+    let buffer;
+    let encoding = null;
+
+    if (sizeInBytes <= MAX_SIZE_IN_BYTES_TO_GET_ENCODING) {
+      try {
+        buffer = await fsPromises.readFile(inputs.file.fd);
+      } catch (error) {
+        /* empty */
+      }
+
+      if (buffer) {
+        encoding = getEncoding(buffer);
+      }
+    }
 
     const filePath = await fileManager.move(
       inputs.file.fd,
@@ -25,68 +51,87 @@ module.exports = {
       inputs.file.type,
     );
 
-    let image = sharp(filePath || inputs.file.fd, {
-      animated: true,
-    });
-
-    let metadata;
-    try {
-      metadata = await image.metadata();
-    } catch (error) {} // eslint-disable-line no-empty
-
-    const fileData = {
-      dirname,
+    const data = {
+      fileReferenceId,
       filename,
+      mimeType,
+      sizeInBytes,
+      encoding,
       image: null,
-      name: inputs.file.filename,
     };
 
-    if (metadata && !['svg', 'pdf'].includes(metadata.format)) {
-      let { width, pageHeight: height = metadata.height } = metadata;
-      if (metadata.orientation && metadata.orientation > 4) {
-        [image, width, height] = [image.rotate(), height, width];
+    if (!['image/svg+xml', 'application/pdf'].includes(mimeType)) {
+      let image = sharp(buffer || filePath, {
+        animated: true,
+      });
+
+      let metadata;
+      try {
+        metadata = await image.metadata();
+      } catch (error) {
+        /* empty */
       }
 
-      const isPortrait = height > width;
-      const thumbnailsExtension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
+      if (metadata) {
+        let { width, pageHeight: height = metadata.height } = metadata;
+        if (metadata.orientation && metadata.orientation > 4) {
+          [image, width, height] = [image.rotate(), height, width];
+        }
 
-      try {
-        const resizeBuffer = await image
-          .resize(
-            256,
-            isPortrait ? 320 : undefined,
-            width < 256 || (isPortrait && height < 320)
-              ? {
-                  kernel: sharp.kernel.nearest,
-                }
-              : undefined,
-          )
-          .toBuffer();
+        const thumbnailsPathSegment = `${dirPathSegment}/thumbnails`;
+        const thumbnailsExtension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
-        await fileManager.save(
-          `${dirPathSegment}/thumbnails/cover-256.${thumbnailsExtension}`,
-          resizeBuffer,
-          inputs.file.type,
-        );
+        try {
+          const outside360Buffer = await image
+            .resize(360, 360, {
+              fit: 'outside',
+              withoutEnlargement: true,
+            })
+            .png({
+              quality: 75,
+              force: false,
+            })
+            .toBuffer();
 
-        fileData.image = {
-          width,
-          height,
-          thumbnailsExtension,
-        };
-      } catch (error) {
-        console.warn(error.stack); // eslint-disable-line no-console
+          await fileManager.save(
+            `${thumbnailsPathSegment}/outside-360.${thumbnailsExtension}`,
+            outside360Buffer,
+            inputs.file.type,
+          );
+
+          const outside720Buffer = await image
+            .resize(720, 720, {
+              fit: 'outside',
+              withoutEnlargement: true,
+            })
+            .png({
+              quality: 75,
+              force: false,
+            })
+            .toBuffer();
+
+          await fileManager.save(
+            `${thumbnailsPathSegment}/outside-720.${thumbnailsExtension}`,
+            outside720Buffer,
+            inputs.file.type,
+          );
+
+          data.image = {
+            width,
+            height,
+            thumbnailsExtension,
+          };
+        } catch (error) {
+          sails.log.warn(error.stack);
+          await fileManager.deleteDir(thumbnailsPathSegment);
+        }
       }
     }
 
     if (!filePath) {
-      try {
-        await rimraf(inputs.file.fd);
-      } catch (error) {
-        console.warn(error.stack); // eslint-disable-line no-console
-      }
+      await rimraf(inputs.file.fd);
     }
 
-    return fileData;
+    return data;
   },
 };

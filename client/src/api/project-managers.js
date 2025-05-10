@@ -1,40 +1,19 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import socket from './socket';
-
-/* Transformers */
-
-export const transformProjectManager = (projectManager) => ({
-  ...projectManager,
-  createdAt: new Date(projectManager.createdAt),
-});
 
 /* Actions */
 
 const createProjectManager = (projectId, data, headers) =>
-  socket.post(`/projects/${projectId}/managers`, data, headers).then((body) => ({
-    ...body,
-    item: transformProjectManager(body.item),
-  }));
+  socket.post(`/projects/${projectId}/project-managers`, data, headers);
 
 const deleteProjectManager = (id, headers) =>
-  socket.delete(`/project-managers/${id}`, undefined, headers).then((body) => ({
-    ...body,
-    item: transformProjectManager(body.item),
-  }));
-
-/* Event handlers */
-
-const makeHandleProjectManagerCreate = (next) => (body) => {
-  next({
-    ...body,
-    item: transformProjectManager(body.item),
-  });
-};
-
-const makeHandleProjectManagerDelete = makeHandleProjectManagerCreate;
+  socket.delete(`/project-managers/${id}`, undefined, headers);
 
 export default {
   createProjectManager,
   deleteProjectManager,
-  makeHandleProjectManagerCreate,
-  makeHandleProjectManagerDelete,
 };

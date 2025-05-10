@@ -1,3 +1,8 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import EntryActionTypes from '../constants/EntryActionTypes';
 
 const createBoardInCurrentProject = (data) => ({
@@ -7,10 +12,11 @@ const createBoardInCurrentProject = (data) => ({
   },
 });
 
-const handleBoardCreate = (board, requestId) => ({
+const handleBoardCreate = (board, boardMemberships, requestId) => ({
   type: EntryActionTypes.BOARD_CREATE_HANDLE,
   payload: {
     board,
+    boardMemberships,
     requestId,
   },
 });
@@ -30,6 +36,13 @@ const updateBoard = (id, data) => ({
   },
 });
 
+const updateCurrentBoard = (data) => ({
+  type: EntryActionTypes.CURRENT_BOARD_UPDATE,
+  payload: {
+    data,
+  },
+});
+
 const handleBoardUpdate = (board) => ({
   type: EntryActionTypes.BOARD_UPDATE_HANDLE,
   payload: {
@@ -42,6 +55,27 @@ const moveBoard = (id, index) => ({
   payload: {
     id,
     index,
+  },
+});
+
+const updateContextInCurrentBoard = (value) => ({
+  type: EntryActionTypes.CONTEXT_IN_CURRENT_BOARD_UPDATE,
+  payload: {
+    value,
+  },
+});
+
+const updateViewInCurrentBoard = (value) => ({
+  type: EntryActionTypes.VIEW_IN_CURRENT_BOARD_UPDATE,
+  payload: {
+    value,
+  },
+});
+
+const searchInCurrentBoard = (value) => ({
+  type: EntryActionTypes.IN_CURRENT_BOARD_SEARCH,
+  payload: {
+    value,
   },
 });
 
@@ -64,8 +98,12 @@ export default {
   handleBoardCreate,
   fetchBoard,
   updateBoard,
+  updateCurrentBoard,
   handleBoardUpdate,
   moveBoard,
+  updateContextInCurrentBoard,
+  updateViewInCurrentBoard,
+  searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,
 };

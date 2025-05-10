@@ -1,6 +1,16 @@
+/**
+ * Route Mappings
+ * (sails.config.routes)
+ *
+ * Your routes tell Sails what to do each time it receives a request.
+ *
+ * For more information on configuring custom routes, check out:
+ * https://sailsjs.com/anatomy/config/routes-js
+ */
+
+const path = require('path');
 const serveStatic = require('serve-static');
 const sails = require('sails');
-const path = require('path');
 
 // Remove prefix from urlPath, assuming completely matches a subpath of
 // urlPath. The result preserves query params and fragment if present
@@ -51,21 +61,11 @@ function staticDirServer(prefix, dirFn) {
   };
 }
 
-/**
- * Route Mappings
- * (sails.config.routes)
- *
- * Your routes tell Sails what to do each time it receives a request.
- *
- * For more information on configuring custom routes, check out:
- * https://sailsjs.com/anatomy/config/routes-js
- */
-
 module.exports.routes = {
-  'GET /api/config': 'show-config',
+  'GET /api/config': 'config/show',
 
   'POST /api/access-tokens': 'access-tokens/create',
-  'POST /api/access-tokens/exchange-using-oidc': 'access-tokens/exchange-using-oidc',
+  'POST /api/access-tokens/exchange-with-oidc': 'access-tokens/exchange-with-oidc',
   'DELETE /api/access-tokens/me': 'access-tokens/delete',
 
   'GET /api/users': 'users/index',
@@ -82,18 +82,24 @@ module.exports.routes = {
   'POST /api/projects': 'projects/create',
   'GET /api/projects/:id': 'projects/show',
   'PATCH /api/projects/:id': 'projects/update',
-  'POST /api/projects/:id/background-image': 'projects/update-background-image',
   'DELETE /api/projects/:id': 'projects/delete',
 
-  'POST /api/projects/:projectId/managers': 'project-managers/create',
+  'POST /api/projects/:projectId/project-managers': 'project-managers/create',
   'DELETE /api/project-managers/:id': 'project-managers/delete',
+
+  'POST /api/projects/:projectId/background-images': 'background-images/create',
+  'DELETE /api/background-images/:id': 'background-images/delete',
+
+  'POST /api/projects/:projectId/base-custom-field-groups': 'base-custom-field-groups/create',
+  'PATCH /api/base-custom-field-groups/:id': 'base-custom-field-groups/update',
+  'DELETE /api/base-custom-field-groups/:id': 'base-custom-field-groups/delete',
 
   'POST /api/projects/:projectId/boards': 'boards/create',
   'GET /api/boards/:id': 'boards/show',
   'PATCH /api/boards/:id': 'boards/update',
   'DELETE /api/boards/:id': 'boards/delete',
 
-  'POST /api/boards/:boardId/memberships': 'board-memberships/create',
+  'POST /api/boards/:boardId/board-memberships': 'board-memberships/create',
   'PATCH /api/board-memberships/:id': 'board-memberships/update',
   'DELETE /api/board-memberships/:id': 'board-memberships/delete',
 
@@ -102,21 +108,31 @@ module.exports.routes = {
   'DELETE /api/labels/:id': 'labels/delete',
 
   'POST /api/boards/:boardId/lists': 'lists/create',
+  'GET /api/lists/:id': 'lists/show',
   'PATCH /api/lists/:id': 'lists/update',
   'POST /api/lists/:id/sort': 'lists/sort',
+  'POST /api/lists/:id/move-cards': 'lists/move-cards',
+  'POST /api/lists/:id/clear': 'lists/clear',
   'DELETE /api/lists/:id': 'lists/delete',
 
+  'GET /api/lists/:listId/cards': 'cards/index',
   'POST /api/lists/:listId/cards': 'cards/create',
   'GET /api/cards/:id': 'cards/show',
   'PATCH /api/cards/:id': 'cards/update',
   'POST /api/cards/:id/duplicate': 'cards/duplicate',
+  'POST /api/cards/:id/read-notifications': 'cards/read-notifications',
   'DELETE /api/cards/:id': 'cards/delete',
-  'POST /api/cards/:cardId/memberships': 'card-memberships/create',
-  'DELETE /api/cards/:cardId/memberships': 'card-memberships/delete',
-  'POST /api/cards/:cardId/labels': 'card-labels/create',
-  'DELETE /api/cards/:cardId/labels/:labelId': 'card-labels/delete',
+  'POST /api/cards/:cardId/card-memberships': 'card-memberships/create',
+  'DELETE /api/cards/:cardId/card-memberships/userId::userId': 'card-memberships/delete',
+  'POST /api/cards/:cardId/card-labels': 'card-labels/create',
+  'DELETE /api/cards/:cardId/card-labels/labelId::labelId': 'card-labels/delete',
 
-  'POST /api/cards/:cardId/tasks': 'tasks/create',
+  'POST /api/cards/:cardId/task-lists': 'task-lists/create',
+  'GET /api/task-lists/:id': 'task-lists/show',
+  'PATCH /api/task-lists/:id': 'task-lists/update',
+  'DELETE /api/task-lists/:id': 'task-lists/delete',
+
+  'POST /api/task-lists/:taskListId/tasks': 'tasks/create',
   'PATCH /api/tasks/:id': 'tasks/update',
   'DELETE /api/tasks/:id': 'tasks/delete',
 
@@ -124,15 +140,61 @@ module.exports.routes = {
   'PATCH /api/attachments/:id': 'attachments/update',
   'DELETE /api/attachments/:id': 'attachments/delete',
 
-  'GET /api/cards/:cardId/actions': 'actions/index',
+  'POST /api/boards/:boardId/custom-field-groups': 'custom-field-groups/create-in-board',
+  'POST /api/cards/:cardId/custom-field-groups': 'custom-field-groups/create-in-card',
+  'GET /api/custom-field-groups/:id': 'custom-field-groups/show',
+  'PATCH /api/custom-field-groups/:id': 'custom-field-groups/update',
+  'DELETE /api/custom-field-groups/:id': 'custom-field-groups/delete',
 
-  'POST /api/cards/:cardId/comment-actions': 'comment-actions/create',
-  'PATCH /api/comment-actions/:id': 'comment-actions/update',
-  'DELETE /api/comment-actions/:id': 'comment-actions/delete',
+  'POST /api/base-custom-field-groups/:baseCustomFieldGroupId/custom-fields':
+    'custom-fields/create-in-base-custom-field-group',
+  'POST /api/custom-field-groups/:customFieldGroupId/custom-fields':
+    'custom-fields/create-in-custom-field-group',
+  'PATCH /api/custom-fields/:id': 'custom-fields/update',
+  'DELETE /api/custom-fields/:id': 'custom-fields/delete',
+
+  'PATCH /api/cards/:cardId/custom-field-values/customFieldGroupId::customFieldGroupId[:]customFieldId::customFieldId':
+    'custom-field-values/create-or-update',
+  'DELETE /api/cards/:cardId/custom-field-values/customFieldGroupId::customFieldGroupId[:]customFieldId::customFieldId':
+    'custom-field-values/delete',
+
+  'GET /api/cards/:cardId/comments': 'comments/index',
+  'POST /api/cards/:cardId/comments': 'comments/create',
+  'PATCH /api/comments/:id': 'comments/update',
+  'DELETE /api/comments/:id': 'comments/delete',
+
+  'GET /api/cards/:cardId/actions': 'actions/index',
 
   'GET /api/notifications': 'notifications/index',
   'GET /api/notifications/:id': 'notifications/show',
-  'PATCH /api/notifications/:ids': 'notifications/update',
+  'PATCH /api/notifications/:id': 'notifications/update',
+  'POST /api/notifications/read-all': 'notifications/read-all',
+
+  'POST /api/users/:userId/notification-services': 'notification-services/create-in-user',
+  'POST /api/boards/:boardId/notification-services': 'notification-services/create-in-board',
+  'PATCH /api/notification-services/:id': 'notification-services/update',
+  'POST /api/notification-services/:id/test': 'notification-services/test',
+  'DELETE /api/notification-services/:id': 'notification-services/delete',
+
+  'GET /preloaded-favicons/*': {
+    fn: staticDirServer('/preloaded-favicons', () =>
+      path.join(
+        path.resolve(sails.config.custom.uploadsBasePath),
+        sails.config.custom.preloadedFaviconsPathSegment,
+      ),
+    ),
+    skipAssets: false,
+  },
+
+  'GET /favicons/*': {
+    fn: staticDirServer('/favicons', () =>
+      path.join(
+        path.resolve(sails.config.custom.uploadsBasePath),
+        sails.config.custom.faviconsPathSegment,
+      ),
+    ),
+    skipAssets: false,
+  },
 
   'GET /user-avatars/*': {
     fn: staticDirServer('/user-avatars', () =>
@@ -144,23 +206,23 @@ module.exports.routes = {
     skipAssets: false,
   },
 
-  'GET /project-background-images/*': {
-    fn: staticDirServer('/project-background-images', () =>
+  'GET /background-images/*': {
+    fn: staticDirServer('/background-images', () =>
       path.join(
         path.resolve(sails.config.custom.uploadsBasePath),
-        sails.config.custom.projectBackgroundImagesPathSegment,
+        sails.config.custom.backgroundImagesPathSegment,
       ),
     ),
     skipAssets: false,
   },
 
   'GET /attachments/:id/download/:filename': {
-    action: 'attachments/download',
+    action: 'file-attachments/download',
     skipAssets: false,
   },
 
-  'GET /attachments/:id/download/thumbnails/cover-256.:extension': {
-    action: 'attachments/download-thumbnail',
+  'GET r|^/attachments/(\\w+)/download/thumbnails/([\\w-]+).(\\w+)$|id,fileName,fileExtension': {
+    action: 'file-attachments/download-thumbnail',
     skipAssets: false,
   },
 

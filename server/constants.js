@@ -1,0 +1,8 @@
+const POSITION_GAP = 65536;
+
+const MAX_SIZE_IN_BYTES_TO_GET_ENCODING = 8 * 1024 * 1024;
+
+module.exports = {
+  POSITION_GAP,
+  MAX_SIZE_IN_BYTES_TO_GET_ENCODING,
+};

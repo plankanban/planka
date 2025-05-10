@@ -1,3 +1,11 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { isUrl } = require('../../../utils/validators');
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -8,18 +16,36 @@ const Errors = {
   NO_FILE_WAS_UPLOADED: {
     noFileWasUploaded: 'No file was uploaded',
   },
+  URL_MUST_BE_PRESENT: {
+    urlMustBePresent: 'Url must be present',
+  },
 };
 
 module.exports = {
   inputs: {
     cardId: {
+      ...idInput,
+      required: true,
+    },
+    type: {
       type: 'string',
-      regex: /^[0-9]+$/,
+      isIn: Object.values(Attachment.Types),
+      required: true,
+    },
+    url: {
+      type: 'string',
+      maxLength: 2048,
+      custom: isUrl,
+    },
+    name: {
+      type: 'string',
+      maxLength: 128,
       required: true,
     },
     requestId: {
       type: 'string',
       isNotEmptyString: true,
+      maxLength: 128,
     },
   },
 
@@ -36,19 +62,22 @@ module.exports = {
     uploadError: {
       responseType: 'unprocessableEntity',
     },
+    urlMustBePresent: {
+      responseType: 'unprocessableEntity',
+    },
   },
 
   async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const { card, list, board, project } = await sails.helpers.cards
-      .getProjectPath(inputs.cardId)
+      .getPathToProjectById(inputs.cardId)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
-    const boardMembership = await BoardMembership.findOne({
-      boardId: board.id,
-      userId: currentUser.id,
-    });
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!boardMembership) {
       throw Errors.CARD_NOT_FOUND; // Forbidden
@@ -58,26 +87,40 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    let files;
-    try {
-      files = await sails.helpers.utils.receiveFile('file', this.req);
-    } catch (error) {
-      return exits.uploadError(error.message); // TODO: add error
+    let data;
+    if (inputs.type === Attachment.Types.FILE) {
+      let files;
+      try {
+        files = await sails.helpers.utils.receiveFile('file', this.req);
+      } catch (error) {
+        return exits.uploadError(error.message); // TODO: add error
+      }
+
+      if (files.length === 0) {
+        throw Errors.NO_FILE_WAS_UPLOADED;
+      }
+
+      const file = _.last(files);
+      data = await sails.helpers.attachments.processUploadedFile(file);
+    } else if (inputs.type === Attachment.Types.LINK) {
+      if (!inputs.url) {
+        throw Errors.URL_MUST_BE_PRESENT;
+      }
+
+      data = await sails.helpers.attachments.processLink(inputs.url);
     }
 
-    if (files.length === 0) {
-      throw Errors.NO_FILE_WAS_UPLOADED;
-    }
-
-    const file = _.last(files);
-    const fileData = await sails.helpers.attachments.processUploadedFile(file);
+    const values = {
+      ..._.pick(inputs, ['type', 'name']),
+      data,
+    };
 
     const attachment = await sails.helpers.attachments.createOne.with({
       project,
       board,
       list,
       values: {
-        ...fileData,
+        ...values,
         card,
         creatorUser: currentUser,
       },
@@ -86,7 +129,7 @@ module.exports = {
     });
 
     return exits.success({
-      item: attachment,
+      item: sails.helpers.attachments.presentOne(attachment),
     });
   },
 };

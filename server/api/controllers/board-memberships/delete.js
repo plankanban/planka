@@ -1,3 +1,10 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+const { idInput } = require('../../../utils/inputs');
+
 const Errors = {
   BOARD_MEMBERSHIP_NOT_FOUND: {
     boardMembershipNotFound: 'Board membership not found',
@@ -7,8 +14,7 @@ const Errors = {
 module.exports = {
   inputs: {
     id: {
-      type: 'string',
-      regex: /^[0-9]+$/,
+      ...idInput,
       required: true,
     },
   },
@@ -22,12 +28,12 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const path = await sails.helpers.boardMemberships
-      .getProjectPath(inputs.id)
+    const pathToProject = await sails.helpers.boardMemberships
+      .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.BOARD_MEMBERSHIP_NOT_FOUND);
 
-    let { boardMembership } = path;
-    const { board, project } = path;
+    let { boardMembership } = pathToProject;
+    const { board, project } = pathToProject;
 
     if (boardMembership.userId !== currentUser.id) {
       const isProjectManager = await sails.helpers.users.isProjectManager(
@@ -40,7 +46,10 @@ module.exports = {
       }
     }
 
+    const user = await User.qm.getOneById(boardMembership.userId);
+
     boardMembership = await sails.helpers.boardMemberships.deleteOne.with({
+      user,
       project,
       board,
       record: boardMembership,

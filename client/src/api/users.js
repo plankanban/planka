@@ -1,92 +1,44 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import http from './http';
 import socket from './socket';
 
-/* Transformers */
-
-export const transformUser = (user) => ({
-  ...user,
-  createdAt: new Date(user.createdAt),
-});
-
 /* Actions */
 
-const getUsers = (headers) =>
-  socket.get('/users', undefined, headers).then((body) => ({
-    ...body,
-    items: body.items.map(transformUser),
-  }));
+const getUsers = (headers) => socket.get('/users', undefined, headers);
 
-const createUser = (data, headers) =>
-  socket.post('/users', data, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
+const createUser = (data, headers) => socket.post('/users', data, headers);
 
-const getUser = (id, headers) =>
+/* const getUser = (id, headers) =>
   socket.get(`/users/${id}`, undefined, headers).then((body) => ({
     ...body,
     item: transformUser(body.item),
-  }));
+  })); */
 
 const getCurrentUser = (subscribe, headers) =>
-  socket.get(`/users/me${subscribe ? '?subscribe=true' : ''}`, undefined, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
+  socket.get(`/users/me${subscribe ? '?subscribe=true' : ''}`, undefined, headers);
 
-const updateUser = (id, data, headers) =>
-  socket.patch(`/users/${id}`, data, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
+const updateUser = (id, data, headers) => socket.patch(`/users/${id}`, data, headers);
 
-const updateUserEmail = (id, data, headers) =>
-  socket.patch(`/users/${id}/email`, data, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
+const updateUserEmail = (id, data, headers) => socket.patch(`/users/${id}/email`, data, headers);
 
 const updateUserPassword = (id, data, headers) =>
-  socket.patch(`/users/${id}/password`, data, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
+  socket.patch(`/users/${id}/password`, data, headers);
 
 const updateUserUsername = (id, data, headers) =>
-  socket.patch(`/users/${id}/username`, data, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
+  socket.patch(`/users/${id}/username`, data, headers);
 
-const updateUserAvatar = (id, data, headers) =>
-  http.post(`/users/${id}/avatar`, data, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
+const updateUserAvatar = (id, data, headers) => http.post(`/users/${id}/avatar`, data, headers);
 
-const deleteUser = (id, headers) =>
-  socket.delete(`/users/${id}`, undefined, headers).then((body) => ({
-    ...body,
-    item: transformUser(body.item),
-  }));
-
-/* Event handlers */
-
-const makeHandleUserCreate = (next) => (body) => {
-  next({
-    ...body,
-    item: transformUser(body.item),
-  });
-};
-
-const makeHandleUserUpdate = makeHandleUserCreate;
-
-const makeHandleUserDelete = makeHandleUserCreate;
+const deleteUser = (id, headers) => socket.delete(`/users/${id}`, undefined, headers);
 
 export default {
   getUsers,
   createUser,
-  getUser,
+  // getUser,
   getCurrentUser,
   updateUser,
   updateUserEmail,
@@ -94,7 +46,4 @@ export default {
   updateUserUsername,
   updateUserAvatar,
   deleteUser,
-  makeHandleUserCreate,
-  makeHandleUserUpdate,
-  makeHandleUserDelete,
 };

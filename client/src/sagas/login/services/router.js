@@ -1,17 +1,26 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
 import { call, put, select, take } from 'redux-saga/effects';
 import { push } from '../../../lib/redux-router';
 
-import { authenticateUsingOidc, authenticateUsingOidcCallback } from './login';
+import { authenticateWithOidc, authenticateWithOidcCallback } from './login';
 import selectors from '../../../selectors';
 import ActionTypes from '../../../constants/ActionTypes';
 import Paths from '../../../constants/Paths';
 
+export function* goTo(pathname) {
+  yield put(push(pathname));
+}
+
 export function* goToLogin() {
-  yield put(push(Paths.LOGIN));
+  yield call(goTo, Paths.LOGIN);
 }
 
 export function* goToRoot() {
-  yield put(push(Paths.ROOT));
+  yield call(goTo, Paths.ROOT);
 }
 
 export function* handleLocationChange() {
@@ -46,14 +55,14 @@ export function* handleLocationChange() {
         const params = new URLSearchParams(window.location.search);
 
         if (params.has('authenticateWithOidc')) {
-          yield call(authenticateUsingOidc);
+          yield call(authenticateWithOidc);
         }
       }
 
       break;
     }
     case Paths.OIDC_CALLBACK:
-      yield call(authenticateUsingOidcCallback);
+      yield call(authenticateWithOidcCallback);
 
       break;
     default:
@@ -61,6 +70,7 @@ export function* handleLocationChange() {
 }
 
 export default {
+  goTo,
   goToLogin,
   goToRoot,
   handleLocationChange,

@@ -1,24 +1,12 @@
-const valuesValidator = (value) => {
-  if (!_.isPlainObject(value)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.card)) {
-    return false;
-  }
-
-  if (!_.isPlainObject(value.label)) {
-    return false;
-  }
-
-  return true;
-};
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
 
 module.exports = {
   inputs: {
     values: {
       type: 'ref',
-      custom: valuesValidator,
       required: true,
     },
     project: {
@@ -49,16 +37,23 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const cardLabel = await CardLabel.create({
-      ...values,
-      cardId: values.card.id,
-      labelId: values.label.id,
-    })
-      .intercept('E_UNIQUE', 'labelAlreadyInCard')
-      .fetch();
+    let cardLabel;
+    try {
+      cardLabel = await CardLabel.qm.createOne({
+        ...values,
+        cardId: values.card.id,
+        labelId: values.label.id,
+      });
+    } catch (error) {
+      if (error.code === 'E_UNIQUE') {
+        throw 'labelAlreadyInCard';
+      }
+
+      throw error;
+    }
 
     sails.sockets.broadcast(
-      `board:${values.card.boardId}`,
+      `board:${inputs.board.id}`,
       'cardLabelCreate',
       {
         item: cardLabel,
@@ -68,7 +63,7 @@ module.exports = {
 
     sails.helpers.utils.sendWebhooks.with({
       event: 'cardLabelCreate',
-      data: {
+      buildData: () => ({
         item: cardLabel,
         included: {
           projects: [inputs.project],
@@ -77,7 +72,7 @@ module.exports = {
           lists: [inputs.list],
           cards: [values.card],
         },
-      },
+      }),
       user: inputs.actorUser,
     });
 
