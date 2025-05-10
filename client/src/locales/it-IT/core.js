@@ -55,7 +55,7 @@ export default {
       areYouSureYouWantToDeleteThisComment: 'Sei sicuro di voler eliminare questo commento?',
       areYouSureYouWantToDeleteThisCustomField:
         'Sei sicuro di voler eliminare questo campo personalizzato?',
-        areYouSureYouWantToDeleteThisCustomFieldGroup:
+      areYouSureYouWantToDeleteThisCustomFieldGroup:
         'Sei sicuro di voler eliminare questo campi personalizzati?',
       areYouSureYouWantToDeleteThisLabel: 'Sei sicuro di voler eliminare questa etichetta?',
       areYouSureYouWantToDeleteThisList:
@@ -106,7 +106,8 @@ export default {
         'Le schede in questa lista sono disponibili per tutti i membri della bacheca.',
       cardsOnThisListAreCompleteAndReadyToBeArchived:
         'Le schede in questa lista sono complete e pronte per essere archiviate.',
-      cardsOnThisListAreReadyToBeWorkedOn: 'Le schede in questa lista sono pronte per essere lavorate.',
+      cardsOnThisListAreReadyToBeWorkedOn:
+        'Le schede in questa lista sono pronte per essere lavorate.',
       clickHereOrRefreshPageToUpdate: '<0>Clicca qui</0> o ricarica la pagina per aggiornare.',
       closed: 'Chiuso',
       color: 'Colore',
@@ -277,15 +278,17 @@ export default {
       title: 'Titolo',
       trash: 'Cestino',
       trashHasBeenSuccessfullyEmptied: 'Il cestino è stato svuotato con successo.',
-      turnOffRecentCardHighlighting: 'Disattiva l\'evidenziazione delle scheda recenti',
+      turnOffRecentCardHighlighting: "Disattiva l'evidenziazione delle scheda recenti",
       typeNameToConfirm: 'Digita il nome per confermare',
       typeTitleToConfirm: 'Digita il titolo per confermare',
       unsavedChanges: 'Modifiche non salvate',
       uploadedImages: 'Immagini caricate',
       userActions_title: 'Azioni utente',
       userAddedThisCardToList: '<0>{{user}}</0><1> ha aggiunto questa scheda a {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} ha lasciato un commento «{{comment}}» a <2>{{scheda}}</2>',
-      userMovedCardFromListToList: '{{user}} ha spostato <2>{{scheda}}</2> da {{fromList}} a {{toList}}',
+      userLeftNewCommentToCard:
+        '{{user}} ha lasciato un commento «{{comment}}» a <2>{{scheda}}</2>',
+      userMovedCardFromListToList:
+        '{{user}} ha spostato <2>{{scheda}}</2> da {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> ha spostato questa scheda da {{fromList}} a {{toList}}</1>',
       username: 'Username',
