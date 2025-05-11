@@ -50,11 +50,9 @@ export default {
         'Opravdu chcete tento obrázek na pozadí odstranit?',
       areYouSureYouWantToDeleteThisBoard: 'Opravdu chcete smazat tuto tabuli?',
       areYouSureYouWantToDeleteThisCard: 'Opravdu chcete smazat tuto kartu?',
-      areYouSureYouWantToDeleteThisCardForever:
-        'Opravdu chcete tuto kartu navždy odstranit?',
+      areYouSureYouWantToDeleteThisCardForever: 'Opravdu chcete tuto kartu navždy odstranit?',
       areYouSureYouWantToDeleteThisComment: 'Opravdu chcete smazat tento komentář?',
-      areYouSureYouWantToDeleteThisCustomField:
-        'Opravdu chcete odstranit toto vlastní pole?',
+      areYouSureYouWantToDeleteThisCustomField: 'Opravdu chcete odstranit toto vlastní pole?',
       areYouSureYouWantToDeleteThisCustomFieldGroup:
         'Opravdu chcete tuto skupinu vlastních polí odstranit?',
       areYouSureYouWantToDeleteThisLabel: 'Opravdu chcete smazat tento štítek?',
@@ -68,12 +66,9 @@ export default {
       areYouSureYouWantToEmptyTrash: 'Opravdu chcete vysypat koš?',
       areYouSureYouWantToLeaveBoard: 'Opravdu chcete opustit tuto tabuli?',
       areYouSureYouWantToLeaveProject: 'Opravdu chcete opustit projekt?',
-      areYouSureYouWantToMakeThisProjectShared:
-        'Opravdu chcete tento projekt sdílet?',
-      areYouSureYouWantToRemoveThisManagerFromProject:
-        'Opravdu chcete tohoto správce z projektu odebrat?',
-      areYouSureYouWantToRemoveThisMemberFromBoard:
-        'Opravdu chcete tohoto člena odebrat z tabule?',
+      areYouSureYouWantToMakeThisProjectShared: 'Opravdu chcete tento projekt sdílet?',
+      areYouSureYouWantToRemoveThisManagerFromProject: 'Opravdu chcete tohoto správce z projektu odebrat?',
+      areYouSureYouWantToRemoveThisMemberFromBoard: 'Opravdu chcete tohoto člena odebrat z tabule?',
       assignAsOwner_title: 'Přiřadit jako vlastníka',
       atLeastOneListMustBePresent: 'Musí být k dispozici alespoň jeden seznam',
       attachment: 'Příloha',
@@ -282,8 +277,7 @@ export default {
       userAddedThisCardToList: '{{user}} přidal kartu do {{list}}',
       userLeftNewCommentToCard: '{{user}} zanechal nový komentář «{{comment}}» k {{card}}',
       userMovedCardFromListToList: '{{user}} přesunul {{card}} z {{fromList}} do {{toList}}',
-      userMovedThisCardFromListToList:
-        '{{user}} přesunul tuto kartu z {{fromList}} do {{toList}}',
+      userMovedThisCardFromListToList: '{{user}} přesunul tuto kartu z {{fromList}} do {{toList}}',
       username: 'Uživatelské jméno',
       users: 'Uživatelé',
       viewer: 'Prohlížeč',
