@@ -67,7 +67,8 @@ export default {
       areYouSureYouWantToLeaveBoard: 'Opravdu chcete opustit tuto tabuli?',
       areYouSureYouWantToLeaveProject: 'Opravdu chcete opustit projekt?',
       areYouSureYouWantToMakeThisProjectShared: 'Opravdu chcete tento projekt sdílet?',
-      areYouSureYouWantToRemoveThisManagerFromProject: 'Opravdu chcete tohoto správce z projektu odebrat?',
+      areYouSureYouWantToRemoveThisManagerFromProject:
+        'Opravdu chcete tohoto správce z projektu odebrat?',
       areYouSureYouWantToRemoveThisMemberFromBoard: 'Opravdu chcete tohoto člena odebrat z tabule?',
       assignAsOwner_title: 'Přiřadit jako vlastníka',
       atLeastOneListMustBePresent: 'Musí být k dispozici alespoň jeden seznam',
