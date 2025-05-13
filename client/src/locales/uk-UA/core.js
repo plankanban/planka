@@ -43,24 +43,24 @@ export default {
       areYouSureYouWantToArchiveCards: 'Ви впевнені, що хочете архівувати картки?',
       areYouSureYouWantToArchiveThisCard: 'Ви впевнені, що хочете заархівувати цю картку?',
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
-          'Ви впевнені, що хочете призначити цього менеджера проекту власником?',
-      areYouSureYouWantToDeactivateThisUser: 'Ви впевнені, що хочете деактивувати цього користувача?',
+        'Ви впевнені, що хочете призначити цього менеджера проекту власником?',
+      areYouSureYouWantToDeactivateThisUser:
+        'Ви впевнені, що хочете деактивувати цього користувача?',
       areYouSureYouWantToDeleteThisAttachment: 'Ви впевнені, що хочете видалити це вкладення?',
       areYouSureYouWantToDeleteThisBackgroundImage:
-          'Ви впевнені, що хочете видалити це фонове зображення?',
+        'Ви впевнені, що хочете видалити це фонове зображення?',
       areYouSureYouWantToDeleteThisBoard: 'Ви впевнені, що хочете видалити цю дошку?',
       areYouSureYouWantToDeleteThisCard: 'Ви впевнені, що хочете видалити цю картку?',
       areYouSureYouWantToDeleteThisCardForever:
-          'Ви впевнені, що хочете видалити цю картку назавжди?',
+        'Ви впевнені, що хочете видалити цю картку назавжди?',
       areYouSureYouWantToDeleteThisComment: 'Ви впевнені, що хочете видалити цей коментар?',
-      areYouSureYouWantToDeleteThisCustomField:
-          'Ви впевнені, що хочете видалити це кастомне поле?',
+      areYouSureYouWantToDeleteThisCustomField: 'Ви впевнені, що хочете видалити це кастомне поле?',
       areYouSureYouWantToDeleteThisCustomFieldGroup:
-          'Ви впевнені, що хочете видалити цю групу кастомних полів?',
+        'Ви впевнені, що хочете видалити цю групу кастомних полів?',
       areYouSureYouWantToDeleteThisLabel: 'Ви впевнені, що хочете видалити цю мітку?',
       areYouSureYouWantToDeleteThisList: 'Ви впевнені, що хочете видалити цей список?',
       areYouSureYouWantToDeleteThisNotificationService:
-          'Ви впевнені, що хочете видалити цю службу сповіщень?',
+        'Ви впевнені, що хочете видалити цю службу сповіщень?',
       areYouSureYouWantToDeleteThisProject: 'Ви впевнені, що хочете видалити цей проект?',
       areYouSureYouWantToDeleteThisTask: 'Ви впевнені, що хочете видалити це завдання?',
       areYouSureYouWantToDeleteThisTaskList: 'Ви впевнені, що хочете видалити цей список завдань?',
@@ -69,7 +69,7 @@ export default {
       areYouSureYouWantToLeaveBoard: 'Ви впевнені, що хочете залишити дошку?',
       areYouSureYouWantToLeaveProject: 'Ви впевнені, що хочете залишити проект?',
       areYouSureYouWantToMakeThisProjectShared:
-          'Ви впевнені, що хочете зробити цей проект спільним?',
+        'Ви впевнені, що хочете зробити цей проект спільним?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Ви впевнені, що хочете видалити цього менеджера з проекту?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -93,18 +93,18 @@ export default {
       canBeInvitedToWorkInBoards: 'Можуть бути запрошені до роботи в дошках.',
       canComment: 'Може коментувати',
       canCreateOwnProjectsAndBeInvitedToWorkInOthers:
-          'Може створювати власні проекти та бути запрошеним до роботи в інших.',
+        'Може створювати власні проекти та бути запрошеним до роботи в інших.',
       canEditBoardLayoutAndAssignMembersToCards:
-          'Можна редагувати макет дошки та призначати учасників на картки.',
+        'Можна редагувати макет дошки та призначати учасників на картки.',
       canManageSystemWideSettingsAndActAsProjectOwner:
-          'Може керувати загальними налаштуваннями системи та виступати в ролі власника проекту.',
+        'Може керувати загальними налаштуваннями системи та виступати в ролі власника проекту.',
       canOnlyViewBoard: 'Може лише переглядати дошку.',
       cardActions_title: 'Дії з карткою',
       cardNotFound_title: 'Картку не знайдено',
       cardsOnThisListAreAvailableToAllBoardMembers:
-          'Картки з цього списку доступні всім членам правління.',
+        'Картки з цього списку доступні всім членам правління.',
       cardsOnThisListAreCompleteAndReadyToBeArchived:
-          'Картки з цього списку завершені і готові до архівування.',
+        'Картки з цього списку завершені і готові до архівування.',
       cardsOnThisListAreReadyToBeWorkedOn: 'Картки з цього списку готові до роботи.',
       clickHereOrRefreshPageToUpdate: '<0>Натисніть тут</0> або оновіть сторінку для оновлення.',
       closed: 'Закрито',
@@ -131,7 +131,7 @@ export default {
       defaultView_title: 'Вигляд за замовчуванням',
       deletedUser_title: 'Видалений користувач',
       deleteAllBoardsToBeAbleToDeleteThisProject:
-          'Видаліть усі дошки, щоб мати змогу видалити цей проект',
+        'Видаліть усі дошки, щоб мати змогу видалити цей проект',
       deleteAttachment_title: 'Видалити Вкладення',
       deleteBackgroundImage_title: 'Видалити фонове зображення',
       deleteBoard_title: 'Видалити Дошку',
@@ -225,7 +225,7 @@ export default {
       others: 'Інші',
       phone: 'Телефон',
       plankaUsesAppriseToSendNotificationsToOver100PopularServices:
-          'PLANKA використовує <1><0>Apprise</0></1> для надсилання сповіщень на понад 100 популярних сервісів.',
+        'PLANKA використовує <1><0>Apprise</0></1> для надсилання сповіщень на понад 100 популярних сервісів.',
       preferences: 'Уподобання',
       pressPasteShortcutToAddAttachmentFromClipboard:
         'Порада: натисніть Ctrl-V (⌘V на Mac), щоб додати вкладення з буфера обміну.',
