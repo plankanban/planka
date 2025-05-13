@@ -120,7 +120,7 @@ spec:
               value: {{ required "A secret key needs to be generated using 'openssl rand -hex 64' and assigned to secretkey." .Values.secretkey }}
               {{- end }}
             - name: TRUST_PROXY
-              value: "0"
+              value: "true"
             - name: DEFAULT_ADMIN_EMAIL
               value: {{ .Values.admin_email }}
             - name: DEFAULT_ADMIN_NAME
