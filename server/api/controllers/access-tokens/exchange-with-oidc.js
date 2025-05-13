@@ -35,7 +35,7 @@ module.exports = {
   inputs: {
     code: {
       type: 'string',
-      maxLength: 1024,
+      maxLength: 2048,
       required: true,
     },
     nonce: {
