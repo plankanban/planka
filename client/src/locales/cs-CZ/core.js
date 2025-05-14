@@ -69,7 +69,8 @@ export default {
       areYouSureYouWantToMakeThisProjectShared: 'Opravdu chcete tento projekt sdílet?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Opravdu chcete tohoto správce z projektu odebrat?',
-      areYouSureYouWantToRemoveThisMemberFromBoard: 'Opravdu chcete tohoto člena odebrat z nástěnky?',
+      areYouSureYouWantToRemoveThisMemberFromBoard:
+        'Opravdu chcete tohoto člena odebrat z nástěnky?',
       assignAsOwner_title: 'Přiřadit jako vlastníka',
       atLeastOneListMustBePresent: 'Musí být k dispozici alespoň jeden seznam',
       attachment: 'Příloha',
