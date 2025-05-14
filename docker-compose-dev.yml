@@ -17,7 +17,7 @@ services:
 
       # - LOG_LEVEL=warn
 
-      # - TRUST_PROXY=0
+      # - TRUST_PROXY=true
       # - TOKEN_EXPIRES_IN=365 # In days
 
       # related: https://github.com/knex/knex/issues/2354

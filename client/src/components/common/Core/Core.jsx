@@ -26,6 +26,7 @@ const Core = React.memo(() => {
   const modal = useSelector(selectors.selectCurrentModal);
   const project = useSelector(selectors.selectCurrentProject);
   const board = useSelector(selectors.selectCurrentBoard);
+  const currentUserId = useSelector(selectors.selectCurrentUserId);
 
   // TODO: move to selector?
   const isNewVersionAvailable = useSelector((state) => {
@@ -107,7 +108,7 @@ const Core = React.memo(() => {
 
   return (
     <>
-      {isInitializing ? (
+      {isInitializing || !currentUserId ? (
         <Loader active size="massive" />
       ) : (
         <>
