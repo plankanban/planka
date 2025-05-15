@@ -12,7 +12,17 @@ services:
     environment:
       - BASE_URL=http://localhost:3000
       - DATABASE_URL=postgresql://postgres@postgres/planka
+
+      # Optionally store the database password in secrets:
+      # - DATABASE_URL=postgresql://postgres:$${DATABASE_PASSWORD}@postgres/planka
+      # - DATABASE_PASSWORD__FILE=/run/secrets/database_password
+      # And add the following to the service:
+      # secrets:
+      #   - database_password
+
       - SECRET_KEY=notsecretkey
+      # Optionally store in secrets - then SECRET_KEY should not be set
+      # - SECRET_KEY__FILE=/run/secrets/secret_key
 
       # - LOG_LEVEL=warn
 
@@ -20,33 +30,44 @@ services:
       # - TOKEN_EXPIRES_IN=365 # In days
 
       # related: https://github.com/knex/knex/issues/2354
-      # As knex does not pass query parameters from the connection string we
-      # have to use environment variables in order to pass the desired values, e.g.
+      # As knex does not pass query parameters from the connection string,
+      # we have to use environment variables in order to pass the desired values, e.g.
       # - PGSSLMODE=<value>
 
       # Configure knex to accept SSL certificates
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
 
-      # - DEFAULT_LANGUAGE=en-US # Used for per-board notifications
+      # Used for per-board notifications
+      # - DEFAULT_LANGUAGE=en-US
 
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo # Do not remove if you want to prevent this user from being edited/deleted
+      # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted
+      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo
       # - DEFAULT_ADMIN_PASSWORD=demo
+      # Optionally store in secrets - then DEFAULT_ADMIN_PASSWORD should not be set
+      # - DEFAULT_ADMIN_PASSWORD__FILE=/run/secrets/default_admin_password
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
 
       # - ACTIVE_USERS_LIMIT=
-      # - SHOW_DETAILED_AUTH_ERRORS=false # Set to true to show more detailed authentication error messages. It should not be enabled without a rate limiter for security reasons.
+
+      # Set to true to show more detailed authentication error messages.
+      # It should not be enabled without a rate limiter for security reasons.
+      # - SHOW_DETAILED_AUTH_ERRORS=false
 
       # - S3_ENDPOINT=
       # - S3_REGION=
       # - S3_ACCESS_KEY_ID=
       # - S3_SECRET_ACCESS_KEY=
+      # Optionally store in secrets - then S3_SECRET_ACCESS_KEY should not be set
+      # - S3_SECRET_ACCESS_KEY__FILE=/run/secrets/s3_secret_access_key
       # - S3_BUCKET=
       # - S3_FORCE_PATH_STYLE=true
 
       # - OIDC_ISSUER=
       # - OIDC_CLIENT_ID=
       # - OIDC_CLIENT_SECRET=
+      # Optionally store in secrets - then OIDC_CLIENT_SECRET should not be set
+      # - OIDC_CLIENT_SECRET__FILE=/run/secrets/oidc_client_secret
       # - OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG=
       # - OIDC_USERINFO_SIGNED_RESPONSE_ALG=
       # - OIDC_SCOPES=openid email profile
@@ -69,6 +90,8 @@ services:
       # - SMTP_SECURE=true
       # - SMTP_USER=
       # - SMTP_PASSWORD=
+      # Optionally store in secrets - then SMTP_PASSWORD should not be set
+      # - SMTP_PASSWORD__FILE=/run/secrets/smtp_password
       # - SMTP_FROM="Demo Demo" <demo@demo.demo>
       # - SMTP_TLS_REJECT_UNAUTHORIZED=false
 
