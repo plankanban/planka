@@ -12,7 +12,15 @@ services:
     environment:
       - BASE_URL=http://localhost:3000
       - DATABASE_URL=postgresql://postgres@postgres/planka
+      # Optionally store the database password in secrets:
+      # - DATABASE_URL=postgresql://postgres:$${DATABASE_PASSWORD}@postgres/planka
+      # - DATABASE_PASSWORD__FILE=/run/secrets/planka_database_password
+      # ... and add the following to the service:
+      #   secrets:
+      #    - planka_database_password
+
       - SECRET_KEY=notsecretkey
+      # If not set, it is loaded from the file SECRET_KEY__FILE on start.
 
       # - LOG_LEVEL=warn
 
@@ -69,6 +77,7 @@ services:
       # - SMTP_SECURE=true
       # - SMTP_USER=
       # - SMTP_PASSWORD=
+      # If not set, SMTP_PASSWORD is loaded from the file SMTP_PASSWORD__FILE on start.
       # - SMTP_FROM="Demo Demo" <demo@demo.demo>
       # - SMTP_TLS_REJECT_UNAUTHORIZED=false
 
