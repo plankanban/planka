@@ -282,6 +282,9 @@ export default {
       uploadedImages: 'Uploaded images',
       userActions_title: 'User Actions',
       userAddedThisCardToList: '<0>{{user}}</0><1> added this card to {{list}}</1>',
+      userAddedUserToThisCard: '<0>{{actorUser}}</0><1> added {{addedUser}} to this card</1>',
+      userAddedYouToCard: '{{user}} added you to <2>{{card}}</2>',
+      userJoinedThisCard: `<0>{{user}}</0><1> joined this card</1>`,
       userLeftNewCommentToCard: '{{user}} left a new comment «{{comment}}» to <2>{{card}}</2>',
       userMovedCardFromListToList: '{{user}} moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
       userMovedThisCardFromListToList:

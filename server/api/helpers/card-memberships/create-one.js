@@ -37,15 +37,12 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    if (values.user) {
-      values.userId = values.user.id;
-    }
-
     let cardMembership;
     try {
       cardMembership = await CardMembership.qm.createOne({
         ...values,
         cardId: values.card.id,
+        userId: values.user.id,
       });
     } catch (error) {
       if (error.code === 'E_UNIQUE') {
@@ -69,6 +66,7 @@ module.exports = {
       buildData: () => ({
         item: cardMembership,
         included: {
+          users: [values.user],
           projects: [inputs.project],
           boards: [inputs.board],
           lists: [inputs.list],
@@ -106,6 +104,20 @@ module.exports = {
 
       // TODO: send webhooks
     }
+
+    await sails.helpers.actions.createOne.with({
+      values: {
+        type: Action.Types.ADD_MEMBER_TO_CARD,
+        data: {
+          user: _.pick(values.user, ['id', 'name']),
+        },
+        user: inputs.actorUser,
+        card: values.card,
+      },
+      project: inputs.project,
+      board: inputs.board,
+      list: inputs.list,
+    });
 
     return cardMembership;
   },

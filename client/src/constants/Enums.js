@@ -90,11 +90,13 @@ export const AttachmentTypes = {
 export const ActivityTypes = {
   CREATE_CARD: 'createCard',
   MOVE_CARD: 'moveCard',
+  ADD_MEMBER_TO_CARD: 'addMemberToCard',
 };
 
 export const NotificationTypes = {
   MOVE_CARD: 'moveCard',
   COMMENT_CARD: 'commentCard',
+  ADD_MEMBER_TO_CARD: 'addMemberToCard',
 };
 
 export const NotificationServiceFormats = {

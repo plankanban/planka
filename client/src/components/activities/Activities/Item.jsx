@@ -84,6 +84,36 @@ const Item = React.memo(({ id }) => {
 
       break;
     }
+    case ActivityTypes.ADD_MEMBER_TO_CARD:
+      contentNode =
+        user.id === activity.data.user.id ? (
+          <Trans
+            i18nKey="common.userJoinedThisCard"
+            values={{
+              user: userName,
+            }}
+          >
+            <span className={styles.author}>{userName}</span>
+            <span className={styles.text}>{' joined this card'}</span>
+          </Trans>
+        ) : (
+          <Trans
+            i18nKey="common.userAddedUserToThisCard"
+            values={{
+              actorUser: userName,
+              addedUser: activity.data.user.name,
+            }}
+          >
+            <span className={styles.author}>{userName}</span>
+            <span className={styles.text}>
+              {' added '}
+              {activity.data.user.name}
+              {' to this card'}
+            </span>
+          </Trans>
+        );
+
+      break;
     default:
       contentNode = null;
   }

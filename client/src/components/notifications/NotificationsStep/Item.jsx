@@ -103,6 +103,24 @@ const Item = React.memo(({ id, onClose }) => {
 
       break;
     }
+    case NotificationTypes.ADD_MEMBER_TO_CARD:
+      contentNode = (
+        <Trans
+          i18nKey="common.userAddedYouToCard"
+          values={{
+            user: creatorUserName,
+            card: cardName,
+          }}
+        >
+          {creatorUserName}
+          {` added you to `}
+          <Link to={Paths.CARDS.replace(':id', notification.cardId)} onClick={onClose}>
+            {cardName}
+          </Link>
+        </Trans>
+      );
+
+      break;
     default:
       contentNode = null;
   }

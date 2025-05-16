@@ -13,6 +13,7 @@
 const Types = {
   CREATE_CARD: 'createCard',
   MOVE_CARD: 'moveCard',
+  ADD_MEMBER_TO_CARD: 'addMemberToCard',
 };
 
 module.exports = {

@@ -12,6 +12,8 @@ const buildTitle = (notification, t) => {
       return t('Card Moved');
     case Notification.Types.COMMENT_CARD:
       return t('New Comment');
+    case Notification.Types.ADD_MEMBER_TO_CARD:
+      return t('You Were Added to Card');
     default:
       return null;
   }
@@ -77,6 +79,22 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
         )}:\n\n<i>${escapeHtml(commentText)}</i>`,
       };
     }
+    case Notification.Types.ADD_MEMBER_TO_CARD:
+      return {
+        text: t('%s added you to %s on %s', actorUser.name, card.name, board.name),
+        markdown: t(
+          '%s added you to %s on %s',
+          escapeMarkdown(actorUser.name),
+          markdownCardLink,
+          escapeMarkdown(board.name),
+        ),
+        html: t(
+          '%s added you to %s on %s',
+          escapeHtml(actorUser.name),
+          htmlCardLink,
+          escapeHtml(board.name),
+        ),
+      };
     default:
       return null;
   }
@@ -119,6 +137,15 @@ const buildAndSendEmail = async (board, card, notification, actorUser, notifiabl
         cardLink,
         boardLink,
       )}</p><p>${escapeHtml(notification.data.text)}</p>`;
+
+      break;
+    case Notification.Types.ADD_MEMBER_TO_CARD:
+      html = `<p>${t(
+        '%s added you to %s on %s',
+        escapeHtml(actorUser.name),
+        cardLink,
+        boardLink,
+      )}</p>`;
 
       break;
     default:
