@@ -41,18 +41,25 @@ export default {
       archive: 'Archiv',
       archiveCard_title: 'Karte archivieren',
       archiveCards_title: 'Karten archivieren',
-      areYouSureYouWantToActivateThisUser: 'Sind Sie sicher, dass Sie diesen Benutzer aktivieren möchten?',
-      areYouSureYouWantToArchiveCards: 'Sind Sie sicher, dass Sie diese Karten archivieren möchten?',
-      areYouSureYouWantToArchiveThisCard: 'Sind Sie sicher, dass Sie diese Karte archivieren möchten?',
-      areYouSureYouWantToAssignThisProjectManagerAsOwner: 'Sind Sie sicher, dass Sie diesen Projektleiter als Eigentümer festlegen möchten?',
-      areYouSureYouWantToDeactivateThisUser: 'Sind Sie sicher, dass Sie diesen Benutzer deaktivieren möchten?',
+      areYouSureYouWantToActivateThisUser:
+        'Sind Sie sicher, dass Sie diesen Benutzer aktivieren möchten?',
+      areYouSureYouWantToArchiveCards:
+        'Sind Sie sicher, dass Sie diese Karten archivieren möchten?',
+      areYouSureYouWantToArchiveThisCard:
+        'Sind Sie sicher, dass Sie diese Karte archivieren möchten?',
+      areYouSureYouWantToAssignThisProjectManagerAsOwner:
+        'Sind Sie sicher, dass Sie diesen Projektleiter als Eigentümer festlegen möchten?',
+      areYouSureYouWantToDeactivateThisUser:
+        'Sind Sie sicher, dass Sie diesen Benutzer deaktivieren möchten?',
       areYouSureYouWantToDeleteThisAttachment:
         'Sind Sie sicher, dass Sie diesen Anhang löschen möchten?',
-      areYouSureYouWantToDeleteThisBackgroundImage: 'Sind Sie sicher, dass Sie dieses Hintergrundbild löschen möchten?',
+      areYouSureYouWantToDeleteThisBackgroundImage:
+        'Sind Sie sicher, dass Sie dieses Hintergrundbild löschen möchten?',
       areYouSureYouWantToDeleteThisBoard:
         'Sind Sie sicher, dass Sie diesen Arbeitsbereich löschen möchten?',
       areYouSureYouWantToDeleteThisCard: 'Sind Sie sicher, dass Sie diese Karte löschen möchten?',
-      areYouSureYouWantToDeleteThisCardForever: 'Sind Sie sicher, dass Sie diese Karte endgültig löschen möchten?',
+      areYouSureYouWantToDeleteThisCardForever:
+        'Sind Sie sicher, dass Sie diese Karte endgültig löschen möchten?',
       areYouSureYouWantToDeleteThisComment:
         'Sind Sie sicher, dass Sie diesen Kommentar löschen möchten?',
       areYouSureYouWantToDeleteThisCustomField:
@@ -61,18 +68,21 @@ export default {
         'Sind Sie sicher, dass Sie diese Feldgruppe löschen möchten?',
       areYouSureYouWantToDeleteThisLabel: 'Sind Sie sicher, dass Sie dieses Label löschen möchten?',
       areYouSureYouWantToDeleteThisList: 'Sind Sie sicher, dass Sie diese Liste löschen möchten?',
-      areYouSureYouWantToDeleteThisNotificationService: 'Sind Sie sicher, dass Sie diesen Benachrichtigungsdienst löschen möchten?',
+      areYouSureYouWantToDeleteThisNotificationService:
+        'Sind Sie sicher, dass Sie diesen Benachrichtigungsdienst löschen möchten?',
       areYouSureYouWantToDeleteThisProject:
         'Sind Sie sicher, dass Sie dieses Projekt löschen möchten?',
       areYouSureYouWantToDeleteThisTask: 'Sind Sie sicher, dass Sie diese Aufgabe löschen möchten?',
-      areYouSureYouWantToDeleteThisTaskList: 'Sind Sie sicher, dass Sie diese Aufgabenliste löschen möchten?',
+      areYouSureYouWantToDeleteThisTaskList:
+        'Sind Sie sicher, dass Sie diese Aufgabenliste löschen möchten?',
       areYouSureYouWantToDeleteThisUser:
         'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?',
       areYouSureYouWantToEmptyTrash: 'Sind Sie sicher, dass Sie den Papierkorb leeren möchten?',
       areYouSureYouWantToLeaveBoard:
         'Sind Sie sicher, dass Sie den Arbeitsbereich verlassen möchten?',
       areYouSureYouWantToLeaveProject: 'Sind Sie sicher, dass Sie das Projekt verlassen möchten?',
-      areYouSureYouWantToMakeThisProjectShared: 'Sind Sie sicher, dass Sie dieses Projekt freigeben möchten?',
+      areYouSureYouWantToMakeThisProjectShared:
+        'Sind Sie sicher, dass Sie dieses Projekt freigeben möchten?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Sind Sie sicher, dass Sie diesen Projektleiter aus dem Projekt entfernen möchten?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -106,9 +116,11 @@ export default {
       cardNotFound_title: 'Karte nicht gefunden',
       cardsOnThisListAreAvailableToAllBoardMembers:
         'Cards on this list are available to all Arbeitsbereich members.',
-      cardsOnThisListAreCompleteAndReadyToBeArchived: 'Karten in dieser Liste sind abgeschlossen und können archiviert werden.',
+      cardsOnThisListAreCompleteAndReadyToBeArchived:
+        'Karten in dieser Liste sind abgeschlossen und können archiviert werden.',
       cardsOnThisListAreReadyToBeWorkedOn: 'Karten in dieser Liste sind bereit zur Bearbeitung.',
-      clickHereOrRefreshPageToUpdate: '<0>Hier klicken</0> oder Seite aktualisieren, um zu aktualisieren.',
+      clickHereOrRefreshPageToUpdate:
+        '<0>Hier klicken</0> oder Seite aktualisieren, um zu aktualisieren.',
       closed: 'Geschlossen',
       color: 'Farbe',
       comments: 'Kommentare',
@@ -131,7 +143,8 @@ export default {
       deactivateUser_title: 'Benutzer deaktivieren',
       defaultCardType_title: 'Standard-Kartentyp',
       defaultView_title: 'Standardansicht',
-      deleteAllBoardsToBeAbleToDeleteThisProject: 'Löschen Sie alle Arbeitsbereiche, um dieses Projekt löschen zu können',
+      deleteAllBoardsToBeAbleToDeleteThisProject:
+        'Löschen Sie alle Arbeitsbereiche, um dieses Projekt löschen zu können',
       deleteAttachment_title: 'Anhang löschen',
       deleteBackgroundImage_title: 'Hintergrundbild löschen',
       deleteBoard_title: 'Arbeitsbereich löschen',
@@ -226,7 +239,8 @@ export default {
       organization: 'Organisation',
       others: 'Andere',
       phone: 'Telefon',
-      plankaUsesAppriseToSendNotificationsToOver100PopularServices: 'PLANKA verwendet <1><0>Apprise</0></1>, um Benachrichtigungen an über 100 beliebte Dienste zu senden.',
+      plankaUsesAppriseToSendNotificationsToOver100PopularServices:
+        'PLANKA verwendet <1><0>Apprise</0></1>, um Benachrichtigungen an über 100 beliebte Dienste zu senden.',
       preferences: 'Voreinstellungen',
       pressPasteShortcutToAddAttachmentFromClipboard:
         'Tipp: Drücken Sie STRG-V (Cmd-V auf Mac), um einen Anhang aus der Zwischenablage hinzuzufügen.',
