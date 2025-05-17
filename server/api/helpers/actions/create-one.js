@@ -142,8 +142,8 @@ module.exports = {
       user: values.user,
     });
 
-    if (action.type !== Action.Types.CREATE_CARD) {
-      if (action.type === Action.Types.ADD_MEMBER_TO_CARD) {
+    if (Action.INTERNAL_NOTIFIABLE_TYPES.includes(action.type)) {
+      if (Action.PERSONAL_NOTIFIABLE_TYPES.includes(action.type)) {
         if (values.user !== action.data.user.id) {
           await sails.helpers.notifications.createOne.with({
             values: {
@@ -195,23 +195,25 @@ module.exports = {
             }),
           ),
         );
+      }
+    }
 
-        const notificationServices = await NotificationService.qm.getByBoardId(inputs.board.id);
+    if (Action.EXTERNAL_NOTIFIABLE_TYPES.includes(action.type)) {
+      const notificationServices = await NotificationService.qm.getByBoardId(inputs.board.id);
 
-        if (notificationServices.length > 0) {
-          const services = notificationServices.map((notificationService) =>
-            _.pick(notificationService, ['url', 'format']),
-          );
+      if (notificationServices.length > 0) {
+        const services = notificationServices.map((notificationService) =>
+          _.pick(notificationService, ['url', 'format']),
+        );
 
-          buildAndSendNotifications(
-            services,
-            inputs.board,
-            values.card,
-            action,
-            values.user,
-            sails.helpers.utils.makeTranslator(),
-          );
-        }
+        buildAndSendNotifications(
+          services,
+          inputs.board,
+          values.card,
+          action,
+          values.user,
+          sails.helpers.utils.makeTranslator(),
+        );
       }
     }
 

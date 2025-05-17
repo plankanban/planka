@@ -70,7 +70,10 @@ module.exports = {
       throw Errors.USER_NOT_CARD_MEMBER;
     }
 
+    const user = await User.qm.getOneById(cardMembership.userId);
+
     cardMembership = await sails.helpers.cardMemberships.deleteOne.with({
+      user,
       project,
       board,
       list,

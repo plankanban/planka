@@ -9,6 +9,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    user: {
+      type: 'ref',
+      required: true,
+    },
     project: {
       type: 'ref',
       required: true,
@@ -52,6 +56,7 @@ module.exports = {
         buildData: () => ({
           item: cardMembership,
           included: {
+            users: [inputs.user],
             projects: [inputs.project],
             boards: [inputs.board],
             lists: [inputs.list],
@@ -75,6 +80,20 @@ module.exports = {
           },
         });
       }
+
+      await sails.helpers.actions.createOne.with({
+        values: {
+          type: Action.Types.REMOVE_MEMBER_FROM_CARD,
+          data: {
+            user: _.pick(inputs.user, ['id', 'name']),
+          },
+          user: inputs.actorUser,
+          card: inputs.card,
+        },
+        project: inputs.project,
+        board: inputs.board,
+        list: inputs.list,
+      });
     }
 
     return cardMembership;

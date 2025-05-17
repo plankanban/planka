@@ -291,9 +291,12 @@ export default {
       userAddedYouToCard: '{{user}} added you to <2>{{card}}</2>',
       userJoinedThisCard: `<0>{{user}}</0><1> joined this card</1>`,
       userLeftNewCommentToCard: '{{user}} left a new comment «{{comment}}» to <2>{{card}}</2>',
+      userLeftThisCard: '<0>{{user}}</0><1> left this card</1>',
       userMovedCardFromListToList: '{{user}} moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> moved this card from {{fromList}} to {{toList}}</1>',
+      userRemovedUserFromThisCard:
+        '<0>{{actorUser}}</0><1> removed {{removedUser}} from this card</1>',
       username: 'Username',
       users: 'Users',
       viewer: 'Viewer',

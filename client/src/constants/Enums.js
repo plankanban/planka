@@ -91,6 +91,7 @@ export const ActivityTypes = {
   CREATE_CARD: 'createCard',
   MOVE_CARD: 'moveCard',
   ADD_MEMBER_TO_CARD: 'addMemberToCard',
+  REMOVE_MEMBER_FROM_CARD: 'removeMemberFromCard',
 };
 
 export const NotificationTypes = {

@@ -114,6 +114,36 @@ const Item = React.memo(({ id }) => {
         );
 
       break;
+    case ActivityTypes.REMOVE_MEMBER_FROM_CARD:
+      contentNode =
+        user.id === activity.data.user.id ? (
+          <Trans
+            i18nKey="common.userLeftThisCard"
+            values={{
+              user: userName,
+            }}
+          >
+            <span className={styles.author}>{userName}</span>
+            <span className={styles.text}>{' left this card'}</span>
+          </Trans>
+        ) : (
+          <Trans
+            i18nKey="common.userRemovedUserFromThisCard"
+            values={{
+              actorUser: userName,
+              removedUser: activity.data.user.name,
+            }}
+          >
+            <span className={styles.author}>{userName}</span>
+            <span className={styles.text}>
+              {' removed '}
+              {activity.data.user.name}
+              {' from this card'}
+            </span>
+          </Trans>
+        );
+
+      break;
     default:
       contentNode = null;
   }

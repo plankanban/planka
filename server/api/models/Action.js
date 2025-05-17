@@ -14,10 +14,18 @@ const Types = {
   CREATE_CARD: 'createCard',
   MOVE_CARD: 'moveCard',
   ADD_MEMBER_TO_CARD: 'addMemberToCard',
+  REMOVE_MEMBER_FROM_CARD: 'removeMemberFromCard',
 };
+
+const INTERNAL_NOTIFIABLE_TYPES = [Types.MOVE_CARD, Types.ADD_MEMBER_TO_CARD];
+const EXTERNAL_NOTIFIABLE_TYPES = [Types.CREATE_CARD, Types.MOVE_CARD];
+const PERSONAL_NOTIFIABLE_TYPES = [Types.ADD_MEMBER_TO_CARD];
 
 module.exports = {
   Types,
+  INTERNAL_NOTIFIABLE_TYPES,
+  EXTERNAL_NOTIFIABLE_TYPES,
+  PERSONAL_NOTIFIABLE_TYPES,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗

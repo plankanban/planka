@@ -76,7 +76,7 @@ module.exports = {
     const isBoardMember = await sails.helpers.users.isBoardMember(user.id, board.id);
 
     if (!isBoardMember) {
-      throw Errors.USER_NOT_FOUND;
+      throw Errors.USER_NOT_FOUND; // Forbidden
     }
 
     const cardMembership = await sails.helpers.cardMemberships.createOne
