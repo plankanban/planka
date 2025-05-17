@@ -3,16 +3,17 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { push } from '../../../lib/redux-router';
 import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
-import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/Enums';
 import ProjectContent from './ProjectContent';
@@ -22,6 +23,7 @@ import EditName from './EditName';
 import ActionsStep from './ActionsStep';
 
 import styles from './Card.module.scss';
+import globalStyles from '../../../styles.module.scss';
 
 const Card = React.memo(({ id, isInline }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
@@ -29,6 +31,7 @@ const Card = React.memo(({ id, isInline }) => {
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
 
   const card = useSelector((state) => selectCardById(state, id));
+  const list = useSelector((state) => selectListById(state, card.listId));
 
   const isHighlightedAsRecent = useSelector((state) => {
     const { turnOffRecentCardHighlighting } = selectors.selectCurrentUser(state);
@@ -40,24 +43,10 @@ const Card = React.memo(({ id, isInline }) => {
     return selectIsCardWithIdRecent(state, id);
   });
 
-  const { isDisabled, canUseActions } = useSelector((state) => {
-    const list = selectListById(state, card.listId);
-
+  const canUseActions = useSelector((state) => {
     const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
-    const isEditor = !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
-
-    if (isListArchiveOrTrash(list)) {
-      return {
-        isDisabled: false,
-        canUseActions: isEditor,
-      };
-    }
-
-    return {
-      isDisabled: list.type === ListTypes.CLOSED && !isEditor,
-      canUseActions: isEditor,
-    };
-  }, shallowEqual);
+    return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+  });
 
   const dispatch = useDispatch();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
@@ -101,11 +90,20 @@ const Card = React.memo(({ id, isInline }) => {
     }
   }
 
+  const colorLineNode = list.color && (
+    <div
+      className={classNames(
+        styles.colorLine,
+        globalStyles[`background${upperFirst(camelCase(list.color))}`],
+      )}
+    />
+  );
+
   return (
     <div
       className={classNames(
         styles.wrapper,
-        isDisabled && styles.wrapperDisabled,
+        list.type === ListTypes.CLOSED && styles.wrapperDisabled,
         isHighlightedAsRecent && styles.wrapperRecent,
         'card',
       )}
@@ -116,6 +114,7 @@ const Card = React.memo(({ id, isInline }) => {
                                        jsx-a11y/no-static-element-interactions */}
           <div className={styles.content} onClick={handleClick}>
             <Content cardId={id} />
+            {colorLineNode}
           </div>
           {canUseActions && (
             <ActionsPopup cardId={id} onNameEdit={handleNameEdit}>
@@ -128,6 +127,7 @@ const Card = React.memo(({ id, isInline }) => {
       ) : (
         <span className={styles.content}>
           <Content cardId={id} />
+          {colorLineNode}
         </span>
       )}
     </div>
