@@ -97,50 +97,53 @@ const upgradeDatabase = async () => {
     const whereInUserIds = ['0', ...userIds];
 
     if (users.length > 0) {
-      await trx('user_account').insert(
-        users.map((user) => ({
-          ..._.pick(user, [
-            'id',
-            'email',
-            'password',
-            'name',
-            'username',
-            'phone',
-            'organization',
-            'language',
-            'subscribe_to_own_cards',
-            'created_at',
-            'updated_at',
-            'password_changed_at',
-          ]),
-          role: user.is_admin ? User.Roles.ADMIN : User.Roles.BOARD_USER,
-          avatar: user.avatar && {
-            ...user.avatar,
-            sizeInBytes: 0,
-          },
-          subscribe_to_card_when_commenting: true,
-          turn_off_recent_card_highlighting: false,
-          enable_favorites_by_default: false,
-          default_editor_mode: User.EditorModes.WYSIWYG,
-          default_home_view: User.HomeViews.GROUPED_PROJECTS,
-          default_projects_order: User.ProjectOrders.BY_DEFAULT,
-          is_sso_user: user.is_sso,
-          is_deactivated: false,
-        })),
-      );
+      await knex
+        .batchInsert(
+          'user_account',
+          users.map((user) => ({
+            ..._.pick(user, [
+              'id',
+              'email',
+              'password',
+              'name',
+              'username',
+              'phone',
+              'organization',
+              'language',
+              'subscribe_to_own_cards',
+              'created_at',
+              'updated_at',
+              'password_changed_at',
+            ]),
+            role: user.is_admin ? User.Roles.ADMIN : User.Roles.BOARD_USER,
+            avatar: user.avatar && {
+              ...user.avatar,
+              sizeInBytes: 0,
+            },
+            subscribe_to_card_when_commenting: true,
+            turn_off_recent_card_highlighting: false,
+            enable_favorites_by_default: false,
+            default_editor_mode: User.EditorModes.WYSIWYG,
+            default_home_view: User.HomeViews.GROUPED_PROJECTS,
+            default_projects_order: User.ProjectOrders.BY_DEFAULT,
+            is_sso_user: user.is_sso,
+            is_deactivated: false,
+          })),
+        )
+        .transacting(trx);
 
       const identityProviderUsers = await trx('identity_provider_user')
         .withSchema('v1')
         .whereIn('user_id', whereInUserIds);
 
       if (identityProviderUsers.length > 0) {
-        await trx('identity_provider_user').insert(identityProviderUsers);
+        await knex.batchInsert('identity_provider_user', identityProviderUsers).transacting(trx);
       }
 
       const sessions = await trx('session').withSchema('v1').whereIn('user_id', whereInUserIds);
 
       if (sessions.length > 0) {
-        await trx('session').insert(sessions);
+        await knex.batchInsert('session', sessions).transacting(trx);
       }
     }
 
@@ -154,47 +157,53 @@ const upgradeDatabase = async () => {
       if (projectsWithBackgroundImage.length > 0) {
         const createdAt = new Date().toISOString();
 
-        const backgroundImages = await trx('background_image').insert(
-          projectsWithBackgroundImage.map((project) => ({
-            ...project.background_image,
-            project_id: project.id,
-            size_in_bytes: 0,
-            created_at: createdAt,
-          })),
-          ['id', 'project_id'],
-        );
+        const backgroundImages = await knex
+          .batchInsert(
+            'background_image',
+            projectsWithBackgroundImage.map((project) => ({
+              ...project.background_image,
+              project_id: project.id,
+              size_in_bytes: 0,
+              created_at: createdAt,
+            })),
+          )
+          .returning(['id', 'project_id'])
+          .transacting(trx);
 
         backgroundImages.forEach((backgroundImage) => {
           backgroundImageIdByProjectId[backgroundImage.project_id] = backgroundImage.id;
         });
       }
 
-      await trx('project').insert(
-        projects.map((project) => {
-          const data = {
-            ..._.pick(project, ['id', 'name', 'created_at', 'updated_at']),
-            is_hidden: false,
-          };
+      await knex
+        .batchInsert(
+          'project',
+          projects.map((project) => {
+            const data = {
+              ..._.pick(project, ['id', 'name', 'created_at', 'updated_at']),
+              is_hidden: false,
+            };
 
-          if (project.background) {
-            data.background_type = project.background.type;
+            if (project.background) {
+              data.background_type = project.background.type;
 
-            switch (project.background.type) {
-              case Project.BackgroundTypes.GRADIENT:
-                data.background_gradient = project.background.name;
+              switch (project.background.type) {
+                case Project.BackgroundTypes.GRADIENT:
+                  data.background_gradient = project.background.name;
 
-                break;
-              case Project.BackgroundTypes.IMAGE:
-                data.background_image_id = backgroundImageIdByProjectId[project.id];
+                  break;
+                case Project.BackgroundTypes.IMAGE:
+                  data.background_image_id = backgroundImageIdByProjectId[project.id];
 
-                break;
-              default:
+                  break;
+                default:
+              }
             }
-          }
 
-          return data;
-        }),
-      );
+            return data;
+          }),
+        )
+        .transacting(trx);
     }
 
     const projectManagers = await trx('project_manager')
@@ -202,7 +211,7 @@ const upgradeDatabase = async () => {
       .whereIn('project_id', whereInProjectIds);
 
     if (projectManagers.length > 0) {
-      await trx('project_manager').insert(projectManagers);
+      await knex.batchInsert('project_manager', projectManagers).transacting(trx);
     }
 
     const boards = await trx('board').withSchema('v1').whereIn('project_id', whereInProjectIds);
@@ -218,27 +227,33 @@ const upgradeDatabase = async () => {
     const whereInBoardIds = ['0', ...Object.keys(projectIdByBoardId)];
 
     if (boards.length > 0) {
-      await trx('board').insert(
-        boards.map((board) => ({
-          ..._.pick(board, ['id', 'project_id', 'position', 'name', 'created_at', 'updated_at']),
-          default_view: Board.Views.KANBAN,
-          default_card_type: Card.Types.PROJECT,
-          limit_card_types_to_default_one: false,
-          always_display_card_creator: false,
-        })),
-      );
+      await knex
+        .batchInsert(
+          'board',
+          boards.map((board) => ({
+            ..._.pick(board, ['id', 'project_id', 'position', 'name', 'created_at', 'updated_at']),
+            default_view: Board.Views.KANBAN,
+            default_card_type: Card.Types.PROJECT,
+            limit_card_types_to_default_one: false,
+            always_display_card_creator: false,
+          })),
+        )
+        .transacting(trx);
 
       const createdAt = new Date().toISOString();
 
-      await trx('list').insert(
-        boards.flatMap((board) =>
-          [List.Types.ARCHIVE, List.Types.TRASH].map((type) => ({
-            type,
-            board_id: board.id,
-            created_at: createdAt,
-          })),
-        ),
-      );
+      await knex
+        .batchInsert(
+          'list',
+          boards.flatMap((board) =>
+            [List.Types.ARCHIVE, List.Types.TRASH].map((type) => ({
+              type,
+              board_id: board.id,
+              created_at: createdAt,
+            })),
+          ),
+        )
+        .transacting(trx);
     }
 
     const boardMemberships = await trx('board_membership')
@@ -246,46 +261,52 @@ const upgradeDatabase = async () => {
       .whereIn('board_id', whereInBoardIds);
 
     if (boardMemberships.length > 0) {
-      await trx('board_membership').insert(
-        boardMemberships.map((boardMembership) => ({
-          ..._.pick(boardMembership, [
-            'id',
-            'board_id',
-            'user_id',
-            'role',
-            'can_comment',
-            'created_at',
-            'updated_at',
-          ]),
-          project_id: projectIdByBoardId[boardMembership.board_id],
-        })),
-      );
+      await knex
+        .batchInsert(
+          'board_membership',
+          boardMemberships.map((boardMembership) => ({
+            ..._.pick(boardMembership, [
+              'id',
+              'board_id',
+              'user_id',
+              'role',
+              'can_comment',
+              'created_at',
+              'updated_at',
+            ]),
+            project_id: projectIdByBoardId[boardMembership.board_id],
+          })),
+        )
+        .transacting(trx);
     }
 
     const labels = await trx('label').withSchema('v1').whereIn('board_id', whereInBoardIds);
 
     if (labels.length > 0) {
-      await trx('label').insert(labels);
+      await knex.batchInsert('label', labels).transacting(trx);
     }
 
     const lists = await trx('list').withSchema('v1').whereIn('board_id', whereInBoardIds);
     const whereInListIds = ['0', ...lists.map(({ id }) => id)];
 
     if (lists.length > 0) {
-      await trx('list').insert(
-        lists.map((list) => ({
-          ..._.pick(list, [
-            'id',
-            'board_id',
-            'position',
-            'name',
-            'color',
-            'created_at',
-            'updated_at',
-          ]),
-          type: List.Types.ACTIVE,
-        })),
-      );
+      await knex
+        .batchInsert(
+          'list',
+          lists.map((list) => ({
+            ..._.pick(list, [
+              'id',
+              'board_id',
+              'position',
+              'name',
+              'color',
+              'created_at',
+              'updated_at',
+            ]),
+            type: List.Types.ACTIVE,
+          })),
+        )
+        .transacting(trx);
     }
 
     const cards = await trx('card')
@@ -297,26 +318,29 @@ const upgradeDatabase = async () => {
     const whereInCardIds = ['0', ...Object.keys(cardById)];
 
     if (cards.length > 0) {
-      await trx('card').insert(
-        cards.map((card) => ({
-          ..._.pick(card, [
-            'id',
-            'board_id',
-            'list_id',
-            'cover_attachment_id',
-            'position',
-            'name',
-            'description',
-            'due_date',
-            'stopwatch',
-            'created_at',
-            'updated_at',
-          ]),
-          creator_user_id: userIdsSet.has(card.creator_user_id) ? card.creator_user_id : null,
-          type: Card.Types.PROJECT,
-          list_changed_at: card.created_at,
-        })),
-      );
+      await knex
+        .batchInsert(
+          'card',
+          cards.map((card) => ({
+            ..._.pick(card, [
+              'id',
+              'board_id',
+              'list_id',
+              'cover_attachment_id',
+              'position',
+              'name',
+              'description',
+              'due_date',
+              'stopwatch',
+              'created_at',
+              'updated_at',
+            ]),
+            creator_user_id: userIdsSet.has(card.creator_user_id) ? card.creator_user_id : null,
+            type: Card.Types.PROJECT,
+            list_changed_at: card.created_at,
+          })),
+        )
+        .transacting(trx);
     }
 
     const cardSubscriptions = await trx('card_subscription')
@@ -324,7 +348,7 @@ const upgradeDatabase = async () => {
       .whereIn('card_id', whereInCardIds);
 
     if (cardSubscriptions.length > 0) {
-      await trx('card_subscription').insert(cardSubscriptions);
+      await knex.batchInsert('card_subscription', cardSubscriptions).transacting(trx);
     }
 
     const cardMemberships = await trx('card_membership')
@@ -332,13 +356,13 @@ const upgradeDatabase = async () => {
       .whereIn('card_id', whereInCardIds);
 
     if (cardMemberships.length > 0) {
-      await trx('card_membership').insert(cardMemberships);
+      await knex.batchInsert('card_membership', cardMemberships).transacting(trx);
     }
 
     const cardLabels = await trx('card_label').withSchema('v1').whereIn('card_id', whereInCardIds);
 
     if (cardLabels.length > 0) {
-      await trx('card_label').insert(cardLabels);
+      await knex.batchInsert('card_label', cardLabels).transacting(trx);
     }
 
     const tasks = await trx('task').withSchema('v1').whereIn('card_id', whereInCardIds);
@@ -349,47 +373,63 @@ const upgradeDatabase = async () => {
     if (taskCardIds.length > 0) {
       const createdAt = new Date().toISOString();
 
-      const taskLists = await trx('task_list').insert(
-        taskCardIds.map((cardId) => ({
-          card_id: cardId,
-          position: POSITION_GAP,
-          name: 'Task List',
-          show_on_front_of_card: true,
-          created_at: createdAt,
-        })),
-        ['id', 'card_id'],
-      );
-
-      await trx('task').insert(
-        taskLists.flatMap((taskList) =>
-          tasksByCardId[taskList.card_id].map((task) => ({
-            ..._.pick(task, ['id', 'position', 'name', 'is_completed', 'created_at', 'updated_at']),
-            task_list_id: taskList.id,
+      const taskLists = await knex
+        .batchInsert(
+          'task_list',
+          taskCardIds.map((cardId) => ({
+            card_id: cardId,
+            position: POSITION_GAP,
+            name: 'Task List',
+            show_on_front_of_card: true,
+            created_at: createdAt,
           })),
-        ),
-      );
+        )
+        .returning(['id', 'card_id'])
+        .transacting(trx);
+
+      await knex
+        .batchInsert(
+          'task',
+          taskLists.flatMap((taskList) =>
+            tasksByCardId[taskList.card_id].map((task) => ({
+              ..._.pick(task, [
+                'id',
+                'position',
+                'name',
+                'is_completed',
+                'created_at',
+                'updated_at',
+              ]),
+              task_list_id: taskList.id,
+            })),
+          ),
+        )
+        .transacting(trx);
     }
 
     const attachments = await trx('attachment').withSchema('v1').whereIn('card_id', whereInCardIds);
 
     if (attachments.length > 0) {
-      await trx('attachment').insert(
-        attachments.map((attachment) => ({
-          ..._.pick(attachment, ['id', 'card_id', 'name', 'created_at', 'updated_at']),
-          creator_user_id: userIdsSet.has(attachment.creator_user_id)
-            ? attachment.creator_user_id
-            : null,
-          type: Attachment.Types.FILE,
-          data: {
-            fileReferenceId: attachment.dirname,
-            filename: attachment.filename,
-            mimeType: mime.getType(attachment.filename),
-            sizeInBytes: 0,
-            encoding: null,
-            image: attachment.image,
-          },
-        })),
-      );
+      await knex
+        .batchInsert(
+          'attachment',
+          attachments.map((attachment) => ({
+            ..._.pick(attachment, ['id', 'card_id', 'name', 'created_at', 'updated_at']),
+            creator_user_id: userIdsSet.has(attachment.creator_user_id)
+              ? attachment.creator_user_id
+              : null,
+            type: Attachment.Types.FILE,
+            data: {
+              fileReferenceId: attachment.dirname,
+              filename: attachment.filename,
+              mimeType: mime.getType(attachment.filename),
+              sizeInBytes: 0,
+              encoding: null,
+              image: attachment.image,
+            },
+          })),
+        )
+        .transacting(trx);
     }
 
     const actions = await trx('action').withSchema('v1').whereIn('card_id', whereInCardIds);
@@ -409,52 +449,58 @@ const upgradeDatabase = async () => {
     });
 
     if (commentActions.length > 0) {
-      await trx('comment').insert(
-        commentActions.map((action) => ({
-          ..._.pick(action, ['id', 'card_id', 'created_at', 'updated_at']),
-          user_id: userIdsSet.has(action.user_id) ? action.user_id : null,
-          text: action.data.text,
-        })),
-      );
+      await knex
+        .batchInsert(
+          'comment',
+          commentActions.map((action) => ({
+            ..._.pick(action, ['id', 'card_id', 'created_at', 'updated_at']),
+            user_id: userIdsSet.has(action.user_id) ? action.user_id : null,
+            text: action.data.text,
+          })),
+        )
+        .transacting(trx);
     }
 
     if (otherActions.length > 0) {
-      await trx('action').insert(
-        otherActions.map((action) => {
-          const data = {
-            ..._.pick(action, ['id', 'card_id', 'type', 'created_at', 'updated_at']),
-            user_id: userIdsSet.has(action.user_id) ? action.user_id : null,
-          };
+      await knex
+        .batchInsert(
+          'action',
+          otherActions.map((action) => {
+            const data = {
+              ..._.pick(action, ['id', 'card_id', 'type', 'created_at', 'updated_at']),
+              user_id: userIdsSet.has(action.user_id) ? action.user_id : null,
+            };
 
-          switch (action.type) {
-            case Action.Types.CREATE_CARD:
-              data.data = {
-                list: {
-                  ...action.data.list,
-                  type: List.Types.ACTIVE,
-                },
-              };
+            switch (action.type) {
+              case Action.Types.CREATE_CARD:
+                data.data = {
+                  list: {
+                    ...action.data.list,
+                    type: List.Types.ACTIVE,
+                  },
+                };
 
-              break;
-            case Action.Types.MOVE_CARD:
-              data.data = {
-                fromList: {
-                  ...action.data.fromList,
-                  type: List.Types.ACTIVE,
-                },
-                toList: {
-                  ...action.data.toList,
-                  type: List.Types.ACTIVE,
-                },
-              };
+                break;
+              case Action.Types.MOVE_CARD:
+                data.data = {
+                  fromList: {
+                    ...action.data.fromList,
+                    type: List.Types.ACTIVE,
+                  },
+                  toList: {
+                    ...action.data.toList,
+                    type: List.Types.ACTIVE,
+                  },
+                };
 
-              break;
-            default:
-          }
+                break;
+              default:
+            }
 
-          return data;
-        }),
-      );
+            return data;
+          }),
+        )
+        .transacting(trx);
     }
 
     const notifications = await trx('notification')
@@ -464,55 +510,58 @@ const upgradeDatabase = async () => {
       .whereIn('card_id', whereInCardIds);
 
     if (notifications.length > 0) {
-      await trx('notification').insert(
-        notifications.map((notification) => {
-          const card = cardById[notification.card_id];
-          const action = actionById[notification.action_id];
+      await knex
+        .batchInsert(
+          'notification',
+          notifications.map((notification) => {
+            const card = cardById[notification.card_id];
+            const action = actionById[notification.action_id];
 
-          const data = {
-            ..._.pick(notification, [
-              'id',
-              'user_id',
-              'card_id',
-              'is_read',
-              'created_at',
-              'updated_at',
-            ]),
-            creator_user_id: userIdsSet.has(notification.creator_user_id)
-              ? notification.creator_user_id
-              : null,
-            board_id: card.board_id,
-            type: action.type,
-          };
+            const data = {
+              ..._.pick(notification, [
+                'id',
+                'user_id',
+                'card_id',
+                'is_read',
+                'created_at',
+                'updated_at',
+              ]),
+              creator_user_id: userIdsSet.has(notification.creator_user_id)
+                ? notification.creator_user_id
+                : null,
+              board_id: card.board_id,
+              type: action.type,
+            };
 
-          if (action.type === PrevActionTypes.COMMENT_CARD) {
-            Object.assign(data, {
-              comment_id: action.id,
-              data: {
-                card: _.pick(card, ['name']),
-                text: action.data.text,
-              },
-            });
-          } else {
-            Object.assign(data, {
-              action_id: action.id,
-              data: {
-                fromList: {
-                  ...action.data.fromList,
-                  type: List.Types.ACTIVE,
+            if (action.type === PrevActionTypes.COMMENT_CARD) {
+              Object.assign(data, {
+                comment_id: action.id,
+                data: {
+                  card: _.pick(card, ['name']),
+                  text: action.data.text,
                 },
-                toList: {
-                  ...action.data.toList,
-                  type: List.Types.ACTIVE,
+              });
+            } else {
+              Object.assign(data, {
+                action_id: action.id,
+                data: {
+                  fromList: {
+                    ...action.data.fromList,
+                    type: List.Types.ACTIVE,
+                  },
+                  toList: {
+                    ...action.data.toList,
+                    type: List.Types.ACTIVE,
+                  },
+                  card: _.pick(card, ['name']),
                 },
-                card: _.pick(card, ['name']),
-              },
-            });
-          }
+              });
+            }
 
-          return data;
-        }),
-      );
+            return data;
+          }),
+        )
+        .transacting(trx);
     }
 
     await trx.schema.dropSchema('v1', true);
