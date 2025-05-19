@@ -144,7 +144,7 @@ module.exports = {
 
     if (Action.INTERNAL_NOTIFIABLE_TYPES.includes(action.type)) {
       if (Action.PERSONAL_NOTIFIABLE_TYPES.includes(action.type)) {
-        if (values.user !== action.data.user.id) {
+        if (values.user.id !== action.data.user.id) {
           await sails.helpers.notifications.createOne.with({
             values: {
               action,

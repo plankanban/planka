@@ -101,6 +101,12 @@
 
   .wrapper {
     padding: 6px 8px 0;
+
+    &:after {
+      clear: both;
+      content: "";
+      display: table;
+    }
   }
 
   :global(.card):hover {
