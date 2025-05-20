@@ -144,6 +144,44 @@ const Item = React.memo(({ id }) => {
         );
 
       break;
+    case ActivityTypes.COMPLETE_TASK:
+      contentNode = (
+        <Trans
+          i18nKey="common.userCompletedTaskOnThisCard"
+          values={{
+            user: userName,
+            task: activity.data.task.name,
+          }}
+        >
+          <span className={styles.author}>{userName}</span>
+          <span className={styles.text}>
+            {' completed '}
+            {activity.data.task.name}
+            {' on this card'}
+          </span>
+        </Trans>
+      );
+
+      break;
+    case ActivityTypes.UNCOMPLETE_TASK:
+      contentNode = (
+        <Trans
+          i18nKey="common.userMarkedTaskIncompleteOnThisCard"
+          values={{
+            user: userName,
+            task: activity.data.task.name,
+          }}
+        >
+          <span className={styles.author}>{userName}</span>
+          <span className={styles.text}>
+            {' marked '}
+            {activity.data.task.name}
+            {' incomplete on this card'}
+          </span>
+        </Trans>
+      );
+
+      break;
     default:
       contentNode = null;
   }

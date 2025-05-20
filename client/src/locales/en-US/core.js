@@ -284,9 +284,12 @@ export default {
       userAddedThisCardToList: '<0>{{user}}</0><1> added this card to {{list}}</1>',
       userAddedUserToThisCard: '<0>{{actorUser}}</0><1> added {{addedUser}} to this card</1>',
       userAddedYouToCard: '{{user}} added you to <2>{{card}}</2>',
+      userCompletedTaskOnThisCard: '<0>{{user}}</0><1> completed {{task}} on this card</1>',
       userJoinedThisCard: `<0>{{user}}</0><1> joined this card</1>`,
       userLeftNewCommentToCard: '{{user}} left a new comment «{{comment}}» to <2>{{card}}</2>',
       userLeftThisCard: '<0>{{user}}</0><1> left this card</1>',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0><1> marked {{task}} incomplete on this card</1>',
       userMovedCardFromListToList: '{{user}} moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> moved this card from {{fromList}} to {{toList}}</1>',
