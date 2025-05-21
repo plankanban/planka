@@ -4,6 +4,11 @@
  */
 
 :global(#app) {
+  .author {
+    color: #17394d;
+    font-weight: bold;
+  }
+
   .button {
     background: transparent;
     box-shadow: none;
@@ -23,13 +28,19 @@
 
   .content {
     display: inline-block;
-    font-size: 12px;
+    font-size: 13px;
     min-height: 36px;
     overflow: hidden;
     padding: 0 4px 0 8px;
     vertical-align: top;
     width: calc(100% - 56px);
     word-break: break-word;
+  }
+
+  .date {
+    color: #6b808c;
+    font-size: 12px;
+    line-height: 20px;
   }
 
   .wrapper {

@@ -134,9 +134,10 @@ export default {
       title: 'Titel',
       userActions_title: 'Användaråtgärder',
       userAddedThisCardToList: '<0>{{user}}</0><1> lade till detta kort i {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} lämnade en ny kommentar «{{comment}}» på <2>{{card}}</2>',
+      userLeftNewCommentToCard:
+        '<0>{{user}}</0> lämnade en ny kommentar «{{comment}}» på <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} flyttade <2>{{card}}</2> från {{fromList}} till {{toList}}',
+        '<0>{{user}}</0> flyttade <2>{{card}}</2> från {{fromList}} till {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> flyttade detta kort från {{fromList}} till {{toList}}</1>',
       username: 'Användarnamn',

@@ -133,8 +133,10 @@ export default {
       title: 'Názov',
       userActions_title: 'Akcie na používateľovi',
       userAddedThisCardToList: '<0>{{user}}</0><1> pridal kartu do {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} zanechal nový komentár «{{comment}}» k <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} presunul <2>{{card}}</2> z {{fromList}} do {{toList}}',
+      userLeftNewCommentToCard:
+        '<0>{{user}}</0> zanechal nový komentár «{{comment}}» k <2>{{card}}</2>',
+      userMovedCardFromListToList:
+        '<0>{{user}}</0> presunul <2>{{card}}</2> z {{fromList}} do {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> presunul túto kartu z {{fromList}} do {{toList}}</1>',
       username: 'Používateľské meno',

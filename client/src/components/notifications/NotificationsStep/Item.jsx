@@ -16,6 +16,7 @@ import entryActions from '../../../entry-actions';
 import Paths from '../../../constants/Paths';
 import { StaticUserIds } from '../../../constants/StaticUsers';
 import { NotificationTypes } from '../../../constants/Enums';
+import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
 
 import styles from './Item.module.scss';
@@ -67,7 +68,7 @@ const Item = React.memo(({ id, onClose }) => {
             toList: toListName,
           }}
         >
-          {creatorUserName}
+          <span className={styles.author}>{creatorUserName}</span>
           {' moved '}
           <Link to={Paths.CARDS.replace(':id', notification.cardId)} onClick={onClose}>
             {cardName}
@@ -93,7 +94,7 @@ const Item = React.memo(({ id, onClose }) => {
             card: cardName,
           }}
         >
-          {creatorUserName}
+          <span className={styles.author}>{creatorUserName}</span>
           {` left a new comment «${commentText}» to `}
           <Link to={Paths.CARDS.replace(':id', notification.cardId)} onClick={onClose}>
             {cardName}
@@ -112,7 +113,7 @@ const Item = React.memo(({ id, onClose }) => {
             card: cardName,
           }}
         >
-          {creatorUserName}
+          <span className={styles.author}>{creatorUserName}</span>
           {` added you to `}
           <Link to={Paths.CARDS.replace(':id', notification.cardId)} onClick={onClose}>
             {cardName}
@@ -128,7 +129,12 @@ const Item = React.memo(({ id, onClose }) => {
   return (
     <div className={styles.wrapper}>
       <UserAvatar id={notification.creatorUserId} size="large" />
-      <span className={styles.content}>{contentNode}</span>
+      <span className={styles.content}>
+        <div>{contentNode}</div>
+        <span className={styles.date}>
+          <TimeAgo date={notification.createdAt} />
+        </span>
+      </span>
       <Button
         type="button"
         icon="trash alternate outline"

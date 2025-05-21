@@ -154,9 +154,9 @@ export default {
       userAddedThisCardToList:
         '<0>{{user}}</0><1> hozzáadta ezt a kártyát a következőhöz: {{list}}</1>',
       userLeftNewCommentToCard:
-        '{{user}} új kommentet hagyott itt: «{{comment}}» a következő kártyán: <2>{{card}}</2>',
+        '<0>{{user}}</0> új kommentet hagyott itt: «{{comment}}» a következő kártyán: <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
+        '<0>{{user}}</0> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}</1>',
       username: 'Felhasználónév',

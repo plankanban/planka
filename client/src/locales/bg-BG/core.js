@@ -154,9 +154,10 @@ export default {
       title: 'Заглавие',
       userActions_title: 'Потребителски действия',
       userAddedThisCardToList: '<0>{{user}}</0><1> добави тази карта в {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} остави нов коментар «{{comment}}» в <2>{{card}}</2>',
+      userLeftNewCommentToCard:
+        '<0>{{user}}</0> остави нов коментар «{{comment}}» в <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} премести <2>{{card}}</2> от {{fromList}} към {{toList}}',
+        '<0>{{user}}</0> премести <2>{{card}}</2> от {{fromList}} към {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> премести тази карта от {{fromList}} към {{toList}}</1>',
       username: 'Потребителско име',

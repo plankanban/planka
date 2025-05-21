@@ -285,9 +285,10 @@ export default {
       uploadedImages: 'Загруженные изображения',
       userActions_title: 'Действия с пользователем',
       userAddedThisCardToList: '<0>{{user}}</0><1> добавил(а) эту карточку в {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} оставил(а) комментарий «{{comment}}» к <2>{{card}}</2>',
+      userLeftNewCommentToCard:
+        '<0>{{user}}</0> оставил(а) комментарий «{{comment}}» к <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} переместил(а) <2>{{card}}</2> из {{fromList}} в {{toList}}',
+        '<0>{{user}}</0> переместил(а) <2>{{card}}</2> из {{fromList}} в {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> переместил(а) эту карточку из {{fromList}} в {{toList}}</1>',
       username: 'Имя пользователя',

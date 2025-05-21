@@ -144,9 +144,9 @@ export default {
       title: '標題',
       userActions_title: '使用者操作',
       userAddedThisCardToList: '<0>{{user}}</0><1> 向列表 {{list}} 添加了該卡片</1>',
-      userLeftNewCommentToCard: '{{user}} 給 {{card}} 添加了一條新評論 「{{comment}}」',
+      userLeftNewCommentToCard: '<0>{{user}}</0> 給 {{card}} 添加了一條新評論 「{{comment}}」',
       userMovedCardFromListToList:
-        '{{user}} 將卡片 <2>{{card}}</2> 從 {{fromList}} 移動到 {{toList}}',
+        '<0>{{user}}</0> 將卡片 <2>{{card}}</2> 從 {{fromList}} 移動到 {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> 將該卡片從 {{fromList}} 移動到 {{toList}}</1>',
       username: '使用者名稱',

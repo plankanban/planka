@@ -16,6 +16,9 @@ export const transformNotification = (notification) => ({
         activityId: notification.actionId,
       }
     : notification),
+  ...(notification.createdAt && {
+    createdAt: new Date(notification.createdAt),
+  }),
 });
 
 /* Actions */

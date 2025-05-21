@@ -153,8 +153,9 @@ export default {
       title: 'العنوان',
       userActions_title: 'إجراءات المستخدم',
       userAddedThisCardToList: '<0>{{user}}</0><1> تمت إضافة هذه البطاقة إلى {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} ترك تعليق جديد «{{comment}}» إلى <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} انتقل <2>{{card}}</2> من {{fromList}} إلى {{toList}}',
+      userLeftNewCommentToCard: '<0>{{user}}</0> ترك تعليق جديد «{{comment}}» إلى <2>{{card}}</2>',
+      userMovedCardFromListToList:
+        '<0>{{user}}</0> انتقل <2>{{card}}</2> من {{fromList}} إلى {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> نُقلت هذه البطاقة من {{fromList}} إلى {{toList}}</1>',
       username: 'اسم المستخدم',

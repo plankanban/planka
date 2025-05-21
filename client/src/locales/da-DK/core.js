@@ -155,9 +155,10 @@ export default {
       title: 'Overskrift',
       userActions_title: 'Brugerhandlinger',
       userAddedThisCardToList: '<0>{{user}}</0><1> tilføjede kortet til {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} skrevet en ny kommentar «{{comment}}» på <2>{{card}}</2>',
+      userLeftNewCommentToCard:
+        '<0>{{user}}</0> skrevet en ny kommentar «{{comment}}» på <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} flyttede <2>{{card}}</2> fra {{fromList}} til {{toList}}',
+        '<0>{{user}}</0> flyttede <2>{{card}}</2> fra {{fromList}} til {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> flyttede kortet fra {{fromList}} til {{toList}}</1>',
       username: 'Brugernavn',

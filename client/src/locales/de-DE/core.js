@@ -298,9 +298,9 @@ export default {
       userActions_title: 'Benutzeraktionen',
       userAddedThisCardToList: '<0>{{user}}</0><1> hat diese Karte hinzugefügt zu {{list}}</1>',
       userLeftNewCommentToCard:
-        '{{user}} hat einen neuen Kommentar verfasst: «{{comment}}» in <2>{{card}}</2>',
+        '<0>{{user}}</0> hat einen neuen Kommentar verfasst: «{{comment}}» in <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} bewegte <2>{{card}}</2> von {{fromList}} nach {{toList}}',
+        '<0>{{user}}</0> bewegte <2>{{card}}</2> von {{fromList}} nach {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> bewegte diese Karte von {{fromList}} nach {{toList}}</1>',
       username: 'Benutzername',

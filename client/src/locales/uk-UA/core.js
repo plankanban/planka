@@ -283,9 +283,9 @@ export default {
       userActions_title: 'Дії користувача',
       userAddedThisCardToList: '<0>{{user}}</0><1> додав(ла) цю картку до {{list}}</1>',
       userLeftNewCommentToCard:
-        '{{user}} залишив(ла) новий коментар «{{comment}}» до <2>{{card}}</2>',
+        '<0>{{user}}</0> залишив(ла) новий коментар «{{comment}}» до <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} перемістив(ла) <2>{{card}}</2> з {{fromList}} в {{toList}}',
+        '<0>{{user}}</0> перемістив(ла) <2>{{card}}</2> з {{fromList}} в {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> перемістив(ла) цю картку з {{fromList}} в {{toList}}</1>',
       username: "Ім'я користувача",

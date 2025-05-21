@@ -148,9 +148,9 @@ export default {
       title: 'Judul',
       userActions_title: 'Aksi Pengguna',
       userAddedThisCardToList: '<0>{{user}}</0><1> menambahkan kartu ini ke {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} mengomentari «{{comment}}» di <2>{{card}}</2>',
+      userLeftNewCommentToCard: '<0>{{user}}</0> mengomentari «{{comment}}» di <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} memindahkan <2>{{card}}</2> dari {{fromList}} ke {{toList}}',
+        '<0>{{user}}</0> memindahkan <2>{{card}}</2> dari {{fromList}} ke {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> memindahkan kartu ini dari {{fromList}} ke {{toList}}</1>',
       username: 'Username',

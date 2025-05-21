@@ -136,9 +136,9 @@ export default {
       userActions_title: 'Kullanıcı İşlemleri',
       userAddedThisCardToList: '<0>{{user}}</0><1> bu kartı {{list}</1> listesine ekledi',
       userLeftNewCommentToCard:
-        '{{user}} yeni bir yorum yazdı: <2>{{card}</2> kartına «{{comment}}»',
+        '<0>{{user}}</0> yeni bir yorum yazdı: <2>{{card}</2> kartına «{{comment}}»',
       userMovedCardFromListToList:
-        '{{user}}, <2>{{card}></2> kartını {{fromList}} listesinden {{toList}} listesine taşıdı',
+        '<0>{{user}}</0>, <2>{{card}></2> kartını {{fromList}} listesinden {{toList}} listesine taşıdı',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> bu kartı {{fromList}} konumundan {{toList}}</1> konumuna taşıdı',
       username: 'kullanıcı adı',

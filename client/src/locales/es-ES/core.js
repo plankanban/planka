@@ -119,8 +119,9 @@ export default {
       userActions_title: 'Acciones de Usuario',
       userAddedThisCardToList: '<0>{{user}}</0><1> añadido a esta tarjeta en {{list}}</1>',
       userLeftNewCommentToCard:
-        '{{user}} dejó un nuevo comentario «{{comment}}» en <2>{{card}}</2>',
-      userMovedCardFromListToList: '{{user}} movió <2>{{card}}</2> de {{fromList}} a {{toList}}',
+        '<0>{{user}}</0> dejó un nuevo comentario «{{comment}}» en <2>{{card}}</2>',
+      userMovedCardFromListToList:
+        '<0>{{user}}</0> movió <2>{{card}}</2> de {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> movió esta tarjeta de {{fromList}} a {{toList}}</1>',
       username: 'Nombre de usuario',

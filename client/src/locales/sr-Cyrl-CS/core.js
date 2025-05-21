@@ -153,9 +153,10 @@ export default {
       title: 'Наслов',
       userActions_title: 'Корисничке радње',
       userAddedThisCardToList: '<0>{{user}}</0><1> је додао ову картицу на {{list}}</1>',
-      userLeftNewCommentToCard: '{{user}} је оставио нови коментар «{{comment}}» у <2>{{card}}</2>',
+      userLeftNewCommentToCard:
+        '<0>{{user}}</0> је оставио нови коментар «{{comment}}» у <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} је преместио <2>{{card}}</2> са {{fromList}} у {{toList}}',
+        '<0>{{user}}</0> је преместио <2>{{card}}</2> са {{fromList}} у {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> је преместио ову картицу са {{fromList}} на {{toList}}</1>',
       username: 'Корисничко име',

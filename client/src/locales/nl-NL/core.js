@@ -149,9 +149,9 @@ export default {
       userActions_title: 'Gebruikersacties',
       userAddedThisCardToList: '<0>{{user}}</0><1> heeft deze kaart toegevoegd aan {{list}}</1>',
       userLeftNewCommentToCard:
-        '{{user}} heeft een nieuwe opmerking achtergelaten «{{comment}}» bij <2>{{card}}</2>',
+        '<0>{{user}}</0> heeft een nieuwe opmerking achtergelaten «{{comment}}» bij <2>{{card}}</2>',
       userMovedCardFromListToList:
-        '{{user}} heeft <2>{{card}}</2> verplaatst van {{fromList}} naar {{toList}}',
+        '<0>{{user}}</0> heeft <2>{{card}}</2> verplaatst van {{fromList}} naar {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0><1> heeft deze kaart verplaatst van {{fromList}} naar {{toList}}</1>',
       username: 'Gebruikersnaam',
