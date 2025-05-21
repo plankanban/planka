@@ -113,7 +113,7 @@
     "highlightjs-zenscript": "^2.0.0",
     "hightlightjs-papyrus": "^0.0.4",
     "history": "^5.3.0",
-    "i18next": "^23.16.8",
+    "i18next": "23.15.2",
     "i18next-browser-languagedetector": "^8.1.0",
     "initials": "^3.1.2",
     "javascript-time-ago": "^2.5.11",
