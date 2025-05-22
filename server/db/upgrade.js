@@ -88,7 +88,9 @@ const upgradeDatabase = async () => {
       ALTER TABLE notification SET SCHEMA v1;
     `);
 
-    await trx.migrate.up();
+    await trx.migrate.up({
+      name: '20250228000022_version_2.js',
+    });
 
     const users = await trx('user_account').withSchema('v1').whereNull('deleted_at');
 
