@@ -21,7 +21,7 @@ const buildTitle = (notification, t) => {
 
 const buildBodyByFormat = (board, card, notification, actorUser, t) => {
   const markdownCardLink = `[${escapeMarkdown(card.name)}](${sails.config.custom.baseUrl}/cards/${card.id})`;
-  const htmlCardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}}">${escapeHtml(card.name)}</a>`;
+  const htmlCardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}">${escapeHtml(card.name)}</a>`;
 
   switch (notification.type) {
     case Notification.Types.MOVE_CARD: {
@@ -110,8 +110,8 @@ const buildAndSendNotifications = async (services, board, card, notification, ac
 
 // TODO: use templates (views) to build html
 const buildAndSendEmail = async (board, card, notification, actorUser, notifiableUser, t) => {
-  const cardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}}">${escapeHtml(card.name)}</a>`;
-  const boardLink = `<a href="${sails.config.custom.baseUrl}/boards/${board.id}}">${escapeHtml(board.name)}</a>`;
+  const cardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}">${escapeHtml(card.name)}</a>`;
+  const boardLink = `<a href="${sails.config.custom.baseUrl}/boards/${board.id}">${escapeHtml(board.name)}</a>`;
 
   let html;
   switch (notification.type) {

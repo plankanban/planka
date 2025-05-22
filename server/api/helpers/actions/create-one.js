@@ -19,7 +19,7 @@ const buildTitle = (action, t) => {
 
 const buildBodyByFormat = (board, card, action, actorUser, t) => {
   const markdownCardLink = `[${escapeMarkdown(card.name)}](${sails.config.custom.baseUrl}/cards/${card.id})`;
-  const htmlCardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}}">${escapeHtml(card.name)}</a>`;
+  const htmlCardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}">${escapeHtml(card.name)}</a>`;
 
   switch (action.type) {
     case Action.Types.CREATE_CARD: {
