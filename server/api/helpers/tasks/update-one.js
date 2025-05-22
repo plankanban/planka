@@ -138,6 +138,7 @@ module.exports = {
           values: {
             type: task.isCompleted ? Action.Types.COMPLETE_TASK : Action.Types.UNCOMPLETE_TASK,
             data: {
+              card: _.pick(inputs.card, ['name']),
               task: _.pick(task, ['id', 'name']),
             },
             user: inputs.actorUser,

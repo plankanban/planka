@@ -124,6 +124,7 @@ module.exports = {
         card,
         type: Action.Types.CREATE_CARD,
         data: {
+          card: _.pick(card, ['name']),
           list: _.pick(values.list, ['id', 'type', 'name']),
         },
         user: values.creatorUser,

@@ -7,12 +7,12 @@
   .author {
     color: #17394d;
     font-weight: bold;
-    line-height: 20px;
   }
 
   .content {
     border-bottom: 1px solid #092d4221;
     display: inline-block;
+    line-height: 20px;
     padding-bottom: 14px;
     vertical-align: top;
     width: calc(100% - 40px);
@@ -21,11 +21,6 @@
   .date {
     color: #6b808c;
     font-size: 12px;
-    line-height: 20px;
-  }
-
-  .text {
-    line-height: 20px;
   }
 
   .user {

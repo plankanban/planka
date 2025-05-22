@@ -3,6 +3,16 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import Activities from './Activities';
+:global(#app) {
+  .items {
+    max-width: none;
+  }
 
-export default Activities;
+  .itemsWrapper {
+    margin-top: 12px;
+  }
+
+  .loaderWrapper {
+    margin-top: 10px;
+  }
+}

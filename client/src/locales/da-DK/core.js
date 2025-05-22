@@ -154,13 +154,13 @@ export default {
       time: 'Tid',
       title: 'Overskrift',
       userActions_title: 'Brugerhandlinger',
-      userAddedThisCardToList: '<0>{{user}}</0><1> tilføjede kortet til {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> tilføjede kortet til {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> skrevet en ny kommentar «{{comment}}» på <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> flyttede <2>{{card}}</2> fra {{fromList}} til {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> flyttede kortet fra {{fromList}} til {{toList}}</1>',
+        '<0>{{user}}</0> flyttede kortet fra {{fromList}} til {{toList}}',
       username: 'Brugernavn',
       users: 'Brugere',
       viewer: 'Læser',

@@ -147,13 +147,13 @@ export default {
       time: 'Timp',
       title: 'Titlu',
       userActions_title: 'Acțiunile utilizatorului',
-      userAddedThisCardToList: '<0>{{user}}</0><1> a adăugat acest card în {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> a adăugat acest card în {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> a lăsat un nou comentariu «{{comment}}» în <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> a mutat <2>{{card}}</2> din {{fromList}} în {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> a mutat aceast card din {{fromList}} în {{toList}}</1>',
+        '<0>{{user}}</0> a mutat aceast card din {{fromList}} în {{toList}}',
       username: 'Nume utilizator',
       users: 'Utilizatori',
       viewer: 'Vizualizator',

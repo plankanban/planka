@@ -463,6 +463,7 @@ module.exports = {
               card,
               type: Action.Types.MOVE_CARD,
               data: {
+                card: _.pick(card, ['name']),
                 fromList: _.pick(inputs.list, ['id', 'type', 'name']),
                 toList: _.pick(values.list, ['id', 'type', 'name']),
               },

@@ -52,6 +52,10 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+    boardId: {
+      model: 'Board',
+      columnName: 'board_id',
+    },
     cardId: {
       model: 'Card',
       required: true,

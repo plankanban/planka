@@ -35,6 +35,15 @@ module.exports = {
 
     await sails.helpers.lists.deleteRelated(lists);
 
+    await Action.qm.update(
+      {
+        boardId: boardIdOrIds,
+      },
+      {
+        boardId: null,
+      },
+    );
+
     await NotificationService.qm.delete({
       boardId: boardIdOrIds,
     });

@@ -18,6 +18,11 @@ export default class extends BaseModel {
     createdAt: attr({
       getDefault: () => new Date(),
     }),
+    boardId: fk({
+      to: 'Board',
+      as: 'board',
+      relatedName: 'activities',
+    }),
     cardId: fk({
       to: 'Card',
       as: 'card',
@@ -37,7 +42,8 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.LIST_CARDS_MOVE__SUCCESS:
-      case ActionTypes.ACTIVITIES_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_IN_BOARD_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_IN_CARD_FETCH__SUCCESS:
         payload.activities.forEach((activity) => {
           Activity.upsert(activity);
         });

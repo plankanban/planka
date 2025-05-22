@@ -86,6 +86,7 @@ module.exports = {
           type: Action.Types.REMOVE_MEMBER_FROM_CARD,
           data: {
             user: _.pick(inputs.user, ['id', 'name']),
+            card: _.pick(inputs.card, ['name']),
           },
           user: inputs.actorUser,
           card: inputs.card,

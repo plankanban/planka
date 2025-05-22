@@ -152,13 +152,13 @@ export default {
       time: 'Vreme',
       title: 'Naslov',
       userActions_title: 'Korisničke radnje',
-      userAddedThisCardToList: '<0>{{user}}</0><1> je dodao ovu karticu na {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> je dodao ovu karticu na {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> je ostavio novi komentar «{{comment}}» u <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> je premestio <2>{{card}}</2> sa {{fromList}} u {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> je premestio ovu karticu sa {{fromList}} na {{toList}}</1>',
+        '<0>{{user}}</0> je premestio ovu karticu sa {{fromList}} na {{toList}}',
       username: 'Korisničko ime',
       users: 'Korisnici',
       viewer: 'Pregledač',

@@ -153,13 +153,13 @@ export default {
       time: 'زمان',
       title: 'عنوان',
       userActions_title: 'اقدامات کاربر',
-      userAddedThisCardToList: '<0>{{user}}</0><1> این کارت را به {{list}} اضافه کرد</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> این کارت را به {{list}} اضافه کرد',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> نظر جدید «{{comment}}» را به <2>{{card}}</2> اضافه کرد',
       userMovedCardFromListToList:
         '<0>{{user}}</0> <2>{{card}}</2> را از {{fromList}} به {{toList}} منتقل کرد',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> این کارت را از {{fromList}} به {{toList}} منتقل کرد</1>',
+        '<0>{{user}}</0> این کارت را از {{fromList}} به {{toList}} منتقل کرد',
       username: 'نام کاربری',
       users: 'کاربران',
       viewer: 'بیننده',

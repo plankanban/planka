@@ -151,13 +151,13 @@ export default {
       time: '시간',
       title: '제목',
       userActions_title: '사용자 작업',
-      userAddedThisCardToList: '<0>{{user}}</0><1>님이 이 카드를 {{list}}에 추가했습니다</1>',
+      userAddedThisCardToList: '<0>{{user}}</0>님이 이 카드를 {{list}}에 추가했습니다',
       userLeftNewCommentToCard:
         '<0>{{user}}</0>님이 <2>{{card}}</2>에 새 댓글 «{{comment}}»을 남겼습니다',
       userMovedCardFromListToList:
         '<0>{{user}}</0>님이 <2>{{card}}</2>를 {{fromList}}에서 {{toList}}로 이동했습니다',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> 님이 {{fromList}}에서 {{toList}}로 이 카드를 옮겼습니다</1>',
+        '<0>{{user}}</0> 님이 {{fromList}}에서 {{toList}}로 이 카드를 옮겼습니다',
       username: '사용자 이름',
       users: '사용자들',
       viewer: '뷰어',

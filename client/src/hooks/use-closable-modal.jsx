@@ -59,6 +59,7 @@ export default (initialClosableValue) => {
       onClose: undefined,
     };
 
+    ClosableModal.Header = Modal.Header;
     ClosableModal.Content = Modal.Content;
     ClosableModal.Actions = Modal.Actions;
 

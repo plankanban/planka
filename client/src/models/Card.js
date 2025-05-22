@@ -402,13 +402,13 @@ export default class extends BaseModel {
         });
 
         break;
-      case ActionTypes.ACTIVITIES_FETCH:
+      case ActionTypes.ACTIVITIES_IN_CARD_FETCH:
         Card.withId(payload.cardId).update({
           isActivitiesFetching: true,
         });
 
         break;
-      case ActionTypes.ACTIVITIES_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_IN_CARD_FETCH__SUCCESS:
         Card.withId(payload.cardId).update({
           isActivitiesFetching: false,
           isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
@@ -607,7 +607,6 @@ export default class extends BaseModel {
 
     this.customFieldValues.delete();
     this.comments.delete();
-    this.activities.delete();
   }
 
   deleteWithClearable() {

@@ -21,14 +21,14 @@ import CustomFieldGroupsStep from '../../../custom-field-groups/CustomFieldGroup
 import styles from './ActionsStep.module.scss';
 
 const StepTypes = {
-  EMPTY_TRASH: 'EMPTY_TRASH',
   CUSTOM_FIELD_GROUPS: 'CUSTOM_FIELD_GROUPS',
+  EMPTY_TRASH: 'EMPTY_TRASH',
 };
 
 const ActionsStep = React.memo(({ onClose }) => {
   const board = useSelector(selectors.selectCurrentBoard);
 
-  const { withSubscribe, withTrashEmptier, withCustomFieldGroups } = useSelector((state) => {
+  const { withSubscribe, withCustomFieldGroups, withTrashEmptier } = useSelector((state) => {
     const isManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
     const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
 
@@ -42,8 +42,8 @@ const ActionsStep = React.memo(({ onClose }) => {
 
     return {
       withSubscribe: isMember, // TODO: rename?
-      withTrashEmptier: board.context === BoardContexts.TRASH && (isManager || isEditor),
       withCustomFieldGroups: isEditor,
+      withTrashEmptier: board.context === BoardContexts.TRASH && (isManager || isEditor),
     };
   }, shallowEqual);
 
@@ -69,21 +69,28 @@ const ActionsStep = React.memo(({ onClose }) => {
     [onClose, dispatch],
   );
 
+  const handleActivitiesClick = useCallback(() => {
+    dispatch(entryActions.openBoardActivitiesModal());
+    onClose();
+  }, [onClose, dispatch]);
+
   const handleEmptyTrashConfirm = useCallback(() => {
     dispatch(entryActions.clearTrashListInCurrentBoard());
     onClose();
   }, [onClose, dispatch]);
 
-  const handleEmptyTrashClick = useCallback(() => {
-    openStep(StepTypes.EMPTY_TRASH);
-  }, [openStep]);
-
   const handleCustomFieldsClick = useCallback(() => {
     openStep(StepTypes.CUSTOM_FIELD_GROUPS);
   }, [openStep]);
 
+  const handleEmptyTrashClick = useCallback(() => {
+    openStep(StepTypes.EMPTY_TRASH);
+  }, [openStep]);
+
   if (step) {
     switch (step.type) {
+      case StepTypes.CUSTOM_FIELD_GROUPS:
+        return <CustomFieldGroupsStep onBack={handleBack} onClose={onClose} />;
       case StepTypes.EMPTY_TRASH:
         return (
           <ConfirmationStep
@@ -94,8 +101,6 @@ const ActionsStep = React.memo(({ onClose }) => {
             onBack={handleBack}
           />
         );
-      case StepTypes.CUSTOM_FIELD_GROUPS:
-        return <CustomFieldGroupsStep onBack={handleBack} onClose={onClose} />;
       default:
     }
   }
@@ -128,6 +133,12 @@ const ActionsStep = React.memo(({ onClose }) => {
               })}
             </Menu.Item>
           )}
+          <Menu.Item className={styles.menuItem} onClick={handleActivitiesClick}>
+            <Icon name="list ul" className={styles.menuItemIcon} />
+            {t('common.actions', {
+              context: 'title',
+            })}
+          </Menu.Item>
           {withTrashEmptier && (
             <>
               {(withSubscribe || withCustomFieldGroups) && <hr className={styles.divider} />}

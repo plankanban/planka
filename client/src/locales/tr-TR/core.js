@@ -134,13 +134,13 @@ export default {
       time: 'zaman',
       title: 'başlık',
       userActions_title: 'Kullanıcı İşlemleri',
-      userAddedThisCardToList: '<0>{{user}}</0><1> bu kartı {{list}</1> listesine ekledi',
+      userAddedThisCardToList: '<0>{{user}}</0> bu kartı {{list}} listesine ekledi',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> yeni bir yorum yazdı: <2>{{card}</2> kartına «{{comment}}»',
       userMovedCardFromListToList:
         '<0>{{user}}</0>, <2>{{card}></2> kartını {{fromList}} listesinden {{toList}} listesine taşıdı',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> bu kartı {{fromList}} konumundan {{toList}}</1> konumuna taşıdı',
+        '<0>{{user}}</0> bu kartı {{fromList}} konumundan {{toList}} konumuna taşıdı',
       username: 'kullanıcı adı',
       users: 'kullanıcı',
       writeComment: 'Yorum yazın...',

@@ -11,6 +11,20 @@ const create = (arrayOfValues) => Action.createEach(arrayOfValues).fetch();
 
 const createOne = (values) => Action.create({ ...values }).fetch();
 
+const getByBoardId = (boardId, { beforeId } = {}) => {
+  const criteria = {
+    boardId,
+  };
+
+  if (beforeId) {
+    criteria.id = {
+      '<': beforeId,
+    };
+  }
+
+  return Action.find(criteria).sort('id DESC').limit(LIMIT);
+};
+
 const getByCardId = (cardId, { beforeId } = {}) => {
   const criteria = {
     cardId,
@@ -33,6 +47,7 @@ const delete_ = (criteria) => Action.destroy(criteria).fetch();
 module.exports = {
   create,
   createOne,
+  getByBoardId,
   getByCardId,
   update,
   delete: delete_,

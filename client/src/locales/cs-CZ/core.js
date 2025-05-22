@@ -276,13 +276,13 @@ export default {
       unsavedChanges: 'Neuložené změny',
       uploadedImages: 'Nahrané obrázky',
       userActions_title: 'Akce uživatele',
-      userAddedThisCardToList: '<0>{{user}}</0><1> přidal kartu do {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> přidal kartu do {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> zanechal nový komentář «{{comment}}» k <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> přesunul <2>{{card}}</2> z {{fromList}} do {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> přesunul tuto kartu z {{fromList}} do {{toList}}</1>',
+        '<0>{{user}}</0> přesunul tuto kartu z {{fromList}} do {{toList}}',
       username: 'Uživatelské jméno',
       users: 'Uživatelé',
       viewer: 'Prohlížeč',

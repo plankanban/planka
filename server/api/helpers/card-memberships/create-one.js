@@ -110,6 +110,7 @@ module.exports = {
         type: Action.Types.ADD_MEMBER_TO_CARD,
         data: {
           user: _.pick(values.user, ['id', 'name']),
+          card: _.pick(values.card, ['name']),
         },
         user: inputs.actorUser,
         card: values.card,

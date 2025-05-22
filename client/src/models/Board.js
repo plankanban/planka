@@ -9,6 +9,7 @@ import BaseModel from './BaseModel';
 import buildSearchParts from '../utils/build-search-parts';
 import { isListFinite } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
+import Config from '../constants/Config';
 import { BoardContexts, BoardViews } from '../constants/Enums';
 
 const prepareFetchedBoard = (board) => ({
@@ -37,6 +38,15 @@ export default class extends BaseModel {
       getDefault: () => false,
     }),
     isFetching: attr({
+      getDefault: () => null,
+    }),
+    lastActivityId: attr({
+      getDefault: () => null,
+    }),
+    isActivitiesFetching: attr({
+      getDefault: () => false,
+    }),
+    isAllActivitiesFetched: attr({
       getDefault: () => null,
     }),
     projectId: fk({
@@ -242,6 +252,22 @@ export default class extends BaseModel {
         Board.withId(payload.boardId).filterLabels.remove(payload.id);
 
         break;
+      case ActionTypes.ACTIVITIES_IN_BOARD_FETCH:
+        Board.withId(payload.boardId).update({
+          isActivitiesFetching: true,
+        });
+
+        break;
+      case ActionTypes.ACTIVITIES_IN_BOARD_FETCH__SUCCESS:
+        Board.withId(payload.boardId).update({
+          isActivitiesFetching: false,
+          isAllActivitiesFetched: payload.activities.length < Config.ACTIVITIES_LIMIT,
+          ...(payload.activities.length > 0 && {
+            lastActivityId: payload.activities[payload.activities.length - 1].id,
+          }),
+        });
+
+        break;
       default:
     }
   }
@@ -264,6 +290,10 @@ export default class extends BaseModel {
 
   getCustomFieldGroupsQuerySet() {
     return this.customFieldGroups.orderBy(['position', 'id.length', 'id']);
+  }
+
+  getActivitiesQuerySet() {
+    return this.activities.orderBy(['id.length', 'id'], ['desc', 'desc']);
   }
 
   getUnreadNotificationsQuerySet() {
@@ -345,6 +375,30 @@ export default class extends BaseModel {
     }
 
     return cardModels;
+  }
+
+  getActivitiesModelArray() {
+    if (this.isAllActivitiesFetched === null) {
+      return [];
+    }
+
+    const activityModels = this.getActivitiesQuerySet().toModelArray();
+
+    if (this.lastActivityId && this.isAllActivitiesFetched === false) {
+      return activityModels.filter((activityModel) => {
+        if (activityModel.id.length > this.lastActivityId.length) {
+          return true;
+        }
+
+        if (activityModel.id.length < this.lastActivityId.length) {
+          return false;
+        }
+
+        return activityModel.id >= this.lastActivityId;
+      });
+    }
+
+    return activityModels;
   }
 
   hasMembershipWithUserId(userId) {

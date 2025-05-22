@@ -115,6 +115,7 @@ module.exports = {
 
     const action = await Action.qm.createOne({
       ...values,
+      boardId: values.card.boardId,
       cardId: values.card.id,
       userId: values.user.id,
     });
@@ -149,10 +150,7 @@ module.exports = {
             values: {
               action,
               type: action.type,
-              data: {
-                ...action.data,
-                card: _.pick(values.card, ['name']),
-              },
+              data: action.data,
               userId: action.data.user.id,
               creatorUser: values.user,
               card: values.card,
@@ -182,10 +180,7 @@ module.exports = {
                 userId,
                 action,
                 type: action.type,
-                data: {
-                  ...action.data,
-                  card: _.pick(values.card, ['name']),
-                },
+                data: action.data,
                 creatorUser: values.user,
                 card: values.card,
               },

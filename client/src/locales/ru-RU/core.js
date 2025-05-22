@@ -284,13 +284,13 @@ export default {
       unsavedChanges: 'Несохранённые изменения',
       uploadedImages: 'Загруженные изображения',
       userActions_title: 'Действия с пользователем',
-      userAddedThisCardToList: '<0>{{user}}</0><1> добавил(а) эту карточку в {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> добавил(а) эту карточку в {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> оставил(а) комментарий «{{comment}}» к <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> переместил(а) <2>{{card}}</2> из {{fromList}} в {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> переместил(а) эту карточку из {{fromList}} в {{toList}}</1>',
+        '<0>{{user}}</0> переместил(а) эту карточку из {{fromList}} в {{toList}}',
       username: 'Имя пользователя',
       users: 'Пользователи',
       viewer: 'Читатель',

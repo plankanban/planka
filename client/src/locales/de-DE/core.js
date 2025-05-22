@@ -296,13 +296,13 @@ export default {
       unsavedChanges: 'Ungespeicherte Änderungen',
       uploadedImages: 'Hochgeladene Bilder',
       userActions_title: 'Benutzeraktionen',
-      userAddedThisCardToList: '<0>{{user}}</0><1> hat diese Karte hinzugefügt zu {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> hat diese Karte hinzugefügt zu {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> hat einen neuen Kommentar verfasst: «{{comment}}» in <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> bewegte <2>{{card}}</2> von {{fromList}} nach {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> bewegte diese Karte von {{fromList}} nach {{toList}}</1>',
+        '<0>{{user}}</0> bewegte diese Karte von {{fromList}} nach {{toList}}',
       username: 'Benutzername',
       users: 'Benutzer',
       viewer: 'Betrachter',

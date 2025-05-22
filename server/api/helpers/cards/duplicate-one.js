@@ -276,6 +276,7 @@ module.exports = {
         card,
         type: Action.Types.CREATE_CARD, // TODO: introduce separate type?
         data: {
+          card: _.pick(card, ['name']),
           list: _.pick(inputs.list, ['id', 'type', 'name']),
         },
         user: values.creatorUser,

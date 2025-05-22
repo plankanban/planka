@@ -284,13 +284,13 @@ export default {
       unsavedChanges: 'Modifiche non salvate',
       uploadedImages: 'Immagini caricate',
       userActions_title: 'Azioni utente',
-      userAddedThisCardToList: '<0>{{user}}</0><1> ha aggiunto questa scheda a {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> ha aggiunto questa scheda a {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> ha lasciato un commento «{{comment}}» a <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> ha spostato <2>{{card}}</2> da {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> ha spostato questa scheda da {{fromList}} a {{toList}}</1>',
+        '<0>{{user}}</0> ha spostato questa scheda da {{fromList}} a {{toList}}',
       username: 'Username',
       users: 'Utenti',
       viewer: 'Visualizzatore',

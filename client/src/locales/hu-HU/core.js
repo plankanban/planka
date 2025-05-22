@@ -151,14 +151,13 @@ export default {
       time: 'Idő',
       title: 'Cím',
       userActions_title: 'Felhasználói műveletek',
-      userAddedThisCardToList:
-        '<0>{{user}}</0><1> hozzáadta ezt a kártyát a következőhöz: {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> hozzáadta ezt a kártyát a következőhöz: {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> új kommentet hagyott itt: «{{comment}}» a következő kártyán: <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}</1>',
+        '<0>{{user}}</0> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
       username: 'Felhasználónév',
       users: 'Felhasználók',
       viewer: 'Néző',

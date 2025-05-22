@@ -383,6 +383,24 @@ export const selectCustomFieldGroupsForCurrentBoard = createSelector(
   },
 );
 
+export const selectActivityIdsForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel.getActivitiesModelArray().map((activity) => activity.id);
+  },
+);
+
 export const selectFilterUserIdsForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -447,6 +465,7 @@ export default {
   selectFilteredCardIdsForCurrentBoard,
   selectCustomFieldGroupIdsForCurrentBoard,
   selectCustomFieldGroupsForCurrentBoard,
+  selectActivityIdsForCurrentBoard,
   selectFilterUserIdsForCurrentBoard,
   selectFilterLabelIdsForCurrentBoard,
   selectIsBoardWithIdExists,

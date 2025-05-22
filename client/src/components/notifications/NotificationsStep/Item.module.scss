@@ -29,6 +29,7 @@
   .content {
     display: inline-block;
     font-size: 13px;
+    line-height: 20px;
     min-height: 36px;
     overflow: hidden;
     padding: 0 4px 0 8px;
@@ -40,7 +41,6 @@
   .date {
     color: #6b808c;
     font-size: 12px;
-    line-height: 20px;
   }
 
   .wrapper {

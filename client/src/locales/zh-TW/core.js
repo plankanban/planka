@@ -143,12 +143,12 @@ export default {
       time: '時間',
       title: '標題',
       userActions_title: '使用者操作',
-      userAddedThisCardToList: '<0>{{user}}</0><1> 向列表 {{list}} 添加了該卡片</1>',
-      userLeftNewCommentToCard: '<0>{{user}}</0> 給 {{card}} 添加了一條新評論 「{{comment}}」',
+      userAddedThisCardToList: '<0>{{user}}</0> 向列表 {{list}} 添加了該卡片',
+      userLeftNewCommentToCard:
+        '<0>{{user}}</0> 給 <2>{{card}}</2> 添加了一條新評論 「{{comment}}」',
       userMovedCardFromListToList:
         '<0>{{user}}</0> 將卡片 <2>{{card}}</2> 從 {{fromList}} 移動到 {{toList}}',
-      userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> 將該卡片從 {{fromList}} 移動到 {{toList}}</1>',
+      userMovedThisCardFromListToList: '<0>{{user}}</0> 將該卡片從 {{fromList}} 移動到 {{toList}}',
       username: '使用者名稱',
       users: '使用者',
       viewer: '檢視',

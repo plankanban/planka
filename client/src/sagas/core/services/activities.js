@@ -10,10 +10,10 @@ import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 
-export function* fetchActivities(cardId) {
-  const { lastActivityId } = yield select(selectors.selectCardById, cardId);
+export function* fetchActivitiesInBoard(boardId) {
+  const { lastActivityId } = yield select(selectors.selectBoardById, boardId);
 
-  yield put(actions.fetchActivities(cardId));
+  yield put(actions.fetchActivitiesInBoard(boardId));
 
   let activities;
   let users;
@@ -22,21 +22,50 @@ export function* fetchActivities(cardId) {
     ({
       items: activities,
       included: { users },
-    } = yield call(request, api.getActivities, cardId, {
+    } = yield call(request, api.getActivitiesInBoard, boardId, {
       beforeId: lastActivityId || undefined,
     }));
   } catch (error) {
-    yield put(actions.fetchActivities.failure(cardId, error));
+    yield put(actions.fetchActivitiesInBoard.failure(boardId, error));
     return;
   }
 
-  yield put(actions.fetchActivities.success(cardId, activities, users));
+  yield put(actions.fetchActivitiesInBoard.success(boardId, activities, users));
+}
+
+export function* fetchActivitiesInCurrentBoard() {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(fetchActivitiesInBoard, boardId);
+}
+
+export function* fetchActivitiesInCard(cardId) {
+  const { lastActivityId } = yield select(selectors.selectCardById, cardId);
+
+  yield put(actions.fetchActivitiesInCard(cardId));
+
+  let activities;
+  let users;
+
+  try {
+    ({
+      items: activities,
+      included: { users },
+    } = yield call(request, api.getActivitiesInCard, cardId, {
+      beforeId: lastActivityId || undefined,
+    }));
+  } catch (error) {
+    yield put(actions.fetchActivitiesInCard.failure(cardId, error));
+    return;
+  }
+
+  yield put(actions.fetchActivitiesInCard.success(cardId, activities, users));
 }
 
 export function* fetchActivitiesInCurrentCard() {
   const { cardId } = yield select(selectors.selectPath);
 
-  yield call(fetchActivities, cardId);
+  yield call(fetchActivitiesInCard, cardId);
 }
 
 export function* handleActivityCreate(activity) {
@@ -44,7 +73,9 @@ export function* handleActivityCreate(activity) {
 }
 
 export default {
-  fetchActivities,
+  fetchActivitiesInBoard,
+  fetchActivitiesInCurrentBoard,
+  fetchActivitiesInCard,
   fetchActivitiesInCurrentCard,
   handleActivityCreate,
 };

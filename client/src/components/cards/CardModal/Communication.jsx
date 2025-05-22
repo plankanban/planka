@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { Menu, Tab } from 'semantic-ui-react';
 
 import Comments from '../../comments/Comments';
-import Activities from '../../activities/Activities';
+import CardActivities from '../../activities/CardActivities';
 
 import styles from './Communication.module.scss';
 
@@ -34,7 +34,7 @@ const Communication = React.memo(() => {
           })}
         </Menu.Item>
       ),
-      render: () => <Activities />,
+      render: () => <CardActivities />,
     },
   ];
 

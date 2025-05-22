@@ -47,6 +47,13 @@ const openBoardSettingsModal = (boardId) => ({
   },
 });
 
+const openBoardActivitiesModal = () => ({
+  type: EntryActionTypes.MODAL_OPEN,
+  payload: {
+    type: ModalTypes.BOARD_ACTIVITIES,
+  },
+});
+
 const closeModal = () => ({
   type: EntryActionTypes.MODAL_CLOSE,
   payload: {},
@@ -58,5 +65,6 @@ export default {
   openAddProjectModal,
   openProjectSettingsModal,
   openBoardSettingsModal,
+  openBoardActivitiesModal,
   closeModal,
 };

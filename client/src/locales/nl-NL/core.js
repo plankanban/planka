@@ -147,13 +147,13 @@ export default {
       time: 'Tijd',
       title: 'Titel',
       userActions_title: 'Gebruikersacties',
-      userAddedThisCardToList: '<0>{{user}}</0><1> heeft deze kaart toegevoegd aan {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> heeft deze kaart toegevoegd aan {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> heeft een nieuwe opmerking achtergelaten «{{comment}}» bij <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> heeft <2>{{card}}</2> verplaatst van {{fromList}} naar {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> heeft deze kaart verplaatst van {{fromList}} naar {{toList}}</1>',
+        '<0>{{user}}</0> heeft deze kaart verplaatst van {{fromList}} naar {{toList}}',
       username: 'Gebruikersnaam',
       users: 'Gebruikers',
       viewer: 'Kijker',

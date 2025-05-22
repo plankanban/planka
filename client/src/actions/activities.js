@@ -5,15 +5,39 @@
 
 import ActionTypes from '../constants/ActionTypes';
 
-const fetchActivities = (cardId) => ({
-  type: ActionTypes.ACTIVITIES_FETCH,
+const fetchActivitiesInBoard = (boardId) => ({
+  type: ActionTypes.ACTIVITIES_IN_BOARD_FETCH,
+  payload: {
+    boardId,
+  },
+});
+
+fetchActivitiesInBoard.success = (boardId, activities, users) => ({
+  type: ActionTypes.ACTIVITIES_IN_BOARD_FETCH__SUCCESS,
+  payload: {
+    boardId,
+    activities,
+    users,
+  },
+});
+
+fetchActivitiesInBoard.failure = (boardId, error) => ({
+  type: ActionTypes.ACTIVITIES_IN_BOARD_FETCH__FAILURE,
+  payload: {
+    boardId,
+    error,
+  },
+});
+
+const fetchActivitiesInCard = (cardId) => ({
+  type: ActionTypes.ACTIVITIES_IN_CARD_FETCH,
   payload: {
     cardId,
   },
 });
 
-fetchActivities.success = (cardId, activities, users) => ({
-  type: ActionTypes.ACTIVITIES_FETCH__SUCCESS,
+fetchActivitiesInCard.success = (cardId, activities, users) => ({
+  type: ActionTypes.ACTIVITIES_IN_CARD_FETCH__SUCCESS,
   payload: {
     cardId,
     activities,
@@ -21,8 +45,8 @@ fetchActivities.success = (cardId, activities, users) => ({
   },
 });
 
-fetchActivities.failure = (cardId, error) => ({
-  type: ActionTypes.ACTIVITIES_FETCH__FAILURE,
+fetchActivitiesInCard.failure = (cardId, error) => ({
+  type: ActionTypes.ACTIVITIES_IN_CARD_FETCH__FAILURE,
   payload: {
     cardId,
     error,
@@ -37,6 +61,7 @@ const handleActivityCreate = (activity) => ({
 });
 
 export default {
-  fetchActivities,
+  fetchActivitiesInBoard,
+  fetchActivitiesInCard,
   handleActivityCreate,
 };

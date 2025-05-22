@@ -7,14 +7,17 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import selectors from '../../../selectors';
+import ModalTypes from '../../../constants/ModalTypes';
 import { BoardContexts, BoardViews } from '../../../constants/Enums';
 import KanbanContent from './KanbanContent';
 import FiniteContent from './FiniteContent';
 import EndlessContent from './EndlessContent';
 import CardModal from '../../cards/CardModal';
+import BoardActivitiesModal from '../../activities/BoardActivitiesModal';
 
 const Board = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
+  const modal = useSelector(selectors.selectCurrentModal);
   const isCardModalOpened = useSelector((state) => !!selectors.selectPath(state).cardId);
 
   let Content;
@@ -35,10 +38,23 @@ const Board = React.memo(() => {
     }
   }
 
+  let modalNode = null;
+  if (isCardModalOpened) {
+    modalNode = <CardModal />;
+  } else if (modal) {
+    switch (modal.type) {
+      case ModalTypes.BOARD_ACTIVITIES:
+        modalNode = <BoardActivitiesModal />;
+
+        break;
+      default:
+    }
+  }
+
   return (
     <>
       <Content />
-      {isCardModalOpened && <CardModal />}
+      {modalNode}
     </>
   );
 });

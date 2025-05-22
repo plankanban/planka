@@ -130,13 +130,13 @@ export default {
       time: 'Vaqt',
       title: 'Sarlavha',
       userActions_title: 'Foydalanuvchi Amallari',
-      userAddedThisCardToList: "<1>Ushbu kartani {{list}} ga</1><0>{{user}}</0> qo'shdi",
+      userAddedThisCardToList: "Ushbu kartani {{list}} ga<0>{{user}}</0> qo'shdi",
       userLeftNewCommentToCard:
         '<0>{{user}}</0> <2>{{card}}</2> ga yangi izoh qoldirdi «{{comment}}»',
       userMovedCardFromListToList:
         "<0>{{user}}</0> <2>{{card}}</2> ni {{fromList}} dan {{toList}} ga ko'chirdi",
       userMovedThisCardFromListToList:
-        "<0>{{user}}</0><1> ushbu kartani {{fromList}} dan {{toList}}</1> ga ko'chirdi",
+        "<0>{{user}}</0> ushbu kartani {{fromList}} dan {{toList}} ga ko'chirdi",
       username: 'Foydalanuvchi nomi',
       users: 'Foydalanuvchilar',
       writeComment: 'Izoh yozish...',

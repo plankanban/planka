@@ -147,12 +147,12 @@ export default {
       time: 'Waktu',
       title: 'Judul',
       userActions_title: 'Aksi Pengguna',
-      userAddedThisCardToList: '<0>{{user}}</0><1> menambahkan kartu ini ke {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> menambahkan kartu ini ke {{list}}',
       userLeftNewCommentToCard: '<0>{{user}}</0> mengomentari «{{comment}}» di <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> memindahkan <2>{{card}}</2> dari {{fromList}} ke {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> memindahkan kartu ini dari {{fromList}} ke {{toList}}</1>',
+        '<0>{{user}}</0> memindahkan kartu ini dari {{fromList}} ke {{toList}}',
       username: 'Username',
       users: 'Pengguna',
       viewer: 'Penglihat',

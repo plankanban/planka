@@ -146,13 +146,13 @@ export default {
       time: '時間',
       title: 'タイトル',
       userActions_title: 'ユーザーのアクション',
-      userAddedThisCardToList: '<0>{{user}}</0> 様が <1>{{list}} をこのカードに追加しました</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> 様が {{list}} をこのカードに追加しました',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> 様が <2>{{card}}</2> に新しいコメント «{{comment}}» を残しました',
       userMovedCardFromListToList:
         '<0>{{user}}</0> 様が <2>{{card}}</2> を {{fromList}} から {{toList}} に移動しました',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> 様がこのカードを {{fromList}} から {{toList}} に移動しました</1>',
+        '<0>{{user}}</0> 様がこのカードを {{fromList}} から {{toList}} に移動しました',
       username: 'ユーザー名',
       users: 'ユーザー',
       viewer: 'ビューア',

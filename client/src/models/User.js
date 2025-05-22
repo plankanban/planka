@@ -295,7 +295,8 @@ export default class extends BaseModel {
       case ActionTypes.CARD_CREATE_HANDLE:
       case ActionTypes.COMMENTS_FETCH__SUCCESS:
       case ActionTypes.COMMENT_CREATE_HANDLE:
-      case ActionTypes.ACTIVITIES_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_IN_BOARD_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_IN_CARD_FETCH__SUCCESS:
       case ActionTypes.NOTIFICATION_CREATE_HANDLE:
         payload.users.forEach((user) => {
           User.upsert(user);

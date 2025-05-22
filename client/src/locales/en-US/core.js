@@ -281,22 +281,28 @@ export default {
       unsavedChanges: 'Unsaved changes',
       uploadedImages: 'Uploaded images',
       userActions_title: 'User Actions',
-      userAddedThisCardToList: '<0>{{user}}</0><1> added this card to {{list}}</1>',
-      userAddedUserToThisCard: '<0>{{actorUser}}</0><1> added {{addedUser}} to this card</1>',
+      userAddedCardToList: '<0>{{user}}</0> added <2>{{card}}</2> to {{list}}',
+      userAddedThisCardToList: '<0>{{user}}</0> added this card to {{list}}',
+      userAddedUserToCard: '<0>{{actorUser}}</0> added {{addedUser}} to <4>{{card}}</4>',
+      userAddedUserToThisCard: '<0>{{actorUser}}</0> added {{addedUser}} to this card',
       userAddedYouToCard: '<0>{{user}}</0> added you to <2>{{card}}</2>',
-      userCompletedTaskOnThisCard: '<0>{{user}}</0><1> completed {{task}} on this card</1>',
-      userJoinedThisCard: `<0>{{user}}</0><1> joined this card</1>`,
+      userCompletedTaskOnCard: '<0>{{user}}</0> completed {{task}} on <4>{{card}}</4>',
+      userCompletedTaskOnThisCard: '<0>{{user}}</0> completed {{task}} on this card',
+      userJoinedCard: `<0>{{user}}</0> joined <2>{{card}}</2>`,
+      userJoinedThisCard: `<0>{{user}}</0> joined this card`,
       userLeftNewCommentToCard:
         '<0>{{user}}</0> left a new comment «{{comment}}» to <2>{{card}}</2>',
-      userLeftThisCard: '<0>{{user}}</0><1> left this card</1>',
-      userMarkedTaskIncompleteOnThisCard:
-        '<0>{{user}}</0><1> marked {{task}} incomplete on this card</1>',
+      userLeftCard: '<0>{{user}}</0> left <2>{{card}}</2>',
+      userLeftThisCard: '<0>{{user}}</0> left this card',
+      userMarkedTaskIncompleteOnCard:
+        '<0>{{user}}</0> marked {{task}} incomplete on <4>{{card}}</4>',
+      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> marked {{task}} incomplete on this card',
       userMovedCardFromListToList:
         '<0>{{user}}</0> moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> moved this card from {{fromList}} to {{toList}}</1>',
-      userRemovedUserFromThisCard:
-        '<0>{{actorUser}}</0><1> removed {{removedUser}} from this card</1>',
+        '<0>{{user}}</0> moved this card from {{fromList}} to {{toList}}',
+      userRemovedUserFromCard: '<0>{{actorUser}}</0> removed {{removedUser}} from <4>{{card}}</4>',
+      userRemovedUserFromThisCard: '<0>{{actorUser}}</0> removed {{removedUser}} from this card',
       username: 'Username',
       users: 'Users',
       viewer: 'Viewer',

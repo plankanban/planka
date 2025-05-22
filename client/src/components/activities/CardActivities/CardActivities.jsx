@@ -12,9 +12,9 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import Item from './Item';
 
-import styles from './Activities.module.scss';
+import styles from './CardActivities.module.scss';
 
-const Activities = React.memo(() => {
+const CardActivities = React.memo(() => {
   const activityIds = useSelector(selectors.selectActivityIdsForCurrentCard);
   const { isActivitiesFetching, isAllActivitiesFetched } = useSelector(selectors.selectCurrentCard);
 
@@ -51,4 +51,4 @@ const Activities = React.memo(() => {
   );
 });
 
-export default Activities;
+export default CardActivities;

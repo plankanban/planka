@@ -153,13 +153,13 @@ export default {
       time: 'Време',
       title: 'Заглавие',
       userActions_title: 'Потребителски действия',
-      userAddedThisCardToList: '<0>{{user}}</0><1> добави тази карта в {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> добави тази карта в {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> остави нов коментар «{{comment}}» в <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> премести <2>{{card}}</2> от {{fromList}} към {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> премести тази карта от {{fromList}} към {{toList}}</1>',
+        '<0>{{user}}</0> премести тази карта от {{fromList}} към {{toList}}',
       username: 'Потребителско име',
       users: 'Потребители',
       viewer: 'Зрител',

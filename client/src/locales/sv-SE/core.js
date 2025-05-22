@@ -133,13 +133,13 @@ export default {
       time: 'Tid',
       title: 'Titel',
       userActions_title: 'Användaråtgärder',
-      userAddedThisCardToList: '<0>{{user}}</0><1> lade till detta kort i {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> lade till detta kort i {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> lämnade en ny kommentar «{{comment}}» på <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> flyttade <2>{{card}}</2> från {{fromList}} till {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> flyttade detta kort från {{fromList}} till {{toList}}</1>',
+        '<0>{{user}}</0> flyttade detta kort från {{fromList}} till {{toList}}',
       username: 'Användarnamn',
       users: 'Användare',
       writeComment: 'Skriv en kommentar...',

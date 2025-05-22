@@ -117,13 +117,13 @@ export default {
       time: 'Tiempo',
       title: 'Título',
       userActions_title: 'Acciones de Usuario',
-      userAddedThisCardToList: '<0>{{user}}</0><1> añadido a esta tarjeta en {{list}}</1>',
+      userAddedThisCardToList: '<0>{{user}}</0> añadido a esta tarjeta en {{list}}',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> dejó un nuevo comentario «{{comment}}» en <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> movió <2>{{card}}</2> de {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0><1> movió esta tarjeta de {{fromList}} a {{toList}}</1>',
+        '<0>{{user}}</0> movió esta tarjeta de {{fromList}} a {{toList}}',
       username: 'Nombre de usuario',
       users: 'Usuarios',
       writeComment: 'Escribir un comentario...',
