@@ -1,0 +1,15 @@
+{
+  "watch": [
+    "api/**/*.js",
+    "config/**/*.js",
+    "db/**/*.js",
+    "utils/**/*.js",
+    "app.js",
+    "constants.js"
+  ],
+  "ignore": ["node_modules", ".tmp", ".venv"],
+  "ext": "js,json",
+  "verbose": true,
+  "delay": 1000,
+  "legacyWatch": false
+}

@@ -1,7 +1,6 @@
 services:
   planka-server:
     build:
-      context: .
       dockerfile: Dockerfile.dev
     image: planka-dev
     pull_policy: never
@@ -109,10 +108,15 @@ services:
       - POSTGRES_DB=planka
       - POSTGRES_HOST_AUTH_METHOD=trust
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d planka"]
-      interval: 10s
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U postgres -d planka && psql -U postgres -d planka -c 'SELECT 1'",
+        ]
+      interval: 3s
       timeout: 5s
-      retries: 5
+      retries: 15
+      start_period: 10s
 
 volumes:
   db-data:
