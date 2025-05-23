@@ -14,6 +14,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=notsecretkey
+      - BASE_URL=http://localhost:1337
 
       # - LOG_LEVEL=warn
 
