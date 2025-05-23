@@ -49,11 +49,6 @@ const ProjectContent = React.memo(({ cardId }) => {
     [],
   );
 
-  const selectCommentsTotalByCardId = useMemo(
-    () => selectors.makeSelectCommentsTotalByCardId(),
-    [],
-  );
-
   const selectAttachmentById = useMemo(() => selectors.makeSelectAttachmentById(), []);
 
   const card = useSelector((state) => selectCardById(state, cardId));
@@ -74,8 +69,6 @@ const ProjectContent = React.memo(({ cardId }) => {
   const notificationsTotal = useSelector((state) =>
     selectNotificationsTotalByCardId(state, cardId),
   );
-
-  const commentsTotal = useSelector((state) => selectCommentsTotalByCardId(state, cardId));
 
   const coverUrl = useSelector((state) => {
     const attachment = selectAttachmentById(state, card.coverAttachmentId);
@@ -121,9 +114,9 @@ const ProjectContent = React.memo(({ cardId }) => {
     card.description ||
     card.dueDate ||
     card.stopwatch ||
+    card.commentsTotal > 0 ||
     attachmentsTotal > 0 ||
     notificationsTotal > 0 ||
-    commentsTotal > 0 ||
     listName;
 
   const isCompact =
@@ -234,11 +227,11 @@ const ProjectContent = React.memo(({ cardId }) => {
               </span>
             </span>
           )}
-          {commentsTotal > 0 && (
+          {card.commentsTotal > 0 && (
             <span className={classNames(styles.attachment, styles.attachmentLeft)}>
               <span className={styles.attachmentContent}>
                 <Icon name="comment outline" />
-                {commentsTotal}
+                {card.commentsTotal}
               </span>
             </span>
           )}

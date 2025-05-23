@@ -28,23 +28,7 @@ export const makeSelectCommentById = () =>
 
 export const selectCommentById = makeSelectCommentById();
 
-export const makeSelectCommentsTotalByCardId = () =>
-  createSelector(
-    orm,
-    (_, cardId) => cardId,
-    ({ Card }, cardId) => {
-      const cardModel = Card.withId(cardId);
-
-      if (!cardModel) {
-        return 0;
-      }
-
-      return cardModel.comments.count();
-    },
-  );
-
 export default {
   makeSelectCommentById,
   selectCommentById,
-  makeSelectCommentsTotalByCardId,
 };

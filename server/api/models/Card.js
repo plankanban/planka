@@ -48,6 +48,11 @@ module.exports = {
     stopwatch: {
       type: 'json',
     },
+    commentsTotal: {
+      type: 'number',
+      defaultsTo: 0,
+      columnName: 'comments_total',
+    },
     listChangedAt: {
       type: 'ref',
       columnName: 'list_changed_at',
