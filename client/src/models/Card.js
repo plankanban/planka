@@ -20,6 +20,9 @@ export default class extends BaseModel {
     description: attr(),
     dueDate: attr(),
     stopwatch: attr(),
+    commentsTotal: attr({
+      getDefault: () => 0,
+    }),
     createdAt: attr({
       getDefault: () => new Date(),
     }),

@@ -114,6 +114,7 @@ const ProjectContent = React.memo(({ cardId }) => {
     card.description ||
     card.dueDate ||
     card.stopwatch ||
+    card.commentsTotal > 0 ||
     attachmentsTotal > 0 ||
     notificationsTotal > 0 ||
     listName;
@@ -223,6 +224,14 @@ const ProjectContent = React.memo(({ cardId }) => {
               <span className={styles.attachmentContent}>
                 <Icon name="attach" />
                 {attachmentsTotal}
+              </span>
+            </span>
+          )}
+          {card.commentsTotal > 0 && (
+            <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+              <span className={styles.attachmentContent}>
+                <Icon name="comment outline" />
+                {card.commentsTotal}
               </span>
             </span>
           )}

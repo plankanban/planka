@@ -42,35 +42,64 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.COMMENT_CREATE:
-      case ActionTypes.COMMENT_CREATE_HANDLE:
-      case ActionTypes.COMMENT_UPDATE__SUCCESS:
-      case ActionTypes.COMMENT_UPDATE_HANDLE:
-        Comment.upsert(payload.comment);
+      case ActionTypes.COMMENT_CREATE_HANDLE: {
+        const commentModel = Comment.upsert(payload.comment);
+
+        if (commentModel.card) {
+          commentModel.card.commentsTotal += 1;
+        }
 
         break;
+      }
       case ActionTypes.COMMENT_CREATE__SUCCESS:
         Comment.withId(payload.localId).delete();
         Comment.upsert(payload.comment);
 
         break;
-      case ActionTypes.COMMENT_CREATE__FAILURE:
-        Comment.withId(payload.localId).delete();
+      case ActionTypes.COMMENT_CREATE__FAILURE: {
+        const commentModel = Comment.withId(payload.localId);
+        commentModel.delete();
+
+        if (commentModel.card) {
+          commentModel.card.commentsTotal -= 1;
+        }
 
         break;
+      }
       case ActionTypes.COMMENT_UPDATE:
         Comment.withId(payload.id).update(payload.data);
 
         break;
-      case ActionTypes.COMMENT_DELETE:
-        Comment.withId(payload.id).delete();
+      case ActionTypes.COMMENT_UPDATE__SUCCESS:
+      case ActionTypes.COMMENT_UPDATE_HANDLE:
+        Comment.upsert(payload.comment);
 
         break;
-      case ActionTypes.COMMENT_DELETE__SUCCESS:
+      case ActionTypes.COMMENT_DELETE: {
+        const commentModel = Comment.withId(payload.id);
+        commentModel.delete();
+        commentModel.card.commentsTotal -= 1;
+
+        break;
+      }
+      case ActionTypes.COMMENT_DELETE__SUCCESS: {
+        const commentModel = Comment.withId(payload.comment.id);
+
+        if (commentModel) {
+          commentModel.delete();
+        }
+
+        break;
+      }
       case ActionTypes.COMMENT_DELETE_HANDLE: {
         const commentModel = Comment.withId(payload.comment.id);
 
         if (commentModel) {
           commentModel.delete();
+
+          if (commentModel.card) {
+            commentModel.card.commentsTotal -= 1;
+          }
         }
 
         break;
