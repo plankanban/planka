@@ -1,6 +1,7 @@
 services:
   planka-server:
     build:
+      context: .
       dockerfile: Dockerfile.dev
     image: planka-dev
     pull_policy: never
