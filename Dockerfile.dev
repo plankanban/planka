@@ -1,8 +1,7 @@
-FROM node:18-alpine
+FROM node:lts-alpine
 
 RUN apk -U upgrade \
   && apk add bash build-base python3 xdg-utils --no-cache \
   && npm install npm --global
 
-USER node
 WORKDIR /app
