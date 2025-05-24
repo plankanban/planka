@@ -101,18 +101,19 @@ const Card = React.memo(({ id, isInline }) => {
 
   return (
     <div
-      className={classNames(
-        styles.wrapper,
-        list.type === ListTypes.CLOSED && styles.wrapperDisabled,
-        isHighlightedAsRecent && styles.wrapperRecent,
-        'card',
-      )}
+      className={classNames(styles.wrapper, isHighlightedAsRecent && styles.wrapperRecent, 'card')}
     >
       {card.isPersisted ? (
         <>
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
                                        jsx-a11y/no-static-element-interactions */}
-          <div className={styles.content} onClick={handleClick}>
+          <div
+            className={classNames(
+              styles.content,
+              list.type === ListTypes.CLOSED && styles.contentDisabled,
+            )}
+            onClick={handleClick}
+          >
             <Content cardId={id} />
             {colorLineNode}
           </div>
@@ -125,7 +126,12 @@ const Card = React.memo(({ id, isInline }) => {
           )}
         </>
       ) : (
-        <span className={styles.content}>
+        <span
+          className={classNames(
+            styles.content,
+            list.type === ListTypes.CLOSED && styles.contentDisabled,
+          )}
+        >
           <Content cardId={id} />
           {colorLineNode}
         </span>

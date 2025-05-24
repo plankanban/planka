@@ -43,6 +43,11 @@
     }
   }
 
+  .contentDisabled {
+    filter: saturate(0.5);
+    opacity: 0.64;
+  }
+
   .wrapper {
     background: #fff;
     border-radius: 3px;
@@ -57,11 +62,6 @@
         opacity: 1;
       }
     }
-  }
-
-  .wrapperDisabled {
-    filter: saturate(0.5);
-    opacity: 0.64;
   }
 
   .wrapperRecent:not(:hover) {
