@@ -24,7 +24,7 @@ export default {
       actions: 'Akcje',
       activateUser_title: 'Aktywuj Użytkownika',
       active: 'Aktywny',
-      addAttachment_title: 'Dodaj załącznik',
+      addAttachment_title: 'Dodaj Załącznik',
       addCustomField_title: 'Dodaj Własne Pole',
       addCustomFieldGroup_title: 'Dodaj Grupę Własnych Pól',
       addManager_title: 'Dodaj Zarządcę',
@@ -83,7 +83,7 @@ export default {
       attachments: 'Załączniki',
       authentication: 'Uwierzytelnianie',
       background: 'Tło',
-      baseCustomFields_title: 'Bazowe pola własne',
+      baseCustomFields_title: 'Bazowe Pola Własne',
       baseGroup: 'Grupa bazowa',
       board: 'Tablica',
       boardActions_title: 'Akcje Tablicy',
@@ -102,7 +102,7 @@ export default {
       canManageSystemWideSettingsAndActAsProjectOwner:
         'Może zarządzać ustawieniami systemowymi i działać jako właściciel projektu.',
       canOnlyViewBoard: 'Może tylko wyświetlać tablicę.',
-      cardActions_title: 'Akcje Kart',
+      cardActions_title: 'Akcje Karty',
       cardNotFound_title: 'Karta Nie Znaleziona',
       cardsOnThisListAreAvailableToAllBoardMembers:
         'Karty na tej liście są dostępne dla wszystkich członków tablicy.',
