@@ -15,6 +15,8 @@ const CARDS_LIMIT = 50;
 const COMMENTS_LIMIT = 50;
 const ACTIVITIES_LIMIT = 50;
 
+const MAX_SIZE_IN_BYTES_TO_DISPLAY_CONTENT = 256 * 1024;
+
 const IS_MAC = navigator.platform.startsWith('Mac');
 
 export default {
@@ -26,5 +28,6 @@ export default {
   CARDS_LIMIT,
   COMMENTS_LIMIT,
   ACTIVITIES_LIMIT,
+  MAX_SIZE_IN_BYTES_TO_DISPLAY_CONTENT,
   IS_MAC,
 };
