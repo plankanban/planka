@@ -1,11 +1,12 @@
-import markdownEditor from './markdown-editor.json';
 import dateFns from 'date-fns/locale/pl';
 import timeAgo from 'javascript-time-ago/locale/pl';
 
+import markdownEditor from './markdown-editor.json';
+
 export default {
-  markdownEditor,
   dateFns,
   timeAgo,
+  markdownEditor,
 
   format: {
     date: 'd/M/yyyy',
@@ -41,22 +42,21 @@ export default {
       archive: 'Archiwum',
       archiveCard_title: 'Archiwizuj Kartę',
       archiveCards_title: 'Archiwizuj Karty',
-        areYouSureYouWantToActivateThisUser: 'Jesteś pewien że chcesz aktywować tego użytkownika?',
+      areYouSureYouWantToActivateThisUser: 'Jesteś pewien że chcesz aktywować tego użytkownika?',
       areYouSureYouWantToArchiveCards: 'Jesteś pewien że chcesz archiwizować karty?',
       areYouSureYouWantToArchiveThisCard: 'Jesteś pewien że chcesz archiwizować tę kartę?',
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
         'Jesteś pewien że chcesz przypisać tego zarządcę jako właściciela projektu?',
-      areYouSureYouWantToDeactivateThisUser: 'Jesteś pewien że chcesz dezaktywować tego użytkownika?',
+      areYouSureYouWantToDeactivateThisUser:
+        'Jesteś pewien że chcesz dezaktywować tego użytkownika?',
       areYouSureYouWantToUsuńThisAttachment: 'Jesteś pewien że chcesz usunąć ten załącznik?',
-      areYouSureYouWantToUsuńThisBackgroundImage:
-        'Jesteś pewien że chcesz usunąć te tło?',
+      areYouSureYouWantToUsuńThisBackgroundImage: 'Jesteś pewien że chcesz usunąć te tło?',
       areYouSureYouWantToUsuńThisBoard: 'Jesteś pewien że chcesz usunąć tę tablicę?',
       areYouSureYouWantToUsuńThisCard: 'Jesteś pewien że chcesz usunąć tę kartę?',
       areYouSureYouWantToUsuńThisCardForever:
         'Jesteś pewien że chcesz usunąć tę kartę permanentnie?',
       areYouSureYouWantToUsuńThisComment: 'Jesteś pewien że chcesz usunąć ten komentarz?',
-      areYouSureYouWantToUsuńThisCustomField:
-        'Jesteś pewien że chcesz usunąć to pole własne?',
+      areYouSureYouWantToUsuńThisCustomField: 'Jesteś pewien że chcesz usunąć to pole własne?',
       areYouSureYouWantToUsuńThisCustomFieldGroup:
         'Jesteś pewien że chcesz usunąć tę grupę pól własnych?',
       areYouSureYouWantToUsuńThisLabel: 'Jesteś pewien że chcesz usunąć to oznaczenie?',
@@ -64,19 +64,18 @@ export default {
         'Jesteś pewien że chcesz usunąć tę listę? Wszyskie karty zostaną przeniesione do kosza.',
       areYouSureYouWantToUsuńThisNotificationService:
         'Jesteś pewien że chcesz usunąć ten serwis powiadomień?',
-      areYouSureYouWantToUsuńThisProject: 'Jesteś pewien że chcesz usunąć ten projekt?',
-      areYouSureYouWantToUsuńThisTask: 'Jesteś pewien że chcesz usunąć te zadanie?',
-      areYouSureYouWantToUsuńThisTaskList: 'Jesteś pewien że chcesz usunąć tę listę zadań?',
-      areYouSureYouWantToUsuńThisUser: 'Jesteś pewien że chcesz usunąć tego użytkownika?',
-      areYouSureYouWantToEmptyTrash: 'Jesteś pewien że chcesz opróżnić kosz?',
-      areYouSureYouWantToLeaveBoard: 'Jesteś pewien że chcesz opuścić tablicę?',
-      areYouSureYouWantToLeaveProject: 'Jesteś pewien że chcesz opuścić projekt?',
-      areYouSureYouWantToMakeThisProjectShared:
-        'Jesteś pewien że chcesz udostępnić ten projekt?',
+      areYouSureYouWantToUsuńThisProject: 'Jesteś pewien że chcesz usunąć ten projekt?',
+      areYouSureYouWantToUsuńThisTask: 'Jesteś pewien że chcesz usunąć te zadanie?',
+      areYouSureYouWantToUsuńThisTaskList: 'Jesteś pewien że chcesz usunąć tę listę zadań?',
+      areYouSureYouWantToUsuńThisUser: 'Jesteś pewien że chcesz usunąć tego użytkownika?',
+      areYouSureYouWantToEmptyTrash: 'Jesteś pewien że chcesz opróżnić kosz?',
+      areYouSureYouWantToLeaveBoard: 'Jesteś pewien że chcesz opuścić tablicę?',
+      areYouSureYouWantToLeaveProject: 'Jesteś pewien że chcesz opuścić projekt?',
+      areYouSureYouWantToMakeThisProjectShared: 'Jesteś pewien że chcesz udostępnić ten projekt?',
       areYouSureYouWantToRemoveThisManagerFromProject:
-        'Jesteś pewien że chcesz usunąć tego zarządcę z projektu?',
+        'Jesteś pewien że chcesz usunąć tego zarządcę z projektu?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
-        'Jesteś pewien że chcesz usunąć tego członka z tablicy?',
+        'Jesteś pewien że chcesz usunąć tego członka z tablicy?',
       assignAsOwner_title: 'Przypisz Jako Właściciela',
       atLeastOneListMustBePresent: 'Przynajmniej jedna lista musi istnieć',
       attachment: 'Załącznik',
@@ -101,7 +100,7 @@ export default {
         'Może edytować układ tablicy i przypisywać użytkowników do kart.',
       canManageSystemWideSettingsAndActAsProjectOwner:
         'Może zarządzać ustawieniami systemowymi i działać jako właściciel projektu.',
-      canOnlyViewBoard: 'Może tylko wyświetlać tablicę.',
+      canOnlyViewBoard: 'Może tylko wyświetlać tablicę.',
       cardActions_title: 'Akcje Karty',
       cardNotFound_title: 'Karta Nie Znaleziona',
       cardsOnThisListAreAvailableToAllBoardMembers:
@@ -139,7 +138,7 @@ export default {
       deleteBackgroundImage_title: 'Usuń Tło',
       deleteBoard_title: 'Usuń Tablicę',
       deleteCard_title: 'Usuń Kartę',
-      deleteCardForever_title: 'Usuń Kartę Permamentnie',
+      deleteCardForever_title: 'Usuń Kartę Permamentnie',
       deleteComment_title: 'Usuń Komentarz',
       deleteCustomField_title: 'Usuń Pole Własne',
       deleteCustomFieldGroup_title: 'Usuń Grupę Pól Własnych',
@@ -273,8 +272,7 @@ export default {
       taskList_title: 'Lista Zadań',
       taskListActions_title: 'Akcje Listy Zadań',
       team: 'Zespół',
-      thereIsNoPreviewAvailableForThisAttachment:
-        'Brak podglądu dostępnego dla tego załącznika.',
+      thereIsNoPreviewAvailableForThisAttachment: 'Brak podglądu dostępnego dla tego załącznika.',
       time: 'Czas',
       title: 'Tytuł',
       trash: 'Kosz',
@@ -286,11 +284,12 @@ export default {
       uploadedImages: 'Wgrane obrazy',
       userActions_title: 'Akcje Użytkownika',
       userAddedCardToList: '<0>{{user}}</0> dodał <2>{{card}}</2> do {{list}}',
-      userAddedThisCardToList: '<0>{{user}}</0> dodał tę kartę do {{list}}',
+      userAddedThisCardToList: '<0>{{user}}</0> dodał tę kartę do {{list}}',
       userAddedUserToCard: '<0>{{actorUser}}</0> dodał {{addedUser}} do <4>{{card}}</4>',
       userAddedUserToThisCard: '<0>{{actorUser}}</0> dodał {{addedUser}} do tej karty',
       userAddedYouToCard: '<0>{{user}}</0> dodał cię do <2>{{card}}</2>',
-      userCompletedTaskOnCard: '<0>{{user}}</0> oznaczył {{task}} jako ukończone na <4>{{card}}</4>',
+      userCompletedTaskOnCard:
+        '<0>{{user}}</0> oznaczył {{task}} jako ukończone na <4>{{card}}</4>',
       userCompletedTaskOnThisCard: '<0>{{user}}</0> oznaczył {{task}} jako ukończone na tej karcie',
       userJoinedCard: `<0>{{user}}</0> dołączył do <2>{{card}}</2>`,
       userJoinedThisCard: `<0>{{user}}</0> dołączył do tej karty`,
@@ -300,11 +299,12 @@ export default {
       userLeftThisCard: '<0>{{user}}</0> opuścił tę kartę',
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> oznaczył {{task}} jako nieukończone na <4>{{card}}</4>',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> oznaczył {{task}} jako nieukończone na tej karcie',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> oznaczył {{task}} jako nieukończone na tej karcie',
       userMovedCardFromListToList:
         '<0>{{user}}</0> przeniósł <2>{{card}}</2> z {{fromList}} do {{toList}}',
       userMovedThisCardFromListToList:
-        '<0>{{user}}</0> przeniósł tę kartę z {{fromList}} do {{toList}}',
+        '<0>{{user}}</0> przeniósł tę kartę z {{fromList}} do {{toList}}',
       userRemovedUserFromCard: '<0>{{actorUser}}</0> usunął {{removedUser}} z <4>{{card}}</4>',
       userRemovedUserFromThisCard: '<0>{{actorUser}}</0> usunął {{removedUser}} z tej karty',
       username: 'Nazwa Użytkownika',
