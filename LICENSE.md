@@ -1,15 +1,17 @@
 **PLANKA Community License**
 
-Version 1.0 - Last updated: May 2, 2025
+Version 1.1 - Last updated: May 20, 2025
 
 Related files in English:
+
 - PLANKA Community License EN.md (this file)
-- [PLANKA Enterprise License EN.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Enterprise%20License%20EN.md)
+- [PLANKA Commercial License EN.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Commercial%20License%20EN.md)
 - [PLANKA License Guide EN.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20License%20Guide%20EN.md)
 
 Related files in German:
+
 - [PLANKA Community License DE.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Community%20License%20DE.md)
-- [PLANKA Enterprise License DE.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Enterprise%20License%20DE.md)
+- [PLANKA Commercial License DE.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Commercial%20License%20DE.md)
 - [PLANKA License Guide DE.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20License%20Guide%20DE.md)
 
 ---
@@ -19,18 +21,18 @@ Related files in German:
 Files accessible to and marked for community use are licensed as follows:
 
 - Content of branches other than the main branch (usually "master" or "main") is not licensed.
-- Source code files or other files that contain ".pe." (for "PLANKA Enterprise") in their file names or folder names or are otherwise marked as "PLANKA Enterprise" in their file headers or folders are NOT licensed under the "Fair Use License". These files are "PLANKA Enterprise" files and are licensed under the "PLANKA Enterprise License".
-- To use any "PLANKA Enterprise" files or sources, you must own a valid "PLANKA Enterprise License". You can read more about our commercial license in the [PLANKA Enterprise License EN.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Enterprise%20License%20EN.md).
+- Source code files or other files that contain ".pe." (for "PLANKA Pro/Enterprise") in their file names or folder names or are otherwise marked as "PLANKA Pro/Enterprise" in their file headers or folders are NOT licensed under the "Fair Use License". These files are "PLANKA Pro/Enterprise" files and are licensed under the "PLANKA Pro/Enterprise License".
+- To use any "PLANKA Pro/Enterprise" files or sources, you must own a valid "PLANKA Pro/Enterprise License". You can read more about our commercial license in the [PLANKA Commercial License EN.md](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Commercial%20License%20EN.md).
 - All third-party components incorporated into our software are licensed under the original license provided by the owner of the applicable component.
 - Content outside of the above-mentioned files or restrictions is available under the "Fair Use License" as defined below.
 
 ## Fair Use License
 
-Version 1.0
+Version 1.1
 
 ### Acceptance
 
-By using the software, you agree to all of the terms and conditions below.
+By using the software, you agree to all of the terms and conditions above and below.
 
 ### Copyright License
 
@@ -40,9 +42,19 @@ The licensor grants you a non-exclusive, royalty-free, worldwide, non-sublicensa
 
 "You may use the PLANKA name or logo only to describe that your service incorporates the software. Any other trademark use (e.g., in product names, domains, or marketing material) requires our prior written consent."
 
+### Permitted Use
+
+You may use or modify PLANKA (a) for personal, hobby, or educational purposes, (b) internally within your own organization, (c) for private hosting for a typical number of friends, family, or personal projects, (d) to provide free access to non-profit organizations (as recognized by applicable tax authorities), or if you are a recognized non-profit organization yourself involving external users into your mission, and (e) public educational institutions for academic/research purposes only.
+
+### Restricted Use
+
+Sharing accounts/credentials with third parties for business purposes or operating PLANKA as a hosted service for any commercial gain whatsoever is prohibited. Commercial gain includes any form of payment, advertising revenue, data monetization, or indirect commercial benefit or business advantage.
+
+For all other PLANKA-based hosting services or shared use of PLANKA accounts across organizations, you need to buy a commercial PLANKA license.
+
 ### Limitations
 
-You may use or modify the software (a) for personal, hobby, or educational purposes or (b) inside your own legal entity (including wholly owned subsidiaries) for workflows that are not offered as a paid product or as a cross-company service to a third party. Cross-company services or use between your legal entity and other unrelated third-party legal entities are explicitly prohibited. You may not alter, remove, or obscure any licensing, copyright, or other notices from the software provided by the licensor. Any use of the licensor's trademarks is subject to applicable law.
+You may not alter, remove, or obscure any licensing, copyright, or other notices from the software provided by the licensor. Any use of the licensor's trademarks is subject to applicable law.
 
 ### Patents
 

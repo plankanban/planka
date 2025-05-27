@@ -37,7 +37,7 @@ For any security issues, please do not create a public issue on GitHub - instead
 
 ## License
 
-PLANKA is [fair-code](https://faircode.io) distributed under the [Fair Use License](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Community%20License%20EN.md) and [PLANKA Enterprise License](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Enterprise%20License%20EN.md).
+PLANKA is [fair-code](https://faircode.io) distributed under the [Fair Use License](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Community%20License%20EN.md) and [PLANKA Pro/Enterprise License](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20Commercial%20License%20EN.md).
 
 - **Source Available**: The source code is always visible
 - **Self-Hostable**: Deploy and host it anywhere
