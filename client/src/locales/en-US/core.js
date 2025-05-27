@@ -110,6 +110,7 @@ export default {
       color: 'Color',
       comments: 'Comments',
       contentExceedsLimit: 'Content exceeds {{limit}}',
+      contentOfThisAttachmentIsTooBigToDisplay: 'Content of this attachment is too big to display.',
       copy_inline: 'copy',
       createBoard_title: 'Create Board',
       createCustomFieldGroup_title: 'Create Custom Field Group',

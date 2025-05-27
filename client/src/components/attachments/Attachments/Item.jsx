@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Item as GalleryItem } from 'react-photoswipe-gallery';
 
 import selectors from '../../../selectors';
+import Config from '../../../constants/Config';
 import Encodings from '../../../constants/Encodings';
 import { AttachmentTypes } from '../../../constants/Enums';
 import ItemContent from './ItemContent';
@@ -80,13 +81,21 @@ const Item = React.memo(({ id, isVisible }) => {
           break;
         default:
           if (attachment.data.encoding === Encodings.UTF8) {
-            content = (
-              <ContentViewer
-                src={attachment.data.url}
-                filename={attachment.data.filename}
-                className={classNames(styles.content, styles.contentViewer)}
-              />
-            );
+            if (attachment.data.sizeInBytes <= Config.MAX_SIZE_IN_BYTES_TO_DISPLAY_CONTENT) {
+              content = (
+                <ContentViewer
+                  src={attachment.data.url}
+                  filename={attachment.data.filename}
+                  className={classNames(styles.content, styles.contentViewer)}
+                />
+              );
+            } else {
+              content = (
+                <span className={classNames(styles.content, styles.contentError)}>
+                  {t('common.contentOfThisAttachmentIsTooBigToDisplay')}
+                </span>
+              );
+            }
           } else {
             content = (
               <span className={classNames(styles.content, styles.contentError)}>
