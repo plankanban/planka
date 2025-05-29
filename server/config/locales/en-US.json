@@ -2,6 +2,7 @@
 	"Card Created": "Card Created",
 	"Card Moved": "Card Moved",
 	"New Comment": "New Comment",
+	"You Were Mentioned in a Comment": "You Were Mentioned in a Comment",
 	"Test Title": "Test Title",
 	"This is a test text message!": "This is a test text message!",
 	"This is a *test* **markdown** `message`!": "This is a *test* **markdown** `message`!",
@@ -10,5 +11,6 @@
 	"%s added you to %s on %s": "%s added you to %s on %s",
 	"%s created %s in %s on %s": "%s created %s in %s on %s",
 	"%s left a new comment to %s on %s": "%s left a new comment to %s on %s",
-	"%s moved %s from %s to %s on %s": "%s moved %s from %s to %s on %s"
+	"%s moved %s from %s to %s on %s": "%s moved %s from %s to %s on %s",
+	"%s mentioned you in %s on %s": "%s mentioned you in %s on %s"
 }

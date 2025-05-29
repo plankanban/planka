@@ -6,6 +6,12 @@
 const escapeMarkdown = require('escape-markdown');
 const escapeHtml = require('escape-html');
 
+const extractMentionedUserIds = (text) => {
+  const mentionRegex = /@\[.*?\]\((.*?)\)/g;
+  const matches = [...text.matchAll(mentionRegex)];
+  return matches.map((match) => match[1]);
+};
+
 const buildAndSendNotifications = async (services, board, card, comment, actorUser, t) => {
   const markdownCardLink = `[${escapeMarkdown(card.name)}](${sails.config.custom.baseUrl}/cards/${card.id})`;
   const htmlCardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}}">${escapeHtml(card.name)}</a>`;
@@ -101,7 +107,14 @@ module.exports = {
       comment.userId,
     );
 
-    const notifiableUserIds = _.union(cardSubscriptionUserIds, boardSubscriptionUserIds);
+    const mentionedUserIds = extractMentionedUserIds(values.text);
+
+    // Combine all user IDs, removing duplicates and the comment author
+    const notifiableUserIds = [
+      ...cardSubscriptionUserIds,
+      ...boardSubscriptionUserIds,
+      ...mentionedUserIds,
+    ].filter((id) => id !== comment.userId);
 
     await Promise.all(
       notifiableUserIds.map((userId) =>
@@ -109,10 +122,13 @@ module.exports = {
           values: {
             userId,
             comment,
-            type: Notification.Types.COMMENT_CARD,
+            type: mentionedUserIds.includes(userId)
+              ? Notification.Types.COMMENT_MENTION
+              : Notification.Types.COMMENT_CARD,
             data: {
               card: _.pick(values.card, ['name']),
               text: comment.text,
+              wasMentioned: mentionedUserIds.includes(userId),
             },
             creatorUser: values.user,
             card: values.card,

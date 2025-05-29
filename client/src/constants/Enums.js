@@ -99,6 +99,7 @@ export const ActivityTypes = {
 export const NotificationTypes = {
   MOVE_CARD: 'moveCard',
   COMMENT_CARD: 'commentCard',
+  COMMENT_MENTION: 'commentMention',
   ADD_MEMBER_TO_CARD: 'addMemberToCard',
 };
 

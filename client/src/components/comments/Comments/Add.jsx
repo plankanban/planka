@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
@@ -29,7 +29,8 @@ const Add = React.memo(() => {
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
   const [selectTextFieldState, selectTextField] = useToggle();
 
-  const textFieldRef = React.createRef();
+  const textFieldRef = useRef(null);
+  const mentionsInputRef = useRef(null);
   const [buttonRef, handleButtonRef] = useNestedRef();
 
   const mentionsInputStyle = {
@@ -65,8 +66,12 @@ const Add = React.memo(() => {
   }, [dispatch, data, setData, selectTextField, textFieldRef]);
 
   const handleEscape = useCallback(() => {
+    if (mentionsInputRef?.current?.isOpened()) {
+      mentionsInputRef?.current.clearSuggestions();
+      return;
+    }
     setIsOpened(false);
-    textFieldRef.current.blur();
+    textFieldRef.current?.blur();
   }, [textFieldRef]);
 
   const [activateEscapeInterceptor, deactivateEscapeInterceptor] =
@@ -89,10 +94,7 @@ const Add = React.memo(() => {
     [submit],
   );
 
-  const handleAwayClick = useCallback((event) => {
-    if (event?.target?.closest?.('.mentions-input')) {
-      return;
-    }
+  const handleAwayClick = useCallback(() => {
     setIsOpened(false);
   }, []);
 
@@ -134,6 +136,9 @@ const Add = React.memo(() => {
     <Form onSubmit={handleSubmit}>
       <div className={styles.field}>
         <MentionsInput
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...clickAwayProps}
+          ref={mentionsInputRef}
           inputRef={textFieldRef}
           value={data.text}
           placeholder={t('common.writeComment')}
@@ -142,8 +147,6 @@ const Add = React.memo(() => {
           onFocus={handleFieldFocus}
           onChange={handleFormFieldChange}
           onKeyDown={handleFieldKeyDown}
-          onMouseDown={clickAwayProps.onMouseDown}
-          onTouchStart={clickAwayProps.onTouchStart}
           allowSpaceInQuery
           singleLine={false}
           rows={isOpened ? 3 : 1}

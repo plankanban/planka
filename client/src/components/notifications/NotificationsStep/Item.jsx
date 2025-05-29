@@ -21,6 +21,11 @@ import UserAvatar from '../../users/UserAvatar';
 
 import styles from './Item.module.scss';
 
+const formatMentionText = (text) => {
+  // Replace @[username](userId) with @username
+  return text.replace(/@\[(.*?)\]\(.*?\)/g, '@$1');
+};
+
 const Item = React.memo(({ id, onClose }) => {
   const selectNotificationById = useMemo(() => selectors.makeSelectNotificationById(), []);
   const selectCreatorUserById = useMemo(() => selectors.makeSelectUserById(), []);
@@ -99,6 +104,29 @@ const Item = React.memo(({ id, onClose }) => {
           <Link to={Paths.CARDS.replace(':id', notification.cardId)} onClick={onClose}>
             {cardName}
           </Link>
+        </Trans>
+      );
+
+      break;
+    }
+    case NotificationTypes.COMMENT_MENTION: {
+      const commentText = truncate(formatMentionText(notification.data.text));
+
+      contentNode = (
+        <Trans
+          i18nKey="common.userMentionedYouInCard"
+          values={{
+            user: creatorUserName,
+            comment: commentText,
+            card: cardName,
+          }}
+        >
+          <span className={styles.author}>{creatorUserName}</span>
+          {` mentioned you in `}
+          <Link to={Paths.CARDS.replace(':id', notification.cardId)} onClick={onClose}>
+            {cardName}
+          </Link>
+          {`: «${commentText}»`}
         </Trans>
       );
 

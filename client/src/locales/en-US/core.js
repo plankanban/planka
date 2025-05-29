@@ -293,6 +293,7 @@ export default {
       userJoinedThisCard: `<0>{{user}}</0> joined this card`,
       userLeftNewCommentToCard:
         '<0>{{user}}</0> left a new comment «{{comment}}» to <2>{{card}}</2>',
+      userMentionedYouInCard: '<0>{{user}}</0> mentioned you in <2>{{card}}</2>: «{{comment}}»',
       userLeftCard: '<0>{{user}}</0> left <2>{{card}}</2>',
       userLeftThisCard: '<0>{{user}}</0> left this card',
       userMarkedTaskIncompleteOnCard:

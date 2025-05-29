@@ -12,6 +12,8 @@ const buildTitle = (notification, t) => {
       return t('Card Moved');
     case Notification.Types.COMMENT_CARD:
       return t('New Comment');
+    case Notification.Types.COMMENT_MENTION:
+      return t('You Were Mentioned in a Comment');
     case Notification.Types.ADD_MEMBER_TO_CARD:
       return t('You Were Added to Card');
     default:
@@ -79,6 +81,30 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
         )}:\n\n<i>${escapeHtml(commentText)}</i>`,
       };
     }
+    case Notification.Types.COMMENT_MENTION: {
+      const commentText = _.truncate(notification.data.text);
+
+      return {
+        text: `${t(
+          '%s mentioned you in %s on %s',
+          actorUser.name,
+          card.name,
+          board.name,
+        )}:\n${commentText}`,
+        markdown: `${t(
+          '%s mentioned you in %s on %s',
+          escapeMarkdown(actorUser.name),
+          markdownCardLink,
+          escapeMarkdown(board.name),
+        )}:\n\n*${escapeMarkdown(commentText)}*`,
+        html: `${t(
+          '%s mentioned you in %s on %s',
+          escapeHtml(actorUser.name),
+          htmlCardLink,
+          escapeHtml(board.name),
+        )}:\n\n<i>${escapeHtml(commentText)}</i>`,
+      };
+    }
     case Notification.Types.ADD_MEMBER_TO_CARD:
       return {
         text: t('%s added you to %s on %s', actorUser.name, card.name, board.name),
@@ -139,6 +165,15 @@ const buildAndSendEmail = async (board, card, notification, actorUser, notifiabl
       )}</p><p>${escapeHtml(notification.data.text)}</p>`;
 
       break;
+    case Notification.Types.COMMENT_MENTION:
+      html = `<p>${t(
+        '%s mentioned you in %s on %s',
+        escapeHtml(actorUser.name),
+        cardLink,
+        boardLink,
+      )}</p><p>${escapeHtml(notification.data.text)}</p>`;
+
+      break;
     case Notification.Types.ADD_MEMBER_TO_CARD:
       html = `<p>${t(
         '%s added you to %s on %s',
@@ -186,9 +221,11 @@ module.exports = {
       values.userId = values.user.id;
     }
 
-    const isCommentCard = values.type === Notification.Types.COMMENT_CARD;
+    const isCommentNotification =
+      values.type === Notification.Types.COMMENT_CARD ||
+      values.type === Notification.Types.COMMENT_MENTION;
 
-    if (isCommentCard) {
+    if (isCommentNotification) {
       values.commentId = values.comment.id;
     } else {
       values.actionId = values.action.id;
@@ -217,7 +254,7 @@ module.exports = {
           boards: [inputs.board],
           lists: [inputs.list],
           cards: [values.card],
-          ...(isCommentCard
+          ...(isCommentNotification
             ? {
                 comments: [values.comment],
               }
