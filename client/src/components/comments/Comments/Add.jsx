@@ -56,7 +56,7 @@ const Add = React.memo(() => {
     };
 
     if (!cleanData.text) {
-      textFieldRef.current?.focus();
+      textFieldRef.current?.select();
       return;
     }
 
