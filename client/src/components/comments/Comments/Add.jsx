@@ -4,15 +4,17 @@
  */
 
 import React, { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Form, TextArea } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
+import { MentionsInput, Mention } from 'react-mentions';
 import { useClickAwayListener, useDidUpdate, useToggle } from '../../../lib/hooks';
 
+import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useEscapeInterceptor, useForm, useNestedRef } from '../../../hooks';
 import { isModifierKeyPressed } from '../../../utils/event-helpers';
+import UserAvatar, { Sizes } from '../../users/UserAvatar/UserAvatar';
 
 import styles from './Add.module.scss';
 
@@ -27,8 +29,24 @@ const Add = React.memo(() => {
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
   const [selectTextFieldState, selectTextField] = useToggle();
 
-  const [textFieldRef, handleTextFieldRef] = useNestedRef();
+  const textFieldRef = React.createRef();
   const [buttonRef, handleButtonRef] = useNestedRef();
+
+  const mentionsInputStyle = {
+    control: {
+      minHeight: isOpened ? '60px' : '36px',
+    },
+  };
+
+  const renderSuggestion = useCallback(
+    (suggestion, search, highlightedDisplay) => (
+      <div className={styles.suggestion}>
+        <UserAvatar id={suggestion.id} size={Sizes.TINY} />
+        <span className={styles.suggestionText}>{highlightedDisplay}</span>
+      </div>
+    ),
+    [],
+  );
 
   const submit = useCallback(() => {
     const cleanData = {
@@ -37,7 +55,7 @@ const Add = React.memo(() => {
     };
 
     if (!cleanData.text) {
-      textFieldRef.current.select();
+      textFieldRef.current?.focus();
       return;
     }
 
@@ -71,18 +89,33 @@ const Add = React.memo(() => {
     [submit],
   );
 
-  const handleAwayClick = useCallback(() => {
+  const handleAwayClick = useCallback((event) => {
+    if (event?.target?.closest?.('.mentions-input')) {
+      return;
+    }
     setIsOpened(false);
   }, []);
 
   const handleClickAwayCancel = useCallback(() => {
-    textFieldRef.current.focus();
+    textFieldRef.current?.focus();
   }, [textFieldRef]);
 
   const clickAwayProps = useClickAwayListener(
     [textFieldRef, buttonRef],
     handleAwayClick,
     handleClickAwayCancel,
+  );
+
+  const users = useSelector(selectors.selectMembershipsForCurrentBoard);
+
+  const handleFormFieldChange = useCallback(
+    (event, newValue) => {
+      handleFieldChange(null, {
+        name: 'text',
+        value: newValue,
+      });
+    },
+    [handleFieldChange],
   );
 
   useDidUpdate(() => {
@@ -94,26 +127,41 @@ const Add = React.memo(() => {
   }, [isOpened]);
 
   useDidUpdate(() => {
-    textFieldRef.current.focus();
+    textFieldRef.current?.focus();
   }, [selectTextFieldState]);
 
   return (
     <Form onSubmit={handleSubmit}>
-      <TextArea
-        {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
-        ref={handleTextFieldRef}
-        as={TextareaAutosize}
-        name="text"
-        value={data.text}
-        placeholder={t('common.writeComment')}
-        maxLength={1048576}
-        minRows={isOpened ? 3 : 1}
-        spellCheck={false}
-        className={styles.field}
-        onFocus={handleFieldFocus}
-        onKeyDown={handleFieldKeyDown}
-        onChange={handleFieldChange}
-      />
+      <div className={styles.field}>
+        <MentionsInput
+          inputRef={textFieldRef}
+          value={data.text}
+          placeholder={t('common.writeComment')}
+          className="mentions-input"
+          style={mentionsInputStyle}
+          onFocus={handleFieldFocus}
+          onChange={handleFormFieldChange}
+          onKeyDown={handleFieldKeyDown}
+          onMouseDown={clickAwayProps.onMouseDown}
+          onTouchStart={clickAwayProps.onTouchStart}
+          allowSpaceInQuery
+          singleLine={false}
+          rows={isOpened ? 3 : 1}
+          maxLength={1048576}
+        >
+          <Mention
+            trigger="@"
+            data={users.map((membership) => ({
+              id: membership.user.id,
+              display: membership.user.username || membership.user.name,
+            }))}
+            markup="@[__display__](__id__)"
+            appendSpaceOnAdd
+            displayTransform={(id, display) => `@${display}`}
+            renderSuggestion={renderSuggestion}
+          />
+        </MentionsInput>
+      </div>
       {isOpened && (
         <div className={styles.controls}>
           <Button

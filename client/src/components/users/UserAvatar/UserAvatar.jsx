@@ -17,7 +17,7 @@ import { StaticUserIds } from '../../../constants/StaticUsers';
 
 import styles from './UserAvatar.module.scss';
 
-const Sizes = {
+export const Sizes = {
   TINY: 'tiny',
   SMALL: 'small',
   MEDIUM: 'medium',
