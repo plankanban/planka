@@ -1,0 +1,96 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+.container {
+padding: 2rem;
+}
+
+.title {
+  color: #fff;
+  margin-left: 1rem;
+}
+
+.projectsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.projectSection {
+  background-color: #333333;
+  border-radius: 4px;
+  padding: 2rem;
+  margin: 1rem;
+  font-family: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.projectTitle {
+  color: #fff;
+}
+
+.boardSection {
+  width: 300px;
+  color: #000;
+  background-color: #dfe3e6;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.boardTitle {
+  color: #000;
+}
+
+.cardsGrid {
+  display: grid;
+}
+
+.card {
+  margin-top: 1rem;
+  align-items: center;
+  border-radius: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.562);
+}
+
+.cardName {
+  margin-right: 10px;
+}
+
+.emptyMessage {
+  width: 300px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #9e0000;
+  font-weight:bold;
+  font-size:large;
+}
+
+.emptyState {
+  width: 300px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #9e0000;
+  font-weight:bold;
+  font-size: xx-large;
+}
+
+/* Media Queries for Responsiveness */
+/* tablet */
+@media (max-width: 768px) {
+
+  .projectsContainer{
+    justify-content: center;
+  }
+
+}
+
+/* phone */
+@media (max-width: 480px) {
+
+}

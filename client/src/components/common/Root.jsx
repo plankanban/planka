@@ -16,6 +16,7 @@ import Paths from '../../constants/Paths';
 import Login from './Login';
 import Core from './Core';
 import NotFound from './NotFound';
+import UserCardsPage from "../users/UserCardsPage";
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'photoswipe/dist/photoswipe.css';
@@ -37,6 +38,7 @@ function Root({ store, history }) {
               <Route path={Paths.PROJECTS} element={<Core />} />
               <Route path={Paths.BOARDS} element={<Core />} />
               <Route path={Paths.CARDS} element={<Core />} />
+              <Route path={Paths.USERCARDS} element={<UserCardsPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ToasterProvider>

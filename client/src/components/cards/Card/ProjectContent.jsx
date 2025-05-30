@@ -77,6 +77,13 @@ const ProjectContent = React.memo(({ cardId }) => {
 
   const { listName, withCreator } = useSelector((state) => {
     const board = selectors.selectCurrentBoard(state);
+    
+    if (!board) {
+      return {
+        listName: null,
+        withCreator: false,
+      };
+    }
 
     return {
       listName: list.name && (board.view === BoardViews.KANBAN ? null : list.name),

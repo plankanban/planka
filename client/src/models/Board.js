@@ -296,6 +296,10 @@ export default class extends BaseModel {
     return this.activities.orderBy(['id.length', 'id'], ['desc', 'desc']);
   }
 
+  getOrderedCardsQuerySet() {
+    return this.cards.orderBy(['position', 'id.length', 'id']);
+  }
+
   getUnreadNotificationsQuerySet() {
     return this.notifications.filter({
       isRead: false,
@@ -312,6 +316,11 @@ export default class extends BaseModel {
         userId,
       })
       .first();
+  }
+  getOrderedCardsModelArrayForUser(userId) {
+    return this.getOrderedCardsQuerySet()
+      .toModelArray()
+      .filter((cardModel) => cardModel.hasMembershipForUser(userId));
   }
 
   getCardsModelArray() {

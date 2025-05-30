@@ -7,6 +7,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { Button, Menu } from 'semantic-ui-react';
 import { Popup } from '../../../lib/custom-ui';
 
@@ -40,6 +41,10 @@ const UserStep = React.memo(({ onClose }) => {
     onClose();
   }, [onClose, dispatch]);
 
+   const handleCardsClick = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
   let logoutMenuItemProps;
   if (isLogouting) {
     logoutMenuItemProps = {
@@ -60,6 +65,16 @@ const UserStep = React.memo(({ onClose }) => {
       </Popup.Header>
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
+          <Menu.Item
+            as={Link}
+            to="/user-cards"
+            className={styles.menuItem}
+            onClick={handleCardsClick}
+          >
+            {t('common.myCards', {
+              context: 'title',
+            })}
+          </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleSettingsClick}>
             {t('common.settings', {
               context: 'title',
