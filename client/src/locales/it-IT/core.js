@@ -299,7 +299,8 @@ export default {
       userLeftThisCard: '<0>{{user}}</0> ha lasciato questa task',
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in <4>{{card}}</4>',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in questa task',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in questa task',
       userMovedCardFromListToList:
         '<0>{{user}}</0> ha spostato <2>{{card}}</2> da {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
