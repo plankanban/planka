@@ -6,6 +6,8 @@
 const escapeMarkdown = require('escape-markdown');
 const escapeHtml = require('escape-html');
 
+const { formatTextWithMentions } = require('../../../utils/formatters');
+
 const extractMentionedUserIds = (text) => {
   const mentionRegex = /@\[.*?\]\((.*?)\)/g;
   const matches = [...text.matchAll(mentionRegex)];
@@ -15,7 +17,7 @@ const extractMentionedUserIds = (text) => {
 const buildAndSendNotifications = async (services, board, card, comment, actorUser, t) => {
   const markdownCardLink = `[${escapeMarkdown(card.name)}](${sails.config.custom.baseUrl}/cards/${card.id})`;
   const htmlCardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}}">${escapeHtml(card.name)}</a>`;
-  const commentText = _.truncate(comment.text);
+  const commentText = _.truncate(formatTextWithMentions(comment.text));
 
   await sails.helpers.utils.sendNotifications(services, t('New Comment'), {
     text: `${t(
@@ -97,6 +99,19 @@ module.exports = {
       user: values.user,
     });
 
+    let mentionedUserIds = extractMentionedUserIds(values.text);
+
+    if (mentionedUserIds.length > 0) {
+      const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(inputs.board.id);
+
+      mentionedUserIds = _.difference(
+        _.intersection(mentionedUserIds, boardMemberUserIds),
+        comment.userId,
+      );
+    }
+
+    const mentionedUserIdsSet = new Set(mentionedUserIds);
+
     const cardSubscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(
       comment.cardId,
       comment.userId,
@@ -107,14 +122,11 @@ module.exports = {
       comment.userId,
     );
 
-    const mentionedUserIds = extractMentionedUserIds(values.text);
-
-    // Combine all user IDs, removing duplicates and the comment author
-    const notifiableUserIds = [
-      ...cardSubscriptionUserIds,
-      ...boardSubscriptionUserIds,
-      ...mentionedUserIds,
-    ].filter((id) => id !== comment.userId);
+    const notifiableUserIds = _.union(
+      mentionedUserIds,
+      cardSubscriptionUserIds,
+      boardSubscriptionUserIds,
+    );
 
     await Promise.all(
       notifiableUserIds.map((userId) =>
@@ -122,13 +134,12 @@ module.exports = {
           values: {
             userId,
             comment,
-            type: mentionedUserIds.includes(userId)
-              ? Notification.Types.COMMENT_MENTION
+            type: mentionedUserIdsSet.has(userId)
+              ? Notification.Types.MENTION_IN_COMMENT
               : Notification.Types.COMMENT_CARD,
             data: {
               card: _.pick(values.card, ['name']),
               text: comment.text,
-              wasMentioned: mentionedUserIds.includes(userId),
             },
             creatorUser: values.user,
             card: values.card,

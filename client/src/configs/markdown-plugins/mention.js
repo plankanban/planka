@@ -3,23 +3,14 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const mentionsPlugin = (md) => {
-  const mentionRegex = /@\[(.*?)\]\((.*?)\)/g;
+const MENTION_REGEX = /@\[(.*?)\]\((.*?)\)/g;
 
-  const renderMention = (tokens, idx) => {
-    const token = tokens[idx];
-    const { display, userId } = token.meta;
-
-    return `<span class="mention" data-user-id="${userId}" style="color: #0366d6; background-color: #f1f8ff; border-radius: 3px; padding: 0 2px;">@${display}</span>`;
-  };
-
-  md.core.ruler.push('mentions', (state) => {
-    const { tokens } = state;
-
-    for (let i = 0; i < tokens.length; i += 1) {
-      const token = tokens[i];
+export default (md) => {
+  md.core.ruler.push('mention', ({ tokens }) => {
+    tokens.forEach((token) => {
       if (token.type === 'inline' && token.content) {
-        const matches = [...token.content.matchAll(mentionRegex)];
+        const matches = [...token.content.matchAll(MENTION_REGEX)];
+
         if (matches.length > 0) {
           const newChildren = [];
           let lastIndex = 0;
@@ -56,14 +47,15 @@ const mentionsPlugin = (md) => {
             });
           }
 
-          token.children = newChildren;
+          token.children = newChildren; // eslint-disable-line no-param-reassign
         }
       }
-    }
+    });
   });
 
   // eslint-disable-next-line no-param-reassign
-  md.renderer.rules.mention = renderMention;
+  md.renderer.rules.mention = (tokens, index) => {
+    const { display, userId } = tokens[index].meta;
+    return `<span class="mention" data-user-id="${userId}">@${display}</span>`;
+  };
 };
-
-export default mentionsPlugin;

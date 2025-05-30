@@ -293,12 +293,13 @@ export default {
       userJoinedThisCard: `<0>{{user}}</0> joined this card`,
       userLeftNewCommentToCard:
         '<0>{{user}}</0> left a new comment «{{comment}}» to <2>{{card}}</2>',
-      userMentionedYouInCard: '<0>{{user}}</0> mentioned you in <2>{{card}}</2>: «{{comment}}»',
       userLeftCard: '<0>{{user}}</0> left <2>{{card}}</2>',
       userLeftThisCard: '<0>{{user}}</0> left this card',
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> marked {{task}} incomplete on <4>{{card}}</4>',
       userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> marked {{task}} incomplete on this card',
+      userMentionedYouInCommentOnCard:
+        '<0>{{user}}</0> mentioned you in a comment «{{comment}}» on <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
       userMovedThisCardFromListToList:

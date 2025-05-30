@@ -23,7 +23,7 @@ import { emojiDefs } from '@gravity-ui/markdown-editor/_/bundle/emoji';
 /* eslint-enable import/no-unresolved */
 
 import link from './link';
-import mentions from './mentions';
+import mention from './mention';
 
 export default [
   ins,
@@ -42,5 +42,5 @@ export default [
   meta,
   deflist,
   link,
-  mentions,
+  mention,
 ];

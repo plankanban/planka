@@ -303,6 +303,8 @@ export default {
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> marked {{task}} incomplete on <4>{{card}}</4>',
       userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> marked {{task}} incomplete on this card',
+      userMentionedYouInCommentOnCard:
+        '<0>{{user}}</0> mentioned you in a comment «{{comment}}» on <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> moved <2>{{card}}</2> from {{fromList}} to {{toList}}',
       userMovedThisCardFromListToList:

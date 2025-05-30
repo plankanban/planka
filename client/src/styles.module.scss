@@ -12,6 +12,31 @@
       height: auto;
     }
 
+    .mentions-input {
+      &__highlighter {
+        line-height: 1.4;
+        padding: 8px 12px;
+      }
+
+      &__suggestions {
+        border: 1px solid #d4d4d5;
+        border-radius: 3px;
+        box-shadow: 0 8px 16px -4px rgba(9, 45, 66, 0.25),
+          0 0 0 1px rgba(9, 45, 66, 0.08);
+        max-height: 200px;
+        overflow-y: auto;
+
+        &__item {
+          padding: 8px 12px;
+
+          &--focused {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: rgba(0, 0, 0, 0.95);
+          }
+        }
+      }
+    }
+
     .react-datepicker {
       border: 0;
       color: #444444;
@@ -190,6 +215,13 @@
 
     h6 {
       font-size: .85em !important;
+    }
+
+    .mention {
+      color: #0366d6;
+      background-color: #f1f8ff;
+      border-radius: 3px;
+      padding: 0 2px;
     }
 
     .yfm-clipboard:hover {

@@ -16,94 +16,36 @@
   }
 
   .field {
-    position: relative;
-    margin-bottom: 8px !important;
     background: #fff;
-    border-radius: 4px;
+    margin-bottom: 8px !important;
 
-    :global(.mentions-input) {
-      width: 100%;
-
-      textarea {
-        background: #fff;
-        box-shadow: none;
-        border: 0;
-        box-sizing: border-box;
-        color: #333;
-        display: block;
-        line-height: 1.5;
-        font-size: 14px;
-        overflow: hidden;
-        padding: 8px 12px;
-        resize: none;
-        width: 100%;
-
-        &:focus {
-          outline: none;
-        }
-      }
-    }
-  }
-}
-
-:global {
-  .mentions-input {
-    width: 100%;
-
-    &__suggestions {
-      position: absolute;
-      z-index: 1000;
-      margin-top: 4px;
-      background: white;
-      border: 1px solid rgba(34, 36, 38, 0.15);
-      border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      max-height: 200px;
-      overflow-y: auto;
-
-      &__list {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      &__item {
-        display: flex;
-        padding: 8px 12px;
-        cursor: pointer;
-        font-size: 14px;
-
-        &--focused {
-          background-color: #f1f8ff;
-        }
-      }
-    }
-
-    &__highlighter {
-      padding: 8px 12px;
-      font-size: 14px;
-      font-family: 'Open Sans', sans-serif;
+    textarea {
+      background: #fff;
+      border: 1px solid rgba(9, 30, 66, 0.13);
+      border-radius: 3px;
+      box-sizing: border-box;
+      color: #333;
+      display: block;
       line-height: 1.4;
-    }
-
-    &__control {
-      position: relative;
-    }
-
-    &__input {
+      font-size: 14px;
       overflow: hidden;
+      padding: 8px 12px;
+      resize: none;
+
+      &:focus {
+        outline: none;
+      }
     }
   }
-}
 
-.suggestion {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+  .mention {
+    background-color: #f1f8ff;
+    border-radius: 3px;
+  }
 
-.suggestionText {
-  flex: 1;
-  font-size: 14px;
-  line-height: 1.4;
+  .suggestion {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+  }
 }
