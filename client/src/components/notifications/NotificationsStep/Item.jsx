@@ -13,6 +13,7 @@ import { Button } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
+import { formatTextWithMentions } from '../../../utils/formatters';
 import Paths from '../../../constants/Paths';
 import { StaticUserIds } from '../../../constants/StaticUsers';
 import { NotificationTypes } from '../../../constants/Enums';
@@ -83,7 +84,7 @@ const Item = React.memo(({ id, onClose }) => {
       break;
     }
     case NotificationTypes.COMMENT_CARD: {
-      const commentText = truncate(notification.data.text);
+      const commentText = truncate(formatTextWithMentions(notification.data.text));
 
       contentNode = (
         <Trans
@@ -122,6 +123,28 @@ const Item = React.memo(({ id, onClose }) => {
       );
 
       break;
+    case NotificationTypes.MENTION_IN_COMMENT: {
+      const commentText = truncate(formatTextWithMentions(notification.data.text));
+
+      contentNode = (
+        <Trans
+          i18nKey="common.userMentionedYouInCommentOnCard"
+          values={{
+            user: creatorUserName,
+            comment: commentText,
+            card: cardName,
+          }}
+        >
+          <span className={styles.author}>{creatorUserName}</span>
+          {` mentioned you in «${commentText}» on `}
+          <Link to={Paths.CARDS.replace(':id', notification.cardId)} onClick={onClose}>
+            {cardName}
+          </Link>
+        </Trans>
+      );
+
+      break;
+    }
     default:
       contentNode = null;
   }

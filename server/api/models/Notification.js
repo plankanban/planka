@@ -14,6 +14,7 @@ const Types = {
   MOVE_CARD: 'moveCard',
   COMMENT_CARD: 'commentCard',
   ADD_MEMBER_TO_CARD: 'addMemberToCard',
+  MENTION_IN_COMMENT: 'mentionInComment',
 };
 
 module.exports = {

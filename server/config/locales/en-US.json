@@ -7,8 +7,10 @@
 	"This is a *test* **markdown** `message`!": "This is a *test* **markdown** `message`!",
 	"This is a <i>test</i> <b>html</b> <code>message</code>": "This is a <i>test</i> <b>html</b> <code>message</code>",
 	"You Were Added to Card": "Your Were Added to Card",
+	"You Were Mentioned in Comment": "You Were Mentioned in Comment",
 	"%s added you to %s on %s": "%s added you to %s on %s",
 	"%s created %s in %s on %s": "%s created %s in %s on %s",
 	"%s left a new comment to %s on %s": "%s left a new comment to %s on %s",
+	"%s mentioned you in %s on %s": "%s mentioned you in %s on %s",
 	"%s moved %s from %s to %s on %s": "%s moved %s from %s to %s on %s"
 }

@@ -17,19 +17,35 @@
 
   .field {
     background: #fff;
-    border: 0;
-    box-sizing: border-box;
-    color: #333;
-    display: block;
-    line-height: 1.5;
-    font-size: 14px;
-    overflow: hidden;
-    padding: 8px 12px;
-    resize: none;
-    width: 100%;
+    margin-bottom: 8px !important;
 
-    &:focus {
-      outline: none;
+    textarea {
+      background: #fff;
+      border: 1px solid rgba(9, 30, 66, 0.13);
+      border-radius: 3px;
+      box-sizing: border-box;
+      color: #333;
+      display: block;
+      line-height: 1.4;
+      font-size: 14px;
+      overflow: hidden;
+      padding: 8px 12px;
+      resize: none;
+
+      &:focus {
+        outline: none;
+      }
     }
+  }
+
+  .mention {
+    background-color: #f1f8ff;
+    border-radius: 3px;
+  }
+
+  .suggestion {
+    align-items: center;
+    display: flex;
+    gap: 8px;
   }
 }

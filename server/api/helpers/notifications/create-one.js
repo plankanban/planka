@@ -6,6 +6,8 @@
 const escapeMarkdown = require('escape-markdown');
 const escapeHtml = require('escape-html');
 
+const { formatTextWithMentions } = require('../../../utils/formatters');
+
 const buildTitle = (notification, t) => {
   switch (notification.type) {
     case Notification.Types.MOVE_CARD:
@@ -14,6 +16,8 @@ const buildTitle = (notification, t) => {
       return t('New Comment');
     case Notification.Types.ADD_MEMBER_TO_CARD:
       return t('You Were Added to Card');
+    case Notification.Types.MENTION_IN_COMMENT:
+      return t('You Were Mentioned in Comment');
     default:
       return null;
   }
@@ -56,7 +60,7 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
       };
     }
     case Notification.Types.COMMENT_CARD: {
-      const commentText = _.truncate(notification.data.text);
+      const commentText = _.truncate(formatTextWithMentions(notification.data.text));
 
       return {
         text: `${t(
@@ -95,6 +99,30 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
           escapeHtml(board.name),
         ),
       };
+    case Notification.Types.MENTION_IN_COMMENT: {
+      const commentText = _.truncate(formatTextWithMentions(notification.data.text));
+
+      return {
+        text: `${t(
+          '%s mentioned you in %s on %s',
+          actorUser.name,
+          card.name,
+          board.name,
+        )}:\n${commentText}`,
+        markdown: `${t(
+          '%s mentioned you in %s on %s',
+          escapeMarkdown(actorUser.name),
+          markdownCardLink,
+          escapeMarkdown(board.name),
+        )}:\n\n*${escapeMarkdown(commentText)}*`,
+        html: `${t(
+          '%s mentioned you in %s on %s',
+          escapeHtml(actorUser.name),
+          htmlCardLink,
+          escapeHtml(board.name),
+        )}:\n\n<i>${escapeHtml(commentText)}</i>`,
+      };
+    }
     default:
       return null;
   }
@@ -148,6 +176,15 @@ const buildAndSendEmail = async (board, card, notification, actorUser, notifiabl
       )}</p>`;
 
       break;
+    case Notification.Types.MENTION_IN_COMMENT:
+      html = `<p>${t(
+        '%s mentioned you in %s on %s',
+        escapeHtml(actorUser.name),
+        cardLink,
+        boardLink,
+      )}</p><p>${escapeHtml(notification.data.text)}</p>`;
+
+      break;
     default:
       return;
   }
@@ -186,9 +223,11 @@ module.exports = {
       values.userId = values.user.id;
     }
 
-    const isCommentCard = values.type === Notification.Types.COMMENT_CARD;
+    const isCommentRelated =
+      values.type === Notification.Types.COMMENT_CARD ||
+      values.type === Notification.Types.MENTION_IN_COMMENT;
 
-    if (isCommentCard) {
+    if (isCommentRelated) {
       values.commentId = values.comment.id;
     } else {
       values.actionId = values.action.id;
@@ -217,7 +256,7 @@ module.exports = {
           boards: [inputs.board],
           lists: [inputs.list],
           cards: [values.card],
-          ...(isCommentCard
+          ...(isCommentRelated
             ? {
                 comments: [values.comment],
               }
