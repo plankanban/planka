@@ -12,7 +12,7 @@ export default {
       or: 'Или',
       pageNotFound_title: 'Страница не найдена',
       password: 'Пароль',
-      poweredByPlanka: 'Powered by PLANKA',
+      poweredByPlanka: 'Powered by <1>PLANKA</1>',
       serverConnectionFailed: 'Не могу подключиться к серверу',
       unknownError: 'Что-то пошло не так, попробуйте позже',
       usernameAlreadyInUse: 'Имя пользователя уже занято',
