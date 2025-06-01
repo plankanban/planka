@@ -1,0 +1,24 @@
+diff --git a/node_modules/sails/lib/hooks/i18n/index.js b/node_modules/sails/lib/hooks/i18n/index.js
+index a0c74ed..582ff66 100644
+--- a/node_modules/sails/lib/hooks/i18n/index.js
++++ b/node_modules/sails/lib/hooks/i18n/index.js
+@@ -108,7 +108,8 @@ module.exports = function(sails) {
+           locales: sails.config.i18n.locales,
+           defaultLocale: sails.config.i18n.defaultLocale,
+           directory: resolvedLocalesDirectory,
+-          extension: I18N_LOCALES_FILE_EXTENSION
++          extension: I18N_LOCALES_FILE_EXTENSION,
++          devMode: false
+         });
+ 
+         // Add all of the i18n prototype methods into this hook.
+@@ -176,7 +177,8 @@ module.exports = function(sails) {
+           defaultLocale: sails.config.i18n.defaultLocale,
+           directory: resolvedLocalesDirectory,
+           extension: I18N_LOCALES_FILE_EXTENSION,
+-          request: req
++          request: req,
++          devMode: false
+         });
+ 
+         // Mix translation capabilities into res.locals.
