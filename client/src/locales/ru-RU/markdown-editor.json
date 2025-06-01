@@ -7,7 +7,7 @@
   "bundle": {
     "error-title": "Ошибка в редакторе markdown",
     "settings_wysiwyg": "Визуальный редактор (wysiwyg)",
-    "settings_markup": "Разметка Markdown",
+    "settings_markup": "Разметка markdown",
     "markup_placeholder": "Введите разметку markdown..."
   },
   "codeblock": {
@@ -63,7 +63,7 @@
     "numbered-list_title": "Нумерованный список",
     "numbered-list_hint": "1. Ваш текст",
     "documentation": "Документация",
-    "documentation_link": " https://diplodoc.com/docs/en/syntax/"
+    "documentation_link": "https://diplodoc.com/docs/en/syntax/"
   },
   "menubar": {
     "bold": "Жирный",

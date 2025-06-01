@@ -3,20 +3,19 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Pagination, Table } from 'semantic-ui-react';
 import Papa from 'papaparse';
 import Frame from 'react-frame-component';
+import { Loader, Pagination, Table } from 'semantic-ui-react';
 
 import styles from './CsvViewer.module.scss';
 
 const ROWS_PER_PAGE = 50;
 
-/* eslint-disable react/no-array-index-key */
 const CsvViewer = React.memo(({ src, className }) => {
-  const [csvData, setCsvData] = useState(null);
+  const [rows, setRows] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const frameStyles = useMemo(
@@ -34,7 +33,7 @@ const CsvViewer = React.memo(({ src, className }) => {
     [],
   );
 
-  const handlePageChange = useCallback((e, { activePage }) => {
+  const handlePageChange = useCallback((_, { activePage }) => {
     setCurrentPage(activePage);
   }, []);
 
@@ -49,47 +48,46 @@ const CsvViewer = React.memo(({ src, className }) => {
 
         Papa.parse(text, {
           skipEmptyLines: true,
-          complete: (results) => {
-            const rows = results.data;
-            setCsvData({
-              rows,
-              totalRows: rows.length,
-            });
+          complete: ({ data }) => {
+            setRows(data);
           },
         });
-      } catch (err) {
-        setCsvData(null);
+      } catch {
+        /* empty */
       }
     }
 
     fetchFile();
   }, [src]);
 
-  if (!csvData) {
-    return null;
+  if (rows === null) {
+    return <Loader active size="big" />;
   }
 
-  const startIdx = (currentPage - 1) * ROWS_PER_PAGE;
-  const endIdx = startIdx + ROWS_PER_PAGE;
-  const currentRows = csvData.rows.slice(startIdx, endIdx);
-  const totalPages = Math.ceil(csvData.totalRows / ROWS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  const endIndex = startIndex + ROWS_PER_PAGE;
+  const currentRows = rows.slice(startIndex, endIndex);
+  const totalPages = Math.ceil(rows.length / ROWS_PER_PAGE);
 
-  const content = (
-    <div>
+  return (
+    <Frame
+      head={<style>{frameStyles.join('')}</style>}
+      className={classNames(styles.wrapper, className)}
+    >
       <div>
         <Table celled compact>
           <Table.Header>
             <Table.Row>
-              {csvData.rows[0].map((header, index) => (
-                <Table.HeaderCell key={index}>{header}</Table.HeaderCell>
+              {rows[0].map((cell) => (
+                <Table.HeaderCell key={cell}>{cell}</Table.HeaderCell>
               ))}
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {currentRows.slice(1).map((row, rowIndex) => (
-              <Table.Row key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <Table.Cell key={cellIndex}>{cell}</Table.Cell>
+            {currentRows.slice(1).map((row) => (
+              <Table.Row key={row}>
+                {row.map((cell) => (
+                  <Table.Cell key={cell}>{cell}</Table.Cell>
                 ))}
               </Table.Row>
             ))}
@@ -98,30 +96,18 @@ const CsvViewer = React.memo(({ src, className }) => {
       </div>
       {totalPages > 1 && (
         <Pagination
-          activePage={currentPage}
+          secondary
+          pointing
           totalPages={totalPages}
-          onPageChange={handlePageChange}
+          activePage={currentPage}
           firstItem={null}
           lastItem={null}
-          pointing
-          secondary
-          boundaryRange={1}
-          siblingRange={1}
+          onPageChange={handlePageChange}
         />
       )}
-    </div>
-  );
-
-  return (
-    <Frame
-      head={<style>{frameStyles.join('')}</style>}
-      className={classNames(styles.wrapper, className)}
-    >
-      {content}
     </Frame>
   );
 });
-/* eslint-enable react/no-array-index-key */
 
 CsvViewer.propTypes = {
   src: PropTypes.string.isRequired,
