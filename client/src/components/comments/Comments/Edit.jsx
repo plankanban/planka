@@ -4,12 +4,12 @@
  */
 
 import { dequal } from 'dequal';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Form, TextArea } from 'semantic-ui-react';
+import { Mention, MentionsInput } from 'react-mentions';
+import { Button, Form } from 'semantic-ui-react';
 import { useClickAwayListener } from '../../../lib/hooks';
 
 import selectors from '../../../selectors';
@@ -17,6 +17,7 @@ import entryActions from '../../../entry-actions';
 import { useForm, useNestedRef } from '../../../hooks';
 import { focusEnd } from '../../../utils/element-helpers';
 import { isModifierKeyPressed } from '../../../utils/event-helpers';
+import UserAvatar from '../../users/UserAvatar';
 
 import styles from './Edit.module.scss';
 
@@ -24,6 +25,7 @@ const Edit = React.memo(({ commentId, onClose }) => {
   const selectCommentById = useMemo(() => selectors.makeSelectCommentById(), []);
 
   const comment = useSelector((state) => selectCommentById(state, commentId));
+  const boardMemberships = useSelector(selectors.selectMembershipsForCurrentBoard);
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -35,12 +37,13 @@ const Edit = React.memo(({ commentId, onClose }) => {
     [comment.text],
   );
 
-  const [data, handleFieldChange] = useForm(() => ({
+  const [data, , setData] = useForm(() => ({
     text: '',
     ...defaultData,
   }));
 
-  const [textFieldRef, handleTextFieldRef] = useNestedRef();
+  const mentionsInputRef = useRef(null);
+  const textFieldRef = useRef(null);
   const [buttonRef, handleButtonRef] = useNestedRef();
 
   const submit = useCallback(() => {
@@ -59,6 +62,15 @@ const Edit = React.memo(({ commentId, onClose }) => {
   const handleSubmit = useCallback(() => {
     submit();
   }, [submit]);
+
+  const handleFieldChange = useCallback(
+    (_, text) => {
+      setData({
+        text,
+      });
+    },
+    [setData],
+  );
 
   const handleFieldKeyDown = useCallback(
     (event) => {
@@ -83,25 +95,53 @@ const Edit = React.memo(({ commentId, onClose }) => {
     handleClickAwayCancel,
   );
 
+  const suggestionRenderer = useCallback(
+    (entry, _, highlightedDisplay) => (
+      <div className={styles.suggestion}>
+        <UserAvatar id={entry.id} size="tiny" />
+        {highlightedDisplay}
+      </div>
+    ),
+    [],
+  );
+
   useEffect(() => {
     focusEnd(textFieldRef.current);
   }, [textFieldRef]);
 
   return (
     <Form onSubmit={handleSubmit}>
-      <TextArea
-        {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
-        ref={handleTextFieldRef}
-        as={TextareaAutosize}
-        name="text"
-        value={data.text}
-        maxLength={1048576}
-        minRows={3}
-        spellCheck={false}
-        className={styles.field}
-        onKeyDown={handleFieldKeyDown}
-        onChange={handleFieldChange}
-      />
+      <div className={styles.field}>
+        <MentionsInput
+          {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
+          allowSpaceInQuery
+          allowSuggestionsAboveCursor
+          ref={mentionsInputRef}
+          inputRef={textFieldRef}
+          value={data.text}
+          maxLength={1048576}
+          rows={3}
+          className="mentions-input"
+          style={{
+            control: {
+              minHeight: '79px',
+            },
+          }}
+          onChange={handleFieldChange}
+          onKeyDown={handleFieldKeyDown}
+        >
+          <Mention
+            appendSpaceOnAdd
+            data={boardMemberships.map(({ user }) => ({
+              id: user.id,
+              display: user.username || user.name,
+            }))}
+            displayTransform={(_, display) => `@${display}`}
+            renderSuggestion={suggestionRenderer}
+            className={styles.mention}
+          />
+        </MentionsInput>
+      </div>
       <div className={styles.controls}>
         <Button
           {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
