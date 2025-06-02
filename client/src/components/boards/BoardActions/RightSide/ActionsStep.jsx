@@ -141,7 +141,7 @@ const ActionsStep = React.memo(({ onClose }) => {
           </Menu.Item>
           {withTrashEmptier && (
             <>
-              {(withSubscribe || withCustomFieldGroups) && <hr className={styles.divider} />}
+              <hr className={styles.divider} />
               <Menu.Item className={styles.menuItem} onClick={handleEmptyTrashClick}>
                 <Icon name="trash alternate outline" className={styles.menuItemIcon} />
                 {t('action.emptyTrash', {
@@ -151,7 +151,7 @@ const ActionsStep = React.memo(({ onClose }) => {
             </>
           )}
           <>
-            {(withSubscribe || withTrashEmptier) && <hr className={styles.divider} />}
+            <hr className={styles.divider} />
             {[BoardContexts.BOARD, BoardContexts.ARCHIVE, BoardContexts.TRASH].map((context) => (
               <Menu.Item
                 key={context}

@@ -41,6 +41,10 @@ export const isCurrentModalAvailableForCurrentUser = createSelector(
 
           return boardModel.project.hasManagerWithUserId(currentUserId);
         }
+        case ModalTypes.BOARD_ACTIVITIES: {
+          const boardModel = Board.withId(currentModal.params.id);
+          return !!boardModel && boardModel.isAvailableForUser(currentUserModel);
+        }
         default:
           return true;
       }
