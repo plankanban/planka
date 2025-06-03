@@ -18,7 +18,7 @@ exports.up = async (knex) => {
       FROM comment
       GROUP BY card_id
     ) AS comments_total_by_card_id
-    WHERE card.id = comments_total_by_card_id.card_id
+    WHERE card.id = comments_total_by_card_id.card_id;
   `);
 
   return knex.schema.alterTable('card', (table) => {
