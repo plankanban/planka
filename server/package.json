@@ -69,7 +69,7 @@
     "serve-static": "^1.16.2",
     "sharp": "^0.33.5",
     "uuid": "^9.0.1",
-    "validator": "^13.15.0",
+    "validator": "^13.15.15",
     "winston": "^3.17.0",
     "zxcvbn": "^4.4.2"
   },
@@ -79,11 +79,11 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-prettier": "^5.4.1",
     "mocha": "^10.8.2",
     "nodemon": "^3.1.10",
     "prettier": "3.3.3",
-    "supertest": "^7.1.0"
+    "supertest": "^7.1.1"
   },
   "engines": {
     "node": ">=18"
