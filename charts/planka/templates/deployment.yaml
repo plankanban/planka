@@ -4,6 +4,10 @@ metadata:
   name: {{ include "planka.fullname" . }}
   labels:
     {{- include "planka.labels" . | nindent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
