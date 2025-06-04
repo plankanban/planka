@@ -42,29 +42,40 @@ export default {
       areYouSureYouWantToActivateThisUser: '¿Estás seguro de que quieres activar este usuario?',
       areYouSureYouWantToArchiveCards: '¿Estás seguro de que quieres archivar las tarjetas?',
       areYouSureYouWantToArchiveThisCard: '¿Estás seguro de que quieres archivar esta tarjeta?',
-      areYouSureYouWantToAssignThisProjectManagerAsOwner: '¿Estás seguro de que quieres asignar este administrador de proyecto como propietario?',
-      areYouSureYouWantToDeactivateThisUser: '¿Estás seguro de que quieres desactivar este usuario?',
+      areYouSureYouWantToAssignThisProjectManagerAsOwner:
+        '¿Estás seguro de que quieres asignar este administrador de proyecto como propietario?',
+      areYouSureYouWantToDeactivateThisUser:
+        '¿Estás seguro de que quieres desactivar este usuario?',
       areYouSureYouWantToDeleteThisAttachment: '¿Estás seguro de que quieres borrar este adjunto?',
-      areYouSureYouWantToDeleteThisBackgroundImage: '¿Estás seguro de que quieres eliminar esta imagen de fondo?',
+      areYouSureYouWantToDeleteThisBackgroundImage:
+        '¿Estás seguro de que quieres eliminar esta imagen de fondo?',
       areYouSureYouWantToDeleteThisBoard: '¿Estás seguro de que quieres borrar este tablero?',
       areYouSureYouWantToDeleteThisCard: '¿Estás seguro de que quieres borrar esta tarjeta?',
-      areYouSureYouWantToDeleteThisCardForever: '¿Estás seguro de que quieres eliminar esta tarjeta para siempre?',
+      areYouSureYouWantToDeleteThisCardForever:
+        '¿Estás seguro de que quieres eliminar esta tarjeta para siempre?',
       areYouSureYouWantToDeleteThisComment: '¿Estás seguro de que quieres borrar este comentario?',
-      areYouSureYouWantToDeleteThisCustomField: '¿Estás seguro de que quieres eliminar este campo personalizado?',
-      areYouSureYouWantToDeleteThisCustomFieldGroup: '¿Estás seguro de que quieres eliminar estos campos personalizados?',
+      areYouSureYouWantToDeleteThisCustomField:
+        '¿Estás seguro de que quieres eliminar este campo personalizado?',
+      areYouSureYouWantToDeleteThisCustomFieldGroup:
+        '¿Estás seguro de que quieres eliminar estos campos personalizados?',
       areYouSureYouWantToDeleteThisLabel: '¿Estás seguro de que quieres borrar esta etiqueta?',
       areYouSureYouWantToDeleteThisList: '¿Estás seguro de que quieres borrar esta lista?',
-      areYouSureYouWantToDeleteThisNotificationService: '¿Estás seguro de que quieres eliminar este servicio de notificaciones?',
+      areYouSureYouWantToDeleteThisNotificationService:
+        '¿Estás seguro de que quieres eliminar este servicio de notificaciones?',
       areYouSureYouWantToDeleteThisProject: '¿Estás seguro de que quieres borrar este proyecto?',
       areYouSureYouWantToDeleteThisTask: '¿Estás seguro de que quieres borrar esta tarea?',
-      areYouSureYouWantToDeleteThisTaskList: '¿Estás seguro de que quieres eliminar esta lista de tareas?',
+      areYouSureYouWantToDeleteThisTaskList:
+        '¿Estás seguro de que quieres eliminar esta lista de tareas?',
       areYouSureYouWantToDeleteThisUser: '¿Estás seguro de que quieres borrar este usuario?',
       areYouSureYouWantToEmptyTrash: '¿Estás seguro de que quieres vaciar la papelera?',
       areYouSureYouWantToLeaveBoard: '¿Estás seguro de que quieres abandonar el tablero?',
       areYouSureYouWantToLeaveProject: '¿Estás seguro de que quieres abandonar el proyecto?',
-      areYouSureYouWantToMakeThisProjectShared: '¿Estás seguro de que quieres hacer este proyecto compartido?',
-      areYouSureYouWantToRemoveThisManagerFromProject: '¿Estás seguro de que quieres eliminar este administrador del proyecto?',
-      areYouSureYouWantToRemoveThisMemberFromBoard: '¿Estás seguro de que quieres eliminar este miembro del tablero?',
+      areYouSureYouWantToMakeThisProjectShared:
+        '¿Estás seguro de que quieres hacer este proyecto compartido?',
+      areYouSureYouWantToRemoveThisManagerFromProject:
+        '¿Estás seguro de que quieres eliminar este administrador del proyecto?',
+      areYouSureYouWantToRemoveThisMemberFromBoard:
+        '¿Estás seguro de que quieres eliminar este miembro del tablero?',
       assignAsOwner_title: 'Asignar como propietario',
       atLeastOneListMustBePresent: 'Debe haber al menos una lista',
       attachment: 'Adjunto',
@@ -83,15 +94,21 @@ export default {
       byDueDate: 'Por fecha de vencimiento',
       canBeInvitedToWorkInBoards: 'Puede ser invitado a trabajar en tableros.',
       canComment: 'Puede comentar',
-      canCreateOwnProjectsAndBeInvitedToWorkInOthers: 'Puede crear sus propios proyectos y ser invitado a trabajar en otros.',
-      canEditBoardLayoutAndAssignMembersToCards: 'Puede editar el diseño del tablero y asignar miembros a las tarjetas.',
-      canManageSystemWideSettingsAndActAsProjectOwner: 'Puede gestionar la configuración del sistema y actuar como propietario del proyecto.',
+      canCreateOwnProjectsAndBeInvitedToWorkInOthers:
+        'Puede crear sus propios proyectos y ser invitado a trabajar en otros.',
+      canEditBoardLayoutAndAssignMembersToCards:
+        'Puede editar el diseño del tablero y asignar miembros a las tarjetas.',
+      canManageSystemWideSettingsAndActAsProjectOwner:
+        'Puede gestionar la configuración del sistema y actuar como propietario del proyecto.',
       canOnlyViewBoard: 'Solo puede ver el tablero.',
       cardActions_title: 'Acciones de las tarjetas',
       cardNotFound_title: 'tarjeta no encontrada',
-      cardsOnThisListAreAvailableToAllBoardMembers: 'Las tarjetas en esta lista están disponibles para todos los miembros del tablero.',
-      cardsOnThisListAreCompleteAndReadyToBeArchived: 'Las tarjetas en esta lista están completas y listas para ser archivadas.',
-      cardsOnThisListAreReadyToBeWorkedOn: 'Las tarjetas en esta lista están listas para ser trabajadas.',
+      cardsOnThisListAreAvailableToAllBoardMembers:
+        'Las tarjetas en esta lista están disponibles para todos los miembros del tablero.',
+      cardsOnThisListAreCompleteAndReadyToBeArchived:
+        'Las tarjetas en esta lista están completas y listas para ser archivadas.',
+      cardsOnThisListAreReadyToBeWorkedOn:
+        'Las tarjetas en esta lista están listas para ser trabajadas.',
       clickHereOrRefreshPageToUpdate: '<0>Haz clic aquí</0> o actualiza la página para actualizar.',
       closed: 'Cerrado',
       color: 'Color',
@@ -116,7 +133,8 @@ export default {
       defaultCardType_title: 'Tipo de tarjeta por defecto',
       defaultView_title: 'Vista por defecto',
       deletedUser_title: 'Usuario eliminado',
-      deleteAllBoardsToBeAbleToDeleteThisProject: 'Elimina todos los tableros para poder eliminar este proyecto.',
+      deleteAllBoardsToBeAbleToDeleteThisProject:
+        'Elimina todos los tableros para poder eliminar este proyecto.',
       deleteAttachment_title: 'Borrar Adjunto',
       deleteBackgroundImage_title: 'Eliminar imagen de fondo',
       deleteBoard_title: 'Borrar Tablero',
@@ -209,7 +227,8 @@ export default {
       organization: 'Organización',
       others: 'Otros',
       phone: 'Teléfono',
-      plankaUsesAppriseToSendNotificationsToOver100PopularServices: 'PLANKA utiliza <1><0>Apprise</0></1> para enviar notificaciones a más de 100 servicios populares.',
+      plankaUsesAppriseToSendNotificationsToOver100PopularServices:
+        'PLANKA utiliza <1><0>Apprise</0></1> para enviar notificaciones a más de 100 servicios populares.',
       preferences: 'Preferencias',
       pressPasteShortcutToAddAttachmentFromClipboard:
         'Tip: presiona Ctrl-V (Cmd-V en Mac) para añadir adjuntos desde el portapapeles.',
@@ -256,7 +275,8 @@ export default {
       taskList_title: 'Lista de tareas',
       taskListActions_title: 'Acciones de la lista de tareas',
       team: 'Equipo',
-      thereIsNoPreviewAvailableForThisAttachment: 'No hay vista previa disponible para este adjunto.',
+      thereIsNoPreviewAvailableForThisAttachment:
+        'No hay vista previa disponible para este adjunto.',
       time: 'Tiempo',
       title: 'Título',
       trash: 'Papelera',
@@ -280,8 +300,10 @@ export default {
         '<0>{{user}}</0> dejó un nuevo comentario «{{comment}}» en <2>{{card}}</2>',
       userLeftCard: '<0>{{user}}</0> salió de <2>{{card}}</2>',
       userLeftThisCard: '<0>{{user}}</0> salió de esta tarjeta',
-      userMarkedTaskIncompleteOnCard: '<0>{{user}}</0> marcó {{task}} como incompleta en <4>{{card}}</4>',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> marcó {{task}} como incompleta en esta tarjeta',
+      userMarkedTaskIncompleteOnCard:
+        '<0>{{user}}</0> marcó {{task}} como incompleta en <4>{{card}}</4>',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> marcó {{task}} como incompleta en esta tarjeta',
       userMovedCardFromListToList:
         '<0>{{user}}</0> movió <2>{{card}}</2> de {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
