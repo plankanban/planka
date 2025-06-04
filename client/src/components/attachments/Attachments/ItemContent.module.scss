@@ -52,6 +52,10 @@
     outline: none;
     padding: 0;
 
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
     &:hover {
       color: #172b4d;
     }
