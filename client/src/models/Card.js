@@ -405,6 +405,25 @@ export default class extends BaseModel {
         });
 
         break;
+      case ActionTypes.COMMENT_CREATE:
+      case ActionTypes.COMMENT_CREATE_HANDLE: {
+        const cardModel = Card.withId(payload.comment.cardId);
+
+        if (cardModel) {
+          cardModel.commentsTotal += 1;
+        }
+
+        break;
+      }
+      case ActionTypes.COMMENT_DELETE_HANDLE: {
+        const cardModel = Card.withId(payload.comment.cardId);
+
+        if (cardModel) {
+          cardModel.commentsTotal -= 1;
+        }
+
+        break;
+      }
       case ActionTypes.ACTIVITIES_IN_CARD_FETCH:
         Card.withId(payload.cardId).update({
           isActivitiesFetching: true,
