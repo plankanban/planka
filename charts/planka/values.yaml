@@ -45,6 +45,9 @@ podAnnotations: {}
 podSecurityContext: {}
   # fsGroup: 2000
 
+# Annotations to add to the deployment
+deploymentAnnotations: {}
+
 securityContext: {}
   # capabilities:
   #   drop:
