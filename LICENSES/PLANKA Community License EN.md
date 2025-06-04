@@ -48,7 +48,7 @@ You may use or modify PLANKA (a) for personal, hobby, or educational purposes, (
 
 ### Restricted Use
 
-Sharing accounts/credentials with third parties for business purposes or operating PLANKA as a hosted service for any commercial gain whatsoever is prohibited. Commercial gain includes any form of payment, advertising revenue, data monetization, or indirect commercial benefit or business advantage.
+Sharing accounts/credentials with third parties for business purposes or operating PLANKA as a hosted service for third parties for any commercial gain whatsoever is prohibited. Commercial gain includes any form of payment, advertising revenue, data monetization, or indirect commercial benefit or business advantage.
 
 For all other PLANKA-based hosting services or shared use of PLANKA accounts across organizations, you need to buy a commercial PLANKA license.
 

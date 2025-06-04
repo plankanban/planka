@@ -52,7 +52,7 @@ Die Lizenz gewährt Ihnen das kostenlose Recht, die Software zu nutzen, zu modif
 
 - Sie dürfen PLANKA nutzen oder modifizieren (a) für persönliche, Hobby- oder Bildungszwecke, (b) intern innerhalb Ihrer eigenen Organisation, (c) für privates Hosting für eine typische Anzahl von Freunden, Familie oder persönlichen Projekten, (d) um gemeinnützigen Organisationen (wie von den jeweiligen Steuerbehörden anerkannt) kostenlosen Zugang zu gewähren, oder wenn Sie selbst eine anerkannte gemeinnützige Organisation sind, die externe Nutzer in Ihre Mission einbezieht, und (e) öffentliche Bildungseinrichtungen ausschließlich für akademische/Forschungszwecke.
 
-- Das Teilen von Konten/Zugangsdaten mit Dritten für geschäftliche Zwecke oder der Betrieb von PLANKA als gehosteter Dienst für jeglichen kommerziellen Gewinn ist untersagt. Kommerzieller Gewinn umfasst jede Form von Zahlung, Werbeeinnahmen, Datenmonetarisierung oder indirekten kommerziellen Nutzen oder Geschäftsvorteil.
+- Das Teilen von Konten/Zugangsdaten mit Dritten für geschäftliche Zwecke oder der Betrieb von PLANKA als gehosteter Dienst für Dritte zu jeglichen kommerziellen Gewinn ist untersagt. Kommerzieller Gewinn umfasst jede Form von Zahlung, Werbeeinnahmen, Datenmonetarisierung oder indirekten kommerziellen Nutzen oder Geschäftsvorteil.
 
 - Sie dürfen keine vom Lizenzgeber bereitgestellten Lizenz-, Urheber- oder anderen Hinweise in der Software verändern, entfernen oder verschleiern. Jede Nutzung der Marken des Lizenzgebers unterliegt dem geltenden Recht.
 

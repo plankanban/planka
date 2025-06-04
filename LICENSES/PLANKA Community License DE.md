@@ -48,7 +48,7 @@ Sie dürfen PLANKA nutzen oder modifizieren (a) für persönliche, Hobby- oder B
 
 ### Eingeschränkte Nutzung
 
-Das Teilen von Konten/Zugangsdaten mit Dritten für geschäftliche Zwecke oder der Betrieb von PLANKA als gehosteter Dienst für jeglichen kommerziellen Gewinn ist untersagt. Kommerzieller Gewinn umfasst jede Form von Zahlung, Werbeeinnahmen, Datenmonetarisierung oder indirekten kommerziellen Nutzen oder Geschäftsvorteil.
+Das Teilen von Konten/Zugangsdaten mit Dritten für geschäftliche Zwecke oder der Betrieb von PLANKA als gehosteter Dienst für Dritte zu jeglichen kommerziellen Gewinn ist untersagt. Kommerzieller Gewinn umfasst jede Form von Zahlung, Werbeeinnahmen, Datenmonetarisierung oder indirekten kommerziellen Nutzen oder Geschäftsvorteil.
 
 Für alle anderen PLANKA-basierten Hosting-Dienste oder die gemeinsame Nutzung von PLANKA-Konten zwischen Organisationen müssen Sie eine kommerzielle PLANKA-Lizenz erwerben.
 
