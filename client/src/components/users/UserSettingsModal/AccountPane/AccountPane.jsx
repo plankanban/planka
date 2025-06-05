@@ -7,7 +7,6 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Dropdown, Header, Tab } from 'semantic-ui-react';
-import Flag from 'react-world-flags';
 
 import { usePopupInClosableContext } from '../../../../hooks';
 import locales from '../../../../locales';
@@ -76,10 +75,11 @@ const AccountPane = React.memo(() => {
               <>
                 {locale.country && (
                   <span className={localeFlagStyles.localeFlagWrapper}>
-                    <Flag
-                      code={locale.country.toUpperCase()}
+                    <img
+                      src={`https://flagcdn.com/48x36/${locale.country.toLowerCase()}.png`}
+                      alt={locale.country}
                       className={localeFlagStyles.localeFlag}
-                      fallback={<span className={localeFlagStyles.localeFlag} />}
+                      loading="lazy"
                     />
                   </span>
                 )}
