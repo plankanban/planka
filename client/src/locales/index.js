@@ -32,6 +32,7 @@ import ukUA from './uk-UA';
 import uzUZ from './uz-UZ';
 import zhCN from './zh-CN';
 import zhTW from './zh-TW';
+import elGR from './el-GR';
 
 const locales = [
   arYE,
@@ -63,6 +64,7 @@ const locales = [
   uzUZ,
   zhCN,
   zhTW,
+  elGR,
 ];
 
 export default locales;
