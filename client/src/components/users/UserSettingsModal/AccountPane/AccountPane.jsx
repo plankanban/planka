@@ -7,6 +7,7 @@ import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Divider, Dropdown, Header, Tab } from 'semantic-ui-react';
+import Flag from 'react-world-flags';
 
 import { usePopupInClosableContext } from '../../../../hooks';
 import locales from '../../../../locales';
@@ -21,6 +22,7 @@ import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 
 import styles from './AccountPane.module.scss';
+import localeFlagStyles from '../LocaleFlag.module.scss';
 
 const AccountPane = React.memo(() => {
   const user = useSelector(selectors.selectCurrentUser);
@@ -70,8 +72,20 @@ const AccountPane = React.memo(() => {
           },
           ...locales.map((locale) => ({
             value: locale.language,
-            flag: locale.country,
-            text: locale.name,
+            text: (
+              <>
+                {locale.country && (
+                  <span className={localeFlagStyles.localeFlagWrapper}>
+                    <Flag
+                      code={locale.country.toUpperCase()}
+                      className={localeFlagStyles.localeFlag}
+                      fallback={<span className={localeFlagStyles.localeFlag} />}
+                    />
+                  </span>
+                )}
+                {locale.name}
+              </>
+            ),
           })),
         ]}
         value={user.language || 'auto'}
