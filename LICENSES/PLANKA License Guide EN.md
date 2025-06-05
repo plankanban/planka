@@ -52,7 +52,7 @@ The license allows you the free right to use, modify, create derivative works, a
 
 - You may use or modify PLANKA (a) for personal, hobby, or educational purposes, (b) internally within your own organization, (c) for private hosting for a typical number of friends, family, or personal projects, (d) to provide free access to non-profit organizations (as recognized by applicable tax authorities), or if you are a recognized non-profit organization yourself involving external users into your mission, and (e) public educational institutions for academic/research purposes only.
 
-- Sharing accounts/credentials with third parties for business purposes or operating PLANKA as a hosted service for any commercial gain whatsoever is prohibited. Commercial gain includes any form of payment, advertising revenue, data monetization, or indirect commercial benefit or business advantage.
+- Sharing accounts/credentials with third parties for business purposes or operating PLANKA as a hosted service for third parties for any commercial gain whatsoever is prohibited. Commercial gain includes any form of payment, advertising revenue, data monetization, or indirect commercial benefit or business advantage.
 
 - You may not alter, remove, or obscure any licensing, copyright, or other notices from the software provided by the licensor. Any use of the licensor's trademarks is subject to applicable law.
 
