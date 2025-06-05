@@ -22,6 +22,19 @@ index 2152fd6..ceda0c1 100644
          yfmHeading: {
              h1Key: f.toPM(A.Heading1),
              h2Key: f.toPM(A.Heading2),
+diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
+index bd3d4b9..5a5a5be 100644
+--- a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
++++ b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
+@@ -9,7 +9,7 @@ export { noteType, noteTitleType } from "./utils.js";
+ export const YfmNoteSpecs = (builder, opts) => {
+     const schemaSpecs = getSchemaSpecs(opts, builder.context.get('placeholder'));
+     builder
+-        .configureMd((md) => md.use(yfmPlugin, { log }))
++        .configureMd((md) => md.use(yfmPlugin, { log, notesAutotitle: false }))
+         .addNode(NoteNode.Note, () => ({
+         spec: schemaSpecs[NoteNode.Note],
+         toMd: serializerTokens[NoteNode.Note],
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js b/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
 index ed2a9db..f95b693 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
