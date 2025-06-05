@@ -1,5 +1,6 @@
 import dateFns from 'date-fns/locale/da';
 import timeAgo from 'javascript-time-ago/locale/da';
+
 import markdownEditor from './markdown-editor.json';
 
 export default {
