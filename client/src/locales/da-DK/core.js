@@ -47,7 +47,8 @@ export default {
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
         'Er du sikker på, at du vil sætte denne projektleder som ejer?',
       areYouSureYouWantToDeactivateThisUser: 'Er du sikker på, at du vil deaktivere denne bruger?',
-      areYouSureYouWantToDeleteThisAttachment: 'Er du sikker på at du vil slette denne vedhæftede fil?',
+      areYouSureYouWantToDeleteThisAttachment:
+        'Er du sikker på at du vil slette denne vedhæftede fil?',
       areYouSureYouWantToDeleteThisBackgroundImage:
         'Er du sikker på, at du vil slette dette baggrundsbillede?',
       areYouSureYouWantToDeleteThisBoard: 'Er du sikker på at du vil slette denne tavle?',
@@ -114,7 +115,8 @@ export default {
       color: 'Farve',
       comments: 'Kommentarer',
       contentExceedsLimit: 'Indhold overskrider {{limit}}',
-      contentOfThisAttachmentIsTooBigToDisplay: 'Indholdet af denne vedhæftning er for stort til at blive vist.',
+      contentOfThisAttachmentIsTooBigToDisplay:
+        'Indholdet af denne vedhæftning er for stort til at blive vist.',
       copy_inline: 'kopier',
       createBoard_title: 'Opret tavle',
       createCustomFieldGroup_title: 'Opret brugerdefineret feltgruppe',
@@ -301,7 +303,8 @@ export default {
       userLeftThisCard: '<0>{{user}}</0> forlod dette kort',
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> satte {{task}} som ufærdig på <4>{{card}}</4>',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> satte {{task}} som ufærdig på dette kort',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> satte {{task}} som ufærdig på dette kort',
       userMentionedYouInCommentOnCard:
         '<0>{{user}}</0> nævnte dig i «{{comment}}» på <2>{{card}}</2>',
       userMovedCardFromListToList:
