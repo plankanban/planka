@@ -31,8 +31,9 @@ const Add = React.memo(() => {
   const [isOpened, setIsOpened] = useState(false);
   const [selectTextFieldState, selectTextField] = useToggle();
 
-  const mentionsInputRef = useRef(null);
   const textFieldRef = useRef(null);
+  const textMentionsRef = useRef(null);
+  const textInputRef = useRef(null);
   const [buttonRef, handleButtonRef] = useNestedRef();
 
   const submit = useCallback(() => {
@@ -42,24 +43,24 @@ const Add = React.memo(() => {
     };
 
     if (!cleanData.text) {
-      textFieldRef.current.select();
+      textInputRef.current.select();
       return;
     }
 
     dispatch(entryActions.createCommentInCurrentCard(cleanData));
     setData(DEFAULT_DATA);
     selectTextField();
-  }, [dispatch, data, setData, selectTextField, textFieldRef]);
+  }, [dispatch, data, setData, selectTextField]);
 
   const handleEscape = useCallback(() => {
-    if (mentionsInputRef.current.isOpened()) {
-      mentionsInputRef.current.clearSuggestions();
+    if (textMentionsRef.current.isOpened()) {
+      textMentionsRef.current.clearSuggestions();
       return;
     }
 
     setIsOpened(false);
-    textFieldRef.current.blur();
-  }, [textFieldRef]);
+    textInputRef.current.blur();
+  }, []);
 
   const [activateEscapeInterceptor, deactivateEscapeInterceptor] =
     useEscapeInterceptor(handleEscape);
@@ -95,8 +96,8 @@ const Add = React.memo(() => {
   }, []);
 
   const handleClickAwayCancel = useCallback(() => {
-    textFieldRef.current.focus();
-  }, [textFieldRef]);
+    textInputRef.current.focus();
+  }, []);
 
   const clickAwayProps = useClickAwayListener(
     [textFieldRef, buttonRef],
@@ -123,18 +124,18 @@ const Add = React.memo(() => {
   }, [isOpened]);
 
   useDidUpdate(() => {
-    textFieldRef.current.focus();
+    textInputRef.current.focus();
   }, [selectTextFieldState]);
 
   return (
     <Form onSubmit={handleSubmit}>
-      <div className={styles.field}>
+      <div ref={textFieldRef} className={styles.field}>
         <MentionsInput
           {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
           allowSpaceInQuery
           allowSuggestionsAboveCursor
-          ref={mentionsInputRef}
-          inputRef={textFieldRef}
+          ref={textMentionsRef}
+          inputRef={textInputRef}
           value={data.text}
           placeholder={t('common.writeComment')}
           maxLength={1048576}

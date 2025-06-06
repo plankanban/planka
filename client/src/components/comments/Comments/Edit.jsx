@@ -42,8 +42,9 @@ const Edit = React.memo(({ commentId, onClose }) => {
     ...defaultData,
   }));
 
-  const mentionsInputRef = useRef(null);
   const textFieldRef = useRef(null);
+  const textMentionsRef = useRef(null);
+  const textInputRef = useRef(null);
   const [buttonRef, handleButtonRef] = useNestedRef();
 
   const submit = useCallback(() => {
@@ -79,6 +80,11 @@ const Edit = React.memo(({ commentId, onClose }) => {
           submit();
         }
       } else if (event.key === 'Escape') {
+        if (textMentionsRef.current.isOpened()) {
+          textMentionsRef.current.clearSuggestions();
+          return;
+        }
+
         onClose();
       }
     },
@@ -86,8 +92,8 @@ const Edit = React.memo(({ commentId, onClose }) => {
   );
 
   const handleClickAwayCancel = useCallback(() => {
-    textFieldRef.current.focus();
-  }, [textFieldRef]);
+    textInputRef.current.focus();
+  }, []);
 
   const clickAwayProps = useClickAwayListener(
     [textFieldRef, buttonRef],
@@ -106,18 +112,18 @@ const Edit = React.memo(({ commentId, onClose }) => {
   );
 
   useEffect(() => {
-    focusEnd(textFieldRef.current);
-  }, [textFieldRef]);
+    focusEnd(textInputRef.current);
+  }, []);
 
   return (
     <Form onSubmit={handleSubmit}>
-      <div className={styles.field}>
+      <div ref={textFieldRef} className={styles.field}>
         <MentionsInput
           {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
           allowSpaceInQuery
           allowSuggestionsAboveCursor
-          ref={mentionsInputRef}
-          inputRef={textFieldRef}
+          ref={textMentionsRef}
+          inputRef={textInputRef}
           value={data.text}
           maxLength={1048576}
           rows={3}
