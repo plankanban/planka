@@ -187,6 +187,7 @@ export default {
       deleteTask: '删除任务',
       deleteTask_title: '删除任务',
       deleteUser: '删除用户',
+      duplicate: '复制卡片',
       edit: '编辑',
       editDescription_title: '编辑描述',
       editDueDate_title: '编辑到期时间',
