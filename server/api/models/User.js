@@ -44,6 +44,7 @@ const LANGUAGES = [
   'en-US',
   'es-ES',
   'fa-IR',
+  'fi-FI',
   'fr-FR',
   'hu-HU',
   'id-ID',

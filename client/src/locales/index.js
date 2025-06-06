@@ -13,6 +13,7 @@ import enGB from './en-GB';
 import enUS from './en-US';
 import esES from './es-ES';
 import faIR from './fa-IR';
+import fiFI from './fi-FI';
 import frFR from './fr-FR';
 import huHU from './hu-HU';
 import idID from './id-ID';
@@ -45,6 +46,7 @@ const locales = [
   enUS,
   esES,
   faIR,
+  fiFI,
   frFR,
   huHU,
   idID,
