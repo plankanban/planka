@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const MENTION_REGEX = /@\[(.*?)\]\((.*?)\)/g;
+import { MENTION_REGEX } from '../../utils/mentions';
 
 export default (md) => {
   md.core.ruler.push('mention', ({ tokens }) => {

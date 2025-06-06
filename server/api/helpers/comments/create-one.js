@@ -6,13 +6,7 @@
 const escapeMarkdown = require('escape-markdown');
 const escapeHtml = require('escape-html');
 
-const { formatTextWithMentions } = require('../../../utils/formatters');
-
-const extractMentionedUserIds = (text) => {
-  const mentionRegex = /@\[.*?\]\((.*?)\)/g;
-  const matches = [...text.matchAll(mentionRegex)];
-  return matches.map((match) => match[1]);
-};
+const { extractMentionIds, formatTextWithMentions } = require('../../../utils/mentions');
 
 const buildAndSendNotifications = async (services, board, card, comment, actorUser, t) => {
   const markdownCardLink = `[${escapeMarkdown(card.name)}](${sails.config.custom.baseUrl}/cards/${card.id})`;
@@ -99,18 +93,18 @@ module.exports = {
       user: values.user,
     });
 
-    let mentionedUserIds = extractMentionedUserIds(values.text);
+    let mentionUserIds = extractMentionIds(comment.text);
 
-    if (mentionedUserIds.length > 0) {
+    if (mentionUserIds.length > 0) {
       const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(inputs.board.id);
 
-      mentionedUserIds = _.difference(
-        _.intersection(mentionedUserIds, boardMemberUserIds),
+      mentionUserIds = _.difference(
+        _.intersection(mentionUserIds, boardMemberUserIds),
         comment.userId,
       );
     }
 
-    const mentionedUserIdsSet = new Set(mentionedUserIds);
+    const mentionUserIdsSet = new Set(mentionUserIds);
 
     const cardSubscriptionUserIds = await sails.helpers.cards.getSubscriptionUserIds(
       comment.cardId,
@@ -123,7 +117,7 @@ module.exports = {
     );
 
     const notifiableUserIds = _.union(
-      mentionedUserIds,
+      mentionUserIds,
       cardSubscriptionUserIds,
       boardSubscriptionUserIds,
     );
@@ -134,7 +128,7 @@ module.exports = {
           values: {
             userId,
             comment,
-            type: mentionedUserIdsSet.has(userId)
+            type: mentionUserIdsSet.has(userId)
               ? Notification.Types.MENTION_IN_COMMENT
               : Notification.Types.COMMENT_CARD,
             data: {

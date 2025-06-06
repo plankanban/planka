@@ -6,7 +6,7 @@
 const escapeMarkdown = require('escape-markdown');
 const escapeHtml = require('escape-html');
 
-const { formatTextWithMentions } = require('../../../utils/formatters');
+const { formatTextWithMentions } = require('../../../utils/mentions');
 
 const buildTitle = (notification, t) => {
   switch (notification.type) {

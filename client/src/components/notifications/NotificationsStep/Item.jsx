@@ -13,7 +13,7 @@ import { Button } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
-import { formatTextWithMentions } from '../../../utils/formatters';
+import { formatTextWithMentions } from '../../../utils/mentions';
 import Paths from '../../../constants/Paths';
 import { StaticUserIds } from '../../../constants/StaticUsers';
 import { NotificationTypes } from '../../../constants/Enums';
