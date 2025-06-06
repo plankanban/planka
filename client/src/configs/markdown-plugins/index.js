@@ -37,7 +37,7 @@ export default [
   (md) => md.use(imsize, { enableInlineStyling: true }),
   video,
   table,
-  (md) => md.use(note, { notesAutotitle: false }),
+  (md) => md.use(note, { notesAutotitle: false, log: console }),
   cut,
   meta,
   deflist,
