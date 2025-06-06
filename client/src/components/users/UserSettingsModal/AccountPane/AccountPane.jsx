@@ -21,7 +21,6 @@ import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 
 import styles from './AccountPane.module.scss';
-import localeFlagStyles from '../LocaleFlag.module.scss';
 
 const AccountPane = React.memo(() => {
   const user = useSelector(selectors.selectCurrentUser);
@@ -71,21 +70,8 @@ const AccountPane = React.memo(() => {
           },
           ...locales.map((locale) => ({
             value: locale.language,
-            text: (
-              <>
-                {locale.country && (
-                  <span className={localeFlagStyles.localeFlagWrapper}>
-                    <img
-                      src={`https://flagcdn.com/48x36/${locale.country.toLowerCase()}.png`}
-                      alt={locale.country}
-                      className={localeFlagStyles.localeFlag}
-                      loading="lazy"
-                    />
-                  </span>
-                )}
-                {locale.name}
-              </>
-            ),
+            flag: locale.country,
+            text: locale.name,
           })),
         ]}
         value={user.language || 'auto'}
