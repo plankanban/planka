@@ -39,6 +39,7 @@ const LANGUAGES = [
   'cs-CZ',
   'da-DK',
   'de-DE',
+  'el-GR',
   'en-GB',
   'en-US',
   'es-ES',
