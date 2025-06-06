@@ -8,6 +8,7 @@ import bgBG from './bg-BG';
 import csCZ from './cs-CZ';
 import daDK from './da-DK';
 import deDE from './de-DE';
+import elGR from './el-GR';
 import enGB from './en-GB';
 import enUS from './en-US';
 import esES from './es-ES';
@@ -32,7 +33,6 @@ import ukUA from './uk-UA';
 import uzUZ from './uz-UZ';
 import zhCN from './zh-CN';
 import zhTW from './zh-TW';
-import elGR from './el-GR';
 
 const locales = [
   arYE,
@@ -40,6 +40,7 @@ const locales = [
   csCZ,
   daDK,
   deDE,
+  elGR,
   enGB,
   enUS,
   esES,
@@ -64,7 +65,6 @@ const locales = [
   uzUZ,
   zhCN,
   zhTW,
-  elGR,
 ];
 
 export default locales;

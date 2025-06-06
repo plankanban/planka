@@ -39,6 +39,7 @@ const LANGUAGES = [
   'cs-CZ',
   'da-DK',
   'de-DE',
+  'el-GR',
   'en-GB',
   'en-US',
   'es-ES',
@@ -63,7 +64,6 @@ const LANGUAGES = [
   'uz-UZ',
   'zh-CN',
   'zh-TW',
-  'el-GR',
 ];
 
 const PRIVATE_FIELD_NAMES = ['email', 'isSsoUser'];
