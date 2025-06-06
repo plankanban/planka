@@ -19,6 +19,7 @@ import idID from './id-ID';
 import itIT from './it-IT';
 import jaJP from './ja-JP';
 import koKR from './ko-KR';
+import fiFI from './fi-FI';
 import nlNL from './nl-NL';
 import plPL from './pl-PL';
 import ptBR from './pt-BR';
@@ -57,6 +58,7 @@ const locales = [
   roRO,
   ruRU,
   skSK,
+  fiFI,
   srCyrlRS,
   srLatnRS,
   svSE,

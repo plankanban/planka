@@ -56,6 +56,7 @@ const LANGUAGES = [
   'ro-RO',
   'ru-RU',
   'sk-SK',
+  'fi-FI',
   'sr-Cyrl-RS',
   'sr-Latn-RS',
   'sv-SE',
