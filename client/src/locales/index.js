@@ -13,13 +13,13 @@ import enGB from './en-GB';
 import enUS from './en-US';
 import esES from './es-ES';
 import faIR from './fa-IR';
+import fiFI from './fi-FI';
 import frFR from './fr-FR';
 import huHU from './hu-HU';
 import idID from './id-ID';
 import itIT from './it-IT';
 import jaJP from './ja-JP';
 import koKR from './ko-KR';
-import fiFI from './fi-FI';
 import nlNL from './nl-NL';
 import plPL from './pl-PL';
 import ptBR from './pt-BR';
@@ -46,6 +46,7 @@ const locales = [
   enUS,
   esES,
   faIR,
+  fiFI,
   frFR,
   huHU,
   idID,
@@ -58,7 +59,6 @@ const locales = [
   roRO,
   ruRU,
   skSK,
-  fiFI,
   srCyrlRS,
   srLatnRS,
   svSE,
