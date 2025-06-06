@@ -15,8 +15,8 @@ export default {
       poweredByPlanka: 'Powered by <1>PLANKA</1>',
       serverConnectionFailed: 'Connesione al server fallita',
       unknownError: 'Errore sconosciuto, prova ancora',
-      usernameAlreadyInUse: 'Username già in uso',
       useSingleSignOn: 'Accedi con SSO',
+      usernameAlreadyInUse: 'Username già in uso',
     },
 
     action: {

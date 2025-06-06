@@ -11,8 +11,8 @@ export default {
       password: 'Лозинка',
       serverConnectionFailed: 'Неуспешна конекција са сервером',
       unknownError: 'Непозната грешка, покушајте поново касније',
-      usernameAlreadyInUse: 'Корисничко име је већ у употреби',
       useSingleSignOn: 'Користи универзалну пријаву',
+      usernameAlreadyInUse: 'Корисничко име је већ у употреби',
     },
 
     action: {

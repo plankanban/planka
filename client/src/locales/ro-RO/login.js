@@ -10,8 +10,8 @@ export default {
       password: 'Parola',
       serverConnectionFailed: 'Conexiunea cu Server a eșuat',
       unknownError: 'Eroarea necunoscuta, mai incercați',
-      usernameAlreadyInUse: 'Nume utilizator deja exista',
       useSingleSignOn: 'Folosiți autentificarea unica',
+      usernameAlreadyInUse: 'Nume utilizator deja exista',
     },
 
     action: {

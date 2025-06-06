@@ -10,8 +10,8 @@ export default {
       password: 'Kata sandi',
       serverConnectionFailed: 'Koneksi server gagal',
       unknownError: 'Kesalahan tidak diketahui, coba lagi nanti.',
-      usernameAlreadyInUse: 'Username telah digunakan',
       useSingleSignOn: 'Gunakan single sign-on',
+      usernameAlreadyInUse: 'Username telah digunakan',
     },
 
     action: {

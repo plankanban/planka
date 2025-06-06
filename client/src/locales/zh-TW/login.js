@@ -10,8 +10,8 @@ export default {
       password: '密碼',
       serverConnectionFailed: '伺服器連接失敗',
       unknownError: '未知錯誤，請稍後重試',
-      usernameAlreadyInUse: '使用者名稱已被佔用',
       useSingleSignOn: '使用單一登入',
+      usernameAlreadyInUse: '使用者名稱已被佔用',
     },
 
     action: {

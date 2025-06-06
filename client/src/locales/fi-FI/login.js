@@ -15,8 +15,8 @@ export default {
       poweredByPlanka: 'Käyttää <1>PLANKAa</1>',
       serverConnectionFailed: 'Yhteys palvelimeen epäonnistui',
       unknownError: 'Tuntematon virhe, yritä myöhemmin uudelleen',
-      usernameAlreadyInUse: 'Käyttäjänimi on jo käytössä',
       useSingleSignOn: 'Käytä kertakirjautumista',
+      usernameAlreadyInUse: 'Käyttäjänimi on jo käytössä',
     },
 
     action: {

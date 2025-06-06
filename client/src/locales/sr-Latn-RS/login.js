@@ -11,8 +11,8 @@ export default {
       password: 'Lozinka',
       serverConnectionFailed: 'Neuspešna konekcija sa serverom',
       unknownError: 'Nepoznata greška, pokušajte ponovo kasnije',
-      usernameAlreadyInUse: 'Korisničko ime je već u upotrebi',
       useSingleSignOn: 'Koristi univerzalnu prijavu',
+      usernameAlreadyInUse: 'Korisničko ime je već u upotrebi',
     },
 
     action: {

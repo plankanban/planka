@@ -10,8 +10,8 @@ export default {
       password: '密码',
       serverConnectionFailed: '服务器连接失败',
       unknownError: '未知错误，请稍后重试',
-      usernameAlreadyInUse: '用户名已被占用',
       useSingleSignOn: '使用单点登录',
+      usernameAlreadyInUse: '用户名已被占用',
     },
 
     action: {

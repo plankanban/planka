@@ -10,8 +10,8 @@ export default {
       password: 'Wachtwoord',
       serverConnectionFailed: 'Verbinding met de server mislukt',
       unknownError: 'Onbekende fout, probeer het later opnieuw',
-      usernameAlreadyInUse: 'Gebruikersnaam is al in gebruik',
       useSingleSignOn: 'Gebruik single sign-on',
+      usernameAlreadyInUse: 'Gebruikersnaam is al in gebruik',
     },
 
     action: {

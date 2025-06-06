@@ -15,8 +15,8 @@ export default {
       poweredByPlanka: 'Drevet af <1>PLANKA</1>',
       serverConnectionFailed: 'Ingen forbindelse til serveren',
       unknownError: 'Ukendt fejl - prøv igen',
-      usernameAlreadyInUse: 'Brugernavn allerede i brug',
       useSingleSignOn: 'Anvend single sign-on',
+      usernameAlreadyInUse: 'Brugernavn allerede i brug',
     },
 
     action: {

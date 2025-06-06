@@ -10,8 +10,8 @@ export default {
       password: 'Парола',
       serverConnectionFailed: 'Неуспешна връзка със сървъра',
       unknownError: 'Неизвестна грешка, опитайте отново по-късно',
-      usernameAlreadyInUse: 'Потребителското име вече се използва',
       useSingleSignOn: 'Използване на single sign-on',
+      usernameAlreadyInUse: 'Потребителското име вече се използва',
     },
 
     action: {

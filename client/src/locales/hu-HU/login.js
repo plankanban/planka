@@ -10,8 +10,8 @@ export default {
       password: 'Jelszó',
       serverConnectionFailed: 'A szerverkapcsolat sikertelen',
       unknownError: 'Ismeretlen hiba, próbáld meg később újra',
-      usernameAlreadyInUse: 'A felhasználónév már használatban van',
       useSingleSignOn: 'Egyszeri bejelentkezés használata',
+      usernameAlreadyInUse: 'A felhasználónév már használatban van',
     },
 
     action: {

@@ -15,8 +15,8 @@ export default {
       poweredByPlanka: 'Powered by <1>PLANKA</1>',
       serverConnectionFailed: 'Не могу подключиться к серверу',
       unknownError: 'Что-то пошло не так, попробуйте позже',
-      usernameAlreadyInUse: 'Имя пользователя уже занято',
       useSingleSignOn: 'Используйте единый вход',
+      usernameAlreadyInUse: 'Имя пользователя уже занято',
     },
 
     action: {

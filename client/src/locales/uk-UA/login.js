@@ -10,8 +10,8 @@ export default {
       password: 'Пароль',
       serverConnectionFailed: 'Не вдалося підключитися до сервера',
       unknownError: 'Невідома помилка, спробуйте ще раз пізніше',
-      usernameAlreadyInUse: "Ім'я користувача вже використовується",
       useSingleSignOn: 'Використовувати одночасний вхід',
+      usernameAlreadyInUse: "Ім'я користувача вже використовується",
     },
 
     action: {

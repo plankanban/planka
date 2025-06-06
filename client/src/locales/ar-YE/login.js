@@ -11,8 +11,8 @@ export default {
       password: 'كلمة المرور',
       serverConnectionFailed: 'فشل الاتصال بالخادم',
       unknownError: 'خطأ غير معروف، يرجى المحاولة لاحقاً',
-      usernameAlreadyInUse: 'اسم المستخدم تم استخدامه بالفعل',
       useSingleSignOn: 'استخدم تسجيل الدخول الموحد',
+      usernameAlreadyInUse: 'اسم المستخدم تم استخدامه بالفعل',
     },
 
     action: {

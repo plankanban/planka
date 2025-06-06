@@ -15,8 +15,8 @@ export default {
       poweredByPlanka: 'Powered by <1>PLANKA</1>',
       serverConnectionFailed: 'Błąd połączenia z serwerem',
       unknownError: 'Nieznany błąd, spróbuj ponownie później',
-      usernameAlreadyInUse: 'Nazwa użytkownika nie jest dostępna',
       useSingleSignOn: 'Użyj logowania SSO',
+      usernameAlreadyInUse: 'Nazwa użytkownika nie jest dostępna',
     },
 
     action: {

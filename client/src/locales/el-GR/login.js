@@ -15,8 +15,8 @@ export default {
       poweredByPlanka: 'Με την υποστήριξη του <1>PLANKA</1>',
       serverConnectionFailed: 'Αποτυχία σύνδεσης με τον διακομιστή',
       unknownError: 'Άγνωστο σφάλμα, δοκιμάστε ξανά αργότερα',
-      usernameAlreadyInUse: 'Το όνομα χρήστη χρησιμοποιείται ήδη',
       useSingleSignOn: 'Χρήση Single Sign-On',
+      usernameAlreadyInUse: 'Το όνομα χρήστη χρησιμοποιείται ήδη',
     },
 
     action: {

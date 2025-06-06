@@ -10,8 +10,8 @@ export default {
       password: 'رمز عبور',
       serverConnectionFailed: 'اتصال به سرور ناموفق بود',
       unknownError: 'خطای ناشناخته، بعداً دوباره تلاش کنید',
-      usernameAlreadyInUse: 'نام کاربری قبلا استفاده شده است',
       useSingleSignOn: 'استفاده از ورود یکپارچه',
+      usernameAlreadyInUse: 'نام کاربری قبلا استفاده شده است',
     },
 
     action: {

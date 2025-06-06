@@ -10,8 +10,8 @@ export default {
       password: 'パスワード',
       serverConnectionFailed: 'サーバーの接続に失敗',
       unknownError: '不明なエラーです。後でもう一度試してください。',
-      usernameAlreadyInUse: 'ユーザー名は既に使われています',
       useSingleSignOn: 'SSOを使用',
+      usernameAlreadyInUse: 'ユーザー名は既に使われています',
     },
 
     action: {

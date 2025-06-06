@@ -11,8 +11,8 @@ export default {
       password: 'Mot de passe',
       serverConnectionFailed: 'Échec de la connexion au serveur',
       unknownError: 'Erreur inconnue, réessayez plus tard',
-      usernameAlreadyInUse: "Nom d'utilisateur déjà utilisé",
       useSingleSignOn: "Utiliser l'authentification unique",
+      usernameAlreadyInUse: "Nom d'utilisateur déjà utilisé",
     },
 
     action: {

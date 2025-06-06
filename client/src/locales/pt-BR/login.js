@@ -10,8 +10,8 @@ export default {
       password: 'Senha',
       serverConnectionFailed: 'Falha na conexão com o servidor',
       unknownError: 'Erro desconhecido, tente novamente mais tarde',
-      usernameAlreadyInUse: 'Nome de usuário já está em uso',
       useSingleSignOn: 'Usar login único',
+      usernameAlreadyInUse: 'Nome de usuário já está em uso',
     },
 
     action: {
