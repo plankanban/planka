@@ -118,7 +118,7 @@ export default {
       contentExceedsLimit: 'Indhold overskrider {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay:
         'Indholdet af denne vedhæftning er for stort til at blive vist.',
-      copy_inline: 'kopier',
+      copy_inline: 'kopi',
       createBoard_title: 'Opret tavle',
       createCustomFieldGroup_title: 'Opret brugerdefineret feltgruppe',
       createLabel_title: 'Opret label',
