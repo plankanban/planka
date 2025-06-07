@@ -5,12 +5,8 @@
 
 :global(#app) {
   .colorButton {
-    float: left;
-    height: 30px;
-    margin: 3px;
-    padding: 0;
+    margin: 0;
     position: relative;
-    width: 41.6px;
 
     &:hover {
       opacity: 0.9;
@@ -18,28 +14,43 @@
   }
 
   .colorButtonActive:before {
-    bottom: 1px;
     color: #ffffff;
     content: "Г";
     font-size: 16px;
     line-height: 32px;
     position: absolute;
-    right: 4px;
+    right: calc(50% - 5px);
     text-align: center;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
-    top: 0;
+    top: calc(50% - 17px);
     transform: rotate(-135deg);
-    width: 32px;
   }
 
   .colorButtons {
-    margin: -3px;
-    padding-bottom: 16px;
+    display: grid;
+    gap: 6px;
+    grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    margin-bottom: 12px;
+    max-height: 60vh;
+    overflow-y: auto;
 
-    &:after {
-      clear: both;
-      content: "";
-      display: table;
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
+      scrollbar-width: thin;
+    }
+
+    &::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-clip: padding-box;
+      border-left: 0.25em transparent solid;
+      border-radius: 3px;
     }
   }
 
