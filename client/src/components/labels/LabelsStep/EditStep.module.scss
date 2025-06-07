@@ -5,14 +5,13 @@
 
 :global(#app) {
   .deleteButton {
+    bottom: 12px;
     box-shadow: 0 1px 0 #cbcccc;
+    position: absolute;
+    right: 9px;
   }
 
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .submitButton {
     margin-top: 12px;
-    gap: 12px;
   }
 }
