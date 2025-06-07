@@ -15,8 +15,6 @@ import { useForm } from '../../../hooks';
 import LABEL_COLORS from '../../../constants/LabelColors';
 import Editor from './Editor';
 
-import styles from './AddStep.module.scss';
-
 const AddStep = React.memo(({ cardId, defaultData, onBack }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -52,7 +50,7 @@ const AddStep = React.memo(({ cardId, defaultData, onBack }) => {
       <Popup.Content>
         <Form onSubmit={handleSubmit}>
           <Editor data={data} onFieldChange={handleFieldChange} />
-          <Button positive content={t('action.createLabel')} className={styles.submitButton} />
+          <Button positive content={t('action.createLabel')} />
         </Form>
       </Popup.Content>
     </>
