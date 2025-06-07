@@ -16,17 +16,16 @@
   }
 
   .field {
-    background: #fff;
-    margin-bottom: 8px !important;
-
     textarea {
+      background: #fff !important;
       border: 1px solid rgba(9, 30, 66, 0.13);
       border-radius: 3px;
       box-sizing: border-box;
       color: #333;
       display: block;
-      line-height: 1.4;
       font-size: 14px;
+      line-height: 1.4;
+      margin: 0 !important;
       overflow: hidden;
       padding: 8px 12px;
       resize: none;
