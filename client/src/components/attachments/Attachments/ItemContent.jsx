@@ -64,7 +64,7 @@ const ItemContent = React.forwardRef(({ id, onOpen }, ref) => {
       linkElement.target = '_blank';
       linkElement.click();
     },
-    [attachment.data.url, attachment.data.filename],
+    [attachment.data],
   );
 
   const handleToggleCoverClick = useCallback(
