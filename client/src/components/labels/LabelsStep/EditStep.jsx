@@ -89,15 +89,19 @@ const EditStep = React.memo(({ labelId, onBack }) => {
         })}
       </Popup.Header>
       <Popup.Content>
-        <Form onSubmit={handleSubmit}>
-          <Editor data={data} onFieldChange={handleFieldChange} />
-          <Button positive content={t('action.save')} className={styles.submitButton} />
-        </Form>
-        <Button
-          content={t('action.delete')}
-          className={styles.deleteButton}
-          onClick={handleDeleteClick}
-        />
+        <div className={styles.content}>
+          <Form onSubmit={handleSubmit}>
+            <Editor data={data} onFieldChange={handleFieldChange} />
+            <div className={styles.actions}>
+              <Button positive content={t('action.save')} className={styles.submitButton} />
+              <Button
+                content={t('action.delete')}
+                className={styles.deleteButton}
+                onClick={handleDeleteClick}
+              />
+            </div>
+          </Form>
+        </div>
       </Popup.Content>
     </>
   );
