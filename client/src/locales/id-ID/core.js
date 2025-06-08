@@ -7,6 +7,7 @@ export default {
   dateFns,
   timeAgo,
   markdownEditor,
+
   format: {
     date: 'dd MMM yyyy',
     time: 'p',
