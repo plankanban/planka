@@ -1,9 +1,12 @@
 import dateFns from 'date-fns/locale/ro';
 import timeAgo from 'javascript-time-ago/locale/ro';
 
+import markdownEditor from './markdown-editor.json';
+
 export default {
   dateFns,
   timeAgo,
+  markdownEditor,
 
   format: {
     date: 'P',
