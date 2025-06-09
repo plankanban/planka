@@ -1,9 +1,12 @@
 import dateFns from 'date-fns/locale/ko';
 import timeAgo from 'javascript-time-ago/locale/ko';
 
+import markdownEditor from './markdown-editor.json';
+
 export default {
   dateFns,
   timeAgo,
+  markdownEditor,
 
   format: {
     date: 'yyyy년 M월 d일',
