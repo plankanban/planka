@@ -7,6 +7,7 @@ export default {
   dateFns,
   timeAgo,
   markdownEditor,
+
   format: {
     date: 'yyyy년 M월 d일',
     time: 'a h시 m분',
