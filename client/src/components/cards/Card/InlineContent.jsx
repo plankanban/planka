@@ -11,7 +11,7 @@ import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import markdownToText from '../../../utils/markdown-to-text';
-import { BoardViews } from '../../../constants/Enums';
+import { BoardViews, ListTypes } from '../../../constants/Enums';
 import UserAvatar from '../../users/UserAvatar';
 import LabelChip from '../../labels/LabelChip';
 
@@ -28,6 +28,7 @@ const InlineContent = React.memo(({ cardId }) => {
   );
 
   const card = useSelector((state) => selectCardById(state, cardId));
+  const list = useSelector((state) => selectListById(state, card.listId));
   const labelIds = useSelector((state) => selectLabelIdsByCardId(state, cardId));
 
   const notificationsTotal = useSelector((state) =>
@@ -35,8 +36,6 @@ const InlineContent = React.memo(({ cardId }) => {
   );
 
   const listName = useSelector((state) => {
-    const list = selectListById(state, card.listId);
-
     if (!list.name) {
       return null;
     }
@@ -54,6 +53,8 @@ const InlineContent = React.memo(({ cardId }) => {
     () => card.description && markdownToText(card.description),
     [card.description],
   );
+
+  const isInClosedList = list.type === ListTypes.CLOSED;
 
   return (
     <div className={styles.wrapper}>
@@ -88,7 +89,9 @@ const InlineContent = React.memo(({ cardId }) => {
           ))}
         </span>
       )}
-      <span className={classNames(styles.attachments, styles.name)}>
+      <span
+        className={classNames(styles.attachments, styles.name, isInClosedList && styles.nameClosed)}
+      >
         <div className={styles.hidable}>{card.name}</div>
       </span>
       {descriptionText && (

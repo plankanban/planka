@@ -11,7 +11,7 @@ import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import markdownToText from '../../../utils/markdown-to-text';
-import { BoardViews } from '../../../constants/Enums';
+import { BoardViews, ListTypes } from '../../../constants/Enums';
 import LabelChip from '../../labels/LabelChip';
 import CustomFieldValueChip from '../../custom-field-values/CustomFieldValueChip';
 
@@ -40,6 +40,7 @@ const StoryContent = React.memo(({ cardId }) => {
   const selectAttachmentById = useMemo(() => selectors.makeSelectAttachmentById(), []);
 
   const card = useSelector((state) => selectCardById(state, cardId));
+  const list = useSelector((state) => selectListById(state, card.listId));
   const labelIds = useSelector((state) => selectLabelIdsByCardId(state, cardId));
   const attachmentsTotal = useSelector((state) => selectAttachmentsTotalByCardId(state, cardId));
 
@@ -52,8 +53,6 @@ const StoryContent = React.memo(({ cardId }) => {
   );
 
   const listName = useSelector((state) => {
-    const list = selectListById(state, card.listId);
-
     if (!list.name) {
       return null;
     }
@@ -76,6 +75,8 @@ const StoryContent = React.memo(({ cardId }) => {
     () => card.description && markdownToText(card.description),
     [card.description],
   );
+
+  const isInClosedList = list.type === ListTypes.CLOSED;
 
   return (
     <>
@@ -106,7 +107,9 @@ const StoryContent = React.memo(({ cardId }) => {
             ))}
           </span>
         )}
-        <div className={styles.name}>{card.name}</div>
+        <div className={classNames(styles.name, isInClosedList && styles.nameClosed)}>
+          {card.name}
+        </div>
         {card.description && <div className={styles.descriptionText}>{descriptionText}</div>}
         {(attachmentsTotal > 0 || notificationsTotal > 0 || listName) && (
           <span className={styles.attachments}>

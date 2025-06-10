@@ -110,6 +110,8 @@ const ProjectContent = React.memo(({ cardId }) => {
     [cardId, card.stopwatch, dispatch],
   );
 
+  const isInClosedList = list.type === ListTypes.CLOSED;
+
   const hasInformation =
     card.description ||
     card.dueDate ||
@@ -145,7 +147,9 @@ const ProjectContent = React.memo(({ cardId }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.name}>{card.name}</div>
+      <div className={classNames(styles.name, isInClosedList && styles.nameClosed)}>
+        {card.name}
+      </div>
       {coverUrl && (
         <div className={styles.coverWrapper}>
           <img src={coverUrl} alt="" className={styles.cover} />
@@ -190,7 +194,7 @@ const ProjectContent = React.memo(({ cardId }) => {
               <DueDateChip
                 value={card.dueDate}
                 size="tiny"
-                withStatus={list.type !== ListTypes.CLOSED && !isListArchiveOrTrash(list)}
+                withStatus={!isInClosedList && !isListArchiveOrTrash(list)}
               />
             </span>
           )}
