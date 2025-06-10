@@ -4,6 +4,30 @@
  */
 
 :global(#app) {
+  .copyButton {
+    background: #ebeef0;
+    box-shadow: none;
+    border-radius: 3px;
+    box-sizing: content-box;
+    color: #516b7a;
+    display: none;
+    height: 30px;
+    margin: 0;
+    min-height: auto;
+    outline: none;
+    padding: 4px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: background 85ms ease;
+    width: 20px;
+
+    &:hover {
+      background: #dfe3e6;
+      color: #4c4c4c;
+    }
+  }
+
   .name {
     color: #6b808c;
     font-size: 13px;
@@ -24,5 +48,15 @@
     overflow: hidden;
     padding: 8px 12px;
     text-overflow: ellipsis;
+  }
+
+  .valueWrapper {
+    position: relative;
+
+    &:hover:not(:has(input:focus)) {
+      .copyButton {
+        display: block;
+      }
+    }
   }
 }
