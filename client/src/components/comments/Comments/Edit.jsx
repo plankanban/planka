@@ -45,7 +45,8 @@ const Edit = React.memo(({ commentId, onClose }) => {
   const textFieldRef = useRef(null);
   const textMentionsRef = useRef(null);
   const textInputRef = useRef(null);
-  const [buttonRef, handleButtonRef] = useNestedRef();
+  const [submitButtonRef, handleSubmitButtonRef] = useNestedRef();
+  const [cancelButtonRef, handleCancelButtonRef] = useNestedRef();
 
   const submit = useCallback(() => {
     const cleanData = {
@@ -91,12 +92,16 @@ const Edit = React.memo(({ commentId, onClose }) => {
     [onClose, submit],
   );
 
+  const handleCancelClick = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
   const handleClickAwayCancel = useCallback(() => {
     textInputRef.current.focus();
   }, []);
 
   const clickAwayProps = useClickAwayListener(
-    [textFieldRef, buttonRef],
+    [textFieldRef, submitButtonRef, cancelButtonRef],
     submit,
     handleClickAwayCancel,
   );
@@ -152,8 +157,15 @@ const Edit = React.memo(({ commentId, onClose }) => {
         <Button
           {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
           positive
-          ref={handleButtonRef}
+          ref={handleSubmitButtonRef}
           content={t('action.save')}
+        />
+        <Button
+          {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
+          ref={handleCancelButtonRef}
+          type="button"
+          content={t('action.cancel')}
+          onClick={handleCancelClick}
         />
       </div>
     </Form>
