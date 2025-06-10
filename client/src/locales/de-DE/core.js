@@ -416,6 +416,8 @@ export default {
       showCardsWithThisUser: 'Karten mit diesem Benutzer zeigen',
       showDeactivated: 'Deaktivierte anzeigen',
       showFewerAttachments: 'Weniger Anhänge anzeigen',
+      showLess: 'Weniger anzeigen',
+      showMore: 'Mehr anzeigen',
       sortList_title: 'Liste sortieren',
       start: 'Start',
       stop: 'Stopp',

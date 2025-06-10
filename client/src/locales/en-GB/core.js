@@ -424,6 +424,8 @@ export default {
       showCardsWithThisUser: 'Show cards with this user',
       showDeactivated: 'Show deactivated',
       showFewerAttachments: 'Show fewer attachments',
+      showLess: 'Show less',
+      showMore: 'Show more',
       sortList_title: 'Sort List',
       start: 'Start',
       stop: 'Stop',

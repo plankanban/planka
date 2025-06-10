@@ -30,7 +30,7 @@ import SelectCardTypeStep from '../SelectCardTypeStep';
 import EditDueDateStep from '../EditDueDateStep';
 import EditStopwatchStep from '../EditStopwatchStep';
 import MoveCardStep from '../MoveCardStep';
-import Markdown from '../../common/Markdown';
+import ExpandableMarkdown from '../../common/ExpandableMarkdown';
 import EditMarkdown from '../../common/EditMarkdown';
 import ConfirmationStep from '../../common/ConfirmationStep';
 import UserAvatar from '../../users/UserAvatar';
@@ -521,7 +521,7 @@ const ProjectContent = React.memo(({ onClose }) => {
                           <Button className={styles.editButton}>
                             <Icon fitted name="pencil" size="small" />
                           </Button>
-                          <Markdown>{card.description}</Markdown>
+                          <ExpandableMarkdown>{card.description}</ExpandableMarkdown>
                         </div>
                       ) : (
                         <button
@@ -536,7 +536,7 @@ const ProjectContent = React.memo(({ onClose }) => {
                       ))}
                   </>
                 )}
-                {!canEditDescription && <Markdown>{card.description}</Markdown>}
+                {!canEditDescription && <ExpandableMarkdown>{card.description}</ExpandableMarkdown>}
               </div>
             </div>
           )}
