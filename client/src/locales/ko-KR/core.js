@@ -234,6 +234,7 @@ export default {
       unsubscribe: '구독 취소',
       uploadNewAvatar: '새 아바타 업로드',
       uploadNewImage: '새 이미지 업로드',
+      moveListToBoard: '목록을 다른 보드로 이동',
     },
   },
 };

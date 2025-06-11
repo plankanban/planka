@@ -423,6 +423,7 @@ export default {
       unsubscribe: 'De-abonnieren',
       uploadNewAvatar: 'Neuen Avatar hochladen',
       uploadNewImage: 'Neues Bild hochladen',
+      moveListToBoard: 'Liste auf andere Arbeitsbereich verschieben',
     },
   },
 };

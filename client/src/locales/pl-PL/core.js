@@ -406,6 +406,7 @@ export default {
       unsubscribe: 'Odsubskrybuj',
       uploadNewAvatar: 'Wgraj nowy awatar',
       uploadNewImage: 'Wgraj nowy obraz',
+      moveListToBoard: 'Przenieś listę na inną tablicę',
     },
   },
 };

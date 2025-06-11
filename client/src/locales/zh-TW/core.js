@@ -220,6 +220,7 @@ export default {
       unsubscribe: '取消訂閱',
       uploadNewAvatar: '上傳新頭像',
       uploadNewImage: '上傳圖片',
+      moveListToBoard: '移動列表到另一個面板',
     },
   },
 };

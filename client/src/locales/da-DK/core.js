@@ -434,6 +434,7 @@ export default {
       unsubscribe: 'Opsig abonnement',
       uploadNewAvatar: 'Tilføj nyt profilbillede',
       uploadNewImage: 'Tilføj nyt billede',
+      moveListToBoard: 'Flyt liste til anden tavle',
     },
   },
 };

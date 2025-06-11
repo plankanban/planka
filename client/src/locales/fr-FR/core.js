@@ -239,6 +239,7 @@ export default {
       unsubscribe: 'Se désabonner',
       uploadNewAvatar: 'Télécharger un nouvel avatar',
       uploadNewImage: 'Télécharger une nouvelle image',
+      moveListToBoard: 'Déplacer la liste vers un autre tableau',
     },
   },
 };

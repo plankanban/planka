@@ -426,6 +426,7 @@ export default {
       unsubscribe: 'Unsubscribe',
       uploadNewAvatar: 'Upload new avatar',
       uploadNewImage: 'Upload new image',
+      moveListToBoard: 'Move list to another board',
     },
   },
 };

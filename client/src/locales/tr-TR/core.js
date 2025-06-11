@@ -207,6 +207,7 @@ export default {
       unsubscribe: 'Abonelikten çık',
       uploadNewAvatar: 'Yeni avatar yükle',
       uploadNewImage: 'Yeni resim yükle',
+      moveListToBoard: 'Listeyi başka bir panoya taşı',
     },
   },
 };

@@ -1,12 +1,9 @@
 import dateFns from 'date-fns/locale/sr-Latn';
 import timeAgo from 'javascript-time-ago/locale/sr-Latn';
 
-import markdownEditor from './markdown-editor.json';
-
 export default {
   dateFns,
   timeAgo,
-  markdownEditor,
 
   format: {
     date: 'd.M.yyyy.',
@@ -236,6 +233,7 @@ export default {
       unsubscribe: 'Ukini pretplatu',
       uploadNewAvatar: 'Postavi novi avatar',
       uploadNewImage: 'Postavi novu sliku',
+      moveListToBoard: 'Premesti spisak na drugu tablu',
     },
   },
 };

@@ -225,6 +225,7 @@ export default {
       unsubscribe: 'Cancelar inscrição',
       uploadNewAvatar: 'Enviar novo avatar',
       uploadNewImage: 'Enviar nova imagem',
+      moveListToBoard: 'Mover lista para outro quadro',
     },
   },
 };

@@ -233,6 +233,7 @@ export default {
       unsubscribe: 'Укини претплату',
       uploadNewAvatar: 'Постави нови аватар',
       uploadNewImage: 'Постави нову слику',
+      moveListToBoard: 'Премести на другу таблу',
     },
   },
 };

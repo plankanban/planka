@@ -408,6 +408,7 @@ export default {
       unsubscribe: 'Відписатися',
       uploadNewAvatar: 'Завантажити новий аватар',
       uploadNewImage: 'Завантажити нове зображення',
+      moveListToBoard: 'Перемістити список на іншу дошку',
     },
   },
 };

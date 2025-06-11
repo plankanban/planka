@@ -450,6 +450,7 @@ export default {
       unsubscribe: 'Απεγγραφή',
       uploadNewAvatar: 'Μεταφόρτωση νέου avatar',
       uploadNewImage: 'Μεταφόρτωση νέας εικόνας',
+      moveListToBoard: 'Μετακίνηση λίστας σε άλλο πίνακα',
     },
   },
 };

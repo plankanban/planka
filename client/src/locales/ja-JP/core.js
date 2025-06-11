@@ -224,6 +224,7 @@ export default {
       unsubscribe: '購読解除',
       uploadNewAvatar: '新しいアバターをアップロード',
       uploadNewImage: '新しい画像をアップロード',
+      moveListToBoard: 'リストを別のボードに移動',
     },
   },
 };
