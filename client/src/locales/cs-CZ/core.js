@@ -293,6 +293,7 @@ export default {
       visualTaskManagementWithLists: 'Vizuální správa úkolů pomocí seznamů.',
       withoutBaseGroup: 'Bez základní skupiny',
       writeComment: 'Napsat komentář...',
+      taskList_hideChecked: 'Skrýt označené položky',
     },
 
     action: {
@@ -406,6 +407,7 @@ export default {
       unsubscribe: 'Neodebírat',
       uploadNewAvatar: 'Nahrát nový avatar',
       uploadNewImage: 'Nahrát nový obrázek',
+      moveListToBoard: 'Přesunout seznam na jinou nástěnku',
     },
   },
 };

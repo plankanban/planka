@@ -167,6 +167,7 @@ export default {
       users: 'Потребители',
       viewer: 'Зрител',
       writeComment: 'Напишете коментар...',
+      taskList_hideChecked: 'Скриване на отметки',
     },
 
     action: {
