@@ -162,6 +162,7 @@ export default {
       users: 'المستخدمين',
       viewer: 'مشاهد',
       writeComment: 'اكتب تعليقاً...',
+      taskList_hideChecked: 'إخفاء العناصر المحددة',
     },
 
     action: {
@@ -232,6 +233,7 @@ export default {
       unsubscribe: 'إلغاء الاشتراك',
       uploadNewAvatar: 'رفع صورة رمزية جديدة',
       uploadNewImage: 'رفع صورة جديدة',
+      moveListToBoard: 'نقل القائمة إلى لوحة أخرى',
     },
   },
 };

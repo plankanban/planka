@@ -140,6 +140,7 @@ export default {
       username: 'Foydalanuvchi nomi',
       users: 'Foydalanuvchilar',
       writeComment: 'Izoh yozish...',
+      taskList_hideChecked: 'Ko chirish',
     },
 
     action: {
@@ -203,6 +204,7 @@ export default {
       unsubscribe: 'Obunani bekor qilish',
       uploadNewAvatar: 'Yangi avatar yuklash',
       uploadNewImage: 'Yangi rasm yuklash',
+      moveListToBoard: "Ro'yxatni boshqa doskaga ko'chirish",
     },
   },
 };

@@ -143,6 +143,7 @@ export default {
       username: 'Användarnamn',
       users: 'Användare',
       writeComment: 'Skriv en kommentar...',
+      taskList_hideChecked: 'Dölj markerade objekt',
     },
 
     action: {
@@ -207,6 +208,7 @@ export default {
       unsubscribe: 'Avprenumerera',
       uploadNewAvatar: 'Ladda upp ny avatar',
       uploadNewImage: 'Ladda upp ny bild',
+      moveListToBoard: 'Flytta lista till annan tavla',
     },
   },
 };

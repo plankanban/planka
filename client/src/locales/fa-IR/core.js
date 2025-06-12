@@ -164,6 +164,7 @@ export default {
       users: 'کاربران',
       viewer: 'بیننده',
       writeComment: 'نظر بنویسید...',
+      taskList_hideChecked: 'پنهان کردن آیتم‌های انتخاب شده',
     },
 
     action: {
@@ -234,6 +235,7 @@ export default {
       unsubscribe: 'لغو اشتراک',
       uploadNewAvatar: 'آپلود آواتار جدید',
       uploadNewImage: 'آپلود تصویر جدید',
+      moveListToBoard: 'انتقال لیست به برد دیگر',
     },
   },
 };

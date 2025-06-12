@@ -19,7 +19,7 @@ import TaskList from '../../../task-lists/TaskList';
 
 import styles from './Item.module.scss';
 
-const Item = React.memo(({ id, index }) => {
+const Item = React.memo(({ id, index, hideChecked }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
 
   const taskList = useSelector((state) => selectTaskListById(state, id));
@@ -64,7 +64,7 @@ const Item = React.memo(({ id, index }) => {
                   <span className={styles.moduleHeaderTitle}>{taskList.name}</span>
                 </div>
               </div>
-              <TaskList id={id} />
+              <TaskList id={id} hideChecked={hideChecked} />
             </div>
           </div>
         );
@@ -78,6 +78,7 @@ const Item = React.memo(({ id, index }) => {
 Item.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  hideChecked: PropTypes.bool.isRequired,
 };
 
 export default Item;

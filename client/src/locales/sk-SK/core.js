@@ -1,12 +1,9 @@
 import dateFns from 'date-fns/locale/sk';
 import timeAgo from 'javascript-time-ago/locale/sk';
 
-import markdownEditor from './markdown-editor.json';
-
 export default {
   dateFns,
   timeAgo,
-  markdownEditor,
 
   format: {
     date: 'd.M.yyyy',
@@ -145,6 +142,7 @@ export default {
       username: 'Používateľské meno',
       users: 'Používatelia',
       writeComment: 'Napísať komentár...',
+      taskList_hideChecked: 'Skryť označené položky',
     },
 
     action: {
@@ -209,6 +207,7 @@ export default {
       unsubscribe: 'Neodoberať',
       uploadNewAvatar: 'Nahrať nový avatar',
       uploadNewImage: 'Nahrať nový obrázok',
+      moveListToBoard: 'Presunúť zoznam na inú tabuľu',
     },
   },
 };

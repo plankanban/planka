@@ -3,11 +3,11 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import { Progress } from 'semantic-ui-react';
+import { Progress, Checkbox } from 'semantic-ui-react';
 import { useToggle } from '../../../../lib/hooks';
 
 import selectors from '../../../../selectors';
@@ -15,12 +15,13 @@ import Task from './Task';
 
 import styles from './TaskList.module.scss';
 
-const TaskList = React.memo(({ id }) => {
+const TaskList = React.memo(({ id, showHideCheckedToggle }) => {
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
 
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
 
   const [isOpened, toggleOpened] = useToggle();
+  const [hideChecked, setHideChecked] = useState(false);
 
   // TODO: move to selector?
   const completedTasksTotal = useMemo(
@@ -34,6 +35,11 @@ const TaskList = React.memo(({ id }) => {
       toggleOpened();
     },
     [toggleOpened],
+  );
+
+  const filteredTasks = useMemo(
+    () => (hideChecked ? tasks.filter((task) => !task.isCompleted) : tasks),
+    [tasks, hideChecked],
   );
 
   if (tasks.length === 0) {
@@ -62,11 +68,23 @@ const TaskList = React.memo(({ id }) => {
         </span>
       </div>
       {isOpened && (
-        <ul className={styles.tasks}>
-          {tasks.map((task) => (
-            <Task key={task.id} id={task.id} />
-          ))}
-        </ul>
+        <>
+          {showHideCheckedToggle && (
+            <div style={{ margin: '8px 0' }}>
+              <Checkbox
+                label="Скрыть отмеченные пункты"
+                checked={hideChecked}
+                onChange={() => setHideChecked((prev) => !prev)}
+                toggle
+              />
+            </div>
+          )}
+          <ul className={styles.tasks}>
+            {filteredTasks.map((task) => (
+              <Task key={task.id} id={task.id} />
+            ))}
+          </ul>
+        </>
       )}
     </>
   );
@@ -74,6 +92,11 @@ const TaskList = React.memo(({ id }) => {
 
 TaskList.propTypes = {
   id: PropTypes.string.isRequired,
+  showHideCheckedToggle: PropTypes.bool,
+};
+
+TaskList.defaultProps = {
+  showHideCheckedToggle: false,
 };
 
 export default TaskList;

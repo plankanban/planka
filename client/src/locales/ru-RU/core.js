@@ -299,6 +299,7 @@ export default {
       visualTaskManagementWithLists: 'Визуальное управление задачами с помощью списков',
       withoutBaseGroup: 'Без основной группы',
       writeComment: 'Напишите комментарий...',
+      taskList_hideChecked: 'Скрыть отмеченные пункты',
     },
 
     action: {
@@ -412,6 +413,7 @@ export default {
       unsubscribe: 'Отписаться',
       uploadNewAvatar: 'Загрузить новый аватар',
       uploadNewImage: 'Загрузить новое изображение',
+      moveListToBoard: 'Переместить в другую доску',
     },
   },
 };
