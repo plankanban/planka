@@ -29,6 +29,7 @@ import skSK from './sk-SK';
 import srCyrlRS from './sr-Cyrl-RS';
 import srLatnRS from './sr-Latn-RS';
 import svSE from './sv-SE';
+import etEE from './et-EE';
 import trTR from './tr-TR';
 import ukUA from './uk-UA';
 import uzUZ from './uz-UZ';
@@ -62,6 +63,7 @@ const locales = [
   srCyrlRS,
   srLatnRS,
   svSE,
+  etEE,
   trTR,
   ukUA,
   uzUZ,

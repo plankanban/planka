@@ -60,6 +60,7 @@ const LANGUAGES = [
   'sr-Cyrl-RS',
   'sr-Latn-RS',
   'sv-SE',
+  'et-EE',
   'tr-TR',
   'uk-UA',
   'uz-UZ',
