@@ -1,6 +1,11 @@
+import dateFns from 'date-fns/locale/et';
+import timeAgo from 'javascript-time-ago/locale/et';
+
 import markdownEditor from './markdown-editor.json';
 
 export default {
+  dateFns,
+  timeAgo,
   markdownEditor,
 
   format: {
@@ -314,7 +319,6 @@ export default {
       visualTaskManagementWithLists: 'Visual tööülesande haldamine nimekirjade abil.',
       withoutBaseGroup: 'Ilma põhiklassita',
       writeComment: 'Kirjuta kommentaar...',
-      taskList_hideChecked: 'Peida märgistatud elemendid',
     },
 
     action: {
@@ -428,7 +432,6 @@ export default {
       unsubscribe: 'Tühista tellimus',
       uploadNewAvatar: 'Laadi üles uus avatar',
       uploadNewImage: 'Laadi üles uus pilt',
-      moveListToBoard: 'Liiguta nimekiri teisele tahvlile',
     },
   },
 };
