@@ -100,10 +100,6 @@ export default class extends BaseModel {
     return this.tasks.orderBy(['position', 'id.length', 'id']);
   }
 
-  getTasksModelArray() {
-    return this.getTasksQuerySet().toModelArray();
-  }
-
   duplicate(id, data, rootId) {
     if (rootId === undefined) {
       rootId = id; // eslint-disable-line no-param-reassign

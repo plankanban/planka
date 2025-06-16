@@ -1,4 +1,4 @@
-FROM node:18-alpine AS server-dependencies
+FROM node:22-alpine AS server-dependencies
 
 RUN apk -U upgrade \
   && apk add build-base python3 --no-cache
@@ -7,36 +7,35 @@ WORKDIR /app
 
 COPY server/package.json server/package-lock.json server/requirements.txt ./
 
-RUN npm install -g pnpm@latest-10 \
-  && pnpm install -P
+RUN npm install npm --global \
+  && npm install --omit=dev
 
-FROM node:lts AS client
+FROM node:22 AS client
 
 WORKDIR /app
 
 COPY client .
 
-RUN npm install -g pnpm@latest-10 \
-  && pnpm install -P
+RUN npm install npm --global \
+  && npm install --omit=dev
 
-RUN DISABLE_ESLINT_PLUGIN=true pnpm run build
+RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
-FROM node:18-alpine
+FROM node:22-alpine
 
 RUN apk -U upgrade \
   && apk add bash python3 --no-cache \
-  && npm install -g pnpm@latest-10
+  && npm install npm --global
 
 USER node
 WORKDIR /app
 
 COPY --chown=node:node server .
 
-RUN wget -qO- https://astral.sh/uv/install.sh | sh \
-  && /home/node/.local/bin/uv venv \
-  && /home/node/.local/bin/uv pip install -r requirements.txt --no-cache-dir \
+RUN python3 -m venv .venv \
+  && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
   && mv .env.sample .env \
-  && pnpm config set update-notifier false
+  && npm config set update-notifier false
 
 COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
 

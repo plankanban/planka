@@ -470,10 +470,6 @@ export default class extends BaseModel {
     });
   }
 
-  getTaskListsModelArray() {
-    return this.getTaskListsQuerySet().toModelArray();
-  }
-
   getShownOnFrontOfCardTaskListsModelArray() {
     return this.getTaskListsQuerySet()
       .toModelArray()
