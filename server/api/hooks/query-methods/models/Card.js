@@ -29,6 +29,8 @@ const getIdsByEndlessListId = async (
 
   if (filterUserIds) {
     query += ' JOIN card_membership ON card.id = card_membership.card_id';
+    query += ' JOIN task_list ON card.id = task_list.card_id';
+    query += ' JOIN task ON task_list.id = task.task_list_id';
   }
 
   if (filterLabelIds) {
@@ -84,6 +86,7 @@ const getIdsByEndlessListId = async (
     });
 
     query += ` AND card_membership.user_id IN (${inValues.join(', ')})`;
+    query += ` AND task.assignee_user_id IN (${inValues.join(', ')})`;
   }
 
   if (filterLabelIds) {
