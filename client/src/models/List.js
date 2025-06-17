@@ -292,7 +292,7 @@ export default class extends BaseModel {
             taskListModel
               .getTasksQuerySet()
               .toRefArray()
-              .some((task) => filterUserIds.includes(task.assigneeUserId)),
+              .some((task) => task.assigneeUserId && filterUserIds.includes(task.assigneeUserId)),
           );
       });
     }
