@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
 import { Popup } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
@@ -19,6 +20,8 @@ import SortStep from './SortStep';
 import SelectListTypeStep from '../SelectListTypeStep';
 import ConfirmationStep from '../../common/ConfirmationStep';
 import ArchiveCardsStep from '../../cards/ArchiveCardsStep';
+import BoardSelectStep from './BoardSelectStep';
+import api from '../../../api/lists';
 
 import styles from './ActionsStep.module.scss';
 
@@ -28,6 +31,7 @@ const StepTypes = {
   SORT: 'SORT',
   ARCHIVE_CARDS: 'ARCHIVE_CARDS',
   DELETE: 'DELETE',
+  MOVE_TO_BOARD: 'MOVE_TO_BOARD',
 };
 
 const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
@@ -38,6 +42,7 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [step, openStep, handleBack] = useSteps();
+  const navigate = useNavigate();
 
   const handleTypeSelect = useCallback(
     (type) => {
@@ -84,6 +89,25 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
     openStep(StepTypes.DELETE);
   }, [openStep]);
 
+  const handleMoveToBoard = useCallback(
+    async (targetBoardId) => {
+      try {
+        const { item: updatedList, included } = await api.moveToBoard(listId, { targetBoardId });
+        dispatch(entryActions.handleListUpdate(updatedList));
+        if (included && included.cards) {
+          dispatch(entryActions.handleCardsUpdate(included.cards, []));
+        }
+        sessionStorage.setItem('movedListId', listId);
+        onClose();
+        navigate(`/boards/${targetBoardId}`);
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
+      }
+    },
+    [listId, onClose, dispatch, navigate],
+  );
+
   if (step) {
     switch (step.type) {
       case StepTypes.EDIT_TYPE:
@@ -111,6 +135,14 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
             content="common.areYouSureYouWantToDeleteThisList"
             buttonContent="action.deleteList"
             onConfirm={handleDeleteConfirm}
+            onBack={handleBack}
+          />
+        );
+      case StepTypes.MOVE_TO_BOARD:
+        return (
+          <BoardSelectStep
+            currentBoardId={list.boardId}
+            onSelect={handleMoveToBoard}
             onBack={handleBack}
           />
         );
@@ -163,6 +195,9 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
             {t('action.deleteList', {
               context: 'title',
             })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={() => openStep(StepTypes.MOVE_TO_BOARD)}>
+            {t('action.moveListToBoard', { context: 'title' })}
           </Menu.Item>
         </Menu>
       </Popup.Content>

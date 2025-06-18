@@ -227,6 +227,7 @@ export default {
       unsubscribe: 'Berhenti berlangganan',
       uploadNewAvatar: 'Unggah avatar baru',
       uploadNewImage: 'Unggah gambar baru',
+      moveListToBoard: 'Pindahkan daftar ke papan lain',
     },
   },
 };
