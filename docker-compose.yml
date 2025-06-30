@@ -78,6 +78,8 @@ services:
       # - OIDC_RESPONSE_MODE=fragment
       # - OIDC_USE_DEFAULT_RESPONSE_MODE=true
       # - OIDC_ADMIN_ROLES=admin
+      # - OIDC_PROJECT_OWNER_ROLES=project_owner
+      # - OIDC_BOARD_USER_ROLES=board_user
       # - OIDC_CLAIMS_SOURCE=userinfo
       # - OIDC_EMAIL_ATTRIBUTE=email
       # - OIDC_NAME_ATTRIBUTE=name
