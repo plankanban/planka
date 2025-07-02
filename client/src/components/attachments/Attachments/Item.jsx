@@ -16,6 +16,7 @@ import Encodings from '../../../constants/Encodings';
 import { AttachmentTypes } from '../../../constants/Enums';
 import ItemContent from './ItemContent';
 import ContentViewer from './ContentViewer';
+import PdfViewer from './PdfViewer';
 import CsvViewer from './CsvViewer';
 
 import styles from './Item.module.scss';
@@ -40,10 +41,8 @@ const Item = React.memo(({ id, isVisible }) => {
       switch (attachment.data.mimeType) {
         case 'application/pdf':
           content = (
-            // eslint-disable-next-line jsx-a11y/alt-text
-            <object
-              data={attachment.data.url}
-              type={attachment.data.mimeType}
+            <PdfViewer
+              src={attachment.data.url}
               className={classNames(styles.content, styles.contentViewer)}
             />
           );
@@ -61,21 +60,21 @@ const Item = React.memo(({ id, isVisible }) => {
           );
 
           break;
-        case 'video/mp4':
-        case 'video/ogg':
-        case 'video/webm':
-          content = (
-            // eslint-disable-next-line jsx-a11y/media-has-caption
-            <video controls src={attachment.data.url} className={styles.content} />
-          );
-
-          break;
         case 'text/csv':
           content = (
             <CsvViewer
               src={attachment.data.url}
               className={classNames(styles.content, styles.contentViewer)}
             />
+          );
+
+          break;
+        case 'video/mp4':
+        case 'video/ogg':
+        case 'video/webm':
+          content = (
+            // eslint-disable-next-line jsx-a11y/media-has-caption
+            <video controls src={attachment.data.url} className={styles.content} />
           );
 
           break;
