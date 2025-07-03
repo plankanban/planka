@@ -86,6 +86,14 @@ const handleListDelete = (list, cards) => ({
   },
 });
 
+const moveListToBoardRequest = (listId, targetBoardId) => ({
+  type: EntryActionTypes.MOVE_LIST_TO_BOARD_REQUEST,
+  payload: {
+    listId,
+    targetBoardId,
+  },
+});
+
 export default {
   createListInCurrentBoard,
   handleListCreate,
@@ -98,4 +106,5 @@ export default {
   handleListClear,
   deleteList,
   handleListDelete,
+  moveListToBoardRequest,
 };

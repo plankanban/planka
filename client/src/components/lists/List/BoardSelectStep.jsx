@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { createSelector } from 'reselect';
 import PopupHeader from '../../../lib/custom-ui/components/Popup/PopupHeader';
 import styles from './ActionsStep.module.scss';
 import selectors from '../../../selectors';
+
+const makeSelectBoardsByIds = () =>
+  createSelector(
+    (state, boardIds) => boardIds,
+    (state) => state,
+    (boardIds, state) => boardIds.map((id) => selectors.selectBoardById(state, id)),
+  );
 
 function BoardSelectStep({ currentBoardId, onSelect, onBack, onClose }) {
   const [t] = useTranslation();
   const projectId = useSelector((state) => selectors.selectPath(state).projectId);
   const boardIds = useSelector((state) => selectors.selectBoardIdsByProjectId(state, projectId));
-  const boards = useSelector((state) => boardIds.map((id) => selectors.selectBoardById(state, id)));
+  const selectBoardsByIds = useMemo(makeSelectBoardsByIds, []);
+  const boards = useSelector((state) => selectBoardsByIds(state, boardIds));
 
   return (
     <div className={styles.boardSelectStep}>

@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
-import { useNavigate } from 'react-router-dom';
 import { Popup } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
@@ -21,7 +20,6 @@ import SelectListTypeStep from '../SelectListTypeStep';
 import ConfirmationStep from '../../common/ConfirmationStep';
 import ArchiveCardsStep from '../../cards/ArchiveCardsStep';
 import BoardSelectStep from './BoardSelectStep';
-import api from '../../../api/lists';
 
 import styles from './ActionsStep.module.scss';
 
@@ -42,7 +40,6 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [step, openStep, handleBack] = useSteps();
-  const navigate = useNavigate();
 
   const handleTypeSelect = useCallback(
     (type) => {
@@ -90,22 +87,10 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
   }, [openStep]);
 
   const handleMoveToBoard = useCallback(
-    async (targetBoardId) => {
-      try {
-        const { item: updatedList, included } = await api.moveToBoard(listId, { targetBoardId });
-        dispatch(entryActions.handleListUpdate(updatedList));
-        if (included && included.cards) {
-          dispatch(entryActions.handleCardsUpdate(included.cards, []));
-        }
-        sessionStorage.setItem('movedListId', listId);
-        onClose();
-        navigate(`/boards/${targetBoardId}`);
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      }
+    (targetBoardId) => {
+      dispatch(entryActions.moveListToBoardRequest(listId, targetBoardId));
     },
-    [listId, onClose, dispatch, navigate],
+    [listId, dispatch],
   );
 
   if (step) {

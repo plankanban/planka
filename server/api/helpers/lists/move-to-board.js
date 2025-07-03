@@ -58,6 +58,57 @@ module.exports = {
     });
     await Promise.all(migrateLabelsPromises);
 
+    await Promise.all(
+      updatedCards.map(async (card) => {
+        const cardMemberships = await CardMembership.find({ cardId: card.id });
+        await Promise.all(
+          cardMemberships.map(async (membership) => {
+            const userMembership = await BoardMembership.findOne({
+              boardId: inputs.targetBoard.id,
+              userId: membership.userId,
+            });
+            if (!userMembership) {
+              await CardMembership.destroy({ id: membership.id });
+            }
+          }),
+        );
+      }),
+    );
+
+    await Promise.all(
+      updatedCards.map(async (card) => {
+        const customFieldValues = await CustomFieldValue.find({ cardId: card.id });
+        await Promise.all(
+          customFieldValues.map(async (value) => {
+            const group = await CustomFieldGroup.findOne({ id: value.customFieldGroupId });
+            if (group && group.boardId && group.boardId !== inputs.targetBoard.id) {
+              const newGroup = await CustomFieldGroup.create({
+                name: group.name,
+                position: group.position,
+                cardId: card.id,
+                baseCustomFieldGroupId: group.baseCustomFieldGroupId,
+              }).fetch();
+              const field = await CustomField.findOne({ id: value.customFieldId });
+              const newField = await CustomField.create({
+                name: field.name,
+                position: field.position,
+                showOnFrontOfCard: field.showOnFrontOfCard,
+                customFieldGroupId: newGroup.id,
+                baseCustomFieldGroupId: field.baseCustomFieldGroupId,
+              }).fetch();
+              await CustomFieldValue.updateOne(
+                { id: value.id },
+                {
+                  customFieldGroupId: newGroup.id,
+                  customFieldId: newField.id,
+                },
+              );
+            }
+          }),
+        );
+      }),
+    );
+
     return {
       updatedList,
       updatedCards,

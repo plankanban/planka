@@ -5,13 +5,13 @@
 
 import { call, put, select } from 'redux-saga/effects';
 import toast from 'react-hot-toast';
-
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 import ToastTypes from '../../../constants/ToastTypes';
+import modalActions from '../../../actions/modals';
 
 export function* createList(boardId, data) {
   const localId = yield call(createLocalId);
@@ -183,6 +183,23 @@ export function* handleListDelete(list, cards) {
   yield put(actions.handleListDelete(list, cards));
 }
 
+export function* moveListToBoardSaga(action) {
+  const { listId, targetBoardId } = action.payload;
+  try {
+    const { item: updatedList, included } = yield call(request, api.moveToBoard, listId, {
+      targetBoardId,
+    });
+    yield put(actions.handleListUpdate(updatedList));
+    if (included && included.cards) {
+      yield put(actions.handleCardsUpdate(included.cards, []));
+    }
+    yield put(modalActions.closeModal());
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+  }
+}
+
 export default {
   createList,
   createListInCurrentBoard,
@@ -196,4 +213,5 @@ export default {
   handleListClear,
   deleteList,
   handleListDelete,
+  moveListToBoardSaga,
 };
