@@ -37,8 +37,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'notificationUpdate',
+        webhooks,
+        event: Webhook.Events.NOTIFICATION_UPDATE,
         buildData: () => ({
           item: notification,
         }),

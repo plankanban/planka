@@ -44,8 +44,11 @@ module.exports = {
       );
     });
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'projectCreate',
+      webhooks,
+      event: Webhook.Events.PROJECT_CREATE,
       buildData: () => ({
         item: project,
       }),

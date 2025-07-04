@@ -43,8 +43,11 @@ module.exports = {
       );
     });
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'baseCustomFieldGroupCreate',
+      webhooks,
+      event: Webhook.Events.BASE_CUSTOM_FIELD_GROUP_CREATE,
       buildData: () => ({
         item: baseCustomFieldGroup,
         included: {

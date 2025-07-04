@@ -64,8 +64,11 @@ module.exports = {
         );
       });
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'userDelete',
+        webhooks,
+        event: Webhook.Events.USER_DELETE,
         buildData: () => ({
           item: sails.helpers.users.presentOne(user),
         }),
@@ -81,6 +84,7 @@ module.exports = {
         lonelyProjects.map((project) =>
           // TODO: optimize with scoper
           sails.helpers.projectManagers.createOne.with({
+            webhooks,
             values: {
               project,
               user: inputs.actorUser,

@@ -81,8 +81,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'labelUpdate',
+        webhooks,
+        event: Webhook.Events.LABEL_UPDATE,
         buildData: () => ({
           item: label,
           included: {

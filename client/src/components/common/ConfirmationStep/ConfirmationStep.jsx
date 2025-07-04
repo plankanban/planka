@@ -28,21 +28,26 @@ const ConfirmationStep = React.memo(
 
     const [nameFieldRef, handleNameFieldRef] = useNestedRef('inputRef');
 
-    const handleSubmit = useCallback(() => {
-      if (typeValue) {
-        const cleanData = {
-          ...data,
-          typeValue: data.typeValue.trim(),
-        };
+    const handleSubmit = useCallback(
+      (event) => {
+        event.stopPropagation();
 
-        if (cleanData.typeValue.toLowerCase() !== typeValue.toLowerCase()) {
-          nameFieldRef.current.select();
-          return;
+        if (typeValue) {
+          const cleanData = {
+            ...data,
+            typeValue: data.typeValue.trim(),
+          };
+
+          if (cleanData.typeValue.toLowerCase() !== typeValue.toLowerCase()) {
+            nameFieldRef.current.select();
+            return;
+          }
         }
-      }
 
-      onConfirm();
-    }, [typeValue, onConfirm, data, nameFieldRef]);
+        onConfirm();
+      },
+      [typeValue, onConfirm, data, nameFieldRef],
+    );
 
     useEffect(() => {
       if (typeValue) {

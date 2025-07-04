@@ -47,8 +47,11 @@ module.exports = {
       );
     });
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'backgroundImageCreate',
+      webhooks,
+      event: Webhook.Events.BACKGROUND_IMAGE_CREATE,
       buildData: () => ({
         item: sails.helpers.backgroundImages.presentOne(backgroundImage),
         included: {
@@ -60,6 +63,7 @@ module.exports = {
 
     await sails.helpers.projects.updateOne.with({
       scoper,
+      webhooks,
       record: values.project,
       values: {
         backgroundImage,

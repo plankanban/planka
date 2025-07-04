@@ -21,6 +21,7 @@ export function* initializeCore() {
   const {
     user,
     board,
+    webhooks,
     users,
     projects,
     projectManagers,
@@ -50,6 +51,7 @@ export function* initializeCore() {
     actions.initializeCore(
       user,
       board,
+      webhooks,
       users,
       projects,
       projectManagers,

@@ -20,6 +20,9 @@ module.exports = {
     scoper: {
       type: 'ref',
     },
+    webhooks: {
+      type: 'ref',
+    },
     request: {
       type: 'ref',
     },
@@ -172,8 +175,11 @@ module.exports = {
         );
       });
 
+      const { webhooks = await Webhook.qm.getAll() } = inputs;
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'projectUpdate',
+        webhooks,
+        event: Webhook.Events.PROJECT_UPDATE,
         buildData: () => ({
           item: project,
         }),

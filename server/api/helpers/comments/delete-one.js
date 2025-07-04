@@ -47,8 +47,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'commentDelete',
+        webhooks,
+        event: Webhook.Events.COMMENT_DELETE,
         buildData: () => ({
           item: comment,
           included: {

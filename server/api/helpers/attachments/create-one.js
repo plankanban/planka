@@ -48,8 +48,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'attachmentCreate',
+      webhooks,
+      event: Webhook.Events.ATTACHMENT_CREATE,
       buildData: () => ({
         item: sails.helpers.attachments.presentOne(attachment),
         included: {
@@ -65,6 +68,7 @@ module.exports = {
     if (!values.card.coverAttachmentId) {
       if (attachment.type === Attachment.Types.FILE && attachment.data.image) {
         await sails.helpers.cards.updateOne.with({
+          webhooks,
           record: values.card,
           values: {
             coverAttachmentId: attachment.id,

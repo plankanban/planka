@@ -18,6 +18,11 @@ module.exports.policies = {
 
   '*': 'is-authenticated',
 
+  'webhooks/index': ['is-admin'],
+  'webhooks/create': ['is-admin'],
+  'webhooks/update': ['is-admin'],
+  'webhooks/delete': ['is-admin'],
+
   'users/create': ['is-authenticated', 'is-admin'],
   'users/delete': ['is-authenticated', 'is-admin'],
 

@@ -57,8 +57,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'listDelete',
+        webhooks,
+        event: Webhook.Events.LIST_DELETE,
         buildData: () => ({
           item: list,
           included: {

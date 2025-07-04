@@ -45,8 +45,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'cardDelete',
+        webhooks,
+        event: Webhook.Events.CARD_DELETE,
         buildData: () => ({
           item: card,
           included: {
