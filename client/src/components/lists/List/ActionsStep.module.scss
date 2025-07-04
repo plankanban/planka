@@ -14,3 +14,34 @@
     padding-left: 14px;
   }
 }
+
+.boardSelectStep {
+  padding: 0;
+}
+
+.boardButton {
+  display: block;
+  width: 100%;
+  padding: 9px 0;
+  border: none;
+  border-radius: 0.28571429rem !important;
+  font-size: 15px;
+  color: #234;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  transition: background 0.2s;
+}
+
+.boardButton:hover,
+.boardButton:focus {
+  background: #f4f6f8;
+  color: #16324a;
+}
+
+.noBoards {
+  color: #888;
+  text-align: center;
+  padding: 0;
+  font-size: 15px;
+}

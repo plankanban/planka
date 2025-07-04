@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { all, takeEvery } from 'redux-saga/effects';
+import { all, takeEvery, takeLatest } from 'redux-saga/effects';
 
 import services from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
@@ -41,5 +41,6 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_DELETE_HANDLE, ({ payload: { list, cards } }) =>
       services.handleListDelete(list, cards),
     ),
+    takeLatest(EntryActionTypes.MOVE_LIST_TO_BOARD_REQUEST, services.moveListToBoardSaga),
   ]);
 }
