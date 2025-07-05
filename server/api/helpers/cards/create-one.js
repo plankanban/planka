@@ -75,33 +75,6 @@ module.exports = {
       listChangedAt: new Date().toISOString(),
     });
 
-    if (values.customFields) {
-      const customFieldGroups = await CustomFieldGroup.qm.getByBoardId(values.board.id);
-      const customFieldGroupMap = _.keyBy(customFieldGroups, 'name');
-      const customFieldGroupIds = customFieldGroups.map((g) => g.id);
-      const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
-      const customFieldMap = _.keyBy(customFields, (f) => `${f.customFieldGroupId}:${f.name}`);
-
-      const createValuePromises = [];
-      Object.entries(values.customFields).forEach(([groupName, fields]) => {
-        const group = customFieldGroupMap[groupName];
-        if (!group) return;
-        Object.entries(fields).forEach(([fieldName, content]) => {
-          const field = customFieldMap[`${group.id}:${fieldName}`];
-          if (!field) return;
-          createValuePromises.push(
-            CustomFieldValue.create({
-              cardId: card.id,
-              customFieldGroupId: group.id,
-              customFieldId: field.id,
-              content: String(content),
-            }),
-          );
-        });
-      });
-      await Promise.all(createValuePromises);
-    }
-
     sails.sockets.broadcast(
       `board:${card.boardId}`,
       'cardCreate',

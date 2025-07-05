@@ -53,9 +53,6 @@ module.exports = {
       type: 'json',
       custom: isStopwatch,
     },
-    customFields: {
-      type: 'ref',
-    },
   },
 
   exits: {
@@ -98,10 +95,6 @@ module.exports = {
       'dueDate',
       'stopwatch',
     ]);
-
-    if (inputs.customFields) {
-      values.customFields = inputs.customFields;
-    }
 
     const card = await sails.helpers.cards.createOne
       .with({
