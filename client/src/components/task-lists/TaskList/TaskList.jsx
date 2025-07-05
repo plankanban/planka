@@ -14,7 +14,7 @@ import { useDidUpdate } from '../../../lib/hooks';
 import selectors from '../../../selectors';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import DroppableTypes from '../../../constants/DroppableTypes';
-import { BoardMembershipRoles } from '../../../constants/Enums';
+import { BoardMembershipRoles, ListTypes } from '../../../constants/Enums';
 import { ClosableContext } from '../../../contexts';
 import Task from './Task';
 import AddTask from './AddTask';
@@ -46,9 +46,32 @@ const TaskList = React.memo(({ id }) => {
   const [, , setIsClosableActive] = useContext(ClosableContext);
 
   // TODO: move to selector?
-  const completedTasksTotal = useMemo(
-    () => tasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
-    [tasks],
+  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
+
+  const completedTasksTotal = useSelector((state) =>
+    tasks.reduce((result, task) => {
+      if (task.isCompleted) {
+        return result + 1;
+      }
+
+      const regex = /\/cards\/([^/]+)/g;
+      const matches = task.name.matchAll(regex);
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [, cardId] of matches) {
+        const card = selectCardById(state, cardId);
+
+        if (card) {
+          const list = selectListById(state, card.listId);
+
+          if (list && list.type === ListTypes.CLOSED) {
+            return result + 1;
+          }
+        }
+      }
+
+      return result;
+    }, 0),
   );
 
   const handleAddClick = useCallback(() => {

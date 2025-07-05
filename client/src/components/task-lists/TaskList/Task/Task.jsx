@@ -16,7 +16,7 @@ import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { usePopupInClosableContext } from '../../../../hooks';
 import { isListArchiveOrTrash } from '../../../../utils/record-helpers';
-import { BoardMembershipRoles } from '../../../../constants/Enums';
+import { BoardMembershipRoles, ListTypes } from '../../../../constants/Enums';
 import { ClosableContext } from '../../../../contexts';
 import EditName from './EditName';
 import SelectAssigneeStep from './SelectAssigneeStep';
@@ -29,8 +29,25 @@ import styles from './Task.module.scss';
 const Task = React.memo(({ id, index }) => {
   const selectTaskById = useMemo(() => selectors.makeSelectTaskById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
+  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
 
   const task = useSelector((state) => selectTaskById(state, id));
+
+  const isLinkedCardCompleted = useSelector((state) => {
+    const regex = /\/cards\/([^/]+)/g;
+    const matches = task.name.matchAll(regex);
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [, cardId] of matches) {
+      const card = selectCardById(state, cardId);
+      if (card) {
+        const list = selectListById(state, card.listId);
+        if (list && list.type === ListTypes.CLOSED) {
+          return true;
+        }
+      }
+    }
+    return false;
+  });
 
   const { canEdit, canToggle } = useSelector((state) => {
     const { listId } = selectors.selectCurrentCard(state);
@@ -56,13 +73,21 @@ const Task = React.memo(({ id, index }) => {
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
   const [, , setIsClosableActive] = useContext(ClosableContext);
 
+  const isEditable = task.isPersisted && canEdit;
+  const isCompleted = task.isCompleted || isLinkedCardCompleted;
+  const isToggleDisabled = !task.isPersisted || !canToggle || isLinkedCardCompleted;
+
   const handleToggleChange = useCallback(() => {
+    if (isToggleDisabled) {
+      return;
+    }
+
     dispatch(
       entryActions.updateTask(id, {
         isCompleted: !task.isCompleted,
       }),
     );
-  }, [id, task.isCompleted, dispatch]);
+  }, [id, task.isCompleted, dispatch, isToggleDisabled]);
 
   const handleUserSelect = useCallback(
     (userId) => {
@@ -82,8 +107,6 @@ const Task = React.memo(({ id, index }) => {
       }),
     );
   }, [id, dispatch]);
-
-  const isEditable = task.isPersisted && canEdit;
 
   const handleClick = useCallback(() => {
     if (isEditable) {
@@ -122,8 +145,8 @@ const Task = React.memo(({ id, index }) => {
           >
             <span className={styles.checkboxWrapper}>
               <Checkbox
-                checked={task.isCompleted}
-                disabled={!task.isPersisted || !canToggle}
+                checked={isCompleted}
+                disabled={isToggleDisabled}
                 className={styles.checkbox}
                 onChange={handleToggleChange}
               />
@@ -138,9 +161,7 @@ const Task = React.memo(({ id, index }) => {
                   className={classNames(styles.text, canEdit && styles.textEditable)}
                   onClick={handleClick}
                 >
-                  <span
-                    className={classNames(styles.task, task.isCompleted && styles.taskCompleted)}
-                  >
+                  <span className={classNames(styles.task, isCompleted && styles.taskCompleted)}>
                     <Linkify linkStopPropagation>{task.name}</Linkify>
                   </span>
                 </span>

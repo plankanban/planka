@@ -5,11 +5,15 @@
 
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import LinkifyReact from 'linkify-react';
 
 import history from '../../history';
+import selectors from '../../selectors';
 
 const Linkify = React.memo(({ children, linkStopPropagation, ...props }) => {
+  const cardNamesById = useSelector(selectors.selectCardNamesById);
+
   const handleLinkClick = useCallback(
     (event) => {
       if (linkStopPropagation) {
@@ -34,6 +38,12 @@ const Linkify = React.memo(({ children, linkStopPropagation, ...props }) => {
       }
 
       const isSameSite = !!url && url.origin === window.location.origin;
+      let linkContent = content;
+      if (isSameSite) {
+        const { pathname } = url;
+        const match = pathname.match(/^\/cards\/([^/]+)$/);
+        linkContent = cardNamesById[match?.[1]] || pathname;
+      }
 
       return (
         <a
@@ -43,11 +53,11 @@ const Linkify = React.memo(({ children, linkStopPropagation, ...props }) => {
           rel={isSameSite ? undefined : 'noreferrer'}
           onClick={handleLinkClick}
         >
-          {isSameSite ? url.pathname : content}
+          {isSameSite ? linkContent : content}
         </a>
       );
     },
-    [handleLinkClick],
+    [handleLinkClick, cardNamesById],
   );
 
   return (
