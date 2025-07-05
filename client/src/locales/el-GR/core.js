@@ -337,6 +337,7 @@ export default {
       visualTaskManagementWithLists: 'Οπτική διαχείριση εργασιών με λίστες.',
       withoutBaseGroup: 'Χωρίς βασική ομάδα',
       writeComment: 'Γράψτε ένα σχόλιο...',
+      taskList_hideChecked: 'Απόκρυψη επιλεγμένων στοιχείων',
     },
 
     action: {
@@ -450,6 +451,7 @@ export default {
       unsubscribe: 'Απεγγραφή',
       uploadNewAvatar: 'Μεταφόρτωση νέου avatar',
       uploadNewImage: 'Μεταφόρτωση νέας εικόνας',
+      moveListToBoard: 'Μετακίνηση λίστας σε άλλο πίνακα',
     },
   },
 };

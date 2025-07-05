@@ -21,7 +21,7 @@ import AddTask from './AddTask';
 
 import styles from './TaskList.module.scss';
 
-const TaskList = React.memo(({ id }) => {
+const TaskList = React.memo(({ id, hideChecked }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
@@ -45,10 +45,14 @@ const TaskList = React.memo(({ id }) => {
   const [isAddOpened, setIsAddOpened] = useState(false);
   const [, , setIsClosableActive] = useContext(ClosableContext);
 
-  // TODO: move to selector?
+  const filteredTasks = useMemo(
+    () => (hideChecked ? tasks.filter((task) => !task.isCompleted) : tasks),
+    [tasks, hideChecked],
+  );
+
   const completedTasksTotal = useMemo(
-    () => tasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
-    [tasks],
+    () => filteredTasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
+    [filteredTasks],
   );
 
   const handleAddClick = useCallback(() => {
@@ -65,20 +69,20 @@ const TaskList = React.memo(({ id }) => {
 
   return (
     <>
-      {tasks.length > 0 && (
+      {filteredTasks.length > 0 && (
         <>
           <span className={styles.progressWrapper}>
             <Progress
               autoSuccess
               value={completedTasksTotal}
-              total={tasks.length}
+              total={filteredTasks.length}
               color="blue"
               size="tiny"
               className={styles.progress}
             />
           </span>
           <span className={styles.count}>
-            {completedTasksTotal}/{tasks.length}
+            {completedTasksTotal}/{filteredTasks.length}
           </span>
         </>
       )}
@@ -90,7 +94,7 @@ const TaskList = React.memo(({ id }) => {
         {({ innerRef, droppableProps, placeholder }) => (
           // eslint-disable-next-line react/jsx-props-no-spreading
           <div {...droppableProps} ref={innerRef} className={styles.tasks}>
-            {tasks.map((task, index) => (
+            {filteredTasks.map((task, index) => (
               <Task key={task.id} id={task.id} index={index} />
             ))}
             {placeholder}
@@ -117,6 +121,7 @@ const TaskList = React.memo(({ id }) => {
 
 TaskList.propTypes = {
   id: PropTypes.string.isRequired,
+  hideChecked: PropTypes.bool.isRequired,
 };
 
 export default TaskList;
