@@ -293,6 +293,11 @@ export default class extends BaseModel {
       });
     }
 
+    if (this.board.filterNoMember) {
+      cardModels = cardModels.filter((cardModel) => cardModel.users.toRefArray().length === 0);
+      return cardModels;
+    }
+
     return cardModels;
   }
 

@@ -61,6 +61,9 @@ export default class extends BaseModel {
     }),
     filterUsers: many('User', 'filterBoards'),
     filterLabels: many('Label', 'filterBoards'),
+    filterNoMember: attr({
+      getDefault: () => false,
+    }),
   };
 
   static reducer({ type, payload }, Board) {
@@ -268,6 +271,17 @@ export default class extends BaseModel {
         });
 
         break;
+      case ActionTypes.NO_MEMBER_TO_BOARD_FILTER_SET: {
+        const boardModel = Board.withId(payload.boardId);
+        boardModel.filterUsers.clear();
+        boardModel.update({ filterNoMember: true });
+        break;
+      }
+      case ActionTypes.NO_MEMBER_FROM_BOARD_FILTER_REMOVE: {
+        const boardModel = Board.withId(payload.boardId);
+        boardModel.update({ filterNoMember: false });
+        break;
+      }
       default:
     }
   }
@@ -372,6 +386,11 @@ export default class extends BaseModel {
         const labels = cardModel.labels.toRefArray();
         return labels.some((label) => filterLabelIds.includes(label.id));
       });
+    }
+
+    if (this.filterNoMember) {
+      cardModels = cardModels.filter((cardModel) => cardModel.users.toRefArray().length === 0);
+      return cardModels;
     }
 
     return cardModels;
