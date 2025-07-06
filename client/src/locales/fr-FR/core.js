@@ -38,7 +38,7 @@ export default {
       all: 'Tout',
       allChangesWillBeAutomaticallySavedAfterConnectionRestored:
         'Toutes les modifications seront automatiquement enregistrées<br />une fois la connexion rétablie.',
-      alphabetically: 'Alphabétiquement',
+      alphabetically: 'Alphabétique',
       alwaysDisplayCardCreator: 'Toujours afficher le créateur de la carte',
       archive: 'Archiver',
       archiveCard_title: 'Archiver la carte',
