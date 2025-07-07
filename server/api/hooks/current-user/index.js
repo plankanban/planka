@@ -67,25 +67,30 @@ module.exports = function defineCurrentUserHook(sails) {
 
             if (authorizationHeader && TOKEN_PATTERN.test(authorizationHeader)) {
               const accessToken = authorizationHeader.replace(TOKEN_PATTERN, '');
-              const { httpOnlyToken } = req.cookies;
+              const { internalAccessToken } = sails.config.custom;
 
-              const sessionAndUser = await getSessionAndUser(accessToken, httpOnlyToken);
+              if (internalAccessToken && accessToken === internalAccessToken) {
+                req.currentUser = User.INTERNAL;
+              } else {
+                const { httpOnlyToken } = req.cookies;
+                const sessionAndUser = await getSessionAndUser(accessToken, httpOnlyToken);
 
-              if (sessionAndUser) {
-                const { session, user } = sessionAndUser;
+                if (sessionAndUser) {
+                  const { session, user } = sessionAndUser;
 
-                if (user.language) {
-                  req.setLocale(user.language);
-                }
+                  if (user.language) {
+                    req.setLocale(user.language);
+                  }
 
-                Object.assign(req, {
-                  currentSession: session,
-                  currentUser: user,
-                });
+                  Object.assign(req, {
+                    currentSession: session,
+                    currentUser: user,
+                  });
 
-                if (req.isSocket) {
-                  sails.sockets.join(req, `@accessToken:${session.accessToken}`);
-                  sails.sockets.join(req, `@user:${user.id}`);
+                  if (req.isSocket) {
+                    sails.sockets.join(req, `@accessToken:${session.accessToken}`);
+                    sails.sockets.join(req, `@user:${user.id}`);
+                  }
                 }
               }
             }

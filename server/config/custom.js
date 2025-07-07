@@ -50,6 +50,7 @@ module.exports.custom = {
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
+  internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,
   activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
 

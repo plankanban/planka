@@ -52,6 +52,7 @@ services:
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
 
+      # - INTERNAL_ACCESS_TOKEN=
       # - ACTIVE_USERS_LIMIT=
 
       # Set to true to show more detailed authentication error messages.

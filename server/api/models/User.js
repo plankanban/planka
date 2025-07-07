@@ -81,8 +81,14 @@ const PERSONAL_FIELD_NAMES = [
   'defaultProjectsOrder',
 ];
 
+const INTERNAL = {
+  id: '_internal',
+  role: Roles.ADMIN,
+};
+
 const OIDC = {
   id: '_oidc',
+  role: Roles.ADMIN,
 };
 
 module.exports = {
@@ -93,6 +99,7 @@ module.exports = {
   LANGUAGES,
   PRIVATE_FIELD_NAMES,
   PERSONAL_FIELD_NAMES,
+  INTERNAL,
   OIDC,
 
   attributes: {
