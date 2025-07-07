@@ -64,7 +64,7 @@ export default {
       areYouSureYouWantToDeleteThisCustomFieldGroup:
         'Êtes-vous sûr de vouloir supprimer ce groupe de champs personnalisés ?',
       areYouSureYouWantToDeleteThisLabel: 'Êtes-vous sûr de vouloir supprimer cette étiquette ?',
-      areYouSureYouWantToDeleteThisList: 'Êtes-vous sûr de vouloir supprimer cette liste ?',
+      areYouSureYouWantToDeleteThisList: 'Êtes-vous sûr de vouloir supprimer cette liste ? Toutes les cartes seront supprimées.',
       areYouSureYouWantToDeleteThisNotificationService:
         'Êtes-vous sûr de vouloir supprimer ce service de notification ?',
       areYouSureYouWantToDeleteThisProject: 'Êtes-vous sûr de vouloir supprimer ce projet ?',
@@ -199,7 +199,7 @@ export default {
       fromTrello: 'Depuis Trello',
       general: 'Général',
       gradients: 'Dégradés',
-      grid: 'Grid',
+      grid: 'Grille',
       hideFromProjectListAndFavorites: 'Masquer de la liste des projets et des favoris',
       hours: 'Heures',
       importBoard_title: 'Importer un tableau',
@@ -368,7 +368,7 @@ export default {
       delete: 'Supprimer',
       deleteAttachment: 'Supprimer la pièce jointe',
       deleteAvatar: "Supprimer l'avatar",
-      deleteBackgroundImage: 'TODO Delete background image',
+      deleteBackgroundImage: 'Supprimer l’image d’arrière-plan',
       deleteBoard: 'Supprimer le tableau',
       deleteBoard_title: 'Supprimer le tableau',
       deleteCard: 'Supprimer la carte',
