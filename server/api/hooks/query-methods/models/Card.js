@@ -28,11 +28,13 @@ const getIdsByEndlessListId = async (
   let query = 'SELECT DISTINCT card.id FROM card';
 
   if (filterUserIds) {
-    query += ' JOIN card_membership ON card.id = card_membership.card_id';
+    query += ' LEFT JOIN card_membership ON card.id = card_membership.card_id';
+    query += ' LEFT JOIN task_list ON card.id = task_list.card_id';
+    query += ' LEFT JOIN task ON task_list.id = task.task_list_id';
   }
 
   if (filterLabelIds) {
-    query += ' JOIN card_label ON card.id = card_label.card_id';
+    query += ' LEFT JOIN card_label ON card.id = card_label.card_id';
   }
 
   queryValues.push(listId);
@@ -83,7 +85,7 @@ const getIdsByEndlessListId = async (
       return `$${queryValues.length}`;
     });
 
-    query += ` AND card_membership.user_id IN (${inValues.join(', ')})`;
+    query += ` AND (card_membership.user_id IN (${inValues.join(', ')}) OR task.assignee_user_id IN (${inValues.join(', ')}))`;
   }
 
   if (filterLabelIds) {

@@ -3,6 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import Webhook from './Webhook';
 import User from './User';
 import Project from './Project';
 import ProjectManager from './ProjectManager';
@@ -25,6 +26,7 @@ import Notification from './Notification';
 import NotificationService from './NotificationService';
 
 export {
+  Webhook,
   User,
   Project,
   ProjectManager,

@@ -82,8 +82,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'taskCreate',
+      webhooks,
+      event: Webhook.Events.TASK_CREATE,
       buildData: () => ({
         item: task,
         included: {

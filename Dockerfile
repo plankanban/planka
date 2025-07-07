@@ -1,4 +1,4 @@
-FROM node:18-alpine AS server-dependencies
+FROM node:22-alpine AS server-dependencies
 
 RUN apk -U upgrade \
   && apk add build-base python3 --no-cache
@@ -10,7 +10,7 @@ COPY server/package.json server/package-lock.json server/requirements.txt ./
 RUN npm install npm --global \
   && npm install --omit=dev
 
-FROM node:lts AS client
+FROM node:22 AS client
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ RUN npm install npm --global \
 
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
-FROM node:18-alpine
+FROM node:22-alpine
 
 RUN apk -U upgrade \
   && apk add bash python3 --no-cache \

@@ -280,7 +280,20 @@ export default class extends BaseModel {
     if (filterUserIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {
         const users = cardModel.users.toRefArray();
-        return users.some((user) => filterUserIds.includes(user.id));
+
+        if (users.some((user) => filterUserIds.includes(user.id))) {
+          return true;
+        }
+
+        return cardModel
+          .getTaskListsQuerySet()
+          .toModelArray()
+          .some((taskListModel) =>
+            taskListModel
+              .getTasksQuerySet()
+              .toRefArray()
+              .some((task) => task.assigneeUserId && filterUserIds.includes(task.assigneeUserId)),
+          );
       });
     }
 

@@ -112,8 +112,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'taskUpdate',
+        webhooks,
+        event: Webhook.Events.TASK_UPDATE,
         buildData: () => ({
           item: task,
           included: {
@@ -135,6 +138,7 @@ module.exports = {
 
       if (inputs.record.isCompleted !== task.isCompleted) {
         await sails.helpers.actions.createOne.with({
+          webhooks,
           values: {
             type: task.isCompleted ? Action.Types.COMPLETE_TASK : Action.Types.UNCOMPLETE_TASK,
             data: {

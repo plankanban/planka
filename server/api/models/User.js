@@ -43,6 +43,7 @@ const LANGUAGES = [
   'en-GB',
   'en-US',
   'es-ES',
+  'et-EE',
   'fa-IR',
   'fi-FI',
   'fr-FR',

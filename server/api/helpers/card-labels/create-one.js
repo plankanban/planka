@@ -61,8 +61,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'cardLabelCreate',
+      webhooks,
+      event: Webhook.Events.CARD_LABEL_CREATE,
       buildData: () => ({
         item: cardLabel,
         included: {

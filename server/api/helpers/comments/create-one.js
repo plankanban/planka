@@ -79,8 +79,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'commentCreate',
+      webhooks,
+      event: Webhook.Events.COMMENT_CREATE,
       buildData: () => ({
         item: comment,
         included: {
@@ -125,6 +128,7 @@ module.exports = {
     await Promise.all(
       notifiableUserIds.map((userId) =>
         sails.helpers.notifications.createOne.with({
+          webhooks,
           values: {
             userId,
             comment,

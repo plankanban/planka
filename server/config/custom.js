@@ -93,6 +93,4 @@ module.exports.custom = {
   smtpPassword: process.env.SMTP_PASSWORD,
   smtpFrom: process.env.SMTP_FROM,
   smtpTlsRejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
-
-  webhooks: JSON.parse(process.env.WEBHOOKS || '[]'), // TODO: validate structure
 };

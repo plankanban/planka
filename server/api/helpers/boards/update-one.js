@@ -104,8 +104,11 @@ module.exports = {
         );
       });
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'boardUpdate',
+        webhooks,
+        event: Webhook.Events.BOARD_UPDATE,
         buildData: () => ({
           item: board,
           included: {

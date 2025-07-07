@@ -214,6 +214,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    webhooks: {
+      type: 'ref',
+      required: true,
+    },
   },
 
   async fn(inputs) {
@@ -248,7 +252,8 @@ module.exports = {
     });
 
     sails.helpers.utils.sendWebhooks.with({
-      event: 'notificationCreate',
+      webhooks: inputs.webhooks,
+      event: Webhook.Events.NOTIFICATION_CREATE,
       buildData: () => ({
         item: notification,
         included: {

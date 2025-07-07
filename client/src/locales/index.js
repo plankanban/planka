@@ -12,6 +12,7 @@ import elGR from './el-GR';
 import enGB from './en-GB';
 import enUS from './en-US';
 import esES from './es-ES';
+import etEE from './et-EE';
 import faIR from './fa-IR';
 import fiFI from './fi-FI';
 import frFR from './fr-FR';
@@ -45,6 +46,7 @@ const locales = [
   enGB,
   enUS,
   esES,
+  etEE,
   faIR,
   fiFI,
   frFR,

@@ -31,6 +31,7 @@ module.exports = {
       if (inputs.record.id === inputs.project.backgroundImageId) {
         await sails.helpers.projects.updateOne.with({
           scoper,
+          webhooks,
           record: inputs.project,
           values: {
             backgroundType: null,
@@ -58,8 +59,11 @@ module.exports = {
         );
       });
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'backgroundImageDelete',
+        webhooks,
+        event: Webhook.Events.BACKGROUND_IMAGE_DELETE,
         buildData: () => ({
           item: sails.helpers.backgroundImages.presentOne(backgroundImage),
           included: {

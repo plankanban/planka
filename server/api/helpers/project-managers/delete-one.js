@@ -85,8 +85,11 @@ module.exports = {
         );
       });
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'projectManagerDelete',
+        webhooks,
+        event: Webhook.Events.PROJECT_MANAGER_DELETE,
         buildData: () => ({
           item: projectManager,
           included: {

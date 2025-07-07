@@ -125,7 +125,7 @@ const Item = React.memo(({ id }) => {
     dispatch(entryActions.deleteNotificationService(id));
   }, [id, dispatch]);
 
-  const handleUpdateSubmit = useCallback(() => {
+  const handleSubmit = useCallback(() => {
     urlFieldRef.current.blur();
   }, [urlFieldRef]);
 
@@ -153,7 +153,7 @@ const Item = React.memo(({ id }) => {
   const ConfirmationPopup = usePopupInClosableContext(ConfirmationStep);
 
   return (
-    <Form className={styles.wrapper} onSubmit={handleUpdateSubmit}>
+    <Form className={styles.wrapper} onSubmit={handleSubmit}>
       <Input
         ref={handleUrlFieldRef}
         name="url"

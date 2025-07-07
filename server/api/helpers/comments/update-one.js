@@ -53,8 +53,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'commentUpdate',
+        webhooks,
+        event: Webhook.Events.COMMENT_UPDATE,
         buildData: () => ({
           item: comment,
           included: {

@@ -200,8 +200,11 @@ module.exports = {
           }
         }
 
+        const webhooks = await Webhook.qm.getAll();
+
         sails.helpers.utils.sendWebhooks.with({
-          event: 'userUpdate',
+          webhooks,
+          event: Webhook.Events.USER_UPDATE,
           buildData: () => ({
             item: sails.helpers.users.presentOne(user),
           }),

@@ -51,8 +51,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'cardMembershipDelete',
+        webhooks,
+        event: Webhook.Events.CARD_MEMBERSHIP_DELETE,
         buildData: () => ({
           item: cardMembership,
           included: {
@@ -82,6 +85,7 @@ module.exports = {
       }
 
       await sails.helpers.actions.createOne.with({
+        webhooks,
         values: {
           type: Action.Types.REMOVE_MEMBER_FROM_CARD,
           data: {

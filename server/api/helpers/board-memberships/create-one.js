@@ -86,8 +86,11 @@ module.exports = {
       });
     });
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'boardMembershipCreate',
+      webhooks,
+      event: Webhook.Events.BOARD_MEMBERSHIP_CREATE,
       buildData: () => ({
         item: boardMembership,
         included: {

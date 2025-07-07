@@ -13,6 +13,9 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    webhooks: {
+      type: 'ref',
+    },
     request: {
       type: 'ref',
     },
@@ -69,8 +72,11 @@ module.exports = {
       );
     });
 
+    const { webhooks = await Webhook.qm.getAll() } = inputs;
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'projectManagerCreate',
+      webhooks,
+      event: Webhook.Events.PROJECT_MANAGER_CREATE,
       buildData: () => ({
         item: projectManager,
         included: {

@@ -31,6 +31,8 @@ module.exports = {
       },
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     notifications.forEach((notification) => {
       sails.sockets.broadcast(
         `user:${notification.userId}`,
@@ -43,7 +45,8 @@ module.exports = {
 
       // TODO: with prevData?
       sails.helpers.utils.sendWebhooks.with({
-        event: 'notificationUpdate',
+        webhooks,
+        event: Webhook.Events.NOTIFICATION_UPDATE,
         buildData: () => ({
           item: notification,
         }),
