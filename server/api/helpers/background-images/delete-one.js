@@ -27,6 +27,8 @@ module.exports = {
       record: inputs.project,
     });
 
+    const webhooks = await Webhook.qm.getAll();
+
     if (inputs.project.backgroundType === Project.BackgroundTypes.IMAGE) {
       if (inputs.record.id === inputs.project.backgroundImageId) {
         await sails.helpers.projects.updateOne.with({
@@ -58,8 +60,6 @@ module.exports = {
           inputs.request,
         );
       });
-
-      const webhooks = await Webhook.qm.getAll();
 
       sails.helpers.utils.sendWebhooks.with({
         webhooks,

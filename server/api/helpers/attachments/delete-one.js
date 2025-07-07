@@ -35,6 +35,8 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const webhooks = await Webhook.qm.getAll();
+
     if (inputs.record.id === inputs.card.coverAttachmentId) {
       await sails.helpers.cards.updateOne.with({
         webhooks,
@@ -66,8 +68,6 @@ module.exports = {
         },
         inputs.request,
       );
-
-      const webhooks = await Webhook.qm.getAll();
 
       sails.helpers.utils.sendWebhooks.with({
         webhooks,
