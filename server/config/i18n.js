@@ -19,7 +19,7 @@ module.exports.i18n = {
    *
    */
 
-  locales: ['en-GB', 'en-US', 'es-ES', 'it-IT', 'ru-RU', 'de-DE'],
+  locales: ['de-DE', 'en-GB', 'en-US', 'es-ES', 'it-IT', 'ru-RU'],
 
   /**
    *
