@@ -17,16 +17,13 @@ import Task from './Task';
 import styles from './TaskList.module.scss';
 
 const TaskList = React.memo(({ id }) => {
+  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
+  const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
 
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
 
-  const [isOpened, toggleOpened] = useToggle();
-
   // TODO: move to selector?
-  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
-  const selectListById = useMemo(() => selectors.makeSelectListById(), []);
-
   const completedTasksTotal = useSelector((state) =>
     tasks.reduce((result, task) => {
       if (task.isCompleted) {
@@ -52,6 +49,8 @@ const TaskList = React.memo(({ id }) => {
       return result;
     }, 0),
   );
+
+  const [isOpened, toggleOpened] = useToggle();
 
   const handleToggleClick = useCallback(
     (event) => {

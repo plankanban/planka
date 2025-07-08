@@ -32,18 +32,6 @@ export const makeSelectCardById = () =>
 
 export const selectCardById = makeSelectCardById();
 
-export const selectCardNamesById = createSelector(orm, ({ Card }) =>
-  Card.all()
-    .toModelArray()
-    .reduce(
-      (result, cardModel) => ({
-        ...result,
-        [cardModel.id]: cardModel.name,
-      }),
-      {},
-    ),
-);
-
 export const makeSelectCardIndexById = () =>
   createSelector(
     orm,
@@ -479,7 +467,6 @@ export default {
   selectCardById,
   makeSelectCardIndexById,
   selectCardIndexById,
-  selectCardNamesById,
   makeSelectUserIdsByCardId,
   selectUserIdsByCardId,
   makeSelectLabelIdsByCardId,

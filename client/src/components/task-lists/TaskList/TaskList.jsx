@@ -23,31 +23,14 @@ import styles from './TaskList.module.scss';
 
 const TaskList = React.memo(({ id }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
+  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
 
   const taskList = useSelector((state) => selectTaskListById(state, id));
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
 
-  const canEdit = useSelector((state) => {
-    const { listId } = selectors.selectCurrentCard(state);
-    const list = selectListById(state, listId);
-
-    if (isListArchiveOrTrash(list)) {
-      return false;
-    }
-
-    const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
-    return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
-  });
-
-  const [t] = useTranslation();
-  const [isAddOpened, setIsAddOpened] = useState(false);
-  const [, , setIsClosableActive] = useContext(ClosableContext);
-
   // TODO: move to selector?
-  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
-
   const completedTasksTotal = useSelector((state) =>
     tasks.reduce((result, task) => {
       if (task.isCompleted) {
@@ -73,6 +56,22 @@ const TaskList = React.memo(({ id }) => {
       return result;
     }, 0),
   );
+
+  const canEdit = useSelector((state) => {
+    const { listId } = selectors.selectCurrentCard(state);
+    const list = selectListById(state, listId);
+
+    if (isListArchiveOrTrash(list)) {
+      return false;
+    }
+
+    const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+    return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+  });
+
+  const [t] = useTranslation();
+  const [isAddOpened, setIsAddOpened] = useState(false);
+  const [, , setIsClosableActive] = useContext(ClosableContext);
 
   const handleAddClick = useCallback(() => {
     setIsAddOpened(true);
