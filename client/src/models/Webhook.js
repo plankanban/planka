@@ -30,9 +30,11 @@ export default class extends BaseModel {
       case ActionTypes.SOCKET_RECONNECT_HANDLE:
         Webhook.all().delete();
 
-        payload.webhooks.forEach((webhook) => {
-          Webhook.upsert(webhook);
-        });
+        if (payload.webhooks) {
+          payload.webhooks.forEach((webhook) => {
+            Webhook.upsert(webhook);
+          });
+        }
 
         break;
       case ActionTypes.CORE_INITIALIZE:
