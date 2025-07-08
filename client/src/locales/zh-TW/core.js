@@ -153,6 +153,7 @@ export default {
       users: '使用者',
       viewer: '檢視',
       writeComment: '編寫評論...',
+      taskList_hideChecked: '隱藏已完成的任務',
     },
 
     action: {
@@ -220,6 +221,7 @@ export default {
       unsubscribe: '取消訂閱',
       uploadNewAvatar: '上傳新頭像',
       uploadNewImage: '上傳圖片',
+      moveListToBoard: '移動列表到另一個面板',
     },
   },
 };
