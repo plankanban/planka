@@ -14,7 +14,7 @@ import { useDidUpdate } from '../../../lib/hooks';
 import selectors from '../../../selectors';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import DroppableTypes from '../../../constants/DroppableTypes';
-import { BoardMembershipRoles } from '../../../constants/Enums';
+import { BoardMembershipRoles, ListTypes } from '../../../constants/Enums';
 import { ClosableContext } from '../../../contexts';
 import Task from './Task';
 import AddTask from './AddTask';
@@ -23,11 +23,39 @@ import styles from './TaskList.module.scss';
 
 const TaskList = React.memo(({ id }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
+  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
 
   const taskList = useSelector((state) => selectTaskListById(state, id));
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
+
+  // TODO: move to selector?
+  const completedTasksTotal = useSelector((state) =>
+    tasks.reduce((result, task) => {
+      if (task.isCompleted) {
+        return result + 1;
+      }
+
+      const regex = /\/cards\/([^/]+)/g;
+      const matches = task.name.matchAll(regex);
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [, cardId] of matches) {
+        const card = selectCardById(state, cardId);
+
+        if (card) {
+          const list = selectListById(state, card.listId);
+
+          if (list && list.type === ListTypes.CLOSED) {
+            return result + 1;
+          }
+        }
+      }
+
+      return result;
+    }, 0),
+  );
 
   const canEdit = useSelector((state) => {
     const { listId } = selectors.selectCurrentCard(state);
@@ -44,12 +72,6 @@ const TaskList = React.memo(({ id }) => {
   const [t] = useTranslation();
   const [isAddOpened, setIsAddOpened] = useState(false);
   const [, , setIsClosableActive] = useContext(ClosableContext);
-
-  // TODO: move to selector?
-  const completedTasksTotal = useMemo(
-    () => tasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
-    [tasks],
-  );
 
   const handleAddClick = useCallback(() => {
     setIsAddOpened(true);
