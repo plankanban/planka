@@ -287,10 +287,13 @@ export default {
       userLeftCard: '<0>{{user}}</0> 离开了 <2>{{card}}</2>',
       userLeftNewCommentToCard: '<0>{{user}}</0> 给 <2>{{card}}</2> 添加了一个新评论 «{{comment}}»',
       userLeftThisCard: '<0>{{user}}</0> 离开了此卡片',
-      userMarkedTaskIncompleteOnCard: '<0>{{user}}</0> 在 <4>{{card}}</4> 上将 {{task}} 标记为未完成',
+      userMarkedTaskIncompleteOnCard:
+        '<0>{{user}}</0> 在 <4>{{card}}</4> 上将 {{task}} 标记为未完成',
       userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> 在此卡片上将 {{task}} 标记为未完成',
-      userMentionedYouInCommentOnCard: '<0>{{user}}</0> 在 <2>{{card}}</2> 的评论 «{{comment}}» 中提到了您',
-      userMovedCardFromListToList: '<0>{{user}}</0> 将卡片 <2>{{card}}</2> 从 {{fromList}} 移动到 {{toList}}',
+      userMentionedYouInCommentOnCard:
+        '<0>{{user}}</0> 在 <2>{{card}}</2> 的评论 «{{comment}}» 中提到了您',
+      userMovedCardFromListToList:
+        '<0>{{user}}</0> 将卡片 <2>{{card}}</2> 从 {{fromList}} 移动到 {{toList}}',
       userMovedThisCardFromListToList: '<0>{{user}}</0> 将该卡片从 {{fromList}} 移动到 {{toList}}',
       userRemovedUserFromCard: '<0>{{actorUser}}</0> 将 {{removedUser}} 从 <4>{{card}}</4> 移除',
       userRemovedUserFromThisCard: '<0>{{actorUser}}</0> 将 {{removedUser}} 从此卡片移除',
