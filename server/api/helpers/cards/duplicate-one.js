@@ -91,6 +91,7 @@ module.exports = {
         'description',
         'dueDate',
         'stopwatch',
+        'isClosed',
       ]),
       ...values,
       creatorUserId: values.creatorUser.id,

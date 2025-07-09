@@ -378,8 +378,6 @@ module.exports = {
       }
 
       if (values.list) {
-        values.listChangedAt = new Date().toISOString();
-
         if (values.board || inputs.list.type === List.Types.TRASH) {
           values.prevListId = null;
         } else if (sails.helpers.lists.isArchiveOrTrash(values.list)) {
@@ -387,6 +385,16 @@ module.exports = {
         } else if (inputs.list.type === List.Types.ARCHIVE) {
           values.prevListId = null;
         }
+
+        if (inputs.record.isClosed) {
+          if (values.list.type === List.Types.ACTIVE) {
+            values.isClosed = false;
+          }
+        } else if (values.list.type === List.Types.CLOSED) {
+          values.isClosed = true;
+        }
+
+        values.listChangedAt = new Date().toISOString();
       }
 
       card = await Card.qm.updateOne(inputs.record.id, values);

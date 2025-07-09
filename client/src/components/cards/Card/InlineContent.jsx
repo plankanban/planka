@@ -11,7 +11,7 @@ import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import markdownToText from '../../../utils/markdown-to-text';
-import { BoardViews, ListTypes } from '../../../constants/Enums';
+import { BoardViews } from '../../../constants/Enums';
 import UserAvatar from '../../users/UserAvatar';
 import LabelChip from '../../labels/LabelChip';
 
@@ -54,8 +54,6 @@ const InlineContent = React.memo(({ cardId }) => {
     [card.description],
   );
 
-  const isInClosedList = list.type === ListTypes.CLOSED;
-
   return (
     <div className={styles.wrapper}>
       <span className={styles.attachments}>
@@ -90,7 +88,7 @@ const InlineContent = React.memo(({ cardId }) => {
         </span>
       )}
       <span
-        className={classNames(styles.attachments, styles.name, isInClosedList && styles.nameClosed)}
+        className={classNames(styles.attachments, styles.name, card.isClosed && styles.nameClosed)}
       >
         <div className={styles.hidable}>{card.name}</div>
       </span>

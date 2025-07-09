@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { Progress } from 'semantic-ui-react';
 import { useToggle } from '../../../../lib/hooks';
-import { ListTypes } from '../../../../constants/Enums';
 
 import selectors from '../../../../selectors';
 import Task from './Task';
@@ -18,7 +17,6 @@ import styles from './TaskList.module.scss';
 
 const TaskList = React.memo(({ id }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
-  const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
 
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
@@ -37,12 +35,8 @@ const TaskList = React.memo(({ id }) => {
       for (const [, cardId] of matches) {
         const card = selectCardById(state, cardId);
 
-        if (card) {
-          const list = selectListById(state, card.listId);
-
-          if (list && list.type === ListTypes.CLOSED) {
-            return result + 1;
-          }
+        if (card && card.isClosed) {
+          return result + 1;
         }
       }
 

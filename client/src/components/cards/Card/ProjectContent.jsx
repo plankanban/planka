@@ -13,7 +13,7 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { startStopwatch, stopStopwatch } from '../../../utils/stopwatch';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
-import { BoardMembershipRoles, BoardViews, ListTypes } from '../../../constants/Enums';
+import { BoardMembershipRoles, BoardViews } from '../../../constants/Enums';
 import TaskList from './TaskList';
 import DueDateChip from '../DueDateChip';
 import StopwatchChip from '../StopwatchChip';
@@ -110,8 +110,6 @@ const ProjectContent = React.memo(({ cardId }) => {
     [cardId, card.stopwatch, dispatch],
   );
 
-  const isInClosedList = list.type === ListTypes.CLOSED;
-
   const hasInformation =
     card.description ||
     card.dueDate ||
@@ -147,9 +145,7 @@ const ProjectContent = React.memo(({ cardId }) => {
 
   return (
     <div className={styles.wrapper}>
-      <div className={classNames(styles.name, isInClosedList && styles.nameClosed)}>
-        {card.name}
-      </div>
+      <div className={classNames(styles.name, card.isClosed && styles.nameClosed)}>{card.name}</div>
       {coverUrl && (
         <div className={styles.coverWrapper}>
           <img src={coverUrl} alt="" className={styles.cover} />
@@ -191,11 +187,7 @@ const ProjectContent = React.memo(({ cardId }) => {
           )}
           {card.dueDate && (
             <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-              <DueDateChip
-                value={card.dueDate}
-                size="tiny"
-                withStatus={!isInClosedList && !isListArchiveOrTrash(list)}
-              />
+              <DueDateChip value={card.dueDate} size="tiny" withStatus={!card.isClosed} />
             </span>
           )}
           {card.stopwatch && (

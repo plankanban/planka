@@ -11,7 +11,7 @@ import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import markdownToText from '../../../utils/markdown-to-text';
-import { BoardViews, ListTypes } from '../../../constants/Enums';
+import { BoardViews } from '../../../constants/Enums';
 import LabelChip from '../../labels/LabelChip';
 import CustomFieldValueChip from '../../custom-field-values/CustomFieldValueChip';
 
@@ -76,8 +76,6 @@ const StoryContent = React.memo(({ cardId }) => {
     [card.description],
   );
 
-  const isInClosedList = list.type === ListTypes.CLOSED;
-
   return (
     <>
       {coverUrl && (
@@ -107,7 +105,7 @@ const StoryContent = React.memo(({ cardId }) => {
             ))}
           </span>
         )}
-        <div className={classNames(styles.name, isInClosedList && styles.nameClosed)}>
+        <div className={classNames(styles.name, card.isClosed && styles.nameClosed)}>
           {card.name}
         </div>
         {card.description && <div className={styles.descriptionText}>{descriptionText}</div>}

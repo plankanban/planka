@@ -16,7 +16,7 @@ import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { usePopupInClosableContext } from '../../../../hooks';
 import { isListArchiveOrTrash } from '../../../../utils/record-helpers';
-import { BoardMembershipRoles, ListTypes } from '../../../../constants/Enums';
+import { BoardMembershipRoles } from '../../../../constants/Enums';
 import { ClosableContext } from '../../../../contexts';
 import EditName from './EditName';
 import SelectAssigneeStep from './SelectAssigneeStep';
@@ -41,14 +41,11 @@ const Task = React.memo(({ id, index }) => {
     for (const [, cardId] of matches) {
       const card = selectCardById(state, cardId);
 
-      if (card) {
-        const list = selectListById(state, card.listId);
-
-        if (list && list.type === ListTypes.CLOSED) {
-          return true;
-        }
+      if (card && card.isClosed) {
+        return true;
       }
     }
+
     return false;
   });
 

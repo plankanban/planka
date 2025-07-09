@@ -137,6 +137,7 @@ export function* createCard(listId, data, autoOpen) {
         id: localId,
         boardId: list.boardId,
         creatorUserId: currentUserMembership.userId,
+        isClosed: list.type === ListTypes.CLOSED,
       },
       autoOpen,
     ),
@@ -225,6 +226,8 @@ export function* handleCardCreate(card) {
 
 export function* updateCard(id, data) {
   let prevListId;
+  let isClosed;
+
   if (data.listId) {
     const list = yield select(selectors.selectListById, data.listId);
 
@@ -238,6 +241,14 @@ export function* updateCard(id, data) {
     } else if (prevList.type === ListTypes.ARCHIVE) {
       prevListId = null;
     }
+
+    if (card.isClosed) {
+      if (list.type === ListTypes.ACTIVE) {
+        isClosed = false;
+      }
+    } else if (list.type === ListTypes.CLOSED) {
+      isClosed = true;
+    }
   }
 
   yield put(
@@ -245,6 +256,9 @@ export function* updateCard(id, data) {
       ...data,
       ...(prevListId !== undefined && {
         prevListId,
+      }),
+      ...(isClosed !== undefined && {
+        isClosed,
       }),
     }),
   );

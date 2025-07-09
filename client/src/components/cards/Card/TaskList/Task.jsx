@@ -9,7 +9,6 @@ import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 
 import selectors from '../../../../selectors';
-import { ListTypes } from '../../../../constants/Enums';
 import Linkify from '../../../common/Linkify';
 
 import styles from './Task.module.scss';
@@ -17,7 +16,6 @@ import styles from './Task.module.scss';
 const Task = React.memo(({ id }) => {
   const selectTaskById = useMemo(() => selectors.makeSelectTaskById(), []);
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
-  const selectListById = useMemo(() => selectors.makeSelectListById(), []);
 
   const task = useSelector((state) => selectTaskById(state, id));
 
@@ -33,14 +31,11 @@ const Task = React.memo(({ id }) => {
     for (const [, cardId] of matches) {
       const card = selectCardById(state, cardId);
 
-      if (card) {
-        const list = selectListById(state, card.listId);
-
-        if (list && list.type === ListTypes.CLOSED) {
-          return true;
-        }
+      if (card && card.isClosed) {
+        return true;
       }
     }
+
     return false;
   });
 

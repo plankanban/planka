@@ -33,6 +33,28 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
+    if (values.type) {
+      let isClosed;
+      if (values.type === List.Types.CLOSED) {
+        if (inputs.record.type === List.Types.ACTIVE) {
+          isClosed = true;
+        }
+      } else if (inputs.record.type === List.Types.CLOSED) {
+        isClosed = false;
+      }
+
+      if (!_.isUndefined(isClosed)) {
+        await Card.qm.update(
+          {
+            listId: inputs.record.id,
+          },
+          {
+            isClosed,
+          },
+        );
+      }
+    }
+
     if (!_.isUndefined(values.position)) {
       const lists = await sails.helpers.boards.getFiniteListsById(
         inputs.board.id,

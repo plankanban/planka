@@ -101,7 +101,6 @@ export default class extends BaseModel {
       case ActionTypes.LIST_CREATE:
       case ActionTypes.LIST_CREATE_HANDLE:
       case ActionTypes.LIST_UPDATE__SUCCESS:
-      case ActionTypes.LIST_UPDATE_HANDLE:
       case ActionTypes.LIST_SORT__SUCCESS:
       case ActionTypes.LIST_CARDS_MOVE__SUCCESS:
       case ActionTypes.LIST_CLEAR__SUCCESS:
@@ -117,10 +116,60 @@ export default class extends BaseModel {
         List.withId(payload.localId).delete();
 
         break;
-      case ActionTypes.LIST_UPDATE:
-        List.withId(payload.id).update(payload.data);
+      case ActionTypes.LIST_UPDATE: {
+        const listModel = List.withId(payload.id);
+
+        let isClosed;
+        if (payload.data.type) {
+          if (payload.data.type === ListTypes.CLOSED) {
+            if (listModel.type === ListTypes.ACTIVE) {
+              isClosed = true;
+            }
+          } else if (listModel.type === ListTypes.CLOSED) {
+            isClosed = false;
+          }
+        }
+
+        listModel.update(payload.data);
+
+        if (isClosed !== undefined) {
+          listModel.cards.toModelArray().forEach((cardModel) => {
+            cardModel.update({
+              isClosed,
+            });
+          });
+        }
 
         break;
+      }
+      case ActionTypes.LIST_UPDATE_HANDLE: {
+        const listModel = List.withId(payload.list.id);
+
+        if (listModel) {
+          let isClosed;
+          if (payload.list.type === ListTypes.CLOSED) {
+            if (listModel.type === ListTypes.ACTIVE) {
+              isClosed = true;
+            }
+          } else if (listModel.type === ListTypes.CLOSED) {
+            isClosed = false;
+          }
+
+          listModel.update(prepareList(payload.list));
+
+          if (isClosed !== undefined) {
+            listModel.cards.toModelArray().forEach((cardModel) => {
+              cardModel.update({
+                isClosed,
+              });
+            });
+          }
+        } else {
+          List.upsert(prepareList(payload.list));
+        }
+
+        break;
+      }
       case ActionTypes.LIST_SORT:
         List.withId(payload.id).sortCards(payload.data);
 

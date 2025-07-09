@@ -67,6 +67,10 @@ module.exports = {
       delete values.position;
     }
 
+    if (values.list.type === List.Types.CLOSED) {
+      values.isClosed = true;
+    }
+
     const card = await Card.qm.createOne({
       ...values,
       boardId: values.board.id,

@@ -442,18 +442,14 @@ const ProjectContent = React.memo(({ onClose }) => {
                         <DueDateChip
                           withStatusIcon
                           value={card.dueDate}
-                          withStatus={
-                            list.type !== ListTypes.CLOSED && !isInArchiveList && !isInTrashList
-                          }
+                          withStatus={!card.isClosed}
                         />
                       </EditDueDatePopup>
                     ) : (
                       <DueDateChip
                         withStatusIcon
                         value={card.dueDate}
-                        withStatus={
-                          list.type !== ListTypes.CLOSED && !isInArchiveList && !isInTrashList
-                        }
+                        withStatus={!card.isClosed}
                       />
                     )}
                   </span>

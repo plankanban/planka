@@ -48,6 +48,11 @@ module.exports = {
     stopwatch: {
       type: 'json',
     },
+    isClosed: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'is_closed',
+    },
     commentsTotal: {
       type: 'number',
       defaultsTo: 0,

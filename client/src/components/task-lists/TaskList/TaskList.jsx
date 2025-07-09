@@ -14,7 +14,7 @@ import { useDidUpdate } from '../../../lib/hooks';
 import selectors from '../../../selectors';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import DroppableTypes from '../../../constants/DroppableTypes';
-import { BoardMembershipRoles, ListTypes } from '../../../constants/Enums';
+import { BoardMembershipRoles } from '../../../constants/Enums';
 import { ClosableContext } from '../../../contexts';
 import Task from './Task';
 import AddTask from './AddTask';
@@ -44,12 +44,8 @@ const TaskList = React.memo(({ id }) => {
       for (const [, cardId] of matches) {
         const card = selectCardById(state, cardId);
 
-        if (card) {
-          const list = selectListById(state, card.listId);
-
-          if (list && list.type === ListTypes.CLOSED) {
-            return result + 1;
-          }
+        if (card && card.isClosed) {
+          return result + 1;
         }
       }
 
