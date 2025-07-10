@@ -55,7 +55,7 @@ module.exports = {
       values.prevListId = null;
     }
 
-    const cards = await Card.qm.update(
+    const { cards } = await Card.qm.update(
       {
         listId: inputs.record.id,
       },

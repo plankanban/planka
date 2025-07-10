@@ -5,12 +5,13 @@
 
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Form, TextArea } from 'semantic-ui-react';
+import { Button, Dropdown, Form, Icon, TextArea } from 'semantic-ui-react';
 import { useClickAwayListener, useDidUpdate, useToggle } from '../../../lib/hooks';
 
+import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useForm, useNestedRef } from '../../../hooks';
 import { focusEnd } from '../../../utils/element-helpers';
@@ -20,18 +21,23 @@ import styles from './AddTask.module.scss';
 
 const DEFAULT_DATA = {
   name: '',
+  linkedCardId: null,
 };
 
 const MULTIPLE_REGEX = /\s*\r?\n\s*/;
 
 const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
+  const cards = useSelector(selectors.selectCardsExceptCurrentForCurrentBoard);
+
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
-  const [focusNameFieldState, focusNameField] = useToggle();
+  const [isLinkingToCard, toggleLinkingToCard] = useToggle();
+  const [focusFieldState, focusField] = useToggle();
 
-  const [nameFieldRef, handleNameFieldRef] = useNestedRef();
-  const [buttonRef, handleButtonRef] = useNestedRef();
+  const [fieldRef, handleFieldRef] = useNestedRef();
+  const [submitButtonRef, handleSubmitButtonRef] = useNestedRef();
+  const [toggleLinkingButtonRef, handleToggleLinkingButtonRef] = useNestedRef();
 
   const submit = useCallback(
     (isMultiple = false) => {
@@ -40,12 +46,23 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
         name: data.name.trim(),
       };
 
-      if (!cleanData.name) {
-        nameFieldRef.current.select();
-        return;
+      if (isLinkingToCard) {
+        if (!cleanData.linkedCardId) {
+          fieldRef.current.querySelector('.search').focus();
+          return;
+        }
+
+        delete cleanData.name;
+      } else {
+        if (!cleanData.name) {
+          fieldRef.current.select();
+          return;
+        }
+
+        delete cleanData.linkedCardId;
       }
 
-      if (isMultiple) {
+      if (!isLinkingToCard && isMultiple) {
         cleanData.name.split(MULTIPLE_REGEX).forEach((name) => {
           dispatch(
             entryActions.createTask(taskListId, {
@@ -59,9 +76,9 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
       }
 
       setData(DEFAULT_DATA);
-      focusNameField();
+      focusField();
     },
-    [taskListId, dispatch, data, setData, focusNameField, nameFieldRef],
+    [taskListId, dispatch, data, setData, isLinkingToCard, focusField, fieldRef],
   );
 
   const handleSubmit = useCallback(() => {
@@ -71,34 +88,48 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
   const handleFieldKeyDown = useCallback(
     (event) => {
       if (event.key === 'Enter') {
-        event.preventDefault();
-        submit(isModifierKeyPressed(event));
+        if (!isLinkingToCard) {
+          event.preventDefault();
+          submit(isModifierKeyPressed(event));
+        }
       } else if (event.key === 'Escape') {
         onClose();
       }
     },
-    [onClose, submit],
+    [onClose, isLinkingToCard, submit],
   );
 
+  const handleToggleLinkingClick = useCallback(() => {
+    toggleLinkingToCard();
+  }, [toggleLinkingToCard]);
+
   const handleClickAwayCancel = useCallback(() => {
-    nameFieldRef.current.focus();
-  }, [nameFieldRef]);
+    if (isLinkingToCard) {
+      fieldRef.current.querySelector('.search').focus();
+    } else {
+      focusEnd(fieldRef.current);
+    }
+  }, [isLinkingToCard, fieldRef]);
 
   const clickAwayProps = useClickAwayListener(
-    [nameFieldRef, buttonRef],
+    [fieldRef, submitButtonRef, toggleLinkingButtonRef],
     onClose,
     handleClickAwayCancel,
   );
 
   useEffect(() => {
     if (isOpened) {
-      focusEnd(nameFieldRef.current);
+      if (isLinkingToCard) {
+        fieldRef.current.querySelector('.search').focus();
+      } else {
+        focusEnd(fieldRef.current);
+      }
     }
-  }, [isOpened, nameFieldRef]);
+  }, [isOpened, isLinkingToCard, fieldRef]);
 
   useDidUpdate(() => {
-    nameFieldRef.current.focus();
-  }, [focusNameFieldState]);
+    fieldRef.current.focus();
+  }, [focusFieldState]);
 
   if (!isOpened) {
     return children;
@@ -106,27 +137,63 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
 
   return (
     <Form className={styles.wrapper} onSubmit={handleSubmit}>
-      <TextArea
-        {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
-        ref={handleNameFieldRef}
-        as={TextareaAutosize}
-        name="name"
-        value={data.name}
-        placeholder={t('common.enterTaskDescription')}
-        maxLength={1024}
-        minRows={2}
-        spellCheck={false}
-        className={styles.field}
-        onKeyDown={handleFieldKeyDown}
-        onChange={handleFieldChange}
-      />
+      {isLinkingToCard ? (
+        <Dropdown
+          fluid
+          selection
+          search
+          ref={handleFieldRef}
+          name="linkedCardId"
+          options={cards.map((card) => ({
+            text: card.name,
+            value: card.id,
+          }))}
+          value={data.linkedCardId}
+          placeholder={t('common.searchCards')}
+          minCharacters={1}
+          closeOnBlur={false}
+          closeOnEscape={false}
+          noResultsMessage={t('common.noCardsFound')}
+          className={styles.field}
+          onKeyDown={handleFieldKeyDown}
+          onChange={handleFieldChange}
+        />
+      ) : (
+        <TextArea
+          {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
+          ref={handleFieldRef}
+          as={TextareaAutosize}
+          name="name"
+          value={data.name}
+          placeholder={t('common.enterTaskDescription')}
+          maxLength={1024}
+          minRows={2}
+          spellCheck={false}
+          className={styles.field}
+          onKeyDown={handleFieldKeyDown}
+          onChange={handleFieldChange}
+        />
+      )}
       <div className={styles.controls}>
         <Button
           {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
           positive
-          ref={handleButtonRef}
+          ref={handleSubmitButtonRef}
           content={t('action.addTask')}
         />
+        <Button
+          {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
+          ref={handleToggleLinkingButtonRef}
+          type="button"
+          className={styles.toggleLinkingButton}
+          onClick={handleToggleLinkingClick}
+        >
+          <Icon
+            name={isLinkingToCard ? 'align left' : 'exchange'}
+            className={styles.toggleLinkingButtonIcon}
+          />
+          {isLinkingToCard ? t('common.description') : t('common.linkToCard')}
+        </Button>
       </div>
     </Form>
   );

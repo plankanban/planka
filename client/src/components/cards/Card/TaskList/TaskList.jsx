@@ -16,32 +16,14 @@ import Task from './Task';
 import styles from './TaskList.module.scss';
 
 const TaskList = React.memo(({ id }) => {
-  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
 
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
 
   // TODO: move to selector?
-  const completedTasksTotal = useSelector((state) =>
-    tasks.reduce((result, task) => {
-      if (task.isCompleted) {
-        return result + 1;
-      }
-
-      const regex = /\/cards\/([^/]+)/g;
-      const matches = task.name.matchAll(regex);
-
-      // eslint-disable-next-line no-restricted-syntax
-      for (const [, cardId] of matches) {
-        const card = selectCardById(state, cardId);
-
-        if (card && card.isClosed) {
-          return result + 1;
-        }
-      }
-
-      return result;
-    }, 0),
+  const completedTasksTotal = useMemo(
+    () => tasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
+    [tasks],
   );
 
   const [isOpened, toggleOpened] = useToggle();

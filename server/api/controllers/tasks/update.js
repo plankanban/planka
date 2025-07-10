@@ -83,6 +83,14 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
+    if (task.linkedCardId) {
+      const availableInputKeys = ['id', 'taskListId', 'position'];
+
+      if (_.difference(Object.keys(inputs), availableInputKeys).length > 0) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    }
+
     let nextTaskList;
     if (!_.isUndefined(inputs.taskListId)) {
       nextTaskList = await TaskList.qm.getOneById(inputs.taskListId, {

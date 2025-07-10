@@ -33,28 +33,6 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    if (values.type) {
-      let isClosed;
-      if (values.type === List.Types.CLOSED) {
-        if (inputs.record.type === List.Types.ACTIVE) {
-          isClosed = true;
-        }
-      } else if (inputs.record.type === List.Types.CLOSED) {
-        isClosed = false;
-      }
-
-      if (!_.isUndefined(isClosed)) {
-        await Card.qm.update(
-          {
-            listId: inputs.record.id,
-          },
-          {
-            isClosed,
-          },
-        );
-      }
-    }
-
     if (!_.isUndefined(values.position)) {
       const lists = await sails.helpers.boards.getFiniteListsById(
         inputs.board.id,
@@ -94,7 +72,7 @@ module.exports = {
       }
     }
 
-    const list = await List.qm.updateOne(inputs.record.id, values);
+    const { list, tasks } = await List.qm.updateOne(inputs.record.id, values);
 
     if (list) {
       sails.sockets.broadcast(
@@ -105,6 +83,32 @@ module.exports = {
         },
         inputs.request,
       );
+
+      if (tasks) {
+        const taskListIds = sails.helpers.utils.mapRecords(tasks, 'taskListId', true);
+        const taskLists = await TaskList.qm.getByIds(taskListIds);
+        const taskListById = _.keyBy(taskLists, 'id');
+
+        const cardIds = sails.helpers.utils.mapRecords(taskLists, 'cardId', true);
+        const cards = await Card.qm.getByIds(cardIds);
+        const cardById = _.keyBy(cards, 'id');
+
+        const boardIdByTaskId = tasks.reduce(
+          (result, task) => ({
+            ...result,
+            [task.id]: cardById[taskListById[task.taskListId].cardId].boardId,
+          }),
+          {},
+        );
+
+        tasks.forEach((task) => {
+          sails.sockets.broadcast(`board:${boardIdByTaskId[task.id]}`, 'taskUpdate', {
+            item: task,
+          });
+        });
+
+        // TODO: send webhooks
+      }
 
       const webhooks = await Webhook.qm.getAll();
 

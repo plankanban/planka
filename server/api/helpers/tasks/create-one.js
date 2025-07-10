@@ -67,6 +67,17 @@ module.exports = {
       // TODO: send webhooks
     }
 
+    if (values.linkedCard) {
+      Object.assign(values, {
+        linkedCardId: values.linkedCard.id,
+        name: values.linkedCard.name,
+      });
+
+      if (values.linkedCard.isClosed) {
+        values.isCompleted = true;
+      }
+    }
+
     const task = await Task.qm.createOne({
       ...values,
       position,

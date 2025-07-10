@@ -397,7 +397,10 @@ module.exports = {
         values.listChangedAt = new Date().toISOString();
       }
 
-      card = await Card.qm.updateOne(inputs.record.id, values);
+      const updateResult = await Card.qm.updateOne(inputs.record.id, values);
+
+      ({ card } = updateResult);
+      const { tasks } = updateResult;
 
       if (!card) {
         return card;
@@ -489,6 +492,32 @@ module.exports = {
             list: values.list,
           });
         }
+      }
+
+      if (tasks) {
+        const taskListIds = sails.helpers.utils.mapRecords(tasks, 'taskListId', true);
+        const taskLists = await TaskList.qm.getByIds(taskListIds);
+        const taskListById = _.keyBy(taskLists, 'id');
+
+        const cardIds = sails.helpers.utils.mapRecords(taskLists, 'cardId', true);
+        const cards = await Card.qm.getByIds(cardIds);
+        const cardById = _.keyBy(cards, 'id');
+
+        const boardIdByTaskId = tasks.reduce(
+          (result, task) => ({
+            ...result,
+            [task.id]: cardById[taskListById[task.taskListId].cardId].boardId,
+          }),
+          {},
+        );
+
+        tasks.forEach((task) => {
+          sails.sockets.broadcast(`board:${boardIdByTaskId[task.id]}`, 'taskUpdate', {
+            item: task,
+          });
+        });
+
+        // TODO: send webhooks
       }
 
       sails.helpers.utils.sendWebhooks.with({

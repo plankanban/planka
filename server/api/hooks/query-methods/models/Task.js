@@ -36,6 +36,11 @@ const getByTaskListIds = async (taskListIds, { sort = ['position', 'id'] } = {})
     { sort },
   );
 
+const getByLinkedCardId = (linkedCardId) =>
+  defaultFind({
+    linkedCardId,
+  });
+
 const getOneById = (id, { taskListId } = {}) => {
   const criteria = {
     id,
@@ -63,6 +68,7 @@ module.exports = {
   getByIds,
   getByTaskListId,
   getByTaskListIds,
+  getByLinkedCardId,
   getOneById,
   update,
   updateOne,

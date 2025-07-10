@@ -78,8 +78,8 @@ module.exports = {
     }
 
     cards = await Promise.all(
-      cards.map((card, index) =>
-        Card.qm.updateOne(
+      cards.map(async (card, index) => {
+        const { card: nextCard } = await Card.qm.updateOne(
           {
             id: card.id,
             listId: card.listId,
@@ -87,8 +87,10 @@ module.exports = {
           {
             position: POSITION_GAP * (index + 1),
           },
-        ),
-      ),
+        );
+
+        return nextCard;
+      }),
     );
 
     sails.sockets.broadcast(

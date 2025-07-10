@@ -29,7 +29,7 @@ module.exports = {
   async fn(inputs) {
     const trashList = await List.qm.getOneTrashByBoardId(inputs.board.id);
 
-    const cards = await Card.qm.update(
+    const { cards } = await Card.qm.update(
       {
         listId: inputs.record.id,
       },

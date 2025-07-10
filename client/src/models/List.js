@@ -137,6 +137,10 @@ export default class extends BaseModel {
             cardModel.update({
               isClosed,
             });
+
+            cardModel.linkedTasks.update({
+              isCompleted: isClosed,
+            });
           });
         }
 
@@ -161,6 +165,10 @@ export default class extends BaseModel {
             listModel.cards.toModelArray().forEach((cardModel) => {
               cardModel.update({
                 isClosed,
+              });
+
+              cardModel.linkedTasks.update({
+                isCompleted: isClosed,
               });
             });
           }

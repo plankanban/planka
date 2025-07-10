@@ -56,6 +56,22 @@
     }
   }
 
+  .icon {
+    color: rgba(9, 30, 66, 0.24);
+    margin-right: 8px;
+  }
+
+  .name {
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .nameCompleted {
+    color: #aaa;
+    text-decoration: line-through;
+  }
+
   .task {
     display: inline-block;
     overflow: hidden;
@@ -64,11 +80,6 @@
     vertical-align: top;
     white-space: pre-wrap;
     width: 100%;
-  }
-
-  .taskCompleted {
-    color: #aaa;
-    text-decoration: line-through;
   }
 
   .text {
@@ -81,11 +92,22 @@
     min-height: 32px;
     padding: 0 34px 0 40px;
     width: 100%;
+
+    &.textLinked {
+      padding-right: 0px;
+    }
   }
 
   .textEditable {
-    cursor: pointer;
     padding-right: 68px;
+
+    &.textLinked {
+      padding-right: 34px;
+    }
+  }
+
+  .textPointable {
+    cursor: pointer;
   }
 
   .wrapper {

@@ -6,23 +6,22 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import LinkifyReact from 'linkify-react';
 
-import history from '../../history';
-import selectors from '../../selectors';
-import matchPaths from '../../utils/match-paths';
-import Paths from '../../constants/Paths';
+import history from '../../../history';
+import selectors from '../../../selectors';
+import matchPaths from '../../../utils/match-paths';
+import Paths from '../../../constants/Paths';
 
-const Linkify = React.memo(({ children, linkStopPropagation, ...props }) => {
+const Linkify = React.memo(({ href, content, stopPropagation, ...props }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
 
   const url = useMemo(() => {
     try {
-      return new URL(children, window.location);
+      return new URL(href, window.location);
     } catch {
       return null;
     }
-  }, [children]);
+  }, [href]);
 
   const isSameSite = !!url && url.origin === window.location.origin;
 
@@ -42,9 +41,9 @@ const Linkify = React.memo(({ children, linkStopPropagation, ...props }) => {
     return selectCardById(state, cardsPathMatch.params.id);
   });
 
-  const handleLinkClick = useCallback(
+  const handleClick = useCallback(
     (event) => {
-      if (linkStopPropagation) {
+      if (stopPropagation) {
         event.stopPropagation();
       }
 
@@ -53,44 +52,30 @@ const Linkify = React.memo(({ children, linkStopPropagation, ...props }) => {
         history.push(event.target.href);
       }
     },
-    [linkStopPropagation, isSameSite],
-  );
-
-  const linkRenderer = useCallback(
-    ({ attributes: { href, ...linkProps }, content }) => (
-      <a
-        {...linkProps} // eslint-disable-line react/jsx-props-no-spreading
-        href={href}
-        target={isSameSite ? undefined : '_blank'}
-        rel={isSameSite ? undefined : 'noreferrer'}
-        onClick={handleLinkClick}
-      >
-        {card ? card.name : content}
-      </a>
-    ),
-    [isSameSite, card, handleLinkClick],
+    [stopPropagation, isSameSite],
   );
 
   return (
-    <LinkifyReact
+    <a
       {...props} // eslint-disable-line react/jsx-props-no-spreading
-      options={{
-        defaultProtocol: 'https',
-        render: linkRenderer,
-      }}
+      href={href}
+      target={isSameSite ? undefined : '_blank'}
+      rel={isSameSite ? undefined : 'noreferrer'}
+      onClick={handleClick}
     >
-      {children}
-    </LinkifyReact>
+      {card ? card.name : content}
+    </a>
   );
 });
 
 Linkify.propTypes = {
-  children: PropTypes.string.isRequired,
-  linkStopPropagation: PropTypes.bool,
+  href: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+  stopPropagation: PropTypes.bool,
 };
 
 Linkify.defaultProps = {
-  linkStopPropagation: false,
+  stopPropagation: false,
 };
 
 export default Linkify;
