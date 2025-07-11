@@ -203,6 +203,7 @@ export default {
       unsubscribe: 'Obunani bekor qilish',
       uploadNewAvatar: 'Yangi avatar yuklash',
       uploadNewImage: 'Yangi rasm yuklash',
+      moveListToBoard: "Ro'yxatni boshqa doskaga ko'chirish",
     },
   },
 };
