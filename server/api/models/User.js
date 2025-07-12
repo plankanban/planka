@@ -377,6 +377,19 @@ module.exports = {
       type: 'ref',
       columnName: 'password_changed_at',
     },
+    apiKeyPrefix: {
+      type: 'string',
+      columnName: 'api_key_prefix',
+      isNotEmptyString: true,
+      allowNull: true,
+      unique: true,
+    },
+    apiKeyHash: {
+      type: 'string',
+      columnName: 'api_key_hash',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
     termsAcceptedAt: {
       type: 'ref',
       columnName: 'terms_accepted_at',
