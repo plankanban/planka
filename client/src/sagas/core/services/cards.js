@@ -14,7 +14,8 @@ import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 import { isListArchiveOrTrash, isListFinite } from '../../../utils/record-helpers';
 import ActionTypes from '../../../constants/ActionTypes';
-import { BoardViews, ListTypes } from '../../../constants/Enums';
+import { BoardViews, ListTypes, ListTypeStates } from '../../../constants/Enums';
+import LIST_TYPE_STATE_BY_TYPE from '../../../constants/ListTypeStateByType';
 
 // eslint-disable-next-line no-underscore-dangle
 const _preloadImage = (url) =>
@@ -137,7 +138,7 @@ export function* createCard(listId, data, autoOpen) {
         id: localId,
         boardId: list.boardId,
         creatorUserId: currentUserMembership.userId,
-        isClosed: list.type === ListTypes.CLOSED,
+        isClosed: LIST_TYPE_STATE_BY_TYPE[list.type] === ListTypeStates.CLOSED,
       },
       autoOpen,
     ),
@@ -242,11 +243,13 @@ export function* updateCard(id, data) {
       prevListId = null;
     }
 
+    const typeState = LIST_TYPE_STATE_BY_TYPE[list.type];
+
     if (card.isClosed) {
-      if (list.type === ListTypes.ACTIVE) {
+      if (typeState === ListTypeStates.OPENED) {
         isClosed = false;
       }
-    } else if (list.type === ListTypes.CLOSED) {
+    } else if (typeState === ListTypeStates.CLOSED) {
       isClosed = true;
     }
   }

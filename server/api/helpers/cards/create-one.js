@@ -67,7 +67,7 @@ module.exports = {
       delete values.position;
     }
 
-    if (values.list.type === List.Types.CLOSED) {
+    if (List.TYPE_STATE_BY_TYPE[values.list.type] === List.TypeStates.CLOSED) {
       values.isClosed = true;
     }
 

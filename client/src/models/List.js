@@ -10,7 +10,8 @@ import buildSearchParts from '../utils/build-search-parts';
 import { isListFinite } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
-import { ListSortFieldNames, ListTypes, SortOrders } from '../constants/Enums';
+import { ListSortFieldNames, ListTypes, ListTypeStates, SortOrders } from '../constants/Enums';
+import LIST_TYPE_STATE_BY_TYPE from '../constants/ListTypeStateByType';
 
 const POSITION_BY_LIST_TYPE = {
   [ListTypes.ARCHIVE]: Number.MAX_SAFE_INTEGER - 1,
@@ -26,6 +27,21 @@ const prepareList = (list) => {
     ...list,
     position: list.position === null ? POSITION_BY_LIST_TYPE[list.type] : list.position,
   };
+};
+
+const getChangedTypeState = (prevList, list) => {
+  const prevTypeState = LIST_TYPE_STATE_BY_TYPE[prevList.type];
+  const typeState = LIST_TYPE_STATE_BY_TYPE[list.type];
+
+  if (prevTypeState === ListTypeStates.OPENED && typeState === ListTypeStates.CLOSED) {
+    return ListTypeStates.CLOSED;
+  }
+
+  if (prevTypeState === ListTypeStates.CLOSED && typeState === ListTypeStates.OPENED) {
+    return ListTypeStates.OPENED;
+  }
+
+  return null;
 };
 
 export default class extends BaseModel {
@@ -121,12 +137,12 @@ export default class extends BaseModel {
 
         let isClosed;
         if (payload.data.type) {
-          if (payload.data.type === ListTypes.CLOSED) {
-            if (listModel.type === ListTypes.ACTIVE) {
-              isClosed = true;
-            }
-          } else if (listModel.type === ListTypes.CLOSED) {
+          const changedTypeState = getChangedTypeState(listModel, payload.data);
+
+          if (changedTypeState === ListTypeStates.OPENED) {
             isClosed = false;
+          } else if (changedTypeState === ListTypeStates.CLOSED) {
+            isClosed = true;
           }
         }
 
@@ -150,13 +166,13 @@ export default class extends BaseModel {
         const listModel = List.withId(payload.list.id);
 
         if (listModel) {
+          const changedTypeState = getChangedTypeState(listModel, payload.list);
+
           let isClosed;
-          if (payload.list.type === ListTypes.CLOSED) {
-            if (listModel.type === ListTypes.ACTIVE) {
-              isClosed = true;
-            }
-          } else if (listModel.type === ListTypes.CLOSED) {
+          if (changedTypeState === ListTypeStates.OPENED) {
             isClosed = false;
+          } else if (changedTypeState === ListTypeStates.CLOSED) {
+            isClosed = true;
           }
 
           listModel.update(prepareList(payload.list));

@@ -58,10 +58,16 @@ const updateOne = async (criteria, values) => {
       let tasks = [];
 
       if (list) {
+        const prevTypeState = List.TYPE_STATE_BY_TYPE[prevList.type];
+        const typeState = List.TYPE_STATE_BY_TYPE[list.type];
+
         let isClosed;
-        if (list.type === List.Types.ACTIVE) {
+        if (prevTypeState === List.TypeStates.CLOSED && typeState === List.TypeStates.OPENED) {
           isClosed = false;
-        } else if (list.type === List.Types.CLOSED) {
+        } else if (
+          prevTypeState === List.TypeStates.OPENED &&
+          typeState === List.TypeStates.CLOSED
+        ) {
           isClosed = true;
         }
 

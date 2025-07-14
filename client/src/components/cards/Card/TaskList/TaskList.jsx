@@ -20,13 +20,13 @@ const TaskList = React.memo(({ id }) => {
 
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
 
+  const [isOpened, toggleOpened] = useToggle();
+
   // TODO: move to selector?
   const completedTasksTotal = useMemo(
     () => tasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
     [tasks],
   );
-
-  const [isOpened, toggleOpened] = useToggle();
 
   const handleToggleClick = useCallback(
     (event) => {

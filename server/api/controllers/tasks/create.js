@@ -15,6 +15,9 @@ const Errors = {
   LINKED_CARD_NOT_FOUND: {
     linkedCardNotFound: 'Linked card not found',
   },
+  LINKED_CARD_OR_NAME_MUST_BE_PRESENT: {
+    linkedCardOrNameMustBePresent: 'Linked card or name must be present',
+  },
 };
 
 module.exports = {
@@ -31,8 +34,9 @@ module.exports = {
     },
     name: {
       type: 'string',
+      isNotEmptyString: true,
       maxLength: 1024,
-      // required: true,
+      allowNull: true,
     },
     isCompleted: {
       type: 'boolean',
@@ -48,6 +52,9 @@ module.exports = {
     },
     linkedCardNotFound: {
       responseType: 'notFound',
+    },
+    linkedCardOrNameMustBePresent: {
+      responseType: 'unprocessableEntity',
     },
   },
 
@@ -100,19 +107,24 @@ module.exports = {
 
     const values = _.pick(inputs, ['position', 'name', 'isCompleted']);
 
-    const task = await sails.helpers.tasks.createOne.with({
-      project,
-      board,
-      list,
-      card,
-      values: {
-        ...values,
-        taskList,
-        linkedCard,
-      },
-      actorUser: currentUser,
-      request: this.req,
-    });
+    const task = await sails.helpers.tasks.createOne
+      .with({
+        project,
+        board,
+        list,
+        card,
+        values: {
+          ...values,
+          taskList,
+          linkedCard,
+        },
+        actorUser: currentUser,
+        request: this.req,
+      })
+      .intercept(
+        'linkedCardOrNameMustBeInValues',
+        () => Errors.LINKED_CARD_OR_NAME_MUST_BE_PRESENT,
+      );
 
     return {
       item: task,

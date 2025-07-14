@@ -386,11 +386,13 @@ module.exports = {
           values.prevListId = null;
         }
 
+        const typeState = List.TYPE_STATE_BY_TYPE[values.list.type];
+
         if (inputs.record.isClosed) {
-          if (values.list.type === List.Types.ACTIVE) {
+          if (typeState === List.TypeStates.OPENED) {
             values.isClosed = false;
           }
-        } else if (values.list.type === List.Types.CLOSED) {
+        } else if (typeState === List.TypeStates.CLOSED) {
           values.isClosed = true;
         }
 

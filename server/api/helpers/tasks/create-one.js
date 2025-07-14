@@ -34,8 +34,16 @@ module.exports = {
     },
   },
 
+  exists: {
+    linkedCardOrNameMustBeInValues: {},
+  },
+
   async fn(inputs) {
     const { values } = inputs;
+
+    if (!values.linkedCard && !values.name) {
+      throw 'linkedCardOrNameMustBeInValues';
+    }
 
     const tasks = await Task.qm.getByTaskListId(values.taskList.id);
 

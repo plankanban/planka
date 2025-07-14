@@ -71,6 +71,11 @@ export const ListTypes = {
   TRASH: 'trash',
 };
 
+export const ListTypeStates = {
+  OPENED: 'opened',
+  CLOSED: 'closed',
+};
+
 export const ListSortFieldNames = {
   NAME: 'name',
   DUE_DATE: 'dueDate',
