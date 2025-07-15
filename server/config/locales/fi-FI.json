@@ -1,0 +1,16 @@
+{
+	"Card Created": "Kortti luotu",
+	"Card Moved": "Kortti siirretty",
+	"New Comment": "Uusi kommentti",
+	"Test Title": "Testin otsikko",
+	"This is a test text message!": "Tämä on testiviesti!",
+	"This is a *test* **markdown** `message`!": "Tämä on *testi* **markdown** `viesti`!",
+	"This is a <i>test</i> <b>html</b> <code>message</code>": "Tämä on <i>testi</i> <b>html</b> <code>viesti</code>",
+	"You Were Added to Card": "Sinut lisättiin korttiin",
+	"You Were Mentioned in Comment": "Sinut mainittiin kommentissa",
+	"%s added you to %s on %s": "%s lisäsi sinut kohteeseen %s kohteessa %s",
+	"%s created %s in %s on %s": "%s loi %s kohteessa %s kohteessa %s",
+	"%s left a new comment to %s on %s": "%s jätti uuden kommentin kohteeseen %s kohteessa %s",
+	"%s mentioned you in %s on %s": "%s mainitsi sinut kohteessa %s kohteessa %s",
+	"%s moved %s from %s to %s on %s": "%s siirsi %s kohteesta %s kohteeseen %s kohteessa %s"
+}

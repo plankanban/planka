@@ -47,7 +47,67 @@ const getOneTrashByBoardId = (boardId) =>
     type: List.Types.TRASH,
   });
 
-const updateOne = (criteria, values) => List.updateOne(criteria).set({ ...values });
+const updateOne = async (criteria, values) => {
+  if (values.type) {
+    return sails.getDatastore().transaction(async (db) => {
+      const list = await List.updateOne(criteria)
+        .set({ ...values })
+        .usingConnection(db);
+
+      let cards = [];
+      let tasks = [];
+
+      if (list) {
+        const prevTypeState = List.TYPE_STATE_BY_TYPE[prevList.type];
+        const typeState = List.TYPE_STATE_BY_TYPE[list.type];
+
+        let isClosed;
+        if (prevTypeState === List.TypeStates.CLOSED && typeState === List.TypeStates.OPENED) {
+          isClosed = false;
+        } else if (
+          prevTypeState === List.TypeStates.OPENED &&
+          typeState === List.TypeStates.CLOSED
+        ) {
+          isClosed = true;
+        }
+
+        if (!_.isUndefined(isClosed)) {
+          cards = await Card.update({
+            listId: list.id,
+          })
+            .set({
+              isClosed,
+            })
+            .fetch()
+            .usingConnection(db);
+
+          if (cards.length > 0) {
+            tasks = await Task.update({
+              linkedCardId: sails.helpers.utils.mapRecords(cards),
+            })
+              .set({
+                isCompleted: isClosed,
+              })
+              .fetch()
+              .usingConnection(db);
+          }
+        }
+      }
+
+      return {
+        list,
+        cards,
+        tasks,
+      };
+    });
+  }
+
+  const list = await List.updateOne(criteria).set({ ...values });
+
+  return {
+    list,
+  };
+};
 
 // eslint-disable-next-line no-underscore-dangle
 const delete_ = (criteria) => List.destroy(criteria).fetch();

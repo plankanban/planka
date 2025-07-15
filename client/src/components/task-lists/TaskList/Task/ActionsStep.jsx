@@ -3,13 +3,14 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
 import { Popup } from '../../../../lib/custom-ui';
 
+import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { useSteps } from '../../../../hooks';
 import ConfirmationStep from '../../../common/ConfirmationStep';
@@ -21,6 +22,10 @@ const StepTypes = {
 };
 
 const ActionsStep = React.memo(({ taskId, onNameEdit, onClose }) => {
+  const selectTaskById = useMemo(() => selectors.makeSelectTaskById(), []);
+
+  const task = useSelector((state) => selectTaskById(state, taskId));
+
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [step, openStep, handleBack] = useSteps();
@@ -59,11 +64,13 @@ const ActionsStep = React.memo(({ taskId, onNameEdit, onClose }) => {
       </Popup.Header>
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
-          <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
-            {t('action.editDescription', {
-              context: 'title',
-            })}
-          </Menu.Item>
+          {!task.linkedCardId && (
+            <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
+              {t('action.editDescription', {
+                context: 'title',
+              })}
+            </Menu.Item>
+          )}
           <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
             {t('action.deleteTask', {
               context: 'title',

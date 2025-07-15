@@ -4,6 +4,21 @@
  */
 
 :global(#app) {
+  .icon {
+    color: rgba(9, 30, 66, 0.24);
+  }
+
+  .name {
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .nameCompleted {
+    color: #aaa;
+    text-decoration: line-through;
+  }
+
   .wrapper {
     display: block;
     font-size: 12px;
@@ -17,10 +32,5 @@
       position: absolute;
       left: 10px;
     }
-  }
-
-  .wrapperCompleted {
-    color: #aaa;
-    text-decoration: line-through;
   }
 }

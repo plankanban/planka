@@ -5,7 +5,7 @@
 
 :global(#app) {
   .controls {
-    clear: both;
+    display: flex;
     margin-top: 6px;
   }
 
@@ -18,9 +18,41 @@
     line-height: 1.5;
     font-size: 14px;
     margin-bottom: 4px;
-    overflow: hidden;
     padding: 8px 12px;
     resize: none;
+
+    :global {
+      .menu {
+        border: 1px solid rgba(9, 30, 66, 0.08);
+      }
+
+      .search {
+        left: 0;
+      }
+    }
+  }
+
+  .toggleLinkingButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    font-weight: normal;
+    margin-left: auto;
+    margin-right: 0;
+    overflow: hidden;
+    text-align: left;
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    transition: none;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #092d42;
+    }
+  }
+
+  .toggleLinkingButtonIcon {
+    text-decoration: none;
   }
 
   .wrapper {

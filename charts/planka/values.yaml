@@ -214,19 +214,21 @@ oidc:
 ##
 extraEnv: []
 
-## Example extraEnv for configure SMTP
+## Example extraEnv for configuring SMTP
 ## extraEnv:
 ##   - name: SMTP_HOST
-##     value: "your_smtp_server"
+##     value: "smtp.example.com"
 ##   - name: SMTP_PORT
 ##     value: "587"
+##   - name: SMTP_NAME
+##     value: "Your Name"
+##   - name: SMTP_SECURE
+##     value: "true"
 ##   - name: SMTP_USER
 ##     value: "your_email@example.com"
 ##   - name: SMTP_PASSWORD
 ##     value: "your_password"
 ##   - name: SMTP_FROM
 ##     value: "your_email@example.com"
-##   - name: SMTP_NAME
-##     value: "your_name_or_login"
-##   - name: SMTP_SECURE
+##   - name: SMTP_TLS_REJECT_UNAUTHORIZED
 ##     value: "false"

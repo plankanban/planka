@@ -1,5 +1,5 @@
 diff --git a/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js b/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js
-index 6d06078..fb7534d 100644
+index 6d06078..e22d4f0 100644
 --- a/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js
 +++ b/node_modules/semantic-ui-react/dist/es/lib/doesNodeContainClick.js
 @@ -17,13 +17,7 @@ var doesNodeContainClick = function doesNodeContainClick(node, e) {
@@ -17,6 +17,46 @@ index 6d06078..fb7534d 100644
    } // Below logic handles cases where the e.target is no longer in the document.
    // The result of the click likely has removed the e.target node.
    // Instead of node.contains(), we'll identify the click by X/Y position.
+diff --git a/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js b/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js
+index 1cc1bab..7abb016 100644
+--- a/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js
++++ b/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js
+@@ -342,7 +342,7 @@ var Dropdown = /*#__PURE__*/function (_Component) {
+         return;
+       }
+ 
+-      if (searchQuery.length >= minCharacters || minCharacters === 1) {
++      if (searchQuery.length >= minCharacters || minCharacters === 0) {
+         _this.open(e);
+ 
+         return;
+@@ -480,7 +480,7 @@ var Dropdown = /*#__PURE__*/function (_Component) {
+       } // close search dropdown if search query is too small
+ 
+ 
+-      if (open && minCharacters !== 1 && newQuery.length < minCharacters) _this.close();
++      if (open && minCharacters !== 0 && newQuery.length < minCharacters) _this.close();
+     };
+ 
+     _this.handleKeyDown = function (e) {
+@@ -1048,7 +1048,7 @@ var Dropdown = /*#__PURE__*/function (_Component) {
+ 
+     if (!prevState.focus && this.state.focus) {
+       if (!this.isMouseDown) {
+-        var openable = !search || search && minCharacters === 1 && !this.state.open;
++        var openable = !search || search && minCharacters === 0 && !this.state.open;
+         if (openOnFocus && openable) this.open();
+       }
+     } else if (prevState.focus && !this.state.focus) {
+@@ -1436,7 +1436,7 @@ Dropdown.defaultProps = {
+   closeOnEscape: true,
+   deburr: false,
+   icon: 'dropdown',
+-  minCharacters: 1,
++  minCharacters: 0,
+   noResultsMessage: 'No results found.',
+   openOnFocus: true,
+   renderLabel: renderItemContent,
 diff --git a/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js b/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js
 index d1ae271..43e1170 100644
 --- a/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js

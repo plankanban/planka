@@ -12,6 +12,12 @@ const Errors = {
   TASK_LIST_NOT_FOUND: {
     taskListNotFound: 'Task list not found',
   },
+  LINKED_CARD_NOT_FOUND: {
+    linkedCardNotFound: 'Linked card not found',
+  },
+  LINKED_CARD_OR_NAME_MUST_BE_PRESENT: {
+    linkedCardOrNameMustBePresent: 'Linked card or name must be present',
+  },
 };
 
 module.exports = {
@@ -20,6 +26,7 @@ module.exports = {
       ...idInput,
       required: true,
     },
+    linkedCardId: idInput,
     position: {
       type: 'number',
       min: 0,
@@ -27,8 +34,9 @@ module.exports = {
     },
     name: {
       type: 'string',
+      isNotEmptyString: true,
       maxLength: 1024,
-      required: true,
+      allowNull: true,
     },
     isCompleted: {
       type: 'boolean',
@@ -42,6 +50,12 @@ module.exports = {
     taskListNotFound: {
       responseType: 'notFound',
     },
+    linkedCardNotFound: {
+      responseType: 'notFound',
+    },
+    linkedCardOrNameMustBePresent: {
+      responseType: 'unprocessableEntity',
+    },
   },
 
   async fn(inputs) {
@@ -51,7 +65,7 @@ module.exports = {
       .getPathToProjectById(inputs.taskListId)
       .intercept('pathNotFound', () => Errors.TASK_LIST_NOT_FOUND);
 
-    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+    let boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
       board.id,
       currentUser.id,
     );
@@ -64,20 +78,53 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
+    let linkedCard;
+    if (!_.isUndefined(inputs.linkedCardId)) {
+      const path = await sails.helpers.cards
+        .getPathToProjectById(inputs.linkedCardId)
+        .intercept('pathNotFound', () => Errors.LINKED_CARD_NOT_FOUND);
+
+      ({ card: linkedCard } = path);
+
+      if (currentUser.role !== User.Roles.ADMIN || path.project.ownerProjectManagerId) {
+        const isProjectManager = await sails.helpers.users.isProjectManager(
+          currentUser.id,
+          path.project.id,
+        );
+
+        if (!isProjectManager) {
+          boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+            linkedCard.boardId,
+            currentUser.id,
+          );
+
+          if (!boardMembership) {
+            throw Errors.LINKED_CARD_NOT_FOUND; // Forbidden
+          }
+        }
+      }
+    }
+
     const values = _.pick(inputs, ['position', 'name', 'isCompleted']);
 
-    const task = await sails.helpers.tasks.createOne.with({
-      project,
-      board,
-      list,
-      card,
-      values: {
-        ...values,
-        taskList,
-      },
-      actorUser: currentUser,
-      request: this.req,
-    });
+    const task = await sails.helpers.tasks.createOne
+      .with({
+        project,
+        board,
+        list,
+        card,
+        values: {
+          ...values,
+          taskList,
+          linkedCard,
+        },
+        actorUser: currentUser,
+        request: this.req,
+      })
+      .intercept(
+        'linkedCardOrNameMustBeInValues',
+        () => Errors.LINKED_CARD_OR_NAME_MUST_BE_PRESENT,
+      );
 
     return {
       item: task,

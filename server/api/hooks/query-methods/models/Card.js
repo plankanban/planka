@@ -200,9 +200,69 @@ const getOneById = (id, { listId } = {}) => {
   return Card.findOne(criteria);
 };
 
-const update = (criteria, values) => Card.update(criteria).set(values).fetch();
+const update = async (criteria, values) => {
+  if (!_.isUndefined(values.isClosed)) {
+    return sails.getDatastore().transaction(async (db) => {
+      const cards = await Card.update(criteria).set(values).fetch().usingConnection(db);
 
-const updateOne = (criteria, values) => Card.updateOne(criteria).set({ ...values });
+      let tasks = [];
+      if (card) {
+        tasks = await Task.update({
+          linkedCardId: sails.helpers.utils.mapRecords(cards),
+        })
+          .set({
+            isCompleted: card.isClosed,
+          })
+          .fetch()
+          .usingConnection(db);
+      }
+
+      return {
+        cards,
+        tasks,
+      };
+    });
+  }
+
+  const cards = await Card.update(criteria).set(values).fetch();
+
+  return {
+    cards,
+  };
+};
+
+const updateOne = async (criteria, values) => {
+  if (!_.isUndefined(values.isClosed)) {
+    return sails.getDatastore().transaction(async (db) => {
+      const card = await Card.updateOne(criteria)
+        .set({ ...values })
+        .usingConnection(db);
+
+      let tasks = [];
+      if (card) {
+        tasks = await Task.update({
+          linkedCardId: card.id,
+        })
+          .set({
+            isCompleted: card.isClosed,
+          })
+          .fetch()
+          .usingConnection(db);
+      }
+
+      return {
+        card,
+        tasks,
+      };
+    });
+  }
+
+  const card = await Card.updateOne(criteria).set({ ...values });
+
+  return {
+    card,
+  };
+};
 
 // eslint-disable-next-line no-underscore-dangle
 const delete_ = (criteria) => Card.destroy(criteria).fetch();

@@ -314,6 +314,28 @@ export const selectAvailableListsForCurrentBoard = createSelector(
   },
 );
 
+export const selectCardsExceptCurrentForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  (state) => selectPath(state).cardId,
+  ({ Board }, id, cardId) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel
+      .getCardsModelArray()
+      .filter((cardModel) => cardModel.id !== cardId)
+      .map((cardModel) => cardModel.ref);
+  },
+);
+
 export const selectFilteredCardIdsForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -462,6 +484,7 @@ export default {
   selectTrashListIdForCurrentBoard,
   selectFiniteListIdsForCurrentBoard,
   selectAvailableListsForCurrentBoard,
+  selectCardsExceptCurrentForCurrentBoard,
   selectFilteredCardIdsForCurrentBoard,
   selectCustomFieldGroupIdsForCurrentBoard,
   selectCustomFieldGroupsForCurrentBoard,

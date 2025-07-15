@@ -147,7 +147,7 @@ module.exports = {
     const nextTaskLists = await TaskList.qm.create(nextTaskListsValues);
 
     const nextTasksValues = tasks.map((task) => ({
-      ..._.pick(task, ['assigneeUserId', 'position', 'name', 'isCompleted']),
+      ..._.pick(task, ['linkedCardId', 'assigneeUserId', 'position', 'name', 'isCompleted']),
       taskListId: nextTaskListIdByTaskListId[task.taskListId],
     }));
 
@@ -172,9 +172,9 @@ module.exports = {
       const nextCoverAttachmentId = nextAttachmentIdByAttachmentId[inputs.record.coverAttachmentId];
 
       if (nextCoverAttachmentId) {
-        card = await Card.qm.updateOne(card.id, {
+        ({ card } = await Card.qm.updateOne(card.id, {
           coverAttachmentId: nextCoverAttachmentId,
-        });
+        }));
       }
     }
 
