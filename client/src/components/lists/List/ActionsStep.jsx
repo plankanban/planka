@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Menu } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 import { Popup } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
@@ -128,38 +128,45 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
           <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
+            <Icon name="edit outline" className={styles.menuItemIcon} />
             {t('action.editTitle', {
               context: 'title',
             })}
           </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleEditTypeClick}>
+            <Icon name="map outline" className={styles.menuItemIcon} />
             {t('action.editType', {
               context: 'title',
             })}
           </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleEditColorClick}>
+            <Icon name="dot circle outline" className={styles.menuItemIcon} />
             {t('action.editColor', {
               context: 'title',
             })}
           </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleAddCardClick}>
+            <Icon name="list alternate outline" className={styles.menuItemIcon} />
             {t('action.addCard', {
               context: 'title',
             })}
           </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleSortClick}>
+            <Icon name="sort amount down" className={styles.menuItemIcon} />
             {t('action.sortList', {
               context: 'title',
             })}
           </Menu.Item>
           {list.type === ListTypes.CLOSED && (
             <Menu.Item className={styles.menuItem} onClick={handleArchiveCardsClick}>
+              <Icon name="folder open outline" className={styles.menuItemIcon} />
               {t('action.archiveCards', {
                 context: 'title',
               })}
             </Menu.Item>
           )}
           <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+            <Icon name="trash alternate outline" className={styles.menuItemIcon} />
             {t('action.deleteList', {
               context: 'title',
             })}

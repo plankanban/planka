@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Menu } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 import { Popup } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
@@ -290,6 +290,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
         <Menu secondary vertical className={styles.menu}>
           {canEditName && (
             <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
+              <Icon name="edit outline" className={styles.menuItemIcon} />
               {t('action.editTitle', {
                 context: 'title',
               })}
@@ -297,6 +298,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {!board.limitCardTypesToDefaultOne && canEditType && (
             <Menu.Item className={styles.menuItem} onClick={handleEditTypeClick}>
+              <Icon name="map outline" className={styles.menuItemIcon} />
               {t('action.editType', {
                 context: 'title',
               })}
@@ -304,6 +306,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {card.type === CardTypes.PROJECT && canUseMembers && (
             <Menu.Item className={styles.menuItem} onClick={handleUsersClick}>
+              <Icon name="user outline" className={styles.menuItemIcon} />
               {t('common.members', {
                 context: 'title',
               })}
@@ -311,6 +314,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {canUseLabels && (
             <Menu.Item className={styles.menuItem} onClick={handleLabelsClick}>
+              <Icon name="bookmark outline" className={styles.menuItemIcon} />
               {t('common.labels', {
                 context: 'title',
               })}
@@ -318,6 +322,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {card.type === CardTypes.STORY && canUseMembers && (
             <Menu.Item className={styles.menuItem} onClick={handleUsersClick}>
+              <Icon name="user outline" className={styles.menuItemIcon} />
               {t('common.members', {
                 context: 'title',
               })}
@@ -325,6 +330,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {card.type === CardTypes.PROJECT && canEditDueDate && (
             <Menu.Item className={styles.menuItem} onClick={handleEditDueDateClick}>
+              <Icon name="calendar check outline" className={styles.menuItemIcon} />
               {t('action.editDueDate', {
                 context: 'title',
               })}
@@ -332,6 +338,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {card.type === CardTypes.PROJECT && canEditStopwatch && (
             <Menu.Item className={styles.menuItem} onClick={handleEditStopwatchClick}>
+              <Icon name="clock outline" className={styles.menuItemIcon} />
               {t('action.editStopwatch', {
                 context: 'title',
               })}
@@ -339,6 +346,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {canDuplicate && (
             <Menu.Item className={styles.menuItem} onClick={handleDuplicateClick}>
+              <Icon name="copy outline" className={styles.menuItemIcon} />
               {t('action.duplicateCard', {
                 context: 'title',
               })}
@@ -346,6 +354,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {canMove && (
             <Menu.Item className={styles.menuItem} onClick={handleMoveClick}>
+              <Icon name="share square outline" className={styles.menuItemIcon} />
               {t('action.moveCard', {
                 context: 'title',
               })}
@@ -353,6 +362,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {prevList && canRestore && (
             <Menu.Item className={styles.menuItem} onClick={handleRestoreClick}>
+              <Icon name="undo alternate" className={styles.menuItemIcon} />
               {t('action.restoreToList', {
                 context: 'title',
                 list: prevList.name || t(`common.${prevList.type}`),
@@ -361,6 +371,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {list.type !== ListTypes.ARCHIVE && canArchive && (
             <Menu.Item className={styles.menuItem} onClick={handleArchiveClick}>
+              <Icon name="folder open outline" className={styles.menuItemIcon} />
               {t('action.archiveCard', {
                 context: 'title',
               })}
@@ -368,6 +379,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
           )}
           {canDelete && (
             <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+              <Icon name="trash alternate outline" className={styles.menuItemIcon} />
               {isInTrashList
                 ? t('action.deleteForever', {
                     context: 'title',

@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Menu } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 import { Popup } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
@@ -66,12 +66,14 @@ const ActionsStep = React.memo(({ taskId, onNameEdit, onClose }) => {
         <Menu secondary vertical className={styles.menu}>
           {!task.linkedCardId && (
             <Menu.Item className={styles.menuItem} onClick={handleEditNameClick}>
+              <Icon name="align left" className={styles.menuItemIcon} />
               {t('action.editDescription', {
                 context: 'title',
               })}
             </Menu.Item>
           )}
           <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+            <Icon name="trash alternate outline" className={styles.menuItemIcon} />
             {t('action.deleteTask', {
               context: 'title',
             })}
