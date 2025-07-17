@@ -168,7 +168,6 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
           placeholder={t('common.enterTaskDescription')}
           maxLength={1024}
           minRows={2}
-          spellCheck={false}
           className={styles.field}
           onKeyDown={handleFieldKeyDown}
           onChange={handleFieldChange}
