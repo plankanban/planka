@@ -331,6 +331,7 @@ export default {
       webhooks: 'Webhooks',
       withoutBaseGroup: 'Sans groupe de base',
       writeComment: 'Écrire un commentaire...',
+      taskList_hideChecked: 'Masquer les éléments marqués',
     },
     action: {
       activateUser: 'Activer l’utilisateur',
@@ -447,6 +448,7 @@ export default {
       unsubscribe: 'Se désabonner',
       uploadNewAvatar: 'Télécharger un nouvel avatar',
       uploadNewImage: 'Télécharger une nouvelle image',
+      moveListToBoard: 'Déplacer la liste vers un autre tableau',
     },
   },
 };

@@ -160,6 +160,7 @@ export default {
       users: 'Pengguna',
       viewer: 'Penglihat',
       writeComment: 'Tuliskan komentar...',
+      taskList_hideChecked: 'Sembunyikan item yang terpilih',
     },
 
     action: {
@@ -227,6 +228,7 @@ export default {
       unsubscribe: 'Berhenti berlangganan',
       uploadNewAvatar: 'Unggah avatar baru',
       uploadNewImage: 'Unggah gambar baru',
+      moveListToBoard: 'Pindahkan daftar ke papan lain',
     },
   },
 };

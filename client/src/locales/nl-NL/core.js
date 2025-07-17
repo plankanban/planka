@@ -1,12 +1,9 @@
 import dateFns from 'date-fns/locale/nl';
 import timeAgo from 'javascript-time-ago/locale/nl';
 
-import markdownEditor from './markdown-editor.json';
-
 export default {
   dateFns,
   timeAgo,
-  markdownEditor,
 
   format: {
     date: 'd-M-yyyy',
@@ -161,6 +158,7 @@ export default {
       users: 'Gebruikers',
       viewer: 'Kijker',
       writeComment: 'Schrijf een opmerking...',
+      taskList_hideChecked: 'Verberg geselecteerde items',
     },
 
     action: {
@@ -228,6 +226,7 @@ export default {
       unsubscribe: 'Afmelden',
       uploadNewAvatar: 'Nieuwe avatar uploaden',
       uploadNewImage: 'Nieuwe afbeelding uploaden',
+      moveListToBoard: 'Lijst verplaatsen naar ander bord',
     },
   },
 };

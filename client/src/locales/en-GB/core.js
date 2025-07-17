@@ -327,6 +327,7 @@ export default {
       webhooks: 'Webhooks',
       withoutBaseGroup: 'Without base group',
       writeComment: 'Write a comment...',
+      taskList_hideChecked: 'Hide checked items',
     },
 
     action: {
@@ -435,8 +436,6 @@ export default {
       showCardsWithThisUser: 'Show cards with this user',
       showDeactivated: 'Show deactivated',
       showFewerAttachments: 'Show fewer attachments',
-      showLess: 'Show less',
-      showMore: 'Show more',
       sortList_title: 'Sort List',
       start: 'Start',
       stop: 'Stop',
@@ -444,6 +443,7 @@ export default {
       unsubscribe: 'Unsubscribe',
       uploadNewAvatar: 'Upload new avatar',
       uploadNewImage: 'Upload new image',
+      moveListToBoard: 'Move list to another board',
     },
   },
 };

@@ -305,6 +305,7 @@ export default {
       webhooks: 'Webhooks',
       withoutBaseGroup: '无基础组',
       writeComment: '编写评论...',
+      taskList_hideChecked: '隐藏已完成的任务',
     },
 
     action: {
@@ -422,6 +423,7 @@ export default {
       unsubscribe: '取消关注',
       uploadNewAvatar: '上传新头像',
       uploadNewImage: '上传图片',
+      moveListToBoard: '移动列表到另一个面板',
     },
   },
 };

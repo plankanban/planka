@@ -163,6 +163,7 @@ export default {
       users: 'Korisnici',
       viewer: 'Pregledač',
       writeComment: 'Napiši komentar...',
+      taskList_hideChecked: 'Sakrij označene stavke',
     },
 
     action: {
@@ -233,6 +234,7 @@ export default {
       unsubscribe: 'Ukini pretplatu',
       uploadNewAvatar: 'Postavi novi avatar',
       uploadNewImage: 'Postavi novu sliku',
+      moveListToBoard: 'Premesti spisak na drugu tablu',
     },
   },
 };

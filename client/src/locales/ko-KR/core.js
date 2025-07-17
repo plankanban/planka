@@ -1,12 +1,9 @@
 import dateFns from 'date-fns/locale/ko';
 import timeAgo from 'javascript-time-ago/locale/ko';
 
-import markdownEditor from './markdown-editor.json';
-
 export default {
   dateFns,
   timeAgo,
-  markdownEditor,
 
   format: {
     date: 'yyyy년 M월 d일',
@@ -165,6 +162,7 @@ export default {
       users: '사용자들',
       viewer: '뷰어',
       writeComment: '댓글 작성...',
+      taskList_hideChecked: '완료된 항목 숨기기',
     },
 
     action: {
@@ -237,6 +235,7 @@ export default {
       unsubscribe: '구독 취소',
       uploadNewAvatar: '새 아바타 업로드',
       uploadNewImage: '새 이미지 업로드',
+      moveListToBoard: '목록을 다른 보드로 이동',
     },
   },
 };

@@ -1,12 +1,9 @@
 import dateFns from 'date-fns/locale/sr';
 import timeAgo from 'javascript-time-ago/locale/sr';
 
-import markdownEditor from './markdown-editor.json';
-
 export default {
   dateFns,
   timeAgo,
-  markdownEditor,
 
   format: {
     date: 'd.M.yyyy.',
@@ -166,6 +163,7 @@ export default {
       users: 'Корисници',
       viewer: 'Прегледач',
       writeComment: 'Напиши коментар...',
+      taskList_hideChecked: 'Сакриј означене ставке',
     },
 
     action: {
@@ -236,6 +234,7 @@ export default {
       unsubscribe: 'Укини претплату',
       uploadNewAvatar: 'Постави нови аватар',
       uploadNewImage: 'Постави нову слику',
+      moveListToBoard: 'Премести на другу таблу',
     },
   },
 };

@@ -1,12 +1,9 @@
 import dateFns from 'date-fns/locale/ja';
 import timeAgo from 'javascript-time-ago/locale/ja';
 
-import markdownEditor from './markdown-editor.json';
-
 export default {
   dateFns,
   timeAgo,
-  markdownEditor,
 
   format: {
     date: 'yyyy/M/d',
@@ -160,6 +157,7 @@ export default {
       users: 'ユーザー',
       viewer: 'ビューア',
       writeComment: 'コメントを書く…',
+      taskList_hideChecked: '選択した項目を非表示にする',
     },
 
     action: {
@@ -227,6 +225,7 @@ export default {
       unsubscribe: '購読解除',
       uploadNewAvatar: '新しいアバターをアップロード',
       uploadNewImage: '新しい画像をアップロード',
+      moveListToBoard: 'リストを別のボードに移動',
     },
   },
 };
