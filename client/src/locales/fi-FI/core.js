@@ -432,6 +432,7 @@ export default {
       unsubscribe: 'Peru tilaus',
       uploadNewAvatar: 'Lataa uusi avatar',
       uploadNewImage: 'Lataa uusi kuva',
+      moveListToBoard: 'Siirrä lista toiselle taululle',
     },
   },
 };

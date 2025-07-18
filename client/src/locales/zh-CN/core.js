@@ -422,6 +422,7 @@ export default {
       unsubscribe: '取消关注',
       uploadNewAvatar: '上传新头像',
       uploadNewImage: '上传图片',
+      moveListToBoard: '移动列表到另一个面板',
     },
   },
 };
