@@ -18,12 +18,13 @@ const handleCardsUpdate = (cards, activities) => ({
   },
 });
 
-const createCard = (listId, data, autoOpen) => ({
+const createCard = (listId, data, autoOpen, cardPosition) => ({
   type: EntryActionTypes.CARD_CREATE,
   payload: {
     listId,
     data,
     autoOpen,
+    cardPosition,
   },
 });
 

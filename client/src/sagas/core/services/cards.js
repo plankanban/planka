@@ -113,7 +113,7 @@ export function* handleCardsUpdate(cards, activities) {
   yield put(actions.handleCardsUpdate(cards, activities));
 }
 
-export function* createCard(listId, data, autoOpen) {
+export function* createCard(listId, data, autoOpen, cardPosition) {
   const localId = yield call(createLocalId);
   const list = yield select(selectors.selectListById, listId);
 
@@ -127,7 +127,11 @@ export function* createCard(listId, data, autoOpen) {
   };
 
   if (isListFinite(list)) {
-    nextData.position = yield select(selectors.selectNextCardPosition, listId);
+    nextData.position = yield select(
+      selectors.selectNextCardPosition,
+      listId,
+      cardPosition === 'top' ? 0 : undefined
+    );
   }
 
   yield put(

@@ -60,15 +60,16 @@ const List = React.memo(({ id, index }) => {
   const [t] = useTranslation();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
   const [isAddCardOpened, setIsAddCardOpened] = useState(false);
+  const [addCardPosition, setAddCardPosition] = useState('bottom'); // 'top' | 'bottom'
 
   const wrapperRef = useRef(null);
   const cardsWrapperRef = useRef(null);
 
   const handleCardCreate = useCallback(
     (data, autoOpen) => {
-      dispatch(entryActions.createCard(id, data, autoOpen));
+      dispatch(entryActions.createCard(id, data, autoOpen, addCardPosition));
     },
-    [id, dispatch],
+    [id, dispatch, addCardPosition],
   );
 
   const handleHeaderClick = useCallback(() => {
@@ -79,6 +80,7 @@ const List = React.memo(({ id, index }) => {
 
   const handleAddCardClick = useCallback(() => {
     setIsAddCardOpened(true);
+    setAddCardPosition('bottom');
   }, []);
 
   const handleAddCardClose = useCallback(() => {
@@ -87,6 +89,7 @@ const List = React.memo(({ id, index }) => {
 
   const handleCardAdd = useCallback(() => {
     setIsAddCardOpened(true);
+    setAddCardPosition('top');
   }, []);
 
   const handleNameEdit = useCallback(() => {
@@ -112,6 +115,15 @@ const List = React.memo(({ id, index }) => {
   const ActionsPopup = usePopup(ActionsStep);
   const ArchiveCardsPopup = usePopup(ArchiveCardsStep);
 
+  const addCardNode = canAddCard && (
+    <AddCard
+      isOpened={isAddCardOpened}
+      className={styles.addCard}
+      onCreate={handleCardCreate}
+      onClose={handleAddCardClose}
+    />
+  );
+
   const cardsNode = (
     <Droppable
       droppableId={`list:${id}`}
@@ -122,18 +134,12 @@ const List = React.memo(({ id, index }) => {
         // eslint-disable-next-line react/jsx-props-no-spreading
         <div {...droppableProps} ref={innerRef}>
           <div className={styles.cards}>
+            {addCardPosition === 'top' && addCardNode}
             {cardIds.map((cardId, cardIndex) => (
               <DraggableCard key={cardId} id={cardId} index={cardIndex} className={styles.card} />
             ))}
             {placeholder}
-            {canAddCard && (
-              <AddCard
-                isOpened={isAddCardOpened}
-                className={styles.addCard}
-                onCreate={handleCardCreate}
-                onClose={handleAddCardClose}
-              />
-            )}
+            {addCardPosition === 'bottom' && addCardNode}
           </div>
         </div>
       )}
