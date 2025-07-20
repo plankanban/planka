@@ -107,10 +107,16 @@ const List = React.memo(({ id, index }) => {
   );
 
   useDidUpdate(() => {
-    if (isAddCardOpened) {
+    if (!isAddCardOpened) {
+      return;
+    }
+
+    if (addCardPosition === 'top') {
+      cardsWrapperRef.current.scrollTop = 0;
+    } else {
       cardsWrapperRef.current.scrollTop = cardsWrapperRef.current.scrollHeight;
     }
-  }, [cardIds, isAddCardOpened]);
+  }, [cardIds, isAddCardOpened, addCardPosition]);
 
   const ActionsPopup = usePopup(ActionsStep);
   const ArchiveCardsPopup = usePopup(ArchiveCardsStep);
