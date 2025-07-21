@@ -29,6 +29,11 @@ module.exports = {
       defaultsTo: true,
       columnName: 'show_on_front_of_card',
     },
+    hideCompletedTasks: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'hide_completed_tasks',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

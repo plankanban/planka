@@ -21,7 +21,7 @@ import AddTask from './AddTask';
 
 import styles from './TaskList.module.scss';
 
-const TaskList = React.memo(({ id, hideChecked }) => {
+const TaskList = React.memo(({ id, isCompletedVisible }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
@@ -46,13 +46,17 @@ const TaskList = React.memo(({ id, hideChecked }) => {
   const [, , setIsClosableActive] = useContext(ClosableContext);
 
   const filteredTasks = useMemo(
-    () => (hideChecked ? tasks.filter((task) => !task.isCompleted) : tasks),
-    [tasks, hideChecked],
+    () =>
+      !isCompletedVisible && taskList.hideCompletedTasks
+        ? tasks.filter((task) => !task.isCompleted)
+        : tasks,
+    [isCompletedVisible, taskList.hideCompletedTasks, tasks],
   );
 
+  // TODO: move to selector?
   const completedTasksTotal = useMemo(
-    () => filteredTasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
-    [filteredTasks],
+    () => tasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
+    [tasks],
   );
 
   const handleAddClick = useCallback(() => {
@@ -69,22 +73,22 @@ const TaskList = React.memo(({ id, hideChecked }) => {
 
   return (
     <>
-      {filteredTasks.length > 0 && (
-        <>
+      {tasks.length > 0 && (
+        <div className={styles.progressRow}>
           <span className={styles.progressWrapper}>
             <Progress
               autoSuccess
               value={completedTasksTotal}
-              total={filteredTasks.length}
+              total={tasks.length}
               color="blue"
               size="tiny"
               className={styles.progress}
             />
           </span>
           <span className={styles.count}>
-            {completedTasksTotal}/{filteredTasks.length}
+            {completedTasksTotal}/{tasks.length}
           </span>
-        </>
+        </div>
       )}
       <Droppable
         droppableId={`task-list:${id}`}
@@ -121,7 +125,7 @@ const TaskList = React.memo(({ id, hideChecked }) => {
 
 TaskList.propTypes = {
   id: PropTypes.string.isRequired,
-  hideChecked: PropTypes.bool.isRequired,
+  isCompletedVisible: PropTypes.bool.isRequired,
 };
 
 export default TaskList;

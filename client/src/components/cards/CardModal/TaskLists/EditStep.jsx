@@ -35,8 +35,9 @@ const EditStep = React.memo(({ taskListId, onClose }) => {
     () => ({
       name: taskList.name,
       showOnFrontOfCard: taskList.showOnFrontOfCard,
+      hideCompletedTasks: taskList.hideCompletedTasks,
     }),
-    [taskList.name, taskList.showOnFrontOfCard],
+    [taskList.name, taskList.showOnFrontOfCard, taskList.hideCompletedTasks],
   );
 
   const [data, handleFieldChange] = useForm(() => ({
@@ -44,6 +45,7 @@ const EditStep = React.memo(({ taskListId, onClose }) => {
       context: 'title',
     }),
     showOnFrontOfCard: true,
+    hideCompletedTasks: false,
     ...defaultData,
   }));
 

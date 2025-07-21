@@ -315,7 +315,6 @@ export default {
       visualTaskManagementWithLists: 'Gestión visual de tareas con listas',
       withoutBaseGroup: 'Sin grupo base',
       writeComment: 'Escribir un comentario...',
-      taskList_hideChecked: 'Ocultar elementos marcados',
     },
 
     action: {
@@ -424,7 +423,6 @@ export default {
       unsubscribe: 'Desuscribirse',
       uploadNewAvatar: 'Subir un nuevo avatar',
       uploadNewImage: 'Subir una nueva imagen',
-      moveListToBoard: 'Mover lista a otro tablero',
     },
   },
 };

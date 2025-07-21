@@ -295,7 +295,6 @@ export default {
       visualTaskManagementWithLists: 'Візуальне управління завданнями за допомогою списків.',
       withoutBaseGroup: 'Без базової групи',
       writeComment: 'Написати коментар...',
-      taskList_hideChecked: 'Приховати позначені елементи',
     },
 
     action: {
@@ -409,7 +408,6 @@ export default {
       unsubscribe: 'Відписатися',
       uploadNewAvatar: 'Завантажити новий аватар',
       uploadNewImage: 'Завантажити нове зображення',
-      moveListToBoard: 'Перемістити список на іншу дошку',
     },
   },
 };

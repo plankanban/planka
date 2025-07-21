@@ -167,7 +167,6 @@ export default {
       users: 'Utilisateurs',
       viewer: 'Spectateur',
       writeComment: 'Écrire un commentaire...',
-      taskList_hideChecked: 'Masquer les éléments marqués',
     },
 
     action: {
@@ -240,7 +239,6 @@ export default {
       unsubscribe: 'Se désabonner',
       uploadNewAvatar: 'Télécharger un nouvel avatar',
       uploadNewImage: 'Télécharger une nouvelle image',
-      moveListToBoard: 'Déplacer la liste vers un autre tableau',
     },
   },
 };

@@ -3,13 +3,14 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
+import { useToggle } from '../../../../lib/hooks';
 
 import selectors from '../../../../selectors';
 import { usePopupInClosableContext } from '../../../../hooks';
@@ -19,7 +20,7 @@ import TaskList from '../../../task-lists/TaskList';
 
 import styles from './Item.module.scss';
 
-const Item = React.memo(({ id, index, hideChecked }) => {
+const Item = React.memo(({ id, index }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
 
   const taskList = useSelector((state) => selectTaskListById(state, id));
@@ -29,7 +30,15 @@ const Item = React.memo(({ id, index, hideChecked }) => {
     return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
   });
 
+  const [isCompletedVisible, toggleCompletedVisible] = useToggle();
+
+  const handleToggleCompletedVisibleClick = useCallback(() => {
+    toggleCompletedVisible();
+  }, [toggleCompletedVisible]);
+
   const EditPopup = usePopupInClosableContext(EditStep);
+
+  const withActions = taskList.hideCompletedTasks || canEdit;
 
   return (
     <Draggable
@@ -51,20 +60,37 @@ const Item = React.memo(({ id, index, hideChecked }) => {
                 <div
                   className={classNames(
                     styles.moduleHeader,
-                    canEdit && styles.moduleHeaderEditable,
+                    withActions && styles.moduleHeaderWithActions,
+                    taskList.hideCompletedTasks && canEdit && styles.both,
                   )}
                 >
-                  {taskList.isPersisted && canEdit && (
-                    <EditPopup taskListId={taskList.id}>
-                      <Button className={styles.editButton}>
-                        <Icon fitted name="pencil" size="small" />
-                      </Button>
-                    </EditPopup>
+                  {taskList.isPersisted && withActions && (
+                    <div className={classNames(styles.actions)}>
+                      {taskList.hideCompletedTasks && (
+                        <Button
+                          className={styles.button}
+                          onClick={handleToggleCompletedVisibleClick}
+                        >
+                          <Icon
+                            fitted
+                            name={isCompletedVisible ? 'eye slash' : 'eye'}
+                            size="small"
+                          />
+                        </Button>
+                      )}
+                      {canEdit && (
+                        <EditPopup taskListId={taskList.id}>
+                          <Button className={styles.button}>
+                            <Icon fitted name="pencil" size="small" />
+                          </Button>
+                        </EditPopup>
+                      )}
+                    </div>
                   )}
                   <span className={styles.moduleHeaderTitle}>{taskList.name}</span>
                 </div>
               </div>
-              <TaskList id={id} hideChecked={hideChecked} />
+              <TaskList id={id} isCompletedVisible={isCompletedVisible} />
             </div>
           </div>
         );
@@ -78,7 +104,6 @@ const Item = React.memo(({ id, index, hideChecked }) => {
 Item.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  hideChecked: PropTypes.bool.isRequired,
 };
 
 export default Item;

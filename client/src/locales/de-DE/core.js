@@ -310,7 +310,6 @@ export default {
       visualTaskManagementWithLists: 'Visuelle Aufgabenverwaltung mit Listen.',
       withoutBaseGroup: 'Ohne Basisgruppe',
       writeComment: 'Kommentar verfassen...',
-      taskList_hideChecked: 'Ausgecheckte Elemente ausblenden',
     },
 
     action: {
@@ -417,6 +416,8 @@ export default {
       showCardsWithThisUser: 'Karten mit diesem Benutzer zeigen',
       showDeactivated: 'Deaktivierte anzeigen',
       showFewerAttachments: 'Weniger Anhänge anzeigen',
+      showLess: 'Weniger anzeigen',
+      showMore: 'Mehr anzeigen',
       sortList_title: 'Liste sortieren',
       start: 'Start',
       stop: 'Stopp',
@@ -424,7 +425,6 @@ export default {
       unsubscribe: 'De-abonnieren',
       uploadNewAvatar: 'Neuen Avatar hochladen',
       uploadNewImage: 'Neues Bild hochladen',
-      moveListToBoard: 'Liste auf andere Arbeitsbereich verschieben',
     },
   },
 };

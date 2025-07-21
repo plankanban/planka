@@ -144,7 +144,6 @@ export default {
       username: 'kullanıcı adı',
       users: 'kullanıcı',
       writeComment: 'Yorum yazın...',
-      taskList_hideChecked: 'Görevleri gizle',
     },
 
     action: {
@@ -208,7 +207,6 @@ export default {
       unsubscribe: 'Abonelikten çık',
       uploadNewAvatar: 'Yeni avatar yükle',
       uploadNewImage: 'Yeni resim yükle',
-      moveListToBoard: 'Listeyi başka bir panoya taşı',
     },
   },
 };

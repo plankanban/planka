@@ -3,11 +3,11 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import { Progress, Checkbox } from 'semantic-ui-react';
+import { Progress } from 'semantic-ui-react';
 import { useToggle } from '../../../../lib/hooks';
 
 import selectors from '../../../../selectors';
@@ -15,13 +15,19 @@ import Task from './Task';
 
 import styles from './TaskList.module.scss';
 
-const TaskList = React.memo(({ id, showHideCheckedToggle }) => {
+const TaskList = React.memo(({ id }) => {
+  const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
 
+  const taskLists = useSelector((state) => selectTaskListById(state, id));
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
 
   const [isOpened, toggleOpened] = useToggle();
-  const [hideChecked, setHideChecked] = useState(false);
+
+  const filteredTasks = useMemo(
+    () => (taskLists.hideCompletedTasks ? tasks.filter((task) => !task.isCompleted) : tasks),
+    [taskLists.hideCompletedTasks, tasks],
+  );
 
   // TODO: move to selector?
   const completedTasksTotal = useMemo(
@@ -31,15 +37,14 @@ const TaskList = React.memo(({ id, showHideCheckedToggle }) => {
 
   const handleToggleClick = useCallback(
     (event) => {
+      if (filteredTasks.length === 0) {
+        return;
+      }
+
       event.stopPropagation();
       toggleOpened();
     },
-    [toggleOpened],
-  );
-
-  const filteredTasks = useMemo(
-    () => (hideChecked ? tasks.filter((task) => !task.isCompleted) : tasks),
-    [tasks, hideChecked],
+    [toggleOpened, filteredTasks.length],
   );
 
   if (tasks.length === 0) {
@@ -50,7 +55,7 @@ const TaskList = React.memo(({ id, showHideCheckedToggle }) => {
     <>
       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
                                    jsx-a11y/no-static-element-interactions */}
-      <div className={styles.button} onClick={handleToggleClick}>
+      <div className={styles.progressRow} onClick={handleToggleClick}>
         <span className={styles.progressWrapper}>
           <Progress
             autoSuccess
@@ -62,29 +67,21 @@ const TaskList = React.memo(({ id, showHideCheckedToggle }) => {
           />
         </span>
         <span
-          className={classNames(styles.count, isOpened ? styles.countOpened : styles.countClosed)}
+          className={classNames(
+            styles.count,
+            filteredTasks.length > 0 && styles.countOpenable,
+            filteredTasks.length > 0 && (isOpened ? styles.countOpened : styles.countClosed),
+          )}
         >
           {completedTasksTotal}/{tasks.length}
         </span>
       </div>
-      {isOpened && (
-        <>
-          {showHideCheckedToggle && (
-            <div style={{ margin: '8px 0' }}>
-              <Checkbox
-                label="Скрыть отмеченные пункты"
-                checked={hideChecked}
-                onChange={() => setHideChecked((prev) => !prev)}
-                toggle
-              />
-            </div>
-          )}
-          <ul className={styles.tasks}>
-            {filteredTasks.map((task) => (
-              <Task key={task.id} id={task.id} />
-            ))}
-          </ul>
-        </>
+      {isOpened && filteredTasks.length > 0 && (
+        <ul className={styles.tasks}>
+          {filteredTasks.map((task) => (
+            <Task key={task.id} id={task.id} />
+          ))}
+        </ul>
       )}
     </>
   );
@@ -92,11 +89,6 @@ const TaskList = React.memo(({ id, showHideCheckedToggle }) => {
 
 TaskList.propTypes = {
   id: PropTypes.string.isRequired,
-  showHideCheckedToggle: PropTypes.bool,
-};
-
-TaskList.defaultProps = {
-  showHideCheckedToggle: false,
 };
 
 export default TaskList;

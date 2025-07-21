@@ -33,6 +33,9 @@ module.exports = {
     showOnFrontOfCard: {
       type: 'boolean',
     },
+    hideCompletedTasks: {
+      type: 'boolean',
+    },
   },
 
   exits: {
@@ -64,7 +67,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name', 'showOnFrontOfCard']);
+    const values = _.pick(inputs, ['position', 'name', 'showOnFrontOfCard', 'hideCompletedTasks']);
 
     const taskList = await sails.helpers.taskLists.createOne.with({
       project,

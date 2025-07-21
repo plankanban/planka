@@ -165,7 +165,6 @@ export default {
       users: 'Felhasználók',
       viewer: 'Néző',
       writeComment: 'Írjon egy megjegyzést...',
-      taskList_hideChecked: 'Elrejtett elemek megjelenítése',
     },
 
     action: {
@@ -236,7 +235,6 @@ export default {
       unsubscribe: 'Leiratkozás',
       uploadNewAvatar: 'Új avatar feltöltése',
       uploadNewImage: 'Új kép feltöltése',
-      moveListToBoard: 'Lista áthelyezése másik táblára',
     },
   },
 };

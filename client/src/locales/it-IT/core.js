@@ -1,9 +1,12 @@
 import dateFns from 'date-fns/locale/it';
 import timeAgo from 'javascript-time-ago/locale/it';
 
+import markdownEditor from './markdown-editor.json';
+
 export default {
   dateFns,
   timeAgo,
+  markdownEditor,
 
   format: {
     date: 'd/M/yyyy',
@@ -314,7 +317,6 @@ export default {
       visualTaskManagementWithLists: 'Gestione visiva dei task con liste',
       withoutBaseGroup: 'Senza gruppo base',
       writeComment: 'Scrivi un commento...',
-      taskList_hideChecked: 'Nascondi elementi selezionati',
     },
 
     action: {
@@ -427,7 +429,6 @@ export default {
       unsubscribe: 'Annulla iscrizione',
       uploadNewAvatar: 'Carica nuovo avatar',
       uploadNewImage: 'Carica nuova immagine',
-      moveListToBoard: 'Muovi lista a un altra bacheca',
     },
   },
 };

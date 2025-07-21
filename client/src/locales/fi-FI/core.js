@@ -319,7 +319,6 @@ export default {
       visualTaskManagementWithLists: 'Visuaalinen tehtävien hallinta listoilla.',
       withoutBaseGroup: 'Ilman perusryhmää',
       writeComment: 'Kirjoita kommentti...',
-      taskList_hideChecked: 'Piilota valitut kohdat',
     },
 
     action: {
@@ -433,7 +432,6 @@ export default {
       unsubscribe: 'Peru tilaus',
       uploadNewAvatar: 'Lataa uusi avatar',
       uploadNewImage: 'Lataa uusi kuva',
-      moveListToBoard: 'Siirrä lista toiselle taululle',
     },
   },
 };

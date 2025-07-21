@@ -321,7 +321,6 @@ export default {
       visualTaskManagementWithLists: 'Visuel opgavestyring med lister',
       withoutBaseGroup: 'Uden standardgruppe',
       writeComment: 'Skriv en kommentar...',
-      taskList_hideChecked: 'Skjul afkrydsede elementer',
     },
 
     action: {
@@ -435,7 +434,6 @@ export default {
       unsubscribe: 'Opsig abonnement',
       uploadNewAvatar: 'Tilføj nyt profilbillede',
       uploadNewImage: 'Tilføj nyt billede',
-      moveListToBoard: 'Flyt liste til anden tavle',
     },
   },
 };
