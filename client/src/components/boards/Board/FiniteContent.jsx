@@ -21,7 +21,7 @@ const FiniteContent = React.memo(() => {
 
   const handleCardCreate = useCallback(
     (data, autoOpen) => {
-      dispatch(entryActions.createCardInFirstFiniteList(data, autoOpen));
+      dispatch(entryActions.createCardInFirstFiniteList(data, undefined, autoOpen));
     },
     [dispatch],
   );
