@@ -23,6 +23,7 @@ const AddTaskListStep = React.memo(({ onClose }) => {
       context: 'title',
     }),
     showOnFrontOfCard: true,
+    hideCompletedTasks: false,
   });
 
   const taskListEditorRef = useRef(null);

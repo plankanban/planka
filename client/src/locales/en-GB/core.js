@@ -196,6 +196,7 @@ export default {
       general: 'General',
       gradients: 'Gradients',
       grid: 'Grid',
+      hideCompletedTasks: 'Hide completed tasks',
       hideFromProjectListAndFavorites: 'Hide from project list and favorites',
       hours: 'Hours',
       importBoard_title: 'Import Board',

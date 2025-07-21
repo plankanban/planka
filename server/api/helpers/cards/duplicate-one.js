@@ -138,7 +138,7 @@ module.exports = {
       nextTaskListIdByTaskListId[taskList.id] = id;
 
       return {
-        ..._.pick(taskList, ['position', 'name', 'showOnFrontOfCard']),
+        ..._.pick(taskList, ['position', 'name', 'showOnFrontOfCard', 'hideCompletedTasks']),
         id,
         cardId: card.id,
       };

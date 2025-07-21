@@ -4,7 +4,15 @@
  */
 
 :global(#app) {
-  .editButton {
+  .actions {
+    display: flex;
+    gap: 2px;
+    position: absolute;
+    right: 0;
+    top: 4px;
+  }
+
+  .button {
     background: transparent;
     box-shadow: none;
     line-height: 28px;
@@ -12,9 +20,6 @@
     min-height: auto;
     opacity: 0;
     padding: 0;
-    position: absolute;
-    right: 0;
-    top: 4px;
     width: 28px;
 
     &:hover {
@@ -32,13 +37,17 @@
     padding: 6px 0;
   }
 
-  .moduleHeaderEditable {
+  .moduleHeaderWithActions {
     padding-right: 32px;
 
     &:hover {
-      .editButton {
+      .button {
         opacity: 1;
       }
+    }
+
+    &.both {
+      padding-right: 62px;
     }
   }
 

@@ -21,7 +21,7 @@ import AddTask from './AddTask';
 
 import styles from './TaskList.module.scss';
 
-const TaskList = React.memo(({ id }) => {
+const TaskList = React.memo(({ id, isCompletedVisible }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectTasksByTaskListId = useMemo(() => selectors.makeSelectTasksByTaskListId(), []);
@@ -45,6 +45,14 @@ const TaskList = React.memo(({ id }) => {
   const [isAddOpened, setIsAddOpened] = useState(false);
   const [, , setIsClosableActive] = useContext(ClosableContext);
 
+  const filteredTasks = useMemo(
+    () =>
+      !isCompletedVisible && taskList.hideCompletedTasks
+        ? tasks.filter((task) => !task.isCompleted)
+        : tasks,
+    [isCompletedVisible, taskList.hideCompletedTasks, tasks],
+  );
+
   // TODO: move to selector?
   const completedTasksTotal = useMemo(
     () => tasks.reduce((result, task) => (task.isCompleted ? result + 1 : result), 0),
@@ -66,7 +74,7 @@ const TaskList = React.memo(({ id }) => {
   return (
     <>
       {tasks.length > 0 && (
-        <>
+        <div className={styles.progressRow}>
           <span className={styles.progressWrapper}>
             <Progress
               autoSuccess
@@ -80,7 +88,7 @@ const TaskList = React.memo(({ id }) => {
           <span className={styles.count}>
             {completedTasksTotal}/{tasks.length}
           </span>
-        </>
+        </div>
       )}
       <Droppable
         droppableId={`task-list:${id}`}
@@ -90,7 +98,7 @@ const TaskList = React.memo(({ id }) => {
         {({ innerRef, droppableProps, placeholder }) => (
           // eslint-disable-next-line react/jsx-props-no-spreading
           <div {...droppableProps} ref={innerRef} className={styles.tasks}>
-            {tasks.map((task, index) => (
+            {filteredTasks.map((task, index) => (
               <Task key={task.id} id={task.id} index={index} />
             ))}
             {placeholder}
@@ -117,6 +125,7 @@ const TaskList = React.memo(({ id }) => {
 
 TaskList.propTypes = {
   id: PropTypes.string.isRequired,
+  isCompletedVisible: PropTypes.bool.isRequired,
 };
 
 export default TaskList;
