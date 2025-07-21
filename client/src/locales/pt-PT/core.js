@@ -1,4 +1,4 @@
-import dateFns from 'date-fns/locale/pt-PT';
+import dateFns from 'date-fns/locale/pt';
 import timeAgo from 'javascript-time-ago/locale/pt';
 
 import markdownEditor from './markdown-editor.json';
@@ -33,7 +33,8 @@ export default {
       areYouSureYouWantToDeleteThisAttachment: 'Tem a certeza de que pretende eliminar este anexo?',
       areYouSureYouWantToDeleteThisBoard: 'Tem a certeza de que pretende eliminar este quadro?',
       areYouSureYouWantToDeleteThisCard: 'Tem a certeza de que pretende eliminar este cartão?',
-      areYouSureYouWantToDeleteThisComment: 'Tem a certeza de que pretende eliminar este comentário?',
+      areYouSureYouWantToDeleteThisComment:
+        'Tem a certeza de que pretende eliminar este comentário?',
       areYouSureYouWantToDeleteThisLabel: 'Tem a certeza de que pretende eliminar esta etiqueta?',
       areYouSureYouWantToDeleteThisList: 'Tem a certeza de que pretende eliminar esta lista?',
       areYouSureYouWantToDeleteThisProject: 'Tem a certeza de que pretende eliminar este projeto?',

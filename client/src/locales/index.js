@@ -24,6 +24,7 @@ import koKR from './ko-KR';
 import nlNL from './nl-NL';
 import plPL from './pl-PL';
 import ptBR from './pt-BR';
+import ptPT from './pt-PT';
 import roRO from './ro-RO';
 import ruRU from './ru-RU';
 import skSK from './sk-SK';
@@ -58,6 +59,7 @@ const locales = [
   nlNL,
   plPL,
   ptBR,
+  ptPT,
   roRO,
   ruRU,
   skSK,
