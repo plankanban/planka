@@ -380,7 +380,6 @@ export default {
       deleteUser: 'Kustuta kasutaja',
       deleteUser_title: 'Kustuta kasutaja',
       dismissAll: 'Eemalda kõik',
-      duplicate: 'Dubleeri',
       duplicateCard_title: 'Duplikaardi loomine',
       edit: 'Muuda',
       editColor_title: 'Muuda värvi',

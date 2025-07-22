@@ -201,7 +201,6 @@ export default {
       deleteTask_title: '작업 삭제',
       deleteUser: '사용자 삭제',
       dismissAll: '모두 해제',
-      duplicate: '복제',
       duplicateCard_title: '카드 복제',
       edit: '편집',
       editColor_title: '색상 편집',

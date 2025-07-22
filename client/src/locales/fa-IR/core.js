@@ -199,7 +199,6 @@ export default {
       deleteTask: 'حذف وظیفه',
       deleteTask_title: 'حذف وظیفه',
       deleteUser: 'حذف کاربر',
-      duplicate: 'تکرار',
       duplicateCard_title: 'تکرار کارت',
       edit: 'ویرایش',
       editDescription_title: 'ویرایش توضیحات',

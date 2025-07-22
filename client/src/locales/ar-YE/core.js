@@ -197,7 +197,6 @@ export default {
       deleteTask: 'حذف المهمة',
       deleteTask_title: 'حذف المهمة',
       deleteUser: 'حذف المستخدم',
-      duplicate: 'تكرار',
       duplicateCard_title: 'تكرار البطاقة',
       edit: 'تعديل',
       editDescription_title: 'تعديل الوصف',

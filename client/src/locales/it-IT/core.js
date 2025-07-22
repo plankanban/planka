@@ -377,7 +377,6 @@ export default {
       deleteUser: 'Elimina utente',
       deleteUser_title: 'Elimina utente',
       dismissAll: 'Ignora tutto',
-      duplicate: 'Duplica',
       duplicateCard_title: 'Duplica scheda',
       edit: 'Modifica',
       editColor_title: 'Modifica colore',

@@ -371,7 +371,6 @@ export default {
       deleteUser: 'Benutzer löschen',
       deleteUser_title: 'Benutzer löschen',
       dismissAll: 'Alle verwerfen',
-      duplicate: 'Duplizieren',
       duplicateCard_title: 'Karte duplizieren',
       edit: 'Bearbeiten',
       editColor_title: 'Farbe bearbeiten',

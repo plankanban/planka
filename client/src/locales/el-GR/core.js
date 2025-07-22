@@ -398,7 +398,6 @@ export default {
       deleteUser: 'Διαγραφή χρήστη',
       deleteUser_title: 'Διαγραφή χρήστη',
       dismissAll: 'Απόρριψη όλων',
-      duplicate: 'Διπλασιασμός',
       duplicateCard_title: 'Διπλασιασμός κάρτας',
       edit: 'Επεξεργασία',
       editColor_title: 'Επεξεργασία χρώματος',

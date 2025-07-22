@@ -201,7 +201,6 @@ export default {
       deleteTask: 'Обриши задатак',
       deleteTask_title: 'Обриши задатак',
       deleteUser: 'Обриши корисника',
-      duplicate: 'Клонирај',
       duplicateCard_title: 'Клонирај картицу',
       edit: 'Измени',
       editDescription_title: 'Измени опис',

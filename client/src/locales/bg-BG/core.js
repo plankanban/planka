@@ -202,7 +202,6 @@ export default {
       deleteTask: 'Изтриване на задача',
       deleteTask_title: 'Изтриване на задача',
       deleteUser: 'Изтриване на потребител',
-      duplicate: 'Направи дубликат',
       duplicateCard_title: 'Дублирана карта',
       edit: 'Редактиране',
       editDescription_title: 'Редактиране на описание',

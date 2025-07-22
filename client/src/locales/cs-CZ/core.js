@@ -354,7 +354,6 @@ export default {
       deleteUser: 'Smazat uživatele',
       deleteUser_title: 'Smazat uživatele',
       dismissAll: 'Vše přečteno',
-      duplicate: 'Duplikovat',
       duplicateCard_title: 'Duplikovat kartu',
       edit: 'Upravit',
       editColor_title: 'Upravit barvu',

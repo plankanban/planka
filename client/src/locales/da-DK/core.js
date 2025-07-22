@@ -382,7 +382,6 @@ export default {
       deleteUser: 'Slet bruger',
       deleteUser_title: 'Slet bruger',
       dismissAll: 'Afvis alle',
-      duplicate: 'Duplikér',
       duplicateCard_title: 'Duplikér kort',
       edit: 'Rediger',
       editColor_title: 'Rediger farve',

@@ -198,7 +198,6 @@ export default {
       deleteTask: 'Obriši zadatak',
       deleteTask_title: 'Obriši zadatak',
       deleteUser: 'Obriši korisnika',
-      duplicate: 'Kloniraj',
       duplicateCard_title: 'Kloniraj karticu',
       edit: 'Izmeni',
       editDescription_title: 'Izmeni opis',

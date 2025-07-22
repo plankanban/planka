@@ -360,7 +360,6 @@ export default {
       deleteUser: 'Удалить пользователя',
       deleteUser_title: 'Удалить пользователя',
       dismissAll: 'Отклонить все',
-      duplicate: 'Дублировать',
       duplicateCard_title: 'Дублировать карточку',
       edit: 'Изменить',
       editColor_title: 'Изменить цвет',

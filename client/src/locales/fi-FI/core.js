@@ -380,7 +380,6 @@ export default {
       deleteUser: 'Poista käyttäjä',
       deleteUser_title: 'Poista käyttäjä',
       dismissAll: 'Sulje kaikki',
-      duplicate: 'Monista',
       duplicateCard_title: 'Monista kortti',
       edit: 'Muokkaa',
       editColor_title: 'Muokkaa väriä',

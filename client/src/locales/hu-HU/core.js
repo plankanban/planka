@@ -200,7 +200,6 @@ export default {
       deleteTask: 'Feladat törlése',
       deleteTask_title: 'Feladat törlése',
       deleteUser: 'Felhasználó törlése',
-      duplicate: 'Másolás',
       duplicateCard_title: 'Kártya másolása',
       edit: 'Szerkesztés',
       editDescription_title: 'Leírás szerkesztése',

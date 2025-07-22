@@ -430,6 +430,7 @@ export function* transferCurrentCard(boardId, listId, index) {
 
 export function* duplicateCard(id, data) {
   const localId = yield call(createLocalId);
+  const { cardId: currentCardId } = yield select(selectors.selectPath);
   const { boardId, listId } = yield select(selectors.selectCardById, id);
   const index = yield select(selectors.selectCardIndexById, id);
 
@@ -449,6 +450,10 @@ export function* duplicateCard(id, data) {
       creatorUserId: currentUserMembership.userId,
     }),
   );
+
+  if (id === currentCardId) {
+    yield call(goToBoard, boardId);
+  }
 
   let card;
   let cardMemberships;
