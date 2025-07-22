@@ -75,9 +75,7 @@ const MoreActionsStep = React.memo(({ onClose }) => {
         })})`,
       }),
     );
-
-    onClose();
-  }, [onClose, card.name, dispatch, t]);
+  }, [card.name, dispatch, t]);
 
   const handleEditTypeClick = useCallback(() => {
     openStep(StepTypes.EDIT_TYPE);
