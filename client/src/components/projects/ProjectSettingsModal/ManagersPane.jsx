@@ -17,6 +17,8 @@ import ProjectManagers from '../../project-managers/ProjectManagers';
 import styles from './ManagersPane.module.scss';
 
 const ManagersPane = React.memo(() => {
+  const projectManagers = useSelector(selectors.selectManagersForCurrentProject);
+
   // TODO: rename?
   const isShared = useSelector(
     (state) => !selectors.selectCurrentProject(state).ownerProjectManagerId,
@@ -25,45 +27,62 @@ const ManagersPane = React.memo(() => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
-  const handleMakeSharedConfirm = useCallback(() => {
+  const firstProjectManager = projectManagers[0];
+
+  const handleToggleSharedConfirm = useCallback(() => {
     dispatch(
       entryActions.updateCurrentProject({
-        ownerProjectManagerId: null,
+        ownerProjectManagerId: isShared ? firstProjectManager.id : null,
       }),
     );
-  }, [dispatch]);
+  }, [firstProjectManager, isShared, dispatch]);
 
   const ConfirmationPopup = usePopupInClosableContext(ConfirmationStep);
+
+  let toggleSharedButtonContent;
+  if (isShared) {
+    toggleSharedButtonContent =
+      projectManagers.length === 1
+        ? t('action.makeProjectPrivate', {
+            context: 'title',
+          })
+        : t('common.onlyOneManagerShouldRemainToMakeThisProjectPrivate');
+  } else {
+    toggleSharedButtonContent = t('action.makeProjectShared', {
+      context: 'title',
+    });
+  }
 
   return (
     <Tab.Pane attached={false} className={styles.wrapper}>
       <ProjectManagers />
-      {!isShared && (
-        <>
-          <Divider horizontal section>
-            <Header as="h4">
-              {t('common.dangerZone', {
-                context: 'title',
-              })}
-            </Header>
-          </Divider>
-          <div className={styles.action}>
-            <ConfirmationPopup
-              title="common.makeProjectShared"
-              content="common.areYouSureYouWantToMakeThisProjectShared"
-              buttonType="positive"
-              buttonContent="action.makeProjectShared"
-              onConfirm={handleMakeSharedConfirm}
-            >
-              <Button className={styles.actionButton}>
-                {t('action.makeProjectShared', {
-                  context: 'title',
-                })}
-              </Button>
-            </ConfirmationPopup>
-          </div>
-        </>
-      )}
+      <Divider horizontal section>
+        <Header as="h4">
+          {t('common.dangerZone', {
+            context: 'title',
+          })}
+        </Header>
+      </Divider>
+      <div className={styles.action}>
+        <ConfirmationPopup
+          title={isShared ? 'common.makeProjectPrivate' : 'common.makeProjectShared'}
+          content={
+            isShared
+              ? 'common.areYouSureYouWantToMakeThisProjectPrivate'
+              : 'common.areYouSureYouWantToMakeThisProjectShared'
+          }
+          buttonType="positive"
+          buttonContent={isShared ? 'action.makeProjectPrivate' : 'action.makeProjectShared'}
+          onConfirm={handleToggleSharedConfirm}
+        >
+          <Button
+            disabled={isShared && projectManagers.length !== 1}
+            className={styles.actionButton}
+          >
+            {toggleSharedButtonContent}
+          </Button>
+        </ConfirmationPopup>
+      </div>
     </Tab.Pane>
   );
 });

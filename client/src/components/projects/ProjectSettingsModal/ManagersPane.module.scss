@@ -14,7 +14,7 @@
     transition: background 0.3s ease;
     width: 100%;
 
-    &:hover {
+    &:has(:enabled):hover {
       background: #e9e9e9;
     }
   }

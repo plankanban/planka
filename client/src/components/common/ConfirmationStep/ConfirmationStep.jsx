@@ -19,7 +19,17 @@ const ButtonTypes = {
 };
 
 const ConfirmationStep = React.memo(
-  ({ title, content, buttonType, buttonContent, typeValue, typeContent, onConfirm, onBack }) => {
+  ({
+    title,
+    content,
+    buttonType,
+    buttonContent,
+    typeValue,
+    typeContent,
+    onConfirm,
+    onBack,
+    onClose,
+  }) => {
     const [t] = useTranslation();
 
     const [data, handleFieldChange] = useForm({
@@ -45,8 +55,12 @@ const ConfirmationStep = React.memo(
         }
 
         onConfirm();
+
+        if (onClose) {
+          onClose();
+        }
       },
-      [typeValue, onConfirm, data, nameFieldRef],
+      [typeValue, onConfirm, onClose, data, nameFieldRef],
     );
 
     useEffect(() => {
@@ -101,6 +115,7 @@ ConfirmationStep.propTypes = {
   typeContent: PropTypes.string,
   onConfirm: PropTypes.func.isRequired,
   onBack: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 ConfirmationStep.defaultProps = {
@@ -108,6 +123,7 @@ ConfirmationStep.defaultProps = {
   typeValue: undefined,
   typeContent: undefined,
   onBack: undefined,
+  onClose: undefined,
 };
 
 export default ConfirmationStep;

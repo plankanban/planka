@@ -74,6 +74,8 @@ export default {
       areYouSureYouWantToEmptyTrash: 'Are you sure you want to empty the trash?',
       areYouSureYouWantToLeaveBoard: 'Are you sure you want to leave the board?',
       areYouSureYouWantToLeaveProject: 'Are you sure you want to leave the project?',
+      areYouSureYouWantToMakeThisProjectPrivate:
+        'Are you sure you want to make this project private?',
       areYouSureYouWantToMakeThisProjectShared:
         'Are you sure you want to make this project shared?',
       areYouSureYouWantToRemoveThisManagerFromProject:
@@ -211,6 +213,7 @@ export default {
       list: 'List',
       listActions_title: 'List Actions',
       lists: 'Lists',
+      makeProjectPrivate_title: 'Make Project Private',
       makeProjectShared_title: 'Make Project Shared',
       managers: 'Managers',
       memberActions_title: 'Member Actions',
@@ -234,6 +237,8 @@ export default {
       noUnreadNotifications: 'No unread notifications.',
       notifications: 'Notifications',
       oldestFirst: 'Oldest first',
+      onlyOneManagerShouldRemainToMakeThisProjectPrivate:
+        'Only one manager should remain to make this project private',
       openBoard_title: 'Open Board',
       optional_inline: 'optional',
       organization: 'Organization',
@@ -417,6 +422,8 @@ export default {
       leaveProject: 'Leave project',
       logOut_title: 'Log Out',
       makeCover_title: 'Make Cover',
+      makeProjectPrivate: 'Make project private',
+      makeProjectPrivate_title: 'Make Project Private',
       makeProjectShared: 'Make project shared',
       makeProjectShared_title: 'Make Project Shared',
       move: 'Move',
