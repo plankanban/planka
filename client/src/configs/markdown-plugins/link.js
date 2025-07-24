@@ -52,9 +52,9 @@ export default (md) => {
         return;
       }
 
-      token.children.forEach((childrenToken, index) => {
-        if (childrenToken.type === 'link_open') {
-          process(childrenToken, token.children[index + 1]);
+      token.children.forEach((currentToken, index) => {
+        if (currentToken.type === 'link_open') {
+          process(currentToken, token.children[index + 1]);
         }
       });
     });

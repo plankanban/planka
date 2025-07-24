@@ -7,7 +7,7 @@ import sup from '@diplodoc/transform/lib/plugins/sup';
 import monospace from '@diplodoc/transform/lib/plugins/monospace';
 import code from '@diplodoc/transform/lib/plugins/code';
 import imsize from '@diplodoc/transform/lib/plugins/imsize';
-import video from '@diplodoc/transform/lib/plugins/video';
+// import video from '@diplodoc/transform/lib/plugins/video';
 import table from '@diplodoc/transform/lib/plugins/table';
 import note from '@diplodoc/transform/lib/plugins/notes';
 import cut from '@diplodoc/transform/lib/plugins/cut';
@@ -35,7 +35,7 @@ export default [
   monospace,
   code,
   (md) => md.use(imsize, { enableInlineStyling: true }),
-  video,
+  // video,
   table,
   (md) => md.use(note, { notesAutotitle: false, log: console }),
   cut,
