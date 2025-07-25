@@ -33,6 +33,10 @@ module.exports.policies = {
   'users/update-avatar': 'is-authenticated',
   'users/delete': ['is-authenticated', 'is-admin'],
 
+  'api-keys/create': ['is-authenticated', 'is-admin'],
+  'api-keys/cycle': ['is-authenticated', 'is-admin'],
+  'api-keys/delete': ['is-authenticated', 'is-admin'],
+
   'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],
 
   'config/show': true,
