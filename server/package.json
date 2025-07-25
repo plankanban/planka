@@ -60,6 +60,7 @@
     "nodemailer": "^6.10.1",
     "openid-client": "^5.7.1",
     "patch-package": "^8.0.0",
+    "pg": "^8.16.3",
     "read": "^4.1.0",
     "rimraf": "^5.0.10",
     "sails": "^1.5.14",
