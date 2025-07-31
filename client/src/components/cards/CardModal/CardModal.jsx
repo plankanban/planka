@@ -6,6 +6,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import { Icon } from 'semantic-ui-react';
 import { push } from '../../../lib/redux-router';
 
 import selectors from '../../../selectors';
@@ -30,6 +31,7 @@ const CardModal = React.memo(() => {
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
 
   const card = useSelector(selectors.selectCurrentCard);
+  const prevCardId = useSelector(selectors.selectPrevCardId);
 
   const canEdit = useSelector((state) => {
     const list = selectListById(state, card.listId);
@@ -47,6 +49,10 @@ const CardModal = React.memo(() => {
   const handleClose = useCallback(() => {
     dispatch(push(Paths.BOARDS.replace(':id', card.boardId)));
   }, [card.boardId, dispatch]);
+
+  const handlePrevClick = useCallback(() => {
+    dispatch(push(Paths.CARDS.replace(':id', prevCardId)));
+  }, [prevCardId, dispatch]);
 
   const [ClosableModal, isClosableActiveRef] = useClosableModal();
 
@@ -95,6 +101,11 @@ const CardModal = React.memo(() => {
       className={classNames(styles.wrapper, card.type === CardTypes.STORY && styles.wrapperStory)}
       onClose={handleClose}
     >
+      {prevCardId && (
+        <button type="button" className={styles.prevButton} onClick={handlePrevClick}>
+          <Icon fitted name="arrow left" size="large" className={styles.prevButtonIcon} />
+        </button>
+      )}
       {canEdit ? (
         <AddAttachmentZone>
           <Content onClose={handleClose} />

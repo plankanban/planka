@@ -16,7 +16,9 @@ const initialState = {
   isEditModeEnabled: false,
   modal: null,
   boardId: null,
+  cardId: null,
   recentCardId: null,
+  prevCardIds: [],
   homeView: HomeViews.GROUPED_PROJECTS,
   projectsSearch: '',
   projectsOrder: ProjectOrders.BY_DEFAULT,
@@ -37,12 +39,24 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         isContentFetching: false,
         boardId: payload.currentBoardId,
+        cardId: payload.currentCardId,
       };
 
       if (payload.currentCardId) {
         nextState.recentCardId = payload.currentCardId;
       } else if (nextState.boardId !== state.boardId) {
         nextState.recentCardId = null;
+      }
+
+      if (payload.currentCardId) {
+        if (state.cardId) {
+          nextState.prevCardIds =
+            payload.currentCardId === nextState.prevCardIds.at(-1)
+              ? [...nextState.prevCardIds.slice(0, -1)]
+              : [...nextState.prevCardIds, state.cardId];
+        }
+      } else if (nextState.prevCardIds.length > 0) {
+        nextState.prevCardIds = [];
       }
 
       if (payload.isEditModeEnabled !== undefined) {
