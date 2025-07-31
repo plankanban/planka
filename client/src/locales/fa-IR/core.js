@@ -233,6 +233,7 @@ export default {
       unsubscribe: 'لغو اشتراک',
       uploadNewAvatar: 'آپلود آواتار جدید',
       uploadNewImage: 'آپلود تصویر جدید',
+      moveListToBoard: 'انتقال لیست به برد دیگر',
     },
   },
 };
