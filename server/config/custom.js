@@ -20,7 +20,7 @@ const envToNumber = (value) => {
 
 const envToArray = (value) => (value ? value.split(',') : []);
 
-const parsedBasedUrl = new URL(process.env.BASE_URL);
+const parsedBasedUrl = process.env.BASE_URL ? new URL(process.env.BASE_URL) : null;
 
 module.exports.custom = {
   /**
@@ -32,8 +32,8 @@ module.exports.custom = {
   version,
 
   baseUrl: process.env.BASE_URL,
-  baseUrlPath: parsedBasedUrl.pathname,
-  baseUrlSecure: parsedBasedUrl.protocol === 'https:',
+  baseUrlPath: parsedBasedUrl ? parsedBasedUrl.pathname : '/',
+  baseUrlSecure: parsedBasedUrl ? parsedBasedUrl.protocol === 'https:' : false,
 
   tokenExpiresIn: parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365,
 
@@ -83,7 +83,7 @@ module.exports.custom = {
 
   // TODO: move client base url to environment variable?
   oidcRedirectUri: `${
-    sails.config.environment === 'production' ? process.env.BASE_URL : 'http://localhost:3000'
+    sails.config.environment === 'production' ? sails.config.custom.baseUrl : 'http://localhost:3000'
   }/oidc-callback`,
 
   smtpHost: process.env.SMTP_HOST,
