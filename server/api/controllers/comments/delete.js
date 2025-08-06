@@ -44,6 +44,10 @@ module.exports = {
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
 
     if (!isProjectManager) {
+      if (comment.userId !== currentUser.id) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+
       const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
         board.id,
         currentUser.id,
@@ -54,10 +58,6 @@ module.exports = {
       }
 
       if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
-        if (comment.userId !== currentUser.id) {
-          throw Errors.NOT_ENOUGH_RIGHTS;
-        }
-
         if (!boardMembership.canComment) {
           throw Errors.NOT_ENOUGH_RIGHTS;
         }

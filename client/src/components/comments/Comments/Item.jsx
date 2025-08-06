@@ -60,15 +60,14 @@ const Item = React.memo(({ id }) => {
       isEditor = boardMembership.role === BoardMembershipRoles.EDITOR;
     }
 
+    const canEditOrDeleteAsMember =
+      isMember &&
+      comment.userId === boardMembership.userId &&
+      (isEditor || boardMembership.canComment);
+
     return {
-      canEdit:
-        isMember &&
-        comment.userId === boardMembership.userId &&
-        (isEditor || boardMembership.canComment),
-      canDelete:
-        isManager ||
-        isEditor ||
-        (isMember && comment.userId === boardMembership.userId && boardMembership.canComment),
+      canEdit: canEditOrDeleteAsMember,
+      canDelete: isManager || canEditOrDeleteAsMember,
     };
   }, shallowEqual);
 
