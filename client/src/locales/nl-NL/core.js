@@ -228,6 +228,7 @@ export default {
       unsubscribe: 'Afmelden',
       uploadNewAvatar: 'Nieuwe avatar uploaden',
       uploadNewImage: 'Nieuwe afbeelding uploaden',
+      moveListToBoard: 'Lijst verplaatsen naar ander bord',
     },
   },
 };
