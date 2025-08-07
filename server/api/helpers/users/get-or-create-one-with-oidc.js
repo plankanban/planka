@@ -34,16 +34,29 @@ module.exports = {
 
     let tokenSet;
     try {
-      tokenSet = await client.callback(
-        sails.config.custom.oidcRedirectUri,
-        {
-          iss: sails.config.custom.oidcIssuer,
-          code: inputs.code,
-        },
-        {
-          nonce: inputs.nonce,
-        },
-      );
+      if (sails.config.custom.oidcUseOauthCallback) {
+        tokenSet = await client.oauthCallback(
+          sails.config.custom.oidcRedirectUri,
+          {
+            iss: sails.config.custom.oidcIssuer,
+            code: inputs.code,
+          },
+          {
+            nonce: inputs.nonce,
+          },
+        );
+      } else {
+        tokenSet = await client.callback(
+          sails.config.custom.oidcRedirectUri,
+          {
+            iss: sails.config.custom.oidcIssuer,
+            code: inputs.code,
+          },
+          {
+            nonce: inputs.nonce,
+          },
+        );
+      }
     } catch (error) {
       sails.log.warn(`Error while exchanging OIDC code: ${error}`);
       throw 'invalidCodeOrNonce';
@@ -93,7 +106,6 @@ module.exports = {
             if (configRoles.includes('*')) {
               return true;
             }
-
             return configRoles.some((configRole) => claimsRolesSet.has(configRole));
           },
         );
@@ -148,7 +160,7 @@ module.exports = {
       identityProviderUser = await IdentityProviderUser.qm.createOne({
         userId: user.id,
         issuer: sails.config.custom.oidcIssuer,
-        sub: claims.sub,
+        sub: claims.sub || `${user.id}@${sails.config.custom.oidcIssuer}`,
       });
     }
 

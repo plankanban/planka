@@ -73,6 +73,7 @@ services:
       # - OIDC_CLIENT_SECRET=
       # Optionally store in secrets - then OIDC_CLIENT_SECRET should not be set
       # - OIDC_CLIENT_SECRET__FILE=/run/secrets/oidc_client_secret
+      # - OIDC_USE_OAUTH_CALLBACK=true
       # - OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG=
       # - OIDC_USERINFO_SIGNED_RESPONSE_ALG=
       # - OIDC_SCOPES=openid email profile
