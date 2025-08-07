@@ -64,7 +64,7 @@ module.exports.custom = {
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
-  oidcUseOauthCallBack: process.env.OIDC_USE_OAUTH_CALLBACK === 'true',
+  oidcUseOauthCallback: process.env.OIDC_USE_OAUTH_CALLBACK === 'true',
   oidcIdTokenSignedResponseAlg: process.env.OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG,
   oidcUserinfoSignedResponseAlg: process.env.OIDC_USERINFO_SIGNED_RESPONSE_ALG,
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',

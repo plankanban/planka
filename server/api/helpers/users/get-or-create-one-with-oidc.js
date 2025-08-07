@@ -34,7 +34,7 @@ module.exports = {
 
     let tokenSet;
     try {
-      if (sails.config.custom.oidcUseOauthCallBack) {
+      if (sails.config.custom.oidcUseOauthCallback) {
         tokenSet = await client.oauthCallback(
           sails.config.custom.oidcRedirectUri,
           {
