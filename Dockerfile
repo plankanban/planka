@@ -27,11 +27,8 @@ RUN apk -U upgrade \
   && apk add bash python3 --no-cache \
   && npm install npm --global
 
-WORKDIR /app
-
-RUN chown -R node:node /app
-
 USER node
+WORKDIR /app
 
 COPY --chown=node:node server .
 
