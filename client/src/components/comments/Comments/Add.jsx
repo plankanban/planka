@@ -3,7 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useState, useRef } from 'react';
+import keyBy from 'lodash/keyBy';
+import React, { useCallback, useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Mention, MentionsInput } from 'react-mentions';
@@ -13,6 +14,7 @@ import { useClickAwayListener, useDidUpdate, useToggle } from '../../../lib/hook
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useEscapeInterceptor, useForm, useNestedRef } from '../../../hooks';
+import { isUsernameChar, mentionTextToMarkup } from '../../../utils/mentions';
 import { isModifierKeyPressed } from '../../../utils/event-helpers';
 import UserAvatar from '../../users/UserAvatar';
 
@@ -36,10 +38,19 @@ const Add = React.memo(() => {
   const textInputRef = useRef(null);
   const [buttonRef, handleButtonRef] = useNestedRef();
 
+  const userByUsername = useMemo(
+    () =>
+      keyBy(
+        boardMemberships.flatMap(({ user }) => (user.username ? user : [])),
+        'username',
+      ),
+    [boardMemberships],
+  );
+
   const submit = useCallback(() => {
     const cleanData = {
       ...data,
-      text: data.text.trim(),
+      text: mentionTextToMarkup(data.text.trim(), userByUsername),
     };
 
     if (!cleanData.text) {
@@ -50,7 +61,7 @@ const Add = React.memo(() => {
     dispatch(entryActions.createCommentInCurrentCard(cleanData));
     setData(DEFAULT_DATA);
     selectTextField();
-  }, [dispatch, data, setData, selectTextField]);
+  }, [dispatch, data, setData, selectTextField, userByUsername]);
 
   const handleEscape = useCallback(() => {
     if (textMentionsRef.current.isOpened()) {
@@ -76,10 +87,10 @@ const Add = React.memo(() => {
   const handleFieldChange = useCallback(
     (_, text) => {
       setData({
-        text,
+        text: !isUsernameChar(text.slice(-1)) ? mentionTextToMarkup(text, userByUsername) : text,
       });
     },
-    [setData],
+    [setData, userByUsername],
   );
 
   const handleFieldKeyDown = useCallback(
