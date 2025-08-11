@@ -61,7 +61,7 @@ const UserStep = React.memo(({ onClose }) => {
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
           <Menu.Item className={styles.menuItem} onClick={handleSettingsClick}>
-            <Icon name="user" className={styles.menuItemIcon} />
+            <Icon name="user circle outline" className={styles.menuItemIcon} />
             {t('common.settings', {
               context: 'title',
             })}
