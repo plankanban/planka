@@ -209,6 +209,7 @@ export default {
       unsubscribe: 'Neodoberať',
       uploadNewAvatar: 'Nahrať nový avatar',
       uploadNewImage: 'Nahrať nový obrázok',
+      moveListToBoard: 'Presunúť zoznam na inú tabuľu',
     },
   },
 };
