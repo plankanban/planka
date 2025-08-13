@@ -188,6 +188,7 @@ export default class extends BaseModel {
       case ActionTypes.BOARD_CREATE_HANDLE:
       case ActionTypes.BOARD_UPDATE__SUCCESS:
       case ActionTypes.BOARD_UPDATE_HANDLE:
+      case ActionTypes.BOARD_MOVE_TO_PROJECT__SUCCESS:
         Board.upsert(payload.board);
 
         break;

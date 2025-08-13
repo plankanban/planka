@@ -448,6 +448,9 @@ export default {
       unsubscribe: 'Unsubscribe',
       uploadNewAvatar: 'Upload new avatar',
       uploadNewImage: 'Upload new image',
+      moveListToBoard: 'Move list to another board',
+      moveBoardToProject: 'Move board to another project',
+      noOtherProjects: 'No other projects available',
     },
   },
 };
