@@ -133,6 +133,8 @@ module.exports.routes = {
   'DELETE /api/cards/:cardId/card-labels/labelId::labelId': 'card-labels/delete',
 
   'POST /api/cards/:cardId/task-lists': 'task-lists/create',
+  'POST /api/lists/:id/move-to-board': 'lists/move-to-board',
+  'POST /api/boards/:id/move-to-project': 'boards/move-to-project',
   'GET /api/task-lists/:id': 'task-lists/show',
   'PATCH /api/task-lists/:id': 'task-lists/update',
   'DELETE /api/task-lists/:id': 'task-lists/delete',

@@ -1,0 +1,40 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+.projectSelectStep {
+  padding: 0;
+}
+
+.projectButton {
+  display: block;
+  width: 100%;
+  padding: 9px 0;
+  border: none;
+  border-radius: 0.28571429rem !important;
+  font-size: 15px;
+  color: #234;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  transition: background 0.2s;
+}
+
+.projectButton:hover,
+.projectButton:focus {
+  background: #f4f6f8;
+  color: #16324a;
+}
+
+.noProjects {
+  color: #888;
+  text-align: center;
+  padding: 0;
+  font-size: 15px;
+}
+
+.menu {
+  margin: -7px -12px -5px;
+  width: calc(100% + 24px);
+}

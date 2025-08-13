@@ -287,7 +287,14 @@ export default class extends BaseModel {
         break;
       case ActionTypes.CARD_CREATE:
       case ActionTypes.CARD_UPDATE__SUCCESS:
-        Card.upsert(payload.card);
+      case ActionTypes.BOARD_MOVE_TO_PROJECT__SUCCESS:
+        if (payload.cards) {
+          payload.cards.forEach((card) => {
+            Card.upsert(card);
+          });
+        } else if (payload.card) {
+          Card.upsert(payload.card);
+        }
 
         break;
       case ActionTypes.CARD_CREATE__SUCCESS:
