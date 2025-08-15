@@ -37,9 +37,11 @@ exports.up = async (knex) => {
     table.timestamp('terms_accepted_at', true);
   });
 
+  const isInitialized = !!(await knex('user_account').first());
+
   await knex('config').insert({
+    isInitialized,
     id: 1,
-    isInitialized: false,
     createdAt: new Date().toISOString(),
   });
 
