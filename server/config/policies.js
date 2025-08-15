@@ -36,6 +36,9 @@ module.exports.policies = {
   'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],
 
   'config/show': true,
+  'terms/show': true,
   'access-tokens/create': true,
   'access-tokens/exchange-with-oidc': true,
+  'access-tokens/accept-terms': true,
+  'access-tokens/revoke-pending-token': true,
 };

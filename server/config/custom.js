@@ -35,7 +35,7 @@ module.exports.custom = {
   baseUrlPath: parsedBasedUrl.pathname,
   baseUrlSecure: parsedBasedUrl.protocol === 'https:',
 
-  tokenExpiresIn: parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365,
+  tokenExpiresIn: (parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365) * 24 * 60 * 60,
 
   // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
   uploadsTempPath: null,

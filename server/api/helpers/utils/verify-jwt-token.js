@@ -24,7 +24,7 @@ module.exports = {
     try {
       payload = jwt.verify(inputs.token, sails.config.session.secret);
     } catch (error) {
-      throw 'invalidToken';
+      throw { invalidToken: error };
     }
 
     return {

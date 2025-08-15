@@ -20,7 +20,13 @@ module.exports = {
     const fileManager = sails.hooks['file-manager'].getInstance();
 
     const data = {
-      ..._.omit(inputs.record, ['password', 'avatar', 'passwordChangedAt']),
+      ..._.omit(inputs.record, [
+        'password',
+        'avatar',
+        'termsSignature',
+        'passwordChangedAt',
+        'termsAcceptedAt',
+      ]),
       avatar: inputs.record.avatar && {
         url: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.dirname}/original.${inputs.record.avatar.extension}`)}`,
         thumbnailUrls: {

@@ -3,6 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/* Query methods */
+
 const createOne = (values) => IdentityProviderUser.create({ ...values }).fetch();
 
 const getOneByIssuerAndSub = (issuer, sub) =>

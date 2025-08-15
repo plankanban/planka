@@ -4,50 +4,26 @@
  */
 
 /**
- * Session.js
+ * Config.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const MAIN_ID = '1';
+
 module.exports = {
+  MAIN_ID,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    accessToken: {
-      type: 'string',
-      isNotEmptyString: true,
-      allowNull: true,
-      columnName: 'access_token',
-    },
-    pendingToken: {
-      type: 'string',
-      isNotEmptyString: true,
-      allowNull: true,
-      columnName: 'pending_token',
-    },
-    httpOnlyToken: {
-      type: 'string',
-      isNotEmptyString: true,
-      allowNull: true,
-      columnName: 'http_only_token',
-    },
-    remoteAddress: {
-      type: 'string',
+    isInitialized: {
+      type: 'boolean',
       required: true,
-      columnName: 'remote_address',
-    },
-    userAgent: {
-      type: 'string',
-      isNotEmptyString: true,
-      allowNull: true,
-      columnName: 'user_agent',
-    },
-    deletedAt: {
-      type: 'ref',
-      columnName: 'deleted_at',
+      columnName: 'is_initialized',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -57,11 +33,5 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-
-    userId: {
-      model: 'User',
-      required: true,
-      columnName: 'user_id',
-    },
   },
 };

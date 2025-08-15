@@ -4,7 +4,6 @@
  */
 
 const bcrypt = require('bcrypt');
-const { v4: uuid } = require('uuid');
 
 const { isEmailOrUsername } = require('../../../utils/validators');
 const { getRemoteAddress } = require('../../../utils/remote-address');
@@ -21,6 +20,9 @@ const Errors = {
   },
   USE_SINGLE_SIGN_ON: {
     useSingleSignOn: 'Use single sign-on',
+  },
+  TERMS_ACCEPTANCE_REQUIRED: {
+    termsAcceptanceRequired: 'Terms acceptance required',
   },
 };
 
@@ -39,7 +41,6 @@ module.exports = {
     },
     withHttpOnlyToken: {
       type: 'boolean',
-      defaultsTo: false,
     },
   },
 
@@ -54,6 +55,12 @@ module.exports = {
       responseType: 'unauthorized',
     },
     useSingleSignOn: {
+      responseType: 'forbidden',
+    },
+    termsAcceptanceRequired: {
+      responseType: 'forbidden',
+    },
+    adminLoginRequiredToInitializeInstance: {
       responseType: 'forbidden',
     },
   },
@@ -90,26 +97,19 @@ module.exports = {
         : Errors.INVALID_CREDENTIALS;
     }
 
-    const { token: accessToken, payload: accessTokenPayload } = sails.helpers.utils.createJwtToken(
-      user.id,
-    );
-
-    const httpOnlyToken = inputs.withHttpOnlyToken ? uuid() : null;
-
-    await Session.qm.createOne({
-      accessToken,
-      httpOnlyToken,
-      remoteAddress,
-      userId: user.id,
-      userAgent: this.req.headers['user-agent'],
-    });
-
-    if (httpOnlyToken && !this.req.isSocket) {
-      sails.helpers.utils.setHttpOnlyTokenCookie(httpOnlyToken, accessTokenPayload, this.res);
-    }
-
-    return {
-      item: accessToken,
-    };
+    return sails.helpers.accessTokens.handleSteps
+      .with({
+        user,
+        remoteAddress,
+        request: this.req,
+        response: this.res,
+        withHttpOnlyToken: inputs.withHttpOnlyToken,
+      })
+      .intercept('adminLoginRequiredToInitializeInstance', (error) => ({
+        adminLoginRequiredToInitializeInstance: error.raw,
+      }))
+      .intercept('termsAcceptanceRequired', (error) => ({
+        termsAcceptanceRequired: error.raw,
+      }));
   },
 };
