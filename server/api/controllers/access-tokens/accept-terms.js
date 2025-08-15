@@ -65,7 +65,7 @@ module.exports = {
       throw Errors.INVALID_PENDING_TOKEN;
     }
 
-    const session = await Session.qm.getOneUndeletedByPendingToken(inputs.pendingToken);
+    let session = await Session.qm.getOneUndeletedByPendingToken(inputs.pendingToken);
 
     if (!session) {
       sails.log.warn(`Invalid pending token! (IP: ${remoteAddress})`);
@@ -109,12 +109,22 @@ module.exports = {
       }
     }
 
-    const { token: accessToken } = sails.helpers.utils.createJwtToken(user.id);
+    const { token: accessToken, payload: accessTokenPayload } = sails.helpers.utils.createJwtToken(
+      user.id,
+    );
 
-    await Session.qm.updateOne(session.id, {
+    session = await Session.qm.updateOne(session.id, {
       accessToken,
       pendingToken: null,
     });
+
+    if (session.httpOnlyToken && !this.req.isSocket) {
+      sails.helpers.utils.setHttpOnlyTokenCookie(
+        session.httpOnlyToken,
+        accessTokenPayload,
+        this.res,
+      );
+    }
 
     return {
       item: accessToken,
