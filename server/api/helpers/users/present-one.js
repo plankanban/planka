@@ -33,6 +33,7 @@ module.exports = {
           cover180: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.dirname}/cover-180.${inputs.record.avatar.extension}`)}`,
         },
       },
+      termsType: sails.hooks.terms.getTypeByUserRole(inputs.record.role),
     };
 
     if (inputs.user) {
