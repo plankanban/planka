@@ -1,13 +1,18 @@
 export default {
   translation: {
     common: {
+      activeUsersLimitReached: null,
       emailAlreadyInUse: 'E-mail já está em uso',
       emailOrUsername: 'E-mail ou nome de usuário',
+      invalidCredentials: null,
       invalidEmailOrUsername: 'E-mail ou nome de usuário inválido',
       invalidPassword: 'Senha inválida',
+      logIn_title: null,
       noInternetConnection: 'Sem conexão com a internet',
+      or: null,
       pageNotFound_title: 'Página não encontrada',
       password: 'Senha',
+      poweredByPlanka: null,
       serverConnectionFailed: 'Falha na conexão com o servidor',
       unknownError: 'Erro desconhecido, tente novamente mais tarde',
       useSingleSignOn: 'Usar login único',

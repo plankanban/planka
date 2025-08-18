@@ -21,6 +21,7 @@ export default {
 
     action: {
       logIn: 'Accedi',
+      logInWithSso: null,
     },
   },
 };
