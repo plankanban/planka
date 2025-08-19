@@ -46,9 +46,9 @@ export default {
       areYouSureYouWantToActivateThisUser: 'Biztosan aktiválja ezt a felhasználót?',
       areYouSureYouWantToArchiveCards: 'Biztosan archiválja a kártyákat?',
       areYouSureYouWantToArchiveThisCard: 'Biztosan archiválni szeretné ezt a kártyát?',
-      areYouSureYouWantToAssignThisProjectManagerAsOwner: 'Biztosan tulajdonosként jelöli ki ezt a projektmenedzsert?',
+      areYouSureYouWantToAssignThisProjectManagerAsOwner:
+        'Biztosan tulajdonosként jelöli ki ezt a projektmenedzsert?',
       areYouSureYouWantToDeactivateThisUser: 'Biztosan deaktiválni szeretné ezt a felhasználót?',
-      'Az összes változás automatikusan mentésre kerül a kapcsolat helyreállása után.',
       areYouSureYouWantToDeleteThisAttachment: 'Biztosan törölni szeretné ezt a mellékletet?',
       areYouSureYouWantToDeleteThisBackgroundImage: 'Biztosan törli ezt a háttérképet?',
       areYouSureYouWantToDeleteThisBoard: 'Biztosan törölni szeretné ezt a táblát?',
@@ -59,7 +59,8 @@ export default {
       areYouSureYouWantToDeleteThisCustomFieldGroup: 'Biztosan törli ezt az egyedi mezőcsoportot?',
       areYouSureYouWantToDeleteThisLabel: 'Biztosan törölni szeretné ezt a címkét?',
       areYouSureYouWantToDeleteThisList: 'Biztosan törölni szeretné ezt a listát?',
-      areYouSureYouWantToDeleteThisNotificationService: 'Biztosan törli ezt az értesítési szolgáltatást?',
+      areYouSureYouWantToDeleteThisNotificationService:
+        'Biztosan törli ezt az értesítési szolgáltatást?',
       areYouSureYouWantToDeleteThisProject: 'Biztosan törölni szeretné ezt a projektet?',
       areYouSureYouWantToDeleteThisTask: 'Biztosan törölni szeretné ezt a feladatot?',
       areYouSureYouWantToDeleteThisTaskList: 'Biztosan törli ezt a feladatlistát?',
@@ -72,7 +73,6 @@ export default {
       areYouSureYouWantToMakeThisProjectShared: 'Biztosan megosztottá teszi ezt a projektet?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Biztosan eltávolítja ezt a menedzsert a projektből?',
-      areYouSureYouWantToRemoveThisManagerFromProject: 'Biztosan eltávolítja ezt a menedzsert a projektből?',
       areYouSureYouWantToRemoveThisMemberFromBoard: 'Biztosan eltávolítja ezt a tagot a tábláról?',
       assignAsOwner_title: 'Hozzárendelés tulajdonosnak',
       atLeastOneListMustBePresent: 'Legalább egy lista szükséges.',
@@ -92,16 +92,22 @@ export default {
       byDueDate: 'Határidő szerint',
       canBeInvitedToWorkInBoards: 'Meghívható táblákon való munkára.',
       canComment: 'Hozzászólhat',
-      canCreateOwnProjectsAndBeInvitedToWorkInOthers: 'Létrehozhat saját projekteket, és meghívható másokéba.',
-      canEditBoardLayoutAndAssignMembersToCards: 'Szerkesztheti a tábla elrendezését és tagokat rendelhet a kártyákhoz.',
-      canManageSystemWideSettingsAndActAsProjectOwner: 'Kezelheti a rendszerszintű beállításokat és projekt tulajdonosként járhat el.',
+      canCreateOwnProjectsAndBeInvitedToWorkInOthers:
+        'Létrehozhat saját projekteket, és meghívható másokéba.',
+      canEditBoardLayoutAndAssignMembersToCards:
+        'Szerkesztheti a tábla elrendezését és tagokat rendelhet a kártyákhoz.',
+      canManageSystemWideSettingsAndActAsProjectOwner:
+        'Kezelheti a rendszerszintű beállításokat és projekt tulajdonosként járhat el.',
       canOnlyViewBoard: 'Csak megtekintheti a táblát.',
       cardActions_title: 'Kártya műveletek',
       cardNotFound_title: 'Kártya nem található',
-      cardsOnThisListAreAvailableToAllBoardMembers: 'A listán lévő kártyák minden tábla tag számára elérhetők.',
-      cardsOnThisListAreCompleteAndReadyToBeArchived: 'A listán lévő kártyák készek és archiválásra várnak.',
+      cardsOnThisListAreAvailableToAllBoardMembers:
+        'A listán lévő kártyák minden tábla tag számára elérhetők.',
+      cardsOnThisListAreCompleteAndReadyToBeArchived:
+        'A listán lévő kártyák készek és archiválásra várnak.',
       cardsOnThisListAreReadyToBeWorkedOn: 'A listán lévő kártyák készen állnak a munkára.',
-      clickHereOrRefreshPageToUpdate: '<0>Kattintson ide</0> vagy frissítse az oldalt a frissítéshez.',
+      clickHereOrRefreshPageToUpdate:
+        '<0>Kattintson ide</0> vagy frissítse az oldalt a frissítéshez.',
       closed: 'Lezárt',
       color: 'Szín',
       comments: 'Megjegyzések',
@@ -125,9 +131,11 @@ export default {
       deactivateUser_title: 'Felhasználó inaktiválása',
       defaultCardType_title: 'Alapértelmezett kártyatípus',
       defaultView_title: 'Alapértelmezett nézet',
-      deleteAllBoardsToBeAbleToDeleteThisProject: 'A projekt törléséhez törölni kell az összes táblát.',
+      deleteAllBoardsToBeAbleToDeleteThisProject:
+        'A projekt törléséhez törölni kell az összes táblát.',
       deleteAttachment_title: 'Melléklet törlése',
       deleteBackgroundImage_title: 'Háttérkép törlése',
+      deleteBoard_title: null,
       deleteCardForever_title: 'Kártya végleges törlése',
       deleteCard_title: 'Kártya törlése',
       deleteComment_title: 'Megjegyzés törlése',
@@ -139,6 +147,7 @@ export default {
       deleteProject_title: 'Projekt törlése',
       deleteTaskList_title: 'Feladatlista törlése',
       deleteTask_title: 'Feladat törlése',
+      deleteUser_title: null,
       deleteWebhook_title: 'Webhook törlése',
       deletedUser_title: 'Törölt felhasználó',
       description: 'Leírás',
@@ -221,18 +230,19 @@ export default {
       noUnreadNotifications: 'Nincsenek olvasatlan értesítések.',
       notifications: 'Értesítések',
       oldestFirst: 'Régebbi előre',
-      onlyOneManagerShouldRemainToMakeThisProjectPrivate: 'A projekt priváttá tételéhez csak egy menedzser maradhat.',
+      onlyOneManagerShouldRemainToMakeThisProjectPrivate:
+        'A projekt priváttá tételéhez csak egy menedzser maradhat.',
       openBoard_title: 'Tábla megnyitása',
       optional_inline: 'opcionális',
       organization: 'Szervezet',
       others: 'Egyebek',
       phone: 'Telefon',
-      plankaUsesAppriseToSendNotificationsToOver100PopularServices: 'A PLANKA az Apprise szolgáltatást használja több mint 100 népszerű szolgáltatás értesítéseinek küldésére.',
+      plankaUsesAppriseToSendNotificationsToOver100PopularServices:
+        'A PLANKA az Apprise szolgáltatást használja több mint 100 népszerű szolgáltatás értesítéseinek küldésére.',
       preferences: 'Beállítások',
       pressPasteShortcutToAddAttachmentFromClipboard:
         'Tipp: nyomja meg a Ctrl-V (Cmd-V a Mac-en) billentyűkombinációt a vágólapról történő melléklet hozzáadásához.',
       private: 'Privát',
-      pressPasteShortcutToAddAttachmentFromClipboard: 'Tipp: nyomja meg a Ctrl-V (Cmd-V a Mac-en) billentyűkombinációt a vágólapról történő melléklet hozzáadásához.',
       project: 'Projekt',
       projectNotFound_title: 'Projekt nem található',
       projectOwner: 'Projekt tulajdonos',
@@ -285,31 +295,38 @@ export default {
       uploadedImages: 'Feltöltött képek',
       url: 'URL',
       userActions_title: 'Felhasználói műveletek',
-      userAddedCardToList: '<0>{{user}}</0> hozzáadta a(z) <2>{{card}}</2> kártyát ehhez a listához: {{list}}',
+      userAddedCardToList:
+        '<0>{{user}}</0> hozzáadta a(z) <2>{{card}}</2> kártyát ehhez a listához: {{list}}',
       userAddedThisCardToList: '<0>{{user}}</0> hozzáadta ezt a kártyát a következőhöz: {{list}}',
-      userAddedUserToCard: '<0>{{actorUser}}</0> hozzáadta {{addedUser}} felhasználót a(z) <4>{{card}}</4> kártyához',
-      userAddedUserToThisCard: '<0>{{actorUser}}</0> hozzáadta {{addedUser}} felhasználót ehhez a kártyához',
+      userAddedUserToCard:
+        '<0>{{actorUser}}</0> hozzáadta {{addedUser}} felhasználót a(z) <4>{{card}}</4> kártyához',
+      userAddedUserToThisCard:
+        '<0>{{actorUser}}</0> hozzáadta {{addedUser}} felhasználót ehhez a kártyához',
       userAddedYouToCard: '<0>{{user}}</0> hozzáadta Önt ehhez a kártyához: <2>{{card}}</2>',
-      userCompletedTaskOnCard: '<0>{{user}}</0> befejezte a(z) {{task}} feladatot a(z) <4>{{card}}</4> kártyán',
-      userCompletedTaskOnThisCard: '<0>{{user}}</0> befejezte a(z) {{task}} feladatot ezen a kártyán',
+      userCompletedTaskOnCard:
+        '<0>{{user}}</0> befejezte a(z) {{task}} feladatot a(z) <4>{{card}}</4> kártyán',
+      userCompletedTaskOnThisCard:
+        '<0>{{user}}</0> befejezte a(z) {{task}} feladatot ezen a kártyán',
       userJoinedCard: '<0>{{user}}</0> csatlakozott a(z) <2>{{card}}</2> kártyához',
       userJoinedThisCard: '<0>{{user}}</0> csatlakozott ehhez a kártyához',
       userLeftCard: '<0>{{user}}</0> kilépett a(z) <2>{{card}}</2> kártyáról',
       userLeftNewCommentToCard:
         '<0>{{user}}</0> új kommentet hagyott itt: «{{comment}}» a következő kártyán: <2>{{card}}</2>',
       userLeftThisCard: '<0>{{user}}</0> kilépett erről a kártyáról',
-      userMarkedTaskIncompleteOnCard: '<0>{{user}}</0> befejezetlennek jelölte a(z) {{task}} feladatot a(z) <4>{{card}}</4> kártyán',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> befejezetlennek jelölte a(z) {{task}} feladatot ezen a kártyán',
-      userMentionedYouInCommentOnCard: '<0>{{user}}</0> megemlítette Önt a(z) «{{comment}}» megjegyzésben a(z) <2>{{card}}</2> kártyán',
+      userMarkedTaskIncompleteOnCard:
+        '<0>{{user}}</0> befejezetlennek jelölte a(z) {{task}} feladatot a(z) <4>{{card}}</4> kártyán',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> befejezetlennek jelölte a(z) {{task}} feladatot ezen a kártyán',
+      userMentionedYouInCommentOnCard:
+        '<0>{{user}}</0> megemlítette Önt a(z) «{{comment}}» megjegyzésben a(z) <2>{{card}}</2> kártyán',
       userMovedCardFromListToList:
         '<0>{{user}}</0> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
       userMovedThisCardFromListToList:
         '<0>{{user}}</0> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
-      userRemovedUserFromCard: '<0>{{actorUser}}</0> eltávolította {{removedUser}} felhasználót a(z) <4>{{card}}</4> kártyáról',
-      userRemovedUserFromThisCard: '<0>{{actorUser}}</0> eltávolította {{removedUser}} felhasználót erről a kártyáról',
-      userLeftNewCommentToCard: '<0>{{user}}</0> új kommentet hagyott itt: «{{comment}}» a következő kártyán: <2>{{card}}</2>',
-      userMovedCardFromListToList: '<0>{{user}}</0> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
-      userMovedThisCardFromListToList: '<0>{{user}}</0> áthelyezte ezt a kártyát innen: {{fromList}} ide: {{toList}}',
+      userRemovedUserFromCard:
+        '<0>{{actorUser}}</0> eltávolította {{removedUser}} felhasználót a(z) <4>{{card}}</4> kártyáról',
+      userRemovedUserFromThisCard:
+        '<0>{{actorUser}}</0> eltávolította {{removedUser}} felhasználót erről a kártyáról',
       username: 'Felhasználónév',
       users: 'Felhasználók',
       viewer: 'Néző',
@@ -319,8 +336,10 @@ export default {
       withoutBaseGroup: 'Alapcsoport nélkül',
       writeComment: 'Írjon egy megjegyzést...',
     },
+
     action: {
       activateUser: 'Felhasználó aktiválása',
+      activateUser_title: null,
       addAnotherCard: 'Új kártya hozzáadása',
       addAnotherList: 'Új lista hozzáadása',
       addAnotherTask: 'Új feladat hozzáadása',
@@ -337,8 +356,11 @@ export default {
       addToCard: 'Kártyához hozzáadása',
       addUser: 'Felhasználó hozzáadása',
       addWebhook: 'Webhook hozzáadása',
+      archive: null,
       archiveCard: 'Archív kártya',
+      archiveCard_title: null,
       archiveCards: 'Kártyák archiválása',
+      archiveCards_title: null,
       assignAsOwner: 'Hozzárendelés tulajdonosnak',
       cancel: 'Mégsem',
       createBoard: 'Tábla létrehozása',
@@ -348,6 +370,7 @@ export default {
       createNewLabel: 'Új címke létrehozása',
       createProject: 'Projekt létrehozása',
       deactivateUser: 'Felhasználó inaktiválása',
+      deactivateUser_title: null,
       delete: 'Törlés',
       deleteAttachment: 'Melléklet törlése',
       deleteAvatar: 'Avatar törlése',
@@ -377,6 +400,7 @@ export default {
       dismissAll: 'Összes elvetése',
       duplicateCard_title: 'Kártya másolása',
       edit: 'Szerkesztés',
+      editColor_title: null,
       editDescription_title: 'Leírás szerkesztése',
       editDueDate_title: 'Esedékesség dátumának szerkesztése',
       editEmail_title: 'E-mail szerkesztése',
@@ -384,10 +408,13 @@ export default {
       editInformation_title: 'Információ szerkesztése',
       editPassword_title: 'Jelszó szerkesztése',
       editPermissions: 'Jogosultságok szerkesztése',
+      editRole_title: null,
       editStopwatch_title: 'Stopper szerkesztése',
       editTitle_title: 'Cím szerkesztése',
+      editType_title: null,
       editUsername_title: 'Felhasználónév szerkesztése',
       emptyTrash: 'Lomtár ürítése',
+      emptyTrash_title: null,
       import: 'Importálás',
       join: 'Csatlakozás',
       leave: 'Kilépés',
@@ -396,7 +423,9 @@ export default {
       logOut_title: 'Kijelentkezés',
       makeCover_title: 'Borító készítése',
       makeProjectPrivate: 'Projekt priváttá tétele',
+      makeProjectPrivate_title: null,
       makeProjectShared: 'Projekt megosztása',
+      makeProjectShared_title: null,
       move: 'Áthelyezés',
       moveCard_title: 'Kártya áthelyezése',
       remove: 'Eltávolítás',
@@ -423,7 +452,7 @@ export default {
       subscribe: 'Feliratkozás',
       unsubscribe: 'Leiratkozás',
       uploadNewAvatar: 'Új avatar feltöltése',
-      uploadNewImage: 'Új kép feltöltése'
-    }
-  }
+      uploadNewImage: 'Új kép feltöltése',
+    },
+  },
 };
