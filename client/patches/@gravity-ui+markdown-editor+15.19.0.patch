@@ -1,5 +1,5 @@
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
-index 2152fd6..ceda0c1 100644
+index 0e615c4..383338d 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
 +++ b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
 @@ -101,7 +101,6 @@ export const BundlePreset = (builder, opts) => {
@@ -23,26 +23,26 @@ index 2152fd6..ceda0c1 100644
              h1Key: f.toPM(A.Heading1),
              h2Key: f.toPM(A.Heading2),
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
-index bd3d4b9..5a5a5be 100644
+index 212c583..b709383 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
 +++ b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
-@@ -9,7 +9,7 @@ export { noteType, noteTitleType } from "./utils.js";
+@@ -10,7 +10,7 @@ export { noteType, noteTitleType } from "./utils.js";
  export const YfmNoteSpecs = (builder, opts) => {
      const schemaSpecs = getSchemaSpecs(opts, builder.context.get('placeholder'));
      builder
--        .configureMd((md) => md.use(yfmPlugin, { log }))
-+        .configureMd((md) => md.use(yfmPlugin, { log, notesAutotitle: false }))
+-        .configureMd((md) => md.use(yfmPlugin, { log, lang: getConfig().lang || 'en' }))
++        .configureMd((md) => md.use(yfmPlugin, { log, lang: getConfig().lang || 'en', notesAutotitle: false }))
          .addNode(NoteNode.Note, () => ({
          spec: schemaSpecs[NoteNode.Note],
          toMd: serializerTokens[NoteNode.Note],
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js b/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
-index ed2a9db..f95b693 100644
+index ed2a9db..77f6d08 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
 +++ b/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
 @@ -1,5 +1,5 @@
  import { Deflist, Subscript, Superscript, Underline, } from "../extensions/markdown/index.js";
 -import { Checkbox, ImgSize, Monospace, Video, YfmConfigs, YfmCut, YfmFile, YfmHeading, YfmNote, YfmTable, YfmTabs, } from "../extensions/yfm/index.js";
-+import { ImgSize, Monospace, Video, YfmConfigs, YfmCut, YfmHeading, YfmNote, YfmTable } from "../extensions/yfm/index.js";
++import { ImgSize, Monospace, Video, YfmConfigs, YfmCut, YfmHeading, YfmNote, YfmTable, } from "../extensions/yfm/index.js";
  import { DefaultPreset } from "./default.js";
  export const YfmPreset = (builder, opts) => {
      builder.use(DefaultPreset, { ...opts, image: false, heading: false });
