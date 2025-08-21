@@ -25,7 +25,6 @@ export default {
       cancelAndClose: null,
       continue: null,
       logIn: 'Přihlásit se',
-      logInWithSso: null,
     },
   },
 };

@@ -120,7 +120,6 @@ export default {
       color: 'Colore',
       comments: 'Commenti',
       contentExceedsLimit: 'Il contenuto supera {{limit}}',
-      contentOfThisAttachmentIsTooBigToDisplay: null,
       copy_inline: 'copia',
       createBoard_title: 'Crea bacheca',
       createCustomFieldGroup_title: 'Crea campi personalizzati',
@@ -291,7 +290,6 @@ export default {
       taskListActions_title: 'Azioni lista di task',
       taskList_title: 'Lista di task',
       team: 'Team',
-      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         'Non è disponibile alcuna anteprima per questo allegato.',
       time: 'Tempo',
@@ -322,7 +320,6 @@ export default {
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in <4>{{card}}</4>',
       userMarkedTaskIncompleteOnThisCard:
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in questa task',
-      userMentionedYouInCommentOnCard: null,
       userMovedCardFromListToList:
         '<0>{{user}}</0> ha spostato <2>{{card}}</2> da {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
@@ -372,7 +369,6 @@ export default {
       createNewLabel: 'Crea nuova etichetta',
       createProject: 'Crea progetto',
       deactivateUser: 'Disattiva utente',
-      deactivateUser_title: null,
       delete: 'Elimina',
       deleteAttachment: 'Elimina allegato',
       deleteAvatar: 'Elimina avatar',
