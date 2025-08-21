@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Dosažený limit aktivních uživatelů',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail se již používá',
       emailOrUsername: 'E-mail nebo uživatelské jméno',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Neplatné přihlašovací údaje',
       invalidEmailOrUsername: 'Nesprávný e-mail nebo uživatelské jméno',
       invalidPassword: 'Nesprávné heslo',
@@ -20,7 +22,10 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Přihlásit se',
+      logInWithSso: null,
     },
   },
 };

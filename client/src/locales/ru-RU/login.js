@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Достигнут лимит активных пользователей',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail уже занят',
       emailOrUsername: 'E-mail или имя пользователя',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Недействительные учетные данные',
       invalidEmailOrUsername: 'Неверный e-mail или имя пользователя',
       invalidPassword: 'Неверный пароль',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Войти',
       logInWithSso: 'Войти с помощью единого входа',
     },

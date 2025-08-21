@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Aktiivsete kasutajate limiit on täis',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-post on juba kasutusel',
       emailOrUsername: 'E-post või kasutajanimi',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Vale kasutajanimi või parool',
       invalidEmailOrUsername: 'Vale e-post või kasutajanimi',
       invalidPassword: 'Vale parool',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Logi sisse',
       logInWithSso: 'Logi sisse SSO-ga',
     },
