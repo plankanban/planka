@@ -292,6 +292,7 @@ export default {
       taskListActions_title: 'Ações da Lista de Tarefas',
       taskList_title: 'Lista de Tarefas',
       team: 'Equipe',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         'Não há pré-visualização disponível para este anexo.',
       time: 'Tempo',

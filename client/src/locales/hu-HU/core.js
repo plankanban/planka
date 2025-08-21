@@ -283,6 +283,7 @@ export default {
       taskListActions_title: 'Feladatlista műveletek',
       taskList_title: 'Feladatlista',
       team: 'Csapat',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Nincs elérhető előnézet ehhez a melléklethez.',
       time: 'Idő',
       title: 'Cím',

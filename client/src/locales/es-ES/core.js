@@ -290,6 +290,7 @@ export default {
       taskListActions_title: 'Acciones de la lista de tareas',
       taskList_title: 'Lista de tareas',
       team: 'Equipo',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         'No hay vista previa disponible para este adjunto.',
       time: 'Tiempo',

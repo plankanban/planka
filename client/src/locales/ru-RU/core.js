@@ -288,6 +288,7 @@ export default {
       taskListActions_title: 'Действия с списком задач',
       taskList_title: 'Список задач',
       team: 'Команда',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Предпросмотр для этого вложения недоступен.',
       time: 'Время',
       title: 'Название',

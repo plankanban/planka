@@ -273,6 +273,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Нема прегледа доступног за овај прилог.',
       time: 'Време',
       title: 'Наслов',

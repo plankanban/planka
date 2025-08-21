@@ -271,6 +271,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'پیش نمایشی برای این پیوست موجود نیست.',
       time: 'زمان',
       title: 'عنوان',

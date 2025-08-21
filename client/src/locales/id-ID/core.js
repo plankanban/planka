@@ -273,6 +273,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         'Tidak ada pratinjau yang tersedia untuk lampiran ini.',
       time: 'Waktu',

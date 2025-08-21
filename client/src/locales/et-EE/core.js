@@ -289,6 +289,7 @@ export default {
       taskListActions_title: 'Ülesannete nimekiri tegevused',
       taskList_title: 'Ülesanne nimekiri',
       team: 'Töögrupp',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Selle manusi eelvaadet pole saadaval.',
       time: 'Aeg',
       title: 'Pealkiri',

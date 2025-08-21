@@ -287,6 +287,7 @@ export default {
       taskListActions_title: 'Дії для списку завдань',
       taskList_title: 'Список завдань',
       team: 'Команда',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Для цього вкладення немає доступного перегляду.',
       time: 'Час',
       title: 'Назва',

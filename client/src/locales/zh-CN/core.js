@@ -271,6 +271,7 @@ export default {
       taskListActions_title: '任务列表操作',
       taskList_title: '任务列表',
       team: '团队',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: '此附件无法预览',
       time: '时间',
       title: '标题',

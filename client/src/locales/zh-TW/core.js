@@ -267,6 +267,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: '此附件無法預覽',
       time: '時間',
       title: '標題',
