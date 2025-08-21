@@ -13,7 +13,7 @@ const Errors = {
 
 const CURRENT_USER_ID = 'me';
 
-const ID_OR_CURRENT_USER_ID_REGEX = new RegExp(`${ID_REGEX}|^${CURRENT_USER_ID}$`);
+const ID_OR_CURRENT_USER_ID_REGEX = new RegExp(`${ID_REGEX.source}|^${CURRENT_USER_ID}$`);
 
 const isCurrentUserIdOrIdInRange = (value) => value === CURRENT_USER_ID || isIdInRange(value);
 
