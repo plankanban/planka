@@ -285,6 +285,7 @@ export default {
       taskListActions_title: 'Tehtävälistan toiminnot',
       taskList_title: 'Tehtävälista',
       team: 'Tiimi',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Tälle liitteelle ei ole esikatselua saatavilla.',
       time: 'Aika',
       title: 'Otsikko',

@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: '郵箱已被使用',
       emailOrUsername: '郵箱或使用者名稱',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: '無效的郵箱或使用者名稱',
       invalidPassword: '密碼錯誤',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: '登入',
       logInWithSso: '使用SSO登入',
     },

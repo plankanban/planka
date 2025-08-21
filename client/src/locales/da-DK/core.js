@@ -290,6 +290,7 @@ export default {
       taskListActions_title: 'Opgaveliste handlinger',
       taskList_title: 'Opgaveliste',
       team: 'Team',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         'Der er ingen forhåndsvisning tilgængelig for denne vedhæftning.',
       time: 'Tid',

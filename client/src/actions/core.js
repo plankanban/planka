@@ -91,8 +91,8 @@ const logout = () => ({
   payload: {},
 });
 
-logout.invalidateAccessToken = () => ({
-  type: ActionTypes.LOGOUT__ACCESS_TOKEN_INVALIDATE,
+logout.revokeAccessToken = () => ({
+  type: ActionTypes.LOGOUT__ACCESS_TOKEN_REVOKE,
   payload: {},
 });
 

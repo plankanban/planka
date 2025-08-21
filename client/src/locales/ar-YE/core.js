@@ -270,6 +270,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'لا يوجد معاينة متاحة لهذا المرفق.',
       time: 'الوقت',
       title: 'العنوان',

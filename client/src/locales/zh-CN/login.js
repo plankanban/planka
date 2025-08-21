@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: '活跃用户数已达上限',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: '邮箱已使用',
       emailOrUsername: '邮箱或用户名',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: '无效凭证',
       invalidEmailOrUsername: '无效的邮箱或用户名',
       invalidPassword: '密码错误',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: '登录',
       logInWithSso: '使用SSO登录',
     },

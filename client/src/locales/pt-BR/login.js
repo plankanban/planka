@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail já está em uso',
       emailOrUsername: 'E-mail ou nome de usuário',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'E-mail ou nome de usuário inválido',
       invalidPassword: 'Senha inválida',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Entrar',
       logInWithSso: 'Entrar com SSO',
     },

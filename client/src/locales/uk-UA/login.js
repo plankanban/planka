@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Досягнуто ліміту активних користувачів',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'Електронна пошта вже використовується',
       emailOrUsername: "Електронна пошта або ім'я користувача",
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Неправильні облікові дані',
       invalidEmailOrUsername: "Неправильна електронна пошта або ім'я користувача",
       invalidPassword: 'Неправильний пароль',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Увійти',
       logInWithSso: 'Увійти за допомогою SSO',
     },

@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Maximale Anzahl aktiver Benutzer erreicht',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail Adresse wird bereits benutzt',
       emailOrUsername: 'E-Mail-Adresse oder Benutzername',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Ungültige Anmeldeinformationen',
       invalidEmailOrUsername: 'Ungültige E-Mail-Adresse oder Benutzername',
       invalidPassword: 'Ungültiges Passwort',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Einloggen',
       logInWithSso: 'Einloggen mit SSO',
     },

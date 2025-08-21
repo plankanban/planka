@@ -273,6 +273,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         'Nu există nicio previzualizare disponibilă pentru acest atașament.',
       time: 'Timp',

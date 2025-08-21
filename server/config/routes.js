@@ -64,6 +64,8 @@ function staticDirServer(prefix, dirFn) {
 module.exports.routes = {
   'GET /api/config': 'config/show',
 
+  'GET /api/terms/:type': 'terms/show',
+
   'GET /api/webhooks': 'webhooks/index',
   'POST /api/webhooks': 'webhooks/create',
   'PATCH /api/webhooks/:id': 'webhooks/update',
@@ -71,6 +73,8 @@ module.exports.routes = {
 
   'POST /api/access-tokens': 'access-tokens/create',
   'POST /api/access-tokens/exchange-with-oidc': 'access-tokens/exchange-with-oidc',
+  'POST /api/access-tokens/accept-terms': 'access-tokens/accept-terms',
+  'POST /api/access-tokens/revoke-pending-token': 'access-tokens/revoke-pending-token',
   'DELETE /api/access-tokens/me': 'access-tokens/delete',
 
   'GET /api/users': 'users/index',

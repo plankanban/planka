@@ -191,6 +191,12 @@ module.exports = {
       defaultsTo: ProjectOrders.BY_DEFAULT,
       columnName: 'default_projects_order',
     },
+    termsSignature: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'terms_signature',
+    },
     isSsoUser: {
       type: 'boolean',
       defaultsTo: false,
@@ -204,6 +210,10 @@ module.exports = {
     passwordChangedAt: {
       type: 'ref',
       columnName: 'password_changed_at',
+    },
+    termsAcceptedAt: {
+      type: 'ref',
+      columnName: 'terms_accepted_at',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

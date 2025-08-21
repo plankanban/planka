@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'Имейлът вече се използва',
       emailOrUsername: 'Имейл или потребителско име',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'Невалиден имейл или потребителско име',
       invalidPassword: 'Невалидна парола',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Вход',
       logInWithSso: 'Вход чрез SSO',
     },

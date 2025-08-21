@@ -271,6 +271,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         '이 첨부 파일에 대한 미리보기를 사용할 수 없습니다.',
       time: '시간',

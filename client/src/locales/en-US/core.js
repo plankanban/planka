@@ -285,6 +285,7 @@ export default {
       taskListActions_title: 'Task List Actions',
       taskList_title: 'Task List',
       team: 'Team',
+      terms: 'Terms',
       thereIsNoPreviewAvailableForThisAttachment:
         'There is no preview available for this attachment.',
       time: 'Time',

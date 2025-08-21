@@ -18,8 +18,15 @@ module.exports = {
 
     accessToken: {
       type: 'string',
-      required: true,
+      isNotEmptyString: true,
+      allowNull: true,
       columnName: 'access_token',
+    },
+    pendingToken: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'pending_token',
     },
     httpOnlyToken: {
       type: 'string',

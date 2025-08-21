@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Aktiivisten käyttäjien raja saavutettu',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'Sähköposti on jo käytössä',
       emailOrUsername: 'Sähköposti tai käyttäjänimi',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Virheelliset tunnistetiedot',
       invalidEmailOrUsername: 'Virheellinen sähköposti tai käyttäjänimi',
       invalidPassword: 'Virheellinen salasana',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Kirjaudu sisään',
       logInWithSso: 'Kirjaudu SSO:lla',
     },

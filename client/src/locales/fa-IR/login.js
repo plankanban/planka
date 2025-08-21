@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'ایمیل قبلا استفاده شده است',
       emailOrUsername: 'ایمیل یا نام کاربری',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'ایمیل یا نام کاربری نامعتبر است',
       invalidPassword: 'رمز عبور نامعتبر است',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'ورود',
       logInWithSso: 'ورود با SSO',
     },

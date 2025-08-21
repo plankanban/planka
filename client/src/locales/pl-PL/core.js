@@ -281,6 +281,7 @@ export default {
       taskListActions_title: 'Akcje Listy Zadań',
       taskList_title: 'Lista Zadań',
       team: 'Zespół',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Brak podglądu dostępnego dla tego załącznika.',
       time: 'Czas',
       title: 'Tytuł',

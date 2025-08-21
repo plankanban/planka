@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-posta adresi zaten kullanımda',
       emailOrUsername: 'E-posta adresi veya Kullanıcı adı',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'Geçersiz e-posta adresi veya kullanıcı adı',
       invalidPassword: 'Hatalı Şifre',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Giriş Yap',
       logInWithSso: null,
     },

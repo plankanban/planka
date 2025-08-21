@@ -273,6 +273,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'この添付ファイルにはプレビューがありません。',
       time: '時間',
       title: 'タイトル',

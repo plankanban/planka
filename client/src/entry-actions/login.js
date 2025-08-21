@@ -22,8 +22,30 @@ const clearAuthenticateError = () => ({
   payload: {},
 });
 
+const acceptTerms = (signature) => ({
+  type: EntryActionTypes.TERMS_ACCEPT,
+  payload: {
+    signature,
+  },
+});
+
+const cancelTerms = () => ({
+  type: EntryActionTypes.TERMS_CANCEL,
+  payload: {},
+});
+
+const updateTermsLanguage = (value) => ({
+  type: EntryActionTypes.TERMS_LANGUAGE_UPDATE,
+  payload: {
+    value,
+  },
+});
+
 export default {
   authenticate,
   authenticateWithOidc,
   clearAuthenticateError,
+  acceptTerms,
+  cancelTerms,
+  updateTermsLanguage,
 };

@@ -293,6 +293,7 @@ export default {
       taskListActions_title: 'Actions de la liste de tâches',
       taskList_title: 'Liste de tâches',
       team: "Mes projets d'équipe",
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         "Il n'y a pas d'aperçu disponible pour cette pièce jointe.",
       time: 'Temps',

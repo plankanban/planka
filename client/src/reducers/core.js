@@ -92,7 +92,7 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         homeView: payload.value,
       };
-    case ActionTypes.LOGOUT__ACCESS_TOKEN_INVALIDATE:
+    case ActionTypes.LOGOUT__ACCESS_TOKEN_REVOKE:
       return {
         ...state,
         isLogouting: true,

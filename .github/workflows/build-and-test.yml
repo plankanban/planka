@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      POSTGRES_DB: planka
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USERNAME: planka
+      POSTGRES_PASSWORD: planka
+      POSTGRES_DATABASE: planka
 
     steps:
       - name: Checkout repository
@@ -30,9 +30,9 @@ jobs:
       - name: Set up PostgreSQL
         uses: ikalnytskyi/action-setup-postgres@v5
         with:
-          database: ${{ env.POSTGRES_DB }}
-          username: ${{ env.POSTGRES_USER }}
+          username: ${{ env.POSTGRES_USERNAME }}
           password: ${{ env.POSTGRES_PASSWORD }}
+          database: ${{ env.POSTGRES_DATABASE }}
 
       - name: Cache Node.js modules
         uses: actions/cache@v3
@@ -58,7 +58,7 @@ jobs:
           client/tests/setup-symlinks.sh
           cd server
           cp .env.sample .env
-          sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost/${POSTGRES_DB}|" .env
+          sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@localhost/${POSTGRES_DATABASE}|" .env
           npm run db:init
           npm start --prod &
 
@@ -66,6 +66,12 @@ jobs:
         run: |
           sudo apt-get install wait-for-it -y
           wait-for-it -h localhost -p 1337 -t 10
+
+      - name: Seed database with terms signature
+        run: |
+          TERMS_SIGNATURE=$(sha256sum terms/en-US/extended.md | awk '{print $1}')
+          PGPASSWORD=$POSTGRES_PASSWORD psql -h localhost -U $POSTGRES_USERNAME -d $POSTGRES_DATABASE -c "UPDATE user_account SET terms_signature = '$TERMS_SIGNATURE';"
+        working-directory: ./server
 
       - name: Run UI tests
         run: |

@@ -284,6 +284,7 @@ export default {
       taskListActions_title: 'Akce seznamu úkolů',
       taskList_title: 'Seznam úkolů',
       team: 'Tým',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Pro tuto přílohu není k dispozici žádný náhled.',
       time: 'Čas',
       title: 'Titulek',

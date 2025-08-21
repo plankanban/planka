@@ -270,6 +270,7 @@ export default {
       taskListActions_title: null,
       taskList_title: null,
       team: null,
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment: 'Bu ek için önizleme mevcut değil.',
       time: 'zaman',
       title: 'başlık',

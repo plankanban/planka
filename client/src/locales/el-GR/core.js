@@ -300,6 +300,7 @@ export default {
       taskListActions_title: 'Ενέργειες λίστας εργασιών',
       taskList_title: 'Λίστα εργασιών',
       team: 'Ομάδα',
+      terms: null,
       thereIsNoPreviewAvailableForThisAttachment:
         'Δεν υπάρχει διαθέσιμη προεπισκόπηση για αυτό το συνημμένο.',
       time: 'Ώρα',

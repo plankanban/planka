@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Έχει επιτευχθεί το όριο ενεργών χρηστών',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'Το e-mail χρησιμοποιείται ήδη',
       emailOrUsername: 'E-mail ή όνομα χρήστη',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Μη έγκυρα στοιχεία σύνδεσης',
       invalidEmailOrUsername: 'Μη έγκυρο e-mail ή όνομα χρήστη',
       invalidPassword: 'Μη έγκυρος κωδικός',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Σύνδεση',
       logInWithSso: 'Σύνδεση με SSO',
     },

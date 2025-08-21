@@ -16,6 +16,8 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useForm, useNestedRef } from '../../../hooks';
 import { isUsername } from '../../../utils/validator';
+import AccessTokenSteps from '../../../constants/AccessTokenSteps';
+import TermsModal from './TermsModal';
 
 import styles from './Content.module.scss';
 
@@ -44,6 +46,11 @@ const createMessage = (error) => {
       return {
         type: 'error',
         content: 'common.useSingleSignOn',
+      };
+    case 'Admin login required to initialize instance':
+      return {
+        type: 'error',
+        content: 'common.adminLoginRequiredToInitializeInstance',
       };
     case 'Email already in use':
       return {
@@ -86,6 +93,7 @@ const Content = React.memo(() => {
     isSubmitting,
     isSubmittingWithOidc,
     error,
+    step,
   } = useSelector(selectors.selectAuthenticateForm);
 
   const dispatch = useDispatch();
@@ -265,6 +273,7 @@ const Content = React.memo(() => {
           <div className={styles.coverOverlay} />
         </Grid.Column>
       </Grid>
+      {step === AccessTokenSteps.ACCEPT_TERMS && <TermsModal />}
     </div>
   );
 });
