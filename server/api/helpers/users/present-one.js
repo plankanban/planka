@@ -28,9 +28,9 @@ module.exports = {
         'termsAcceptedAt',
       ]),
       avatar: inputs.record.avatar && {
-        url: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.dirname}/original.${inputs.record.avatar.extension}`)}`,
+        url: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.uploadedFileId}/original.${inputs.record.avatar.extension}`)}`,
         thumbnailUrls: {
-          cover180: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.dirname}/cover-180.${inputs.record.avatar.extension}`)}`,
+          cover180: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.uploadedFileId}/cover-180.${inputs.record.avatar.extension}`)}`,
         },
       },
       termsType: sails.hooks.terms.getTypeByUserRole(inputs.record.role),

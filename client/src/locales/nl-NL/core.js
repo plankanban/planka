@@ -284,6 +284,8 @@ export default {
       typeNameToConfirm: null,
       typeTitleToConfirm: null,
       unsavedChanges: null,
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: null,
       url: null,
       userActions_title: 'Gebruikersacties',

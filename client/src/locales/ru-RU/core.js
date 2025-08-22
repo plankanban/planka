@@ -298,6 +298,8 @@ export default {
       typeNameToConfirm: 'Введите имя для подтверждения',
       typeTitleToConfirm: 'Введите название для подтверждения',
       unsavedChanges: 'Несохранённые изменения',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Загруженные изображения',
       url: null,
       userActions_title: 'Действия с пользователем',

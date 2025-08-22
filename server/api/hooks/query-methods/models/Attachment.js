@@ -13,25 +13,24 @@ const create = (arrayOfValues) => {
   const arrayOfFileValues = arrayOfValues.filter(({ type }) => type === Attachment.Types.FILE);
 
   if (arrayOfFileValues.length > 0) {
-    const arrayOfValuesByFileReferenceId = _.groupBy(arrayOfFileValues, 'data.fileReferenceId');
+    const arrayOfValuesByUploadedFileId = _.groupBy(arrayOfFileValues, 'data.uploadedFileId');
+    const uploadedFileIds = Object.keys(arrayOfValuesByUploadedFileId);
 
-    const fileReferenceIds = Object.keys(arrayOfValuesByFileReferenceId);
-
-    const fileReferenceIdsByTotal = Object.entries(arrayOfValuesByFileReferenceId).reduce(
-      (result, [fileReferenceId, arrayOfValuesItem]) => ({
+    const uploadedFileIdsByTotal = Object.entries(arrayOfValuesByUploadedFileId).reduce(
+      (result, [uploadedFileId, arrayOfValuesItem]) => ({
         ...result,
-        [arrayOfValuesItem.length]: [...(result[arrayOfValuesItem.length] || []), fileReferenceId],
+        [arrayOfValuesItem.length]: [...(result[arrayOfValuesItem.length] || []), uploadedFileId],
       }),
       {},
     );
 
     return sails.getDatastore().transaction(async (db) => {
       const queryValues = [];
-      let query = `UPDATE file_reference SET total = total + CASE `;
+      let query = `UPDATE uploaded_file SET references_total = references_total + CASE `;
 
-      Object.entries(fileReferenceIdsByTotal).forEach(([total, fileReferenceIdsItem]) => {
-        const inValues = fileReferenceIdsItem.map((fileReferenceId) => {
-          queryValues.push(fileReferenceId);
+      Object.entries(uploadedFileIdsByTotal).forEach(([total, uploadedFileIdsItem]) => {
+        const inValues = uploadedFileIdsItem.map((uploadedFileId) => {
+          queryValues.push(uploadedFileId);
           return `$${queryValues.length}`;
         });
 
@@ -39,25 +38,25 @@ const create = (arrayOfValues) => {
         query += `WHEN id IN (${inValues.join(', ')}) THEN $${queryValues.length}::int `;
       });
 
-      const inValues = fileReferenceIds.map((fileReferenceId) => {
-        queryValues.push(fileReferenceId);
+      const inValues = uploadedFileIds.map((uploadedFileId) => {
+        queryValues.push(uploadedFileId);
         return `$${queryValues.length}`;
       });
 
       queryValues.push(new Date().toISOString());
-      query += `END, updated_at = $${queryValues.length} WHERE id IN (${inValues.join(', ')}) AND total IS NOT NULL RETURNING id`;
+      query += `END, updated_at = $${queryValues.length} WHERE id IN (${inValues.join(', ')}) AND references_total IS NOT NULL RETURNING id`;
 
       const queryResult = await sails.sendNativeQuery(query, queryValues).usingConnection(db);
-      const nextFileReferenceIds = sails.helpers.utils.mapRecords(queryResult.rows);
+      const nextUploadedFileIds = sails.helpers.utils.mapRecords(queryResult.rows);
 
-      if (nextFileReferenceIds.length < fileReferenceIds.length) {
-        const nextFileReferenceIdsSet = new Set(nextFileReferenceIds);
+      if (nextUploadedFileIds.length < uploadedFileIds.length) {
+        const nextUploadedFileIdsSet = new Set(nextUploadedFileIds);
 
         // eslint-disable-next-line no-param-reassign
         arrayOfValues = arrayOfValues.filter(
           (values) =>
             values.type !== Attachment.Types.FILE ||
-            nextFileReferenceIdsSet.has(values.data.fileReferenceId),
+            nextUploadedFileIdsSet.has(values.data.uploadedFileId),
         );
       }
 
@@ -70,8 +69,6 @@ const create = (arrayOfValues) => {
 
 const createOne = (values) => {
   if (values.type === Attachment.Types.FILE) {
-    const { fileReferenceId } = values.data;
-
     return sails.getDatastore().transaction(async (db) => {
       const attachment = await Attachment.create({ ...values })
         .fetch()
@@ -79,13 +76,13 @@ const createOne = (values) => {
 
       const queryResult = await sails
         .sendNativeQuery(
-          'UPDATE file_reference SET total = total + 1, updated_at = $1 WHERE id = $2 AND total IS NOT NULL',
-          [new Date().toISOString(), fileReferenceId],
+          'UPDATE uploaded_file SET references_total = references_total + 1, updated_at = $1 WHERE id = $2 AND references_total IS NOT NULL',
+          [new Date().toISOString(), values.data.uploadedFileId],
         )
         .usingConnection(db);
 
       if (queryResult.rowCount === 0) {
-        throw 'fileReferenceNotFound';
+        throw 'uploadedFileNotFound';
       }
 
       return attachment;
@@ -129,24 +126,24 @@ const delete_ = (criteria) =>
     const attachments = await Attachment.destroy(criteria).fetch().usingConnection(db);
     const fileAttachments = attachments.filter(({ type }) => type === Attachment.Types.FILE);
 
-    let fileReferences = [];
+    let uploadedFiles = [];
     if (fileAttachments.length > 0) {
-      const attachmentsByFileReferenceId = _.groupBy(fileAttachments, 'data.fileReferenceId');
+      const attachmentsByUploadedFileId = _.groupBy(fileAttachments, 'data.uploadedFileId');
 
-      const fileReferenceIdsByTotal = Object.entries(attachmentsByFileReferenceId).reduce(
-        (result, [fileReferenceId, attachmentsItem]) => ({
+      const uploadedFileIdsByTotal = Object.entries(attachmentsByUploadedFileId).reduce(
+        (result, [uploadedFileId, attachmentsItem]) => ({
           ...result,
-          [attachmentsItem.length]: [...(result[attachmentsItem.length] || []), fileReferenceId],
+          [attachmentsItem.length]: [...(result[attachmentsItem.length] || []), uploadedFileId],
         }),
         {},
       );
 
       const queryValues = [];
-      let query = 'UPDATE file_reference SET total = CASE WHEN total = CASE ';
+      let query = 'UPDATE uploaded_file SET references_total = CASE WHEN references_total = CASE ';
 
-      Object.entries(fileReferenceIdsByTotal).forEach(([total, fileReferenceIds]) => {
-        const inValues = fileReferenceIds.map((fileReferenceId) => {
-          queryValues.push(fileReferenceId);
+      Object.entries(uploadedFileIdsByTotal).forEach(([total, uploadedFileIds]) => {
+        const inValues = uploadedFileIds.map((uploadedFileId) => {
+          queryValues.push(uploadedFileId);
           return `$${queryValues.length}`;
         });
 
@@ -154,11 +151,11 @@ const delete_ = (criteria) =>
         query += `WHEN id IN (${inValues.join(', ')}) THEN $${queryValues.length}::int `;
       });
 
-      query += 'END THEN NULL ELSE total - CASE ';
+      query += 'END THEN NULL ELSE references_total - CASE ';
 
-      Object.entries(fileReferenceIdsByTotal).forEach(([total, fileReferenceIds]) => {
-        const inValues = fileReferenceIds.map((fileReferenceId) => {
-          queryValues.push(fileReferenceId);
+      Object.entries(uploadedFileIdsByTotal).forEach(([total, uploadedFileIds]) => {
+        const inValues = uploadedFileIds.map((uploadedFileId) => {
+          queryValues.push(uploadedFileId);
           return `$${queryValues.length}`;
         });
 
@@ -166,56 +163,58 @@ const delete_ = (criteria) =>
         query += `WHEN id IN (${inValues.join(', ')}) THEN $${queryValues.length}::int `;
       });
 
-      const inValues = Object.keys(attachmentsByFileReferenceId).map((fileReferenceId) => {
-        queryValues.push(fileReferenceId);
+      const inValues = Object.keys(attachmentsByUploadedFileId).map((uploadedFileId) => {
+        queryValues.push(uploadedFileId);
         return `$${queryValues.length}`;
       });
 
       queryValues.push(new Date().toISOString());
-      query += `END END, updated_at = $${queryValues.length} WHERE id IN (${inValues.join(', ')}) AND total IS NOT NULL RETURNING id, total`;
+      query += `END END, updated_at = $${queryValues.length} WHERE id IN (${inValues.join(', ')}) AND references_total IS NOT NULL RETURNING *`;
 
       const queryResult = await sails.sendNativeQuery(query, queryValues).usingConnection(db);
-      fileReferences = queryResult.rows;
+
+      uploadedFiles = queryResult.rows.map((row) => ({
+        id: row.id,
+        type: row.type,
+        mimeType: row.mime_type,
+        size: row.size,
+        referencesTotal: row.references_total,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+      }));
     }
 
-    return {
-      attachments,
-      fileReferences,
-    };
+    return { attachments, uploadedFiles };
   });
 
-const deleteOne = async (criteria, { isFile } = {}) => {
-  let fileReference = null;
+const deleteOne = (criteria) =>
+  sails.getDatastore().transaction(async (db) => {
+    const attachment = await Attachment.destroyOne(criteria).usingConnection(db);
 
-  if (isFile) {
-    return sails.getDatastore().transaction(async (db) => {
-      const attachment = await Attachment.destroyOne(criteria).usingConnection(db);
+    let uploadedFile;
+    if (attachment.type === Attachment.Types.FILE) {
+      const queryResult = await sails
+        .sendNativeQuery(
+          'UPDATE uploaded_file SET references_total = CASE WHEN references_total > 1 THEN references_total - 1 END, updated_at = $1 WHERE id = $2 RETURNING *',
+          [new Date().toISOString(), attachment.data.uploadedFileId],
+        )
+        .usingConnection(db);
 
-      if (attachment.type === Attachment.Types.FILE) {
-        const queryResult = await sails
-          .sendNativeQuery(
-            'UPDATE file_reference SET total = CASE WHEN total > 1 THEN total - 1 END, updated_at = $1 WHERE id = $2 RETURNING id, total',
-            [new Date().toISOString(), attachment.data.fileReferenceId],
-          )
-          .usingConnection(db);
+      const [row] = queryResult.rows;
 
-        [fileReference] = queryResult.rows;
-      }
-
-      return {
-        attachment,
-        fileReference,
+      uploadedFile = {
+        id: row.id,
+        type: row.type,
+        mimeType: row.mime_type,
+        size: row.size,
+        referencesTotal: row.references_total,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
       };
-    });
-  }
+    }
 
-  const attachment = await Attachment.destroyOne(criteria);
-
-  return {
-    attachment,
-    fileReference,
-  };
-};
+    return { attachment, uploadedFile };
+  });
 
 module.exports = {
   create,

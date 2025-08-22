@@ -299,6 +299,8 @@ export default {
       typeNameToConfirm: 'Sisestage nimi, et kinnitada.',
       typeTitleToConfirm: 'Sisestage pealkiri, et kinnitada.',
       unsavedChanges: 'Muudetud andmed',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Laaditud pildid',
       url: null,
       userActions_title: 'Kasutaja tegevused',

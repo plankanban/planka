@@ -43,10 +43,10 @@ module.exports = {
       }
     }
 
-    const backgroundImage = await BackgroundImage.qm.deleteOne(inputs.record.id);
+    const { backgroundImage, uploadedFile } = await BackgroundImage.qm.deleteOne(inputs.record.id);
 
     if (backgroundImage) {
-      sails.helpers.backgroundImages.removeRelatedFiles(backgroundImage);
+      sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFile);
 
       const projectRelatedUserIds = await scoper.getProjectRelatedUserIds();
 

@@ -31,6 +31,7 @@ services:
       # - LOG_LEVEL=warn
 
       # - TRUST_PROXY=true
+      # - MAX_UPLOAD_FILE_SIZE=
       # - TOKEN_EXPIRES_IN=365 # In days
 
       # related: https://github.com/knex/knex/issues/2354
@@ -53,6 +54,7 @@ services:
       # - DEFAULT_ADMIN_USERNAME=demo
 
       # - INTERNAL_ACCESS_TOKEN=
+      # - STORAGE_LIMIT=
       # - ACTIVE_USERS_LIMIT=
 
       # Set to true to show more detailed authentication error messages.

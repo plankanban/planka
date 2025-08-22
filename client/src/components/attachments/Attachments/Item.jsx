@@ -80,7 +80,7 @@ const Item = React.memo(({ id, isVisible }) => {
           break;
         default:
           if (attachment.data.encoding === Encodings.UTF8) {
-            if (attachment.data.sizeInBytes <= Config.MAX_SIZE_IN_BYTES_TO_DISPLAY_CONTENT) {
+            if (attachment.data.size <= Config.MAX_SIZE_TO_DISPLAY_CONTENT) {
               content = (
                 <ContentViewer
                   src={attachment.data.url}

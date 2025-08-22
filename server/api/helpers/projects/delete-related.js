@@ -29,11 +29,11 @@ module.exports = {
       projectId: projectIdOrIds,
     });
 
-    const backgroundImages = await BackgroundImage.qm.delete({
+    const { uploadedFiles } = await BackgroundImage.qm.delete({
       projectId: projectIdOrIds,
     });
 
-    sails.helpers.backgroundImages.removeRelatedFiles(backgroundImages);
+    sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFiles);
 
     const baseCustomFieldGroups = await BaseCustomFieldGroup.qm.delete({
       projectId: projectIdOrIds,

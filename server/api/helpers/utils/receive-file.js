@@ -4,37 +4,55 @@
  */
 
 const util = require('util');
-const { v4: uuid } = require('uuid');
 
 module.exports = {
-  friendlyName: 'Receive uploaded file from request',
-
-  description:
-    'Store a file uploaded from a MIME-multipart request part. The resulting file will have a unique UUID-based name with the same extension.',
-
   inputs: {
-    paramName: {
-      type: 'string',
-      required: true,
-      description: 'The MIME multi-part parameter containing the file to receive.',
-    },
-    req: {
+    file: {
       type: 'ref',
       required: true,
-      description: 'The request to receive the file from.',
+    },
+    enforceStorageLimit: {
+      type: 'boolean',
+      defaultsTo: true,
     },
   },
 
   async fn(inputs, exits) {
+    const { maxUploadFileSize } = sails.config.custom;
+
+    let availableStorage = null;
+    if (inputs.enforceStorageLimit) {
+      availableStorage = await sails.helpers.utils.getAvailableStorage();
+    }
+
+    let maxBytes = _.isNil(maxUploadFileSize) ? null : maxUploadFileSize;
+    if (availableStorage !== null) {
+      if (maxBytes) {
+        maxBytes = availableStorage < maxBytes ? availableStorage : maxBytes;
+      } else {
+        maxBytes = availableStorage;
+      }
+    }
+
     const upload = util.promisify((options, callback) =>
-      inputs.req.file(inputs.paramName).upload(options, (error, files) => callback(error, files)),
+      inputs.file.upload(options, (error, files) => {
+        if (
+          error &&
+          error.code === 'E_EXCEEDS_UPLOAD_LIMIT' &&
+          availableStorage !== null &&
+          (_.isNil(maxUploadFileSize) || error.maxBytes < maxUploadFileSize)
+        ) {
+          return callback(new Error('Storage limit reached'), files);
+        }
+
+        return callback(error, files);
+      }),
     );
 
     return exits.success(
       await upload({
+        maxBytes,
         dirname: sails.config.custom.uploadsTempPath,
-        saveAs: uuid(),
-        maxBytes: null,
       }),
     );
   },

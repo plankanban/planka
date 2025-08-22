@@ -301,6 +301,8 @@ export default {
       typeNameToConfirm: 'Escribe el nombre para confirmar',
       typeTitleToConfirm: 'Escribe el título para confirmar',
       unsavedChanges: 'Cambios no guardados',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Imágenes subidas',
       url: null,
       userActions_title: 'Acciones de Usuario',

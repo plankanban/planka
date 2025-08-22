@@ -3,6 +3,10 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const { makeWhereQueryBuilder } = require('../helpers');
+
+const buildWhereQuery = makeWhereQueryBuilder(List);
+
 const defaultFind = (criteria, { sort = 'id' } = {}) => List.find(criteria).sort(sort);
 
 /* Query methods */
@@ -48,8 +52,20 @@ const getOneTrashByBoardId = (boardId) =>
   });
 
 const updateOne = async (criteria, values) => {
-  if (values.type) {
+  if (!_.isUndefined(values.type)) {
     return sails.getDatastore().transaction(async (db) => {
+      const [whereQuery, whereQueryValues] = buildWhereQuery(criteria);
+
+      const queryResult = await sails
+        .sendNativeQuery(`SELECT type FROM list WHERE ${whereQuery} FOR UPDATE`, whereQueryValues)
+        .usingConnection(db);
+
+      if (queryResult.rowCount === 0) {
+        return { list: null };
+      }
+
+      const [{ type: prevType }] = queryResult.rows;
+
       const list = await List.updateOne(criteria)
         .set({ ...values })
         .usingConnection(db);
@@ -58,7 +74,7 @@ const updateOne = async (criteria, values) => {
       let tasks = [];
 
       if (list) {
-        const prevTypeState = List.TYPE_STATE_BY_TYPE[prevList.type];
+        const prevTypeState = List.TYPE_STATE_BY_TYPE[prevType];
         const typeState = List.TYPE_STATE_BY_TYPE[list.type];
 
         let isClosed;
@@ -94,19 +110,12 @@ const updateOne = async (criteria, values) => {
         }
       }
 
-      return {
-        list,
-        cards,
-        tasks,
-      };
+      return { list, cards, tasks };
     });
   }
 
   const list = await List.updateOne(criteria).set({ ...values });
-
-  return {
-    list,
-  };
+  return { list };
 };
 
 // eslint-disable-next-line no-underscore-dangle

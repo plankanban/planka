@@ -297,6 +297,8 @@ export default {
       typeNameToConfirm: "Введіть ім'я для підтвердження.",
       typeTitleToConfirm: 'Введіть назву, щоб підтвердити.',
       unsavedChanges: 'Незбережені зміни',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Завантажені зображення',
       url: 'Посилання',
       userActions_title: 'Дії користувача',

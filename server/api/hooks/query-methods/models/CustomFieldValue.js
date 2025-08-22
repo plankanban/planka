@@ -26,16 +26,16 @@ const createOrUpdateOne = async (values) => {
     new Date().toISOString(),
   ]);
 
-  const [customFieldValue] = queryResult.rows;
+  const [row] = queryResult.rows;
 
   return {
-    id: customFieldValue.id,
-    cardId: customFieldValue.card_id,
-    customFieldGroupId: customFieldValue.custom_field_group_id,
-    customFieldId: customFieldValue.custom_field_id,
-    content: customFieldValue.content,
-    createdAt: customFieldValue.created_at,
-    updatedAt: customFieldValue.updated_at,
+    id: row.id,
+    cardId: row.card_id,
+    customFieldGroupId: row.custom_field_group_id,
+    customFieldId: row.custom_field_id,
+    content: row.content,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
   };
 };
 

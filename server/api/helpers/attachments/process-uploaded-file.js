@@ -10,7 +10,7 @@ const mime = require('mime');
 const sharp = require('sharp');
 
 const filenamify = require('../../../utils/filenamify');
-const { MAX_SIZE_IN_BYTES_TO_GET_ENCODING } = require('../../../constants');
+const { MAX_SIZE_TO_GET_ENCODING } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -23,17 +23,22 @@ module.exports = {
   async fn(inputs) {
     const fileManager = sails.hooks['file-manager'].getInstance();
 
-    const { id: fileReferenceId } = await FileReference.create().fetch();
-    const dirPathSegment = `${sails.config.custom.attachmentsPathSegment}/${fileReferenceId}`;
     const filename = filenamify(inputs.file.filename);
-
     const mimeType = mime.getType(filename);
-    const sizeInBytes = inputs.file.size;
+    const { size } = inputs.file;
+
+    const { id: uploadedFileId } = await UploadedFile.qm.createOne({
+      mimeType,
+      size,
+      type: UploadedFile.Types.ATTACHMENT,
+    });
+
+    const dirPathSegment = `${sails.config.custom.attachmentsPathSegment}/${uploadedFileId}`;
 
     let buffer;
     let encoding = null;
 
-    if (sizeInBytes <= MAX_SIZE_IN_BYTES_TO_GET_ENCODING) {
+    if (size <= MAX_SIZE_TO_GET_ENCODING) {
       try {
         buffer = await fsPromises.readFile(inputs.file.fd);
       } catch (error) {
@@ -52,10 +57,10 @@ module.exports = {
     );
 
     const data = {
-      fileReferenceId,
+      uploadedFileId,
       filename,
       mimeType,
-      sizeInBytes,
+      size,
       encoding,
       image: null,
     };

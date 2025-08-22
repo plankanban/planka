@@ -9,14 +9,21 @@
  */
 
 const { URL } = require('url');
+const bytes = require('bytes');
 const sails = require('sails');
 
 const version = require('../version');
 
 const envToNumber = (value) => {
+  if (!value) {
+    return value;
+  }
+
   const number = parseInt(value, 10);
   return Number.isNaN(number) ? null : number;
 };
+
+const envToBytes = (value) => value && bytes(value);
 
 const envToArray = (value) => (value ? value.split(',') : []);
 
@@ -35,6 +42,7 @@ module.exports.custom = {
   baseUrlPath: parsedBasedUrl.pathname,
   baseUrlSecure: parsedBasedUrl.protocol === 'https:',
 
+  maxUploadFileSize: envToBytes(process.env.MAX_UPLOAD_FILE_SIZE),
   tokenExpiresIn: (parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365) * 24 * 60 * 60,
 
   // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
@@ -51,7 +59,9 @@ module.exports.custom = {
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
   internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,
+  storageLimit: envToBytes(process.env.STORAGE_LIMIT),
   activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
+
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
 
   s3Endpoint: process.env.S3_ENDPOINT,

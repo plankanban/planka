@@ -291,6 +291,8 @@ export default {
       typeNameToConfirm: 'Wpisz nazwę aby potwierdzić.',
       typeTitleToConfirm: 'Wpisz tytuł aby potwierdzić.',
       unsavedChanges: 'Niezapisane zmiany',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Wgrane obrazy',
       url: null,
       userActions_title: 'Akcje Użytkownika',

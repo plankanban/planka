@@ -48,11 +48,11 @@ module.exports = {
       },
     );
 
-    const { fileReferences } = await Attachment.qm.delete({
+    const { uploadedFiles } = await Attachment.qm.delete({
       cardId: cardIdOrIds,
     });
 
-    sails.helpers.attachments.removeUnreferencedFiles(fileReferences);
+    sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFiles);
 
     const customFieldGroups = await CustomFieldGroup.qm.delete({
       cardId: cardIdOrIds,

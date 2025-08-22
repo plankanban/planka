@@ -18,7 +18,7 @@ const rc = require('sails/accessible/rc');
 const _ = require('lodash');
 
 const knexfile = require('./knexfile');
-const { MAX_SIZE_IN_BYTES_TO_GET_ENCODING, POSITION_GAP } = require('../constants');
+const { MAX_SIZE_TO_GET_ENCODING, POSITION_GAP } = require('../constants');
 
 const PrevActionTypes = {
   COMMENT_CARD: 'commentCard',
@@ -611,7 +611,7 @@ const upgradeUserAvatars = async () => {
       const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${dirname}`;
 
       if (user) {
-        const sizeInBytes = await fileManager.getSizeInBytes(
+        const size = await fileManager.getSize(
           `${dirPathSegment}/original.${user.avatar.extension}`,
         );
 
@@ -619,7 +619,7 @@ const upgradeUserAvatars = async () => {
           .update({
             avatar: knex.raw("?? || jsonb_build_object('sizeInBytes', ?::bigint)", [
               'avatar',
-              sizeInBytes,
+              size,
             ]),
           })
           .where('id', user.id);
@@ -690,13 +690,13 @@ const upgradeBackgroundImages = async () => {
       const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${dirname}`;
 
       if (backgroundImage) {
-        const sizeInBytes = await fileManager.getSizeInBytes(
+        const size = await fileManager.getSize(
           `${dirPathSegment}/original.${backgroundImage.extension}`,
         );
 
         await knex('background_image')
           .update({
-            size_in_bytes: sizeInBytes,
+            size_in_bytes: size,
           })
           .where('id', backgroundImage.id);
       } else {
@@ -777,12 +777,10 @@ const upgradeFileAttachments = async () => {
               'id',
             );
 
-            const sizeInBytes = await fileManager.getSizeInBytes(
-              `${dirPathSegment}/${attachment.data.filename}`,
-            );
+            const size = await fileManager.getSize(`${dirPathSegment}/${attachment.data.filename}`);
 
             let encoding = null;
-            if (sizeInBytes && sizeInBytes <= MAX_SIZE_IN_BYTES_TO_GET_ENCODING) {
+            if (size && size <= MAX_SIZE_TO_GET_ENCODING) {
               const readStream = await fileManager.read(
                 `${dirPathSegment}/${attachment.data.filename}`,
               );
@@ -795,7 +793,7 @@ const upgradeFileAttachments = async () => {
               .update({
                 data: trx.raw(
                   "?? || jsonb_build_object('fileReferenceId', ?::text, 'sizeInBytes', ?::bigint, 'encoding', ?::text)",
-                  ['data', id, sizeInBytes, encoding],
+                  ['data', id, size, encoding],
                 ),
               })
               .where('id', attachment.id);

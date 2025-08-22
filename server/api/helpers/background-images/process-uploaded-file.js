@@ -3,9 +3,9 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const { v4: uuid } = require('uuid');
 const { rimraf } = require('rimraf');
 const mime = require('mime');
-const { v4: uuid } = require('uuid');
 const sharp = require('sharp');
 
 module.exports = {
@@ -32,8 +32,16 @@ module.exports = {
     });
 
     let metadata;
+    let originalBuffer;
+
     try {
       metadata = await image.metadata();
+
+      if (metadata.orientation && metadata.orientation > 4) {
+        image = image.rotate();
+      }
+
+      originalBuffer = await image.toBuffer();
     } catch (error) {
       await rimraf(inputs.file.fd);
       throw 'fileIsNotImage';
@@ -41,20 +49,19 @@ module.exports = {
 
     const fileManager = sails.hooks['file-manager'].getInstance();
 
-    const dirname = uuid();
-    const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${dirname}`;
-
-    if (metadata.orientation && metadata.orientation > 4) {
-      image = image.rotate();
-    }
-
     const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
+    const size = originalBuffer.length;
 
-    let sizeInBytes;
+    const { id: uploadedFileId } = await UploadedFile.qm.createOne({
+      mimeType,
+      size,
+      id: uuid(),
+      type: UploadedFile.Types.BACKGROUND_IMAGE,
+    });
+
+    const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${uploadedFileId}`;
+
     try {
-      const originalBuffer = await image.toBuffer();
-      sizeInBytes = originalBuffer.length;
-
       await fileManager.save(
         `${dirPathSegment}/original.${extension}`,
         originalBuffer,
@@ -82,6 +89,7 @@ module.exports = {
 
       await fileManager.deleteDir(dirPathSegment);
       await rimraf(inputs.file.fd);
+      await UploadedFile.qm.deleteOne(uploadedFileId);
 
       throw 'fileIsNotImage';
     }
@@ -89,9 +97,9 @@ module.exports = {
     await rimraf(inputs.file.fd);
 
     return {
-      dirname,
+      uploadedFileId,
       extension,
-      sizeInBytes,
+      size,
     };
   },
 };

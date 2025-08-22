@@ -295,6 +295,8 @@ export default {
       typeNameToConfirm: 'Kirjoita nimi vahvistaaksesi.',
       typeTitleToConfirm: 'Kirjoita otsikko vahvistaaksesi.',
       unsavedChanges: 'Tallentamattomat muutokset',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Ladatut kuvat',
       url: null,
       userActions_title: 'Käyttäjän toiminnot',

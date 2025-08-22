@@ -311,6 +311,8 @@ export default {
       typeNameToConfirm: 'Πληκτρολογήστε το όνομα για επιβεβαίωση.',
       typeTitleToConfirm: 'Πληκτρολογήστε τον τίτλο για επιβεβαίωση.',
       unsavedChanges: 'Μη αποθηκευμένες αλλαγές',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Μεταφορτωμένες εικόνες',
       url: null,
       userActions_title: 'Ενέργειες χρήστη',

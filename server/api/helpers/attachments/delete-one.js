@@ -51,13 +51,11 @@ module.exports = {
       });
     }
 
-    const { attachment, fileReference } = await Attachment.qm.deleteOne(inputs.record.id, {
-      isFile: inputs.record.type === Attachment.Types.FILE,
-    });
+    const { attachment, uploadedFile } = await Attachment.qm.deleteOne(inputs.record.id);
 
     if (attachment) {
-      if (fileReference) {
-        sails.helpers.attachments.removeUnreferencedFiles(fileReference);
+      if (uploadedFile) {
+        sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFile);
       }
 
       sails.sockets.broadcast(

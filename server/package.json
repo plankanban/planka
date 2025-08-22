@@ -44,6 +44,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "3.726.1",
     "bcrypt": "^5.1.1",
+    "bytes": "^3.1.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.6.1",
     "dotenv-cli": "^7.4.4",

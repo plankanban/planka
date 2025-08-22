@@ -293,6 +293,8 @@ export default {
       typeNameToConfirm: 'Írja be a nevet a megerősítéshez.',
       typeTitleToConfirm: 'Írja be a címet a megerősítéshez.',
       unsavedChanges: 'Mentetlen változtatások',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Feltöltött képek',
       url: 'URL',
       userActions_title: 'Felhasználói műveletek',

@@ -4,21 +4,42 @@
  */
 
 /**
- * BackgroundImage.js
+ * UploadedFile.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const Types = {
+  USER_AVATAR: 'userAvatar',
+  BACKGROUND_IMAGE: 'backgroundImage',
+  ATTACHMENT: 'attachment',
+};
+
 module.exports = {
+  Types,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    extension: {
+    type: {
       type: 'string',
+      isIn: Object.values(Types),
       required: true,
+    },
+    referencesTotal: {
+      type: 'number',
+      allowNull: true,
+      defaultsTo: 0,
+      columnName: 'references_total',
+    },
+    mimeType: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'mime_type',
     },
     size: {
       type: 'string',
@@ -32,18 +53,7 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
-
-    uploadedFileId: {
-      model: 'UploadedFile',
-      required: true,
-      columnName: 'uploaded_file_id',
-    },
-    projectId: {
-      model: 'Project',
-      required: true,
-      columnName: 'project_id',
-    },
   },
 
-  tableName: 'background_image',
+  tableName: 'uploaded_file',
 };

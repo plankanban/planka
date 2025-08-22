@@ -309,6 +309,8 @@ export default {
       typeNameToConfirm: 'Namen zur Bestätigung eingeben.',
       typeTitleToConfirm: 'Titel zur Bestätigung eingeben.',
       unsavedChanges: 'Ungespeicherte Änderungen',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Hochgeladene Bilder',
       url: null,
       userActions_title: 'Benutzeraktionen',

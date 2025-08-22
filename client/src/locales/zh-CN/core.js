@@ -281,6 +281,8 @@ export default {
       typeNameToConfirm: '输入名称以确认',
       typeTitleToConfirm: '输入标题以确认',
       unsavedChanges: '未保存的更改',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: '已上传图片',
       url: '网址',
       userActions_title: '用户操作',

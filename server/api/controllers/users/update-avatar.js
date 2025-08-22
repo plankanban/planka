@@ -58,7 +58,7 @@ module.exports = {
 
     let files;
     try {
-      files = await sails.helpers.utils.receiveFile('file', this.req);
+      files = await sails.helpers.utils.receiveFile(this.req.file('file'));
     } catch (error) {
       return exits.uploadError(error.message); // TODO: add error
     }

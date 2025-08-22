@@ -7,9 +7,13 @@ import React from 'react';
 import { Toaster as HotToaster, ToastBar as HotToastBar } from 'react-hot-toast';
 
 import ToastTypes from '../../../constants/ToastTypes';
+import FileIsTooBig from './FileIsTooBig';
+import NotEnoughStorage from './NotEnoughStorage';
 import EmptyTrashToast from './EmptyTrashToast';
 
 const TOAST_BY_TYPE = {
+  [ToastTypes.FILE_IS_TOO_BIG]: FileIsTooBig,
+  [ToastTypes.NOT_ENOUGH_STORAGE]: NotEnoughStorage,
   [ToastTypes.EMPTY_TRASH]: EmptyTrashToast,
 };
 

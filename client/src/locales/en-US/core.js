@@ -296,6 +296,8 @@ export default {
       typeNameToConfirm: 'Type the name to confirm.',
       typeTitleToConfirm: 'Type the title to confirm.',
       unsavedChanges: 'Unsaved changes',
+      uploadFailedFileIsTooBig: 'Upload failed: File is too big.',
+      uploadFailedNotEnoughStorageSpace: 'Upload failed: Not enough storage space.',
       uploadedImages: 'Uploaded images',
       url: 'URL',
       userActions_title: 'User Actions',

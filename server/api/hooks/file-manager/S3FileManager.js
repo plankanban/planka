@@ -52,7 +52,7 @@ class S3FileManager {
     return result.Body;
   }
 
-  async getSizeInBytes(filePathSegment) {
+  async getSize(filePathSegment) {
     const headObjectCommand = new HeadObjectCommand({
       Bucket: sails.config.custom.s3Bucket,
       Key: filePathSegment,

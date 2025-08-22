@@ -91,10 +91,10 @@ module.exports = {
         throw Errors.INVALID_SIGNATURE;
       }
 
-      user = await User.qm.updateOne(user.id, {
+      ({ user } = await User.qm.updateOne(user.id, {
         termsSignature,
         termsAcceptedAt: new Date().toISOString(),
-      });
+      }));
     }
 
     const config = await Config.qm.getOneMain();

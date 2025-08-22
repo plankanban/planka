@@ -294,6 +294,8 @@ export default {
       typeNameToConfirm: 'Zadejte název pro potvrzení.',
       typeTitleToConfirm: 'Zadejte titulek pro potvrzení.',
       unsavedChanges: 'Neuložené změny',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Nahrané obrázky',
       url: null,
       userActions_title: 'Akce uživatele',

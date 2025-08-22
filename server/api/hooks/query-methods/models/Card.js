@@ -217,18 +217,12 @@ const update = async (criteria, values) => {
           .usingConnection(db);
       }
 
-      return {
-        cards,
-        tasks,
-      };
+      return { cards, tasks };
     });
   }
 
   const cards = await Card.update(criteria).set(values).fetch();
-
-  return {
-    cards,
-  };
+  return { cards };
 };
 
 const updateOne = async (criteria, values) => {
@@ -250,18 +244,12 @@ const updateOne = async (criteria, values) => {
           .usingConnection(db);
       }
 
-      return {
-        card,
-        tasks,
-      };
+      return { card, tasks };
     });
   }
 
   const card = await Card.updateOne(criteria).set({ ...values });
-
-  return {
-    card,
-  };
+  return { card };
 };
 
 // eslint-disable-next-line no-underscore-dangle

@@ -23,10 +23,12 @@ module.exports = {
       inputs.record,
     );
 
-    const user = await User.qm.deleteOne(inputs.record.id);
+    const { user, uploadedFile } = await User.qm.deleteOne(inputs.record.id);
 
     if (user) {
-      sails.helpers.users.removeRelatedFiles(user);
+      if (uploadedFile) {
+        sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFile);
+      }
 
       const scoper = sails.helpers.users.makeScoper(user);
       scoper.boardMemberships = boardMemberships;

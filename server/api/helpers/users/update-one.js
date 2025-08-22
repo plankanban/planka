@@ -69,8 +69,10 @@ module.exports = {
     }
 
     let user;
+    let uploadedFile;
+
     try {
-      user = await User.qm.updateOne(inputs.record.id, values);
+      ({ user, uploadedFile } = await User.qm.updateOne(inputs.record.id, values));
     } catch (error) {
       if (error.code === 'E_UNIQUE') {
         throw 'emailAlreadyInUse';
@@ -91,10 +93,8 @@ module.exports = {
     }
 
     if (user) {
-      if (inputs.record.avatar) {
-        if (!user.avatar || user.avatar.dirname !== inputs.record.avatar.dirname) {
-          sails.helpers.users.removeRelatedFiles(inputs.record);
-        }
+      if (uploadedFile) {
+        sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFile);
       }
 
       if (!_.isUndefined(values.password) || isDeactivatedChangeToTrue) {

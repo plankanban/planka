@@ -59,7 +59,7 @@ module.exports = {
     },
   },
 
-  async fn(inputs) {
+  async fn(inputs, exits) {
     const { currentUser } = this.req;
 
     const project = await Project.qm.getOneById(inputs.projectId);
@@ -78,7 +78,7 @@ module.exports = {
     if (inputs.importType) {
       let files;
       try {
-        files = await sails.helpers.utils.receiveFile('importFile', this.req);
+        files = await sails.helpers.utils.receiveFile(this.req.file('importFile'), false);
       } catch (error) {
         return exits.uploadError(error.message); // TODO: add error
       }
@@ -114,11 +114,11 @@ module.exports = {
       request: this.req,
     });
 
-    return {
+    return exits.success({
       item: board,
       included: {
         boardMemberships: [boardMembership],
       },
-    };
+    });
   },
 };

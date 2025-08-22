@@ -301,6 +301,8 @@ export default {
       typeNameToConfirm: 'Skriv navnet for at bekræfte.',
       typeTitleToConfirm: 'Skriv overskriften for at bekræfte.',
       unsavedChanges: 'Ikke-gemte ændringer',
+      uploadFailedFileIsTooBig: null,
+      uploadFailedNotEnoughStorageSpace: null,
       uploadedImages: 'Uploadede billeder',
       url: null,
       userActions_title: 'Brugerhandlinger',

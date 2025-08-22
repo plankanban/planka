@@ -8,7 +8,7 @@ const icoToPng = require('ico-to-png');
 const sharp = require('sharp');
 
 const FETCH_TIMEOUT = 4000;
-const MAX_RESPONSE_LENGTH_IN_BYTES = 1024 * 1024;
+const MAX_RESPONSE_LENGTH = 1024 * 1024;
 
 const FAVICON_TAGS_REGEX = /<link [^>]*rel="([^"]* )?icon( [^"]*)?"[^>]*>/gi;
 const HREF_REGEX = /href="(.*?)"/i;
@@ -39,7 +39,7 @@ const readResponse = async (response) => {
     chunks.push(value);
     receivedLength += value.length;
 
-    if (receivedLength > MAX_RESPONSE_LENGTH_IN_BYTES) {
+    if (receivedLength > MAX_RESPONSE_LENGTH) {
       reader.cancel();
 
       return {
@@ -130,6 +130,12 @@ module.exports = {
     }
 
     if (!readedResponse.ok) {
+      return;
+    }
+
+    const availableStorage = await sails.helpers.utils.getAvailableStorage();
+
+    if (availableStorage !== null && readedResponse.buffer.length >= availableStorage) {
       return;
     }
 
