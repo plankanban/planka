@@ -457,6 +457,7 @@ export default {
       unsubscribe: 'Annulla iscrizione',
       uploadNewAvatar: 'Carica nuovo avatar',
       uploadNewImage: 'Carica nuova immagine',
+      moveListToBoard: 'Muovi lista a un altra bacheca',
     },
   },
 };

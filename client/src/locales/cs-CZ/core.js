@@ -447,6 +447,7 @@ export default {
       unsubscribe: 'Neodebírat',
       uploadNewAvatar: 'Nahrát nový avatar',
       uploadNewImage: 'Nahrát nový obrázek',
+      moveListToBoard: 'Přesunout seznam na jinou nástěnku',
     },
   },
 };

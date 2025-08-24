@@ -451,6 +451,7 @@ export default {
       unsubscribe: 'Отписаться',
       uploadNewAvatar: 'Загрузить новый аватар',
       uploadNewImage: 'Загрузить новое изображение',
+      moveListToBoard: 'Переместить в другую доску',
     },
   },
 };
