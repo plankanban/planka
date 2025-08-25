@@ -206,12 +206,12 @@ const update = async (criteria, values) => {
       const cards = await Card.update(criteria).set(values).fetch().usingConnection(db);
 
       let tasks = [];
-      if (card) {
+      if (!_.isUndefined(values.isClosed)) {
         tasks = await Task.update({
           linkedCardId: sails.helpers.utils.mapRecords(cards),
         })
           .set({
-            isCompleted: card.isClosed,
+            isCompleted: values.isClosed,
           })
           .fetch()
           .usingConnection(db);
@@ -232,8 +232,8 @@ const updateOne = async (criteria, values) => {
         .set({ ...values })
         .usingConnection(db);
 
-      let tasks = [];
-      if (card) {
+      let tasks;
+      if (!_.isUndefined(values.isClosed) && card) {
         tasks = await Task.update({
           linkedCardId: card.id,
         })

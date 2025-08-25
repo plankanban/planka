@@ -21,8 +21,8 @@ const makeWhereQueryBuilder = (Model) => (criteria) => {
         throw new Error('Unknown column');
       }
 
-      parts.push(`${columnName} = $${index + 1}`);
       values.push(value);
+      parts.push(`${columnName} = $${values.length}`);
     }
 
     return [parts.join(' AND '), values];

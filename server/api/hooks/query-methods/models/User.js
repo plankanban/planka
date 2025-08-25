@@ -96,13 +96,13 @@ const updateOne = async (criteria, values) => {
         }
       }
 
-      let prevAvatar;
+      let prev;
       if (!_.isUndefined(values.avatar)) {
         const [whereQuery, whereQueryValues] = buildWhereQuery(criteria);
 
         const queryResult = await sails
           .sendNativeQuery(
-            `SELECT avatar FROM user_account WHERE ${whereQuery} FOR UPDATE`,
+            `SELECT avatar FROM user_account WHERE ${whereQuery} LIMIT 1 FOR UPDATE`,
             whereQueryValues,
           )
           .usingConnection(db);
@@ -111,7 +111,9 @@ const updateOne = async (criteria, values) => {
           return { user: null };
         }
 
-        [{ avatar: prevAvatar }] = queryResult.rows;
+        prev = {
+          avatar: queryResult.rows[0].avatar,
+        };
       }
 
       const user = await User.updateOne(criteria)
@@ -119,12 +121,12 @@ const updateOne = async (criteria, values) => {
         .usingConnection(db);
 
       let uploadedFile;
-      if (hasAvatarChanged(user.avatar, prevAvatar)) {
-        if (prevAvatar) {
+      if (!_.isUndefined(values.avatar) && hasAvatarChanged(user.avatar, prev.avatar)) {
+        if (prev.avatar) {
           const queryResult = await sails
             .sendNativeQuery(
               'UPDATE uploaded_file SET references_total = CASE WHEN references_total > 1 THEN references_total - 1 END, updated_at = $1 WHERE id = $2 RETURNING *',
-              [new Date().toISOString(), prevAvatar.uploadedFileId],
+              [new Date().toISOString(), prev.avatar.uploadedFileId],
             )
             .usingConnection(db);
 
