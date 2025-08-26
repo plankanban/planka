@@ -7,6 +7,7 @@ import socketIOClient from 'socket.io-client';
 import sailsIOClient from 'sails.io.js';
 
 import Config from '../constants/Config';
+import { getAccessToken } from '../utils/access-token-storage';
 
 const io = sailsIOClient(socketIOClient);
 
@@ -21,13 +22,18 @@ const { socket } = io;
 socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
 
 ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'].forEach((method) => {
-  socket[method.toLowerCase()] = (url, data, headers) =>
-    new Promise((resolve, reject) => {
+  socket[method.toLowerCase()] = (url, data, headers = {}) => {
+    const accessToken = getAccessToken();
+    const mergedHeaders = { ...headers };
+    if (accessToken && !mergedHeaders.Authorization) {
+      mergedHeaders.Authorization = `Bearer ${accessToken}`;
+    }
+    return new Promise((resolve, reject) => {
       socket.request(
         {
           method,
           data,
-          headers,
+          headers: mergedHeaders,
           url: `/api${url}`,
         },
         (_, { body, error }) => {
@@ -39,6 +45,7 @@ socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
         },
       );
     });
+  };
 });
 
 export default socket;

@@ -435,6 +435,7 @@ export default {
       unsubscribe: 'Avprenumerera',
       uploadNewAvatar: 'Ladda upp ny avatar',
       uploadNewImage: 'Ladda upp ny bild',
+      moveListToBoard: 'Flytta lista till annan tavla',
     },
   },
 };
