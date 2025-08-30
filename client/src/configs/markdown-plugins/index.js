@@ -11,7 +11,7 @@ import imsize from '@diplodoc/transform/lib/plugins/imsize';
 import table from '@diplodoc/transform/lib/plugins/table';
 import note from '@diplodoc/transform/lib/plugins/notes';
 import cut from '@diplodoc/transform/lib/plugins/cut';
-import meta from '@diplodoc/transform/lib/plugins/meta';
+// import meta from '@diplodoc/transform/lib/plugins/meta';
 import deflist from '@diplodoc/transform/lib/plugins/deflist';
 /* eslint-disable import/no-unresolved */
 import ins from '@gravity-ui/markdown-editor/markdown-it/ins';
@@ -39,7 +39,7 @@ export default [
   table,
   (md) => md.use(note, { notesAutotitle: false, log: console }),
   cut,
-  meta,
+  // meta,
   deflist,
   link,
   mention,
