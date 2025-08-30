@@ -382,6 +382,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: null,
+      download: null,
       duplicateCard_title: 'Дублирана карта',
       edit: 'Редактиране',
       editColor_title: null,

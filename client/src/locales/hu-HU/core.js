@@ -401,6 +401,7 @@ export default {
       deleteUser_title: 'Felhasználó törlése',
       deleteWebhook: 'Webhook törlése',
       dismissAll: 'Összes elvetése',
+      download: null,
       duplicateCard_title: 'Kártya másolása',
       edit: 'Szerkesztés',
       editColor_title: null,

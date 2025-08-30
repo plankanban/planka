@@ -402,6 +402,7 @@ export default {
       deleteUser_title: 'Elimina utente',
       deleteWebhook: 'Elimina webhook',
       dismissAll: 'Ignora tutto',
+      download: null,
       duplicateCard_title: 'Duplica scheda',
       edit: 'Modifica',
       editColor_title: 'Modifica colore',

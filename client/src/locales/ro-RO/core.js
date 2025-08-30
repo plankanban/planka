@@ -382,6 +382,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: null,
+      download: null,
       duplicateCard_title: null,
       edit: 'Editați',
       editColor_title: null,

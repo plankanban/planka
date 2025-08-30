@@ -381,6 +381,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: null,
+      download: null,
       duplicateCard_title: 'Клонирај картицу',
       edit: 'Измени',
       editColor_title: null,

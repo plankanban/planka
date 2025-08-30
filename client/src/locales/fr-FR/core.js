@@ -404,6 +404,7 @@ export default {
       deleteUser_title: 'Supprimer l’utilisateur',
       deleteWebhook: 'Supprimer le webhook',
       dismissAll: 'Tout rejeter',
+      download: null,
       duplicateCard_title: 'Dupliquer la carte',
       edit: 'Modifier',
       editColor_title: 'Modifier la couleur',

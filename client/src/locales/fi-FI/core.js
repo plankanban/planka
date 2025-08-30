@@ -400,6 +400,7 @@ export default {
       deleteUser_title: 'Poista käyttäjä',
       deleteWebhook: null,
       dismissAll: 'Sulje kaikki',
+      download: null,
       duplicateCard_title: 'Monista kortti',
       edit: 'Muokkaa',
       editColor_title: 'Muokkaa väriä',

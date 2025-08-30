@@ -402,6 +402,7 @@ export default {
       deleteUser_title: 'Slet bruger',
       deleteWebhook: null,
       dismissAll: 'Afvis alle',
+      download: null,
       duplicateCard_title: 'Duplikér kort',
       edit: 'Rediger',
       editColor_title: 'Rediger farve',

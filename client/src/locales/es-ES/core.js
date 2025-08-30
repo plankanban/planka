@@ -401,6 +401,7 @@ export default {
       deleteUser_title: 'Borrar Usuario',
       deleteWebhook: null,
       dismissAll: 'Descartar todo',
+      download: null,
       duplicateCard_title: 'Duplicar tarjeta',
       edit: 'Editar',
       editColor_title: 'Editar color',

@@ -380,6 +380,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: 'Avvisa alla',
+      download: null,
       duplicateCard_title: null,
       edit: 'Redigera',
       editColor_title: null,

@@ -381,6 +381,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: null,
+      download: null,
       duplicateCard_title: null,
       edit: '編集',
       editColor_title: null,

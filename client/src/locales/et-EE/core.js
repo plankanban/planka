@@ -400,6 +400,7 @@ export default {
       deleteUser_title: 'Kustuta kasutaja',
       deleteWebhook: null,
       dismissAll: 'Eemalda kõik',
+      download: null,
       duplicateCard_title: 'Duplikaardi loomine',
       edit: 'Muuda',
       editColor_title: 'Muuda värvi',

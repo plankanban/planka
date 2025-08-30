@@ -396,6 +396,7 @@ export default {
       deleteUser_title: 'Удалить пользователя',
       deleteWebhook: null,
       dismissAll: 'Отклонить все',
+      download: null,
       duplicateCard_title: 'Дублировать карточку',
       edit: 'Изменить',
       editColor_title: 'Изменить цвет',

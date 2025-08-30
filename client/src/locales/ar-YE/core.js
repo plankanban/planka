@@ -377,6 +377,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: null,
+      download: null,
       duplicateCard_title: 'تكرار البطاقة',
       edit: 'تعديل',
       editColor_title: null,

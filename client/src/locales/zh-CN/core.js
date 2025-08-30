@@ -379,6 +379,7 @@ export default {
       deleteUser_title: '删除用户',
       deleteWebhook: '删除Webhook',
       dismissAll: '全部忽略',
+      download: null,
       duplicateCard_title: '复制卡片',
       edit: '编辑',
       editColor_title: '编辑颜色',

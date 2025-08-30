@@ -418,6 +418,7 @@ export default {
       deleteUser_title: 'Διαγραφή χρήστη',
       deleteWebhook: null,
       dismissAll: 'Απόρριψη όλων',
+      download: null,
       duplicateCard_title: 'Διπλασιασμός κάρτας',
       edit: 'Επεξεργασία',
       editColor_title: 'Επεξεργασία χρώματος',

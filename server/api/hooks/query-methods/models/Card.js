@@ -3,9 +3,9 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const LIMIT = 50;
+const buildSearchParts = require('../../../../utils/build-query-parts');
 
-const SEARCH_PARTS_REGEX = /[ ,;]+/;
+const LIMIT = 50;
 
 const defaultFind = (criteria, { sort = 'id', limit } = {}) =>
   Card.find(criteria).sort(sort).limit(limit);
@@ -53,13 +53,7 @@ const getIdsByEndlessListId = async (
       queryValues.push(search.substring(1));
       query += ` AND (card.name ~* $${queryValues.length} OR card.description ~* $${queryValues.length})`;
     } else {
-      const searchParts = search.split(SEARCH_PARTS_REGEX).flatMap((searchPart) => {
-        if (!searchPart) {
-          return [];
-        }
-
-        return searchPart.toLowerCase();
-      });
+      const searchParts = buildSearchParts(search);
 
       if (searchParts.length > 0) {
         let ilikeValues = searchParts.map((searchPart) => {

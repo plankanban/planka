@@ -379,6 +379,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: null,
+      download: null,
       duplicateCard_title: 'تکرار کارت',
       edit: 'ویرایش',
       editColor_title: null,

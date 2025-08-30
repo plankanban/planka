@@ -380,6 +380,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: '모두 해제',
+      download: null,
       duplicateCard_title: '카드 복제',
       edit: '편집',
       editColor_title: '색상 편집',

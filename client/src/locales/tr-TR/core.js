@@ -378,6 +378,7 @@ export default {
       deleteUser_title: null,
       deleteWebhook: null,
       dismissAll: null,
+      download: null,
       duplicateCard_title: null,
       edit: 'Düzenle',
       editColor_title: null,

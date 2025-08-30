@@ -398,6 +398,7 @@ export default {
       deleteUser_title: 'Видалити Користувача',
       deleteWebhook: 'Видалити вебхук',
       dismissAll: 'Скасувати всі',
+      download: null,
       duplicateCard_title: 'Дублювати Картку',
       edit: 'Редагувати',
       editColor_title: 'Редагувати колір',

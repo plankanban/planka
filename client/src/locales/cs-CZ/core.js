@@ -392,6 +392,7 @@ export default {
       deleteUser_title: 'Smazat uživatele',
       deleteWebhook: null,
       dismissAll: 'Vše přečteno',
+      download: null,
       duplicateCard_title: 'Duplikovat kartu',
       edit: 'Upravit',
       editColor_title: 'Upravit barvu',

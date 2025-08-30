@@ -392,6 +392,7 @@ export default {
       deleteUser_title: 'Usuń Użytkownika',
       deleteWebhook: null,
       dismissAll: 'Odrzuć wszystkie',
+      download: null,
       duplicateCard_title: 'Duplikuj Kartę',
       edit: 'Edytuj',
       editColor_title: 'Edytuj Kolor',
