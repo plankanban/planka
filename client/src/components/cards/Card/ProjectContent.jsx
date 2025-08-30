@@ -187,7 +187,12 @@ const ProjectContent = React.memo(({ cardId }) => {
           )}
           {card.dueDate && (
             <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-              <DueDateChip value={card.dueDate} size="tiny" withStatus={!card.isClosed} />
+              <DueDateChip
+                value={card.dueDate}
+                size="tiny"
+                withStatus={!card.isClosed}
+                isCompleted={card.dueCompleted}
+              />
             </span>
           )}
           {card.stopwatch && (

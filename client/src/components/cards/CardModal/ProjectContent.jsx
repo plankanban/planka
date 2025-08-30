@@ -7,7 +7,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Button, Grid, Icon } from 'semantic-ui-react';
+import { Button, Grid, Icon, Checkbox } from 'semantic-ui-react';
 import { useDidUpdate } from '../../../lib/hooks';
 
 import selectors from '../../../selectors';
@@ -184,6 +184,17 @@ const ProjectContent = React.memo(() => {
       }),
     );
   }, [card.stopwatch, dispatch]);
+
+  const handleDueDateCompletionUpdate = useCallback(
+    (dueCompleted) => {
+      dispatch(
+        entryActions.updateCurrentCard({
+          dueCompleted,
+        }),
+      );
+    },
+    [dispatch],
+  );
 
   const handleRestoreClick = useCallback(() => {
     dispatch(entryActions.moveCurrentCard(card.prevListId, undefined, true));
@@ -410,20 +421,29 @@ const ProjectContent = React.memo(() => {
                       context: 'title',
                     })}
                   </div>
-                  <span className={styles.attachment}>
+                  <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
                     {canEditDueDate ? (
-                      <EditDueDatePopup cardId={card.id}>
-                        <DueDateChip
-                          withStatusIcon
-                          value={card.dueDate}
-                          withStatus={!card.isClosed}
+                      <>
+                        <Checkbox
+                          checked={card.dueCompleted}
+                          disabled={!canEditDueDate}
+                          onChange={() => handleDueDateCompletionUpdate(!card.dueCompleted)}
                         />
-                      </EditDueDatePopup>
+                        <EditDueDatePopup cardId={card.id}>
+                          <DueDateChip
+                            withStatusIcon
+                            value={card.dueDate}
+                            withStatus={!card.isClosed}
+                            isCompleted={card.dueCompleted}
+                          />
+                        </EditDueDatePopup>
+                      </>
                     ) : (
                       <DueDateChip
                         withStatusIcon
                         value={card.dueDate}
                         withStatus={!card.isClosed}
+                        isCompleted={card.dueCompleted}
                       />
                     )}
                   </span>

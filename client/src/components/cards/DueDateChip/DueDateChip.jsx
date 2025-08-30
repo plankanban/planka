@@ -4,11 +4,11 @@
  */
 
 import upperFirst from 'lodash/upperFirst';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Checkbox } from 'semantic-ui-react';
 import { useForceUpdate } from '../../../lib/hooks';
 
 import getDateFormat from '../../../utils/get-date-format';
@@ -24,6 +24,7 @@ const Sizes = {
 const Statuses = {
   DUE_SOON: 'dueSoon',
   OVERDUE: 'overdue',
+  COMPLETED: 'completed',
 };
 
 const LONG_DATE_FORMAT_BY_SIZE = {
@@ -47,9 +48,17 @@ const STATUS_ICON_PROPS_BY_STATUS = {
     name: 'hourglass end',
     color: 'red',
   },
+  [Statuses.COMPLETED]: {
+    name: 'checkmark',
+    color: 'green',
+  },
 };
 
-const getStatus = (date) => {
+const getStatus = (date, isCompleted) => {
+  if (isCompleted) {
+    return Statuses.COMPLETED;
+  }
+
   const secondsLeft = Math.floor((date.getTime() - new Date().getTime()) / 1000);
 
   if (secondsLeft <= 0) {
@@ -64,12 +73,21 @@ const getStatus = (date) => {
 };
 
 const DueDateChip = React.memo(
-  ({ value, size, isDisabled, withStatus, withStatusIcon, onClick }) => {
+  ({
+    value,
+    size,
+    isDisabled,
+    withStatus,
+    withStatusIcon,
+    onClick,
+    isCompleted,
+    onUpdateCompletion,
+  }) => {
     const [t] = useTranslation();
     const forceUpdate = useForceUpdate();
 
     const statusRef = useRef(null);
-    statusRef.current = withStatus ? getStatus(value) : null;
+    statusRef.current = withStatus ? getStatus(value, isCompleted) : null;
 
     const intervalRef = useRef(null);
 
@@ -80,15 +98,19 @@ const DueDateChip = React.memo(
     );
 
     useEffect(() => {
-      if (withStatus && statusRef.current !== Statuses.OVERDUE) {
+      if (
+        withStatus &&
+        statusRef.current !== Statuses.OVERDUE &&
+        statusRef.current !== Statuses.COMPLETED
+      ) {
         intervalRef.current = setInterval(() => {
-          const status = getStatus(value);
+          const status = getStatus(value, isCompleted);
 
           if (status !== statusRef.current) {
             forceUpdate();
           }
 
-          if (status === Statuses.OVERDUE) {
+          if (status === Statuses.OVERDUE || status === Statuses.COMPLETED) {
             clearInterval(intervalRef.current);
           }
         }, 1000);
@@ -99,7 +121,18 @@ const DueDateChip = React.memo(
           clearInterval(intervalRef.current);
         }
       };
-    }, [value, withStatus, forceUpdate]);
+    }, [value, withStatus, forceUpdate, isCompleted]);
+
+    const handleToggleChange = useCallback(
+      (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!isDisabled && onUpdateCompletion) {
+          onUpdateCompletion(!isCompleted);
+        }
+      },
+      [onUpdateCompletion, isCompleted, isDisabled],
+    );
 
     const contentNode = (
       <span
@@ -121,6 +154,60 @@ const DueDateChip = React.memo(
       </span>
     );
 
+    if (onUpdateCompletion) {
+      return (
+        <div
+          className={classNames(
+            styles.wrapperGroup,
+            statusRef.current && styles[`wrapper${upperFirst(statusRef.current)}`],
+          )}
+        >
+          <button
+            type="button"
+            aria-label="Toggle completion"
+            className={classNames(
+              styles.wrapper,
+              styles[`wrapper${upperFirst(size)}`],
+              styles.wrapperCheckbox,
+            )}
+            onClick={handleToggleChange}
+            disabled={isDisabled}
+          >
+            <Checkbox
+              className={styles.checkbox}
+              checked={isCompleted}
+              disabled={isDisabled}
+              onChange={handleToggleChange}
+            />
+          </button>
+          {onClick ? (
+            <button
+              type="button"
+              disabled={isDisabled}
+              className={classNames(
+                styles.wrapper,
+                styles[`wrapper${upperFirst(size)}`],
+                styles.wrapperButton,
+              )}
+              onClick={onClick}
+            >
+              {contentNode}
+            </button>
+          ) : (
+            <span
+              className={classNames(
+                styles.wrapper,
+                styles[`wrapper${upperFirst(size)}`],
+                statusRef.current && styles[`wrapper${upperFirst(statusRef.current)}`],
+              )}
+            >
+              {contentNode}
+            </span>
+          )}
+        </div>
+      );
+    }
+
     return onClick ? (
       <button type="button" disabled={isDisabled} className={styles.button} onClick={onClick}>
         {contentNode}
@@ -138,6 +225,8 @@ DueDateChip.propTypes = {
   withStatus: PropTypes.bool.isRequired,
   withStatusIcon: PropTypes.bool,
   onClick: PropTypes.func,
+  isCompleted: PropTypes.bool,
+  onUpdateCompletion: PropTypes.func,
 };
 
 DueDateChip.defaultProps = {
@@ -145,6 +234,8 @@ DueDateChip.defaultProps = {
   isDisabled: false,
   withStatusIcon: false,
   onClick: undefined,
+  isCompleted: false,
+  onUpdateCompletion: undefined,
 };
 
 export default DueDateChip;
