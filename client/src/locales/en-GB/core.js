@@ -454,6 +454,7 @@ export default {
       unsubscribe: 'Unsubscribe',
       uploadNewAvatar: 'Upload new avatar',
       uploadNewImage: 'Upload new image',
+      useGravatar: 'Use Gravatar',
     },
   },
 };
