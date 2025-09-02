@@ -120,7 +120,8 @@ export default {
       color: 'Colore',
       comments: 'Commenti',
       contentExceedsLimit: 'Il contenuto supera {{limit}}',
-      contentOfThisAttachmentIsTooBigToDisplay: 'Il contenuto di questo allegato è troppo grande per essere visualizzato.',
+      contentOfThisAttachmentIsTooBigToDisplay:
+        'Il contenuto di questo allegato è troppo grande per essere visualizzato.',
       copy_inline: 'copia',
       createBoard_title: 'Crea bacheca',
       createCustomFieldGroup_title: 'Crea campi personalizzati',
@@ -303,7 +304,8 @@ export default {
       typeTitleToConfirm: 'Digita il titolo per confermare',
       unsavedChanges: 'Modifiche non salvate',
       uploadFailedFileIsTooBig: 'Caricamento fallito: il file è troppo grande.',
-      uploadFailedNotEnoughStorageSpace: 'Caricamento fallito: spazio di archiviazione insufficiente.',
+      uploadFailedNotEnoughStorageSpace:
+        'Caricamento fallito: spazio di archiviazione insufficiente.',
       uploadedImages: 'Immagini caricate',
       url: 'URL',
       userActions_title: 'Azioni utente',
