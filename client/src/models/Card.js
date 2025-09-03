@@ -20,6 +20,7 @@ export default class extends BaseModel {
     description: attr(),
     dueDate: attr(),
     stopwatch: attr(),
+    isClosed: attr(),
     commentsTotal: attr({
       getDefault: () => 0,
     }),
@@ -322,15 +323,21 @@ export default class extends BaseModel {
             payload.data.listChangedAt = new Date(); // eslint-disable-line no-param-reassign
           }
 
+          if (payload.data.isClosed !== undefined && payload.data.isClosed !== cardModel.isClosed) {
+            cardModel.linkedTasks.update({
+              isCompleted: payload.data.isClosed,
+            });
+          }
+
           cardModel.update(payload.data);
         }
 
         break;
       }
-      case ActionTypes.CARD_UPDATE_HANDLE:
-        if (payload.card.boardId === null || payload.isFetched) {
-          const cardModel = Card.withId(payload.card.id);
+      case ActionTypes.CARD_UPDATE_HANDLE: {
+        const cardModel = Card.withId(payload.card.id);
 
+        if (payload.card.boardId === null || payload.isFetched) {
           if (cardModel) {
             cardModel.deleteWithRelated();
           }
@@ -338,6 +345,12 @@ export default class extends BaseModel {
 
         if (payload.card.boardId !== null) {
           Card.upsert(payload.card);
+
+          if (cardModel && payload.card.isClosed !== cardModel.isClosed) {
+            cardModel.linkedTasks.update({
+              isCompleted: payload.card.isClosed,
+            });
+          }
         }
 
         if (payload.cardMemberships) {
@@ -353,6 +366,7 @@ export default class extends BaseModel {
         }
 
         break;
+      }
       case ActionTypes.CARD_DUPLICATE:
         Card.withId(payload.id).duplicate(payload.localId, payload.data);
 
@@ -555,6 +569,7 @@ export default class extends BaseModel {
       description: this.description,
       dueDate: this.dueDate,
       stopwatch: this.stopwatch,
+      isClosed: this.isClosed,
       ...data,
     });
 
@@ -620,6 +635,12 @@ export default class extends BaseModel {
 
     this.taskLists.toModelArray().forEach((taskListModel) => {
       taskListModel.deleteWithRelated();
+    });
+
+    this.linkedTasks.toModelArray().forEach((taskModel) => {
+      taskModel.update({
+        linkedCardId: null,
+      });
     });
 
     this.attachments.delete();

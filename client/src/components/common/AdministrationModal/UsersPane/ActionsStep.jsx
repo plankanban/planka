@@ -7,7 +7,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Menu } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 import { Popup } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
@@ -180,12 +180,14 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
           <Menu.Item className={styles.menuItem} onClick={handleEditInformationClick}>
+            <Icon name="info" className={styles.menuItemIcon} />
             {t('action.editInformation', {
               context: 'title',
             })}
           </Menu.Item>
           {!user.lockedFieldNames.includes('username') && (
             <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
+              <Icon name="at" className={styles.menuItemIcon} />
               {t('action.editUsername', {
                 context: 'title',
               })}
@@ -193,6 +195,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
           )}
           {!user.lockedFieldNames.includes('email') && (
             <Menu.Item className={styles.menuItem} onClick={handleEditEmailClick}>
+              <Icon name="mail outline" className={styles.menuItemIcon} />
               {t('action.editEmail', {
                 context: 'title',
               })}
@@ -200,6 +203,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
           )}
           {!user.lockedFieldNames.includes('password') && (
             <Menu.Item className={styles.menuItem} onClick={handleEditPasswordClick}>
+              <Icon name="keyboard outline" className={styles.menuItemIcon} />
               {t('action.editPassword', {
                 context: 'title',
               })}
@@ -207,6 +211,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
           )}
           {!user.lockedFieldNames.includes('role') && (
             <Menu.Item className={styles.menuItem} onClick={handleEditRoleClick}>
+              <Icon name="sun outline" className={styles.menuItemIcon} />
               {t('action.editRole', {
                 context: 'title',
               })}
@@ -221,6 +226,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
             className={styles.menuItem}
             onClick={user.isDeactivated ? handleActivateClick : handleDeactivateClick}
           >
+            <Icon name={user.isDeactivated ? 'plus' : 'close'} className={styles.menuItemIcon} />
             {user.isDeactivated
               ? t('action.activateUser', {
                   context: 'title',
@@ -231,6 +237,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
           </Menu.Item>
           {user.isDeactivated && !user.isDefaultAdmin && (
             <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+              <Icon name="trash alternate outline" className={styles.menuItemIcon} />
               {t('action.deleteUser', {
                 context: 'title',
               })}

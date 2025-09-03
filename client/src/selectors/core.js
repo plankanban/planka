@@ -13,6 +13,8 @@ export const selectIsEditModeEnabled = ({ core: { isEditModeEnabled } }) => isEd
 
 export const selectRecentCardId = ({ core: { recentCardId } }) => recentCardId;
 
+export const selectPrevCardId = ({ core: { prevCardIds } }) => prevCardIds.at(-1);
+
 export const selectHomeView = ({ core: { homeView } }) => homeView;
 
 export const selectProjectsSearch = ({ core: { projectsSearch } }) => projectsSearch;
@@ -28,6 +30,7 @@ export default {
   selectIsFavoritesEnabled,
   selectIsEditModeEnabled,
   selectRecentCardId,
+  selectPrevCardId,
   selectHomeView,
   selectProjectsSearch,
   selectProjectsOrder,

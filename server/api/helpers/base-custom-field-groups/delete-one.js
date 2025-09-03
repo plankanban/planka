@@ -45,8 +45,11 @@ module.exports = {
         );
       });
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'baseCustomFieldGroupDelete',
+        webhooks,
+        event: Webhook.Events.BASE_CUSTOM_FIELD_GROUP_DELETE,
         buildData: () => ({
           item: baseCustomFieldGroup,
           included: {

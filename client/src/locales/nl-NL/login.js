@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail is al in gebruik',
       emailOrUsername: 'E-mail of gebruikersnaam',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'Ongeldig e-mailadres of gebruikersnaam',
       invalidPassword: 'Ongeldig wachtwoord',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Inloggen',
       logInWithSso: 'Inloggen met SSO',
     },

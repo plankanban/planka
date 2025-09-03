@@ -1,0 +1,16 @@
+{
+  "Card Created": "Kart oluşturuldu",
+  "Card Moved": "Kart taşındı",
+  "New Comment": "Yeni yorum",
+  "Test Title": "Test başlığı",
+  "This is a test text message!": "Bu bir test metin mesajıdır!",
+  "This is a *test* **markdown** `message`!": "Bu bir *test* **markdown** `mesajı`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>": "Bu bir <i>test</i> <b>html</b> <code>mesajı</code>",
+  "You Were Added to Card": "Karta eklendiniz",
+  "You Were Mentioned in Comment": "Bir yorumda bahsedildiniz",
+  "%s added you to %s on %s": "%s sizi %s'ye %s tarihinde ekledi",
+  "%s created %s in %s on %s": "%s, %s'i %s içinde %s tarihinde oluşturdu",
+  "%s left a new comment to %s on %s": "%s, %s'ye %s tarihinde yeni bir yorum bıraktı",
+  "%s mentioned you in %s on %s": "%s, %s içinde %s tarihinde sizden bahsetti",
+  "%s moved %s from %s to %s on %s": "%s, %s'yi %s'den %s'ye %s tarihinde taşıdı"
+}

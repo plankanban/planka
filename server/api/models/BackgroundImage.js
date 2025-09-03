@@ -16,18 +16,13 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
-    dirname: {
-      type: 'string',
-      required: true,
-    },
     extension: {
       type: 'string',
       required: true,
     },
-    sizeInBytes: {
-      type: 'string', // TODO: should be number somehow
+    size: {
+      type: 'string',
       required: true,
-      columnName: 'size_in_bytes',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -38,6 +33,11 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+    uploadedFileId: {
+      model: 'UploadedFile',
+      required: true,
+      columnName: 'uploaded_file_id',
+    },
     projectId: {
       model: 'Project',
       required: true,

@@ -91,6 +91,7 @@ module.exports = {
         'description',
         'dueDate',
         'stopwatch',
+        'isClosed',
       ]),
       ...values,
       creatorUserId: values.creatorUser.id,
@@ -137,7 +138,7 @@ module.exports = {
       nextTaskListIdByTaskListId[taskList.id] = id;
 
       return {
-        ..._.pick(taskList, ['position', 'name', 'showOnFrontOfCard']),
+        ..._.pick(taskList, ['position', 'name', 'showOnFrontOfCard', 'hideCompletedTasks']),
         id,
         cardId: card.id,
       };
@@ -146,7 +147,7 @@ module.exports = {
     const nextTaskLists = await TaskList.qm.create(nextTaskListsValues);
 
     const nextTasksValues = tasks.map((task) => ({
-      ..._.pick(task, ['assigneeUserId', 'position', 'name', 'isCompleted']),
+      ..._.pick(task, ['linkedCardId', 'assigneeUserId', 'position', 'name', 'isCompleted']),
       taskListId: nextTaskListIdByTaskListId[task.taskListId],
     }));
 
@@ -171,9 +172,9 @@ module.exports = {
       const nextCoverAttachmentId = nextAttachmentIdByAttachmentId[inputs.record.coverAttachmentId];
 
       if (nextCoverAttachmentId) {
-        card = await Card.qm.updateOne(card.id, {
+        ({ card } = await Card.qm.updateOne(card.id, {
           coverAttachmentId: nextCoverAttachmentId,
-        });
+        }));
       }
     }
 
@@ -228,8 +229,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'cardCreate',
+      webhooks,
+      event: Webhook.Events.CARD_CREATE,
       buildData: () => ({
         item: card,
         included: {
@@ -272,6 +276,7 @@ module.exports = {
     }
 
     await sails.helpers.actions.createOne.with({
+      webhooks,
       values: {
         card,
         type: Action.Types.CREATE_CARD, // TODO: introduce separate type?

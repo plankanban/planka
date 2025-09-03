@@ -93,8 +93,11 @@ module.exports = {
       );
     });
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'customFieldCreate',
+      webhooks,
+      event: Webhook.Events.CUSTOM_FIELD_CREATE,
       buildData: () => ({
         item: customField,
         included: {

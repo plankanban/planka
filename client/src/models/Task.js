@@ -23,6 +23,11 @@ export default class extends BaseModel {
       as: 'taskList',
       relatedName: 'tasks',
     }),
+    linkedCardId: fk({
+      to: 'Card',
+      as: 'linkedCard',
+      relatedName: 'linkedTasks',
+    }),
     assigneeUserId: fk({
       to: 'User',
       as: 'user',

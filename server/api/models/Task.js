@@ -43,6 +43,10 @@ module.exports = {
       required: true,
       columnName: 'task_list_id',
     },
+    linkedCardId: {
+      model: 'Card',
+      columnName: 'linked_card_id',
+    },
     assigneeUserId: {
       model: 'User',
       columnName: 'assignee_user_id',

@@ -34,8 +34,16 @@ module.exports = {
     },
   },
 
+  exists: {
+    linkedCardOrNameMustBeInValues: {},
+  },
+
   async fn(inputs) {
     const { values } = inputs;
+
+    if (!values.linkedCard && !values.name) {
+      throw 'linkedCardOrNameMustBeInValues';
+    }
 
     const tasks = await Task.qm.getByTaskListId(values.taskList.id);
 
@@ -67,6 +75,17 @@ module.exports = {
       // TODO: send webhooks
     }
 
+    if (values.linkedCard) {
+      Object.assign(values, {
+        linkedCardId: values.linkedCard.id,
+        name: values.linkedCard.name,
+      });
+
+      if (values.linkedCard.isClosed) {
+        values.isCompleted = true;
+      }
+    }
+
     const task = await Task.qm.createOne({
       ...values,
       position,
@@ -82,8 +101,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'taskCreate',
+      webhooks,
+      event: Webhook.Events.TASK_CREATE,
       buildData: () => ({
         item: task,
         included: {

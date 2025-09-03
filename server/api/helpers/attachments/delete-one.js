@@ -35,8 +35,11 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const webhooks = await Webhook.qm.getAll();
+
     if (inputs.record.id === inputs.card.coverAttachmentId) {
       await sails.helpers.cards.updateOne.with({
+        webhooks,
         record: inputs.card,
         values: {
           coverAttachmentId: null,
@@ -48,13 +51,11 @@ module.exports = {
       });
     }
 
-    const { attachment, fileReference } = await Attachment.qm.deleteOne(inputs.record.id, {
-      isFile: inputs.record.type === Attachment.Types.FILE,
-    });
+    const { attachment, uploadedFile } = await Attachment.qm.deleteOne(inputs.record.id);
 
     if (attachment) {
-      if (fileReference) {
-        sails.helpers.attachments.removeUnreferencedFiles(fileReference);
+      if (uploadedFile) {
+        sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFile);
       }
 
       sails.sockets.broadcast(
@@ -67,7 +68,8 @@ module.exports = {
       );
 
       sails.helpers.utils.sendWebhooks.with({
-        event: 'attachmentDelete',
+        webhooks,
+        event: Webhook.Events.ATTACHMENT_DELETE,
         buildData: () => ({
           item: sails.helpers.attachments.presentOne(attachment),
           included: {

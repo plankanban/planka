@@ -17,6 +17,11 @@ const Types = {
   TRASH: 'trash',
 };
 
+const TypeStates = {
+  OPENED: 'opened',
+  CLOSED: 'closed',
+};
+
 const SortFieldNames = {
   NAME: 'name',
   DUE_DATE: 'dueDate',
@@ -30,6 +35,11 @@ const SortOrders = {
 };
 
 const FINITE_TYPES = [Types.ACTIVE, Types.CLOSED];
+
+const TYPE_STATE_BY_TYPE = {
+  [Types.ACTIVE]: TypeStates.OPENED,
+  [Types.CLOSED]: Types.CLOSED,
+};
 
 const COLORS = [
   'berry-red',
@@ -46,9 +56,11 @@ const COLORS = [
 
 module.exports = {
   Types,
+  TypeStates,
   SortFieldNames,
   SortOrders,
   FINITE_TYPES,
+  TYPE_STATE_BY_TYPE,
   COLORS,
 
   attributes: {

@@ -96,7 +96,6 @@ const EditName = React.memo(({ cardId, onClose }) => {
           maxLength={1024}
           minRows={3}
           maxRows={8}
-          spellCheck={false}
           className={styles.field}
           onKeyDown={handleFieldKeyDown}
           onChange={handleFieldChange}

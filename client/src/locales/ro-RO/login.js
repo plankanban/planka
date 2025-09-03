@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail deja utilizat',
       emailOrUsername: 'E-mail sau nume de utilizator',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'E-mail sau nume de utilizator introduse greșit',
       invalidPassword: 'Parola greșita',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Autentificarea',
       logInWithSso: 'Autentificarea cu SSO',
     },

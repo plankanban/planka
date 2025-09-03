@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'Eメールは既に使われています',
       emailOrUsername: 'Eメールまたはユーザー名',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'Eメールまたはユーザー名が無効',
       invalidPassword: 'パスワードが無効',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'ログイン',
       logInWithSso: 'SSOでログイン',
     },

@@ -73,13 +73,13 @@ const Header = React.memo(() => {
 
   const dispatch = useDispatch();
 
-  const handleToggleEditModeClick = useCallback(() => {
-    dispatch(entryActions.toggleEditMode(!isEditModeEnabled));
-  }, [isEditModeEnabled, dispatch]);
-
   const handleToggleFavoritesClick = useCallback(() => {
     dispatch(entryActions.toggleFavorites(!isFavoritesEnabled));
   }, [isFavoritesEnabled, dispatch]);
+
+  const handleToggleEditModeClick = useCallback(() => {
+    dispatch(entryActions.toggleEditMode(!isEditModeEnabled));
+  }, [isEditModeEnabled, dispatch]);
 
   const handleProjectSettingsClick = useCallback(() => {
     if (!canEditProject) {

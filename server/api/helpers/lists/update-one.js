@@ -150,7 +150,7 @@ module.exports = {
       await sails.helpers.cards.detachCustomFields(cardIds, inputs.board.id, !!values.project);
     }
 
-    const list = await List.qm.updateOne(inputs.record.id, values);
+    const { list, tasks } = await List.qm.updateOne(inputs.record.id, values);
 
     if (list) {
       if (values.board) {
@@ -212,22 +212,51 @@ module.exports = {
           },
           inputs.request,
         );
-
-        sails.helpers.utils.sendWebhooks.with({
-          event: 'listUpdate',
-          buildData: () => ({
-            item: list,
-            included: {
-              projects: [inputs.project],
-              boards: [inputs.board],
-            },
-          }),
-          buildPrevData: () => ({
-            item: inputs.record,
-          }),
-          user: inputs.actorUser,
-        });
       }
+
+      if (tasks) {
+        const taskListIds = sails.helpers.utils.mapRecords(tasks, 'taskListId', true);
+        const taskLists = await TaskList.qm.getByIds(taskListIds);
+        const taskListById = _.keyBy(taskLists, 'id');
+
+        const cardIds = sails.helpers.utils.mapRecords(taskLists, 'cardId', true);
+        const cards = await Card.qm.getByIds(cardIds);
+        const cardById = _.keyBy(cards, 'id');
+
+        const boardIdByTaskId = tasks.reduce(
+          (result, task) => ({
+            ...result,
+            [task.id]: cardById[taskListById[task.taskListId].cardId].boardId,
+          }),
+          {},
+        );
+
+        tasks.forEach((task) => {
+          sails.sockets.broadcast(`board:${boardIdByTaskId[task.id]}`, 'taskUpdate', {
+            item: task,
+          });
+        });
+
+        // TODO: send webhooks
+      }
+
+      const webhooks = await Webhook.qm.getAll();
+
+      sails.helpers.utils.sendWebhooks.with({
+        webhooks,
+        event: Webhook.Events.LIST_UPDATE,
+        buildData: () => ({
+          item: list,
+          included: {
+            projects: [inputs.project],
+            boards: [inputs.board],
+          },
+        }),
+        buildPrevData: () => ({
+          item: inputs.record,
+        }),
+        user: inputs.actorUser,
+      });
     }
 
     return list;

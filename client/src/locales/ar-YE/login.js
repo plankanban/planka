@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'البريد الإلكتروني مستخدم بالفعل',
       emailOrUsername: 'البريد الإلكتروني أو اسم المستخدم',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'بيانات الاعتماد غير صالحة',
       invalidEmailOrUsername: 'البريد الإلكتروني أو اسم المستخدم غير صالح',
       invalidPassword: 'كلمة المرور غير صالحة',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'تسجيل الدخول',
       logInWithSso: 'تسجيل الدخول باستخدام SSO',
     },

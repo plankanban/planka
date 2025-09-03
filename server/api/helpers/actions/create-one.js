@@ -105,6 +105,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    webhooks: {
+      type: 'ref',
+      required: true,
+    },
     request: {
       type: 'ref',
     },
@@ -130,7 +134,8 @@ module.exports = {
     );
 
     sails.helpers.utils.sendWebhooks.with({
-      event: 'actionCreate',
+      webhooks: inputs.webhooks,
+      event: Webhook.Events.ACTION_CREATE,
       buildData: () => ({
         item: action,
         included: {
@@ -158,6 +163,7 @@ module.exports = {
             project: inputs.project,
             board: inputs.board,
             list: inputs.list,
+            webhooks: inputs.webhooks,
           });
         }
       } else {
@@ -187,6 +193,7 @@ module.exports = {
               project: inputs.project,
               board: inputs.board,
               list: inputs.list,
+              webhooks: inputs.webhooks,
             }),
           ),
         );

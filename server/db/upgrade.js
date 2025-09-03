@@ -18,7 +18,7 @@ const rc = require('sails/accessible/rc');
 const _ = require('lodash');
 
 const knexfile = require('./knexfile');
-const { MAX_SIZE_IN_BYTES_TO_GET_ENCODING, POSITION_GAP } = require('../constants');
+const { MAX_SIZE_TO_GET_ENCODING, POSITION_GAP } = require('../constants');
 
 const PrevActionTypes = {
   COMMENT_CARD: 'commentCard',
@@ -55,6 +55,18 @@ const loadSails = () =>
       resolve,
     );
   });
+
+const runStep = async (label, func) => {
+  process.stdout.write(`${label}... `);
+
+  try {
+    await func();
+    console.log('[OK]');
+  } catch (error) {
+    console.log('[FAIL]');
+    throw error;
+  }
+};
 
 const knex = initKnex(knexfile);
 
@@ -136,13 +148,15 @@ const upgradeDatabase = async () => {
 
       const identityProviderUsers = await trx('identity_provider_user')
         .withSchema('v1')
-        .whereIn('user_id', whereInUserIds);
+        .whereRaw('user_id = ANY (?)', [whereInUserIds]);
 
       if (identityProviderUsers.length > 0) {
         await knex.batchInsert('identity_provider_user', identityProviderUsers).transacting(trx);
       }
 
-      const sessions = await trx('session').withSchema('v1').whereIn('user_id', whereInUserIds);
+      const sessions = await trx('session')
+        .withSchema('v1')
+        .whereRaw('user_id = ANY (?)', [whereInUserIds]);
 
       if (sessions.length > 0) {
         await knex.batchInsert('session', sessions).transacting(trx);
@@ -210,13 +224,15 @@ const upgradeDatabase = async () => {
 
     const projectManagers = await trx('project_manager')
       .withSchema('v1')
-      .whereIn('project_id', whereInProjectIds);
+      .whereRaw('project_id = ANY (?)', [whereInProjectIds]);
 
     if (projectManagers.length > 0) {
       await knex.batchInsert('project_manager', projectManagers).transacting(trx);
     }
 
-    const boards = await trx('board').withSchema('v1').whereIn('project_id', whereInProjectIds);
+    const boards = await trx('board')
+      .withSchema('v1')
+      .whereRaw('project_id = ANY (?)', [whereInProjectIds]);
 
     const projectIdByBoardId = boards.reduce(
       (result, board) => ({
@@ -260,7 +276,7 @@ const upgradeDatabase = async () => {
 
     const boardMemberships = await trx('board_membership')
       .withSchema('v1')
-      .whereIn('board_id', whereInBoardIds);
+      .whereRaw('board_id = ANY (?)', [whereInBoardIds]);
 
     if (boardMemberships.length > 0) {
       await knex
@@ -282,13 +298,18 @@ const upgradeDatabase = async () => {
         .transacting(trx);
     }
 
-    const labels = await trx('label').withSchema('v1').whereIn('board_id', whereInBoardIds);
+    const labels = await trx('label')
+      .withSchema('v1')
+      .whereRaw('board_id = ANY (?)', [whereInBoardIds]);
 
     if (labels.length > 0) {
       await knex.batchInsert('label', labels).transacting(trx);
     }
 
-    const lists = await trx('list').withSchema('v1').whereIn('board_id', whereInBoardIds);
+    const lists = await trx('list')
+      .withSchema('v1')
+      .whereRaw('board_id = ANY (?)', [whereInBoardIds]);
+
     const whereInListIds = ['0', ...lists.map(({ id }) => id)];
 
     if (lists.length > 0) {
@@ -313,8 +334,8 @@ const upgradeDatabase = async () => {
 
     const cards = await trx('card')
       .withSchema('v1')
-      .whereIn('board_id', whereInBoardIds)
-      .whereIn('list_id', whereInListIds);
+      .whereRaw('board_id = ANY (?)', [whereInBoardIds])
+      .whereRaw('list_id = ANY (?)', [whereInListIds]);
 
     const cardById = _.keyBy(cards, 'id');
     const whereInCardIds = ['0', ...Object.keys(cardById)];
@@ -347,7 +368,7 @@ const upgradeDatabase = async () => {
 
     const cardSubscriptions = await trx('card_subscription')
       .withSchema('v1')
-      .whereIn('card_id', whereInCardIds);
+      .whereRaw('card_id = ANY (?)', [whereInCardIds]);
 
     if (cardSubscriptions.length > 0) {
       await knex.batchInsert('card_subscription', cardSubscriptions).transacting(trx);
@@ -355,19 +376,23 @@ const upgradeDatabase = async () => {
 
     const cardMemberships = await trx('card_membership')
       .withSchema('v1')
-      .whereIn('card_id', whereInCardIds);
+      .whereRaw('card_id = ANY (?)', [whereInCardIds]);
 
     if (cardMemberships.length > 0) {
       await knex.batchInsert('card_membership', cardMemberships).transacting(trx);
     }
 
-    const cardLabels = await trx('card_label').withSchema('v1').whereIn('card_id', whereInCardIds);
+    const cardLabels = await trx('card_label')
+      .withSchema('v1')
+      .whereRaw('card_id = ANY (?)', [whereInCardIds]);
 
     if (cardLabels.length > 0) {
       await knex.batchInsert('card_label', cardLabels).transacting(trx);
     }
 
-    const tasks = await trx('task').withSchema('v1').whereIn('card_id', whereInCardIds);
+    const tasks = await trx('task')
+      .withSchema('v1')
+      .whereRaw('card_id = ANY (?)', [whereInCardIds]);
 
     const tasksByCardId = _.groupBy(tasks, 'card_id');
     const taskCardIds = Object.keys(tasksByCardId);
@@ -409,7 +434,9 @@ const upgradeDatabase = async () => {
         .transacting(trx);
     }
 
-    const attachments = await trx('attachment').withSchema('v1').whereIn('card_id', whereInCardIds);
+    const attachments = await trx('attachment')
+      .withSchema('v1')
+      .whereRaw('card_id = ANY (?)', [whereInCardIds]);
 
     if (attachments.length > 0) {
       await knex
@@ -434,7 +461,9 @@ const upgradeDatabase = async () => {
         .transacting(trx);
     }
 
-    const actions = await trx('action').withSchema('v1').whereIn('card_id', whereInCardIds);
+    const actions = await trx('action')
+      .withSchema('v1')
+      .whereRaw('card_id = ANY (?)', [whereInCardIds]);
 
     const actionById = _.keyBy(actions, 'id');
     const whereInActionIds = ['0', ...Object.keys(actionById)];
@@ -507,9 +536,9 @@ const upgradeDatabase = async () => {
 
     const notifications = await trx('notification')
       .withSchema('v1')
-      .whereIn('user_id', whereInUserIds)
-      .whereIn('action_id', whereInActionIds)
-      .whereIn('card_id', whereInCardIds);
+      .whereRaw('user_id = ANY (?)', [whereInUserIds])
+      .whereRaw('action_id = ANY (?)', [whereInActionIds])
+      .whereRaw('card_id = ANY (?)', [whereInCardIds]);
 
     if (notifications.length > 0) {
       await knex
@@ -528,9 +557,7 @@ const upgradeDatabase = async () => {
                 'created_at',
                 'updated_at',
               ]),
-              creator_user_id: userIdsSet.has(notification.creator_user_id)
-                ? notification.creator_user_id
-                : null,
+              creator_user_id: userIdsSet.has(action.user_id) ? action.user_id : null,
               board_id: card.board_id,
               type: action.type,
             };
@@ -584,7 +611,7 @@ const upgradeUserAvatars = async () => {
       const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${dirname}`;
 
       if (user) {
-        const sizeInBytes = await fileManager.getSizeInBytes(
+        const size = await fileManager.getSize(
           `${dirPathSegment}/original.${user.avatar.extension}`,
         );
 
@@ -592,7 +619,7 @@ const upgradeUserAvatars = async () => {
           .update({
             avatar: knex.raw("?? || jsonb_build_object('sizeInBytes', ?::bigint)", [
               'avatar',
-              sizeInBytes,
+              size,
             ]),
           })
           .where('id', user.id);
@@ -663,13 +690,13 @@ const upgradeBackgroundImages = async () => {
       const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${dirname}`;
 
       if (backgroundImage) {
-        const sizeInBytes = await fileManager.getSizeInBytes(
+        const size = await fileManager.getSize(
           `${dirPathSegment}/original.${backgroundImage.extension}`,
         );
 
         await knex('background_image')
           .update({
-            size_in_bytes: sizeInBytes,
+            size_in_bytes: size,
           })
           .where('id', backgroundImage.id);
       } else {
@@ -750,12 +777,10 @@ const upgradeFileAttachments = async () => {
               'id',
             );
 
-            const sizeInBytes = await fileManager.getSizeInBytes(
-              `${dirPathSegment}/${attachment.data.filename}`,
-            );
+            const size = await fileManager.getSize(`${dirPathSegment}/${attachment.data.filename}`);
 
             let encoding = null;
-            if (sizeInBytes && sizeInBytes <= MAX_SIZE_IN_BYTES_TO_GET_ENCODING) {
+            if (size && size <= MAX_SIZE_TO_GET_ENCODING) {
               const readStream = await fileManager.read(
                 `${dirPathSegment}/${attachment.data.filename}`,
               );
@@ -768,7 +793,7 @@ const upgradeFileAttachments = async () => {
               .update({
                 data: trx.raw(
                   "?? || jsonb_build_object('fileReferenceId', ?::text, 'sizeInBytes', ?::bigint, 'encoding', ?::text)",
-                  ['data', id, sizeInBytes, encoding],
+                  ['data', id, size, encoding],
                 ),
               })
               .where('id', attachment.id);
@@ -891,15 +916,12 @@ const upgradeFileAttachments = async () => {
     await loadSails();
 
     if (isV1) {
-      console.log('Upgrading database...');
-      await upgradeDatabase();
+      await runStep('Upgrading database', upgradeDatabase);
     }
 
-    console.log('Upgrading files...');
-
-    await upgradeUserAvatars();
-    await upgradeBackgroundImages();
-    await upgradeFileAttachments();
+    await runStep('Upgrading user avatars', upgradeUserAvatars);
+    await runStep('Upgrading background images', upgradeBackgroundImages);
+    await runStep('Upgrading file attachments', upgradeFileAttachments);
   } catch (error) {
     console.error(error);
     process.exitCode = 1;

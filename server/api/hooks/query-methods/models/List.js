@@ -3,6 +3,10 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const { makeWhereQueryBuilder } = require('../helpers');
+
+const buildWhereQuery = makeWhereQueryBuilder(List);
+
 const defaultFind = (criteria, { sort = 'id' } = {}) => List.find(criteria).sort(sort);
 
 /* Query methods */
@@ -47,29 +51,85 @@ const getOneTrashByBoardId = (boardId) =>
     type: List.Types.TRASH,
   });
 
-const updateOne = (criteria, values) => {
-  if (values.boardId) {
+const updateOne = async (criteria, values) => {
+  if (values.boardId || values.type) {
     return sails.getDatastore().transaction(async (db) => {
+      const [whereQuery, whereQueryValues] = buildWhereQuery(criteria);
+
+      const queryResult = await sails
+        .sendNativeQuery(
+          `SELECT board_id, type FROM list WHERE ${whereQuery} LIMIT 1 FOR UPDATE`,
+          whereQueryValues,
+        )
+        .usingConnection(db);
+
+      if (queryResult.rowCount === 0) {
+        return { list: null };
+      }
+
+      const prev = {
+        boardId: queryResult.rows[0].board_id,
+        type: queryResult.rows[0].type,
+      };
+
       const list = await List.updateOne(criteria)
         .set({ ...values })
         .usingConnection(db);
 
+      let cards = [];
+      let tasks = [];
+
       if (list) {
-        await Card.update(
-          {
+        if (list.boardId !== prev.boardId) {
+          await Card.update(
+            {
+              listId: list.id,
+            },
+            {
+              boardId: list.boardId,
+            },
+          ).usingConnection(db);
+        }
+
+        const prevTypeState = List.TYPE_STATE_BY_TYPE[prev.type];
+        const typeState = List.TYPE_STATE_BY_TYPE[list.type];
+
+        const transitions = {
+          [`${List.TypeStates.CLOSED}->${List.TypeStates.OPENED}`]: false,
+          [`${List.TypeStates.OPENED}->${List.TypeStates.CLOSED}`]: true,
+        };
+
+        const isClosed = transitions[`${prevTypeState}->${typeState}`];
+
+        if (!_.isUndefined(isClosed)) {
+          cards = await Card.update({
             listId: list.id,
-          },
-          {
-            boardId: list.boardId,
-          },
-        ).usingConnection(db);
+          })
+            .set({
+              isClosed,
+            })
+            .fetch()
+            .usingConnection(db);
+
+          if (cards.length > 0) {
+            tasks = await Task.update({
+              linkedCardId: sails.helpers.utils.mapRecords(cards),
+            })
+              .set({
+                isCompleted: isClosed,
+              })
+              .fetch()
+              .usingConnection(db);
+          }
+        }
       }
 
-      return list;
+      return { list, cards, tasks };
     });
   }
 
-  return List.updateOne(criteria).set({ ...values });
+  const list = await List.updateOne(criteria).set({ ...values });
+  return { list };
 };
 
 // eslint-disable-next-line no-underscore-dangle

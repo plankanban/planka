@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'Az e-mail cím már használatban van',
       emailOrUsername: 'E-mail vagy felhasználó',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'Érvénytelen e-mail vagy felhasználó',
       invalidPassword: 'Érvénytelen jelszó',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Belépés',
       logInWithSso: 'Belépés SSO-val',
     },

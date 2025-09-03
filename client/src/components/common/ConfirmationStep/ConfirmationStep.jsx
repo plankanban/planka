@@ -19,7 +19,17 @@ const ButtonTypes = {
 };
 
 const ConfirmationStep = React.memo(
-  ({ title, content, buttonType, buttonContent, typeValue, typeContent, onConfirm, onBack }) => {
+  ({
+    title,
+    content,
+    buttonType,
+    buttonContent,
+    typeValue,
+    typeContent,
+    onConfirm,
+    onBack,
+    onClose,
+  }) => {
     const [t] = useTranslation();
 
     const [data, handleFieldChange] = useForm({
@@ -28,21 +38,30 @@ const ConfirmationStep = React.memo(
 
     const [nameFieldRef, handleNameFieldRef] = useNestedRef('inputRef');
 
-    const handleSubmit = useCallback(() => {
-      if (typeValue) {
-        const cleanData = {
-          ...data,
-          typeValue: data.typeValue.trim(),
-        };
+    const handleSubmit = useCallback(
+      (event) => {
+        event.stopPropagation();
 
-        if (cleanData.typeValue.toLowerCase() !== typeValue.toLowerCase()) {
-          nameFieldRef.current.select();
-          return;
+        if (typeValue) {
+          const cleanData = {
+            ...data,
+            typeValue: data.typeValue.trim(),
+          };
+
+          if (cleanData.typeValue.toLowerCase() !== typeValue.toLowerCase()) {
+            nameFieldRef.current.select();
+            return;
+          }
         }
-      }
 
-      onConfirm();
-    }, [typeValue, onConfirm, data, nameFieldRef]);
+        onConfirm();
+
+        if (onClose) {
+          onClose();
+        }
+      },
+      [typeValue, onConfirm, onClose, data, nameFieldRef],
+    );
 
     useEffect(() => {
       if (typeValue) {
@@ -96,6 +115,7 @@ ConfirmationStep.propTypes = {
   typeContent: PropTypes.string,
   onConfirm: PropTypes.func.isRequired,
   onBack: PropTypes.func,
+  onClose: PropTypes.func,
 };
 
 ConfirmationStep.defaultProps = {
@@ -103,6 +123,7 @@ ConfirmationStep.defaultProps = {
   typeValue: undefined,
   typeContent: undefined,
   onBack: undefined,
+  onClose: undefined,
 };
 
 export default ConfirmationStep;

@@ -13,7 +13,7 @@ import { Button } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
-import { formatTextWithMentions } from '../../../utils/mentions';
+import { mentionMarkupToText } from '../../../utils/mentions';
 import Paths from '../../../constants/Paths';
 import { StaticUserIds } from '../../../constants/StaticUsers';
 import { NotificationTypes } from '../../../constants/Enums';
@@ -84,7 +84,7 @@ const Item = React.memo(({ id, onClose }) => {
       break;
     }
     case NotificationTypes.COMMENT_CARD: {
-      const commentText = truncate(formatTextWithMentions(notification.data.text));
+      const commentText = truncate(mentionMarkupToText(notification.data.text));
 
       contentNode = (
         <Trans
@@ -124,7 +124,7 @@ const Item = React.memo(({ id, onClose }) => {
 
       break;
     case NotificationTypes.MENTION_IN_COMMENT: {
-      const commentText = truncate(formatTextWithMentions(notification.data.text));
+      const commentText = truncate(mentionMarkupToText(notification.data.text));
 
       contentNode = (
         <Trans

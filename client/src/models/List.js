@@ -10,7 +10,8 @@ import buildSearchParts from '../utils/build-search-parts';
 import { isListFinite } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
-import { ListSortFieldNames, ListTypes, SortOrders } from '../constants/Enums';
+import { ListSortFieldNames, ListTypes, ListTypeStates, SortOrders } from '../constants/Enums';
+import LIST_TYPE_STATE_BY_TYPE from '../constants/ListTypeStateByType';
 
 const POSITION_BY_LIST_TYPE = {
   [ListTypes.ARCHIVE]: Number.MAX_SAFE_INTEGER - 1,
@@ -26,6 +27,21 @@ const prepareList = (list) => {
     ...list,
     position: list.position === null ? POSITION_BY_LIST_TYPE[list.type] : list.position,
   };
+};
+
+const getChangedTypeState = (prevList, list) => {
+  const prevTypeState = LIST_TYPE_STATE_BY_TYPE[prevList.type];
+  const typeState = LIST_TYPE_STATE_BY_TYPE[list.type];
+
+  if (prevTypeState === ListTypeStates.OPENED && typeState === ListTypeStates.CLOSED) {
+    return ListTypeStates.CLOSED;
+  }
+
+  if (prevTypeState === ListTypeStates.CLOSED && typeState === ListTypeStates.OPENED) {
+    return ListTypeStates.OPENED;
+  }
+
+  return null;
 };
 
 export default class extends BaseModel {
@@ -122,25 +138,73 @@ export default class extends BaseModel {
         if (payload.data.boardId && payload.data.boardId !== listModel.boardId) {
           listModel.deleteWithRelated();
         } else {
+          let isClosed;
+          if (payload.data.type) {
+            const changedTypeState = getChangedTypeState(listModel, payload.data);
+
+            if (changedTypeState === ListTypeStates.OPENED) {
+              isClosed = false;
+            } else if (changedTypeState === ListTypeStates.CLOSED) {
+              isClosed = true;
+            }
+          }
+
           listModel.update(payload.data);
+
+          if (isClosed !== undefined) {
+            listModel.cards.toModelArray().forEach((cardModel) => {
+              cardModel.update({
+                isClosed,
+              });
+
+              cardModel.linkedTasks.update({
+                isCompleted: isClosed,
+              });
+            });
+          }
         }
 
         break;
       }
-      case ActionTypes.LIST_UPDATE_HANDLE:
-        if (payload.list.boardId === null || payload.isFetched) {
-          const listModel = List.withId(payload.list.id);
+      // TODO: refactor
+      case ActionTypes.LIST_UPDATE_HANDLE: {
+        const listModel = List.withId(payload.list.id);
 
-          if (listModel) {
+        if (listModel) {
+          if (payload.list.boardId === null || payload.isFetched) {
             listModel.deleteWithRelated();
           }
-        }
 
-        if (payload.list.boardId !== null) {
+          if (payload.list.boardId !== null) {
+            const changedTypeState = getChangedTypeState(listModel, payload.list);
+
+            let isClosed;
+            if (changedTypeState === ListTypeStates.OPENED) {
+              isClosed = false;
+            } else if (changedTypeState === ListTypeStates.CLOSED) {
+              isClosed = true;
+            }
+
+            listModel.update(prepareList(payload.list));
+
+            if (isClosed !== undefined) {
+              listModel.cards.toModelArray().forEach((cardModel) => {
+                cardModel.update({
+                  isClosed,
+                });
+
+                cardModel.linkedTasks.update({
+                  isCompleted: isClosed,
+                });
+              });
+            }
+          }
+        } else if (payload.list.boardId !== null) {
           List.upsert(prepareList(payload.list));
         }
 
         break;
+      }
       case ActionTypes.LIST_SORT:
         List.withId(payload.id).sortCards(payload.data);
 
@@ -300,7 +364,20 @@ export default class extends BaseModel {
     if (filterUserIds.length > 0) {
       cardModels = cardModels.filter((cardModel) => {
         const users = cardModel.users.toRefArray();
-        return users.some((user) => filterUserIds.includes(user.id));
+
+        if (users.some((user) => filterUserIds.includes(user.id))) {
+          return true;
+        }
+
+        return cardModel
+          .getTaskListsQuerySet()
+          .toModelArray()
+          .some((taskListModel) =>
+            taskListModel
+              .getTasksQuerySet()
+              .toRefArray()
+              .some((task) => task.assigneeUserId && filterUserIds.includes(task.assigneeUserId)),
+          );
       });
     }
 

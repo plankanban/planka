@@ -76,7 +76,6 @@ const EditName = React.memo(({ listId, onClose }) => {
       as={TextareaAutosize}
       value={value}
       maxLength={128}
-      spellCheck={false}
       className={styles.field}
       onClick={handleFieldClick}
       onKeyDown={handleFieldKeyDown}

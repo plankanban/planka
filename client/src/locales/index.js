@@ -3,6 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import keyBy from 'lodash/keyBy';
+
 import arYE from './ar-YE';
 import bgBG from './bg-BG';
 import csCZ from './cs-CZ';
@@ -12,6 +14,7 @@ import elGR from './el-GR';
 import enGB from './en-GB';
 import enUS from './en-US';
 import esES from './es-ES';
+import etEE from './et-EE';
 import faIR from './fa-IR';
 import fiFI from './fi-FI';
 import frFR from './fr-FR';
@@ -23,6 +26,7 @@ import koKR from './ko-KR';
 import nlNL from './nl-NL';
 import plPL from './pl-PL';
 import ptBR from './pt-BR';
+import ptPT from './pt-PT';
 import roRO from './ro-RO';
 import ruRU from './ru-RU';
 import skSK from './sk-SK';
@@ -45,6 +49,7 @@ const locales = [
   enGB,
   enUS,
   esES,
+  etEE,
   faIR,
   fiFI,
   frFR,
@@ -56,6 +61,7 @@ const locales = [
   nlNL,
   plPL,
   ptBR,
+  ptPT,
   roRO,
   ruRU,
   skSK,
@@ -80,3 +86,5 @@ export const embeddedLocales = locales.reduce(
   }),
   {},
 );
+
+export const localeByLanguage = keyBy(locales, 'language');

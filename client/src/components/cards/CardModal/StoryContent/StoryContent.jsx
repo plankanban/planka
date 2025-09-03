@@ -4,7 +4,6 @@
  */
 
 import React, { useCallback, useContext, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -24,8 +23,7 @@ import NameField from '../NameField';
 import CustomFieldGroups from '../CustomFieldGroups';
 import Communication from '../Communication';
 import CreationDetailsStep from '../CreationDetailsStep';
-import SelectCardTypeStep from '../../SelectCardTypeStep';
-import MoveCardStep from '../../MoveCardStep';
+import MoreActionsStep from '../MoreActionsStep';
 import Markdown from '../../../common/Markdown';
 import EditMarkdown from '../../../common/EditMarkdown';
 import ConfirmationStep from '../../../common/ConfirmationStep';
@@ -40,7 +38,7 @@ import AddCustomFieldGroupStep from '../../../custom-field-groups/AddCustomField
 
 import styles from './StoryContent.module.scss';
 
-const StoryContent = React.memo(({ onClose }) => {
+const StoryContent = React.memo(() => {
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectPrevListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectAttachmentById = useMemo(() => selectors.makeSelectAttachmentById(), []);
@@ -150,17 +148,6 @@ const StoryContent = React.memo(({ onClose }) => {
     [dispatch],
   );
 
-  const handleTypeSelect = useCallback(
-    (type) => {
-      dispatch(
-        entryActions.updateCurrentCard({
-          type,
-        }),
-      );
-    },
-    [dispatch],
-  );
-
   const handleNameUpdate = useCallback(
     (name) => {
       dispatch(
@@ -182,18 +169,6 @@ const StoryContent = React.memo(({ onClose }) => {
     },
     [dispatch],
   );
-
-  const handleDuplicateClick = useCallback(() => {
-    dispatch(
-      entryActions.duplicateCurrentCard({
-        name: `${card.name} (${t('common.copy', {
-          context: 'inline',
-        })})`,
-      }),
-    );
-
-    onClose();
-  }, [onClose, card.name, dispatch, t]);
 
   const handleRestoreClick = useCallback(() => {
     dispatch(entryActions.moveCurrentCard(card.prevListId, undefined, true));
@@ -300,10 +275,9 @@ const StoryContent = React.memo(({ onClose }) => {
   const BoardMembershipsPopup = usePopupInClosableContext(BoardMembershipsStep);
   const LabelsPopup = usePopupInClosableContext(LabelsStep);
   const ListsPopup = usePopupInClosableContext(ListsStep);
-  const SelectCardTypePopup = usePopupInClosableContext(SelectCardTypeStep);
   const AddAttachmentPopup = usePopupInClosableContext(AddAttachmentStep);
   const AddCustomFieldGroupPopup = usePopupInClosableContext(AddCustomFieldGroupStep);
-  const MoveCardPopup = usePopupInClosableContext(MoveCardStep);
+  const MoreActionsPopup = usePopupInClosableContext(MoreActionsStep);
   const ConfirmationPopup = usePopupInClosableContext(ConfirmationStep);
 
   return (
@@ -614,40 +588,6 @@ const StoryContent = React.memo(({ onClose }) => {
                     )}
                   </Button>
                 )}
-                {!board.limitCardTypesToDefaultOne && canEditType && (
-                  <SelectCardTypePopup
-                    withButton
-                    defaultValue={card.type}
-                    title="common.editType"
-                    buttonContent="action.save"
-                    onSelect={handleTypeSelect}
-                  >
-                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
-                      <Icon name="map outline" className={styles.actionIcon} />
-                      {t('action.editType', {
-                        context: 'title',
-                      })}
-                    </Button>
-                  </SelectCardTypePopup>
-                )}
-                {canDuplicate && (
-                  <Button
-                    fluid
-                    className={classNames(styles.actionButton, styles.hidable)}
-                    onClick={handleDuplicateClick}
-                  >
-                    <Icon name="copy outline" className={styles.actionIcon} />
-                    {t('action.duplicate')}
-                  </Button>
-                )}
-                {canMove && (
-                  <MoveCardPopup id={card.id}>
-                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
-                      <Icon name="share square outline" className={styles.actionIcon} />
-                      {t('action.move')}
-                    </Button>
-                  </MoveCardPopup>
-                )}
                 {canRestore && (isInArchiveList || isInTrashList) && (
                   <Button
                     fluid
@@ -697,6 +637,16 @@ const StoryContent = React.memo(({ onClose }) => {
                     </Button>
                   </ConfirmationPopup>
                 )}
+                {((!board.limitCardTypesToDefaultOne && canEditType) ||
+                  canDuplicate ||
+                  canMove) && (
+                  <MoreActionsPopup>
+                    <Button fluid className={classNames(styles.moreActionsButton, styles.hidable)}>
+                      <Icon name="ellipsis horizontal" className={styles.moreActionsButtonIcon} />
+                      {t('common.moreActions')}
+                    </Button>
+                  </MoreActionsPopup>
+                )}
               </div>
             )}
           </div>
@@ -705,9 +655,5 @@ const StoryContent = React.memo(({ onClose }) => {
     </Grid>
   );
 });
-
-StoryContent.propTypes = {
-  onClose: PropTypes.func.isRequired,
-};
 
 export default StoryContent;

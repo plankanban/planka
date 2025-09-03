@@ -15,5 +15,12 @@ export default function* loginWatchers() {
     ),
     takeEvery(EntryActionTypes.WITH_OIDC_AUTHENTICATE, () => services.authenticateWithOidc()),
     takeEvery(EntryActionTypes.AUTHENTICATE_ERROR_CLEAR, () => services.clearAuthenticateError()),
+    takeEvery(EntryActionTypes.TERMS_ACCEPT, ({ payload: { signature } }) =>
+      services.acceptTerms(signature),
+    ),
+    takeEvery(EntryActionTypes.TERMS_CANCEL, () => services.cancelTerms()),
+    takeEvery(EntryActionTypes.TERMS_LANGUAGE_UPDATE, ({ payload: { value } }) =>
+      services.updateTermsLanguage(value),
+    ),
   ]);
 }

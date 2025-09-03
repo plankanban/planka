@@ -27,10 +27,13 @@ module.exports = {
       record: inputs.project,
     });
 
+    const webhooks = await Webhook.qm.getAll();
+
     if (inputs.project.backgroundType === Project.BackgroundTypes.IMAGE) {
       if (inputs.record.id === inputs.project.backgroundImageId) {
         await sails.helpers.projects.updateOne.with({
           scoper,
+          webhooks,
           record: inputs.project,
           values: {
             backgroundType: null,
@@ -40,10 +43,10 @@ module.exports = {
       }
     }
 
-    const backgroundImage = await BackgroundImage.qm.deleteOne(inputs.record.id);
+    const { backgroundImage, uploadedFile } = await BackgroundImage.qm.deleteOne(inputs.record.id);
 
     if (backgroundImage) {
-      sails.helpers.backgroundImages.removeRelatedFiles(backgroundImage);
+      sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFile);
 
       const projectRelatedUserIds = await scoper.getProjectRelatedUserIds();
 
@@ -59,7 +62,8 @@ module.exports = {
       });
 
       sails.helpers.utils.sendWebhooks.with({
-        event: 'backgroundImageDelete',
+        webhooks,
+        event: Webhook.Events.BACKGROUND_IMAGE_DELETE,
         buildData: () => ({
           item: sails.helpers.backgroundImages.presentOne(backgroundImage),
           included: {

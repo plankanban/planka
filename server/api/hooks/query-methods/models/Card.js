@@ -3,9 +3,9 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const LIMIT = 50;
+const buildSearchParts = require('../../../../utils/build-query-parts');
 
-const SEARCH_PARTS_REGEX = /[ ,;]+/;
+const LIMIT = 50;
 
 const defaultFind = (criteria, { sort = 'id', limit } = {}) =>
   Card.find(criteria).sort(sort).limit(limit);
@@ -28,11 +28,13 @@ const getIdsByEndlessListId = async (
   let query = 'SELECT DISTINCT card.id FROM card';
 
   if (filterUserIds) {
-    query += ' JOIN card_membership ON card.id = card_membership.card_id';
+    query += ' LEFT JOIN card_membership ON card.id = card_membership.card_id';
+    query += ' LEFT JOIN task_list ON card.id = task_list.card_id';
+    query += ' LEFT JOIN task ON task_list.id = task.task_list_id';
   }
 
   if (filterLabelIds) {
-    query += ' JOIN card_label ON card.id = card_label.card_id';
+    query += ' LEFT JOIN card_label ON card.id = card_label.card_id';
   }
 
   queryValues.push(listId);
@@ -51,13 +53,7 @@ const getIdsByEndlessListId = async (
       queryValues.push(search.substring(1));
       query += ` AND (card.name ~* $${queryValues.length} OR card.description ~* $${queryValues.length})`;
     } else {
-      const searchParts = search.split(SEARCH_PARTS_REGEX).flatMap((searchPart) => {
-        if (!searchPart) {
-          return [];
-        }
-
-        return searchPart.toLowerCase();
-      });
+      const searchParts = buildSearchParts(search);
 
       if (searchParts.length > 0) {
         let ilikeValues = searchParts.map((searchPart) => {
@@ -83,7 +79,7 @@ const getIdsByEndlessListId = async (
       return `$${queryValues.length}`;
     });
 
-    query += ` AND card_membership.user_id IN (${inValues.join(', ')})`;
+    query += ` AND (card_membership.user_id IN (${inValues.join(', ')}) OR task.assignee_user_id IN (${inValues.join(', ')}))`;
   }
 
   if (filterLabelIds) {
@@ -198,9 +194,57 @@ const getOneById = (id, { listId } = {}) => {
   return Card.findOne(criteria);
 };
 
-const update = (criteria, values) => Card.update(criteria).set(values).fetch();
+const update = async (criteria, values) => {
+  if (!_.isUndefined(values.isClosed)) {
+    return sails.getDatastore().transaction(async (db) => {
+      const cards = await Card.update(criteria).set(values).fetch().usingConnection(db);
 
-const updateOne = (criteria, values) => Card.updateOne(criteria).set({ ...values });
+      let tasks = [];
+      if (!_.isUndefined(values.isClosed)) {
+        tasks = await Task.update({
+          linkedCardId: sails.helpers.utils.mapRecords(cards),
+        })
+          .set({
+            isCompleted: values.isClosed,
+          })
+          .fetch()
+          .usingConnection(db);
+      }
+
+      return { cards, tasks };
+    });
+  }
+
+  const cards = await Card.update(criteria).set(values).fetch();
+  return { cards };
+};
+
+const updateOne = async (criteria, values) => {
+  if (!_.isUndefined(values.isClosed)) {
+    return sails.getDatastore().transaction(async (db) => {
+      const card = await Card.updateOne(criteria)
+        .set({ ...values })
+        .usingConnection(db);
+
+      let tasks;
+      if (!_.isUndefined(values.isClosed) && card) {
+        tasks = await Task.update({
+          linkedCardId: card.id,
+        })
+          .set({
+            isCompleted: card.isClosed,
+          })
+          .fetch()
+          .usingConnection(db);
+      }
+
+      return { card, tasks };
+    });
+  }
+
+  const card = await Card.updateOne(criteria).set({ ...values });
+  return { card };
+};
 
 // eslint-disable-next-line no-underscore-dangle
 const delete_ = (criteria) => Card.destroy(criteria).fetch();

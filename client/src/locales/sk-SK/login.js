@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail je už použitý',
       emailOrUsername: 'E-mail alebo používateľské meno',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: 'Nesprávny e-mail alebo používateľské meno',
       invalidPassword: 'Nesprávne heslo',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Prihlásiť sa',
       logInWithSso: null,
     },

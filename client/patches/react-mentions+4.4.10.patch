@@ -1,0 +1,24 @@
+diff --git a/node_modules/react-mentions/dist/react-mentions.esm.js b/node_modules/react-mentions/dist/react-mentions.esm.js
+index 2efebba..b244446 100644
+--- a/node_modules/react-mentions/dist/react-mentions.esm.js
++++ b/node_modules/react-mentions/dist/react-mentions.esm.js
+@@ -1426,7 +1426,7 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
+ 
+       var mentions = getMentions(newValue, config);
+ 
+-      if (ev.nativeEvent.isComposing && selectionStart === selectionEnd) {
++      if ((ev.nativeEvent.isComposing || newValue.length < value.length) && selectionStart === selectionEnd) {
+         _this.updateMentionsQueries(_this.inputElement.value, selectionStart);
+       } // Propagate change
+       // let handleChange = this.getOnChange(this.props) || emptyFunction;
+@@ -1454,7 +1454,9 @@ var MentionsInput = /*#__PURE__*/function (_React$Component) {
+       var el = _this.inputElement;
+ 
+       if (ev.target.selectionStart === ev.target.selectionEnd) {
+-        _this.updateMentionsQueries(el.value, ev.target.selectionStart);
++        requestAnimationFrame(function () {
++          _this.updateMentionsQueries(el.value, ev.target.selectionStart);
++        });
+       } else {
+         _this.clearSuggestions();
+       } // sync highlighters scroll position

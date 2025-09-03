@@ -12,6 +12,11 @@ import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 
 export function* createTask(taskListId, data) {
+  let isCompleted;
+  if (data.linkedCardId) {
+    ({ isClosed: isCompleted } = yield select(selectors.selectCardById, data.linkedCardId));
+  }
+
   const localId = yield call(createLocalId);
 
   const nextData = {
@@ -24,6 +29,9 @@ export function* createTask(taskListId, data) {
       ...nextData,
       taskListId,
       id: localId,
+      ...(isCompleted !== undefined && {
+        isCompleted,
+      }),
     }),
   );
 

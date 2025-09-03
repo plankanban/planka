@@ -3,8 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const { v4: uuid } = require('uuid');
-
 const { getRemoteAddress } = require('../../../utils/remote-address');
 
 const Errors = {
@@ -16,6 +14,9 @@ const Errors = {
   },
   INVALID_USERINFO_CONFIGURATION: {
     invalidUserinfoConfiguration: 'Invalid userinfo configuration',
+  },
+  TERMS_ACCEPTANCE_REQUIRED: {
+    termsAcceptanceRequired: 'Terms acceptance required',
   },
   EMAIL_ALREADY_IN_USE: {
     emailAlreadyInUse: 'Email already in use',
@@ -45,7 +46,6 @@ module.exports = {
     },
     withHttpOnlyToken: {
       type: 'boolean',
-      defaultsTo: false,
     },
   },
 
@@ -58,6 +58,12 @@ module.exports = {
     },
     invalidUserinfoConfiguration: {
       responseType: 'unauthorized',
+    },
+    termsAcceptanceRequired: {
+      responseType: 'forbidden',
+    },
+    adminLoginRequiredToInitializeInstance: {
+      responseType: 'forbidden',
     },
     emailAlreadyInUse: {
       responseType: 'conflict',
@@ -89,26 +95,19 @@ module.exports = {
       .intercept('activeLimitReached', () => Errors.ACTIVE_USERS_LIMIT_REACHED)
       .intercept('missingValues', () => Errors.MISSING_VALUES);
 
-    const { token: accessToken, payload: accessTokenPayload } = sails.helpers.utils.createJwtToken(
-      user.id,
-    );
-
-    const httpOnlyToken = inputs.withHttpOnlyToken ? uuid() : null;
-
-    await Session.qm.createOne({
-      accessToken,
-      httpOnlyToken,
-      remoteAddress,
-      userId: user.id,
-      userAgent: this.req.headers['user-agent'],
-    });
-
-    if (httpOnlyToken && !this.req.isSocket) {
-      sails.helpers.utils.setHttpOnlyTokenCookie(httpOnlyToken, accessTokenPayload, this.res);
-    }
-
-    return {
-      item: accessToken,
-    };
+    return sails.helpers.accessTokens.handleSteps
+      .with({
+        user,
+        remoteAddress,
+        request: this.req,
+        response: this.res,
+        withHttpOnlyToken: inputs.withHttpOnlyToken,
+      })
+      .intercept('adminLoginRequiredToInitializeInstance', (error) => ({
+        adminLoginRequiredToInitializeInstance: error.raw,
+      }))
+      .intercept('termsAcceptanceRequired', (error) => ({
+        termsAcceptanceRequired: error.raw,
+      }));
   },
 };

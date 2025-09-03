@@ -72,8 +72,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'listCreate',
+      webhooks,
+      event: Webhook.Events.LIST_CREATE,
       buildData: () => ({
         item: list,
         included: {

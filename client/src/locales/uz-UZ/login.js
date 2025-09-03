@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail allaqachon mavjud',
       emailOrUsername: 'E-mail yoki foydalanuvchi nomi',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: null,
       invalidEmailOrUsername: "Noto'g'ri e-mail yoki foydalanuvchi nomi",
       invalidPassword: "Noto'g'ri parol",
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Kirish',
       logInWithSso: null,
     },

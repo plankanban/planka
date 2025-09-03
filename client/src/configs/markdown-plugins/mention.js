@@ -3,51 +3,47 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { MENTION_REGEX } from '../../utils/mentions';
-
 export default (md) => {
   md.core.ruler.push('mention', ({ tokens }) => {
     tokens.forEach((token) => {
-      if (token.type === 'inline' && token.content) {
-        const matches = [...token.content.matchAll(MENTION_REGEX)];
+      if (!token.children) {
+        return;
+      }
 
-        if (matches.length > 0) {
-          const newChildren = [];
-          let lastIndex = 0;
+      for (let i = 0; i < token.children.length - 3; i += 1) {
+        const currentToken = token.children[i];
+        const linkOpenToken = token.children[i + 1];
+        const textToken = token.children[i + 2];
+        const linkCloseToken = token.children[i + 3];
 
-          matches.forEach((match) => {
-            // Add text before the mention
-            if (match.index > lastIndex) {
-              newChildren.push({
-                type: 'text',
-                content: token.content.slice(lastIndex, match.index),
-                level: token.level,
-              });
-            }
+        if (
+          currentToken.type === 'text' &&
+          currentToken.content.endsWith('@') &&
+          linkOpenToken.type === 'link_open' &&
+          textToken.type === 'text' &&
+          linkCloseToken.type === 'link_close'
+        ) {
+          const userId = linkOpenToken.attrGet('href');
+          const { content: name } = textToken;
 
-            // Add mention token
-            newChildren.push({
-              type: 'mention',
-              meta: {
-                display: match[1],
-                userId: match[2],
-              },
-              level: token.level,
-            });
-
-            lastIndex = match.index + match[0].length;
-          });
-
-          // Add remaining text after last mention
-          if (lastIndex < token.content.length) {
-            newChildren.push({
-              type: 'text',
-              content: token.content.slice(lastIndex),
-              level: token.level,
-            });
+          if (currentToken.content.length === 1) {
+            token.children.splice(i, 1);
+            i -= 1;
+          } else {
+            currentToken.content = currentToken.content.slice(0, -1);
           }
 
-          token.children = newChildren; // eslint-disable-line no-param-reassign
+          const mentionToken = {
+            ...currentToken,
+            type: 'mention',
+            meta: {
+              userId,
+              name,
+            },
+          };
+
+          token.children.splice(i + 1, 3, mentionToken);
+          i += 1;
         }
       }
     });
@@ -55,7 +51,7 @@ export default (md) => {
 
   // eslint-disable-next-line no-param-reassign
   md.renderer.rules.mention = (tokens, index) => {
-    const { display, userId } = tokens[index].meta;
-    return `<span class="mention" data-user-id="${userId}">@${display}</span>`;
+    const { userId, name } = tokens[index].meta;
+    return `<span class="mention" data-user-id="${userId}">@${name}</span>`;
   };
 };

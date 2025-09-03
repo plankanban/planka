@@ -1,9 +1,12 @@
 import dateFns from 'date-fns/locale/it';
 import timeAgo from 'javascript-time-ago/locale/it';
 
+import markdownEditor from './markdown-editor.json';
+
 export default {
   dateFns,
   timeAgo,
+  markdownEditor,
 
   format: {
     date: 'd/M/yyyy',
@@ -18,6 +21,7 @@ export default {
   translation: {
     common: {
       aboutPlanka: 'Informazioni su PLANKA',
+      accessToken: 'Token di accesso',
       account: 'Account',
       actions: 'Azioni',
       activateUser_title: 'Attiva utente',
@@ -66,9 +70,12 @@ export default {
       areYouSureYouWantToDeleteThisTask: 'Sei sicuro di voler eliminare questo task?',
       areYouSureYouWantToDeleteThisTaskList: 'Sei sicuro di voler eliminare questa lista di task?',
       areYouSureYouWantToDeleteThisUser: 'Sei sicuro di voler eliminare questo utente?',
+      areYouSureYouWantToDeleteThisWebhook: 'Sei sicuro di voler eliminare questo webhook?',
       areYouSureYouWantToEmptyTrash: 'Sei sicuro di voler svuotare il cestino?',
       areYouSureYouWantToLeaveBoard: 'Sei sicuro di voler abbandonare la bacheca?',
       areYouSureYouWantToLeaveProject: 'Sei sicuro di voler abbandonare il progetto?',
+      areYouSureYouWantToMakeThisProjectPrivate:
+        'Sei sicuro di voler rendere questo progetto privato?',
       areYouSureYouWantToMakeThisProjectShared:
         'Sei sicuro di voler rendere questo progetto condiviso?',
       areYouSureYouWantToRemoveThisManagerFromProject:
@@ -113,7 +120,8 @@ export default {
       color: 'Colore',
       comments: 'Commenti',
       contentExceedsLimit: 'Il contenuto supera {{limit}}',
-      contentOfThisAttachmentIsTooBigToDisplay: null,
+      contentOfThisAttachmentIsTooBigToDisplay:
+        'Il contenuto di questo allegato è troppo grande per essere visualizzato.',
       copy_inline: 'copia',
       createBoard_title: 'Crea bacheca',
       createCustomFieldGroup_title: 'Crea campi personalizzati',
@@ -149,6 +157,7 @@ export default {
       deleteTaskList_title: 'Elimina lista di task',
       deleteTask_title: 'Elimina task',
       deleteUser_title: 'Elimina utente',
+      deleteWebhook_title: 'Elimina webhook',
       deletedUser_title: 'Utente eliminato',
       description: 'Descrizione',
       detectAutomatically: 'Rileva automaticamente',
@@ -180,6 +189,8 @@ export default {
       enterFilename: 'Inserire nome del file',
       enterListTitle: 'Inserire titolo della lista...',
       enterTaskDescription: 'Inserire descrizione della task...',
+      events: 'Eventi',
+      excludedEvents: 'Eventi esclusi',
       filterByLabels_title: 'Filtra per etichetta',
       filterByMembers_title: 'Filtra per membro',
       forPersonalProjects: 'Per progetti personali',
@@ -189,6 +200,7 @@ export default {
       general: 'Generale',
       gradients: 'Gradiente',
       grid: 'Griglia',
+      hideCompletedTasks: 'Nascondi task completate',
       hideFromProjectListAndFavorites: 'Nascondi dalla lista dei progetti e dai preferiti',
       hours: 'Ore',
       importBoard_title: 'Importa board',
@@ -199,14 +211,18 @@ export default {
       leaveBoard_title: 'Abbandona bacheca',
       leaveProject_title: 'Abbandona progetto',
       limitCardTypesToDefaultOne: 'Limita i tipi di scheda a quello predefinito',
+      linkToCard: 'Collega alla scheda',
       list: 'Lista',
       listActions_title: 'Azioni lista',
       lists: 'Liste',
+      makeProjectPrivate_title: 'Rendi progetto privato',
       makeProjectShared_title: 'Rendi progetto condiviso',
       managers: 'Managers',
       memberActions_title: 'Azioni membro',
       members: 'Membri',
       minutes: 'Minuti',
+      moreActions: 'Altre azioni',
+      moreActions_title: 'Altre azioni',
       moveCard_title: 'Sposta scheda',
       moveList_title: null,
       myOwn_title: 'Personali',
@@ -217,12 +233,15 @@ export default {
       newVersionAvailable: 'Nuova versione disponibile',
       newestFirst: 'Dal più recente',
       noBoards: 'Nessuna bacheca',
+      noCardsFound: 'Nessuna scheda trovata',
       noConnectionToServer: 'Nessuna connessione al server',
       noLists: 'Nessuna lista',
       noProjects: 'Nessun progetto',
       noUnreadNotifications: 'Nessuna notifica da leggere.',
       notifications: 'Notifiche',
       oldestFirst: 'Dal meno recente',
+      onlyOneManagerShouldRemainToMakeThisProjectPrivate:
+        'Deve rimanere solo un manager per rendere questo progetto privato',
       openBoard_title: 'Bacheca aperta',
       optional_inline: 'opzionale',
       organization: 'Organizazzione',
@@ -274,6 +293,7 @@ export default {
       taskListActions_title: 'Azioni lista di task',
       taskList_title: 'Lista di task',
       team: 'Team',
+      terms: 'Ho letto e accetto i termini e condizioni.',
       thereIsNoPreviewAvailableForThisAttachment:
         'Non è disponibile alcuna anteprima per questo allegato.',
       time: 'Tempo',
@@ -284,7 +304,11 @@ export default {
       typeNameToConfirm: 'Digita il nome per confermare',
       typeTitleToConfirm: 'Digita il titolo per confermare',
       unsavedChanges: 'Modifiche non salvate',
+      uploadFailedFileIsTooBig: 'Caricamento fallito: il file è troppo grande.',
+      uploadFailedNotEnoughStorageSpace:
+        'Caricamento fallito: spazio di archiviazione insufficiente.',
       uploadedImages: 'Immagini caricate',
+      url: 'URL',
       userActions_title: 'Azioni utente',
       userAddedCardToList: '<0>{{user}}</0> ha aggiunto <2>{{card}}</2> a {{list}}',
       userAddedThisCardToList: '<0>{{user}}</0> ha aggiunto questa task a {{list}}',
@@ -303,7 +327,8 @@ export default {
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in <4>{{card}}</4>',
       userMarkedTaskIncompleteOnThisCard:
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in questa task',
-      userMentionedYouInCommentOnCard: null,
+      userMentionedYouInCommentOnCard:
+        '<0>{{user}}</0> ti ha menzionato in un commento «{{comment}}» su <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> ha spostato <2>{{card}}</2> da {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
@@ -315,6 +340,7 @@ export default {
       viewer: 'Visualizzatore',
       viewers: 'Visualizzatori',
       visualTaskManagementWithLists: 'Gestione visiva dei task con liste',
+      webhooks: 'Webhooks',
       withoutBaseGroup: 'Senza gruppo base',
       writeComment: 'Scrivi un commento...',
     },
@@ -337,6 +363,7 @@ export default {
       addTaskList: 'Aggiungi lista di task',
       addToCard: 'Aggiungi alla scheda',
       addUser: 'Aggiungi utente',
+      addWebhook: 'Aggiungi webhook',
       archive: 'Archivia',
       archiveCard: 'Archivia scheda',
       archiveCard_title: 'Archivia scheda',
@@ -351,7 +378,7 @@ export default {
       createNewLabel: 'Crea nuova etichetta',
       createProject: 'Crea progetto',
       deactivateUser: 'Disattiva utente',
-      deactivateUser_title: null,
+      deactivateUser_title: 'Disattiva utente',
       delete: 'Elimina',
       deleteAttachment: 'Elimina allegato',
       deleteAvatar: 'Elimina avatar',
@@ -377,8 +404,9 @@ export default {
       deleteTask_title: 'Elimina task',
       deleteUser: 'Elimina utente',
       deleteUser_title: 'Elimina utente',
+      deleteWebhook: 'Elimina webhook',
       dismissAll: 'Ignora tutto',
-      duplicate: 'Duplica',
+      download: 'Scarica',
       duplicateCard_title: 'Duplica scheda',
       edit: 'Modifica',
       editColor_title: 'Modifica colore',
@@ -403,6 +431,8 @@ export default {
       leaveProject: 'Abbandona progetto',
       logOut_title: 'Disconnettiti',
       makeCover_title: 'Crea cover',
+      makeProjectPrivate: 'Rendi progetto privato',
+      makeProjectPrivate_title: 'Rendi progetto privato',
       makeProjectShared: 'Rendi progetto condiviso',
       makeProjectShared_title: 'Rendi progetto condiviso',
       move: 'Muovi',
@@ -424,6 +454,8 @@ export default {
       showCardsWithThisUser: 'Mostra schede con questo utente',
       showDeactivated: 'Mostra disattivati',
       showFewerAttachments: 'Mostra meno allegati',
+      showLess: 'Mostra di meno',
+      showMore: 'Mostra di più',
       sortList_title: 'Ordina',
       start: 'Inizio',
       stop: 'Interrompi',

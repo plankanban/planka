@@ -21,6 +21,7 @@ export function* initializeCore() {
   const {
     user,
     board,
+    webhooks,
     users,
     projects,
     projectManagers,
@@ -50,6 +51,7 @@ export function* initializeCore() {
     actions.initializeCore(
       user,
       board,
+      webhooks,
       users,
       projects,
       projectManagers,
@@ -117,11 +119,11 @@ export function* updateHomeView(value) {
   }
 }
 
-export function* logout(invalidateAccessToken) {
+export function* logout(revokeAccessToken) {
   yield call(removeAccessToken);
 
-  if (invalidateAccessToken) {
-    yield put(actions.logout.invalidateAccessToken());
+  if (revokeAccessToken) {
+    yield put(actions.logout.revokeAccessToken());
 
     try {
       yield call(request, api.deleteCurrentAccessToken);

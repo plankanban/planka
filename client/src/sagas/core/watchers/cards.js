@@ -16,15 +16,16 @@ export default function* cardsWatchers() {
     takeEvery(EntryActionTypes.CARDS_UPDATE_HANDLE, ({ payload: { cards, activities } }) =>
       services.handleCardsUpdate(cards, activities),
     ),
-    takeEvery(EntryActionTypes.CARD_CREATE, ({ payload: { listId, data, autoOpen } }) =>
-      services.createCard(listId, data, autoOpen),
-    ),
-    takeEvery(EntryActionTypes.CARD_IN_CURRENT_LIST_CREATE, ({ payload: { data, autoOpen } }) =>
-      services.createCardInCurrentList(data, autoOpen),
+    takeEvery(EntryActionTypes.CARD_CREATE, ({ payload: { listId, data, index, autoOpen } }) =>
+      services.createCard(listId, data, index, autoOpen),
     ),
     takeEvery(
       EntryActionTypes.CARD_IN_FIRST_FINITE_LIST_CREATE,
-      ({ payload: { data, autoOpen } }) => services.createCardInFirstFiniteList(data, autoOpen),
+      ({ payload: { data, index, autoOpen } }) =>
+        services.createCardInFirstFiniteList(data, index, autoOpen),
+    ),
+    takeEvery(EntryActionTypes.CARD_IN_CURRENT_LIST_CREATE, ({ payload: { data, autoOpen } }) =>
+      services.createCardInCurrentList(data, autoOpen),
     ),
     takeEvery(EntryActionTypes.CARD_CREATE_HANDLE, ({ payload: { card } }) =>
       services.handleCardCreate(card),

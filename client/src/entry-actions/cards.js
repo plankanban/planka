@@ -18,25 +18,27 @@ const handleCardsUpdate = (cards, activities) => ({
   },
 });
 
-const createCard = (listId, data, autoOpen) => ({
+const createCard = (listId, data, index, autoOpen = false) => ({
   type: EntryActionTypes.CARD_CREATE,
   payload: {
     listId,
     data,
+    index,
     autoOpen,
   },
 });
 
-const createCardInCurrentList = (data, autoOpen) => ({
-  type: EntryActionTypes.CARD_IN_CURRENT_LIST_CREATE,
+const createCardInFirstFiniteList = (data, index = 0, autoOpen = false) => ({
+  type: EntryActionTypes.CARD_IN_FIRST_FINITE_LIST_CREATE,
   payload: {
     data,
+    index,
     autoOpen,
   },
 });
 
-const createCardInFirstFiniteList = (data, autoOpen) => ({
-  type: EntryActionTypes.CARD_IN_FIRST_FINITE_LIST_CREATE,
+const createCardInCurrentList = (data, autoOpen = false) => ({
+  type: EntryActionTypes.CARD_IN_CURRENT_LIST_CREATE,
   payload: {
     data,
     autoOpen,
@@ -178,8 +180,8 @@ export default {
   fetchCardsInCurrentList,
   handleCardsUpdate,
   createCard,
-  createCardInCurrentList,
   createCardInFirstFiniteList,
+  createCardInCurrentList,
   handleCardCreate,
   updateCard,
   updateCurrentCard,

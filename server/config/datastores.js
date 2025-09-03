@@ -13,6 +13,10 @@
  * https://sailsjs.com/config/datastores
  */
 
+const pg = require('pg');
+
+pg.types.setTypeParser(pg.types.builtins.TIMESTAMP, (value) => new Date(`${value}Z`));
+
 module.exports.datastores = {
   /**
    *

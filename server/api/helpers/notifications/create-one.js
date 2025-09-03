@@ -6,7 +6,7 @@
 const escapeMarkdown = require('escape-markdown');
 const escapeHtml = require('escape-html');
 
-const { formatTextWithMentions } = require('../../../utils/mentions');
+const { mentionMarkupToText } = require('../../../utils/mentions');
 
 const buildTitle = (notification, t) => {
   switch (notification.type) {
@@ -60,7 +60,7 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
       };
     }
     case Notification.Types.COMMENT_CARD: {
-      const commentText = _.truncate(formatTextWithMentions(notification.data.text));
+      const commentText = _.truncate(mentionMarkupToText(notification.data.text));
 
       return {
         text: `${t(
@@ -100,7 +100,7 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
         ),
       };
     case Notification.Types.MENTION_IN_COMMENT: {
-      const commentText = _.truncate(formatTextWithMentions(notification.data.text));
+      const commentText = _.truncate(mentionMarkupToText(notification.data.text));
 
       return {
         text: `${t(
@@ -214,6 +214,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    webhooks: {
+      type: 'ref',
+      required: true,
+    },
   },
 
   async fn(inputs) {
@@ -248,7 +252,8 @@ module.exports = {
     });
 
     sails.helpers.utils.sendWebhooks.with({
-      event: 'notificationCreate',
+      webhooks: inputs.webhooks,
+      event: Webhook.Events.NOTIFICATION_CREATE,
       buildData: () => ({
         item: notification,
         included: {

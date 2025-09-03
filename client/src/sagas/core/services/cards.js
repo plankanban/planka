@@ -14,7 +14,8 @@ import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 import { isListArchiveOrTrash, isListFinite } from '../../../utils/record-helpers';
 import ActionTypes from '../../../constants/ActionTypes';
-import { BoardViews, ListTypes } from '../../../constants/Enums';
+import { BoardViews, ListTypes, ListTypeStates } from '../../../constants/Enums';
+import LIST_TYPE_STATE_BY_TYPE from '../../../constants/ListTypeStateByType';
 
 // eslint-disable-next-line no-underscore-dangle
 const _preloadImage = (url) =>
@@ -112,7 +113,7 @@ export function* handleCardsUpdate(cards, activities) {
   yield put(actions.handleCardsUpdate(cards, activities));
 }
 
-export function* createCard(listId, data, autoOpen) {
+export function* createCard(listId, data, index, autoOpen) {
   const localId = yield call(createLocalId);
   const list = yield select(selectors.selectListById, listId);
 
@@ -126,7 +127,7 @@ export function* createCard(listId, data, autoOpen) {
   };
 
   if (isListFinite(list)) {
-    nextData.position = yield select(selectors.selectNextCardPosition, listId);
+    nextData.position = yield select(selectors.selectNextCardPosition, listId, index);
   }
 
   yield put(
@@ -137,6 +138,7 @@ export function* createCard(listId, data, autoOpen) {
         id: localId,
         boardId: list.boardId,
         creatorUserId: currentUserMembership.userId,
+        isClosed: LIST_TYPE_STATE_BY_TYPE[list.type] === ListTypeStates.CLOSED,
       },
       autoOpen,
     ),
@@ -165,16 +167,16 @@ export function* createCard(listId, data, autoOpen) {
   }
 }
 
+export function* createCardInFirstFiniteList(data, index, autoOpen) {
+  const firstFiniteListId = yield select(selectors.selectFirstFiniteListId);
+
+  yield call(createCard, firstFiniteListId, data, index, autoOpen);
+}
+
 export function* createCardInCurrentList(data, autoOpen) {
   const currentListId = yield select(selectors.selectCurrentListId);
 
-  yield call(createCard, currentListId, data, autoOpen);
-}
-
-export function* createCardInFirstFiniteList(data, autoOpen) {
-  const firstFiniteListId = yield select(selectors.selectFirstFiniteListId);
-
-  yield call(createCard, firstFiniteListId, data, autoOpen);
+  yield call(createCard, currentListId, data, undefined, autoOpen);
 }
 
 export function* handleCardCreate(card) {
@@ -225,6 +227,8 @@ export function* handleCardCreate(card) {
 
 export function* updateCard(id, data) {
   let prevListId;
+  let isClosed;
+
   if (data.listId) {
     const list = yield select(selectors.selectListById, data.listId);
 
@@ -238,6 +242,16 @@ export function* updateCard(id, data) {
     } else if (prevList.type === ListTypes.ARCHIVE) {
       prevListId = null;
     }
+
+    const typeState = LIST_TYPE_STATE_BY_TYPE[list.type];
+
+    if (card.isClosed) {
+      if (typeState === ListTypeStates.OPENED) {
+        isClosed = false;
+      }
+    } else if (typeState === ListTypeStates.CLOSED) {
+      isClosed = true;
+    }
   }
 
   yield put(
@@ -245,6 +259,9 @@ export function* updateCard(id, data) {
       ...data,
       ...(prevListId !== undefined && {
         prevListId,
+      }),
+      ...(isClosed !== undefined && {
+        isClosed,
       }),
     }),
   );
@@ -413,6 +430,7 @@ export function* transferCurrentCard(boardId, listId, index) {
 
 export function* duplicateCard(id, data) {
   const localId = yield call(createLocalId);
+  const { cardId: currentCardId } = yield select(selectors.selectPath);
   const { boardId, listId } = yield select(selectors.selectCardById, id);
   const index = yield select(selectors.selectCardIndexById, id);
 
@@ -432,6 +450,10 @@ export function* duplicateCard(id, data) {
       creatorUserId: currentUserMembership.userId,
     }),
   );
+
+  if (id === currentCardId) {
+    yield call(goToBoard, boardId);
+  }
 
   let card;
   let cardMemberships;
@@ -579,9 +601,9 @@ export default {
   fetchCardsInCurrentList,
   handleCardsUpdate,
   createCard,
+  createCardInFirstFiniteList,
   createCardInCurrentList,
   handleCardCreate,
-  createCardInFirstFiniteList,
   updateCard,
   updateCurrentCard,
   handleCardUpdate,

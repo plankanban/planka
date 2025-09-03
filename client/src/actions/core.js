@@ -8,6 +8,7 @@ import ActionTypes from '../constants/ActionTypes';
 const initializeCore = (
   user,
   board,
+  webhooks,
   users,
   projects,
   projectManagers,
@@ -33,6 +34,7 @@ const initializeCore = (
   payload: {
     user,
     board,
+    webhooks,
     users,
     projects,
     projectManagers,
@@ -89,8 +91,8 @@ const logout = () => ({
   payload: {},
 });
 
-logout.invalidateAccessToken = () => ({
-  type: ActionTypes.LOGOUT__ACCESS_TOKEN_INVALIDATE,
+logout.revokeAccessToken = () => ({
+  type: ActionTypes.LOGOUT__ACCESS_TOKEN_REVOKE,
   payload: {},
 });
 

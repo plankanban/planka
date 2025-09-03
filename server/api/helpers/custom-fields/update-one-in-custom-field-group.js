@@ -109,8 +109,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'customFieldUpdate',
+        webhooks,
+        event: Webhook.Events.CUSTOM_FIELD_UPDATE,
         buildData: () => ({
           item: customField,
           included: {

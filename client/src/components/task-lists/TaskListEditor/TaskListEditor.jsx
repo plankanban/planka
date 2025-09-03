@@ -56,6 +56,14 @@ const TaskListEditor = React.forwardRef(({ data, onFieldChange }, ref) => {
         className={styles.fieldRadio}
         onChange={onFieldChange}
       />
+      <Radio
+        toggle
+        name="hideCompletedTasks"
+        checked={data.hideCompletedTasks}
+        label={t('common.hideCompletedTasks')}
+        className={styles.fieldRadio}
+        onChange={onFieldChange}
+      />
     </>
   );
 });

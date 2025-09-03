@@ -31,6 +31,18 @@
     height: 46px;
   }
 
+  .contextTitle {
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+    color: #fff;
+    line-height: 34px;
+    padding: 2px 14px;
+  }
+
+  .contextTitleIcon {
+    margin-right: 8px;
+  }
+
   .wrapper {
     overflow-x: auto;
     overflow-y: hidden;

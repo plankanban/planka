@@ -19,8 +19,8 @@ export default function* coreWatchers() {
     takeEvery(EntryActionTypes.HOME_VIEW_UPDATE, ({ payload: { value } }) =>
       services.updateHomeView(value),
     ),
-    takeEvery(EntryActionTypes.LOGOUT, ({ payload: { invalidateAccessToken } }) =>
-      services.logout(invalidateAccessToken),
+    takeEvery(EntryActionTypes.LOGOUT, ({ payload: { revokeAccessToken } }) =>
+      services.logout(revokeAccessToken),
     ),
   ]);
 }

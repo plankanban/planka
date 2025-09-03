@@ -2,8 +2,10 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: null,
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: '이미 사용 중인 이메일',
       emailOrUsername: '이메일 또는 사용자 이름',
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: '잘못된 자격 증명',
       invalidEmailOrUsername: '잘못된 이메일 또는 사용자 이름',
       invalidPassword: '잘못된 비밀번호',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: '로그인',
       logInWithSso: 'SSO로 로그인',
     },

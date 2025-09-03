@@ -16,6 +16,14 @@ const initialState = {
   isSubmitting: false,
   isSubmittingWithOidc: false,
   error: null,
+  pendingToken: null,
+  step: null,
+  termsForm: {
+    payload: null,
+    isSubmitting: false,
+    isCancelling: false,
+    isLanguageUpdating: false,
+  },
 };
 
 // eslint-disable-next-line default-param-last
@@ -41,14 +49,43 @@ export default (state = initialState, { type, payload }) => {
       };
     case ActionTypes.AUTHENTICATE__SUCCESS:
     case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
+    case ActionTypes.TERMS_ACCEPT__SUCCESS:
+    case ActionTypes.TERMS_CANCEL__SUCCESS:
+    case ActionTypes.TERMS_CANCEL__FAILURE:
       return initialState;
     case ActionTypes.AUTHENTICATE__FAILURE:
+      if (payload.terms) {
+        return {
+          ...state,
+          data: initialState.data,
+          pendingToken: payload.error.pendingToken,
+          step: payload.error.step,
+          termsForm: {
+            ...state.termsForm,
+            payload: payload.terms,
+          },
+        };
+      }
+
       return {
         ...state,
         isSubmitting: false,
         error: payload.error,
       };
     case ActionTypes.WITH_OIDC_AUTHENTICATE__FAILURE:
+      if (payload.terms) {
+        return {
+          ...state,
+          data: initialState.data,
+          pendingToken: payload.error.pendingToken,
+          step: payload.error.step,
+          termsForm: {
+            ...state.termsForm,
+            payload: payload.terms,
+          },
+        };
+      }
+
       return {
         ...state,
         isSubmittingWithOidc: false,
@@ -58,6 +95,53 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         error: null,
+      };
+    case ActionTypes.TERMS_ACCEPT:
+      return {
+        ...state,
+        termsForm: {
+          ...state.termsForm,
+          isSubmitting: true,
+        },
+      };
+    case ActionTypes.TERMS_ACCEPT__FAILURE:
+      return {
+        ...initialState,
+        error: payload.error,
+      };
+    case ActionTypes.TERMS_CANCEL:
+      return {
+        ...state,
+        pendingToken: null,
+        termsForm: {
+          ...state.termsForm,
+          isCancelling: true,
+        },
+      };
+    case ActionTypes.TERMS_LANGUAGE_UPDATE:
+      return {
+        ...state,
+        termsForm: {
+          ...state.termsForm,
+          isLanguageUpdating: true,
+        },
+      };
+    case ActionTypes.TERMS_LANGUAGE_UPDATE__SUCCESS:
+      return {
+        ...state,
+        termsForm: {
+          ...state.termsForm,
+          payload: payload.terms,
+          isLanguageUpdating: false,
+        },
+      };
+    case ActionTypes.TERMS_LANGUAGE_UPDATE__FAILURE:
+      return {
+        ...state,
+        termsForm: {
+          ...state.termsForm,
+          isLanguageUpdating: false,
+        },
       };
     default:
       return state;

@@ -38,8 +38,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'listClear',
+      webhooks,
+      event: Webhook.Events.LIST_CLEAR,
       buildData: () => ({
         item: inputs.record,
         included: {

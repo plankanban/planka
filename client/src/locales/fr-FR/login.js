@@ -1,18 +1,20 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: null,
+      activeUsersLimitReached: 'La limite d’utilisateurs actifs a été atteinte',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'E-mail déjà utilisé',
       emailOrUsername: "E-mail ou nom d'utilisateur",
+      iHaveReadAndAgreeToTheseTerms: null,
       invalidCredentials: 'Identifiants invalides',
       invalidEmailOrUsername: "E-mail ou nom d'utilisateur invalide",
       invalidPassword: 'Mot de passe invalide',
-      logIn_title: null,
+      logIn_title: 'Se connecter',
       noInternetConnection: 'Aucune connexion Internet',
-      or: null,
+      or: 'Ou',
       pageNotFound_title: 'Page non trouvée',
       password: 'Mot de passe',
-      poweredByPlanka: null,
+      poweredByPlanka: 'Propulsé par <1>PLANKA</1>',
       serverConnectionFailed: 'Échec de la connexion au serveur',
       unknownError: 'Erreur inconnue, réessayez plus tard',
       useSingleSignOn: "Utiliser l'authentification unique",
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Se connecter',
       logInWithSso: "Se connecter avec l'authentification unique",
     },

@@ -19,6 +19,7 @@ services:
       # - LOG_LEVEL=warn
 
       # - TRUST_PROXY=true
+      # - MAX_UPLOAD_FILE_SIZE=
       # - TOKEN_EXPIRES_IN=365 # In days
 
       # related: https://github.com/knex/knex/issues/2354
@@ -38,6 +39,8 @@ services:
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
 
+      # - INTERNAL_ACCESS_TOKEN=
+      # - STORAGE_LIMIT=
       # - ACTIVE_USERS_LIMIT=
 
       # Set to true to show more detailed authentication error messages.
@@ -54,12 +57,15 @@ services:
       # - OIDC_ISSUER=
       # - OIDC_CLIENT_ID=
       # - OIDC_CLIENT_SECRET=
+      # - OIDC_USE_OAUTH_CALLBACK=true
       # - OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG=
       # - OIDC_USERINFO_SIGNED_RESPONSE_ALG=
       # - OIDC_SCOPES=openid email profile
       # - OIDC_RESPONSE_MODE=fragment
       # - OIDC_USE_DEFAULT_RESPONSE_MODE=true
       # - OIDC_ADMIN_ROLES=admin
+      # - OIDC_PROJECT_OWNER_ROLES=project_owner
+      # - OIDC_BOARD_USER_ROLES=board_user
       # - OIDC_CLAIMS_SOURCE=userinfo
       # - OIDC_EMAIL_ATTRIBUTE=email
       # - OIDC_NAME_ATTRIBUTE=name
@@ -78,15 +84,6 @@ services:
       # - SMTP_PASSWORD=
       # - SMTP_FROM="Demo Demo" <demo@demo.demo>
       # - SMTP_TLS_REJECT_UNAUTHORIZED=false
-
-      # Optional fields: accessToken, events, excludedEvents
-      # - |
-      #   WEBHOOKS=[{
-      #     "url": "http://localhost:3001",
-      #     "accessToken": "notaccesstoken",
-      #     "events": ["cardCreate", "cardUpdate", "cardDelete"],
-      #     "excludedEvents": ["notificationCreate", "notificationUpdate"]
-      #   }]
     depends_on:
       postgres:
         condition: service_healthy

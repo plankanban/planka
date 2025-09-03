@@ -20,7 +20,7 @@ module.exports = {
         ...inputs.record,
         data: {
           ..._.omit(inputs.record.data, [
-            'fileReferenceId',
+            'uploadedFileId',
             'filename',
             'image.thumbnailsExtension',
           ]),

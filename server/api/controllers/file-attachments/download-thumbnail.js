@@ -79,7 +79,7 @@ module.exports = {
     let readStream;
     try {
       readStream = await fileManager.read(
-        `${sails.config.custom.attachmentsPathSegment}/${attachment.data.fileReferenceId}/thumbnails/${inputs.fileName}.${inputs.fileExtension}`,
+        `${sails.config.custom.attachmentsPathSegment}/${attachment.data.uploadedFileId}/thumbnails/${inputs.fileName}.${inputs.fileExtension}`,
       );
     } catch (error) {
       throw Errors.FILE_ATTACHMENT_NOT_FOUND;

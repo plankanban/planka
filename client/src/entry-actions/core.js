@@ -26,10 +26,10 @@ const updateHomeView = (value) => ({
   },
 });
 
-const logout = (invalidateAccessToken = true) => ({
+const logout = (revokeAccessToken = true) => ({
   type: EntryActionTypes.LOGOUT,
   payload: {
-    invalidateAccessToken,
+    revokeAccessToken,
   },
 });
 

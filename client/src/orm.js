@@ -26,6 +26,7 @@ import {
   Task,
   TaskList,
   User,
+  Webhook,
 } from './models';
 
 const orm = new ORM({
@@ -33,6 +34,7 @@ const orm = new ORM({
 });
 
 orm.register(
+  Webhook,
   User,
   Project,
   ProjectManager,

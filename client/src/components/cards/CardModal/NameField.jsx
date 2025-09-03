@@ -82,7 +82,6 @@ const NameField = React.memo(({ defaultValue, size, onUpdate }) => {
       as={TextareaAutosize}
       value={value}
       maxLength={1024}
-      spellCheck={false}
       className={classNames(styles.field, styles[`field${upperFirst(size)}`])}
       onFocus={handleFocus}
       onKeyDown={handleKeyDown}

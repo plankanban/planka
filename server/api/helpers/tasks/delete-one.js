@@ -51,8 +51,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'taskDelete',
+        webhooks,
+        event: Webhook.Events.TASK_DELETE,
         buildData: () => ({
           item: task,
           included: {

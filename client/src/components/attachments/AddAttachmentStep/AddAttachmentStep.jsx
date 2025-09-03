@@ -7,7 +7,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Menu } from 'semantic-ui-react';
+import { Icon, Menu } from 'semantic-ui-react';
 import { FilePicker, Popup } from '../../../lib/custom-ui';
 
 import entryActions from '../../../entry-actions';
@@ -47,6 +47,7 @@ const AddAttachmentStep = React.memo(({ onClose }) => {
         <Menu secondary vertical className={styles.menu}>
           <FilePicker multiple onSelect={handleFilesSelect}>
             <Menu.Item className={styles.menuItem}>
+              <Icon name="computer" className={styles.menuItemIcon} />
               {t('common.fromComputer', {
                 context: 'title',
               })}

@@ -6,6 +6,7 @@
 import omit from 'lodash/omit';
 import truncate from 'lodash/truncate';
 import { call, put, select } from 'redux-saga/effects';
+import toast from 'react-hot-toast';
 
 import request from '../request';
 import selectors from '../../../selectors';
@@ -13,6 +14,7 @@ import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 import { AttachmentTypes } from '../../../constants/Enums';
+import ToastTypes from '../../../constants/ToastTypes';
 
 export function* createAttachment(cardId, data) {
   const localId = yield call(createLocalId);
@@ -41,6 +43,22 @@ export function* createAttachment(cardId, data) {
       : call(request, api.createAttachment, cardId, nextData));
   } catch (error) {
     yield put(actions.createAttachment.failure(localId, error));
+
+    if (error.code === 'E_UNPROCESSABLE_ENTITY') {
+      let toastType;
+      if (error.message.startsWith('Upload limit')) {
+        toastType = ToastTypes.FILE_IS_TOO_BIG;
+      } else if (error.message === 'Storage limit reached') {
+        toastType = ToastTypes.NOT_ENOUGH_STORAGE;
+      }
+
+      if (toastType) {
+        yield call(toast, {
+          type: toastType,
+        });
+      }
+    }
+
     return;
   }
 

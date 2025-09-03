@@ -6,23 +6,24 @@
 :global(#app) {
   .count {
     color: #8c8c8c;
-    display: inline-block;
     font-size: 14px;
     line-height: 14px;
-    text-align: right;
-    vertical-align: top;
-    width: 50px;
   }
 
   .progress {
-    margin: 0 0 16px;
+    margin: 0;
+  }
+
+  .progressRow {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    margin-bottom: 16px;
   }
 
   .progressWrapper {
-    display: inline-block;
     padding: 3px 0;
-    vertical-align: top;
-    width: calc(100% - 50px);
+    width: 100%;
   }
 
   .tasks {
@@ -52,6 +53,7 @@
   }
 
   .taskButtonText {
+    font-size: 14px;
     position: absolute;
     top: 12px;
   }

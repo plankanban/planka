@@ -51,8 +51,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'customFieldValueDelete',
+        webhooks,
+        event: Webhook.Events.CUSTOM_FIELD_VALUE_DELETE,
         buildData: () => ({
           item: customFieldValue,
           included: {

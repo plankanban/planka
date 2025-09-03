@@ -49,8 +49,11 @@ module.exports = {
         );
       });
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'boardDelete',
+        webhooks,
+        event: Webhook.Events.BOARD_DELETE,
         buildData: () => ({
           item: board,
           included: {

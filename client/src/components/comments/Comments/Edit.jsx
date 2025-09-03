@@ -4,6 +4,7 @@
  */
 
 import { dequal } from 'dequal';
+import { keyBy } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +16,7 @@ import { useClickAwayListener } from '../../../lib/hooks';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useForm, useNestedRef } from '../../../hooks';
+import { isUsernameChar, mentionTextToMarkup } from '../../../utils/mentions';
 import { focusEnd } from '../../../utils/element-helpers';
 import { isModifierKeyPressed } from '../../../utils/event-helpers';
 import UserAvatar from '../../users/UserAvatar';
@@ -45,12 +47,22 @@ const Edit = React.memo(({ commentId, onClose }) => {
   const textFieldRef = useRef(null);
   const textMentionsRef = useRef(null);
   const textInputRef = useRef(null);
-  const [buttonRef, handleButtonRef] = useNestedRef();
+  const [submitButtonRef, handleSubmitButtonRef] = useNestedRef();
+  const [cancelButtonRef, handleCancelButtonRef] = useNestedRef();
+
+  const userByUsername = useMemo(
+    () =>
+      keyBy(
+        boardMemberships.flatMap(({ user }) => (user.username ? user : [])),
+        'username',
+      ),
+    [boardMemberships],
+  );
 
   const submit = useCallback(() => {
     const cleanData = {
       ...data,
-      text: data.text.trim(),
+      text: mentionTextToMarkup(data.text.trim(), userByUsername),
     };
 
     if (cleanData.text && !dequal(cleanData, defaultData)) {
@@ -58,7 +70,7 @@ const Edit = React.memo(({ commentId, onClose }) => {
     }
 
     onClose();
-  }, [commentId, onClose, dispatch, defaultData, data]);
+  }, [commentId, onClose, dispatch, defaultData, data, userByUsername]);
 
   const handleSubmit = useCallback(() => {
     submit();
@@ -67,10 +79,10 @@ const Edit = React.memo(({ commentId, onClose }) => {
   const handleFieldChange = useCallback(
     (_, text) => {
       setData({
-        text,
+        text: !isUsernameChar(text.slice(-1)) ? mentionTextToMarkup(text, userByUsername) : text,
       });
     },
-    [setData],
+    [setData, userByUsername],
   );
 
   const handleFieldKeyDown = useCallback(
@@ -91,12 +103,16 @@ const Edit = React.memo(({ commentId, onClose }) => {
     [onClose, submit],
   );
 
+  const handleCancelClick = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
   const handleClickAwayCancel = useCallback(() => {
     textInputRef.current.focus();
   }, []);
 
   const clickAwayProps = useClickAwayListener(
-    [textFieldRef, buttonRef],
+    [textFieldRef, submitButtonRef, cancelButtonRef],
     submit,
     handleClickAwayCancel,
   );
@@ -152,8 +168,15 @@ const Edit = React.memo(({ commentId, onClose }) => {
         <Button
           {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
           positive
-          ref={handleButtonRef}
+          ref={handleSubmitButtonRef}
           content={t('action.save')}
+        />
+        <Button
+          {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
+          ref={handleCancelButtonRef}
+          type="button"
+          content={t('action.cancel')}
+          onClick={handleCancelClick}
         />
       </div>
     </Form>

@@ -53,8 +53,11 @@ module.exports = {
         inputs.request,
       );
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'attachmentUpdate',
+        webhooks,
+        event: Webhook.Events.ATTACHMENT_UPDATE,
         buildData: () => ({
           item: sails.helpers.attachments.presentOne(attachment),
           included: {

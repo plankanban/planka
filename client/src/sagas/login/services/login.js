@@ -10,8 +10,10 @@ import { replace } from '../../../lib/redux-router';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
+import i18n from '../../../i18n';
 import { setAccessToken } from '../../../utils/access-token-storage';
 import Paths from '../../../constants/Paths';
+import AccessTokenSteps from '../../../constants/AccessTokenSteps';
 
 export function* initializeLogin() {
   const { item: config } = yield call(api.getConfig); // TODO: handle error
@@ -26,7 +28,12 @@ export function* authenticate(data) {
   try {
     ({ item: accessToken } = yield call(api.createAccessToken, data));
   } catch (error) {
-    yield put(actions.authenticate.failure(error));
+    let terms;
+    if (error.step === AccessTokenSteps.ACCEPT_TERMS) {
+      ({ item: terms } = yield call(api.getTerms, error.termsType, i18n.resolvedLanguage));
+    }
+
+    yield put(actions.authenticate.failure(error, terms));
     return;
   }
 
@@ -106,7 +113,12 @@ export function* authenticateWithOidcCallback() {
       nonce,
     }));
   } catch (error) {
-    yield put(actions.authenticateWithOidc.failure(error));
+    let terms;
+    if (error.step === AccessTokenSteps.ACCEPT_TERMS) {
+      ({ item: terms } = yield call(api.getTerms, error.termsType, i18n.resolvedLanguage));
+    }
+
+    yield put(actions.authenticateWithOidc.failure(error, terms));
     return;
   }
 
@@ -118,10 +130,70 @@ export function* clearAuthenticateError() {
   yield put(actions.clearAuthenticateError());
 }
 
+export function* acceptTerms(signature) {
+  yield put(actions.acceptTerms(signature));
+
+  const { pendingToken } = yield select(selectors.selectAuthenticateForm);
+
+  let accessToken;
+  try {
+    ({ item: accessToken } = yield call(api.acceptTerms, {
+      pendingToken,
+      signature,
+    }));
+  } catch (error) {
+    yield put(actions.acceptTerms.failure(error));
+    return;
+  }
+
+  yield call(setAccessToken, accessToken);
+  yield put(actions.acceptTerms.success(accessToken));
+}
+
+export function* cancelTerms() {
+  const { pendingToken } = yield select(selectors.selectAuthenticateForm);
+
+  yield put(actions.cancelTerms());
+
+  try {
+    yield call(api.revokePendingToken, {
+      pendingToken,
+    });
+  } catch (error) {
+    yield put(actions.cancelTerms.failure(error));
+    return;
+  }
+
+  yield put(actions.cancelTerms.success(pendingToken));
+}
+
+export function* updateTermsLanguage(value) {
+  yield put(actions.updateTermsLanguage(value));
+
+  const {
+    termsForm: {
+      payload: { type },
+    },
+  } = yield select(selectors.selectAuthenticateForm);
+
+  let terms;
+  try {
+    ({ item: terms } = yield call(api.getTerms, type, value));
+  } catch (error) {
+    yield put(actions.updateTermsLanguage.failure(error));
+    return;
+  }
+
+  yield put(actions.updateTermsLanguage.success(terms));
+}
+
 export default {
   initializeLogin,
   authenticate,
   authenticateWithOidc,
   authenticateWithOidcCallback,
   clearAuthenticateError,
+  acceptTerms,
+  cancelTerms,
+  updateTermsLanguage,
 };

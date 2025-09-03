@@ -6,7 +6,9 @@
 import http from './http';
 import socket from './socket';
 import config from './config';
+import terms from './terms';
 import accessTokens from './access-tokens';
+import webhooks from './webhooks';
 import users from './users';
 import projects from './projects';
 import projectManagers from './project-managers';
@@ -34,7 +36,9 @@ export { http, socket };
 
 export default {
   ...config,
+  ...terms,
   ...accessTokens,
+  ...webhooks,
   ...users,
   ...projects,
   ...projectManagers,

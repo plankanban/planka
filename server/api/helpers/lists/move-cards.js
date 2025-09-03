@@ -55,7 +55,7 @@ module.exports = {
       values.prevListId = null;
     }
 
-    const cards = await Card.qm.update(
+    const { cards } = await Card.qm.update(
       {
         listId: inputs.record.id,
       },
@@ -91,10 +91,13 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     cards.forEach((card) => {
       // TODO: with prevData?
       sails.helpers.utils.sendWebhooks.with({
-        event: 'cardUpdate',
+        webhooks,
+        event: Webhook.Events.CARD_UPDATE,
         buildData: () => ({
           item: card,
           included: {

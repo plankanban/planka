@@ -4,22 +4,40 @@
  */
 
 /**
- * FileReference.js
+ * StorageUsage.js
  *
  * @description :: A model definition represents a database table/collection.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+const MAIN_ID = '1';
+
 module.exports = {
+  MAIN_ID,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
     total: {
-      type: 'number',
-      allowNull: true,
-      defaultsTo: 0,
+      type: 'string',
+      required: true,
+    },
+    userAvatars: {
+      type: 'string',
+      required: true,
+      columnName: 'user_avatars',
+    },
+    backgroundImages: {
+      type: 'string',
+      required: true,
+      columnName: 'background_images',
+    },
+    attachments: {
+      type: 'string',
+      required: true,
+      columnName: 'attachments',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -31,5 +49,5 @@ module.exports = {
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
   },
 
-  tableName: 'file_reference',
+  tableName: 'storage_usage',
 };

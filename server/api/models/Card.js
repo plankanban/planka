@@ -53,6 +53,11 @@ module.exports = {
       defaultsTo: 0,
       columnName: 'comments_total',
     },
+    isClosed: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'is_closed',
+    },
     listChangedAt: {
       type: 'ref',
       columnName: 'list_changed_at',

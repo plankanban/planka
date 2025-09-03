@@ -28,6 +28,7 @@ const InlineContent = React.memo(({ cardId }) => {
   );
 
   const card = useSelector((state) => selectCardById(state, cardId));
+  const list = useSelector((state) => selectListById(state, card.listId));
   const labelIds = useSelector((state) => selectLabelIdsByCardId(state, cardId));
 
   const notificationsTotal = useSelector((state) =>
@@ -35,8 +36,6 @@ const InlineContent = React.memo(({ cardId }) => {
   );
 
   const listName = useSelector((state) => {
-    const list = selectListById(state, card.listId);
-
     if (!list.name) {
       return null;
     }
@@ -88,7 +87,9 @@ const InlineContent = React.memo(({ cardId }) => {
           ))}
         </span>
       )}
-      <span className={classNames(styles.attachments, styles.name)}>
+      <span
+        className={classNames(styles.attachments, styles.name, card.isClosed && styles.nameClosed)}
+      >
         <div className={styles.hidable}>{card.name}</div>
       </span>
       {descriptionText && (

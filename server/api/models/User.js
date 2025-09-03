@@ -43,6 +43,7 @@ const LANGUAGES = [
   'en-GB',
   'en-US',
   'es-ES',
+  'et-EE',
   'fa-IR',
   'fi-FI',
   'fr-FR',
@@ -54,6 +55,7 @@ const LANGUAGES = [
   'nl-NL',
   'pl-PL',
   'pt-BR',
+  'pt-PT',
   'ro-RO',
   'ru-RU',
   'sk-SK',
@@ -80,8 +82,14 @@ const PERSONAL_FIELD_NAMES = [
   'defaultProjectsOrder',
 ];
 
+const INTERNAL = {
+  id: '_internal',
+  role: Roles.ADMIN,
+};
+
 const OIDC = {
   id: '_oidc',
+  role: Roles.ADMIN,
 };
 
 module.exports = {
@@ -92,6 +100,7 @@ module.exports = {
   LANGUAGES,
   PRIVATE_FIELD_NAMES,
   PERSONAL_FIELD_NAMES,
+  INTERNAL,
   OIDC,
 
   attributes: {
@@ -122,7 +131,7 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
       minLength: 3,
-      maxLength: 16,
+      maxLength: 32,
       regex: /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/,
       allowNull: true,
     },
@@ -182,6 +191,12 @@ module.exports = {
       defaultsTo: ProjectOrders.BY_DEFAULT,
       columnName: 'default_projects_order',
     },
+    termsSignature: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'terms_signature',
+    },
     isSsoUser: {
       type: 'boolean',
       defaultsTo: false,
@@ -195,6 +210,10 @@ module.exports = {
     passwordChangedAt: {
       type: 'ref',
       columnName: 'password_changed_at',
+    },
+    termsAcceptedAt: {
+      type: 'ref',
+      columnName: 'terms_accepted_at',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

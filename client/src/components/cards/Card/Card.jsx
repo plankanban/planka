@@ -5,17 +5,17 @@
 
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 import { push } from '../../../lib/redux-router';
-import { usePopup } from '../../../lib/popup';
+import { closePopup, usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
 import Paths from '../../../constants/Paths';
-import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/Enums';
+import { BoardMembershipRoles, CardTypes } from '../../../constants/Enums';
 import ProjectContent from './ProjectContent';
 import StoryContent from './StoryContent';
 import InlineContent from './InlineContent';
@@ -51,6 +51,8 @@ const Card = React.memo(({ id, isInline }) => {
   const dispatch = useDispatch();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
 
+  const actionsPopupRef = useRef(null);
+
   const handleClick = useCallback(() => {
     if (document.activeElement) {
       document.activeElement.blur();
@@ -58,6 +60,17 @@ const Card = React.memo(({ id, isInline }) => {
 
     dispatch(push(Paths.CARDS.replace(':id', id)));
   }, [id, dispatch]);
+
+  const handleContextMenu = useCallback((event) => {
+    if (!actionsPopupRef.current) {
+      return;
+    }
+
+    event.preventDefault();
+
+    closePopup();
+    actionsPopupRef.current.open();
+  }, []);
 
   const handleNameEdit = useCallback(() => {
     setIsEditNameOpened(true);
@@ -108,17 +121,15 @@ const Card = React.memo(({ id, isInline }) => {
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
                                        jsx-a11y/no-static-element-interactions */}
           <div
-            className={classNames(
-              styles.content,
-              list.type === ListTypes.CLOSED && styles.contentDisabled,
-            )}
+            className={classNames(styles.content, card.isClosed && styles.contentDisabled)}
             onClick={handleClick}
+            onContextMenu={handleContextMenu}
           >
             <Content cardId={id} />
             {colorLineNode}
           </div>
           {canUseActions && (
-            <ActionsPopup cardId={id} onNameEdit={handleNameEdit}>
+            <ActionsPopup ref={actionsPopupRef} cardId={id} onNameEdit={handleNameEdit}>
               <Button className={styles.actionsButton}>
                 <Icon fitted name="pencil" size="small" />
               </Button>
@@ -126,12 +137,7 @@ const Card = React.memo(({ id, isInline }) => {
           )}
         </>
       ) : (
-        <span
-          className={classNames(
-            styles.content,
-            list.type === ListTypes.CLOSED && styles.contentDisabled,
-          )}
-        >
+        <span className={classNames(styles.content, card.isClosed && styles.contentDisabled)}>
           <Content cardId={id} />
           {colorLineNode}
         </span>

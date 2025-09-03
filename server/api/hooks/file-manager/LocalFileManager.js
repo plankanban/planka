@@ -44,7 +44,7 @@ class LocalFileManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async getSizeInBytes(filePathSegment) {
+  async getSize(filePathSegment) {
     let result;
     try {
       result = await fs.promises.stat(buildPath(filePathSegment));

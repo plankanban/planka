@@ -13,6 +13,7 @@ import { useClosableModal } from '../../../hooks';
 import AccountPane from './AccountPane';
 import PreferencesPane from './PreferencesPane';
 import NotificationsPane from './NotificationsPane';
+import TermsPane from './TermsPane';
 import AboutPane from './AboutPane';
 
 const UserSettingsModal = React.memo(() => {
@@ -43,6 +44,12 @@ const UserSettingsModal = React.memo(() => {
         context: 'title',
       }),
       render: () => <NotificationsPane />,
+    },
+    {
+      menuItem: t('common.terms', {
+        context: 'title',
+      }),
+      render: () => <TermsPane />,
     },
     {
       menuItem: t('common.aboutPlanka', {

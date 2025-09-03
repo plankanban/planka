@@ -3,9 +3,10 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button, Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -48,6 +49,7 @@ const CustomField = React.memo(({ id, customFieldGroupId }) => {
   });
 
   const dispatch = useDispatch();
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleValueUpdate = useCallback(
     (content) => {
@@ -64,18 +66,40 @@ const CustomField = React.memo(({ id, customFieldGroupId }) => {
     [id, customFieldGroupId, cardId, dispatch],
   );
 
+  const handleCopyClick = useCallback(() => {
+    if (isCopied) {
+      return;
+    }
+
+    navigator.clipboard.writeText(customFieldValue.content);
+
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 1000);
+  }, [customFieldValue, isCopied]);
+
   return (
     <div>
       <div className={styles.name}>{customField.name}</div>
-      {canEdit ? (
-        <ValueField
-          defaultValue={customFieldValue && customFieldValue.content}
-          disabled={!customField.isPersisted}
-          onUpdate={handleValueUpdate}
-        />
-      ) : (
-        <div className={styles.value}>{customFieldValue ? customFieldValue.content : '\u00A0'}</div>
-      )}
+      <div className={styles.valueWrapper}>
+        {canEdit ? (
+          <ValueField
+            defaultValue={customFieldValue && customFieldValue.content}
+            disabled={!customField.isPersisted}
+            onUpdate={handleValueUpdate}
+          />
+        ) : (
+          <div className={styles.value}>
+            {customFieldValue ? customFieldValue.content : '\u00A0'}
+          </div>
+        )}
+        {customFieldValue && customFieldValue.content && (
+          <Button className={styles.copyButton} onClick={handleCopyClick}>
+            <Icon fitted name={isCopied ? 'check' : 'copy'} />
+          </Button>
+        )}
+      </div>
     </div>
   );
 });

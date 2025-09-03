@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { orderBy } from 'lodash';
+import orderBy from 'lodash/orderBy';
 import { attr } from 'redux-orm';
 
 import BaseModel from './BaseModel';

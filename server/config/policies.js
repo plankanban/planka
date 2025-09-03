@@ -16,14 +16,29 @@ module.exports.policies = {
    *
    */
 
-  '*': 'is-authenticated',
+  '*': ['is-authenticated', 'is-external'],
 
+  'webhooks/index': ['is-authenticated', 'is-external', 'is-admin'],
+  'webhooks/create': ['is-authenticated', 'is-external', 'is-admin'],
+  'webhooks/update': ['is-authenticated', 'is-external', 'is-admin'],
+  'webhooks/delete': ['is-authenticated', 'is-external', 'is-admin'],
+
+  'users/index': 'is-authenticated',
   'users/create': ['is-authenticated', 'is-admin'],
+  'users/show': 'is-authenticated',
+  'users/update': 'is-authenticated',
+  'users/update-email': 'is-authenticated',
+  'users/update-password': 'is-authenticated',
+  'users/update-username': 'is-authenticated',
+  'users/update-avatar': 'is-authenticated',
   'users/delete': ['is-authenticated', 'is-admin'],
 
-  'projects/create': ['is-authenticated', 'is-admin-or-project-owner'],
+  'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],
 
   'config/show': true,
+  'terms/show': true,
   'access-tokens/create': true,
   'access-tokens/exchange-with-oidc': true,
+  'access-tokens/accept-terms': true,
+  'access-tokens/revoke-pending-token': true,
 };

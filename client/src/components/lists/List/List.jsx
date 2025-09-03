@@ -30,6 +30,15 @@ import PlusMathIcon from '../../../assets/images/plus-math-icon.svg?react';
 import styles from './List.module.scss';
 import globalStyles from '../../../styles.module.scss';
 
+const AddCardPositions = {
+  TOP: 'top',
+  BOTTOM: 'bottom',
+};
+
+const INDEX_BY_ADD_CARD_POSITION = {
+  [AddCardPositions.TOP]: 0,
+};
+
 const List = React.memo(({ id, index }) => {
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
 
@@ -59,16 +68,18 @@ const List = React.memo(({ id, index }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
-  const [isAddCardOpened, setIsAddCardOpened] = useState(false);
+  const [addCardPosition, setAddCardPosition] = useState(null);
 
   const wrapperRef = useRef(null);
   const cardsWrapperRef = useRef(null);
 
   const handleCardCreate = useCallback(
     (data, autoOpen) => {
-      dispatch(entryActions.createCard(id, data, autoOpen));
+      dispatch(
+        entryActions.createCard(id, data, INDEX_BY_ADD_CARD_POSITION[addCardPosition], autoOpen),
+      );
     },
-    [id, dispatch],
+    [id, dispatch, addCardPosition],
   );
 
   const handleHeaderClick = useCallback(() => {
@@ -78,15 +89,15 @@ const List = React.memo(({ id, index }) => {
   }, [list.isPersisted, canEdit]);
 
   const handleAddCardClick = useCallback(() => {
-    setIsAddCardOpened(true);
+    setAddCardPosition(AddCardPositions.BOTTOM);
   }, []);
 
   const handleAddCardClose = useCallback(() => {
-    setIsAddCardOpened(false);
+    setAddCardPosition(null);
   }, []);
 
   const handleCardAdd = useCallback(() => {
-    setIsAddCardOpened(true);
+    setAddCardPosition(AddCardPositions.TOP);
   }, []);
 
   const handleNameEdit = useCallback(() => {
@@ -104,13 +115,25 @@ const List = React.memo(({ id, index }) => {
   );
 
   useDidUpdate(() => {
-    if (isAddCardOpened) {
-      cardsWrapperRef.current.scrollTop = cardsWrapperRef.current.scrollHeight;
+    if (!addCardPosition) {
+      return;
     }
-  }, [cardIds, isAddCardOpened]);
+
+    cardsWrapperRef.current.scrollTop =
+      addCardPosition === AddCardPositions.TOP ? 0 : cardsWrapperRef.current.scrollHeight;
+  }, [cardIds, addCardPosition]);
 
   const ActionsPopup = usePopup(ActionsStep);
   const ArchiveCardsPopup = usePopup(ArchiveCardsStep);
+
+  const addCardNode = canAddCard && (
+    <AddCard
+      isOpened={!!addCardPosition}
+      className={styles.addCard}
+      onCreate={handleCardCreate}
+      onClose={handleAddCardClose}
+    />
+  );
 
   const cardsNode = (
     <Droppable
@@ -122,18 +145,12 @@ const List = React.memo(({ id, index }) => {
         // eslint-disable-next-line react/jsx-props-no-spreading
         <div {...droppableProps} ref={innerRef}>
           <div className={styles.cards}>
+            {addCardPosition === AddCardPositions.TOP && addCardNode}
             {cardIds.map((cardId, cardIndex) => (
               <DraggableCard key={cardId} id={cardId} index={cardIndex} className={styles.card} />
             ))}
             {placeholder}
-            {canAddCard && (
-              <AddCard
-                isOpened={isAddCardOpened}
-                className={styles.addCard}
-                onCreate={handleCardCreate}
-                onClose={handleAddCardClose}
-              />
-            )}
+            {addCardPosition === AddCardPositions.BOTTOM && addCardNode}
           </div>
         </div>
       )}
@@ -213,7 +230,7 @@ const List = React.memo(({ id, index }) => {
             <div ref={cardsWrapperRef} className={styles.cardsInnerWrapper}>
               <div className={styles.cardsOuterWrapper}>{cardsNode}</div>
             </div>
-            {!isAddCardOpened && canAddCard && (
+            {!addCardPosition && canAddCard && (
               <button
                 type="button"
                 disabled={!list.isPersisted}

@@ -23,10 +23,12 @@ module.exports = {
       inputs.record,
     );
 
-    const user = await User.qm.deleteOne(inputs.record.id);
+    const { user, uploadedFile } = await User.qm.deleteOne(inputs.record.id);
 
     if (user) {
-      sails.helpers.users.removeRelatedFiles(user);
+      if (uploadedFile) {
+        sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFile);
+      }
 
       const scoper = sails.helpers.users.makeScoper(user);
       scoper.boardMemberships = boardMemberships;
@@ -64,8 +66,11 @@ module.exports = {
         );
       });
 
+      const webhooks = await Webhook.qm.getAll();
+
       sails.helpers.utils.sendWebhooks.with({
-        event: 'userDelete',
+        webhooks,
+        event: Webhook.Events.USER_DELETE,
         buildData: () => ({
           item: sails.helpers.users.presentOne(user),
         }),
@@ -81,6 +86,7 @@ module.exports = {
         lonelyProjects.map((project) =>
           // TODO: optimize with scoper
           sails.helpers.projectManagers.createOne.with({
+            webhooks,
             values: {
               project,
               user: inputs.actorUser,

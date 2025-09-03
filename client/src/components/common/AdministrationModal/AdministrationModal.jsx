@@ -12,6 +12,7 @@ import { Modal, Tab } from 'semantic-ui-react';
 import entryActions from '../../../entry-actions';
 import { useClosableModal } from '../../../hooks';
 import UsersPane from './UsersPane';
+import WebhooksPane from './WebhooksPane';
 
 import styles from './AdministrationModal.module.scss';
 
@@ -36,6 +37,12 @@ const AdministrationModal = React.memo(() => {
         context: 'title',
       }),
       render: () => <UsersPane />,
+    },
+    {
+      menuItem: t('common.webhooks', {
+        context: 'title',
+      }),
+      render: () => <WebhooksPane />,
     },
   ];
 

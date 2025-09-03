@@ -17,6 +17,9 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    webhooks: {
+      type: 'ref',
+    },
     request: {
       type: 'ref',
     },
@@ -70,8 +73,11 @@ module.exports = {
       inputs.request,
     );
 
+    const { webhooks = await Webhook.qm.getAll() } = inputs;
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'labelCreate',
+      webhooks,
+      event: Webhook.Events.LABEL_CREATE,
       buildData: () => ({
         item: label,
         included: {

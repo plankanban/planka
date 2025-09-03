@@ -3,7 +3,23 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-export const MENTION_REGEX = /@\[(.*?)\]\((.*?)\)/g;
-export const MENTION_NAME_REGEX = /@\[(.*?)\]\(.*?\)/g;
+const USERNAME_CHAR_CLASS = 'a-zA-Z0-9._';
+const USERNAME_CHAR_REGEX = new RegExp(`^[${USERNAME_CHAR_CLASS}]$`);
 
-export const formatTextWithMentions = (text) => text.replace(MENTION_NAME_REGEX, '@$1');
+const MENTION_TEXT_REGEX = new RegExp(
+  `(^|[^${USERNAME_CHAR_CLASS}])@([${USERNAME_CHAR_CLASS}]+)`,
+  'gi',
+);
+
+const MENTION_MARKUP_REGEX = /@\[(.*?)\]\((.*?)\)/g;
+
+export const mentionTextToMarkup = (text, userByUsername) =>
+  text.replace(MENTION_TEXT_REGEX, (match, before, username) => {
+    const user = userByUsername[username.toLowerCase()];
+    return user ? `${before}@[${user.username}](${user.id})` : match;
+  });
+
+export const mentionMarkupToText = (markup) =>
+  markup.replace(MENTION_MARKUP_REGEX, (_, username) => `@${username}`);
+
+export const isUsernameChar = (char) => USERNAME_CHAR_REGEX.test(char);

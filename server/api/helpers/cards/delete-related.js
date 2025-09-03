@@ -39,11 +39,20 @@ module.exports = {
 
     await sails.helpers.taskLists.deleteRelated(taskLists);
 
-    const { fileReferences } = await Attachment.qm.delete({
+    await Task.qm.update(
+      {
+        linkedCardId: cardIdOrIds,
+      },
+      {
+        linkedCardId: null,
+      },
+    );
+
+    const { uploadedFiles } = await Attachment.qm.delete({
       cardId: cardIdOrIds,
     });
 
-    sails.helpers.attachments.removeUnreferencedFiles(fileReferences);
+    sails.helpers.utils.removeUnreferencedUploadedFiles(uploadedFiles);
 
     const customFieldGroups = await CustomFieldGroup.qm.delete({
       cardId: cardIdOrIds,

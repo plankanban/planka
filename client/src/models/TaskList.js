@@ -16,6 +16,7 @@ export default class extends BaseModel {
     position: attr(),
     name: attr(),
     showOnFrontOfCard: attr(),
+    hideCompletedTasks: attr(),
     cardId: fk({
       to: 'Card',
       as: 'card',
@@ -112,6 +113,7 @@ export default class extends BaseModel {
       position: this.position,
       name: this.name,
       showOnFrontOfCard: this.showOnFrontOfCard,
+      hideCompletedTasks: this.hideCompletedTasks,
       ...data,
     });
 

@@ -9,14 +9,21 @@
  */
 
 const { URL } = require('url');
+const bytes = require('bytes');
 const sails = require('sails');
 
 const version = require('../version');
 
 const envToNumber = (value) => {
+  if (!value) {
+    return value;
+  }
+
   const number = parseInt(value, 10);
   return Number.isNaN(number) ? null : number;
 };
+
+const envToBytes = (value) => value && bytes(value);
 
 const envToArray = (value) => (value ? value.split(',') : []);
 
@@ -35,7 +42,8 @@ module.exports.custom = {
   baseUrlPath: parsedBasedUrl.pathname,
   baseUrlSecure: parsedBasedUrl.protocol === 'https:',
 
-  tokenExpiresIn: parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365,
+  maxUploadFileSize: envToBytes(process.env.MAX_UPLOAD_FILE_SIZE),
+  tokenExpiresIn: (parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365) * 24 * 60 * 60,
 
   // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
   uploadsTempPath: null,
@@ -50,7 +58,10 @@ module.exports.custom = {
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
 
+  internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,
+  storageLimit: envToBytes(process.env.STORAGE_LIMIT),
   activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
+
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
 
   s3Endpoint: process.env.S3_ENDPOINT,
@@ -63,6 +74,7 @@ module.exports.custom = {
   oidcIssuer: process.env.OIDC_ISSUER,
   oidcClientId: process.env.OIDC_CLIENT_ID,
   oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
+  oidcUseOauthCallback: process.env.OIDC_USE_OAUTH_CALLBACK === 'true',
   oidcIdTokenSignedResponseAlg: process.env.OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG,
   oidcUserinfoSignedResponseAlg: process.env.OIDC_USERINFO_SIGNED_RESPONSE_ALG,
   oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
@@ -93,6 +105,4 @@ module.exports.custom = {
   smtpPassword: process.env.SMTP_PASSWORD,
   smtpFrom: process.env.SMTP_FROM,
   smtpTlsRejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
-
-  webhooks: JSON.parse(process.env.WEBHOOKS || '[]'), // TODO: validate structure
 };

@@ -70,6 +70,7 @@ export function* handleUserUpdate(user) {
 
   let config;
   let board;
+  let webhooks;
   let users1;
   let users2;
   let users3;
@@ -102,6 +103,7 @@ export function* handleUserUpdate(user) {
 
     if (user.role === UserRoles.ADMIN) {
       ({ item: config } = yield call(request, api.getConfig));
+      ({ items: webhooks } = yield call(request, api.getWebhooks));
 
       ({
         items: projects,
@@ -164,6 +166,7 @@ export function* handleUserUpdate(user) {
       boardIds,
       config,
       board,
+      webhooks,
       mergeRecords(users1, users2, users3),
       projects,
       projectManagers,

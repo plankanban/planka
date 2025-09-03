@@ -1,18 +1,20 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: null,
+      activeUsersLimitReached: 'Досягнуто ліміту активних користувачів',
+      adminLoginRequiredToInitializeInstance: null,
       emailAlreadyInUse: 'Електронна пошта вже використовується',
       emailOrUsername: "Електронна пошта або ім'я користувача",
-      invalidCredentials: null,
+      iHaveReadAndAgreeToTheseTerms: null,
+      invalidCredentials: 'Неправильні облікові дані',
       invalidEmailOrUsername: "Неправильна електронна пошта або ім'я користувача",
       invalidPassword: 'Неправильний пароль',
-      logIn_title: null,
+      logIn_title: 'Увійти',
       noInternetConnection: 'Відсутнє підключення до Інтернету',
-      or: null,
+      or: 'Або',
       pageNotFound_title: 'Сторінку не знайдено',
       password: 'Пароль',
-      poweredByPlanka: null,
+      poweredByPlanka: 'Працює на <1>PLANKA</1>',
       serverConnectionFailed: 'Не вдалося підключитися до сервера',
       unknownError: 'Невідома помилка, спробуйте ще раз пізніше',
       useSingleSignOn: 'Використовувати одночасний вхід',
@@ -20,6 +22,8 @@ export default {
     },
 
     action: {
+      cancelAndClose: null,
+      continue: null,
       logIn: 'Увійти',
       logInWithSso: 'Увійти за допомогою SSO',
     },

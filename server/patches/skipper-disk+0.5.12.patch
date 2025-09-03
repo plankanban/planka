@@ -1,0 +1,13 @@
+diff --git a/node_modules/skipper-disk/standalone/build-progress-stream.js b/node_modules/skipper-disk/standalone/build-progress-stream.js
+index ed048dc..3cca22e 100644
+--- a/node_modules/skipper-disk/standalone/build-progress-stream.js
++++ b/node_modules/skipper-disk/standalone/build-progress-stream.js
+@@ -110,7 +110,7 @@ module.exports = function buildProgressStream (options, __newFile, receiver__, o
+     receiver__.emit('progress', currentFileProgress);
+ 
+     // and then enforce its `maxBytes`.
+-    if (options.maxBytes && totalBytesWritten >= options.maxBytes) {
++    if (!_.isNull(options.maxBytes) && totalBytesWritten >= options.maxBytes) {
+ 
+       var err = new Error();
+       err.code = 'E_EXCEEDS_UPLOAD_LIMIT';

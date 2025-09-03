@@ -7,6 +7,7 @@ import router from './router';
 import socket from './socket';
 import core from './core';
 import modals from './modals';
+import webhooks from './webhooks';
 import users from './users';
 import projects from './projects';
 import projectManagers from './project-managers';
@@ -33,6 +34,7 @@ export default {
   ...socket,
   ...core,
   ...modals,
+  ...webhooks,
   ...users,
   ...projects,
   ...projectManagers,

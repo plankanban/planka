@@ -11,7 +11,7 @@ import { usePopup } from '../../../../lib/popup';
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { BoardContexts, BoardViews } from '../../../../constants/Enums';
-import { BoardContextIcons, BoardViewIcons } from '../../../../constants/Icons';
+import { BoardViewIcons } from '../../../../constants/Icons';
 import ActionsStep from './ActionsStep';
 
 import styles from './RightSide.module.scss';
@@ -56,7 +56,7 @@ const RightSide = React.memo(() => {
       <div className={styles.action}>
         <ActionsPopup>
           <button type="button" className={styles.button}>
-            <Icon fitted name={BoardContextIcons[board.context]} />
+            <Icon fitted name="ellipsis vertical" />
           </button>
         </ActionsPopup>
       </div>

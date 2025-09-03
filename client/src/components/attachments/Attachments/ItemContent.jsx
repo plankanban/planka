@@ -16,7 +16,7 @@ import { usePopupInClosableContext } from '../../../hooks';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import { AttachmentTypes, BoardMembershipRoles } from '../../../constants/Enums';
 import EditStep from './EditStep';
-import Favicon from './Favicon';
+import Favicon from '../../common/Favicon';
 import TimeAgo from '../../common/TimeAgo';
 
 import styles from './ItemContent.module.scss';
@@ -131,7 +131,11 @@ const ItemContent = React.forwardRef(({ id, onOpen }, ref) => {
           <span className={styles.options}>
             <button type="button" className={styles.option} onClick={handleDownloadClick}>
               <Icon name="download" size="small" className={styles.optionIcon} />
-              <span className={styles.optionText}>Download</span>
+              <span className={styles.optionText}>
+                {t('action.download', {
+                  context: 'title',
+                })}
+              </span>
             </button>
             {attachment.data.image && canEdit && (
               <button type="button" className={styles.option} onClick={handleToggleCoverClick}>

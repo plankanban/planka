@@ -6,6 +6,7 @@
 import { attr, fk } from 'redux-orm';
 
 import BaseModel from './BaseModel';
+import getFilenameAndExtension from '../utils/get-filename-and-extension';
 import ActionTypes from '../constants/ActionTypes';
 import { AttachmentTypes } from '../constants/Enums';
 
@@ -14,10 +15,7 @@ const prepareAttachment = (attachment) => {
     return attachment;
   }
 
-  const filename = attachment.data.url.split('/').pop().toLowerCase();
-
-  let extension = filename.slice((Math.max(0, filename.lastIndexOf('.')) || Infinity) + 1);
-  extension = extension ? extension.toLowerCase() : null;
+  const { filename, extension } = getFilenameAndExtension(attachment.data.url);
 
   return {
     ...attachment,

@@ -213,3 +213,22 @@ oidc:
 ##     key: key-inside-the-secret
 ##
 extraEnv: []
+
+## Example extraEnv for configuring SMTP
+## extraEnv:
+##   - name: SMTP_HOST
+##     value: "smtp.example.com"
+##   - name: SMTP_PORT
+##     value: "587"
+##   - name: SMTP_NAME
+##     value: "Your Name"
+##   - name: SMTP_SECURE
+##     value: "true"
+##   - name: SMTP_USER
+##     value: "your_email@example.com"
+##   - name: SMTP_PASSWORD
+##     value: "your_password"
+##   - name: SMTP_FROM
+##     value: "your_email@example.com"
+##   - name: SMTP_TLS_REJECT_UNAUTHORIZED
+##     value: "false"

@@ -61,8 +61,11 @@ module.exports = {
       inputs.request,
     );
 
+    const webhooks = await Webhook.qm.getAll();
+
     sails.helpers.utils.sendWebhooks.with({
-      event: 'cardMembershipCreate',
+      webhooks,
+      event: Webhook.Events.CARD_MEMBERSHIP_CREATE,
       buildData: () => ({
         item: cardMembership,
         included: {
@@ -106,6 +109,7 @@ module.exports = {
     }
 
     await sails.helpers.actions.createOne.with({
+      webhooks,
       values: {
         type: Action.Types.ADD_MEMBER_TO_CARD,
         data: {

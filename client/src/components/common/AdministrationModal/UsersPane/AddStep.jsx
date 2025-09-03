@@ -117,7 +117,7 @@ const AddStep = React.memo(({ onClose }) => {
   );
 
   const handleMessageDismiss = useCallback(() => {
-    dispatch(entryActions.clearUserPasswordUpdateError());
+    dispatch(entryActions.clearUserCreateError());
   }, [dispatch]);
 
   const handleSelectRoleClick = useCallback(() => {
