@@ -28,6 +28,9 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_SORT, ({ payload: { id, data } }) =>
       services.sortList(id, data),
     ),
+    takeEvery(EntryActionTypes.LIST_TRANSFER, ({ payload: { id, boardId, index } }) =>
+      services.transferList(id, boardId, index),
+    ),
     takeEvery(EntryActionTypes.LIST_CARDS_TO_ARCHIVE_LIST_MOVE, ({ payload: { id } }) =>
       services.moveListCardsToArchiveList(id),
     ),

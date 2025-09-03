@@ -42,6 +42,15 @@ const moveList = (id, index) => ({
   },
 });
 
+const transferList = (id, boardId, index = 0) => ({
+  type: EntryActionTypes.LIST_TRANSFER,
+  payload: {
+    id,
+    boardId,
+    index,
+  },
+});
+
 const sortList = (id, data) => {
   return {
     type: EntryActionTypes.LIST_SORT,
@@ -92,6 +101,7 @@ export default {
   updateList,
   handleListUpdate,
   moveList,
+  transferList,
   sortList,
   moveListCardsToArchiveList,
   clearTrashListInCurrentBoard,

@@ -12,6 +12,9 @@ const Errors = {
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
   },
+  BOARD_NOT_FOUND: {
+    boardNotFound: 'Board not found',
+  },
 };
 
 module.exports = {
@@ -20,6 +23,7 @@ module.exports = {
       ...idInput,
       required: true,
     },
+    boardId: idInput,
     type: {
       type: 'string',
       isIn: List.FINITE_TYPES,
@@ -47,6 +51,9 @@ module.exports = {
     listNotFound: {
       responseType: 'notFound',
     },
+    boardNotFound: {
+      responseType: 'notFound',
+    },
   },
 
   async fn(inputs) {
@@ -59,7 +66,7 @@ module.exports = {
     let { list } = pathToProject;
     const { board, project } = pathToProject;
 
-    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+    let boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
       board.id,
       currentUser.id,
     );
@@ -76,13 +83,39 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
+    let nextProject;
+    let nextBoard;
+
+    if (!_.isUndefined(inputs.boardId)) {
+      ({ board: nextBoard, project: nextProject } = await sails.helpers.boards
+        .getPathToProjectById(inputs.boardId)
+        .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND));
+
+      boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+        nextBoard.id,
+        currentUser.id,
+      );
+
+      if (!boardMembership) {
+        throw Errors.BOARD_NOT_FOUND; // Forbidden
+      }
+
+      if (boardMembership.role !== BoardMembership.Roles.EDITOR) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    }
+
     const values = _.pick(inputs, ['type', 'position', 'name', 'color']);
 
     list = await sails.helpers.lists.updateOne.with({
-      values,
       project,
       board,
       record: list,
+      values: {
+        ...values,
+        project: nextProject,
+        board: nextBoard,
+      },
       actorUser: currentUser,
       request: this.req,
     });
