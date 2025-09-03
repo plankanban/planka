@@ -57,8 +57,6 @@ const deleteList = (id, headers) =>
     },
   }));
 
-const moveToBoard = (id, data, headers) => socket.post(`/lists/${id}/move-to-board`, data, headers);
-
 /* Event handlers */
 
 const makeHandleListDelete = (next) => (body) => {
@@ -80,5 +78,4 @@ export default {
   clearList,
   deleteList,
   makeHandleListDelete,
-  moveToBoard,
 };
