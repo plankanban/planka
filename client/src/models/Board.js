@@ -11,14 +11,23 @@ import { isListFinite } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { BoardContexts, BoardViews } from '../constants/Enums';
+import { getBoardFiltersFromStorage, clearBoardFilters } from '../utils/localStorage';
 
-const prepareFetchedBoard = (board) => ({
-  ...board,
-  isFetching: false,
-  context: BoardContexts.BOARD,
-  view: board.defaultView,
-  search: '',
-});
+const prepareFetchedBoard = (board) => {
+  // Get stored filters from localStorage
+  const storedFilters = getBoardFiltersFromStorage(board.id);
+
+  return {
+    ...board,
+    isFetching: false,
+    context: BoardContexts.BOARD,
+    view: board.defaultView,
+    search: '',
+    // Restore stored filters
+    filterLabels: storedFilters.labels,
+    filterUsers: storedFilters.users,
+  };
+};
 
 export default class extends BaseModel {
   static modelName = 'Board';
@@ -154,6 +163,8 @@ export default class extends BaseModel {
 
         if (payload.replace) {
           boardModel.filterUsers.clear();
+          // Clear localStorage filters when replacing
+          clearBoardFilters(payload.boardId);
         }
 
         boardModel.filterUsers.add(payload.id);
@@ -442,6 +453,8 @@ export default class extends BaseModel {
   deleteClearable() {
     this.filterUsers.clear();
     this.filterLabels.clear();
+    // Clear localStorage filters for this board
+    clearBoardFilters(this.id);
   }
 
   deleteRelated(exceptMemberUserId) {

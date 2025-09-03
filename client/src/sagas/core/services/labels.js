@@ -10,6 +10,7 @@ import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
+import { addLabelToBoardFilters, removeLabelFromBoardFilters } from '../../../utils/localStorage';
 
 export function* createLabel(boardId, data) {
   const localId = yield call(createLocalId);
@@ -184,6 +185,9 @@ export function* handleLabelFromCardRemove(cardLabel) {
 export function* addLabelToBoardFilter(id, boardId) {
   const currentListId = yield select(selectors.selectCurrentListId);
 
+  // Save to localStorage
+  addLabelToBoardFilters(boardId, id);
+
   yield put(actions.addLabelToBoardFilter(id, boardId, currentListId));
 }
 
@@ -195,6 +199,9 @@ export function* addLabelToFilterInCurrentBoard(id) {
 
 export function* removeLabelFromBoardFilter(id, boardId) {
   const currentListId = yield select(selectors.selectCurrentListId);
+
+  // Remove from localStorage
+  removeLabelFromBoardFilters(boardId, id);
 
   yield put(actions.removeLabelFromBoardFilter(id, boardId, currentListId));
 }
