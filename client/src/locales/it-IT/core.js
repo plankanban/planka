@@ -120,7 +120,8 @@ export default {
       color: 'Colore',
       comments: 'Commenti',
       contentExceedsLimit: 'Il contenuto supera {{limit}}',
-      contentOfThisAttachmentIsTooBigToDisplay: null,
+      contentOfThisAttachmentIsTooBigToDisplay:
+        'Il contenuto di questo allegato è troppo grande per essere visualizzato.',
       copy_inline: 'copia',
       createBoard_title: 'Crea bacheca',
       createCustomFieldGroup_title: 'Crea campi personalizzati',
@@ -291,7 +292,7 @@ export default {
       taskListActions_title: 'Azioni lista di task',
       taskList_title: 'Lista di task',
       team: 'Team',
-      terms: null,
+      terms: 'Ho letto e accetto i termini e condizioni.',
       thereIsNoPreviewAvailableForThisAttachment:
         'Non è disponibile alcuna anteprima per questo allegato.',
       time: 'Tempo',
@@ -302,8 +303,9 @@ export default {
       typeNameToConfirm: 'Digita il nome per confermare',
       typeTitleToConfirm: 'Digita il titolo per confermare',
       unsavedChanges: 'Modifiche non salvate',
-      uploadFailedFileIsTooBig: null,
-      uploadFailedNotEnoughStorageSpace: null,
+      uploadFailedFileIsTooBig: 'Caricamento fallito: il file è troppo grande.',
+      uploadFailedNotEnoughStorageSpace:
+        'Caricamento fallito: spazio di archiviazione insufficiente.',
       uploadedImages: 'Immagini caricate',
       url: 'URL',
       userActions_title: 'Azioni utente',
@@ -324,7 +326,8 @@ export default {
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in <4>{{card}}</4>',
       userMarkedTaskIncompleteOnThisCard:
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in questa task',
-      userMentionedYouInCommentOnCard: null,
+      userMentionedYouInCommentOnCard:
+        '<0>{{user}}</0> ti ha menzionato in un commento «{{comment}}» su <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> ha spostato <2>{{card}}</2> da {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
@@ -374,7 +377,7 @@ export default {
       createNewLabel: 'Crea nuova etichetta',
       createProject: 'Crea progetto',
       deactivateUser: 'Disattiva utente',
-      deactivateUser_title: null,
+      deactivateUser_title: 'Disattiva utente',
       delete: 'Elimina',
       deleteAttachment: 'Elimina allegato',
       deleteAvatar: 'Elimina avatar',
@@ -402,7 +405,7 @@ export default {
       deleteUser_title: 'Elimina utente',
       deleteWebhook: 'Elimina webhook',
       dismissAll: 'Ignora tutto',
-      download: null,
+      download: 'Scarica',
       duplicateCard_title: 'Duplica scheda',
       edit: 'Modifica',
       editColor_title: 'Modifica colore',
