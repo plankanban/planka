@@ -185,7 +185,6 @@ export function* handleLabelFromCardRemove(cardLabel) {
 export function* addLabelToBoardFilter(id, boardId) {
   const currentListId = yield select(selectors.selectCurrentListId);
 
-  // Save to localStorage
   addLabelToBoardFilters(boardId, id);
 
   yield put(actions.addLabelToBoardFilter(id, boardId, currentListId));
@@ -200,7 +199,6 @@ export function* addLabelToFilterInCurrentBoard(id) {
 export function* removeLabelFromBoardFilter(id, boardId) {
   const currentListId = yield select(selectors.selectCurrentListId);
 
-  // Remove from localStorage
   removeLabelFromBoardFilters(boardId, id);
 
   yield put(actions.removeLabelFromBoardFilter(id, boardId, currentListId));

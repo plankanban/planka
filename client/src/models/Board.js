@@ -14,7 +14,6 @@ import { BoardContexts, BoardViews } from '../constants/Enums';
 import { getBoardFiltersFromStorage, clearBoardFilters } from '../utils/localStorage';
 
 const prepareFetchedBoard = (board) => {
-  // Get stored filters from localStorage
   const storedFilters = getBoardFiltersFromStorage(board.id);
 
   return {
@@ -23,7 +22,6 @@ const prepareFetchedBoard = (board) => {
     context: BoardContexts.BOARD,
     view: board.defaultView,
     search: '',
-    // Restore stored filters
     filterLabels: storedFilters.labels,
     filterUsers: storedFilters.users,
   };
