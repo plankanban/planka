@@ -430,7 +430,6 @@ export function* handleUserFromCardRemove(cardMembership) {
 export function* addUserToBoardFilter(id, boardId, replace) {
   const currentListId = yield select(selectors.selectCurrentListId);
 
-  // Save to localStorage
   addUserToBoardFilters(boardId, id);
 
   yield put(actions.addUserToBoardFilter(id, boardId, replace, currentListId));
@@ -445,7 +444,6 @@ export function* addUserToFilterInCurrentBoard(id, replace) {
 export function* removeUserFromBoardFilter(id, boardId) {
   const currentListId = yield select(selectors.selectCurrentListId);
 
-  // Remove from localStorage
   removeUserFromBoardFilters(boardId, id);
 
   yield put(actions.removeUserFromBoardFilter(id, boardId, currentListId));

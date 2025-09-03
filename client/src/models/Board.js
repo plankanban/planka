@@ -161,7 +161,6 @@ export default class extends BaseModel {
 
         if (payload.replace) {
           boardModel.filterUsers.clear();
-          // Clear localStorage filters when replacing
           clearBoardFilters(payload.boardId);
         }
 
@@ -451,7 +450,6 @@ export default class extends BaseModel {
   deleteClearable() {
     this.filterUsers.clear();
     this.filterLabels.clear();
-    // Clear localStorage filters for this board
     clearBoardFilters(this.id);
   }
 
