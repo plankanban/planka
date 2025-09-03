@@ -197,6 +197,35 @@ export const selectFavoriteProjectIdsForCurrentUser = createSelector(
   },
 );
 
+export const selectProjectsToBoardsWithEditorRightsForCurrentUser = createSelector(
+  orm,
+  (state) => selectCurrentUserId(state),
+  ({ User }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const userModel = User.withId(id);
+
+    if (!userModel) {
+      return userModel;
+    }
+
+    return userModel.getMembershipProjectsModelArray().map((projectModel) => ({
+      ...projectModel.ref,
+      boards: projectModel.getBoardsModelArrayForUserWithId(id).flatMap((boardModel) => {
+        const boardMembersipModel = boardModel.getMembershipModelByUserId(id);
+
+        if (boardMembersipModel.role !== BoardMembershipRoles.EDITOR) {
+          return [];
+        }
+
+        return boardModel.ref;
+      }),
+    }));
+  },
+);
+
 export const selectProjectsToListsWithEditorRightsForCurrentUser = createSelector(
   orm,
   (state) => selectCurrentUserId(state),
@@ -334,6 +363,7 @@ export default {
   selectFilteredProjectIdsForCurrentUser,
   selectFilteredProjctIdsByGroupForCurrentUser,
   selectFavoriteProjectIdsForCurrentUser,
+  selectProjectsToBoardsWithEditorRightsForCurrentUser,
   selectProjectsToListsWithEditorRightsForCurrentUser,
   selectBoardIdsForCurrentUser,
   selectNotificationIdsForCurrentUser,

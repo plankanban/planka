@@ -5,13 +5,14 @@
 
 import { call, put, select } from 'redux-saga/effects';
 import toast from 'react-hot-toast';
+
+import { goToBoard } from './router';
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
 import ToastTypes from '../../../constants/ToastTypes';
-import modalActions from '../../../actions/modals';
 
 export function* createList(boardId, data) {
   const localId = yield call(createLocalId);
@@ -65,7 +66,71 @@ export function* updateList(id, data) {
 }
 
 export function* handleListUpdate(list) {
-  yield put(actions.handleListUpdate(list));
+  const currentCard = yield select(selectors.selectCurrentCard);
+
+  let fetch = false;
+  if (list.boardId) {
+    const isAvailableForCurrentUser = yield select(
+      selectors.selectIsListWithIdAvailableForCurrentUser,
+      list.id,
+    );
+
+    fetch = !isAvailableForCurrentUser;
+  }
+
+  let users;
+  let cards;
+  let cardMemberships;
+  let cardLabels;
+  let taskLists;
+  let tasks;
+  let attachments;
+  let customFieldGroups;
+  let customFields;
+  let customFieldValues;
+
+  if (fetch) {
+    try {
+      ({
+        item: list, // eslint-disable-line no-param-reassign
+        included: {
+          users,
+          cards,
+          cardMemberships,
+          cardLabels,
+          taskLists,
+          tasks,
+          attachments,
+          customFieldGroups,
+          customFields,
+          customFieldValues,
+        },
+      } = yield call(request, api.getList, list.id));
+    } catch {
+      fetch = false;
+    }
+  }
+
+  yield put(
+    actions.handleListUpdate(
+      list,
+      fetch,
+      users,
+      cards,
+      cardMemberships,
+      cardLabels,
+      taskLists,
+      tasks,
+      attachments,
+      customFieldGroups,
+      customFields,
+      customFieldValues,
+    ),
+  );
+
+  if (list.boardId === null && currentCard && list.id === currentCard.listId) {
+    yield call(goToBoard, currentCard.boardId);
+  }
 }
 
 export function* moveList(id, index) {
@@ -74,6 +139,19 @@ export function* moveList(id, index) {
 
   yield call(updateList, id, {
     position,
+  });
+}
+
+export function* transferList(id, boardId) {
+  const currentCard = yield select(selectors.selectCurrentCard);
+
+  // TODO: hack?
+  if (currentCard && id === currentCard.listId) {
+    yield call(goToBoard, currentCard.boardId);
+  }
+
+  yield call(updateList, id, {
+    boardId,
   });
 }
 
@@ -183,23 +261,6 @@ export function* handleListDelete(list, cards) {
   yield put(actions.handleListDelete(list, cards));
 }
 
-export function* moveListToBoardSaga(action) {
-  const { listId, targetBoardId } = action.payload;
-  try {
-    const { item: updatedList, included } = yield call(request, api.moveToBoard, listId, {
-      targetBoardId,
-    });
-    yield put(actions.handleListUpdate(updatedList));
-    if (included && included.cards) {
-      yield put(actions.handleCardsUpdate(included.cards, []));
-    }
-    yield put(modalActions.closeModal());
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-  }
-}
-
 export default {
   createList,
   createListInCurrentBoard,
@@ -207,11 +268,11 @@ export default {
   updateList,
   handleListUpdate,
   moveList,
+  transferList,
   sortList,
   moveListCardsToArchiveList,
   clearTrashListInCurrentBoard,
   handleListClear,
   deleteList,
   handleListDelete,
-  moveListToBoardSaga,
 };

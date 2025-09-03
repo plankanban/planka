@@ -207,6 +207,7 @@ export default {
       members: 'Jäsenet',
       minutes: 'Minuutit',
       moveCard_title: 'Siirrä kortti',
+      moveList_title: null,
       myOwn_title: 'Omat',
       name: 'Nimi',
       newEmail: 'Uusi sähköposti',
@@ -409,6 +410,7 @@ export default {
       makeProjectShared_title: 'Jaa projekti',
       move: 'Siirrä',
       moveCard_title: 'Siirrä kortti',
+      moveList_title: null,
       remove: 'Poista',
       removeAssignee: 'Poista vastuuhenkilö',
       removeColor: 'Poista väri',
@@ -432,7 +434,6 @@ export default {
       unsubscribe: 'Peru tilaus',
       uploadNewAvatar: 'Lataa uusi avatar',
       uploadNewImage: 'Lataa uusi kuva',
-      moveListToBoard: 'Siirrä lista toiselle taululle',
     },
   },
 };

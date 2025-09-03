@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { all, takeEvery, takeLatest } from 'redux-saga/effects';
+import { all, takeEvery } from 'redux-saga/effects';
 
 import services from '../services';
 import EntryActionTypes from '../../../constants/EntryActionTypes';
@@ -28,6 +28,9 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_SORT, ({ payload: { id, data } }) =>
       services.sortList(id, data),
     ),
+    takeEvery(EntryActionTypes.LIST_TRANSFER, ({ payload: { id, boardId, index } }) =>
+      services.transferList(id, boardId, index),
+    ),
     takeEvery(EntryActionTypes.LIST_CARDS_TO_ARCHIVE_LIST_MOVE, ({ payload: { id } }) =>
       services.moveListCardsToArchiveList(id),
     ),
@@ -41,6 +44,5 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_DELETE_HANDLE, ({ payload: { list, cards } }) =>
       services.handleListDelete(list, cards),
     ),
-    takeLatest(EntryActionTypes.MOVE_LIST_TO_BOARD_REQUEST, services.moveListToBoardSaga),
   ]);
 }

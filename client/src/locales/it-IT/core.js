@@ -113,6 +113,7 @@ export default {
       color: 'Colore',
       comments: 'Commenti',
       contentExceedsLimit: 'Il contenuto supera {{limit}}',
+      contentOfThisAttachmentIsTooBigToDisplay: null,
       copy_inline: 'copia',
       createBoard_title: 'Crea bacheca',
       createCustomFieldGroup_title: 'Crea campi personalizzati',
@@ -207,6 +208,7 @@ export default {
       members: 'Membri',
       minutes: 'Minuti',
       moveCard_title: 'Sposta scheda',
+      moveList_title: null,
       myOwn_title: 'Personali',
       name: 'Nome',
       newEmail: 'Nuova e-mail',
@@ -301,6 +303,7 @@ export default {
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in <4>{{card}}</4>',
       userMarkedTaskIncompleteOnThisCard:
         '<0>{{user}}</0> ha contrassegnato {{task}} come incompleta in questa task',
+      userMentionedYouInCommentOnCard: null,
       userMovedCardFromListToList:
         '<0>{{user}}</0> ha spostato <2>{{card}}</2> da {{fromList}} a {{toList}}',
       userMovedThisCardFromListToList:
@@ -348,6 +351,7 @@ export default {
       createNewLabel: 'Crea nuova etichetta',
       createProject: 'Crea progetto',
       deactivateUser: 'Disattiva utente',
+      deactivateUser_title: null,
       delete: 'Elimina',
       deleteAttachment: 'Elimina allegato',
       deleteAvatar: 'Elimina avatar',
@@ -403,6 +407,7 @@ export default {
       makeProjectShared_title: 'Rendi progetto condiviso',
       move: 'Muovi',
       moveCard_title: 'Muovi scheda',
+      moveList_title: null,
       remove: 'Rimuovi',
       removeAssignee: 'Rimuovi assegnatario',
       removeColor: 'Remove colore',
@@ -426,7 +431,6 @@ export default {
       unsubscribe: 'Annulla iscrizione',
       uploadNewAvatar: 'Carica nuovo avatar',
       uploadNewImage: 'Carica nuova immagine',
-      moveListToBoard: 'Muovi lista a un altra bacheca',
     },
   },
 };

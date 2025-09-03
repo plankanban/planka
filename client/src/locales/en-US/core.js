@@ -205,6 +205,7 @@ export default {
       members: 'Members',
       minutes: 'Minutes',
       moveCard_title: 'Move Card',
+      moveList_title: 'Move List',
       myOwn_title: 'My Own',
       name: 'Name',
       newEmail: 'New e-mail',
@@ -403,6 +404,7 @@ export default {
       makeProjectShared_title: 'Make Project Shared',
       move: 'Move',
       moveCard_title: 'Move Card',
+      moveList_title: 'Move List',
       remove: 'Remove',
       removeAssignee: 'Remove assignee',
       removeColor: 'Remove color',
@@ -426,7 +428,6 @@ export default {
       unsubscribe: 'Unsubscribe',
       uploadNewAvatar: 'Upload new avatar',
       uploadNewImage: 'Upload new image',
-      moveListToBoard: 'Move list to another board',
     },
   },
 };

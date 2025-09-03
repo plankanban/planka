@@ -47,7 +47,30 @@ const getOneTrashByBoardId = (boardId) =>
     type: List.Types.TRASH,
   });
 
-const updateOne = (criteria, values) => List.updateOne(criteria).set({ ...values });
+const updateOne = (criteria, values) => {
+  if (values.boardId) {
+    return sails.getDatastore().transaction(async (db) => {
+      const list = await List.updateOne(criteria)
+        .set({ ...values })
+        .usingConnection(db);
+
+      if (list) {
+        await Card.update(
+          {
+            listId: list.id,
+          },
+          {
+            boardId: list.boardId,
+          },
+        ).usingConnection(db);
+      }
+
+      return list;
+    });
+  }
+
+  return List.updateOne(criteria).set({ ...values });
+};
 
 // eslint-disable-next-line no-underscore-dangle
 const delete_ = (criteria) => List.destroy(criteria).fetch();

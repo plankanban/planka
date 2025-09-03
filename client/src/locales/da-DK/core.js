@@ -212,6 +212,7 @@ export default {
       members: 'Medlemmer',
       minutes: 'Minutter',
       moveCard_title: 'Flyt kort',
+      moveList_title: null,
       myOwn_title: 'Egne',
       name: 'Navn',
       newEmail: 'Ny e-mail',
@@ -411,6 +412,7 @@ export default {
       makeProjectShared_title: 'Del projekt',
       move: 'Flyt',
       moveCard_title: 'Flyt kort',
+      moveList_title: null,
       remove: 'Fjern',
       removeAssignee: 'Fjern ansvarlig',
       removeColor: 'Fjern farve',
@@ -434,7 +436,6 @@ export default {
       unsubscribe: 'Opsig abonnement',
       uploadNewAvatar: 'Tilføj nyt profilbillede',
       uploadNewImage: 'Tilføj nyt billede',
-      moveListToBoard: 'Flyt liste til anden tavle',
     },
   },
 };

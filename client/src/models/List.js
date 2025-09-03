@@ -101,7 +101,6 @@ export default class extends BaseModel {
       case ActionTypes.LIST_CREATE:
       case ActionTypes.LIST_CREATE_HANDLE:
       case ActionTypes.LIST_UPDATE__SUCCESS:
-      case ActionTypes.LIST_UPDATE_HANDLE:
       case ActionTypes.LIST_SORT__SUCCESS:
       case ActionTypes.LIST_CARDS_MOVE__SUCCESS:
       case ActionTypes.LIST_CLEAR__SUCCESS:
@@ -117,8 +116,29 @@ export default class extends BaseModel {
         List.withId(payload.localId).delete();
 
         break;
-      case ActionTypes.LIST_UPDATE:
-        List.withId(payload.id).update(payload.data);
+      case ActionTypes.LIST_UPDATE: {
+        const listModel = List.withId(payload.id);
+
+        if (payload.data.boardId && payload.data.boardId !== listModel.boardId) {
+          listModel.deleteWithRelated();
+        } else {
+          listModel.update(payload.data);
+        }
+
+        break;
+      }
+      case ActionTypes.LIST_UPDATE_HANDLE:
+        if (payload.list.boardId === null || payload.isFetched) {
+          const listModel = List.withId(payload.list.id);
+
+          if (listModel) {
+            listModel.deleteWithRelated();
+          }
+        }
+
+        if (payload.list.boardId !== null) {
+          List.upsert(prepareList(payload.list));
+        }
 
         break;
       case ActionTypes.LIST_SORT:

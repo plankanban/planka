@@ -222,6 +222,7 @@ export default {
       members: 'Μέλη',
       minutes: 'Λεπτά',
       moveCard_title: 'Μετακίνηση κάρτας',
+      moveList_title: null,
       myOwn_title: 'Δικά μου',
       name: 'Όνομα',
       newEmail: 'Νέο e-mail',
@@ -427,6 +428,7 @@ export default {
       makeProjectShared_title: 'Κάντε το έργο κοινόχρηστο',
       move: 'Μετακίνηση',
       moveCard_title: 'Μετακίνηση κάρτας',
+      moveList_title: null,
       remove: 'Αφαίρεση',
       removeAssignee: 'Αφαίρεση υπευθύνου',
       removeColor: 'Αφαίρεση χρώματος',
@@ -450,7 +452,6 @@ export default {
       unsubscribe: 'Απεγγραφή',
       uploadNewAvatar: 'Μεταφόρτωση νέου avatar',
       uploadNewImage: 'Μεταφόρτωση νέας εικόνας',
-      moveListToBoard: 'Μετακίνηση λίστας σε άλλο πίνακα',
     },
   },
 };

@@ -16,10 +16,10 @@ import { useSteps } from '../../../hooks';
 import { ListTypes } from '../../../constants/Enums';
 import EditColorStep from './EditColorStep';
 import SortStep from './SortStep';
+import MoveStep from './MoveStep';
 import SelectListTypeStep from '../SelectListTypeStep';
 import ConfirmationStep from '../../common/ConfirmationStep';
 import ArchiveCardsStep from '../../cards/ArchiveCardsStep';
-import BoardSelectStep from './BoardSelectStep';
 
 import styles from './ActionsStep.module.scss';
 
@@ -27,9 +27,9 @@ const StepTypes = {
   EDIT_TYPE: 'EDIT_TYPE',
   EDIT_COLOR: 'EDIT_COLOR',
   SORT: 'SORT',
+  MOVE: 'MOVE',
   ARCHIVE_CARDS: 'ARCHIVE_CARDS',
   DELETE: 'DELETE',
-  MOVE_TO_BOARD: 'MOVE_TO_BOARD',
 };
 
 const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
@@ -78,6 +78,10 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
     openStep(StepTypes.SORT);
   }, [openStep]);
 
+  const handleMoveClick = useCallback(() => {
+    openStep(StepTypes.MOVE);
+  }, [openStep]);
+
   const handleArchiveCardsClick = useCallback(() => {
     openStep(StepTypes.ARCHIVE_CARDS);
   }, [openStep]);
@@ -85,13 +89,6 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
   const handleDeleteClick = useCallback(() => {
     openStep(StepTypes.DELETE);
   }, [openStep]);
-
-  const handleMoveToBoard = useCallback(
-    (targetBoardId) => {
-      dispatch(entryActions.moveListToBoardRequest(listId, targetBoardId));
-    },
-    [listId, dispatch],
-  );
 
   if (step) {
     switch (step.type) {
@@ -111,6 +108,8 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
         return <EditColorStep listId={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.SORT:
         return <SortStep listId={listId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.MOVE:
+        return <MoveStep id={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.ARCHIVE_CARDS:
         return <ArchiveCardsStep listId={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.DELETE:
@@ -120,14 +119,6 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
             content="common.areYouSureYouWantToDeleteThisList"
             buttonContent="action.deleteList"
             onConfirm={handleDeleteConfirm}
-            onBack={handleBack}
-          />
-        );
-      case StepTypes.MOVE_TO_BOARD:
-        return (
-          <BoardSelectStep
-            currentBoardId={list.boardId}
-            onSelect={handleMoveToBoard}
             onBack={handleBack}
           />
         );
@@ -169,6 +160,11 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
               context: 'title',
             })}
           </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleMoveClick}>
+            {t('action.moveList', {
+              context: 'title',
+            })}
+          </Menu.Item>
           {list.type === ListTypes.CLOSED && (
             <Menu.Item className={styles.menuItem} onClick={handleArchiveCardsClick}>
               {t('action.archiveCards', {
@@ -180,9 +176,6 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
             {t('action.deleteList', {
               context: 'title',
             })}
-          </Menu.Item>
-          <Menu.Item className={styles.menuItem} onClick={() => openStep(StepTypes.MOVE_TO_BOARD)}>
-            {t('action.moveListToBoard', { context: 'title' })}
           </Menu.Item>
         </Menu>
       </Popup.Content>
