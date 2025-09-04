@@ -442,7 +442,7 @@ export default {
       showDeactivated: 'Zobrazit deaktivované',
       showFewerAttachments: 'Zobrazit méně příloh',
       showLess: 'Zobrazit méně',
-      showMore: 'Zobrazit více,
+      showMore: 'Zobrazit více',
       sortList_title: 'Řadit podle',
       start: 'Start',
       stop: 'Stop',
