@@ -2,7 +2,8 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Dosažený limit aktivních uživatelů',
-      adminLoginRequiredToInitializeInstance: 'K inicializaci instance je nutné přihlášení správce.',
+      adminLoginRequiredToInitializeInstance:
+        'K inicializaci instance je nutné přihlášení správce.',
       emailAlreadyInUse: 'E-mail se již používá',
       emailOrUsername: 'E-mail nebo uživatelské jméno',
       iHaveReadAndAgreeToTheseTerms: 'Přečetl jsem si tyto podmínky a souhlasím s nimi.',
