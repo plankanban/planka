@@ -16,14 +16,14 @@ const version = require('../version');
 
 const envToNumber = (value) => {
   if (!value) {
-    return value;
+    return null;
   }
 
   const number = parseInt(value, 10);
   return Number.isNaN(number) ? null : number;
 };
 
-const envToBytes = (value) => value && bytes(value);
+const envToBytes = (value) => bytes(value);
 
 const envToArray = (value) => (value ? value.split(',') : []);
 

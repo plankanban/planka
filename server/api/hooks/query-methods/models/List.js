@@ -76,19 +76,16 @@ const updateOne = async (criteria, values) => {
         .set({ ...values })
         .usingConnection(db);
 
-      let cards = [];
       let tasks = [];
-
       if (list) {
         if (list.boardId !== prev.boardId) {
-          await Card.update(
-            {
-              listId: list.id,
-            },
-            {
+          await Card.update({
+            listId: list.id,
+          })
+            .set({
               boardId: list.boardId,
-            },
-          ).usingConnection(db);
+            })
+            .usingConnection(db);
         }
 
         const prevTypeState = List.TYPE_STATE_BY_TYPE[prev.type];
@@ -102,7 +99,7 @@ const updateOne = async (criteria, values) => {
         const isClosed = transitions[`${prevTypeState}->${typeState}`];
 
         if (!_.isUndefined(isClosed)) {
-          cards = await Card.update({
+          const cards = await Card.update({
             listId: list.id,
           })
             .set({
@@ -124,7 +121,7 @@ const updateOne = async (criteria, values) => {
         }
       }
 
-      return { list, cards, tasks };
+      return { list, tasks };
     });
   }
 

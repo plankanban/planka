@@ -166,7 +166,6 @@ export default class extends BaseModel {
 
         break;
       }
-      // TODO: refactor
       case ActionTypes.LIST_UPDATE_HANDLE: {
         const listModel = List.withId(payload.list.id);
 
@@ -185,8 +184,6 @@ export default class extends BaseModel {
               isClosed = true;
             }
 
-            listModel.update(prepareList(payload.list));
-
             if (isClosed !== undefined) {
               listModel.cards.toModelArray().forEach((cardModel) => {
                 cardModel.update({
@@ -199,7 +196,9 @@ export default class extends BaseModel {
               });
             }
           }
-        } else if (payload.list.boardId !== null) {
+        }
+
+        if (payload.list.boardId !== null) {
           List.upsert(prepareList(payload.list));
         }
 

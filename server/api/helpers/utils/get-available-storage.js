@@ -7,7 +7,7 @@ module.exports = {
   async fn() {
     const { storageLimit } = sails.config.custom;
 
-    if (_.isNil(storageLimit)) {
+    if (storageLimit === null) {
       return null;
     }
 

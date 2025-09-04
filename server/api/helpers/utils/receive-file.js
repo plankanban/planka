@@ -25,7 +25,7 @@ module.exports = {
       availableStorage = await sails.helpers.utils.getAvailableStorage();
     }
 
-    let maxBytes = _.isNil(maxUploadFileSize) ? null : maxUploadFileSize;
+    let maxBytes = maxUploadFileSize;
     if (availableStorage !== null) {
       if (maxBytes) {
         maxBytes = availableStorage < maxBytes ? availableStorage : maxBytes;
@@ -40,7 +40,7 @@ module.exports = {
           error &&
           error.code === 'E_EXCEEDS_UPLOAD_LIMIT' &&
           availableStorage !== null &&
-          (_.isNil(maxUploadFileSize) || error.maxBytes < maxUploadFileSize)
+          (maxUploadFileSize === null || error.maxBytes < maxUploadFileSize)
         ) {
           return callback(new Error('Storage limit reached'), files);
         }

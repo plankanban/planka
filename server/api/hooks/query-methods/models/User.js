@@ -24,7 +24,7 @@ const defaultFind = (criteria) => User.find(criteria).sort('id');
 /* Query methods */
 
 const createOne = (values) => {
-  if (!_.isNil(sails.config.custom.activeUsersLimit)) {
+  if (sails.config.custom.activeUsersLimit !== null) {
     return sails.getDatastore().transaction(async (db) => {
       const queryResult = await sails
         .sendNativeQuery('SELECT NULL FROM user_account WHERE is_deactivated = $1 FOR UPDATE', [
@@ -80,7 +80,7 @@ const getOneActiveByEmailOrUsername = (emailOrUsername) => {
 
 const updateOne = async (criteria, values) => {
   const enforceActiveLimit =
-    values.isDeactivated === false && !_.isNil(sails.config.custom.activeUsersLimit);
+    values.isDeactivated === false && sails.config.custom.activeUsersLimit !== null;
 
   if (!_.isUndefined(values.avatar) || enforceActiveLimit) {
     return sails.getDatastore().transaction(async (db) => {
