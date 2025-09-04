@@ -73,8 +73,7 @@ export default {
       areYouSureYouWantToLeaveProject: 'Opravdu chcete opustit projekt?',
       areYouSureYouWantToMakeThisProjectPrivate:
         'Opravdu chcete tento projekt nastavit jako soukromý?',
-      areYouSureYouWantToMakeThisProjectShared:
-        'Opravdu chcete tento projekt sdílet?',
+      areYouSureYouWantToMakeThisProjectShared: 'Opravdu chcete tento projekt sdílet?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Opravdu chcete tohoto správce z projektu odebrat?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -318,7 +317,8 @@ export default {
       userLeftThisCard: '<0>{{user}}</0> opustil tuto kartu',
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> označil {{task}} jako neúplný na <4>{{card}}</4>',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> označil {{task}} na této kartě jako neúplný.',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> označil {{task}} na této kartě jako neúplný.',
       userMentionedYouInCommentOnCard:
         '<0>{{user}}</0> vás zmínil v komentáři «{{comment}}» na <2>{{card}}</2>',
       userMovedCardFromListToList:
