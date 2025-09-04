@@ -71,8 +71,10 @@ export default {
       areYouSureYouWantToEmptyTrash: 'Opravdu chcete vysypat koš?',
       areYouSureYouWantToLeaveBoard: 'Opravdu chcete opustit tuto nástěnku?',
       areYouSureYouWantToLeaveProject: 'Opravdu chcete opustit projekt?',
-      areYouSureYouWantToMakeThisProjectPrivate: 'Opravdu chcete tento projekt nastavit jako soukromý?',
-      areYouSureYouWantToMakeThisProjectShared: 'Opravdu chcete tento projekt sdílet?',
+      areYouSureYouWantToMakeThisProjectPrivate:
+        'Opravdu chcete tento projekt nastavit jako soukromý?',
+      areYouSureYouWantToMakeThisProjectShared:
+        'Opravdu chcete tento projekt sdílet?',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Opravdu chcete tohoto správce z projektu odebrat?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -233,7 +235,8 @@ export default {
       noUnreadNotifications: 'Žádné nepřečtené oznámení.',
       notifications: 'Oznámení',
       oldestFirst: 'Nejstarší',
-      onlyOneManagerShouldRemainToMakeThisProjectPrivate: 'Aby byl tento projekt soukromý, měl by zůstat pouze jeden manažer.',
+      onlyOneManagerShouldRemainToMakeThisProjectPrivate:
+        'Aby byl tento projekt soukromý, měl by zůstat pouze jeden manažer.',
       openBoard_title: 'Otevřít nástěnku',
       optional_inline: 'volitelné',
       organization: 'Společnost',
@@ -313,9 +316,11 @@ export default {
       userLeftNewCommentToCard:
         '<0>{{user}}</0> zanechal nový komentář «{{comment}}» k <2>{{card}}</2>',
       userLeftThisCard: '<0>{{user}}</0> opustil tuto kartu',
-      userMarkedTaskIncompleteOnCard: '<0>{{user}}</0> označil {{task}} jako neúplný na <4>{{card}}</4>',
+      userMarkedTaskIncompleteOnCard:
+        '<0>{{user}}</0> označil {{task}} jako neúplný na <4>{{card}}</4>',
       userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> označil {{task}} na této kartě jako neúplný.',
-      userMentionedYouInCommentOnCard: '<0>{{user}}</0> vás zmínil v komentáři «{{comment}}» na <2>{{card}}</2>',
+      userMentionedYouInCommentOnCard:
+        '<0>{{user}}</0> vás zmínil v komentáři «{{comment}}» na <2>{{card}}</2>',
       userMovedCardFromListToList:
         '<0>{{user}}</0> přesunul <2>{{card}}</2> z {{fromList}} do {{toList}}',
       userMovedThisCardFromListToList:
