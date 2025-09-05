@@ -16,6 +16,7 @@ import { useSteps } from '../../../hooks';
 import { ListTypes } from '../../../constants/Enums';
 import EditColorStep from './EditColorStep';
 import SortStep from './SortStep';
+import MoveStep from './MoveStep';
 import SelectListTypeStep from '../SelectListTypeStep';
 import ConfirmationStep from '../../common/ConfirmationStep';
 import ArchiveCardsStep from '../../cards/ArchiveCardsStep';
@@ -26,6 +27,7 @@ const StepTypes = {
   EDIT_TYPE: 'EDIT_TYPE',
   EDIT_COLOR: 'EDIT_COLOR',
   SORT: 'SORT',
+  MOVE: 'MOVE',
   ARCHIVE_CARDS: 'ARCHIVE_CARDS',
   DELETE: 'DELETE',
 };
@@ -76,6 +78,10 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
     openStep(StepTypes.SORT);
   }, [openStep]);
 
+  const handleMoveClick = useCallback(() => {
+    openStep(StepTypes.MOVE);
+  }, [openStep]);
+
   const handleArchiveCardsClick = useCallback(() => {
     openStep(StepTypes.ARCHIVE_CARDS);
   }, [openStep]);
@@ -102,6 +108,8 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
         return <EditColorStep listId={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.SORT:
         return <SortStep listId={listId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.MOVE:
+        return <MoveStep id={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.ARCHIVE_CARDS:
         return <ArchiveCardsStep listId={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.DELETE:
@@ -154,6 +162,12 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
           <Menu.Item className={styles.menuItem} onClick={handleSortClick}>
             <Icon name="sort amount down" className={styles.menuItemIcon} />
             {t('action.sortList', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleMoveClick}>
+            <Icon name="share square outline" className={styles.menuItemIcon} />
+            {t('action.moveList', {
               context: 'title',
             })}
           </Menu.Item>

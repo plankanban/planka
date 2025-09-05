@@ -91,6 +91,7 @@ export default class extends BaseModel {
       case ActionTypes.PROJECT_UPDATE_HANDLE:
       case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
+      case ActionTypes.LIST_UPDATE_HANDLE:
         if (payload.cards) {
           payload.cards.forEach((card) => {
             Card.upsert(card);

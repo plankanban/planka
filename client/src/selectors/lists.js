@@ -7,6 +7,7 @@ import { createSelector } from 'redux-orm';
 
 import orm from '../orm';
 import { selectPath } from './router';
+import { selectCurrentUserId } from './users';
 import { isLocalId } from '../utils/local-id';
 import { BoardContexts, ListTypes } from '../constants/Enums';
 
@@ -63,6 +64,22 @@ export const makeSelectFilteredCardIdsByListId = () =>
   );
 
 export const selectFilteredCardIdsByListId = makeSelectFilteredCardIdsByListId();
+
+export const selectIsListWithIdAvailableForCurrentUser = createSelector(
+  orm,
+  (_, id) => id,
+  (state) => selectCurrentUserId(state),
+  ({ List, User }, id, currentUserId) => {
+    const listModel = List.withId(id);
+
+    if (!listModel) {
+      return false;
+    }
+
+    const currentUserModel = User.withId(currentUserId);
+    return listModel.isAvailableForUser(currentUserModel);
+  },
+);
 
 export const selectCurrentListId = createSelector(
   orm,
@@ -154,6 +171,7 @@ export default {
   selectCardIdsByListId,
   makeSelectFilteredCardIdsByListId,
   selectFilteredCardIdsByListId,
+  selectIsListWithIdAvailableForCurrentUser,
   selectCurrentListId,
   selectCurrentList,
   selectFirstFiniteListId,

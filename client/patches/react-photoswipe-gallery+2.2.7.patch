@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-photoswipe-gallery/dist/gallery.js b/node_modules/react-photoswipe-gallery/dist/gallery.js
+index 53cc02c..f4baccb 100644
+--- a/node_modules/react-photoswipe-gallery/dist/gallery.js
++++ b/node_modules/react-photoswipe-gallery/dist/gallery.js
+@@ -181,7 +181,7 @@ export const Gallery = ({
+                 alt
+               } = pswpInstance.currSlide.data;
+               // eslint-disable-next-line no-param-reassign
+-              el.innerHTML = caption || alt || '';
++              el.textContent = caption || alt || '';
+             });
+           }
+         });

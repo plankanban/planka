@@ -58,10 +58,34 @@ updateList.failure = (id, error) => ({
   },
 });
 
-const handleListUpdate = (list) => ({
+const handleListUpdate = (
+  list,
+  isFetched,
+  users,
+  cards,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+) => ({
   type: ActionTypes.LIST_UPDATE_HANDLE,
   payload: {
     list,
+    isFetched,
+    users,
+    cards,
+    cardMemberships,
+    cardLabels,
+    taskLists,
+    tasks,
+    attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
   },
 });
 

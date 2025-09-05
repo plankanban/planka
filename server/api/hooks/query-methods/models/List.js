@@ -52,13 +52,13 @@ const getOneTrashByBoardId = (boardId) =>
   });
 
 const updateOne = async (criteria, values) => {
-  if (values.type) {
+  if (values.boardId || values.type) {
     return sails.getDatastore().transaction(async (db) => {
       const [whereQuery, whereQueryValues] = buildWhereQuery(criteria);
 
       const queryResult = await sails
         .sendNativeQuery(
-          `SELECT type FROM list WHERE ${whereQuery} LIMIT 1 FOR UPDATE`,
+          `SELECT board_id, type FROM list WHERE ${whereQuery} LIMIT 1 FOR UPDATE`,
           whereQueryValues,
         )
         .usingConnection(db);
@@ -68,6 +68,7 @@ const updateOne = async (criteria, values) => {
       }
 
       const prev = {
+        boardId: queryResult.rows[0].board_id,
         type: queryResult.rows[0].type,
       };
 
@@ -75,10 +76,18 @@ const updateOne = async (criteria, values) => {
         .set({ ...values })
         .usingConnection(db);
 
-      let cards = [];
       let tasks = [];
-
       if (list) {
+        if (list.boardId !== prev.boardId) {
+          await Card.update({
+            listId: list.id,
+          })
+            .set({
+              boardId: list.boardId,
+            })
+            .usingConnection(db);
+        }
+
         const prevTypeState = List.TYPE_STATE_BY_TYPE[prev.type];
         const typeState = List.TYPE_STATE_BY_TYPE[list.type];
 
@@ -90,7 +99,7 @@ const updateOne = async (criteria, values) => {
         const isClosed = transitions[`${prevTypeState}->${typeState}`];
 
         if (!_.isUndefined(isClosed)) {
-          cards = await Card.update({
+          const cards = await Card.update({
             listId: list.id,
           })
             .set({
@@ -112,7 +121,7 @@ const updateOne = async (criteria, values) => {
         }
       }
 
-      return { list, cards, tasks };
+      return { list, tasks };
     });
   }
 

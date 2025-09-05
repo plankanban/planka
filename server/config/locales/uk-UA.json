@@ -1,0 +1,16 @@
+{
+	"Card Created": "Картку створено",
+	"Card Moved": "Картку переміщено",
+	"New Comment": "Новий коментар",
+	"Test Title": "Тестовий заголовок",
+	"This is a test text message!": "Це нове повідомлення!",
+	"This is a *test* **markdown** `message`!": "Це *тестове* **markdown** `повідомлення`!",
+	"This is a <i>test</i> <b>html</b> <code>message</code>": "Це <i>тестове</i> <b>html</b> <code>повідомлення</code>",
+	"You Were Added to Card": "Вас було додано до картки",
+	"You Were Mentioned in Comment": "Вас було згадано у коментарі",
+	"%s added you to %s on %s": "%s додав(ла) вас до %s на %s",
+	"%s created %s in %s on %s": "%s створив(ла) %s в %s на %s",
+	"%s left a new comment to %s on %s": "%s залишив(ла) новий коментар до %s на %s",
+	"%s mentioned you in %s on %s": "%s згадав(ла) вас в %s на %s",
+	"%s moved %s from %s to %s on %s": "%s перемістив(ла) %s з %s в %s на %s"
+}

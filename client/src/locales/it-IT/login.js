@@ -22,10 +22,10 @@ export default {
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'Annulla e chiudi',
+      continue: 'Continua',
       logIn: 'Accedi',
-      logInWithSso: null,
+      logInWithSso: 'Accedi con SSO',
     },
   },
 };

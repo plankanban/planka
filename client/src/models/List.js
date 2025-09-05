@@ -135,47 +135,21 @@ export default class extends BaseModel {
       case ActionTypes.LIST_UPDATE: {
         const listModel = List.withId(payload.id);
 
-        let isClosed;
-        if (payload.data.type) {
-          const changedTypeState = getChangedTypeState(listModel, payload.data);
-
-          if (changedTypeState === ListTypeStates.OPENED) {
-            isClosed = false;
-          } else if (changedTypeState === ListTypeStates.CLOSED) {
-            isClosed = true;
-          }
-        }
-
-        listModel.update(payload.data);
-
-        if (isClosed !== undefined) {
-          listModel.cards.toModelArray().forEach((cardModel) => {
-            cardModel.update({
-              isClosed,
-            });
-
-            cardModel.linkedTasks.update({
-              isCompleted: isClosed,
-            });
-          });
-        }
-
-        break;
-      }
-      case ActionTypes.LIST_UPDATE_HANDLE: {
-        const listModel = List.withId(payload.list.id);
-
-        if (listModel) {
-          const changedTypeState = getChangedTypeState(listModel, payload.list);
-
+        if (payload.data.boardId && payload.data.boardId !== listModel.boardId) {
+          listModel.deleteWithRelated();
+        } else {
           let isClosed;
-          if (changedTypeState === ListTypeStates.OPENED) {
-            isClosed = false;
-          } else if (changedTypeState === ListTypeStates.CLOSED) {
-            isClosed = true;
+          if (payload.data.type) {
+            const changedTypeState = getChangedTypeState(listModel, payload.data);
+
+            if (changedTypeState === ListTypeStates.OPENED) {
+              isClosed = false;
+            } else if (changedTypeState === ListTypeStates.CLOSED) {
+              isClosed = true;
+            }
           }
 
-          listModel.update(prepareList(payload.list));
+          listModel.update(payload.data);
 
           if (isClosed !== undefined) {
             listModel.cards.toModelArray().forEach((cardModel) => {
@@ -188,7 +162,43 @@ export default class extends BaseModel {
               });
             });
           }
-        } else {
+        }
+
+        break;
+      }
+      case ActionTypes.LIST_UPDATE_HANDLE: {
+        const listModel = List.withId(payload.list.id);
+
+        if (listModel) {
+          if (payload.list.boardId === null || payload.isFetched) {
+            listModel.deleteWithRelated();
+          }
+
+          if (payload.list.boardId !== null) {
+            const changedTypeState = getChangedTypeState(listModel, payload.list);
+
+            let isClosed;
+            if (changedTypeState === ListTypeStates.OPENED) {
+              isClosed = false;
+            } else if (changedTypeState === ListTypeStates.CLOSED) {
+              isClosed = true;
+            }
+
+            if (isClosed !== undefined) {
+              listModel.cards.toModelArray().forEach((cardModel) => {
+                cardModel.update({
+                  isClosed,
+                });
+
+                cardModel.linkedTasks.update({
+                  isCompleted: isClosed,
+                });
+              });
+            }
+          }
+        }
+
+        if (payload.list.boardId !== null) {
           List.upsert(prepareList(payload.list));
         }
 
