@@ -181,6 +181,7 @@ export default {
       enterTaskDescription: 'Podaj opis zadania...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtruj Po Oznaczeniach',
       filterByMembers_title: 'Filtruj Po Członkach',
       forPersonalProjects: 'Dla projektów osobistych.',

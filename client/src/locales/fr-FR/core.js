@@ -193,6 +193,7 @@ export default {
       enterTaskDescription: 'Saisir la description de la tâche...',
       events: 'Événements',
       excludedEvents: 'Événements exclus',
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtrer par étiquettes',
       filterByMembers_title: 'Filtrer par membres',
       forPersonalProjects: 'Pour les projets personnels',

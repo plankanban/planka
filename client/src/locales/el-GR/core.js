@@ -200,6 +200,7 @@ export default {
       enterTaskDescription: 'Εισάγετε περιγραφή εργασίας...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Φιλτράρισμα κατά ετικέτες',
       filterByMembers_title: 'Φιλτράρισμα κατά μέλη',
       forPersonalProjects: 'Για προσωπικά έργα.',

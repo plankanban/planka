@@ -174,6 +174,7 @@ export default {
       enterTaskDescription: 'Vlož popis úlohy...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtruj podľa štítku',
       filterByMembers_title: 'Filtruj podľa člena',
       forPersonalProjects: null,

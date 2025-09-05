@@ -171,6 +171,7 @@ export default {
       enterTaskDescription: 'Görev açıklamasını girin...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Etikete Göre Filtrele',
       filterByMembers_title: 'Üyelere göre filtrele',
       forPersonalProjects: null,

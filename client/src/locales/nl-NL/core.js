@@ -174,6 +174,7 @@ export default {
       enterTaskDescription: 'Taakbeschrijving invoeren...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filteren op labels',
       filterByMembers_title: 'Filteren op leden',
       forPersonalProjects: null,

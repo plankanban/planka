@@ -175,6 +175,7 @@ export default {
       enterTaskDescription: 'Introduza a descrição da tarefa...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtrar por Etiquetas',
       filterByMembers_title: 'Filtrar por Membros',
       forPersonalProjects: null,

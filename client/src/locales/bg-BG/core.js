@@ -175,6 +175,7 @@ export default {
       enterTaskDescription: 'Въведете описание на задачата...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Филтриране по етикети',
       filterByMembers_title: 'Филтриране по членове',
       forPersonalProjects: null,

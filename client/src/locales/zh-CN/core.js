@@ -171,6 +171,7 @@ export default {
       enterTaskDescription: '输入任务描述...',
       events: '事件',
       excludedEvents: '排除事件',
+      expandTaskListsByDefault: null,
       filterByLabels_title: '通过标签筛选',
       filterByMembers_title: '通过成员筛选',
       forPersonalProjects: '用于个人项目',

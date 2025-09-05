@@ -186,6 +186,7 @@ export default {
       enterTaskDescription: 'Введіть опис завдання...',
       events: 'Події',
       excludedEvents: 'Виключені події',
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Фільтрувати за Мітками',
       filterByMembers_title: 'Фільтрувати за Учасниками',
       forPersonalProjects: 'Для особистих проектів.',

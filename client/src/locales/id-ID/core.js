@@ -174,6 +174,7 @@ export default {
       enterTaskDescription: 'Masukkan deskripsi tugas...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Saring berdasarkan Label',
       filterByMembers_title: 'Saring berdasarkan Anggota',
       forPersonalProjects: null,

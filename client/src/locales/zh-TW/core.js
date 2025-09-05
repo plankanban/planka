@@ -168,6 +168,7 @@ export default {
       enterTaskDescription: '輸入任務描述...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: '通過標籤篩選',
       filterByMembers_title: '通過成員篩選',
       forPersonalProjects: null,

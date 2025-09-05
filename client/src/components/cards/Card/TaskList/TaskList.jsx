@@ -22,7 +22,11 @@ const TaskList = React.memo(({ id }) => {
   const taskLists = useSelector((state) => selectTaskListById(state, id));
   const tasks = useSelector((state) => selectTasksByTaskListId(state, id));
 
-  const [isOpened, toggleOpened] = useToggle();
+  const defaultIsOpened = useSelector(
+    (state) => selectors.selectCurrentBoard(state).expandTaskListsByDefault,
+  );
+
+  const [isOpened, toggleOpened] = useToggle(defaultIsOpened);
 
   const filteredTasks = useMemo(
     () => (taskLists.hideCompletedTasks ? tasks.filter((task) => !task.isCompleted) : tasks),

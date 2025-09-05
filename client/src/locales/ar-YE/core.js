@@ -171,6 +171,7 @@ export default {
       enterTaskDescription: 'أدخل وصف المهمة...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'تصفية حسب الملصقات',
       filterByMembers_title: 'تصفية حسب الأعضاء',
       forPersonalProjects: null,

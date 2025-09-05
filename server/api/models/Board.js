@@ -61,6 +61,11 @@ module.exports = {
       defaultsTo: false,
       columnName: 'always_display_card_creator',
     },
+    expandTaskListsByDefault: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'expand_task_lists_by_default',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗

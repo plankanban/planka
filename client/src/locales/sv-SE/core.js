@@ -173,6 +173,7 @@ export default {
       enterTaskDescription: 'Ange uppgiftsbeskrivning...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtrera efter etiketter',
       filterByMembers_title: 'Filtrera efter medlemmar',
       forPersonalProjects: null,

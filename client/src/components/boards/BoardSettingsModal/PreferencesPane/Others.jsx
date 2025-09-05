@@ -43,6 +43,14 @@ const Others = React.memo(() => {
         className={styles.radio}
         onChange={handleChange}
       />
+      <Radio
+        toggle
+        name="expandTaskListsByDefault"
+        checked={board.expandTaskListsByDefault}
+        label={t('common.expandTaskListsByDefault')}
+        className={styles.radio}
+        onChange={handleChange}
+      />
     </Segment>
   );
 });

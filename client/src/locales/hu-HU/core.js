@@ -182,6 +182,7 @@ export default {
       enterTaskDescription: 'Adja meg a feladat leírását...',
       events: 'Események',
       excludedEvents: 'Kizárt események',
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Szűrés címkék alapján',
       filterByMembers_title: 'Szűrés tagok alapján',
       forPersonalProjects: 'Személyes projektekhez.',

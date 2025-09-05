@@ -184,6 +184,7 @@ export default {
       enterTaskDescription: 'Enter task description...',
       events: 'Events',
       excludedEvents: 'Excluded events',
+      expandTaskListsByDefault: 'Expand task lists by default',
       filterByLabels_title: 'Filter By Labels',
       filterByMembers_title: 'Filter By Members',
       forPersonalProjects: 'For personal projects.',

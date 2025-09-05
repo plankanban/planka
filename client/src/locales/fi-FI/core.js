@@ -185,6 +185,7 @@ export default {
       enterTaskDescription: 'Syötä tehtävän kuvaus...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Suodata tunnisteiden mukaan',
       filterByMembers_title: 'Suodata jäsenten mukaan',
       forPersonalProjects: 'Henkilökohtaisiin projekteihin.',

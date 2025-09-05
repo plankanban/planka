@@ -190,6 +190,7 @@ export default {
       enterTaskDescription: 'Escribe la descripción de la tarea...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtrar por Etiquetas',
       filterByMembers_title: 'Filtrar por Miembros',
       forPersonalProjects: 'Para proyectos personales',

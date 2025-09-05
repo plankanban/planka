@@ -189,6 +189,7 @@ export default {
       enterTaskDescription: 'Sisestage ülesande kirjeldus...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtreeri siltide järgi',
       filterByMembers_title: 'Filtreeri liikmete järgi',
       forPersonalProjects: 'Inimlikuks projektideks.',

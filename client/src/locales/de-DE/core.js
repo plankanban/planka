@@ -199,6 +199,7 @@ export default {
       enterTaskDescription: 'Aufgabenbeschreibung eingeben...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Nach Label filtern',
       filterByMembers_title: 'Nach Mitgliedern filtern',
       forPersonalProjects: 'Für persönliche Projekte.',

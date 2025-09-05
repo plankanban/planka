@@ -172,6 +172,7 @@ export default {
       enterTaskDescription: 'توضیحات وظیفه را وارد کنید...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'فیلتر بر اساس برچسب‌ها',
       filterByMembers_title: 'فیلتر بر اساس اعضا',
       forPersonalProjects: null,

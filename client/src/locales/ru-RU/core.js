@@ -188,6 +188,7 @@ export default {
       enterTaskDescription: 'Введите описание задачи...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Фильтр по меткам',
       filterByMembers_title: 'Фильтр по участникам',
       forPersonalProjects: 'Для личных проектов',

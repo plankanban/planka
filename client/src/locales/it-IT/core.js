@@ -191,6 +191,7 @@ export default {
       enterTaskDescription: 'Inserire descrizione della task...',
       events: 'Eventi',
       excludedEvents: 'Eventi esclusi',
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtra per etichetta',
       filterByMembers_title: 'Filtra per membro',
       forPersonalProjects: 'Per progetti personali',

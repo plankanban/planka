@@ -172,6 +172,7 @@ export default {
       enterTaskDescription: '작업 설명 입력...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: '라벨별 필터링',
       filterByMembers_title: '멤버별 필터링',
       forPersonalProjects: null,

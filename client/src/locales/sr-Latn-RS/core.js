@@ -171,6 +171,7 @@ export default {
       enterTaskDescription: 'Unesi opis zadatka...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtriraj prema oznakama',
       filterByMembers_title: 'Filtriraj prema članovima',
       forPersonalProjects: null,

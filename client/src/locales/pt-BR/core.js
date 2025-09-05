@@ -191,6 +191,7 @@ export default {
       enterTaskDescription: 'Digite a descrição da tarefa...',
       events: 'Eventos',
       excludedEvents: 'Eventos Excluídos',
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtrar por Rótulos',
       filterByMembers_title: 'Filtrar por Membros',
       forPersonalProjects: 'Para projetos pessoais.',

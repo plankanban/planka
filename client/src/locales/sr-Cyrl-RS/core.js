@@ -174,6 +174,7 @@ export default {
       enterTaskDescription: 'Унеси опис задатка...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Филтрирај према ознакама',
       filterByMembers_title: 'Филтрирај према члановима',
       forPersonalProjects: null,

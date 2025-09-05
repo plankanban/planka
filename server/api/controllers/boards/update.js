@@ -33,13 +33,14 @@ module.exports = {
     defaultCardType: {
       type: 'string',
       isIn: Object.values(Card.Types),
-      allowNull: true,
     },
     limitCardTypesToDefaultOne: {
       type: 'boolean',
-      allowNull: true,
     },
     alwaysDisplayCardCreator: {
+      type: 'boolean',
+    },
+    expandTaskListsByDefault: {
       type: 'boolean',
     },
     isSubscribed: {
@@ -79,6 +80,7 @@ module.exports = {
         'defaultCardType',
         'limitCardTypesToDefaultOne',
         'alwaysDisplayCardCreator',
+        'expandTaskListsByDefault',
       );
     }
     if (isBoardMember) {
@@ -96,6 +98,7 @@ module.exports = {
       'defaultCardType',
       'limitCardTypesToDefaultOne',
       'alwaysDisplayCardCreator',
+      'expandTaskListsByDefault',
       'isSubscribed',
     ]);
 

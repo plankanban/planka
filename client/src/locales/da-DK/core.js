@@ -190,6 +190,7 @@ export default {
       enterTaskDescription: 'Angiv opgavens beskrivelse...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtrer labels',
       filterByMembers_title: 'Filtrer medlemmer',
       forPersonalProjects: 'For personlige projekter.',

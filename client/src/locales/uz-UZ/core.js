@@ -170,6 +170,7 @@ export default {
       enterTaskDescription: 'Topshiriq sarlavhasini kiriting...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: "Yorliq bo'yicha filter",
       filterByMembers_title: "A'zolar bo'yicha filter",
       forPersonalProjects: null,

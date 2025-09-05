@@ -174,6 +174,7 @@ export default {
       enterTaskDescription: 'タスクの説明を入力…',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'ラベルで絞り込む',
       filterByMembers_title: 'メンバーで絞り込む',
       forPersonalProjects: null,

@@ -174,6 +174,7 @@ export default {
       enterTaskDescription: 'Introduceți descrierea sarcinii...',
       events: null,
       excludedEvents: null,
+      expandTaskListsByDefault: null,
       filterByLabels_title: 'Filtrați după etichete',
       filterByMembers_title: 'Filtrați după membri',
       forPersonalProjects: null,
