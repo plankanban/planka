@@ -105,4 +105,6 @@ module.exports.custom = {
   smtpPassword: process.env.SMTP_PASSWORD,
   smtpFrom: process.env.SMTP_FROM,
   smtpTlsRejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
+
+  gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
 };

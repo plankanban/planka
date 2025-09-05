@@ -52,6 +52,13 @@ const UserAvatar = React.memo(
 
     const [t] = useTranslation();
 
+    let avatarUrl = null;
+    if (user.avatar) {
+      avatarUrl = user.avatar.thumbnailUrls.cover180;
+    } else if (user.gravatarUrl) {
+      avatarUrl = user.gravatarUrl;
+    }
+
     const contentNode = (
       <span
         title={
@@ -65,13 +72,13 @@ const UserAvatar = React.memo(
           styles.wrapper,
           styles[`wrapper${upperFirst(size)}`],
           onClick && styles.wrapperHoverable,
-          !user.avatar && styles[`background${upperFirst(camelCase(getColor(user.name)))}`],
+          !avatarUrl && styles[`background${upperFirst(camelCase(getColor(user.name)))}`],
         )}
         style={{
-          background: user.avatar && `url("${user.avatar.thumbnailUrls.cover180}") center / cover`,
+          background: avatarUrl && `url("${avatarUrl}") center / cover`,
         }}
       >
-        {!user.avatar && <span className={styles.initials}>{initials(user.name).slice(0, 2)}</span>}
+        {!avatarUrl && <span className={styles.initials}>{initials(user.name).slice(0, 2)}</span>}
         {withCreatorIndicator && <span className={styles.creatorIndicator}>+</span>}
       </span>
     );

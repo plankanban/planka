@@ -84,6 +84,10 @@ services:
       # - SMTP_PASSWORD=
       # - SMTP_FROM="Demo Demo" <demo@demo.demo>
       # - SMTP_TLS_REJECT_UNAUTHORIZED=false
+
+      # Using Gravatar directly exposes user IPs and hashed emails to a third party (GDPR risk).
+      # Use a proxy you control for privacy, or leave commented out or empty to disable.
+      # GRAVATAR_BASE_URL=https://www.gravatar.com/avatar/
     depends_on:
       postgres:
         condition: service_healthy
