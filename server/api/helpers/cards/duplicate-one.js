@@ -90,6 +90,7 @@ module.exports = {
         'name',
         'description',
         'dueDate',
+        'isDueCompleted',
         'stopwatch',
         'isClosed',
       ]),

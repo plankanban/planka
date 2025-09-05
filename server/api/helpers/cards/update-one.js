@@ -101,6 +101,20 @@ module.exports = {
       values.coverAttachmentId = values.coverAttachment.id;
     }
 
+    const dueDate = _.isUndefined(values.dueDate) ? inputs.record.dueDate : values.dueDate;
+
+    if (dueDate) {
+      const isDueCompleted = _.isUndefined(values.isDueCompleted)
+        ? inputs.record.isDueCompleted
+        : values.isDueCompleted;
+
+      if (_.isNull(isDueCompleted)) {
+        values.isDueCompleted = false;
+      }
+    } else {
+      values.isDueCompleted = null;
+    }
+
     let card;
     if (_.isEmpty(values)) {
       card = inputs.record;

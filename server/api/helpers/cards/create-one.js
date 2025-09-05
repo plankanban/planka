@@ -25,6 +25,14 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
+    if (values.dueDate) {
+      if (_.isNil(values.isDueCompleted)) {
+        values.isDueCompleted = false;
+      }
+    } else {
+      delete values.isDueCompleted;
+    }
+
     if (sails.helpers.lists.isFinite(values.list)) {
       if (_.isUndefined(values.position)) {
         throw 'positionMustBeInValues';

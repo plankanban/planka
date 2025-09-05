@@ -70,6 +70,10 @@ module.exports = {
       custom: isDueDate,
       allowNull: true,
     },
+    isDueCompleted: {
+      type: 'boolean',
+      allowNull: true,
+    },
     stopwatch: {
       type: 'json',
       custom: isStopwatch,
@@ -136,6 +140,7 @@ module.exports = {
         'name',
         'description',
         'dueDate',
+        'isDueCompleted',
         'stopwatch',
       );
     }
@@ -195,6 +200,7 @@ module.exports = {
       'name',
       'description',
       'dueDate',
+      'isDueCompleted',
       'stopwatch',
       'isSubscribed',
     ]);

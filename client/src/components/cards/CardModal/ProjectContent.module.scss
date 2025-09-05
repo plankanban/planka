@@ -60,6 +60,12 @@
     vertical-align: top;
   }
 
+  .attachmentDueDate {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+  }
+
   .attachments {
     display: inline-block;
     margin: 0 8px 8px 0;
