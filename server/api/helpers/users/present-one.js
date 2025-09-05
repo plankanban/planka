@@ -36,6 +36,12 @@ module.exports = {
       termsType: sails.hooks.terms.getTypeByUserRole(inputs.record.role),
     };
 
+    const gravatarUrl = sails.helpers.users.buildGravatarUrl(inputs.record);
+
+    if (gravatarUrl) {
+      data.gravatarUrl = gravatarUrl;
+    }
+
     if (inputs.user) {
       const isForCurrentUser = inputs.record.id === inputs.user.id;
       const isForAdmin = inputs.user.role === User.Roles.ADMIN;
