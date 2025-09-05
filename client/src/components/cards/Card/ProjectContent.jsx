@@ -190,8 +190,8 @@ const ProjectContent = React.memo(({ cardId }) => {
               <DueDateChip
                 value={card.dueDate}
                 size="tiny"
+                isCompleted={card.isDueCompleted}
                 withStatus={!card.isClosed}
-                isCompleted={card.dueCompleted}
               />
             </span>
           )}

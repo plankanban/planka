@@ -49,6 +49,10 @@ module.exports = {
       type: 'string',
       custom: isDueDate,
     },
+    isDueCompleted: {
+      type: 'boolean',
+      allowNull: true,
+    },
     stopwatch: {
       type: 'json',
       custom: isStopwatch,
@@ -93,6 +97,7 @@ module.exports = {
       'name',
       'description',
       'dueDate',
+      'isDueCompleted',
       'stopwatch',
     ]);
 

@@ -4,11 +4,11 @@
  */
 
 import upperFirst from 'lodash/upperFirst';
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { Icon, Checkbox } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import { useForceUpdate } from '../../../lib/hooks';
 
 import getDateFormat from '../../../utils/get-date-format';
@@ -73,16 +73,7 @@ const getStatus = (date, isCompleted) => {
 };
 
 const DueDateChip = React.memo(
-  ({
-    value,
-    size,
-    isDisabled,
-    withStatus,
-    withStatusIcon,
-    onClick,
-    isCompleted,
-    onUpdateCompletion,
-  }) => {
+  ({ value, size, isCompleted, isDisabled, withStatus, withStatusIcon, onClick }) => {
     const [t] = useTranslation();
     const forceUpdate = useForceUpdate();
 
@@ -110,7 +101,7 @@ const DueDateChip = React.memo(
             forceUpdate();
           }
 
-          if (status === Statuses.OVERDUE || status === Statuses.COMPLETED) {
+          if (status === Statuses.OVERDUE) {
             clearInterval(intervalRef.current);
           }
         }, 1000);
@@ -121,18 +112,7 @@ const DueDateChip = React.memo(
           clearInterval(intervalRef.current);
         }
       };
-    }, [value, withStatus, forceUpdate, isCompleted]);
-
-    const handleToggleChange = useCallback(
-      (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        if (!isDisabled && onUpdateCompletion) {
-          onUpdateCompletion(!isCompleted);
-        }
-      },
-      [onUpdateCompletion, isCompleted, isDisabled],
-    );
+    }, [value, isCompleted, withStatus, forceUpdate]);
 
     const contentNode = (
       <span
@@ -154,60 +134,6 @@ const DueDateChip = React.memo(
       </span>
     );
 
-    if (onUpdateCompletion) {
-      return (
-        <div
-          className={classNames(
-            styles.wrapperGroup,
-            statusRef.current && styles[`wrapper${upperFirst(statusRef.current)}`],
-          )}
-        >
-          <button
-            type="button"
-            aria-label="Toggle completion"
-            className={classNames(
-              styles.wrapper,
-              styles[`wrapper${upperFirst(size)}`],
-              styles.wrapperCheckbox,
-            )}
-            onClick={handleToggleChange}
-            disabled={isDisabled}
-          >
-            <Checkbox
-              className={styles.checkbox}
-              checked={isCompleted}
-              disabled={isDisabled}
-              onChange={handleToggleChange}
-            />
-          </button>
-          {onClick ? (
-            <button
-              type="button"
-              disabled={isDisabled}
-              className={classNames(
-                styles.wrapper,
-                styles[`wrapper${upperFirst(size)}`],
-                styles.wrapperButton,
-              )}
-              onClick={onClick}
-            >
-              {contentNode}
-            </button>
-          ) : (
-            <span
-              className={classNames(
-                styles.wrapper,
-                styles[`wrapper${upperFirst(size)}`],
-                statusRef.current && styles[`wrapper${upperFirst(statusRef.current)}`],
-              )}
-            >
-              {contentNode}
-            </span>
-          )}
-        </div>
-      );
-    }
-
     return onClick ? (
       <button type="button" disabled={isDisabled} className={styles.button} onClick={onClick}>
         {contentNode}
@@ -221,12 +147,11 @@ const DueDateChip = React.memo(
 DueDateChip.propTypes = {
   value: PropTypes.instanceOf(Date).isRequired,
   size: PropTypes.oneOf(Object.values(Sizes)),
+  isCompleted: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool,
   withStatus: PropTypes.bool.isRequired,
   withStatusIcon: PropTypes.bool,
   onClick: PropTypes.func,
-  isCompleted: PropTypes.bool,
-  onUpdateCompletion: PropTypes.func,
 };
 
 DueDateChip.defaultProps = {
@@ -234,8 +159,6 @@ DueDateChip.defaultProps = {
   isDisabled: false,
   withStatusIcon: false,
   onClick: undefined,
-  isCompleted: false,
-  onUpdateCompletion: undefined,
 };
 
 export default DueDateChip;

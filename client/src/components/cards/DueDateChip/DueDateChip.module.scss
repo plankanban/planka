@@ -67,33 +67,4 @@
     background: #21ba45;
     color: #fff;
   }
-
-  /* Checkbox functionality styles */
-
-  .wrapperGroup {
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .wrapperCheckbox {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    margin-right: 4px;
-  }
-
-  .wrapperButton {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-  }
-
-  .checkbox {
-    margin: 0;
-  }
 }

@@ -19,9 +19,7 @@ export default class extends BaseModel {
     name: attr(),
     description: attr(),
     dueDate: attr(),
-    dueCompleted: attr({
-      getDefault: () => false,
-    }),
+    isDueCompleted: attr(),
     stopwatch: attr(),
     isClosed: attr(),
     commentsTotal: attr({
@@ -326,6 +324,16 @@ export default class extends BaseModel {
             payload.data.listChangedAt = new Date(); // eslint-disable-line no-param-reassign
           }
 
+          if (payload.data.dueDate !== undefined) {
+            if (payload.data.dueDate) {
+              if (!cardModel.dueDate) {
+                payload.data.isDueCompleted = false; // eslint-disable-line no-param-reassign
+              }
+            } else {
+              payload.data.isDueCompleted = null; // eslint-disable-line no-param-reassign
+            }
+          }
+
           if (payload.data.isClosed !== undefined && payload.data.isClosed !== cardModel.isClosed) {
             cardModel.linkedTasks.update({
               isCompleted: payload.data.isClosed,
@@ -571,6 +579,7 @@ export default class extends BaseModel {
       name: this.name,
       description: this.description,
       dueDate: this.dueDate,
+      isDueCompleted: this.isDueCompleted,
       stopwatch: this.stopwatch,
       isClosed: this.isClosed,
       ...data,

@@ -175,6 +175,14 @@ const ProjectContent = React.memo(() => {
     [dispatch],
   );
 
+  const handleDueCompletionChange = useCallback(() => {
+    dispatch(
+      entryActions.updateCurrentCard({
+        isDueCompleted: !card.isDueCompleted,
+      }),
+    );
+  }, [card.isDueCompleted, dispatch]);
+
   const handleToggleStopwatchClick = useCallback(() => {
     dispatch(
       entryActions.updateCurrentCard({
@@ -184,17 +192,6 @@ const ProjectContent = React.memo(() => {
       }),
     );
   }, [card.stopwatch, dispatch]);
-
-  const handleDueDateCompletionUpdate = useCallback(
-    (dueCompleted) => {
-      dispatch(
-        entryActions.updateCurrentCard({
-          dueCompleted,
-        }),
-      );
-    },
-    [dispatch],
-  );
 
   const handleRestoreClick = useCallback(() => {
     dispatch(entryActions.moveCurrentCard(card.prevListId, undefined, true));
@@ -424,17 +421,19 @@ const ProjectContent = React.memo(() => {
                   <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
                     {canEditDueDate ? (
                       <>
-                        <Checkbox
-                          checked={card.dueCompleted}
-                          disabled={!canEditDueDate}
-                          onChange={() => handleDueDateCompletionUpdate(!card.dueCompleted)}
-                        />
+                        {!card.isClosed && (
+                          <Checkbox
+                            checked={card.isDueCompleted}
+                            disabled={!canEditDueDate}
+                            onChange={handleDueCompletionChange}
+                          />
+                        )}
                         <EditDueDatePopup cardId={card.id}>
                           <DueDateChip
                             withStatusIcon
                             value={card.dueDate}
+                            isCompleted={card.isDueCompleted}
                             withStatus={!card.isClosed}
-                            isCompleted={card.dueCompleted}
                           />
                         </EditDueDatePopup>
                       </>
@@ -442,8 +441,8 @@ const ProjectContent = React.memo(() => {
                       <DueDateChip
                         withStatusIcon
                         value={card.dueDate}
+                        isCompleted={card.isDueCompleted}
                         withStatus={!card.isClosed}
-                        isCompleted={card.dueCompleted}
                       />
                     )}
                   </span>

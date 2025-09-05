@@ -45,10 +45,10 @@ module.exports = {
       type: 'ref',
       columnName: 'due_date',
     },
-    dueCompleted: {
+    isDueCompleted: {
       type: 'boolean',
-      defaultsTo: false,
-      columnName: 'due_completed',
+      allowNull: true,
+      columnName: 'is_due_completed',
     },
     stopwatch: {
       type: 'json',
