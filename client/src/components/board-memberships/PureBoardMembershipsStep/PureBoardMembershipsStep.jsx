@@ -29,15 +29,15 @@ const PureBoardMembershipsStep = React.memo(
     const [search, handleSearchChange] = useField('');
     const cleanSearch = useMemo(() => search.trim().toLowerCase(), [search]);
 
-    const filteredItems = useMemo(
-      () =>
-        items.filter(
+    const filteredItems = useMemo(() => {
+      return items
+        .filter(
           ({ user }) =>
             user.name.toLowerCase().includes(cleanSearch) ||
             (user.username && user.username.includes(cleanSearch)),
-        ),
-      [items, cleanSearch],
-    );
+        )
+        .sort((user1, user2) => user1.user.name.localeCompare(user2.user.name));
+    }, [items, cleanSearch]);
 
     const [searchFieldRef, handleSearchFieldRef] = useNestedRef('inputRef');
 
