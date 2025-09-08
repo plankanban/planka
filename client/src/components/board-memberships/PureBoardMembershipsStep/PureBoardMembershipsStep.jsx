@@ -3,6 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import orderBy from 'lodash/orderBy';
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -29,15 +30,18 @@ const PureBoardMembershipsStep = React.memo(
     const [search, handleSearchChange] = useField('');
     const cleanSearch = useMemo(() => search.trim().toLowerCase(), [search]);
 
-    const filteredItems = useMemo(() => {
-      return items
-        .filter(
-          ({ user }) =>
-            user.name.toLowerCase().includes(cleanSearch) ||
-            (user.username && user.username.includes(cleanSearch)),
-        )
-        .sort((user1, user2) => user1.user.name.localeCompare(user2.user.name));
-    }, [items, cleanSearch]);
+    const filteredItems = useMemo(
+      () =>
+        orderBy(
+          items.filter(
+            ({ user }) =>
+              user.name.toLowerCase().includes(cleanSearch) ||
+              (user.username && user.username.includes(cleanSearch)),
+          ),
+          ({ user }) => user.name.toLowerCase(),
+        ),
+      [items, cleanSearch],
+    );
 
     const [searchFieldRef, handleSearchFieldRef] = useNestedRef('inputRef');
 
