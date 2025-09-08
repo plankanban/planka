@@ -25,19 +25,19 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the custom field value
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         cardId:
  *           type: string
  *           description: ID of the card the value belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         customFieldGroupId:
  *           type: string
  *           description: ID of the custom field group the value belongs to
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         customFieldId:
  *           type: string
  *           description: ID of the custom field the value belongs to
- *           example: 1357158568008091267
+ *           example: "1357158568008091267"
  *         content:
  *           type: string
  *           description: Content/value of the custom field

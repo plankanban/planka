@@ -18,7 +18,7 @@
  *         description: ID of the board to create notification service for
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:

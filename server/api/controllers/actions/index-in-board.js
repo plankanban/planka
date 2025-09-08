@@ -18,14 +18,14 @@
  *         description: ID of the board to get actions for
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *       - name: beforeId
  *         in: query
  *         required: false
  *         description: ID to get actions before (for pagination)
  *         schema:
  *           type: string
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *     responses:
  *       200:
  *         description: Board actions retrieved successfully

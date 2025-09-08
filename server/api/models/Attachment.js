@@ -25,16 +25,16 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the attachment
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         cardId:
  *           type: string
  *           description: ID of the card the attachment belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         creatorUserId:
  *           type: string
  *           nullable: true
  *           description: ID of the user who created the attachment
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         type:
  *           type: string
  *           enum: [file, link]

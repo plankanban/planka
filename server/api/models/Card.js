@@ -25,30 +25,30 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the card
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         boardId:
  *           type: string
  *           description: ID of the board the card belongs to (denormalized)
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         listId:
  *           type: string
  *           description: ID of the list the card belongs to
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         creatorUserId:
  *           type: string
  *           nullable: true
  *           description: ID of the user who created the card
- *           example: 1357158568008091267
+ *           example: "1357158568008091267"
  *         prevListId:
  *           type: string
  *           nullable: true
  *           description: ID of the previous list the card was in (available when in archive or trash)
- *           example: 1357158568008091268
+ *           example: "1357158568008091268"
  *         coverAttachmentId:
  *           type: string
  *           nullable: true
  *           description: ID of the attachment used as cover
- *           example: 1357158568008091269
+ *           example: "1357158568008091269"
  *         type:
  *           type: string
  *           enum: [project, story]

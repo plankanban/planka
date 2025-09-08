@@ -23,11 +23,11 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the base custom field group
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         projectId:
  *           type: string
  *           description: ID of the project the base custom field group belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         name:
  *           type: string
  *           description: Name/title of the base custom field group

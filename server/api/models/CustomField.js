@@ -24,17 +24,17 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the custom field
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         baseCustomFieldGroupId:
  *           type: string
  *           nullable: true
  *           description: ID of the base custom field group the custom field belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         customFieldGroupId:
  *           type: string
  *           nullable: true
  *           description: ID of the custom field group the custom field belongs to
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         position:
  *           type: number
  *           description: Position of the custom field within the group

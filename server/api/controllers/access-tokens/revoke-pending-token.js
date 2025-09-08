@@ -34,7 +34,8 @@
  *               type: object
  *               properties:
  *                 item:
- *                   type: null
+ *                   type: object
+ *                   nullable: true
  *                   description: No data returned
  *                   example: null
  *       400:

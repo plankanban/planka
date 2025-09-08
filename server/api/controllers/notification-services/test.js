@@ -18,7 +18,7 @@
  *         description: ID of the notification service to test
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     responses:
  *       200:
  *         description: Test notification sent successfully

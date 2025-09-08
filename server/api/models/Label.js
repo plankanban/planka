@@ -24,11 +24,11 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the label
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         boardId:
  *           type: string
  *           description: ID of the board the label belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         position:
  *           type: number
  *           description: Position of the label within the board

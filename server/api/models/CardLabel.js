@@ -23,15 +23,15 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the card-label association
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         cardId:
  *           type: string
  *           description: ID of the card the label is associated with
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         labelId:
  *           type: string
  *           description: ID of the label associated with the card
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         createdAt:
  *           type: string
  *           format: date-time

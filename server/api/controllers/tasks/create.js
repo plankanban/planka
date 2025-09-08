@@ -18,7 +18,7 @@
  *         description: ID of the task list to create task in
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -31,7 +31,7 @@
  *               linkedCardId:
  *                 type: string
  *                 description: ID of the card linked to the task
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *               position:
  *                 type: number
  *                 minimum: 0

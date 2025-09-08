@@ -24,21 +24,21 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the action
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         boardId:
  *           type: string
  *           nullable: true
  *           description: ID of the board where the action occurred
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         cardId:
  *           type: string
  *           description: ID of the card where the action occurred
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         userId:
  *           type: string
  *           nullable: true
  *           description: ID of the user who performed the action
- *           example: 1357158568008091267
+ *           example: "1357158568008091267"
  *         type:
  *           type: string
  *           enum: [createCard, moveCard, addMemberToCard, removeMemberFromCard, completeTask, uncompleteTask]

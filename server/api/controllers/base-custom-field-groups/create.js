@@ -18,7 +18,7 @@
  *         description: ID of the project to create the base custom field group in
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:

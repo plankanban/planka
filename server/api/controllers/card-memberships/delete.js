@@ -18,14 +18,14 @@
  *         description: ID of the card to remove the user from
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *       - name: userId
  *         in: path
  *         required: true
  *         description: ID of the user to remove from the card
  *         schema:
  *           type: string
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *     responses:
  *       200:
  *         description: User removed from card successfully

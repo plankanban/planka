@@ -18,7 +18,7 @@
  *         description: ID of the list to get cards from (must be an endless list)
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *       - name: before
  *         in: query
  *         required: false

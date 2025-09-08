@@ -18,7 +18,7 @@
  *         description: ID of the board to add the user to
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -32,7 +32,7 @@
  *               userId:
  *                 type: string
  *                 description: ID of the user to add to the board
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *               role:
  *                 type: string
  *                 enum: [editor, viewer]

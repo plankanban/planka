@@ -18,7 +18,7 @@
  *         description: ID of the project to update
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -30,12 +30,12 @@
  *                 type: string
  *                 nullable: true
  *                 description: ID of the project manager who owns the project
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *               backgroundImageId:
  *                 type: string
  *                 nullable: true
  *                 description: ID of the background image used as background
- *                 example: 1357158568008091266
+ *                 example: "1357158568008091266"
  *               name:
  *                 type: string
  *                 maxLength: 128

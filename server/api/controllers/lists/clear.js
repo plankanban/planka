@@ -18,7 +18,7 @@
  *         description: ID of the list to clear (must be a trash-type list)
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     responses:
  *       200:
  *         description: List cleared successfully

@@ -18,7 +18,7 @@
  *         description: ID of the background image to delete
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     responses:
  *       200:
  *         description: Background image deleted successfully

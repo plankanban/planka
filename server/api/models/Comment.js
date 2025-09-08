@@ -23,16 +23,16 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the comment
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         cardId:
  *           type: string
  *           description: ID of the card the comment belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         userId:
  *           type: string
  *           nullable: true
  *           description: ID of the user who created the comment
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         text:
  *           type: string
  *           description: Content of the comment

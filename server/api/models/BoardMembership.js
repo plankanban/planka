@@ -25,19 +25,19 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the board membership
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         projectId:
  *           type: string
  *           description: ID of the project the board membership belongs to (denormalized)
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         boardId:
  *           type: string
  *           description: ID of the board the membership is associated with
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         userId:
  *           type: string
  *           description: ID of the user who is a member of the board
- *           example: 1357158568008091267
+ *           example: "1357158568008091267"
  *         role:
  *           type: string
  *           enum: [editor, viewer]

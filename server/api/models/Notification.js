@@ -28,34 +28,34 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the notification
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         userId:
  *           type: string
  *           description: ID of the user who receives the notification
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         creatorUserId:
  *           type: string
  *           nullable: true
  *           description: ID of the user who created the notification
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         boardId:
  *           type: string
  *           description: ID of the board associated with the notification (denormalized)
- *           example: 1357158568008091267
+ *           example: "1357158568008091267"
  *         cardId:
  *           type: string
  *           description: ID of the card associated with the notification
- *           example: 1357158568008091268
+ *           example: "1357158568008091268"
  *         commentId:
  *           type: string
  *           nullable: true
  *           description: ID of the comment associated with the notification
- *           example: 1357158568008091269
+ *           example: "1357158568008091269"
  *         actionId:
  *           type: string
  *           nullable: true
  *           description: ID of the action associated with the notification
- *           example: 1357158568008091270
+ *           example: "1357158568008091270"
  *         type:
  *           type: string
  *           enum: [moveCard, commentCard, addMemberToCard, mentionInComment]

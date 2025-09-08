@@ -18,7 +18,7 @@
  *         description: ID of the project to upload background image for
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:

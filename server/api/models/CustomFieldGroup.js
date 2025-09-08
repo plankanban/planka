@@ -22,22 +22,22 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the custom field group
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         boardId:
  *           type: string
  *           nullable: true
  *           description: ID of the board the custom field group belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         cardId:
  *           type: string
  *           nullable: true
  *           description: ID of the card the custom field group belongs to
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         baseCustomFieldGroupId:
  *           type: string
  *           nullable: true
  *           description: ID of the base custom field group used as a template
- *           example: 1357158568008091267
+ *           example: "1357158568008091267"
  *         position:
  *           type: number
  *           description: Position of the custom field group within the board/card

@@ -26,7 +26,7 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the user
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         email:
  *           type: string
  *           format: email

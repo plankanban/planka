@@ -23,7 +23,7 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the webhook
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         name:
  *           type: string
  *           description: Name/title of the webhook

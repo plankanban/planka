@@ -23,17 +23,17 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the notification service
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         userId:
  *           type: string
  *           nullable: true
  *           description: ID of the user the service is associated with
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         boardId:
  *           type: string
  *           nullable: true
  *           description: ID of the board the service is associated with
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         url:
  *           type: string
  *           description: URL endpoint for notifications

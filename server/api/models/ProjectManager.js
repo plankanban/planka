@@ -23,15 +23,15 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the project manager
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         projectId:
  *           type: string
  *           description: ID of the project the manager is associated with
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         userId:
  *           type: string
  *           description: ID of the user who is assigned as project manager
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         createdAt:
  *           type: string
  *           format: date-time

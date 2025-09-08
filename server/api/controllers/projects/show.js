@@ -18,7 +18,7 @@
  *         description: ID of the project to retrieve
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     responses:
  *       200:
  *         description: Project details retrieved successfully

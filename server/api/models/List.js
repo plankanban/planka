@@ -23,11 +23,11 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the list
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         boardId:
  *           type: string
  *           description: ID of the board the list belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         type:
  *           type: string
  *           enum: [active, closed, archive, trash]

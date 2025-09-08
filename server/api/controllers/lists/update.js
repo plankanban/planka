@@ -18,7 +18,7 @@
  *         description: ID of the list to update
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -29,7 +29,7 @@
  *               boardId:
  *                 type: string
  *                 description: ID of the board to move list to
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *               type:
  *                 type: string
  *                 enum: [active, closed]

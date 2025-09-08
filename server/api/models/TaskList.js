@@ -24,11 +24,11 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the task list
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         cardId:
  *           type: string
  *           description: ID of the card the task list belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         position:
  *           type: number
  *           description: Position of the task list within the card

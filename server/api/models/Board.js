@@ -24,11 +24,11 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the board
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         projectId:
  *           type: string
  *           description: ID of the project the board belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         position:
  *           type: number
  *           description: Position of the board within the project

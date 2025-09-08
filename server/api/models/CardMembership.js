@@ -23,15 +23,15 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the card membership
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         cardId:
  *           type: string
  *           description: ID of the card the user is a member of
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         userId:
  *           type: string
  *           description: ID of the user who is a member of the card
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         createdAt:
  *           type: string
  *           format: date-time

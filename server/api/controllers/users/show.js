@@ -18,7 +18,7 @@
  *         description: ID of the user or 'me' for current user
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *       - name: subscribe
  *         in: query
  *         required: false

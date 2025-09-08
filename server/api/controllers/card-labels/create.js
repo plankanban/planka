@@ -18,7 +18,7 @@
  *         description: ID of the card to add the label to
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -31,7 +31,7 @@
  *               labelId:
  *                 type: string
  *                 description: ID of the label to add to the card
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *     responses:
  *       200:
  *         description: Label added to card successfully

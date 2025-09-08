@@ -22,17 +22,17 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the project
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         ownerProjectManagerId:
  *           type: string
  *           nullable: true
  *           description: ID of the project manager who owns the project
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         backgroundImageId:
  *           type: string
  *           nullable: true
  *           description: ID of the background image used as background
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         name:
  *           type: string
  *           description: Name/title of the project

@@ -18,7 +18,7 @@
  *         description: ID of the project manager to remove
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     responses:
  *       200:
  *         description: Project manager removed successfully

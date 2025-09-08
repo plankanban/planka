@@ -18,7 +18,7 @@
  *         description: ID of the task to update
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -29,12 +29,12 @@
  *               taskListId:
  *                 type: string
  *                 description: ID of the task list to move the task to
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *               assigneeUserId:
  *                 type: string
  *                 nullable: true
  *                 description: ID of the user assigned to the task (null to unassign)
- *                 example: 1357158568008091266
+ *                 example: "1357158568008091266"
  *               position:
  *                 type: number
  *                 minimum: 0

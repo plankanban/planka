@@ -24,21 +24,21 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the task
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         taskListId:
  *           type: string
  *           description: ID of the task list the task belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         linkedCardId:
  *           type: string
  *           nullable: true
  *           description: ID of the card linked to the task
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *         assigneeUserId:
  *           type: string
  *           nullable: true
  *           description: ID of the user assigned to the task
- *           example: 1357158568008091267
+ *           example: "1357158568008091267"
  *         position:
  *           type: number
  *           description: Position of the task within the task list

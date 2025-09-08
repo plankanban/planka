@@ -18,21 +18,21 @@
  *         description: ID of the card to delete the custom field value from
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *       - name: customFieldGroupId
  *         in: path
  *         required: true
  *         description: ID of the custom field group the value belongs to
  *         schema:
  *           type: string
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *       - name: customFieldId
  *         in: path
  *         required: true
  *         description: ID of the custom field the value belongs to
  *         schema:
  *           type: string
- *           example: 1357158568008091266
+ *           example: "1357158568008091266"
  *     responses:
  *       200:
  *         description: Custom field value deleted successfully

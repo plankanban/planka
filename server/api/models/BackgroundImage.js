@@ -25,11 +25,11 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the background image
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *         projectId:
  *           type: string
  *           description: ID of the project the background image belongs to
- *           example: 1357158568008091265
+ *           example: "1357158568008091265"
  *         size:
  *           type: string
  *           description: File size of the background image in bytes

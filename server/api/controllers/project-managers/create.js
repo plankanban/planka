@@ -18,7 +18,7 @@
  *         description: ID of the project to add the manager to
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -31,7 +31,7 @@
  *               userId:
  *                 type: string
  *                 description: ID of the user who is assigned as project manager
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *     responses:
  *       200:
  *         description: Project manager added successfully

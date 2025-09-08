@@ -18,7 +18,7 @@
  *         description: ID of the card to set the custom field value for
  *         schema:
  *           type: string
- *           example: 1357158568008091264
+ *           example: "1357158568008091264"
  *     requestBody:
  *       required: true
  *       content:
@@ -33,11 +33,11 @@
  *               customFieldGroupId:
  *                 type: string
  *                 description: ID of the custom field group the value belongs to
- *                 example: 1357158568008091265
+ *                 example: "1357158568008091265"
  *               customFieldId:
  *                 type: string
  *                 description: ID of the custom field the value belongs to
- *                 example: 1357158568008091266
+ *                 example: "1357158568008091266"
  *               content:
  *                 type: string
  *                 maxLength: 512
