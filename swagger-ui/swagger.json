@@ -10344,13 +10344,13 @@
             "type": "string",
             "format": "date-time",
             "description": "When the webhook was created",
-            "example": "2024-03-01T12:00:00.000Z"
+            "example": "2024-01-01T00:00:00.000Z"
           },
           "updatedAt": {
             "type": "string",
             "format": "date-time",
             "description": "When the webhook was last updated",
-            "example": "2024-03-02T15:30:00.000Z"
+            "example": "2024-01-01T00:00:00.000Z"
           }
         }
       }
