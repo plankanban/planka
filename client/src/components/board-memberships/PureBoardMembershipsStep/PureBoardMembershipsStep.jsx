@@ -3,6 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import orderBy from 'lodash/orderBy';
 import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -31,10 +32,13 @@ const PureBoardMembershipsStep = React.memo(
 
     const filteredItems = useMemo(
       () =>
-        items.filter(
-          ({ user }) =>
-            user.name.toLowerCase().includes(cleanSearch) ||
-            (user.username && user.username.includes(cleanSearch)),
+        orderBy(
+          items.filter(
+            ({ user }) =>
+              user.name.toLowerCase().includes(cleanSearch) ||
+              (user.username && user.username.includes(cleanSearch)),
+          ),
+          ({ user }) => user.name.toLowerCase(),
         ),
       [items, cleanSearch],
     );
