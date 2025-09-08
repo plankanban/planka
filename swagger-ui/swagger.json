@@ -5657,7 +5657,7 @@
                     "type": "string",
                     "maxLength": 512,
                     "description": "URL endpoint for notifications",
-                    "example": "https://example.service.com/planka"
+                    "example": "https://service.example.com/planka"
                   },
                   "format": {
                     "type": "string",
@@ -5742,7 +5742,7 @@
                     "type": "string",
                     "maxLength": 512,
                     "description": "URL endpoint for notifications",
-                    "example": "https://example.service.com/planka"
+                    "example": "https://service.example.com/planka"
                   },
                   "format": {
                     "type": "string",
@@ -5871,7 +5871,7 @@
                     "type": "string",
                     "maxLength": 512,
                     "description": "URL endpoint for notifications",
-                    "example": "https://example.service.com/planka"
+                    "example": "https://service.example.com/planka"
                   },
                   "format": {
                     "type": "string",
@@ -8400,7 +8400,7 @@
                     "format": "url",
                     "maxLength": 2048,
                     "description": "URL endpoint for the webhook",
-                    "example": "https://example.service.com/planka"
+                    "example": "https://service.example.com/planka"
                   },
                   "accessToken": {
                     "type": "string",
@@ -8580,7 +8580,7 @@
                     "format": "url",
                     "maxLength": 2048,
                     "description": "URL endpoint for the webhook",
-                    "example": "https://example.service.com/planka"
+                    "example": "https://service.example.com/planka"
                   },
                   "accessToken": {
                     "type": "string",
@@ -8645,6 +8645,7 @@
       "Action": {
         "type": "object",
         "required": [
+          "id",
           "cardId",
           "type",
           "data"
@@ -8723,6 +8724,7 @@
       "Attachment": {
         "type": "object",
         "required": [
+          "id",
           "cardId",
           "type",
           "data",
@@ -8786,6 +8788,7 @@
       "BackgroundImage": {
         "type": "object",
         "required": [
+          "id",
           "projectId",
           "size",
           "url",
@@ -8847,6 +8850,7 @@
       "BaseCustomFieldGroup": {
         "type": "object",
         "required": [
+          "id",
           "projectId",
           "name"
         ],
@@ -8885,6 +8889,7 @@
       "Board": {
         "type": "object",
         "required": [
+          "id",
           "projectId",
           "position",
           "name"
@@ -8963,10 +8968,11 @@
       "BoardMembership": {
         "type": "object",
         "required": [
-          "role",
+          "id",
           "projectId",
           "boardId",
-          "userId"
+          "userId",
+          "role"
         ],
         "properties": {
           "id": {
@@ -9023,6 +9029,7 @@
       "Card": {
         "type": "object",
         "required": [
+          "id",
           "boardId",
           "listId",
           "type",
@@ -9159,6 +9166,7 @@
       "CardLabel": {
         "type": "object",
         "required": [
+          "id",
           "cardId",
           "labelId"
         ],
@@ -9197,6 +9205,7 @@
       "CardMembership": {
         "type": "object",
         "required": [
+          "id",
           "cardId",
           "userId"
         ],
@@ -9235,6 +9244,7 @@
       "Comment": {
         "type": "object",
         "required": [
+          "id",
           "cardId",
           "text"
         ],
@@ -9279,21 +9289,9 @@
       "Config": {
         "type": "object",
         "required": [
-          "id",
-          "isInitialized",
           "version"
         ],
         "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the config (always set to '1')",
-            "example": 1
-          },
-          "isInitialized": {
-            "type": "boolean",
-            "description": "Whether the PLANKA instance has been initialized",
-            "example": true
-          },
           "version": {
             "type": "string",
             "description": "Current version of the PLANKA application",
@@ -9305,25 +9303,42 @@
             "description": "Maximum number of active users allowed (conditionally added for admins if configured)",
             "example": 100
           },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
+          "oidc": {
+            "type": "object",
+            "required": [
+              "authorizationUrl",
+              "endSessionUrl",
+              "isEnforced"
+            ],
             "nullable": true,
-            "description": "When the config was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the config was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
+            "description": "OpenID Connect configuration (null if not configured)",
+            "properties": {
+              "authorizationUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "OIDC authorization URL for initiating authentication",
+                "example": "https://oidc.example.com/auth"
+              },
+              "endSessionUrl": {
+                "type": "string",
+                "format": "uri",
+                "nullable": true,
+                "description": "OIDC end session URL for logout (null if not supported by provider)",
+                "example": "https://oidc.example.com/logout"
+              },
+              "isEnforced": {
+                "type": "boolean",
+                "description": "Whether OIDC authentication is enforced (users must use OIDC to login)",
+                "example": false
+              }
+            }
           }
         }
       },
       "CustomField": {
         "type": "object",
         "required": [
+          "id",
           "position",
           "name",
           "showOnFrontOfCard"
@@ -9380,6 +9395,7 @@
       "CustomFieldGroup": {
         "type": "object",
         "required": [
+          "id",
           "position"
         ],
         "properties": {
@@ -9436,6 +9452,7 @@
       "CustomFieldValue": {
         "type": "object",
         "required": [
+          "id",
           "cardId",
           "customFieldGroupId",
           "customFieldId",
@@ -9486,6 +9503,7 @@
       "Label": {
         "type": "object",
         "required": [
+          "id",
           "boardId",
           "position",
           "color"
@@ -9580,6 +9598,7 @@
       "List": {
         "type": "object",
         "required": [
+          "id",
           "boardId",
           "type"
         ],
@@ -9746,6 +9765,7 @@
       "NotificationService": {
         "type": "object",
         "required": [
+          "id",
           "url",
           "format"
         ],
@@ -9770,7 +9790,7 @@
           "url": {
             "type": "string",
             "description": "URL endpoint for notifications",
-            "example": "https://example.service.com/planka"
+            "example": "https://service.example.com/planka"
           },
           "format": {
             "type": "string",
@@ -9801,6 +9821,7 @@
       "Project": {
         "type": "object",
         "required": [
+          "id",
           "name"
         ],
         "properties": {
@@ -9900,6 +9921,7 @@
       "ProjectManager": {
         "type": "object",
         "required": [
+          "id",
           "projectId",
           "userId"
         ],
@@ -9938,6 +9960,7 @@
       "Task": {
         "type": "object",
         "required": [
+          "id",
           "taskListId",
           "position",
           "name"
@@ -10000,6 +10023,7 @@
       "TaskList": {
         "type": "object",
         "required": [
+          "id",
           "cardId",
           "position",
           "name"
@@ -10298,6 +10322,7 @@
       "Webhook": {
         "type": "object",
         "required": [
+          "id",
           "name",
           "url"
         ],
@@ -10315,7 +10340,7 @@
           "url": {
             "type": "string",
             "description": "URL endpoint for the webhook",
-            "example": "https://example.service.com/planka"
+            "example": "https://webhook.example.com/planka"
           },
           "accessToken": {
             "type": "string",
