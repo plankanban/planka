@@ -17,6 +17,7 @@
  *     Project:
  *       type: object
  *       required:
+ *         - id
  *         - name
  *       properties:
  *         id:

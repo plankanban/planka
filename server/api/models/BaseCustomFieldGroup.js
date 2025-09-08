@@ -17,6 +17,7 @@
  *     BaseCustomFieldGroup:
  *       type: object
  *       required:
+ *         - id
  *         - projectId
  *         - name
  *       properties:

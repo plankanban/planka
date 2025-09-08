@@ -17,6 +17,7 @@
  *     Board:
  *       type: object
  *       required:
+ *         - id
  *         - projectId
  *         - position
  *         - name

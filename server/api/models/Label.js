@@ -17,6 +17,7 @@
  *     Label:
  *       type: object
  *       required:
+ *         - id
  *         - boardId
  *         - position
  *         - color

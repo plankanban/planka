@@ -17,6 +17,7 @@
  *     Task:
  *       type: object
  *       required:
+ *         - id
  *         - taskListId
  *         - position
  *         - name

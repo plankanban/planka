@@ -17,6 +17,7 @@
  *     Attachment:
  *       type: object
  *       required:
+ *         - id
  *         - cardId
  *         - type
  *         - data

@@ -31,7 +31,7 @@
  *                 format: url
  *                 maxLength: 2048
  *                 description: URL endpoint for the webhook
- *                 example: https://example.service.com/planka
+ *                 example: https://service.example.com/planka
  *               accessToken:
  *                 type: string
  *                 maxLength: 512

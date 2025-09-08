@@ -30,7 +30,7 @@
  *                 type: string
  *                 maxLength: 512
  *                 description: URL endpoint for notifications
- *                 example: https://example.service.com/planka
+ *                 example: https://service.example.com/planka
  *               format:
  *                 type: string
  *                 enum: [text, markdown, html]

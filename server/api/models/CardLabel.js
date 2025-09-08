@@ -17,6 +17,7 @@
  *     CardLabel:
  *       type: object
  *       required:
+ *         - id
  *         - cardId
  *         - labelId
  *       properties:

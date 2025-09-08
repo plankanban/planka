@@ -17,6 +17,7 @@
  *     CustomField:
  *       type: object
  *       required:
+ *         - id
  *         - position
  *         - name
  *         - showOnFrontOfCard

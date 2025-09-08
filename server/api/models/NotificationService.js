@@ -17,6 +17,7 @@
  *     NotificationService:
  *       type: object
  *       required:
+ *         - id
  *         - url
  *         - format
  *       properties:
@@ -37,7 +38,7 @@
  *         url:
  *           type: string
  *           description: URL endpoint for notifications
- *           example: https://example.service.com/planka
+ *           example: https://service.example.com/planka
  *         format:
  *           type: string
  *           enum: [text, markdown, html]

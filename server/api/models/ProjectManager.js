@@ -17,6 +17,7 @@
  *     ProjectManager:
  *       type: object
  *       required:
+ *         - id
  *         - projectId
  *         - userId
  *       properties:

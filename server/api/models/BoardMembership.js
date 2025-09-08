@@ -17,10 +17,11 @@
  *     BoardMembership:
  *       type: object
  *       required:
- *         - role
+ *         - id
  *         - projectId
  *         - boardId
  *         - userId
+ *         - role
  *       properties:
  *         id:
  *           type: string

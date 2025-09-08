@@ -17,6 +17,7 @@
  *     Card:
  *       type: object
  *       required:
+ *         - id
  *         - boardId
  *         - listId
  *         - type

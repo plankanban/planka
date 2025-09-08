@@ -17,6 +17,7 @@
  *     Webhook:
  *       type: object
  *       required:
+ *         - id
  *         - name
  *         - url
  *       properties:
@@ -31,7 +32,7 @@
  *         url:
  *           type: string
  *           description: URL endpoint for the webhook
- *           example: https://example.service.com/planka
+ *           example: https://webhook.example.com/planka
  *         accessToken:
  *           type: string
  *           nullable: true

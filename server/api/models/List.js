@@ -17,6 +17,7 @@
  *     List:
  *       type: object
  *       required:
+ *         - id
  *         - boardId
  *         - type
  *       properties:

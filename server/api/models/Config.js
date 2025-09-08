@@ -17,18 +17,8 @@
  *     Config:
  *       type: object
  *       required:
- *         - id
- *         - isInitialized
  *         - version
  *       properties:
- *         id:
- *           type: string
- *           description: Unique identifier for the config (always set to '1')
- *           example: 1
- *         isInitialized:
- *           type: boolean
- *           description: Whether the PLANKA instance has been initialized
- *           example: true
  *         version:
  *           type: string
  *           description: Current version of the PLANKA application
@@ -38,18 +28,30 @@
  *           nullable: true
  *           description: Maximum number of active users allowed (conditionally added for admins if configured)
  *           example: 100
- *         createdAt:
- *           type: string
- *           format: date-time
+ *         oidc:
+ *           type: object
+ *           required:
+ *             - authorizationUrl
+ *             - endSessionUrl
+ *             - isEnforced
  *           nullable: true
- *           description: When the config was created
- *           example: 2024-01-01T00:00:00.000Z
- *         updatedAt:
- *           type: string
- *           format: date-time
- *           nullable: true
- *           description: When the config was last updated
- *           example: 2024-01-01T00:00:00.000Z
+ *           description: OpenID Connect configuration (null if not configured)
+ *           properties:
+ *             authorizationUrl:
+ *               type: string
+ *               format: uri
+ *               description: OIDC authorization URL for initiating authentication
+ *               example: https://oidc.example.com/auth
+ *             endSessionUrl:
+ *               type: string
+ *               format: uri
+ *               nullable: true
+ *               description: OIDC end session URL for logout (null if not supported by provider)
+ *               example: https://oidc.example.com/logout
+ *             isEnforced:
+ *               type: boolean
+ *               description: Whether OIDC authentication is enforced (users must use OIDC to login)
+ *               example: false
  */
 
 const MAIN_ID = '1';

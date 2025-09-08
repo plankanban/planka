@@ -17,6 +17,7 @@
  *     BackgroundImage:
  *       type: object
  *       required:
+ *         - id
  *         - projectId
  *         - size
  *         - url

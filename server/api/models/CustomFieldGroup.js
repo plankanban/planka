@@ -17,6 +17,7 @@
  *     CustomFieldGroup:
  *       type: object
  *       required:
+ *         - id
  *         - position
  *       properties:
  *         id:

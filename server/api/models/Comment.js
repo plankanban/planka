@@ -17,6 +17,7 @@
  *     Comment:
  *       type: object
  *       required:
+ *         - id
  *         - cardId
  *         - text
  *       properties:

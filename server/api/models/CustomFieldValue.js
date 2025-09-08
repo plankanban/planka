@@ -17,6 +17,7 @@
  *     CustomFieldValue:
  *       type: object
  *       required:
+ *         - id
  *         - cardId
  *         - customFieldGroupId
  *         - customFieldId

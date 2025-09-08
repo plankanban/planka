@@ -17,6 +17,7 @@
  *     CardMembership:
  *       type: object
  *       required:
+ *         - id
  *         - cardId
  *         - userId
  *       properties:

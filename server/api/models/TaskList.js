@@ -17,6 +17,7 @@
  *     TaskList:
  *       type: object
  *       required:
+ *         - id
  *         - cardId
  *         - position
  *         - name
