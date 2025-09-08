@@ -3,6 +3,70 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/boards/{boardId}/lists:
+ *   post:
+ *     summary: Create list
+ *     description: Creates a list within a board. Requires board editor permissions.
+ *     tags:
+ *       - Lists
+ *     parameters:
+ *       - name: boardId
+ *         in: path
+ *         required: true
+ *         description: ID of the board to create the list in
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - type
+ *               - position
+ *               - name
+ *             properties:
+ *               type:
+ *                 type: string
+ *                 enum: [active, closed]
+ *                 description: Type/status of the list
+ *                 example: active
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position of the list within the board
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Name/title of the list
+ *                 example: To Do
+ *     responses:
+ *       200:
+ *         description: List created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/List'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

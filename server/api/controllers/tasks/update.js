@@ -3,6 +3,74 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/tasks/{id}:
+ *   patch:
+ *     summary: Update task
+ *     description: Updates a task. Linked card tasks have limited update options. Requires board editor permissions.
+ *     tags:
+ *       - Tasks
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the task to update
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               taskListId:
+ *                 type: string
+ *                 description: ID of the task list to move the task to
+ *                 example: 1357158568008091265
+ *               assigneeUserId:
+ *                 type: string
+ *                 nullable: true
+ *                 description: ID of the user assigned to the task (null to unassign)
+ *                 example: 1357158568008091266
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position of the task within the task list
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 description: Name/title of the task
+ *                 example: Write unit tests
+ *               isCompleted:
+ *                 type: boolean
+ *                 description: Whether the task is completed
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Task updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/Task'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

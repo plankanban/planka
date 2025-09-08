@@ -3,6 +3,53 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/task-lists/{id}:
+ *   get:
+ *     summary: Get task list details
+ *     description: Retrieves task list information, including tasks. Requires access to the card.
+ *     tags:
+ *       - Task Lists
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the task list to retrieve
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     responses:
+ *       200:
+ *         description: Task list details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/TaskList'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - tasks
+ *                   properties:
+ *                     tasks:
+ *                       type: array
+ *                       description: Related tasks
+ *                       items:
+ *                         $ref: '#/components/schemas/Task'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

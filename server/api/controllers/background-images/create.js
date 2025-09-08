@@ -3,6 +3,83 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/projects/{projectId}/background-images:
+ *   post:
+ *     summary: Upload background image
+ *     description: Uploads a background image for a project. Requires project manager permissions.
+ *     tags:
+ *       - Background Images
+ *     parameters:
+ *       - name: projectId
+ *         in: path
+ *         required: true
+ *         description: ID of the project to upload background image for
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - file
+ *             properties:
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: Background image file (must be an image format)
+ *               requestId:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Request ID for tracking
+ *                 example: req_123456
+ *     responses:
+ *       200:
+ *         description: Background image uploaded successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/BackgroundImage'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       422:
+ *         description: File upload error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_UNPROCESSABLE_ENTITY
+ *                 message:
+ *                   type: string
+ *                   enum:
+ *                     - No file was uploaded
+ *                     - File is not image
+ *                   description: Specific error message
+ *                   example: No file was uploaded
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

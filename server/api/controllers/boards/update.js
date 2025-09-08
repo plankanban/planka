@@ -3,6 +3,84 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/boards/{id}:
+ *   patch:
+ *     summary: Update board
+ *     description: Updates a board. Project managers can update all fields, board members can only subscribe/unsubscribe.
+ *     tags:
+ *       - Boards
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the board to update
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position of the board within the project
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Name/title of the board
+ *                 example: Development Board
+ *               defaultView:
+ *                 type: string
+ *                 enum: [kanban, grid, list]
+ *                 description: Default view for the board
+ *                 example: kanban
+ *               defaultCardType:
+ *                 type: string
+ *                 enum: [project, story]
+ *                 description: Default card type for new cards
+ *                 example: project
+ *               limitCardTypesToDefaultOne:
+ *                 type: boolean
+ *                 description: Whether to limit card types to default one
+ *               alwaysDisplayCardCreator:
+ *                 type: boolean
+ *                 description: Whether to limit card types to default one
+ *                 example: false
+ *               expandTaskListsByDefault:
+ *                 type: boolean
+ *                 description: Whether to always display the card creator
+ *                 example: false
+ *               isSubscribed:
+ *                 type: boolean
+ *                 description: Whether the current user is subscribed to the board
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Board updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/Board'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

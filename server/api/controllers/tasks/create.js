@@ -3,6 +3,74 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/task-lists/{taskListId}/tasks:
+ *   post:
+ *     summary: Create task
+ *     description: Creates a task within a task list. Either `linkedCardId` or `name` must be provided. Requires board editor permissions.
+ *     tags:
+ *       - Tasks
+ *     parameters:
+ *       - name: taskListId
+ *         in: path
+ *         required: true
+ *         description: ID of the task list to create task in
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - position
+ *             properties:
+ *               linkedCardId:
+ *                 type: string
+ *                 description: ID of the card linked to the task
+ *                 example: 1357158568008091265
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position of the task within the task list
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 nullable: true
+ *                 description: Name/title of the task (required if `linkedCardId` is not provided)
+ *                 example: Write unit tests
+ *               isCompleted:
+ *                 type: boolean
+ *                 description: Whether the task is completed
+ *                 example: false
+ *     responses:
+ *       200:
+ *         description: Task created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/Task'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       422:
+ *         $ref: '#/components/responses/UnprocessableEntity'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

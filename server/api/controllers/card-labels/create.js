@@ -3,6 +3,59 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/cards/{cardId}/labels:
+ *   post:
+ *     summary: Add label to card
+ *     description: Adds a label to a card. Requires board editor permissions.
+ *     tags:
+ *       - Card Labels
+ *     parameters:
+ *       - name: cardId
+ *         in: path
+ *         required: true
+ *         description: ID of the card to add the label to
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - labelId
+ *             properties:
+ *               labelId:
+ *                 type: string
+ *                 description: ID of the label to add to the card
+ *                 example: 1357158568008091265
+ *     responses:
+ *       200:
+ *         description: Label added to card successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/CardLabel'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       409:
+ *         $ref: '#/components/responses/Conflict'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

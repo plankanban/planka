@@ -3,6 +3,118 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/cards/{cardId}/attachments:
+ *   post:
+ *     summary: Create attachment
+ *     description: Creates an attachment on a card. Requires board editor permissions.
+ *     tags:
+ *       - Attachments
+ *     parameters:
+ *       - name: cardId
+ *         in: path
+ *         required: true
+ *         description: ID of the card to create the attachment on
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - type
+ *               - url
+ *               - name
+ *             properties:
+ *               type:
+ *                 type: string
+ *                 enum: [link]
+ *                 description: Type of the attachment
+ *                 example: link
+ *               url:
+ *                 type: string
+ *                 maxLength: 2048
+ *                 description: URL for the link attachment
+ *                 example: https://google.com/search?q=planka
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Name/title of the attachment
+ *                 example: Google Link
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - type
+ *               - file
+ *               - name
+ *             properties:
+ *               type:
+ *                 type: string
+ *                 enum: [file]
+ *                 description: Type of the attachment
+ *                 example: file
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: File to upload
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Name/title of the attachment
+ *                 example: Important Document
+ *               requestId:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Request ID for tracking
+ *                 example: req_123456
+ *     responses:
+ *       200:
+ *         description: Attachment created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/Attachment'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       422:
+ *         description: Upload or validation error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_UNPROCESSABLE_ENTITY
+ *                 message:
+ *                   type: string
+ *                   enum:
+ *                     - No file was uploaded
+ *                     - Url must be present
+ *                   description: Specific error message
+ *                   example: No file was uploaded
+ */
+
 const { isUrl } = require('../../../utils/validators');
 const { idInput } = require('../../../utils/inputs');
 

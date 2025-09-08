@@ -10,6 +10,58 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Action:
+ *       type: object
+ *       required:
+ *         - cardId
+ *         - type
+ *         - data
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the action
+ *           example: 1357158568008091264
+ *         boardId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the board where the action occurred
+ *           example: 1357158568008091265
+ *         cardId:
+ *           type: string
+ *           description: ID of the card where the action occurred
+ *           example: 1357158568008091266
+ *         userId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the user who performed the action
+ *           example: 1357158568008091267
+ *         type:
+ *           type: string
+ *           enum: [createCard, moveCard, addMemberToCard, removeMemberFromCard, completeTask, uncompleteTask]
+ *           description: Type of the action
+ *           example: moveCard
+ *         data:
+ *           type: object
+ *           description: Action specific data (varies by type)
+ *           example: {"card": {"name": "Implement user authentication"}, "toList": {"id": "1357158568008091268", "name": "To Do", "type": "active"}, "fromList": {"id": "1357158568008091269", "name": "Done", "type": "closed"}}
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the action was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the action was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 const Types = {
   CREATE_CARD: 'createCard',
   MOVE_CARD: 'moveCard',

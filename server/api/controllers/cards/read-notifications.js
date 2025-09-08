@@ -3,6 +3,53 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/cards/{id}/read-notifications:
+ *   post:
+ *     summary: Mark card notifications as read
+ *     description: Marks all notifications for a specific card as read for the current user. Requires access to the card.
+ *     tags:
+ *       - Cards
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the card to mark notifications as read for
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     responses:
+ *       200:
+ *         description: Notifications marked as read successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/Card'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - notifications
+ *                   properties:
+ *                     notifications:
+ *                       type: array
+ *                       description: Related notifications
+ *                       items:
+ *                         $ref: '#/components/schemas/Notification'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

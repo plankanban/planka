@@ -3,6 +3,51 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/cards/{cardId}/labels/{labelId}:
+ *   delete:
+ *     summary: Remove label from card
+ *     description: Removes a label from a card. Requires board editor permissions.
+ *     tags:
+ *       - Card Labels
+ *     parameters:
+ *       - name: cardId
+ *         in: path
+ *         required: true
+ *         description: ID of the card to remove the label from
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *       - name: labelId
+ *         in: path
+ *         required: true
+ *         description: ID of the label to remove from the card
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091265
+ *     responses:
+ *       200:
+ *         description: Label removed from card successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/CardLabel'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

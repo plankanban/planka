@@ -10,6 +10,58 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Attachment:
+ *       type: object
+ *       required:
+ *         - cardId
+ *         - type
+ *         - data
+ *         - name
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the attachment
+ *           example: 1357158568008091264
+ *         cardId:
+ *           type: string
+ *           description: ID of the card the attachment belongs to
+ *           example: 1357158568008091265
+ *         creatorUserId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the user who created the attachment
+ *           example: 1357158568008091266
+ *         type:
+ *           type: string
+ *           enum: [file, link]
+ *           description: Type of the attachment
+ *           example: link
+ *         data:
+ *           type: object
+ *           description: Attachment specific data (varies by type)
+ *           example: {"url": "https://google.com/search?q=planka", "faviconUrl": "https://storage.example.com/favicons/google.com.png"}
+ *         name:
+ *           type: string
+ *           description: Name/title of the attachment
+ *           example: Google Link
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the attachment was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the attachment was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 const Types = {
   FILE: 'file',
   LINK: 'link',

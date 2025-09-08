@@ -3,6 +3,92 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/access-tokens/accept-terms:
+ *   post:
+ *     summary: Accept terms and conditions
+ *     description: Accept terms during the authentication flow. Converts the pending token to an access token.
+ *     tags:
+ *       - Access Tokens
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - pendingToken
+ *               - signature
+ *             properties:
+ *               pendingToken:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 description: Pending token received from the authentication flow
+ *                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
+ *               signature:
+ *                 type: string
+ *                 minLength: 64
+ *                 maxLength: 64
+ *                 description: Terms signature hash based on user role
+ *                 example: 940226c4c41f51afe3980ceb63704e752636526f4c52a4ea579e85b247493d94
+ *     responses:
+ *       200:
+ *         description: Terms accepted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   type: string
+ *                   description: Access token for API authentication
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ5...
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         description: Invalid pending token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_UNAUTHORIZED
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Invalid pending token
+ *       403:
+ *         description: Authentication restriction
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_FORBIDDEN
+ *                 message:
+ *                   type: string
+ *                   enum:
+ *                     - Invalid signature
+ *                     - Admin login required to initialize instance
+ *                   description: Specific error message
+ *                   example: Invalid signature
+ */
+
 const { getRemoteAddress } = require('../../../utils/remote-address');
 
 const { AccessTokenSteps } = require('../../../constants');

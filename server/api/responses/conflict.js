@@ -31,6 +31,30 @@
  * ```
  */
 
+/**
+ * @swagger
+ * components:
+ *   responses:
+ *     Conflict:
+ *       description: Request conflicts with current state of the resource
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - code
+ *               - message
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 description: Error code
+ *                 example: E_CONFLICT
+ *               message:
+ *                 type: string
+ *                 description: Error message
+ *                 example: Resource already exists
+ */
+
 module.exports = function conflict(message) {
   const { res } = this;
 

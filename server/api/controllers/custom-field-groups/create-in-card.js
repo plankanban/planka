@@ -3,6 +3,70 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/cards/{cardId}/custom-field-groups:
+ *   post:
+ *     summary: Create custom field group in card
+ *     description: Creates a custom field group within a card. Either `baseCustomFieldGroupId` or `name` must be provided. Requires board editor permissions.
+ *     tags:
+ *       - Custom Field Groups
+ *     parameters:
+ *       - name: cardId
+ *         in: path
+ *         required: true
+ *         description: ID of the card to create the custom field group in
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - position
+ *             properties:
+ *               baseCustomFieldGroupId:
+ *                 type: string
+ *                 description: ID of the base custom field group used as a template
+ *                 example: 1357158568008091265
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position of the custom field group within the card
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 nullable: true
+ *                 description: Name/title of the custom field group (required if `baseCustomFieldGroupId` is not provided)
+ *                 example: Properties
+ *     responses:
+ *       200:
+ *         description: Custom field group created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/CustomFieldGroup'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       422:
+ *         $ref: '#/components/responses/UnprocessableEntity'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

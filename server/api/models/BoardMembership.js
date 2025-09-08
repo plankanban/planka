@@ -10,6 +10,58 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     BoardMembership:
+ *       type: object
+ *       required:
+ *         - role
+ *         - projectId
+ *         - boardId
+ *         - userId
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the board membership
+ *           example: 1357158568008091264
+ *         projectId:
+ *           type: string
+ *           description: ID of the project the board membership belongs to (denormalized)
+ *           example: 1357158568008091265
+ *         boardId:
+ *           type: string
+ *           description: ID of the board the membership is associated with
+ *           example: 1357158568008091266
+ *         userId:
+ *           type: string
+ *           description: ID of the user who is a member of the board
+ *           example: 1357158568008091267
+ *         role:
+ *           type: string
+ *           enum: [editor, viewer]
+ *           description: Role of the user in the board
+ *           example: editor
+ *         canComment:
+ *           type: boolean
+ *           nullable: true
+ *           description: Whether the user can comment on cards (applies only to viewers)
+ *           example: true
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the board membership was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the board membership was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 const Roles = {
   EDITOR: 'editor',
   VIEWER: 'viewer',

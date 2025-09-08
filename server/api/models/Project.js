@@ -10,6 +10,69 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Project:
+ *       type: object
+ *       required:
+ *         - name
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the project
+ *           example: 1357158568008091264
+ *         ownerProjectManagerId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the project manager who owns the project
+ *           example: 1357158568008091265
+ *         backgroundImageId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the background image used as background
+ *           example: 1357158568008091266
+ *         name:
+ *           type: string
+ *           description: Name/title of the project
+ *           example: Development Project
+ *         description:
+ *           type: string
+ *           nullable: true
+ *           description: Detailed description of the project
+ *           example: A project for developing new features...
+ *         backgroundType:
+ *           type: string
+ *           enum: [gradient, image]
+ *           nullable: true
+ *           description: Type of background for the project
+ *           example: gradient
+ *         backgroundGradient:
+ *           type: string
+ *           enum: [old-lime, ocean-dive, tzepesch-style, jungle-mesh, strawberry-dust, purple-rose, sun-scream, warm-rust, sky-change, green-eyes, blue-xchange, blood-orange, sour-peel, green-ninja, algae-green, coral-reef, steel-grey, heat-waves, velvet-lounge, purple-rain, blue-steel, blueish-curve, prism-light, green-mist, red-curtain]
+ *           nullable: true
+ *           description: Gradient background for the project
+ *           example: ocean-dive
+ *         isHidden:
+ *           type: boolean
+ *           default: false
+ *           description: Whether the project is hidden
+ *           example: false
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the project was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the project was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 const Types = {
   PRIVATE: 'private',
   SHARED: 'shared',

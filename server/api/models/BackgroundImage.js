@@ -10,6 +10,60 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     BackgroundImage:
+ *       type: object
+ *       required:
+ *         - projectId
+ *         - size
+ *         - url
+ *         - thumbnailUrls
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the background image
+ *           example: 1357158568008091264
+ *         projectId:
+ *           type: string
+ *           description: ID of the project the background image belongs to
+ *           example: 1357158568008091265
+ *         size:
+ *           type: string
+ *           description: File size of the background image in bytes
+ *           example: 1024576
+ *         url:
+ *           type: string
+ *           format: uri
+ *           description: URL to access the full-size background image
+ *           example: https://storage.example.com/background-images/1357158568008091264/original.jpg
+ *         thumbnailUrls:
+ *           type: object
+ *           required:
+ *             - outside360
+ *           description: URLs for different thumbnail sizes of the background image
+ *           properties:
+ *             outside360:
+ *               type: string
+ *               format: uri
+ *               description: URL for 360px thumbnail version
+ *               example: https://storage.example.com/background-images/1357158568008091264/outside-360.jpg
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the background image was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the background image was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 module.exports = {
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗

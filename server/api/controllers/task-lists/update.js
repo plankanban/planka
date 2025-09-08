@@ -3,6 +3,69 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/task-lists/{id}:
+ *   patch:
+ *     summary: Update task list
+ *     description: Updates a task list. Requires board editor permissions.
+ *     tags:
+ *       - Task Lists
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the task list to update
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position of the task list within the card
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Name/title of the task list
+ *                 example: Development Tasks
+ *               showOnFrontOfCard:
+ *                 type: boolean
+ *                 description: Whether to show the task list on the front of the card
+ *                 example: true
+ *               hideCompletedTasks:
+ *                 type: boolean
+ *                 description: Whether to hide completed tasks
+ *                 example: false
+ *     responses:
+ *       200:
+ *         description: Task list updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/TaskList'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

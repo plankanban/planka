@@ -3,6 +3,64 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/boards/{boardId}/notification-services:
+ *   post:
+ *     summary: Create notification service for board
+ *     description: Creates a new notification service for a board. Requires project manager permissions.
+ *     tags:
+ *       - Notification Services
+ *     parameters:
+ *       - name: boardId
+ *         in: path
+ *         required: true
+ *         description: ID of the board to create notification service for
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - url
+ *               - format
+ *             properties:
+ *               url:
+ *                 type: string
+ *                 maxLength: 512
+ *                 description: URL endpoint for notifications
+ *                 example: https://example.service.com/planka
+ *               format:
+ *                 type: string
+ *                 enum: [text, markdown, html]
+ *                 description: Format for notification messages
+ *                 example: text
+ *     responses:
+ *       200:
+ *         description: Notification service created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/NotificationService'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       409:
+ *         $ref: '#/components/responses/Conflict'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

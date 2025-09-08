@@ -3,6 +3,60 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   get:
+ *     summary: Get user details
+ *     description: Retrieves a user. Use 'me' as ID to get the current user.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the user or 'me' for current user
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *       - name: subscribe
+ *         in: query
+ *         required: false
+ *         description: Whether to subscribe to real-time updates for this user (only for socket connections)
+ *         schema:
+ *           type: boolean
+ *           example: true
+ *     responses:
+ *       200:
+ *         description: User details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/User'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - notificationServices
+ *                   properties:
+ *                     notificationServices:
+ *                       type: array
+ *                       description: Related notification services (for current user)
+ *                       items:
+ *                         $ref: '#/components/schemas/NotificationService'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { ID_REGEX, MAX_STRING_ID, isIdInRange } = require('../../../utils/validators');
 
 const Errors = {

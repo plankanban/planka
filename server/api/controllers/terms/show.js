@@ -3,6 +3,75 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/terms:
+ *   get:
+ *     summary: Get terms and conditions
+ *     description: Retrieves terms and conditions in the specified language.
+ *     tags:
+ *       - Terms
+ *     parameters:
+ *       - name: type
+ *         in: query
+ *         required: true
+ *         description: Type of terms to retrieve
+ *         schema:
+ *           type: string
+ *           enum: [general, extended]
+ *           example: general
+ *       - name: language
+ *         in: query
+ *         required: false
+ *         description: Language code for terms localization
+ *         schema:
+ *           type: string
+ *           enum: [de-DE, en-US]
+ *           example: en-US
+ *     responses:
+ *       200:
+ *         description: Terms content retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   type: object
+ *                   required:
+ *                     - type
+ *                     - language
+ *                     - content
+ *                     - signature
+ *                   properties:
+ *                     type:
+ *                       type: string
+ *                       enum: [general, extended]
+ *                       description: Type of terms
+ *                       example: en-US
+ *                     language:
+ *                       type: string
+ *                       enum: [de-DE, en-US]
+ *                       description: Language code used
+ *                       example: en-US
+ *                     content:
+ *                       type: string
+ *                       description: Markdown content of the terms
+ *                       example: Your privacy is important to us...
+ *                     signature:
+ *                       type: string
+ *                       description: Signature hash of terms
+ *                       example: 940226c4c41f51afe3980ceb63704e752636526f4c52a4ea579e85b247493d94
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 module.exports = {
   inputs: {
     type: {

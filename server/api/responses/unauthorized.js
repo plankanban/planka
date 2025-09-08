@@ -31,6 +31,30 @@
  * ```
  */
 
+/**
+ * @swagger
+ * components:
+ *   responses:
+ *     Unauthorized:
+ *       description: Authentication required or invalid credentials
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - code
+ *               - message
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 description: Error code
+ *                 example: E_UNAUTHORIZED
+ *               message:
+ *                 type: string
+ *                 description: Error message
+ *                 example: Access token is missing, invalid or expired
+ */
+
 module.exports = function unauthorized(message) {
   const { res } = this;
 

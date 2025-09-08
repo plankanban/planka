@@ -3,6 +3,102 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/projects/{id}:
+ *   get:
+ *     summary: Get project details
+ *     description: Retrieves comprehensive project information, including boards, board memberships, and other related data.
+ *     tags:
+ *       - Projects
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the project to retrieve
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     responses:
+ *       200:
+ *         description: Project details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   allOf:
+ *                     - $ref: '#/components/schemas/Project'
+ *                     - type: object
+ *                       properties:
+ *                         isFavorite:
+ *                           type: boolean
+ *                           description: Whether the project is marked as favorite by the current user
+ *                           example: true
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - users
+ *                     - projectManagers
+ *                     - backgroundImages
+ *                     - baseCustomFieldGroups
+ *                     - boards
+ *                     - boardMemberships
+ *                     - customFields
+ *                     - notificationServices
+ *                   properties:
+ *                     users:
+ *                       type: array
+ *                       description: Related users
+ *                       items:
+ *                         $ref: '#/components/schemas/User'
+ *                     projectManagers:
+ *                       type: array
+ *                       description: Related project managers
+ *                       items:
+ *                         $ref: '#/components/schemas/ProjectManager'
+ *                     backgroundImages:
+ *                       type: array
+ *                       description: Related background images
+ *                       items:
+ *                         $ref: '#/components/schemas/BackgroundImage'
+ *                     baseCustomFieldGroups:
+ *                       type: array
+ *                       description: Related base custom field groups
+ *                       items:
+ *                         $ref: '#/components/schemas/BaseCustomFieldGroup'
+ *                     boards:
+ *                       type: array
+ *                       description: Related boards
+ *                       items:
+ *                         $ref: '#/components/schemas/Board'
+ *                     boardMemberships:
+ *                       type: array
+ *                       description: Related board memberships (for current user)
+ *                       items:
+ *                         $ref: '#/components/schemas/BoardMembership'
+ *                     customFields:
+ *                       type: array
+ *                       description: Related custom fields
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomField'
+ *                     notificationServices:
+ *                       type: array
+ *                       description: Related notification services (for managed projects)
+ *                       items:
+ *                         $ref: '#/components/schemas/NotificationService'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

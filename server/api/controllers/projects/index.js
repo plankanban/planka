@@ -3,6 +3,94 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/projects:
+ *   get:
+ *     summary: Get all accessible projects
+ *     description: Retrieves all projects the current user has access to, including managed projects, membership projects, and shared projects (for admins).
+ *     tags:
+ *       - Projects
+ *     responses:
+ *       200:
+ *         description: Projects retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - items
+ *                 - included
+ *               properties:
+ *                 items:
+ *                   type: array
+ *                   items:
+ *                     allOf:
+ *                       - $ref: '#/components/schemas/Project'
+ *                       - type: object
+ *                         properties:
+ *                           isFavorite:
+ *                             type: boolean
+ *                             description: Whether the project is marked as favorite by the current user
+ *                             example: true
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - users
+ *                     - projectManagers
+ *                     - backgroundImages
+ *                     - baseCustomFieldGroups
+ *                     - boards
+ *                     - boardMemberships
+ *                     - customFields
+ *                     - notificationServices
+ *                   properties:
+ *                     users:
+ *                       type: array
+ *                       description: Related users
+ *                       items:
+ *                         $ref: '#/components/schemas/User'
+ *                     projectManagers:
+ *                       type: array
+ *                       description: Related project managers
+ *                       items:
+ *                         $ref: '#/components/schemas/ProjectManager'
+ *                     backgroundImages:
+ *                       type: array
+ *                       description: Related background images
+ *                       items:
+ *                         $ref: '#/components/schemas/BackgroundImage'
+ *                     baseCustomFieldGroups:
+ *                       type: array
+ *                       description: Related base custom field groups
+ *                       items:
+ *                         $ref: '#/components/schemas/BaseCustomFieldGroup'
+ *                     boards:
+ *                       type: array
+ *                       description: Related boards
+ *                       items:
+ *                         $ref: '#/components/schemas/Board'
+ *                     boardMemberships:
+ *                       type: array
+ *                       description: Related board memberships (for current user)
+ *                       items:
+ *                         $ref: '#/components/schemas/BoardMembership'
+ *                     customFields:
+ *                       type: array
+ *                       description: Related custom fields
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomField'
+ *                     notificationServices:
+ *                       type: array
+ *                       description: Related notification services (for managed projects)
+ *                       items:
+ *                         $ref: '#/components/schemas/NotificationService'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ */
+
 module.exports = {
   async fn() {
     const { currentUser } = this.req;

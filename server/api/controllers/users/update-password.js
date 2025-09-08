@@ -3,6 +3,74 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/users/{id}/password:
+ *   patch:
+ *     summary: Update user password
+ *     description: Updates a user's password. Users must provide a current password when updating their own password. Admins can update any user's password without the current password. Returns a new access token when updating own password.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the user whose password to update
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - password
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 maxLength: 256
+ *                 description: Password (must meet password requirements)
+ *                 example: SecurePassword123!
+ *               currentPassword:
+ *                 type: string
+ *                 maxLength: 256
+ *                 description: Current password (required when updating own password)
+ *                 example: SecurePassword456!
+ *     responses:
+ *       200:
+ *         description: Password updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/User'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - accessTokens
+ *                   properties:
+ *                     accessTokens:
+ *                       type: array
+ *                       description: New acces tokens (when updating own password)
+ *                       items:
+ *                         type: string
+ *                       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const bcrypt = require('bcrypt');
 
 const { isPassword } = require('../../../utils/validators');

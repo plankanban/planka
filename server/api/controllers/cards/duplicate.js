@@ -3,6 +3,117 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/cards/{id}/duplicate:
+ *   post:
+ *     summary: Duplicate card
+ *     description: Creates a duplicate of a card with all its contents (tasks, attachments, etc.). Requires board editor permissions.
+ *     tags:
+ *       - Cards
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the card to duplicate
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - position
+ *               - name
+ *             properties:
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position for the duplicated card within the list
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 description: Name/title for the duplicated card
+ *                 example: Implement user authentication (copy)
+ *     responses:
+ *       200:
+ *         description: Card duplicated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/Card'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - cardMemberships
+ *                     - cardLabels
+ *                     - taskLists
+ *                     - tasks
+ *                     - attachments
+ *                     - customFieldGroups
+ *                     - customFields
+ *                     - customFieldValues
+ *                   properties:
+ *                     cardMemberships:
+ *                       type: array
+ *                       description: Related card-membership associations
+ *                       items:
+ *                         $ref: '#/components/schemas/CardMembership'
+ *                     cardLabels:
+ *                       type: array
+ *                       description: Related card-label associations
+ *                       items:
+ *                         $ref: '#/components/schemas/CardLabel'
+ *                     taskLists:
+ *                       type: array
+ *                       description: Related task lists
+ *                       items:
+ *                         $ref: '#/components/schemas/TaskList'
+ *                     tasks:
+ *                       type: array
+ *                       description: Related tasks
+ *                       items:
+ *                         $ref: '#/components/schemas/Task'
+ *                     attachments:
+ *                       type: array
+ *                       description: Related attachments
+ *                       items:
+ *                         $ref: '#/components/schemas/Attachment'
+ *                     customFieldGroups:
+ *                       type: array
+ *                       description: Related custom field groups
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomFieldGroup'
+ *                     customFields:
+ *                       type: array
+ *                       description: Related custom fields
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomField'
+ *                     customFieldValues:
+ *                       type: array
+ *                       description: Related custom field values
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomFieldValue'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

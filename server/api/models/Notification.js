@@ -10,6 +10,79 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Notification:
+ *       type: object
+ *       required:
+ *         - id
+ *         - userId
+ *         - boardId
+ *         - cardId
+ *         - type
+ *         - data
+ *         - isRead
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the notification
+ *           example: 1357158568008091264
+ *         userId:
+ *           type: string
+ *           description: ID of the user who receives the notification
+ *           example: 1357158568008091265
+ *         creatorUserId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the user who created the notification
+ *           example: 1357158568008091266
+ *         boardId:
+ *           type: string
+ *           description: ID of the board associated with the notification (denormalized)
+ *           example: 1357158568008091267
+ *         cardId:
+ *           type: string
+ *           description: ID of the card associated with the notification
+ *           example: 1357158568008091268
+ *         commentId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the comment associated with the notification
+ *           example: 1357158568008091269
+ *         actionId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the action associated with the notification
+ *           example: 1357158568008091270
+ *         type:
+ *           type: string
+ *           enum: [moveCard, commentCard, addMemberToCard, mentionInComment]
+ *           description: Type of the notification
+ *           example: commentCard
+ *         data:
+ *           type: object
+ *           description: Notification payload specific to the type
+ *           example: {"card": {"name": "Implement user authentication"}, "text": "This task is almost complete..."}
+ *         isRead:
+ *           type: boolean
+ *           description: Whether the notification has been read
+ *           example: false
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the notification was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the notification was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 const Types = {
   MOVE_CARD: 'moveCard',
   COMMENT_CARD: 'commentCard',

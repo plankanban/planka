@@ -3,6 +3,73 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/lists/{id}/sort:
+ *   post:
+ *     summary: Sort cards in list
+ *     description: Sorts all cards within a list. Requires board editor permissions.
+ *     tags:
+ *       - Lists
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the list to sort
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - fieldName
+ *             properties:
+ *               fieldName:
+ *                 type: string
+ *                 enum: [name, dueDate, createdAt]
+ *                 description: Field to sort cards by
+ *                 example: name
+ *               order:
+ *                 type: string
+ *                 enum: [asc, desc]
+ *                 description: Sorting order
+ *                 example: asc
+ *     responses:
+ *       200:
+ *         description: List sorted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/List'
+ *                 included:
+ *                   type: object
+ *                   properties:
+ *                     cards:
+ *                       type: array
+ *                       description: Related cards
+ *                       items:
+ *                         $ref: '#/components/schemas/Card'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       422:
+ *         $ref: '#/components/responses/UnprocessableEntity'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

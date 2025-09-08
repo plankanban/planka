@@ -3,6 +3,74 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/lists/{id}/move-cards:
+ *   post:
+ *     summary: Move cards
+ *     description: Moves all cards from a closed list to an archive list. Requires board editor permissions.
+ *     tags:
+ *       - Lists
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the source list (must be a closed-type list)
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - listId
+ *             properties:
+ *               listId:
+ *                 type: string
+ *                 description: ID of the target list (must be an archive-type list)
+ *                 example: 1357158568008091265
+ *     responses:
+ *       200:
+ *         description: Cards moved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/List'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - cards
+ *                     - actions
+ *                   properties:
+ *                     cards:
+ *                       type: array
+ *                       description: Related cards
+ *                       items:
+ *                         $ref: '#/components/schemas/Card'
+ *                     actions:
+ *                       type: array
+ *                       description: Related actions
+ *                       items:
+ *                         $ref: '#/components/schemas/Action'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

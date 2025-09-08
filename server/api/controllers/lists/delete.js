@@ -3,6 +3,55 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/lists/{id}:
+ *   delete:
+ *     summary: Delete list
+ *     description: Deletes a list and moves its cards to a trash list. Can only delete finite lists. Requires board editor permissions.
+ *     tags:
+ *       - Lists
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the list to delete
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     responses:
+ *       200:
+ *         description: List deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/List'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - cards
+ *                   properties:
+ *                     cards:
+ *                       type: array
+ *                       description: Related cards
+ *                       items:
+ *                         $ref: '#/components/schemas/Card'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

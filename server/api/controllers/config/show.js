@@ -3,6 +3,28 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/config:
+ *   get:
+ *     summary: Get application configuration
+ *     description: Retrieves the application configuration.
+ *     tags:
+ *       - Config
+ *     responses:
+ *       200:
+ *         description: Configuration retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/Config'
+ */
+
 module.exports = {
   async fn() {
     const { currentUser } = this.req;

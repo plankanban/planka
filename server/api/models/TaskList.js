@@ -10,6 +10,57 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     TaskList:
+ *       type: object
+ *       required:
+ *         - cardId
+ *         - position
+ *         - name
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the task list
+ *           example: 1357158568008091264
+ *         cardId:
+ *           type: string
+ *           description: ID of the card the task list belongs to
+ *           example: 1357158568008091265
+ *         position:
+ *           type: number
+ *           description: Position of the task list within the card
+ *           example: 65536
+ *         name:
+ *           type: string
+ *           description: Name/title of the task list
+ *           example: Development Tasks
+ *         showOnFrontOfCard:
+ *           type: boolean
+ *           default: true
+ *           description: Whether to show the task list on the front of the card
+ *           example: true
+ *         hideCompletedTasks:
+ *           type: boolean
+ *           default: false
+ *           description: Whether to hide completed tasks
+ *           example: false
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the task list was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the task list was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 module.exports = {
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗

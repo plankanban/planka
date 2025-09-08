@@ -3,6 +3,156 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/access-tokens/exchange-with-oidc:
+ *   post:
+ *     summary: Exchange OIDC code for access token
+ *     description: Exchanges an OIDC authorization code for an access token. Creates a user if they do not exist.
+ *     tags:
+ *       - Access Tokens
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - code
+ *               - nonce
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 maxLength: 2048
+ *                 description: Authorization code from OIDC provider
+ *                 example: abc123def456ghi789
+ *               nonce:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 description: Nonce value for OIDC security
+ *                 example: random-nonce-123456
+ *               withHttpOnlyToken:
+ *                 type: boolean
+ *                 description: Whether to include HTTP-only authentication cookie
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: OIDC exchange successful
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   type: string
+ *                   description: Access token for API authentication
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         description: OIDC authentication error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_UNAUTHORIZED
+ *                 message:
+ *                   type: string
+ *                   enum:
+ *                     - Invalid code or nonce
+ *                     - Invalid userinfo configuration
+ *                   description: Specific error message
+ *                   example: Invalid code or nonce
+ *       403:
+ *         description: Authentication restriction
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_FORBIDDEN
+ *                 message:
+ *                   type: string
+ *                   enum:
+ *                     - Terms acceptance required
+ *                     - Admin login required to initialize instance
+ *                   description: Specific error message
+ *                   example: Terms acceptance required
+ *       409:
+ *         description: Conflict error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_CONFLICT
+ *                 message:
+ *                   type: string
+ *                   enum:
+ *                     - Email already in use
+ *                     - Username already in use
+ *                     - Active users limit reached
+ *                   description: Specific error message
+ *                   example: Email already in use
+ *       422:
+ *         description: Missing required values
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_UNPROCESSABLE_ENTITY
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Unable to retrieve required values (email, name)
+ *       500:
+ *         description: OIDC configuration error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_INTERNAL_SERVER_ERROR
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Invalid OIDC configuration
+ */
+
 const { getRemoteAddress } = require('../../../utils/remote-address');
 
 const Errors = {

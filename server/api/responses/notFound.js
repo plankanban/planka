@@ -31,6 +31,30 @@
  * ```
  */
 
+/**
+ * @swagger
+ * components:
+ *   responses:
+ *     NotFound:
+ *       description: Resource not found
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - code
+ *               - message
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 description: Error code
+ *                 example: E_NOT_FOUND
+ *               message:
+ *                 type: string
+ *                 description: Error message
+ *                 example: Resource not found
+ */
+
 module.exports = function notFound(message) {
   const { res } = this;
 

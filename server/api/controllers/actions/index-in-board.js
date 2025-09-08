@@ -3,6 +3,62 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/boards/{boardId}/actions:
+ *   get:
+ *     summary: Get board actions
+ *     description: Retrieves a list of actions (activity history) for a specific board, with pagination support.
+ *     tags:
+ *       - Actions
+ *     parameters:
+ *       - name: boardId
+ *         in: path
+ *         required: true
+ *         description: ID of the board to get actions for
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *       - name: beforeId
+ *         in: query
+ *         required: false
+ *         description: ID to get actions before (for pagination)
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091265
+ *     responses:
+ *       200:
+ *         description: Board actions retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - items
+ *                 - included
+ *               properties:
+ *                 items:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Action'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - users
+ *                   properties:
+ *                     users:
+ *                       type: array
+ *                       description: Related users
+ *                       items:
+ *                         $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

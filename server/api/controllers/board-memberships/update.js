@@ -3,6 +3,59 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/board-memberships/{id}:
+ *   patch:
+ *     summary: Update board membership
+ *     description: Updates a board membership. Requires project manager permissions.
+ *     tags:
+ *       - Board Memberships
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the board membership to update
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [editor, viewer]
+ *                 description: Role of the user in the board
+ *                 example: editor
+ *               canComment:
+ *                 type: boolean
+ *                 nullable: true
+ *                 description: Whether the user can comment on cards (applies only to viewers)
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Board membership updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/BoardMembership'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

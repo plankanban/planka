@@ -3,6 +3,152 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/boards/{id}:
+ *   get:
+ *     summary: Get board details
+ *     description: Retrieves comprehensive board information, including lists, cards, and other related data.
+ *     tags:
+ *       - Boards
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the board to retrieve
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *       - name: subscribe
+ *         in: query
+ *         required: false
+ *         description: Whether to subscribe to real-time updates for this board (only for socket connections)
+ *         schema:
+ *           type: boolean
+ *           example: true
+ *     responses:
+ *       200:
+ *         description: Board details retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *                 - included
+ *               properties:
+ *                 item:
+ *                   allOf:
+ *                     - $ref: '#/components/schemas/Board'
+ *                     - type: object
+ *                       properties:
+ *                         isSubscribed:
+ *                           type: boolean
+ *                           description: Whether the current user is subscribed to the board
+ *                           example: true
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - users
+ *                     - projects
+ *                     - boardMemberships
+ *                     - labels
+ *                     - lists
+ *                     - cards
+ *                     - cardMemberships
+ *                     - cardLabels
+ *                     - taskLists
+ *                     - tasks
+ *                     - attachments
+ *                     - customFieldGroups
+ *                     - customFields
+ *                     - customFieldValues
+ *                   properties:
+ *                     users:
+ *                       type: array
+ *                       description: Related users
+ *                       items:
+ *                         $ref: '#/components/schemas/User'
+ *                     projects:
+ *                       type: array
+ *                       description: Parent project
+ *                       items:
+ *                         $ref: '#/components/schemas/Project'
+ *                     boardMemberships:
+ *                       type: array
+ *                       description: Related board memberships
+ *                       items:
+ *                         $ref: '#/components/schemas/BoardMembership'
+ *                     labels:
+ *                       type: array
+ *                       description: Related labels
+ *                       items:
+ *                         $ref: '#/components/schemas/Label'
+ *                     lists:
+ *                       type: array
+ *                       description: Related lists
+ *                       items:
+ *                         $ref: '#/components/schemas/List'
+ *                     cards:
+ *                       type: array
+ *                       description: Related cards
+ *                       items:
+ *                         allOf:
+ *                           - $ref: '#/components/schemas/Card'
+ *                           - type: object
+ *                             properties:
+ *                               isSubscribed:
+ *                                 type: boolean
+ *                                 description: Whether the current user is subscribed to the card
+ *                                 example: true
+ *                     cardMemberships:
+ *                       type: array
+ *                       description: Related card-membership associations
+ *                       items:
+ *                         $ref: '#/components/schemas/CardMembership'
+ *                     cardLabels:
+ *                       type: array
+ *                       description: Related card-label associations
+ *                       items:
+ *                         $ref: '#/components/schemas/CardLabel'
+ *                     taskLists:
+ *                       type: array
+ *                       description: Related task lists
+ *                       items:
+ *                         $ref: '#/components/schemas/TaskList'
+ *                     tasks:
+ *                       type: array
+ *                       description: Related tasks
+ *                       items:
+ *                         $ref: '#/components/schemas/Task'
+ *                     attachments:
+ *                       type: array
+ *                       description: Related attachments
+ *                       items:
+ *                         $ref: '#/components/schemas/Attachment'
+ *                     customFieldGroups:
+ *                       type: array
+ *                       description: Related custom field groups
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomFieldGroup'
+ *                     customFields:
+ *                       type: array
+ *                       description: Related custom fields
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomField'
+ *                     customFieldValues:
+ *                       type: array
+ *                       description: Related custom field values
+ *                       items:
+ *                         $ref: '#/components/schemas/CustomFieldValue'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

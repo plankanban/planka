@@ -3,6 +3,120 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/users/{id}:
+ *   patch:
+ *     summary: Update user
+ *     description: Updates a user. Users can update their own profile, admins can update any user.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: ID of the user to update
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 enum: [admin, projectOwner, boardUser]
+ *                 description: User role defining access permissions
+ *                 example: admin
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Full display name of the user
+ *                 example: John Doe
+ *               avatar:
+ *                 type: object
+ *                 nullable: true
+ *                 description: Avatar of the user (only null value to remove avatar)
+ *               phone:
+ *                 type: string
+ *                 maxLength: 128
+ *                 nullable: true
+ *                 description: Contact phone number
+ *                 example: +1234567890
+ *               organization:
+ *                 type: string
+ *                 maxLength: 128
+ *                 nullable: true
+ *                 description: Organization or company name
+ *                 example: Acme Corporation
+ *               language:
+ *                 type: string
+ *                 enum: [ar-YE, bg-BG, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *                 nullable: true
+ *                 description: Preferred language for user interface and notifications
+ *                 example: en-US
+ *               subscribeToOwnCards:
+ *                 type: boolean
+ *                 description: Whether the user subscribes to their own cards
+ *                 example: false
+ *               subscribeToCardWhenCommenting:
+ *                 type: boolean
+ *                 description: Whether the user subscribes to cards when commenting
+ *                 example: true
+ *               turnOffRecentCardHighlighting:
+ *                 type: boolean
+ *                 description: Whether recent card highlighting is disabled
+ *                 example: false
+ *               enableFavoritesByDefault:
+ *                 type: boolean
+ *                 description: Whether favorites are enabled by default
+ *                 example: false
+ *               defaultEditorMode:
+ *                 type: string
+ *                 enum: [wysiwyg, markup]
+ *                 description: Default markdown editor mode
+ *                 example: wysiwyg
+ *               defaultHomeView:
+ *                 type: string
+ *                 enum: [gridProjects, groupedProjects]
+ *                 description: Default view mode for the home page
+ *                 example: groupedProjects
+ *               defaultProjectsOrder:
+ *                 type: string
+ *                 enum: [byDefault, alphabetically, byCreationTime]
+ *                 description: Default sort order for projects display
+ *                 example: byDefault
+ *               isDeactivated:
+ *                 type: boolean
+ *                 description: Whether the user account is deactivated and cannot log in (for admins)
+ *                 example: false
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ *       409:
+ *         $ref: '#/components/responses/Conflict'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

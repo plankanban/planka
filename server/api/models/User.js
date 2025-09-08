@@ -10,6 +10,167 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       required:
+ *         - id
+ *         - email
+ *         - role
+ *         - name
+ *         - termsType
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the user
+ *           example: 1357158568008091264
+ *         email:
+ *           type: string
+ *           format: email
+ *           description: Email address for login and notifications (private field)
+ *           example: john.doe@example.com
+ *         role:
+ *           type: string
+ *           enum: [admin, projectOwner, boardUser]
+ *           description: User role defining access permissions
+ *           example: admin
+ *         name:
+ *           type: string
+ *           description: Full display name of the user
+ *           example: John Doe
+ *         username:
+ *           type: string
+ *           minLength: 3
+ *           maxLength: 32
+ *           pattern: "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$"
+ *           nullable: true
+ *           description: Unique username for user identification
+ *           example: john_doe
+ *         avatar:
+ *           type: object
+ *           required:
+ *             - url
+ *             - thumbnailUrls
+ *           nullable: true
+ *           description: Avatar information for the user with generated URLs
+ *           properties:
+ *             url:
+ *               type: string
+ *               format: uri
+ *               description: URL to the full-size avatar image
+ *               example: https://storage.example.com/user-avatars/1357158568008091264/original.jpg
+ *             thumbnailUrls:
+ *               type: object
+ *               required:
+ *                 - cover180
+ *               description: URLs for different thumbnail sizes
+ *               properties:
+ *                 cover180:
+ *                   type: string
+ *                   format: uri
+ *                   description: URL for 180px cover thumbnail
+ *                   example: https://storage.example.com/user-avatars/1357158568008091264/cover-180.jpg
+ *         gravatarUrl:
+ *           type: string
+ *           format: uri
+ *           nullable: true
+ *           description: Gravatar URL for the user (conditionally added if configured)
+ *           example: https://www.gravatar.com/avatar/abc123
+ *         phone:
+ *           type: string
+ *           nullable: true
+ *           description: Contact phone number
+ *           example: +1234567890
+ *         organization:
+ *           type: string
+ *           nullable: true
+ *           description: Organization or company name
+ *           example: Acme Corporation
+ *         language:
+ *           type: string
+ *           enum: [ar-YE, bg-BG, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *           nullable: true
+ *           description: Preferred language for user interface and notifications (personal field)
+ *           example: en-US
+ *         subscribeToOwnCards:
+ *           type: boolean
+ *           default: false
+ *           description: Whether the user subscribes to their own cards (personal field)
+ *           example: false
+ *         subscribeToCardWhenCommenting:
+ *           type: boolean
+ *           default: true
+ *           description: Whether the user subscribes to cards when commenting (personal field)
+ *           example: true
+ *         turnOffRecentCardHighlighting:
+ *           type: boolean
+ *           default: false
+ *           description: Whether recent card highlighting is disabled (personal field)
+ *           example: false
+ *         enableFavoritesByDefault:
+ *           type: boolean
+ *           default: false
+ *           description: Whether favorites are enabled by default (personal field)
+ *           example: false
+ *         defaultEditorMode:
+ *           type: string
+ *           enum: [wysiwyg, markup]
+ *           default: wysiwyg
+ *           description: Default markdown editor mode (personal field)
+ *           example: wysiwyg
+ *         defaultHomeView:
+ *           type: string
+ *           enum: [gridProjects, groupedProjects]
+ *           default: groupedProjects
+ *           description: Default view mode for the home page (personal field)
+ *           example: groupedProjects
+ *         defaultProjectsOrder:
+ *           type: string
+ *           enum: [byDefault, alphabetically, byCreationTime]
+ *           default: byDefault
+ *           description: Default sort order for projects display (personal field)
+ *           example: byDefault
+ *         termsType:
+ *           type: string
+ *           description: Type of terms applicable to the user based on role
+ *           example: general
+ *         isSsoUser:
+ *           type: boolean
+ *           default: false
+ *           description: Whether the user is SSO user (private field)
+ *           example: false
+ *         isDeactivated:
+ *           type: boolean
+ *           default: false
+ *           description: Whether the user account is deactivated and cannot log in
+ *           example: false
+ *         isDefaultAdmin:
+ *           type: boolean
+ *           nullable: true
+ *           description: Whether the user is the default admin (visible only to current user or admin)
+ *           example: false
+ *         lockedFieldNames:
+ *           type: array
+ *           items:
+ *             type: string
+ *           nullable: true
+ *           description: List of fields locked from editing (visible only to current user or admin)
+ *           example: [email, password, name]
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the user was created
+ *           example: 2024-01-01T00:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the user was last updated
+ *           example: 2024-01-01T00:00:00.000Z
+ */
+
 const Roles = {
   ADMIN: 'admin',
   PROJECT_OWNER: 'projectOwner',

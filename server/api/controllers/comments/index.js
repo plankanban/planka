@@ -3,6 +3,62 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/cards/{cardId}/comments:
+ *   get:
+ *     summary: Get card comments
+ *     description: Retrieves comments for a card with pagination support. Requires access to the card.
+ *     tags:
+ *       - Comments
+ *     parameters:
+ *       - name: cardId
+ *         in: path
+ *         required: true
+ *         description: ID of the card to retrieve comments for
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *       - name: beforeId
+ *         in: query
+ *         required: false
+ *         description: ID to get comments before (for pagination)
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091265
+ *     responses:
+ *       200:
+ *         description: Comments retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - items
+ *                 - included
+ *               properties:
+ *                 items:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Comment'
+ *                 included:
+ *                   type: object
+ *                   required:
+ *                     - users
+ *                   properties:
+ *                     users:
+ *                       type: array
+ *                       description: Related users
+ *                       items:
+ *                         $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

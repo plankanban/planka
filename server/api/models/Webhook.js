@@ -10,6 +10,57 @@
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Webhook:
+ *       type: object
+ *       required:
+ *         - name
+ *         - url
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: Unique identifier for the webhook
+ *           example: 1357158568008091264
+ *         name:
+ *           type: string
+ *           description: Name/title of the webhook
+ *           example: Webhook Updates
+ *         url:
+ *           type: string
+ *           description: URL endpoint for the webhook
+ *           example: https://example.service.com/planka
+ *         accessToken:
+ *           type: string
+ *           nullable: true
+ *           description: Access token for webhook authentication
+ *           example: secret_token_123
+ *         events:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: List of events that trigger the webhook
+ *           example: [cardCreate, cardUpdate, cardDelete]
+ *         excludedEvents:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: List of events excluded from the webhook
+ *           example: [userCreate, userUpdate, userDelete]
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the webhook was created
+ *           example: 2024-03-01T12:00:00.000Z
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: When the webhook was last updated
+ *           example: 2024-03-02T15:30:00.000Z
+ */
+
 const Events = {
   ACTION_CREATE: 'actionCreate',
 

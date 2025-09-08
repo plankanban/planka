@@ -3,6 +3,66 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/base-custom-field-groups/{baseCustomFieldGroupId}/custom-fields:
+ *   post:
+ *     summary: Create custom field in base custom field group
+ *     description: Creates a custom field within a base custom field group. Requires project manager permissions.
+ *     tags:
+ *       - Custom Fields
+ *     parameters:
+ *       - name: baseCustomFieldGroupId
+ *         in: path
+ *         required: true
+ *         description: ID of the base custom field group to create the custom field in
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091264
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - position
+ *               - name
+ *             properties:
+ *               position:
+ *                 type: number
+ *                 minimum: 0
+ *                 description: Position of the custom field within the group
+ *                 example: 65536
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Name/title of the custom field
+ *                 example: Priority
+ *               showOnFrontOfCard:
+ *                 type: boolean
+ *                 description: Whether to show the field on the front of cards
+ *                 example: true
+ *     responses:
+ *       200:
+ *         description: Custom field created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/CustomField'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       404:
+ *         $ref: '#/components/responses/NotFound'
+ */
+
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

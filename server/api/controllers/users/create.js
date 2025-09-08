@@ -3,6 +3,107 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * @swagger
+ * /api/users:
+ *   post:
+ *     summary: Create user
+ *     description: Creates a user account. Requires admin privileges.
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *               - role
+ *               - name
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 maxLength: 256
+ *                 description: Email address for login and notifications
+ *                 example: john.doe@example.com
+ *               password:
+ *                 type: string
+ *                 maxLength: 256
+ *                 description: Password for user authentication (must meet password requirements)
+ *                 example: SecurePassword123!
+ *               role:
+ *                 type: string
+ *                 enum: [admin, projectOwner, boardUser]
+ *                 description: User role defining access permissions
+ *                 example: admin
+ *               name:
+ *                 type: string
+ *                 maxLength: 128
+ *                 description: Full display name of the user
+ *                 example: John Doe
+ *               username:
+ *                 type: string
+ *                 minLength: 3
+ *                 maxLength: 16
+ *                 pattern: "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$"
+ *                 nullable: true
+ *                 description: Unique username for user identification
+ *                 example: john_doe
+ *               phone:
+ *                 type: string
+ *                 maxLength: 128
+ *                 nullable: true
+ *                 description: Contact phone number
+ *                 example: +1234567890
+ *               organization:
+ *                 type: string
+ *                 maxLength: 128
+ *                 nullable: true
+ *                 description: Organization or company name
+ *                 example: Acme Corporation
+ *               language:
+ *                 type: string
+ *                 enum: [ar-YE, bg-BG, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *                 nullable: true
+ *                 description: Preferred language for user interface and notifications
+ *                 example: en-US
+ *               subscribeToOwnCards:
+ *                 type: boolean
+ *                 description: Whether the user subscribes to their own cards
+ *                 example: false
+ *               subscribeToCardWhenCommenting:
+ *                 type: boolean
+ *                 description: Whether the user subscribes to cards when commenting
+ *                 example: true
+ *               turnOffRecentCardHighlighting:
+ *                 type: boolean
+ *                 description: Whether recent card highlighting is disabled
+ *                 example: false
+ *     responses:
+ *       200:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - item
+ *               properties:
+ *                 item:
+ *                   $ref: '#/components/schemas/User'
+ *       400:
+ *         $ref: '#/components/responses/ValidationError'
+ *       401:
+ *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
+ *       409:
+ *         $ref: '#/components/responses/Conflict'
+ */
+
 const { isPassword } = require('../../../utils/validators');
 
 const Errors = {
