@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/attachments:
+ * /cards/{cardId}/attachments:
  *   post:
  *     summary: Create attachment
  *     description: Creates an attachment on a card. Requires board editor permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/project-managers/{id}:
+ * /project-managers/{id}:
  *   delete:
  *     summary: Remove project manager
  *     description: Removes a user from project managers. Requires admin privileges for shared projects or existing project manager permissions. Cannot remove the last project manager.

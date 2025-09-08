@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/webhooks/{id}:
+ * /webhooks/{id}:
  *   patch:
  *     summary: Update webhook
  *     description: Updates a webhook. Requires admin privileges.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects/{id}:
+ * /projects/{id}:
  *   delete:
  *     summary: Delete project
  *     description: Deletes a project. The project must not have any boards. Requires project manager permissions.

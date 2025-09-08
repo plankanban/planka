@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/notifications/{id}:
+ * /notifications/{id}:
  *   get:
  *     summary: Get notification details
  *     description: Retrieves notification, including creator users. Users can only access their own notifications.

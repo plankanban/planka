@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{boardId}/labels:
+ * /boards/{boardId}/labels:
  *   post:
  *     summary: Create label
  *     description: Creates a label within a board. Requires board editor permissions.

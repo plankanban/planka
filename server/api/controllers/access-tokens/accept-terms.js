@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/access-tokens/accept-terms:
+ * /access-tokens/accept-terms:
  *   post:
  *     summary: Accept terms and conditions
  *     description: Accept terms during the authentication flow. Converts the pending token to an access token.

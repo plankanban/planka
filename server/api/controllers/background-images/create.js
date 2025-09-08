@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects/{projectId}/background-images:
+ * /projects/{projectId}/background-images:
  *   post:
  *     summary: Upload background image
  *     description: Uploads a background image for a project. Requires project manager permissions.

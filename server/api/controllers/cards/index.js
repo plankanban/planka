@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{listId}/cards:
+ * /lists/{listId}/cards:
  *   get:
  *     summary: Get cards in list
  *     description: Retrieves cards from an endless list with filtering, search, and pagination support.

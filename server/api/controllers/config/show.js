@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/config:
+ * /config:
  *   get:
  *     summary: Get application configuration
  *     description: Retrieves the application configuration.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects/{projectId}/base-custom-field-groups:
+ * /projects/{projectId}/base-custom-field-groups:
  *   post:
  *     summary: Create base custom field group
  *     description: Creates a base custom field group within a project. Requires project manager permissions.

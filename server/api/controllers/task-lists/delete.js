@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/task-lists/{id}:
+ * /task-lists/{id}:
  *   delete:
  *     summary: Delete task list
  *     description: Deletes a task list and all its tasks. Requires board editor permissions.

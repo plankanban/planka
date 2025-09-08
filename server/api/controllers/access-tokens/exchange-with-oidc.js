@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/access-tokens/exchange-with-oidc:
+ * /access-tokens/exchange-with-oidc:
  *   post:
  *     summary: Exchange OIDC code for access token
  *     description: Exchanges an OIDC authorization code for an access token. Creates a user if they do not exist.

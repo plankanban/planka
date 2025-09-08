@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/actions:
+ * /cards/{cardId}/actions:
  *   get:
  *     summary: Get card actions
  *     description: Retrieves a list of actions (activity history) for a specific card, with pagination support.

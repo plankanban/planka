@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{id}:
+ * /cards/{id}:
  *   patch:
  *     summary: Update card
  *     description: Updates a card. Board editors can update all fields, viewers can only subscribe/unsubscribe.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/custom-field-values:
+ * /cards/{cardId}/custom-field-values:
  *   post:
  *     summary: Create or update custom field value
  *     description: Creates or updates a custom field value for a card. Requires board editor permissions.

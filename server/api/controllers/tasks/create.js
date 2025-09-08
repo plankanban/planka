@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/task-lists/{taskListId}/tasks:
+ * /task-lists/{taskListId}/tasks:
  *   post:
  *     summary: Create task
  *     description: Creates a task within a task list. Either `linkedCardId` or `name` must be provided. Requires board editor permissions.

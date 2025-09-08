@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/comments/{id}:
+ * /comments/{id}:
  *   patch:
  *     summary: Update comment
  *     description: Updates a comment. Only the author of the comment can update it.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/attachments/{id}/download/thumbnails/{fileName}.{fileExtension}:
+ * /attachments/{id}/download/thumbnails/{fileName}.{fileExtension}:
  *   get:
  *     summary: Download file attachment thumbnail
  *     description: Downloads a thumbnail for a file attachment. Only available for image attachments that have thumbnails generated. Requires access to the card.

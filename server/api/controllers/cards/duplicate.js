@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{id}/duplicate:
+ * /cards/{id}/duplicate:
  *   post:
  *     summary: Duplicate card
  *     description: Creates a duplicate of a card with all its contents (tasks, attachments, etc.). Requires board editor permissions.

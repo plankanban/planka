@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users/{id}/username:
+ * /users/{id}/username:
  *   patch:
  *     summary: Update user username
  *     description: Updates a user's username. Users must provide a current password when updating their own username (unless they are SSO users with `oidcIgnoreUsername` enabled). Admins can update any user's username without the current password.

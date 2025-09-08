@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/task-lists/{id}:
+ * /task-lists/{id}:
  *   patch:
  *     summary: Update task list
  *     description: Updates a task list. Requires board editor permissions.

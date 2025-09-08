@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{boardId}/actions:
+ * /boards/{boardId}/actions:
  *   get:
  *     summary: Get board actions
  *     description: Retrieves a list of actions (activity history) for a specific board, with pagination support.

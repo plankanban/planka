@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects/{id}:
+ * /projects/{id}:
  *   get:
  *     summary: Get project details
  *     description: Retrieves comprehensive project information, including boards, board memberships, and other related data.

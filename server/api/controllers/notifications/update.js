@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/notifications/{id}:
+ * /notifications/{id}:
  *   patch:
  *     summary: Update notification
  *     description: Updates a notification. Users can only update their own notifications.

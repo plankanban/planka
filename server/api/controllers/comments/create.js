@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/comments:
+ * /cards/{cardId}/comments:
  *   post:
  *     summary: Create comment
  *     description: Creates a new comment on a card. Requires board editor permissions or comment permissions.

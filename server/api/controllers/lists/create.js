@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{boardId}/lists:
+ * /boards/{boardId}/lists:
  *   post:
  *     summary: Create list
  *     description: Creates a list within a board. Requires board editor permissions.

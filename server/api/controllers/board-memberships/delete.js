@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/board-memberships/{id}:
+ * /board-memberships/{id}:
  *   delete:
  *     summary: Remove user from board
  *     description: Removes a user from a board. Users can remove themselves, or project managers can remove any user.

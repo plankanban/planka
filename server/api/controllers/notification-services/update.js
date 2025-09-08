@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/notification-services/{id}:
+ * /notification-services/{id}:
  *   patch:
  *     summary: Update notification service
  *     description: Updates a notification service. Users can update their own services, project managers can update board services.

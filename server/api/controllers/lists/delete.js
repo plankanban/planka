@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{id}:
+ * /lists/{id}:
  *   delete:
  *     summary: Delete list
  *     description: Deletes a list and moves its cards to a trash list. Can only delete finite lists. Requires board editor permissions.

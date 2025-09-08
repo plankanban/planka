@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users/{userId}/notification-services:
+ * /users/{userId}/notification-services:
  *   post:
  *     summary: Create notification service for user
  *     description: Creates a new notification service for a user. Users can only create services for themselves.

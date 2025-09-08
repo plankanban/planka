@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{boardId}/custom-field-groups:
+ * /boards/{boardId}/custom-field-groups:
  *   post:
  *     summary: Create custom field group in board
  *     description: Creates a custom field group within a board. Either `baseCustomFieldGroupId` or `name` must be provided. Requires board editor permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/custom-field-groups:
+ * /cards/{cardId}/custom-field-groups:
  *   post:
  *     summary: Create custom field group in card
  *     description: Creates a custom field group within a card. Either `baseCustomFieldGroupId` or `name` must be provided. Requires board editor permissions.

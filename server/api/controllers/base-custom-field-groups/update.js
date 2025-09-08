@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/base-custom-field-groups/{id}:
+ * /base-custom-field-groups/{id}:
  *   patch:
  *     summary: Update base custom field group
  *     description: Updates a base custom field group. Requires project manager permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   get:
  *     summary: Get all users
  *     description: Retrieves a list of all users. Requires admin or project owner privileges.

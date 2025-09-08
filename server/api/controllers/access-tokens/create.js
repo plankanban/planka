@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/access-tokens:
+ * /access-tokens:
  *   post:
  *     summary: User login
  *     description: Authenticates a user using email/username and password. Returns an access token for API authentication.

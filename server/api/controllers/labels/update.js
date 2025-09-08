@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/labels/{id}:
+ * /labels/{id}:
  *   patch:
  *     summary: Update label
  *     description: Updates a label. Requires board editor permissions.

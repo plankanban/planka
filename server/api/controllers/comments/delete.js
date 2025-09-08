@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/comments/{id}:
+ * /comments/{id}:
  *   delete:
  *     summary: Delete comment
  *     description: Deletes a comment. Can be deleted by the comment author (with comment permissions) or project manager.

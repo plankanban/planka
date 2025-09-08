@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{boardId}/memberships:
+ * /boards/{boardId}/memberships:
  *   post:
  *     summary: Add user to board
  *     description: Adds a user to a board. Requires project manager permissions.

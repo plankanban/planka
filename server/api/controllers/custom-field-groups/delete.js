@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/custom-field-groups/{id}:
+ * /custom-field-groups/{id}:
  *   delete:
  *     summary: Delete custom field group
  *     description: Deletes a custom field group. Requires board editor permissions.

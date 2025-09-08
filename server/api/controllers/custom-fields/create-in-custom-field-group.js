@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/custom-field-groups/{customFieldGroupId}/custom-fields:
+ * /custom-field-groups/{customFieldGroupId}/custom-fields:
  *   post:
  *     summary: Create custom field in custom field group
  *     description: Creates a custom field within a custom field group. Requires board editor permissions.

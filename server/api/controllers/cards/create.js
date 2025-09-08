@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{listId}/cards:
+ * /lists/{listId}/cards:
  *   post:
  *     summary: Create card
  *     description: Creates a card within a list. Requires board editor permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/attachments/{id}:
+ * /attachments/{id}:
  *   delete:
  *     summary: Delete attachment
  *     description: Deletes an attachment. Requires board editor permissions.

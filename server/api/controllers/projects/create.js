@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects:
+ * /projects:
  *   post:
  *     summary: Create project
  *     description: Creates a project. The current user automatically becomes a project manager.

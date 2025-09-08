@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/memberships:
+ * /cards/{cardId}/memberships:
  *   post:
  *     summary: Add user to card
  *     description: Adds a user to a card. Requires board editor permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/base-custom-field-groups/{id}:
+ * /base-custom-field-groups/{id}:
  *   delete:
  *     summary: Delete base custom field group
  *     description: Deletes a base custom field group. Requires project manager permissions.

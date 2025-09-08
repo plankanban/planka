@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users/{id}/password:
+ * /users/{id}/password:
  *   patch:
  *     summary: Update user password
  *     description: Updates a user's password. Users must provide a current password when updating their own password. Admins can update any user's password without the current password. Returns a new access token when updating own password.

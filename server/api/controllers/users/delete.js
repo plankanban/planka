@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   delete:
  *     summary: Delete user
  *     description: Deletes a user account. Cannot delete the default admin user. Requires admin privileges.

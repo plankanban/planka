@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/notification-services/{id}:
+ * /notification-services/{id}:
  *   delete:
  *     summary: Delete notification service
  *     description: Deletes a notification service. Users can delete their own services, project managers can delete board services.

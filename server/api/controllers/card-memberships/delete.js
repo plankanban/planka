@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/memberships/{userId}:
+ * /cards/{cardId}/memberships/{userId}:
  *   delete:
  *     summary: Remove user from card
  *     description: Removes a user from a card. Requires board editor permissions.

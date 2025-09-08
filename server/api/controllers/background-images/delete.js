@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/background-images/{id}:
+ * /background-images/{id}:
  *   delete:
  *     summary: Delete background image
  *     description: Deletes a background image. Requires project manager permissions.

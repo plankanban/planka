@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects/{id}:
+ * /projects/{id}:
  *   patch:
  *     summary: Update project
  *     description: Updates a project. Accessible fields depend on user permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{boardId}/notification-services:
+ * /boards/{boardId}/notification-services:
  *   post:
  *     summary: Create notification service for board
  *     description: Creates a new notification service for a board. Requires project manager permissions.

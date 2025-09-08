@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/notifications/read-all:
+ * /notifications/read-all:
  *   post:
  *     summary: Mark all notifications as read
  *     description: Marks all notifications for the current user as read.

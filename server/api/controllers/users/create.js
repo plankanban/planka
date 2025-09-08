@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users:
+ * /users:
  *   post:
  *     summary: Create user
  *     description: Creates a user account. Requires admin privileges.

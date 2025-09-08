@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/custom-field-groups/{id}:
+ * /custom-field-groups/{id}:
  *   get:
  *     summary: Get custom field group details
  *     description: Retrieves comprehensive custom field group information, including fields and values. Requires access to the board/card.

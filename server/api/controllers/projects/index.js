@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects:
+ * /projects:
  *   get:
  *     summary: Get all accessible projects
  *     description: Retrieves all projects the current user has access to, including managed projects, membership projects, and shared projects (for admins).

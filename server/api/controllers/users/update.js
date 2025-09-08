@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   patch:
  *     summary: Update user
  *     description: Updates a user. Users can update their own profile, admins can update any user.

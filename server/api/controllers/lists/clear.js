@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{id}/clear:
+ * /lists/{id}/clear:
  *   post:
  *     summary: Clear list
  *     description: Deletes all cards from a list. Only works with trash-type lists. Requires project manager or board editor permissions.

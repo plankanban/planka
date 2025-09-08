@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/access-tokens/revoke-pending-token:
+ * /access-tokens/revoke-pending-token:
  *   post:
  *     summary: Revoke pending token
  *     description: Revokes a pending authentication token and cancels the authentication flow.

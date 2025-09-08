@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/comments:
+ * /cards/{cardId}/comments:
  *   get:
  *     summary: Get card comments
  *     description: Retrieves comments for a card with pagination support. Requires access to the card.

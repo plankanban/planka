@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/tasks/{id}:
+ * /tasks/{id}:
  *   delete:
  *     summary: Delete task
  *     description: Deletes a task. Requires board editor permissions.

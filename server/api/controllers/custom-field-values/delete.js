@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/custom-field-groups/{customFieldGroupId}/custom-fields/{customFieldId}/value:
+ * /cards/{cardId}/custom-field-groups/{customFieldGroupId}/custom-fields/{customFieldId}/value:
  *   delete:
  *     summary: Delete custom field value
  *     description: Deletes a custom field value for a specific card. Requires board editor permissions.

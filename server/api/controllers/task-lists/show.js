@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/task-lists/{id}:
+ * /task-lists/{id}:
  *   get:
  *     summary: Get task list details
  *     description: Retrieves task list information, including tasks. Requires access to the card.

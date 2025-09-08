@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects/{projectId}/managers:
+ * /projects/{projectId}/managers:
  *   post:
  *     summary: Add project manager
  *     description: Adds a user as a project manager. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.

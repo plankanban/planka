@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/webhooks/{id}:
+ * /webhooks/{id}:
  *   delete:
  *     summary: Delete webhook
  *     description: Deletes a webhook. Requires admin privileges.

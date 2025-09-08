@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/webhooks:
+ * /webhooks:
  *   post:
  *     summary: Create webhook
  *     description: Creates a webhook. Requires admin privileges.

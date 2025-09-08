@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{id}:
+ * /boards/{id}:
  *   delete:
  *     summary: Delete board
  *     description: Deletes a board and all its contents (lists, cards, etc.). Requires project manager permissions.

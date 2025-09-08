@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{id}:
+ * /cards/{id}:
  *   get:
  *     summary: Get card details
  *     description: Retrieves comprehensive card information, including tasks, attachments, and other related data.

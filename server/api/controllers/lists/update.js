@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{id}:
+ * /lists/{id}:
  *   patch:
  *     summary: Update list
  *     description: Updates a list. Can move lists between boards. Requires board editor permissions.

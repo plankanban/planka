@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/labels/{id}:
+ * /labels/{id}:
  *   delete:
  *     summary: Delete label
  *     description: Deletes a label. Requires board editor permissions.

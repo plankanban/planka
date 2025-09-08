@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{id}:
+ * /cards/{id}:
  *   delete:
  *     summary: Delete card
  *     description: Deletes a card and all its contents (tasks, attachments, etc.). Requires board editor permissions.

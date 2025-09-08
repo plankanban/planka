@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/attachments/{id}:
+ * /attachments/{id}:
  *   patch:
  *     summary: Update attachment
  *     description: Updates an attachment. Requires board editor permissions.

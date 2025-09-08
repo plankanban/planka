@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{id}/move-cards:
+ * /lists/{id}/move-cards:
  *   post:
  *     summary: Move cards
  *     description: Moves all cards from a closed list to an archive list. Requires board editor permissions.

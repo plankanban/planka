@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/webhooks:
+ * /webhooks:
  *   get:
  *     summary: Get all webhooks
  *     description: Retrieves a list of all configured webhooks. Requires admin privileges.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/terms:
+ * /terms:
  *   get:
  *     summary: Get terms and conditions
  *     description: Retrieves terms and conditions in the specified language.

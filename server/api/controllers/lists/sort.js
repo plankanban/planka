@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{id}/sort:
+ * /lists/{id}/sort:
  *   post:
  *     summary: Sort cards in list
  *     description: Sorts all cards within a list. Requires board editor permissions.

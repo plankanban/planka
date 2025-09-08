@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/custom-field-groups/{id}:
+ * /custom-field-groups/{id}:
  *   patch:
  *     summary: Update custom field group
  *     description: Updates a custom field group. Supports both board-wide and card-specific groups. Requires board editor permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/board-memberships/{id}:
+ * /board-memberships/{id}:
  *   patch:
  *     summary: Update board membership
  *     description: Updates a board membership. Requires project manager permissions.

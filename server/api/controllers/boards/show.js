@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{id}:
+ * /boards/{id}:
  *   get:
  *     summary: Get board details
  *     description: Retrieves comprehensive board information, including lists, cards, and other related data.

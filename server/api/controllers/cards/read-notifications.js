@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{id}/read-notifications:
+ * /cards/{id}/read-notifications:
  *   post:
  *     summary: Mark card notifications as read
  *     description: Marks all notifications for a specific card as read for the current user. Requires access to the card.

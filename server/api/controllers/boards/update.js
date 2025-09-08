@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/boards/{id}:
+ * /boards/{id}:
  *   patch:
  *     summary: Update board
  *     description: Updates a board. Project managers can update all fields, board members can only subscribe/unsubscribe.

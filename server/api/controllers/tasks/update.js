@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/tasks/{id}:
+ * /tasks/{id}:
  *   patch:
  *     summary: Update task
  *     description: Updates a task. Linked card tasks have limited update options. Requires board editor permissions.

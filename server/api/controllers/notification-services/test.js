@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/notification-services/{id}/test:
+ * /notification-services/{id}/test:
  *   post:
  *     summary: Test notification service
  *     description: Sends a test notification to verify the notification service is working. Users can test their own services, project managers can test board services.

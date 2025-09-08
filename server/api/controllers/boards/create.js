@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/projects/{projectId}/boards:
+ * /projects/{projectId}/boards:
  *   post:
  *     summary: Create board
  *     description: Creates a board within a project. Supports importing from Trello. Requires project manager permissions.

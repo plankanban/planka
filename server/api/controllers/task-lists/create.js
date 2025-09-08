@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/cards/{cardId}/task-lists:
+ * /cards/{cardId}/task-lists:
  *   post:
  *     summary: Create task list
  *     description: Creates a task list within a card. Requires board editor permissions.

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/lists/{id}:
+ * /lists/{id}:
  *   get:
  *     summary: Get list details
  *     description: Retrieves comprehensive list information, including cards, attachments, and other related data. Requires access to the board.

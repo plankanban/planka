@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/attachments/{id}/download:
+ * /attachments/{id}/download:
  *   get:
  *     summary: Download file attachment
  *     description: Downloads a file attachment. Requires access to the card.

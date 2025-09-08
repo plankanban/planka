@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/notifications:
+ * /notifications:
  *   get:
  *     summary: Get user notifications
  *     description: Retrieves all unread notifications for the current user, including creator users.

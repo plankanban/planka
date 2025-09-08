@@ -18,6 +18,12 @@ module.exports = {
         url: 'https://github.com/plankanban/planka/blob/master/LICENSE.md',
       },
     },
+    servers: [
+      {
+        url: '/api',
+        description: 'Base path for API endpoints',
+      },
+    ],
   },
   apis: ['./api/controllers/**/*.js', './api/models/*.js', './api/responses/*.js'],
 };

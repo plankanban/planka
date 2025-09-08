@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /api/users/{id}:
+ * /users/{id}:
  *   get:
  *     summary: Get user details
  *     description: Retrieves a user. Use 'me' as ID to get the current user.
