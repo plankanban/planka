@@ -1,16 +1,22 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "PLANKA API",
     "version": "2.0.0",
+    "title": "PLANKA API",
     "description": "API documentation for PLANKA - Real-time Collaborative Kanban Board Application",
     "license": {
       "name": "Fair Use License",
       "url": "https://github.com/plankanban/planka/blob/master/LICENSE.md"
     }
   },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "Base path for API endpoints"
+    }
+  ],
   "paths": {
-    "/api/access-tokens/accept-terms": {
+    "/access-tokens/accept-terms": {
       "post": {
         "summary": "Accept terms and conditions",
         "description": "Accept terms during the authentication flow. Converts the pending token to an access token.",
@@ -129,7 +135,7 @@
         }
       }
     },
-    "/api/access-tokens": {
+    "/access-tokens": {
       "post": {
         "summary": "User login",
         "description": "Authenticates a user using email/username and password. Returns an access token for API authentication.",
@@ -299,7 +305,7 @@
         }
       }
     },
-    "/api/access-tokens/exchange-with-oidc": {
+    "/access-tokens/exchange-with-oidc": {
       "post": {
         "summary": "Exchange OIDC code for access token",
         "description": "Exchanges an OIDC authorization code for an access token. Creates a user if they do not exist.",
@@ -509,7 +515,7 @@
         }
       }
     },
-    "/api/access-tokens/revoke-pending-token": {
+    "/access-tokens/revoke-pending-token": {
       "post": {
         "summary": "Revoke pending token",
         "description": "Revokes a pending authentication token and cancels the authentication flow.",
@@ -564,7 +570,7 @@
         }
       }
     },
-    "/api/boards/{boardId}/actions": {
+    "/boards/{boardId}/actions": {
       "get": {
         "summary": "Get board actions",
         "description": "Retrieves a list of actions (activity history) for a specific board, with pagination support.",
@@ -643,7 +649,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/actions": {
+    "/cards/{cardId}/actions": {
       "get": {
         "summary": "Get card actions",
         "description": "Retrieves a list of actions (activity history) for a specific card, with pagination support.",
@@ -722,7 +728,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/attachments": {
+    "/cards/{cardId}/attachments": {
       "post": {
         "summary": "Create attachment",
         "description": "Creates an attachment on a card. Requires board editor permissions.",
@@ -879,7 +885,7 @@
         }
       }
     },
-    "/api/attachments/{id}": {
+    "/attachments/{id}": {
       "delete": {
         "summary": "Delete attachment",
         "description": "Deletes an attachment. Requires board editor permissions.",
@@ -1001,7 +1007,7 @@
         }
       }
     },
-    "/api/projects/{projectId}/background-images": {
+    "/projects/{projectId}/background-images": {
       "post": {
         "summary": "Upload background image",
         "description": "Uploads a background image for a project. Requires project manager permissions.",
@@ -1110,7 +1116,7 @@
         }
       }
     },
-    "/api/background-images/{id}": {
+    "/background-images/{id}": {
       "delete": {
         "summary": "Delete background image",
         "description": "Deletes a background image. Requires project manager permissions.",
@@ -1163,7 +1169,7 @@
         }
       }
     },
-    "/api/projects/{projectId}/base-custom-field-groups": {
+    "/projects/{projectId}/base-custom-field-groups": {
       "post": {
         "summary": "Create base custom field group",
         "description": "Creates a base custom field group within a project. Requires project manager permissions.",
@@ -1237,7 +1243,7 @@
         }
       }
     },
-    "/api/base-custom-field-groups/{id}": {
+    "/base-custom-field-groups/{id}": {
       "delete": {
         "summary": "Delete base custom field group",
         "description": "Deletes a base custom field group. Requires project manager permissions.",
@@ -1359,7 +1365,7 @@
         }
       }
     },
-    "/api/boards/{boardId}/memberships": {
+    "/boards/{boardId}/memberships": {
       "post": {
         "summary": "Add user to board",
         "description": "Adds a user to a board. Requires project manager permissions.",
@@ -1451,7 +1457,7 @@
         }
       }
     },
-    "/api/board-memberships/{id}": {
+    "/board-memberships/{id}": {
       "delete": {
         "summary": "Remove user from board",
         "description": "Removes a user from a board. Users can remove themselves, or project managers can remove any user.",
@@ -1576,7 +1582,7 @@
         }
       }
     },
-    "/api/projects/{projectId}/boards": {
+    "/projects/{projectId}/boards": {
       "post": {
         "summary": "Create board",
         "description": "Creates a board within a project. Supports importing from Trello. Requires project manager permissions.",
@@ -1819,7 +1825,7 @@
         }
       }
     },
-    "/api/boards/{id}": {
+    "/boards/{id}": {
       "delete": {
         "summary": "Delete board",
         "description": "Deletes a board and all its contents (lists, cards, etc.). Requires project manager permissions.",
@@ -2185,7 +2191,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/labels": {
+    "/cards/{cardId}/labels": {
       "post": {
         "summary": "Add label to card",
         "description": "Adds a label to a card. Requires board editor permissions.",
@@ -2261,7 +2267,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/labels/{labelId}": {
+    "/cards/{cardId}/labels/{labelId}": {
       "delete": {
         "summary": "Remove label from card",
         "description": "Removes a label from a card. Requires board editor permissions.",
@@ -2324,7 +2330,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/memberships": {
+    "/cards/{cardId}/memberships": {
       "post": {
         "summary": "Add user to card",
         "description": "Adds a user to a card. Requires board editor permissions.",
@@ -2400,7 +2406,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/memberships/{userId}": {
+    "/cards/{cardId}/memberships/{userId}": {
       "delete": {
         "summary": "Remove user from card",
         "description": "Removes a user from a card. Requires board editor permissions.",
@@ -2463,7 +2469,7 @@
         }
       }
     },
-    "/api/lists/{listId}/cards": {
+    "/lists/{listId}/cards": {
       "post": {
         "summary": "Create card",
         "description": "Creates a card within a list. Requires board editor permissions.",
@@ -2785,7 +2791,7 @@
         }
       }
     },
-    "/api/cards/{id}": {
+    "/cards/{id}": {
       "delete": {
         "summary": "Delete card",
         "description": "Deletes a card and all its contents (tasks, attachments, etc.). Requires board editor permissions.",
@@ -3130,7 +3136,7 @@
         }
       }
     },
-    "/api/cards/{id}/duplicate": {
+    "/cards/{id}/duplicate": {
       "post": {
         "summary": "Duplicate card",
         "description": "Creates a duplicate of a card with all its contents (tasks, attachments, etc.). Requires board editor permissions.",
@@ -3283,7 +3289,7 @@
         }
       }
     },
-    "/api/cards/{id}/read-notifications": {
+    "/cards/{id}/read-notifications": {
       "post": {
         "summary": "Mark card notifications as read",
         "description": "Marks all notifications for a specific card as read for the current user. Requires access to the card.",
@@ -3349,7 +3355,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/comments": {
+    "/cards/{cardId}/comments": {
       "post": {
         "summary": "Create comment",
         "description": "Creates a new comment on a card. Requires board editor permissions or comment permissions.",
@@ -3500,7 +3506,7 @@
         }
       }
     },
-    "/api/comments/{id}": {
+    "/comments/{id}": {
       "delete": {
         "summary": "Delete comment",
         "description": "Deletes a comment. Can be deleted by the comment author (with comment permissions) or project manager.",
@@ -3622,7 +3628,7 @@
         }
       }
     },
-    "/api/config": {
+    "/config": {
       "get": {
         "summary": "Get application configuration",
         "description": "Retrieves the application configuration.",
@@ -3651,7 +3657,7 @@
         }
       }
     },
-    "/api/boards/{boardId}/custom-field-groups": {
+    "/boards/{boardId}/custom-field-groups": {
       "post": {
         "summary": "Create custom field group in board",
         "description": "Creates a custom field group within a board. Either `baseCustomFieldGroupId` or `name` must be provided. Requires board editor permissions.",
@@ -3740,7 +3746,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/custom-field-groups": {
+    "/cards/{cardId}/custom-field-groups": {
       "post": {
         "summary": "Create custom field group in card",
         "description": "Creates a custom field group within a card. Either `baseCustomFieldGroupId` or `name` must be provided. Requires board editor permissions.",
@@ -3829,7 +3835,7 @@
         }
       }
     },
-    "/api/custom-field-groups/{id}": {
+    "/custom-field-groups/{id}": {
       "delete": {
         "summary": "Delete custom field group",
         "description": "Deletes a custom field group. Requires board editor permissions.",
@@ -4033,7 +4039,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/custom-field-values": {
+    "/cards/{cardId}/custom-field-values": {
       "post": {
         "summary": "Create or update custom field value",
         "description": "Creates or updates a custom field value for a card. Requires board editor permissions.",
@@ -4119,7 +4125,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/custom-field-groups/{customFieldGroupId}/custom-fields/{customFieldId}/value": {
+    "/cards/{cardId}/custom-field-groups/{customFieldGroupId}/custom-fields/{customFieldId}/value": {
       "delete": {
         "summary": "Delete custom field value",
         "description": "Deletes a custom field value for a specific card. Requires board editor permissions.",
@@ -4192,7 +4198,7 @@
         }
       }
     },
-    "/api/base-custom-field-groups/{baseCustomFieldGroupId}/custom-fields": {
+    "/base-custom-field-groups/{baseCustomFieldGroupId}/custom-fields": {
       "post": {
         "summary": "Create custom field in base custom field group",
         "description": "Creates a custom field within a base custom field group. Requires project manager permissions.",
@@ -4275,7 +4281,7 @@
         }
       }
     },
-    "/api/custom-field-groups/{customFieldGroupId}/custom-fields": {
+    "/custom-field-groups/{customFieldGroupId}/custom-fields": {
       "post": {
         "summary": "Create custom field in custom field group",
         "description": "Creates a custom field within a custom field group. Requires board editor permissions.",
@@ -4361,7 +4367,7 @@
         }
       }
     },
-    "/api/custom-fields/{id}": {
+    "/custom-fields/{id}": {
       "delete": {
         "summary": "Delete custom field",
         "description": "Deletes a custom field. Can delete the in base custom field group (requires project manager permissions) or the custom field group (requires board editor permissions).",
@@ -4494,7 +4500,7 @@
         }
       }
     },
-    "/api/attachments/{id}/download/thumbnails/{fileName}.{fileExtension}": {
+    "/attachments/{id}/download/thumbnails/{fileName}.{fileExtension}": {
       "get": {
         "summary": "Download file attachment thumbnail",
         "description": "Downloads a thumbnail for a file attachment. Only available for image attachments that have thumbnails generated. Requires access to the card.",
@@ -4575,7 +4581,7 @@
         }
       }
     },
-    "/api/attachments/{id}/download": {
+    "/attachments/{id}/download": {
       "get": {
         "summary": "Download file attachment",
         "description": "Downloads a file attachment. Requires access to the card.",
@@ -4638,7 +4644,7 @@
         }
       }
     },
-    "/api/boards/{boardId}/labels": {
+    "/boards/{boardId}/labels": {
       "post": {
         "summary": "Create label",
         "description": "Creates a label within a board. Requires board editor permissions.",
@@ -4769,7 +4775,7 @@
         }
       }
     },
-    "/api/labels/{id}": {
+    "/labels/{id}": {
       "delete": {
         "summary": "Delete label",
         "description": "Deletes a label. Requires board editor permissions.",
@@ -4947,7 +4953,7 @@
         }
       }
     },
-    "/api/lists/{id}/clear": {
+    "/lists/{id}/clear": {
       "post": {
         "summary": "Clear list",
         "description": "Deletes all cards from a list. Only works with trash-type lists. Requires project manager or board editor permissions.",
@@ -5000,7 +5006,7 @@
         }
       }
     },
-    "/api/boards/{boardId}/lists": {
+    "/boards/{boardId}/lists": {
       "post": {
         "summary": "Create list",
         "description": "Creates a list within a board. Requires board editor permissions.",
@@ -5091,7 +5097,7 @@
         }
       }
     },
-    "/api/lists/{id}": {
+    "/lists/{id}": {
       "delete": {
         "summary": "Delete list",
         "description": "Deletes a list and moves its cards to a trash list. Can only delete finite lists. Requires board editor permissions.",
@@ -5417,7 +5423,7 @@
         }
       }
     },
-    "/api/lists/{id}/move-cards": {
+    "/lists/{id}/move-cards": {
       "post": {
         "summary": "Move cards",
         "description": "Moves all cards from a closed list to an archive list. Requires board editor permissions.",
@@ -5514,7 +5520,7 @@
         }
       }
     },
-    "/api/lists/{id}/sort": {
+    "/lists/{id}/sort": {
       "post": {
         "summary": "Sort cards in list",
         "description": "Sorts all cards within a list. Requires board editor permissions.",
@@ -5616,7 +5622,7 @@
         }
       }
     },
-    "/api/boards/{boardId}/notification-services": {
+    "/boards/{boardId}/notification-services": {
       "post": {
         "summary": "Create notification service for board",
         "description": "Creates a new notification service for a board. Requires project manager permissions.",
@@ -5701,7 +5707,7 @@
         }
       }
     },
-    "/api/users/{userId}/notification-services": {
+    "/users/{userId}/notification-services": {
       "post": {
         "summary": "Create notification service for user",
         "description": "Creates a new notification service for a user. Users can only create services for themselves.",
@@ -5786,7 +5792,7 @@
         }
       }
     },
-    "/api/notification-services/{id}": {
+    "/notification-services/{id}": {
       "delete": {
         "summary": "Delete notification service",
         "description": "Deletes a notification service. Users can delete their own services, project managers can delete board services.",
@@ -5912,7 +5918,7 @@
         }
       }
     },
-    "/api/notification-services/{id}/test": {
+    "/notification-services/{id}/test": {
       "post": {
         "summary": "Test notification service",
         "description": "Sends a test notification to verify the notification service is working. Users can test their own services, project managers can test board services.",
@@ -5962,7 +5968,7 @@
         }
       }
     },
-    "/api/notifications": {
+    "/notifications": {
       "get": {
         "summary": "Get user notifications",
         "description": "Retrieves all unread notifications for the current user, including creator users.",
@@ -6016,7 +6022,7 @@
         }
       }
     },
-    "/api/notifications/read-all": {
+    "/notifications/read-all": {
       "post": {
         "summary": "Mark all notifications as read",
         "description": "Marks all notifications for the current user as read.",
@@ -6054,7 +6060,7 @@
         }
       }
     },
-    "/api/notifications/{id}": {
+    "/notifications/{id}": {
       "get": {
         "summary": "Get notification details",
         "description": "Retrieves notification, including creator users. Users can only access their own notifications.",
@@ -6185,7 +6191,7 @@
         }
       }
     },
-    "/api/projects/{projectId}/managers": {
+    "/projects/{projectId}/managers": {
       "post": {
         "summary": "Add project manager",
         "description": "Adds a user as a project manager. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.",
@@ -6264,7 +6270,7 @@
         }
       }
     },
-    "/api/project-managers/{id}": {
+    "/project-managers/{id}": {
       "delete": {
         "summary": "Remove project manager",
         "description": "Removes a user from project managers. Requires admin privileges for shared projects or existing project manager permissions. Cannot remove the last project manager.",
@@ -6320,7 +6326,7 @@
         }
       }
     },
-    "/api/projects": {
+    "/projects": {
       "post": {
         "summary": "Create project",
         "description": "Creates a project. The current user automatically becomes a project manager.",
@@ -6531,7 +6537,7 @@
         }
       }
     },
-    "/api/projects/{id}": {
+    "/projects/{id}": {
       "delete": {
         "summary": "Delete project",
         "description": "Deletes a project. The project must not have any boards. Requires project manager permissions.",
@@ -6865,7 +6871,7 @@
         }
       }
     },
-    "/api/cards/{cardId}/task-lists": {
+    "/cards/{cardId}/task-lists": {
       "post": {
         "summary": "Create task list",
         "description": "Creates a task list within a card. Requires board editor permissions.",
@@ -6956,7 +6962,7 @@
         }
       }
     },
-    "/api/task-lists/{id}": {
+    "/task-lists/{id}": {
       "delete": {
         "summary": "Delete task list",
         "description": "Deletes a task list and all its tasks. Requires board editor permissions.",
@@ -7158,7 +7164,7 @@
         }
       }
     },
-    "/api/task-lists/{taskListId}/tasks": {
+    "/task-lists/{taskListId}/tasks": {
       "post": {
         "summary": "Create task",
         "description": "Creates a task within a task list. Either `linkedCardId` or `name` must be provided. Requires board editor permissions.",
@@ -7252,7 +7258,7 @@
         }
       }
     },
-    "/api/tasks/{id}": {
+    "/tasks/{id}": {
       "delete": {
         "summary": "Delete task",
         "description": "Deletes a task. Requires board editor permissions.",
@@ -7396,7 +7402,7 @@
         }
       }
     },
-    "/api/terms": {
+    "/terms": {
       "get": {
         "summary": "Get terms and conditions",
         "description": "Retrieves terms and conditions in the specified language.",
@@ -7500,7 +7506,7 @@
         }
       }
     },
-    "/api/users": {
+    "/users": {
       "post": {
         "summary": "Create user",
         "description": "Creates a user account. Requires admin privileges.",
@@ -7706,7 +7712,7 @@
         }
       }
     },
-    "/api/users/{id}": {
+    "/users/{id}": {
       "delete": {
         "summary": "Delete user",
         "description": "Deletes a user account. Cannot delete the default admin user. Requires admin privileges.",
@@ -8028,7 +8034,7 @@
         }
       }
     },
-    "/api/users/{id}/avatar": {
+    "/users/{id}/avatar": {
       "patch": {
         "summary": "Update user avatar",
         "description": "Updates a user's avatar image. Users can update their own avatar, admins can update any user's avatar.",
@@ -8101,7 +8107,7 @@
         }
       }
     },
-    "/api/users/{id}/email": {
+    "/users/{id}/email": {
       "patch": {
         "summary": "Update user email",
         "description": "Updates a user's email address. Users must provide current password when updating their own email. Admins can update any user's email without a password.",
@@ -8185,7 +8191,7 @@
         }
       }
     },
-    "/api/users/{id}/password": {
+    "/users/{id}/password": {
       "patch": {
         "summary": "Update user password",
         "description": "Updates a user's password. Users must provide a current password when updating their own password. Admins can update any user's password without the current password. Returns a new access token when updating own password.",
@@ -8281,7 +8287,7 @@
         }
       }
     },
-    "/api/users/{id}/username": {
+    "/users/{id}/username": {
       "patch": {
         "summary": "Update user username",
         "description": "Updates a user's username. Users must provide a current password when updating their own username (unless they are SSO users with `oidcIgnoreUsername` enabled). Admins can update any user's username without the current password.",
@@ -8364,7 +8370,7 @@
         }
       }
     },
-    "/api/webhooks": {
+    "/webhooks": {
       "post": {
         "summary": "Create webhook",
         "description": "Creates a webhook. Requires admin privileges.",
@@ -8488,7 +8494,7 @@
         }
       }
     },
-    "/api/webhooks/{id}": {
+    "/webhooks/{id}": {
       "delete": {
         "summary": "Delete webhook",
         "description": "Deletes a webhook. Requires admin privileges.",
