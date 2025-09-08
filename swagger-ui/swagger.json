@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "2.0.0-rc.3",
+    "version": "2.0.0",
     "title": "PLANKA API",
     "description": "API documentation for PLANKA - Real-time Collaborative Kanban Board Application",
     "license": {
