@@ -31,6 +31,7 @@ module.exports.i18n = {
     'ru-RU',
     'tr-TR',
     'uk-UA',
+    'hu-HU',
   ],
 
   /**
