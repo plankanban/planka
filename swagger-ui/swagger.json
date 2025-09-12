@@ -2242,7 +2242,7 @@
             },
             "headers": {
               "Set-Cookie": {
-                "description": "HTTP-only authentication cookie (if withHttpOnlyToken is true)",
+                "description": "HTTP-only authentication cookie (if `withHttpOnlyToken` is true)",
                 "schema": {
                   "type": "string",
                   "example": "httpOnlyToken=29aa3e38-8d24-4029-9743-9cbcf0a0dd5c; HttpOnly; Secure; SameSite=Strict"
@@ -2415,7 +2415,7 @@
             },
             "headers": {
               "Set-Cookie": {
-                "description": "HTTP-only authentication cookie (if withHttpOnlyToken is true)",
+                "description": "HTTP-only authentication cookie (if `withHttpOnlyToken` is true)",
                 "schema": {
                   "type": "string",
                   "example": "httpOnlyToken=29aa3e38-8d24-4029-9743-9cbcf0a0dd5c; HttpOnly; Secure; SameSite=Strict"
@@ -4095,12 +4095,12 @@
                   },
                   "alwaysDisplayCardCreator": {
                     "type": "boolean",
-                    "description": "Whether to limit card types to default one",
+                    "description": "Whether to always display card creators",
                     "example": false
                   },
                   "expandTaskListsByDefault": {
                     "type": "boolean",
-                    "description": "Whether to always display the card creator",
+                    "description": "Whether to expand task lists by default",
                     "example": false
                   },
                   "isSubscribed": {
@@ -4489,7 +4489,6 @@
                   "dueDate": {
                     "type": "string",
                     "format": "date-time",
-                    "nullable": true,
                     "description": "Due date for the card",
                     "example": "2024-01-01T00:00:00.000Z"
                   },
