@@ -52,7 +52,7 @@
  *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
  *         headers:
  *           Set-Cookie:
- *             description: HTTP-only authentication cookie (if withHttpOnlyToken is true)
+ *             description: HTTP-only authentication cookie (if `withHttpOnlyToken` is true)
  *             schema:
  *               type: string
  *               example: httpOnlyToken=29aa3e38-8d24-4029-9743-9cbcf0a0dd5c; HttpOnly; Secure; SameSite=Strict

@@ -53,11 +53,11 @@
  *                 example: false
  *               alwaysDisplayCardCreator:
  *                 type: boolean
- *                 description: Whether to limit card types to default one
+ *                 description: Whether to always display card creators
  *                 example: false
  *               expandTaskListsByDefault:
  *                 type: boolean
- *                 description: Whether to always display the card creator
+ *                 description: Whether to expand task lists by default
  *                 example: false
  *               isSubscribed:
  *                 type: boolean
