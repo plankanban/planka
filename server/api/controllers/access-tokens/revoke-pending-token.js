@@ -11,6 +11,7 @@
  *     description: Revokes a pending authentication token and cancels the authentication flow.
  *     tags:
  *       - Access Tokens
+ *     operationId: revokePendingToken
  *     requestBody:
  *       required: true
  *       content:
@@ -42,6 +43,7 @@
  *         $ref: '#/components/responses/ValidationError'
  *       404:
  *         $ref: '#/components/responses/NotFound'
+ *     security: []
  */
 
 const Errors = {

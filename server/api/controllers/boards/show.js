@@ -11,6 +11,7 @@
  *     description: Retrieves comprehensive board information, including lists, cards, and other related data.
  *     tags:
  *       - Boards
+ *     operationId: getBoard
  *     parameters:
  *       - name: id
  *         in: path

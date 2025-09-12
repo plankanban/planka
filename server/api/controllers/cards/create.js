@@ -11,6 +11,7 @@
  *     description: Creates a card within a list. Requires board editor permissions.
  *     tags:
  *       - Cards
+ *     operationId: createCard
  *     parameters:
  *       - name: listId
  *         in: path

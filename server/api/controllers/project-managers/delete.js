@@ -7,21 +7,22 @@
  * @swagger
  * /project-managers/{id}:
  *   delete:
- *     summary: Remove project manager
- *     description: Removes a user from project managers. Requires admin privileges for shared projects or existing project manager permissions. Cannot remove the last project manager.
+ *     summary: Delete project manager
+ *     description: Deletes a project manager. Requires admin privileges for shared projects or existing project manager permissions. Cannot remove the last project manager.
  *     tags:
  *       - Project Managers
+ *     operationId: deleteProjectManager
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID of the project manager to remove
+ *         description: ID of the project manager to delete
  *         schema:
  *           type: string
  *           example: "1357158568008091264"
  *     responses:
  *       200:
- *         description: Project manager removed successfully
+ *         description: Project manager deleted successfully
  *         content:
  *           application/json:
  *             schema:

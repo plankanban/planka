@@ -11,6 +11,7 @@
  *     description: Uploads a background image for a project. Requires project manager permissions.
  *     tags:
  *       - Background Images
+ *     operationId: createBackgroundImage
  *     parameters:
  *       - name: projectId
  *         in: path

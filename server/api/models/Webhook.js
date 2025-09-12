@@ -20,6 +20,11 @@
  *         - id
  *         - name
  *         - url
+ *         - accessToken
+ *         - events
+ *         - excludedEvents
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string
@@ -40,24 +45,28 @@
  *           example: secret_token_123
  *         events:
  *           type: array
+ *           nullable: true
+ *           description: List of events that trigger the webhook
  *           items:
  *             type: string
- *           description: List of events that trigger the webhook
  *           example: [cardCreate, cardUpdate, cardDelete]
  *         excludedEvents:
  *           type: array
+ *           nullable: true
+ *           description: List of events excluded from the webhook
  *           items:
  *             type: string
- *           description: List of events excluded from the webhook
  *           example: [userCreate, userUpdate, userDelete]
  *         createdAt:
  *           type: string
  *           format: date-time
+ *           nullable: true
  *           description: When the webhook was created
  *           example: 2024-01-01T00:00:00.000Z
  *         updatedAt:
  *           type: string
  *           format: date-time
+ *           nullable: true
  *           description: When the webhook was last updated
  *           example: 2024-01-01T00:00:00.000Z
  */

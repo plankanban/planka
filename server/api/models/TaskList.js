@@ -21,6 +21,10 @@
  *         - cardId
  *         - position
  *         - name
+ *         - showOnFrontOfCard
+ *         - hideCompletedTasks
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

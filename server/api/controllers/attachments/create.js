@@ -11,6 +11,7 @@
  *     description: Creates an attachment on a card. Requires board editor permissions.
  *     tags:
  *       - Attachments
+ *     operationId: createAttachment
  *     parameters:
  *       - name: cardId
  *         in: path
@@ -22,21 +23,25 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             required:
  *               - type
- *               - url
  *               - name
  *             properties:
  *               type:
  *                 type: string
- *                 enum: [link]
+ *                 enum: [file, link]
  *                 description: Type of the attachment
  *                 example: link
+ *               file:
+ *                 type: string
+ *                 format: binary
+ *                 description: File to upload
  *               url:
  *                 type: string
+ *                 format: url
  *                 maxLength: 2048
  *                 description: URL for the link attachment
  *                 example: https://google.com/search?q=planka
@@ -44,29 +49,7 @@
  *                 type: string
  *                 maxLength: 128
  *                 description: Name/title of the attachment
- *                 example: Google Link
- *         multipart/form-data:
- *           schema:
- *             type: object
- *             required:
- *               - type
- *               - file
- *               - name
- *             properties:
- *               type:
- *                 type: string
- *                 enum: [file]
- *                 description: Type of the attachment
- *                 example: file
- *               file:
- *                 type: string
- *                 format: binary
- *                 description: File to upload
- *               name:
- *                 type: string
- *                 maxLength: 128
- *                 description: Name/title of the attachment
- *                 example: Important Document
+ *                 example: Important Attachment
  *               requestId:
  *                 type: string
  *                 maxLength: 128

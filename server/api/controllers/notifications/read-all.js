@@ -11,6 +11,7 @@
  *     description: Marks all notifications for the current user as read.
  *     tags:
  *       - Notifications
+ *     operationId: readAllNotifications
  *     responses:
  *       200:
  *         description: Notifications marked as read successfully

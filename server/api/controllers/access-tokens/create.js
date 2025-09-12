@@ -11,6 +11,7 @@
  *     description: Authenticates a user using email/username and password. Returns an access token for API authentication.
  *     tags:
  *       - Access Tokens
+ *     operationId: createAccessToken
  *     requestBody:
  *       required: true
  *       content:
@@ -101,6 +102,7 @@
  *                     - Admin login required to initialize instance
  *                   description: Specific error message
  *                   example: Use single sign-on
+ *     security: []
  */
 
 const bcrypt = require('bcrypt');

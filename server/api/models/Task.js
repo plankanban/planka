@@ -19,8 +19,13 @@
  *       required:
  *         - id
  *         - taskListId
+ *         - linkedCardId
+ *         - assigneeUserId
  *         - position
  *         - name
+ *         - isCompleted
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

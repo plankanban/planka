@@ -3,51 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-/**
- * @swagger
- * /attachments/{id}/download:
- *   get:
- *     summary: Download file attachment
- *     description: Downloads a file attachment. Requires access to the card.
- *     tags:
- *       - File Attachments
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID of the file attachment to download
- *         schema:
- *           type: string
- *           example: "1357158568008091264"
- *     responses:
- *       200:
- *         description: File attachment content returned successfully
- *         content:
- *           application/octet-stream:
- *             schema:
- *               type: string
- *               format: binary
- *           image/*:
- *             schema:
- *               type: string
- *               format: binary
- *         headers:
- *           Content-Disposition:
- *             schema:
- *               type: string
- *             description: Attachment disposition with filename
- *           Content-Type:
- *             schema:
- *               type: string
- *             description: MIME type of the file
- *       400:
- *         $ref: '#/components/responses/ValidationError'
- *       401:
- *         $ref: '#/components/responses/Unauthorized'
- *       404:
- *         $ref: '#/components/responses/NotFound'
- */
-
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

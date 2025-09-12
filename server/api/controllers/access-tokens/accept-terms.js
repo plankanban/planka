@@ -11,6 +11,7 @@
  *     description: Accept terms during the authentication flow. Converts the pending token to an access token.
  *     tags:
  *       - Access Tokens
+ *     operationId: acceptTerms
  *     requestBody:
  *       required: true
  *       content:
@@ -87,6 +88,7 @@
  *                     - Admin login required to initialize instance
  *                   description: Specific error message
  *                   example: Invalid signature
+ *     security: []
  */
 
 const { getRemoteAddress } = require('../../../utils/remote-address');

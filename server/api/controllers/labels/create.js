@@ -11,6 +11,7 @@
  *     description: Creates a label within a board. Requires board editor permissions.
  *     tags:
  *       - Labels
+ *     operationId: createLabel
  *     parameters:
  *       - name: boardId
  *         in: path

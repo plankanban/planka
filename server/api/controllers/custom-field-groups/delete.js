@@ -11,6 +11,7 @@
  *     description: Deletes a custom field group. Requires board editor permissions.
  *     tags:
  *       - Custom Field Groups
+ *     operationId: deleteCustomFieldGroup
  *     parameters:
  *       - name: id
  *         in: path

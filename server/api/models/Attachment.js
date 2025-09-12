@@ -19,9 +19,12 @@
  *       required:
  *         - id
  *         - cardId
+ *         - creatorUserId
  *         - type
  *         - data
  *         - name
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string
@@ -48,7 +51,7 @@
  *         name:
  *           type: string
  *           description: Name/title of the attachment
- *           example: Google Link
+ *           example: Important Attachment
  *         createdAt:
  *           type: string
  *           format: date-time

@@ -11,6 +11,7 @@
  *     description: Retrieves a list of all configured webhooks. Requires admin privileges.
  *     tags:
  *       - Webhooks
+ *     operationId: getWebhooks
  *     responses:
  *       200:
  *         description: List of webhooks retrieved successfully

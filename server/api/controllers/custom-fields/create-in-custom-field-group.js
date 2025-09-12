@@ -11,6 +11,7 @@
  *     description: Creates a custom field within a custom field group. Requires board editor permissions.
  *     tags:
  *       - Custom Fields
+ *     operationId: createCustomFieldInGroup
  *     parameters:
  *       - name: customFieldGroupId
  *         in: path

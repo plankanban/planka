@@ -11,6 +11,7 @@
  *     description: Retrieves a list of actions (activity history) for a specific card, with pagination support.
  *     tags:
  *       - Actions
+ *     operationId: getCardActions
  *     parameters:
  *       - name: cardId
  *         in: path

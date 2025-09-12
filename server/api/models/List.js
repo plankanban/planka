@@ -20,6 +20,11 @@
  *         - id
  *         - boardId
  *         - type
+ *         - position
+ *         - name
+ *         - color
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

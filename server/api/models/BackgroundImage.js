@@ -22,6 +22,8 @@
  *         - size
  *         - url
  *         - thumbnailUrls
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

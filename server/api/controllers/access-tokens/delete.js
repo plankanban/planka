@@ -11,6 +11,7 @@
  *     description: Logs out the current user by deleting the session and access token. Clears HTTP-only cookies if present.
  *     tags:
  *       - Access Tokens
+ *     operationId: deleteAccessToken
  *     responses:
  *       200:
  *         description: Logout successful

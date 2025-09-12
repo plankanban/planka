@@ -11,6 +11,7 @@
  *     description: Updates a card. Board editors can update all fields, viewers can only subscribe/unsubscribe.
  *     tags:
  *       - Cards
+ *     operationId: updateCard
  *     parameters:
  *       - name: id
  *         in: path

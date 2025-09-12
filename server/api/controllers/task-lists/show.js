@@ -11,6 +11,7 @@
  *     description: Retrieves task list information, including tasks. Requires access to the card.
  *     tags:
  *       - Task Lists
+ *     operationId: getTaskList
  *     parameters:
  *       - name: id
  *         in: path

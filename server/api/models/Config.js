@@ -18,6 +18,7 @@
  *       type: object
  *       required:
  *         - version
+ *         - oidc
  *       properties:
  *         version:
  *           type: string

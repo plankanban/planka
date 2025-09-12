@@ -7,15 +7,16 @@
  * @swagger
  * /projects/{projectId}/managers:
  *   post:
- *     summary: Add project manager
- *     description: Adds a user as a project manager. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.
+ *     summary: Create project manager
+ *     description: Creates a project manager within a project. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.
  *     tags:
  *       - Project Managers
+ *     operationId: createProjectManager
  *     parameters:
  *       - name: projectId
  *         in: path
  *         required: true
- *         description: ID of the project to add the manager to
+ *         description: ID of the project to create the project manager in
  *         schema:
  *           type: string
  *           example: "1357158568008091264"
@@ -34,7 +35,7 @@
  *                 example: "1357158568008091265"
  *     responses:
  *       200:
- *         description: Project manager added successfully
+ *         description: Project manager created successfully
  *         content:
  *           application/json:
  *             schema:

@@ -11,6 +11,7 @@
  *     description: Creates a board within a project. Supports importing from Trello. Requires project manager permissions.
  *     tags:
  *       - Boards
+ *     operationId: createBoard
  *     parameters:
  *       - name: projectId
  *         in: path
@@ -22,50 +23,6 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - position
- *               - name
- *             properties:
- *               position:
- *                 type: number
- *                 minimum: 0
- *                 description: Position of the board within the project
- *                 example: 65536
- *               name:
- *                 type: string
- *                 maxLength: 128
- *                 description: Name/title of the board
- *                 example: Development Board
- *               defaultView:
- *                 type: string
- *                 enum: [kanban, grid, list]
- *                 default: kanban
- *                 description: Default view for the board
- *                 example: kanban
- *               defaultCardType:
- *                 type: string
- *                 enum: [project, story]
- *                 default: project
- *                 description: Default card type for new cards
- *                 example: project
- *               limitCardTypesToDefaultOne:
- *                 type: boolean
- *                 default: false
- *                 description: Whether to limit card types to default one
- *                 example: false
- *               alwaysDisplayCardCreator:
- *                 type: boolean
- *                 default: false
- *                 description: Whether to always display the card creator
- *                 example: false
- *               expandTaskListsByDefault:
- *                 type: boolean
- *                 default: false
- *                 description: Whether to expand task lists by default
- *                 example: false
  *         multipart/form-data:
  *           schema:
  *             type: object
@@ -83,33 +40,6 @@
  *                 maxLength: 128
  *                 description: Name/title of the board
  *                 example: Development Board
- *               defaultView:
- *                 type: string
- *                 enum: [kanban, grid, list]
- *                 default: kanban
- *                 description: Default view for the board
- *                 example: kanban
- *               defaultCardType:
- *                 type: string
- *                 enum: [project, story]
- *                 default: project
- *                 description: Default card type for new cards
- *                 example: project
- *               limitCardTypesToDefaultOne:
- *                 type: boolean
- *                 default: false
- *                 description: Whether to limit card types to default one
- *                 example: false
- *               alwaysDisplayCardCreator:
- *                 type: boolean
- *                 default: false
- *                 description: Whether to always display the card creator
- *                 example: false
- *               expandTaskListsByDefault:
- *                 type: boolean
- *                 default: false
- *                 description: Whether to expand task lists by default
- *                 example: false
  *               importType:
  *                 type: string
  *                 enum: [trello]

@@ -11,6 +11,7 @@
  *     description: Creates a new notification service for a board. Requires project manager permissions.
  *     tags:
  *       - Notification Services
+ *     operationId: createBoardNotificationService
  *     parameters:
  *       - name: boardId
  *         in: path

@@ -11,6 +11,7 @@
  *     description: Creates a project. The current user automatically becomes a project manager.
  *     tags:
  *       - Projects
+ *     operationId: createProject
  *     requestBody:
  *       required: true
  *       content:

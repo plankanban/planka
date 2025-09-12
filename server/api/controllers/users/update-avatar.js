@@ -11,6 +11,7 @@
  *     description: Updates a user's avatar image. Users can update their own avatar, admins can update any user's avatar.
  *     tags:
  *       - Users
+ *     operationId: updateUserAvatar
  *     parameters:
  *       - name: id
  *         in: path

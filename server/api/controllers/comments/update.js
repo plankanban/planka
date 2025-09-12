@@ -11,6 +11,7 @@
  *     description: Updates a comment. Only the author of the comment can update it.
  *     tags:
  *       - Comments
+ *     operationId: updateComments
  *     parameters:
  *       - name: id
  *         in: path

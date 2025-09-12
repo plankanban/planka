@@ -31,7 +31,7 @@ export function* createCustomFieldGroupInBoard(boardId, data) {
   try {
     ({ item: customFieldGroup } = yield call(
       request,
-      api.createCustomFieldGroupInBoard,
+      api.createBoardCustomFieldGroup,
       boardId,
       nextData,
     ));
@@ -69,7 +69,7 @@ export function* createCustomFieldGroupInCard(cardId, data) {
   try {
     ({ item: customFieldGroup } = yield call(
       request,
-      api.createCustomFieldGroupInCard,
+      api.createCardCustomFieldGroup,
       cardId,
       nextData,
     ));

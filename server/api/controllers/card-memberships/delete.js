@@ -11,6 +11,7 @@
  *     description: Removes a user from a card. Requires board editor permissions.
  *     tags:
  *       - Card Memberships
+ *     operationId: deleteCardMembership
  *     parameters:
  *       - name: cardId
  *         in: path

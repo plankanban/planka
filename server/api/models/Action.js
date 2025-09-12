@@ -18,9 +18,13 @@
  *       type: object
  *       required:
  *         - id
+ *         - boardId
  *         - cardId
+ *         - userId
  *         - type
  *         - data
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

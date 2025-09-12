@@ -22,6 +22,8 @@
  *         - customFieldGroupId
  *         - customFieldId
  *         - content
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

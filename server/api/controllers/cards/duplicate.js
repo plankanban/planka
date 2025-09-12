@@ -11,6 +11,7 @@
  *     description: Creates a duplicate of a card with all its contents (tasks, attachments, etc.). Requires board editor permissions.
  *     tags:
  *       - Cards
+ *     operationId: duplicateCard
  *     parameters:
  *       - name: id
  *         in: path

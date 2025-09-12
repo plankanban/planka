@@ -11,6 +11,7 @@
  *     description: Updates a custom field. Can update in the base custom field group (requires project manager permissions) or the custom field group (requires board editor permissions).
  *     tags:
  *       - Custom Fields
+ *     operationId: updateCustomField
  *     parameters:
  *       - name: id
  *         in: path

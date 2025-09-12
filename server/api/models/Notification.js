@@ -19,11 +19,16 @@
  *       required:
  *         - id
  *         - userId
+ *         - creatorUserId
  *         - boardId
  *         - cardId
+ *         - commentId
+ *         - actionId
  *         - type
  *         - data
  *         - isRead
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string
@@ -63,10 +68,11 @@
  *           example: commentCard
  *         data:
  *           type: object
- *           description: Notification payload specific to the type
+ *           description: Notification specific data (varies by type)
  *           example: {"card": {"name": "Implement user authentication"}, "text": "This task is almost complete..."}
  *         isRead:
  *           type: boolean
+ *           default: false
  *           description: Whether the notification has been read
  *           example: false
  *         createdAt:

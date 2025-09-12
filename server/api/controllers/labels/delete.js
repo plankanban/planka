@@ -11,6 +11,7 @@
  *     description: Deletes a label. Requires board editor permissions.
  *     tags:
  *       - Labels
+ *     operationId: deleteLabel
  *     parameters:
  *       - name: id
  *         in: path

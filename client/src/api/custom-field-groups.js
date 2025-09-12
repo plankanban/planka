@@ -7,10 +7,10 @@ import socket from './socket';
 
 /* Actions */
 
-const createCustomFieldGroupInBoard = (cardId, data, headers) =>
+const createBoardCustomFieldGroup = (cardId, data, headers) =>
   socket.post(`/boards/${cardId}/custom-field-groups`, data, headers);
 
-const createCustomFieldGroupInCard = (cardId, data, headers) =>
+const createCardCustomFieldGroup = (cardId, data, headers) =>
   socket.post(`/cards/${cardId}/custom-field-groups`, data, headers);
 
 const getCustomFieldGroup = (id, headers) =>
@@ -23,8 +23,8 @@ const deleteCustomFieldGroup = (id, headers) =>
   socket.delete(`/custom-field-groups/${id}`, undefined, headers);
 
 export default {
-  createCustomFieldGroupInBoard,
-  createCustomFieldGroupInCard,
+  createBoardCustomFieldGroup,
+  createCardCustomFieldGroup,
   getCustomFieldGroup,
   updateCustomFieldGroup,
   deleteCustomFieldGroup,

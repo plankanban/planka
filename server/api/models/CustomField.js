@@ -18,9 +18,13 @@
  *       type: object
  *       required:
  *         - id
+ *         - baseCustomFieldGroupId
+ *         - customFieldGroupId
  *         - position
  *         - name
  *         - showOnFrontOfCard
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

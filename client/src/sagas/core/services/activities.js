@@ -22,7 +22,7 @@ export function* fetchActivitiesInBoard(boardId) {
     ({
       items: activities,
       included: { users },
-    } = yield call(request, api.getActivitiesInBoard, boardId, {
+    } = yield call(request, api.getBoardActivities, boardId, {
       beforeId: lastActivityId || undefined,
     }));
   } catch (error) {
@@ -51,7 +51,7 @@ export function* fetchActivitiesInCard(cardId) {
     ({
       items: activities,
       included: { users },
-    } = yield call(request, api.getActivitiesInCard, cardId, {
+    } = yield call(request, api.getCardActivities, cardId, {
       beforeId: lastActivityId || undefined,
     }));
   } catch (error) {

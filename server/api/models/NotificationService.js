@@ -18,8 +18,12 @@
  *       type: object
  *       required:
  *         - id
+ *         - userId
+ *         - boardId
  *         - url
  *         - format
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

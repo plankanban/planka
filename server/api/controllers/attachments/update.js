@@ -11,6 +11,7 @@
  *     description: Updates an attachment. Requires board editor permissions.
  *     tags:
  *       - Attachments
+ *     operationId: updateAttachment
  *     parameters:
  *       - name: id
  *         in: path
@@ -30,7 +31,7 @@
  *                 type: string
  *                 maxLength: 128
  *                 description: Name/title of the attachment
- *                 example: Google Link
+ *                 example: Important Attachment
  *     responses:
  *       200:
  *         description: Attachment updated successfully

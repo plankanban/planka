@@ -11,6 +11,7 @@
  *     description: Retrieves a list of actions (activity history) for a specific board, with pagination support.
  *     tags:
  *       - Actions
+ *     operationId: getBoardActions
  *     parameters:
  *       - name: boardId
  *         in: path

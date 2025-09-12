@@ -11,6 +11,7 @@
  *     description: Updates a label. Requires board editor permissions.
  *     tags:
  *       - Labels
+ *     operationId: updateLabel
  *     parameters:
  *       - name: id
  *         in: path

@@ -11,6 +11,7 @@
  *     description: Deletes a webhook. Requires admin privileges.
  *     tags:
  *       - Webhooks
+ *     operationId: deleteWebhook
  *     parameters:
  *       - name: id
  *         in: path

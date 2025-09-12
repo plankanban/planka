@@ -11,6 +11,7 @@
  *     description: Marks all notifications for a specific card as read for the current user. Requires access to the card.
  *     tags:
  *       - Cards
+ *     operationId: readCardNotifications
  *     parameters:
  *       - name: id
  *         in: path

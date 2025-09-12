@@ -11,6 +11,7 @@
  *     description: Deletes a custom field. Can delete the in base custom field group (requires project manager permissions) or the custom field group (requires board editor permissions).
  *     tags:
  *       - Custom Fields
+ *     operationId: deleteCustomField
  *     parameters:
  *       - name: id
  *         in: path

@@ -18,7 +18,15 @@
  *       type: object
  *       required:
  *         - id
+ *         - ownerProjectManagerId
+ *         - backgroundImageId
  *         - name
+ *         - description
+ *         - backgroundType
+ *         - backgroundGradient
+ *         - isHidden
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

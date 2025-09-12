@@ -11,6 +11,7 @@
  *     description: Updates a webhook. Requires admin privileges.
  *     tags:
  *       - Webhooks
+ *     operationId: updateWebhook
  *     parameters:
  *       - name: id
  *         in: path

@@ -11,6 +11,7 @@
  *     description: Creates or updates a custom field value for a card. Requires board editor permissions.
  *     tags:
  *       - Custom Field Values
+ *     operationId: updateCustomFieldValue
  *     parameters:
  *       - name: cardId
  *         in: path

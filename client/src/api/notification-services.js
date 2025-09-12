@@ -7,10 +7,10 @@ import socket from './socket';
 
 /* Actions */
 
-const createNotificationServiceInUser = (userId, data, headers) =>
+const createUserNotificationService = (userId, data, headers) =>
   socket.post(`/users/${userId}/notification-services`, data, headers);
 
-const createNotificationServiceInBoard = (boardId, data, headers) =>
+const createBoardNotificationService = (boardId, data, headers) =>
   socket.post(`/boards/${boardId}/notification-services`, data, headers);
 
 const updateNotificationService = (id, data, headers) =>
@@ -23,8 +23,8 @@ const deleteNotificationService = (id, headers) =>
   socket.delete(`/notification-services/${id}`, undefined, headers);
 
 export default {
-  createNotificationServiceInUser,
-  createNotificationServiceInBoard,
+  createUserNotificationService,
+  createBoardNotificationService,
   updateNotificationService,
   testNotificationService,
   deleteNotificationService,

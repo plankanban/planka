@@ -11,6 +11,7 @@
  *     description: Deletes a base custom field group. Requires project manager permissions.
  *     tags:
  *       - Base Custom Field Groups
+ *     operationId: deleteBaseCustomFieldGroup
  *     parameters:
  *       - name: id
  *         in: path

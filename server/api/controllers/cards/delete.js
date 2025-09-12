@@ -11,6 +11,7 @@
  *     description: Deletes a card and all its contents (tasks, attachments, etc.). Requires board editor permissions.
  *     tags:
  *       - Cards
+ *     operationId: deleteCard
  *     parameters:
  *       - name: id
  *         in: path

@@ -11,6 +11,7 @@
  *     description: Deletes all cards from a list. Only works with trash-type lists. Requires project manager or board editor permissions.
  *     tags:
  *       - Lists
+ *     operationId: clearList
  *     parameters:
  *       - name: id
  *         in: path

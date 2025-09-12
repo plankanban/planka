@@ -11,6 +11,7 @@
  *     description: Removes a label from a card. Requires board editor permissions.
  *     tags:
  *       - Card Labels
+ *     operationId: deleteCardLabel
  *     parameters:
  *       - name: cardId
  *         in: path

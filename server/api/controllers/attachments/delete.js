@@ -11,6 +11,7 @@
  *     description: Deletes an attachment. Requires board editor permissions.
  *     tags:
  *       - Attachments
+ *     operationId: deleteAttachment
  *     parameters:
  *       - name: id
  *         in: path

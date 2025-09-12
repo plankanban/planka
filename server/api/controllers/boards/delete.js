@@ -11,6 +11,7 @@
  *     description: Deletes a board and all its contents (lists, cards, etc.). Requires project manager permissions.
  *     tags:
  *       - Boards
+ *     operationId: deleteBoard
  *     parameters:
  *       - name: id
  *         in: path

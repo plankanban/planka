@@ -11,6 +11,7 @@
  *     description: Updates a user's password. Users must provide a current password when updating their own password. Admins can update any user's password without the current password. Returns a new access token when updating own password.
  *     tags:
  *       - Users
+ *     operationId: updateUserPassword
  *     parameters:
  *       - in: path
  *         name: id
@@ -60,7 +61,7 @@
  *                       description: New acces tokens (when updating own password)
  *                       items:
  *                         type: string
- *                       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
+ *                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
  *       400:
  *         $ref: '#/components/responses/ValidationError'
  *       401:

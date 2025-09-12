@@ -11,6 +11,7 @@
  *     description: Adds a label to a card. Requires board editor permissions.
  *     tags:
  *       - Card Labels
+ *     operationId: createCardLabel
  *     parameters:
  *       - name: cardId
  *         in: path

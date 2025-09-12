@@ -11,6 +11,7 @@
  *     description: Deletes a project. The project must not have any boards. Requires project manager permissions.
  *     tags:
  *       - Projects
+ *     operationId: deleteProject
  *     parameters:
  *       - name: id
  *         in: path

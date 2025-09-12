@@ -11,6 +11,7 @@
  *     description: Updates a user's username. Users must provide a current password when updating their own username (unless they are SSO users with `oidcIgnoreUsername` enabled). Admins can update any user's username without the current password.
  *     tags:
  *       - Users
+ *     operationId: updateUserUsername
  *     parameters:
  *       - in: path
  *         name: id

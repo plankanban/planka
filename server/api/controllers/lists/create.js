@@ -11,6 +11,7 @@
  *     description: Creates a list within a board. Requires board editor permissions.
  *     tags:
  *       - Lists
+ *     operationId: createList
  *     parameters:
  *       - name: boardId
  *         in: path

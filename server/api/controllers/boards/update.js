@@ -11,6 +11,7 @@
  *     description: Updates a board. Project managers can update all fields, board members can only subscribe/unsubscribe.
  *     tags:
  *       - Boards
+ *     operationId: updateBoard
  *     parameters:
  *       - name: id
  *         in: path
@@ -49,6 +50,7 @@
  *               limitCardTypesToDefaultOne:
  *                 type: boolean
  *                 description: Whether to limit card types to default one
+ *                 example: false
  *               alwaysDisplayCardCreator:
  *                 type: boolean
  *                 description: Whether to limit card types to default one

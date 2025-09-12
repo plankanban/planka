@@ -20,6 +20,8 @@
  *         - id
  *         - cardId
  *         - labelId
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

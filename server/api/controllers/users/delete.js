@@ -11,6 +11,7 @@
  *     description: Deletes a user account. Cannot delete the default admin user. Requires admin privileges.
  *     tags:
  *       - Users
+ *     operationId: deleteUser
  *     parameters:
  *       - name: id
  *         in: path

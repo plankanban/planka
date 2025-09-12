@@ -11,6 +11,7 @@
  *     description: Retrieves comprehensive custom field group information, including fields and values. Requires access to the board/card.
  *     tags:
  *       - Custom Field Groups
+ *     operationId: getCustomFieldGroup
  *     parameters:
  *       - name: id
  *         in: path
@@ -40,14 +41,14 @@
  *                   properties:
  *                     customFields:
  *                       type: array
+ *                       description: Related custom fields
  *                       items:
  *                         $ref: '#/components/schemas/CustomField'
- *                       description: Related custom fields
  *                     customFieldValues:
  *                       type: array
+ *                       description: Related custom field values (for card-specific groups)
  *                       items:
  *                         $ref: '#/components/schemas/CustomFieldValue'
- *                       description: Related custom field values (for card-specific groups)
  *       400:
  *         $ref: '#/components/responses/ValidationError'
  *       401:

@@ -11,6 +11,7 @@
  *     description: Retrieves comprehensive card information, including tasks, attachments, and other related data.
  *     tags:
  *       - Cards
+ *     operationId: getCard
  *     parameters:
  *       - name: id
  *         in: path

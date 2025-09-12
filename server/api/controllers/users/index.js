@@ -11,6 +11,7 @@
  *     description: Retrieves a list of all users. Requires admin or project owner privileges.
  *     tags:
  *       - Users
+ *     operationId: getUsers
  *     responses:
  *       200:
  *         description: List of users retrieved successfully

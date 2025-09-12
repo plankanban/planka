@@ -11,6 +11,7 @@
  *     description: Retrieves a user. Use 'me' as ID to get the current user.
  *     tags:
  *       - Users
+ *     operationId: getUser
  *     parameters:
  *       - name: id
  *         in: path

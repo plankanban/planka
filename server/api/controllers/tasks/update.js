@@ -11,6 +11,7 @@
  *     description: Updates a task. Linked card tasks have limited update options. Requires board editor permissions.
  *     tags:
  *       - Tasks
+ *     operationId: updateTask
  *     parameters:
  *       - name: id
  *         in: path

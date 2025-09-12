@@ -27,7 +27,7 @@ export function* createNotificationServiceInCurrentUser(data) {
   try {
     ({ item: notificationService } = yield call(
       request,
-      api.createNotificationServiceInUser,
+      api.createUserNotificationService,
       currentUserId,
       data,
     ));
@@ -54,7 +54,7 @@ export function* createNotificationServiceInBoard(boardId, data) {
   try {
     ({ item: notificationService } = yield call(
       request,
-      api.createNotificationServiceInBoard,
+      api.createBoardNotificationService,
       boardId,
       data,
     ));

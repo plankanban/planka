@@ -11,6 +11,7 @@
  *     description: Retrieves cards from an endless list with filtering, search, and pagination support.
  *     tags:
  *       - Cards
+ *     operationId: getCards
  *     parameters:
  *       - name: listId
  *         in: path

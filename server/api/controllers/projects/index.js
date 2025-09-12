@@ -11,6 +11,7 @@
  *     description: Retrieves all projects the current user has access to, including managed projects, membership projects, and shared projects (for admins).
  *     tags:
  *       - Projects
+ *     operationId: getProjects
  *     responses:
  *       200:
  *         description: Projects retrieved successfully

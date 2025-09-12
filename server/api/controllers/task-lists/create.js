@@ -11,6 +11,7 @@
  *     description: Creates a task list within a card. Requires board editor permissions.
  *     tags:
  *       - Task Lists
+ *     operationId: createTaskList
  *     parameters:
  *       - name: cardId
  *         in: path

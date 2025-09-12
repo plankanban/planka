@@ -11,6 +11,7 @@
  *     description: Updates a task list. Requires board editor permissions.
  *     tags:
  *       - Task Lists
+ *     operationId: updateTaskList
  *     parameters:
  *       - name: id
  *         in: path

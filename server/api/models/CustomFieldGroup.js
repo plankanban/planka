@@ -18,7 +18,13 @@
  *       type: object
  *       required:
  *         - id
+ *         - boardId
+ *         - cardId
+ *         - baseCustomFieldGroupId
  *         - position
+ *         - name
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

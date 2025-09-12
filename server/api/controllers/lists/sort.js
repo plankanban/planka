@@ -11,6 +11,7 @@
  *     description: Sorts all cards within a list. Requires board editor permissions.
  *     tags:
  *       - Lists
+ *     operationId: sortList
  *     parameters:
  *       - name: id
  *         in: path

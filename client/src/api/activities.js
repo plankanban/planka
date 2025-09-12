@@ -16,13 +16,13 @@ export const transformActivity = (activity) => ({
 
 /* Actions */
 
-const getActivitiesInBoard = (boardId, data, headers) =>
+const getBoardActivities = (boardId, data, headers) =>
   socket.get(`/boards/${boardId}/actions`, data, headers).then((body) => ({
     ...body,
     items: body.items.map(transformActivity),
   }));
 
-const getActivitiesInCard = (cardId, data, headers) =>
+const getCardActivities = (cardId, data, headers) =>
   socket.get(`/cards/${cardId}/actions`, data, headers).then((body) => ({
     ...body,
     items: body.items.map(transformActivity),
@@ -38,7 +38,7 @@ const makeHandleActivityCreate = (next) => (body) => {
 };
 
 export default {
-  getActivitiesInBoard,
-  getActivitiesInCard,
+  getBoardActivities,
+  getCardActivities,
   makeHandleActivityCreate,
 };

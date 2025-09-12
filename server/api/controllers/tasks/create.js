@@ -11,6 +11,7 @@
  *     description: Creates a task within a task list. Either `linkedCardId` or `name` must be provided. Requires board editor permissions.
  *     tags:
  *       - Tasks
+ *     operationId: createTask
  *     parameters:
  *       - name: taskListId
  *         in: path

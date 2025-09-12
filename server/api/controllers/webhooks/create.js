@@ -11,6 +11,7 @@
  *     description: Creates a webhook. Requires admin privileges.
  *     tags:
  *       - Webhooks
+ *     operationId: createWebhook
  *     requestBody:
  *       required: true
  *       content:

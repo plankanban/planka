@@ -11,6 +11,7 @@
  *     description: Sends a test notification to verify the notification service is working. Users can test their own services, project managers can test board services.
  *     tags:
  *       - Notification Services
+ *     operationId: testNotificationService
  *     parameters:
  *       - name: id
  *         in: path

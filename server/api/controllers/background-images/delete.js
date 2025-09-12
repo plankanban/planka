@@ -11,6 +11,7 @@
  *     description: Deletes a background image. Requires project manager permissions.
  *     tags:
  *       - Background Images
+ *     operationId: deleteBackgroundImage
  *     parameters:
  *       - name: id
  *         in: path

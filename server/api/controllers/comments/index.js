@@ -11,6 +11,7 @@
  *     description: Retrieves comments for a card with pagination support. Requires access to the card.
  *     tags:
  *       - Comments
+ *     operationId: getComments
  *     parameters:
  *       - name: cardId
  *         in: path

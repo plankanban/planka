@@ -22,6 +22,9 @@
  *         - boardId
  *         - userId
  *         - role
+ *         - canComment
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

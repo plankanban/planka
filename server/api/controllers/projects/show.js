@@ -11,6 +11,7 @@
  *     description: Retrieves comprehensive project information, including boards, board memberships, and other related data.
  *     tags:
  *       - Projects
+ *     operationId: getProject
  *     parameters:
  *       - name: id
  *         in: path

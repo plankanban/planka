@@ -11,6 +11,7 @@
  *     description: Deletes a task list and all its tasks. Requires board editor permissions.
  *     tags:
  *       - Task Lists
+ *     operationId: deleteTaskList
  *     parameters:
  *       - name: id
  *         in: path

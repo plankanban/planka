@@ -11,6 +11,7 @@
  *     description: Adds a user to a card. Requires board editor permissions.
  *     tags:
  *       - Card Memberships
+ *     operationId: createCardMembership
  *     parameters:
  *       - name: cardId
  *         in: path

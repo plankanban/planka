@@ -11,6 +11,7 @@
  *     description: Deletes a list and moves its cards to a trash list. Can only delete finite lists. Requires board editor permissions.
  *     tags:
  *       - Lists
+ *     operationId: deleteList
  *     parameters:
  *       - name: id
  *         in: path

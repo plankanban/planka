@@ -11,6 +11,7 @@
  *     description: Updates a user's email address. Users must provide current password when updating their own email. Admins can update any user's email without a password.
  *     tags:
  *       - Users
+ *     operationId: updateUserEmail
  *     parameters:
  *       - in: path
  *         name: id

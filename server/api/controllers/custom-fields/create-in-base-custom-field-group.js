@@ -11,6 +11,7 @@
  *     description: Creates a custom field within a base custom field group. Requires project manager permissions.
  *     tags:
  *       - Custom Fields
+ *     operationId: createCustomFieldInBaseGroup
  *     parameters:
  *       - name: baseCustomFieldGroupId
  *         in: path

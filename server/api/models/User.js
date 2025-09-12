@@ -18,10 +18,16 @@
  *       type: object
  *       required:
  *         - id
- *         - email
  *         - role
  *         - name
+ *         - username
+ *         - avatar
+ *         - phone
+ *         - organization
  *         - termsType
+ *         - isDeactivated
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string
@@ -76,7 +82,6 @@
  *         gravatarUrl:
  *           type: string
  *           format: uri
- *           nullable: true
  *           description: Gravatar URL for the user (conditionally added if configured)
  *           example: https://www.gravatar.com/avatar/abc123
  *         phone:
@@ -149,24 +154,24 @@
  *           example: false
  *         isDefaultAdmin:
  *           type: boolean
- *           nullable: true
  *           description: Whether the user is the default admin (visible only to current user or admin)
  *           example: false
  *         lockedFieldNames:
  *           type: array
+ *           description: List of fields locked from editing (visible only to current user or admin)
  *           items:
  *             type: string
- *           nullable: true
- *           description: List of fields locked from editing (visible only to current user or admin)
  *           example: [email, password, name]
  *         createdAt:
  *           type: string
  *           format: date-time
+ *           nullable: true
  *           description: When the user was created
  *           example: 2024-01-01T00:00:00.000Z
  *         updatedAt:
  *           type: string
  *           format: date-time
+ *           nullable: true
  *           description: When the user was last updated
  *           example: 2024-01-01T00:00:00.000Z
  */

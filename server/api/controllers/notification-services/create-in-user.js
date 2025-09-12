@@ -11,6 +11,7 @@
  *     description: Creates a new notification service for a user. Users can only create services for themselves.
  *     tags:
  *       - Notification Services
+ *     operationId: createUserNotificationService
  *     parameters:
  *       - name: userId
  *         in: path

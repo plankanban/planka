@@ -11,6 +11,7 @@
  *     description: Retrieves terms and conditions in the specified language.
  *     tags:
  *       - Terms
+ *     operationId: getTerms
  *     parameters:
  *       - name: type
  *         in: query
@@ -70,6 +71,7 @@
  *         $ref: '#/components/responses/Unauthorized'
  *       404:
  *         $ref: '#/components/responses/NotFound'
+ *     security: []
  */
 
 module.exports = {

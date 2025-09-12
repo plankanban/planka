@@ -11,6 +11,7 @@
  *     description: Updates a notification service. Users can update their own services, project managers can update board services.
  *     tags:
  *       - Notification Services
+ *     operationId: updateNotificationService
  *     parameters:
  *       - name: id
  *         in: path

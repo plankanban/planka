@@ -11,6 +11,7 @@
  *     description: Retrieves all unread notifications for the current user, including creator users.
  *     tags:
  *       - Notifications
+ *     operationId: getNotifications
  *     responses:
  *       200:
  *         description: Notifications retrieved successfully

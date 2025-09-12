@@ -11,6 +11,7 @@
  *     description: Updates a project. Accessible fields depend on user permissions.
  *     tags:
  *       - Projects
+ *     operationId: updateProject
  *     parameters:
  *       - name: id
  *         in: path

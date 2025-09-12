@@ -20,8 +20,21 @@
  *         - id
  *         - boardId
  *         - listId
+ *         - creatorUserId
+ *         - prevListId
+ *         - coverAttachmentId
  *         - type
+ *         - position
  *         - name
+ *         - description
+ *         - dueDate
+ *         - isDueCompleted
+ *         - stopwatch
+ *         - commentsTotal
+ *         - isClosed
+ *         - listChangedAt
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string
@@ -99,10 +112,12 @@
  *               example: 3600
  *         commentsTotal:
  *           type: number
+ *           default: 0
  *           description: Total number of comments on the card
  *           example: 100
  *         isClosed:
  *           type: boolean
+ *           default: false
  *           description: Whether the card is closed
  *           example: false
  *         listChangedAt:

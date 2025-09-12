@@ -7,15 +7,16 @@
  * @swagger
  * /boards/{boardId}/memberships:
  *   post:
- *     summary: Add user to board
- *     description: Adds a user to a board. Requires project manager permissions.
+ *     summary: Create board membership
+ *     description: Creates a board membership within a board. Requires project manager permissions.
  *     tags:
  *       - Board Memberships
+ *     operationId: createBoardMembership
  *     parameters:
  *       - name: boardId
  *         in: path
  *         required: true
- *         description: ID of the board to add the user to
+ *         description: ID of the board to create the board membership in
  *         schema:
  *           type: string
  *           example: "1357158568008091264"
@@ -31,7 +32,7 @@
  *             properties:
  *               userId:
  *                 type: string
- *                 description: ID of the user to add to the board
+ *                 description: ID of the user who is a member of the board
  *                 example: "1357158568008091265"
  *               role:
  *                 type: string
@@ -45,7 +46,7 @@
  *                 example: true
  *     responses:
  *       200:
- *         description: User added to board successfully
+ *         description: Board membership created successfully
  *         content:
  *           application/json:
  *             schema:

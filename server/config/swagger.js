@@ -24,6 +24,20 @@ module.exports = {
         description: 'Base path for API endpoints',
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ['./api/controllers/**/*.js', './api/models/*.js', './api/responses/*.js'],
 };

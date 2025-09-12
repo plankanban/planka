@@ -11,6 +11,7 @@
  *     description: Updates a board membership. Requires project manager permissions.
  *     tags:
  *       - Board Memberships
+ *     operationId: updateBoardMembership
  *     parameters:
  *       - name: id
  *         in: path

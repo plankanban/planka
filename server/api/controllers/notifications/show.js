@@ -11,6 +11,7 @@
  *     description: Retrieves notification, including creator users. Users can only access their own notifications.
  *     tags:
  *       - Notifications
+ *     operationId: getNotification
  *     parameters:
  *       - name: id
  *         in: path

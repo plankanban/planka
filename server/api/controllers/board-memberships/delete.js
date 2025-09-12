@@ -7,21 +7,22 @@
  * @swagger
  * /board-memberships/{id}:
  *   delete:
- *     summary: Remove user from board
- *     description: Removes a user from a board. Users can remove themselves, or project managers can remove any user.
+ *     summary: Delete board membership
+ *     description: Deletes a board membership. Users can remove their own membership, project managers can remove any membership.
  *     tags:
  *       - Board Memberships
+ *     operationId: deleteBoardMembership
  *     parameters:
  *       - name: id
  *         in: path
  *         required: true
- *         description: ID of the board membership to remove
+ *         description: ID of the board membership to delete
  *         schema:
  *           type: string
  *           example: "1357158568008091264"
  *     responses:
  *       200:
- *         description: User removed from board successfully
+ *         description: Board membership deleted successfully
  *         content:
  *           application/json:
  *             schema:

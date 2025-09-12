@@ -3,62 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-/**
- * @swagger
- * /attachments/{id}/download/thumbnails/{fileName}.{fileExtension}:
- *   get:
- *     summary: Download file attachment thumbnail
- *     description: Downloads a thumbnail for a file attachment. Only available for image attachments that have thumbnails generated. Requires access to the card.
- *     tags:
- *       - File Attachments
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         description: ID of the file attachment to download the thumbnail for
- *         schema:
- *           type: string
- *           example: "1357158568008091264"
- *       - name: fileName
- *         in: path
- *         required: true
- *         description: Thumbnail size identifier
- *         schema:
- *           type: string
- *           enum: [outside-360, outside-720]
- *           example: outside-360
- *       - name: fileExtension
- *         in: path
- *         required: true
- *         description: File extension of the thumbnail
- *         schema:
- *           type: string
- *           example: jpg
- *     responses:
- *       200:
- *         description: Thumbnail image returned successfully
- *         content:
- *           image/*:
- *             schema:
- *               type: string
- *               format: binary
- *         headers:
- *           Content-Type:
- *             schema:
- *               type: string
- *             description: MIME type of the thumbnail image
- *           Cache-Control:
- *             schema:
- *               type: string
- *             description: Cache control header
- *       400:
- *         $ref: '#/components/responses/ValidationError'
- *       401:
- *         $ref: '#/components/responses/Unauthorized'
- *       404:
- *         $ref: '#/components/responses/NotFound'
- */
-
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {

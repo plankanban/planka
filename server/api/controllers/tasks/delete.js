@@ -11,6 +11,7 @@
  *     description: Deletes a task. Requires board editor permissions.
  *     tags:
  *       - Tasks
+ *     operationId: deleteTask
  *     parameters:
  *       - name: id
  *         in: path

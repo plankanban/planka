@@ -21,6 +21,13 @@
  *         - projectId
  *         - position
  *         - name
+ *         - defaultView
+ *         - defaultCardType
+ *         - limitCardTypesToDefaultOne
+ *         - alwaysDisplayCardCreator
+ *         - expandTaskListsByDefault
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string
@@ -41,23 +48,28 @@
  *         defaultView:
  *           type: string
  *           enum: [kanban, grid, list]
+ *           default: kanban
  *           description: Default view for the board
  *           example: kanban
  *         defaultCardType:
  *           type: string
  *           enum: [project, story]
+ *           default: project
  *           description: Default card type for new cards
  *           example: project
  *         limitCardTypesToDefaultOne:
  *           type: boolean
+ *           default: false
  *           description: Whether to limit card types to default one
  *           example: false
  *         alwaysDisplayCardCreator:
  *           type: boolean
+ *           default: false
  *           description: Whether to always display the card creator
  *           example: false
  *         expandTaskListsByDefault:
  *           type: boolean
+ *           default: false
  *           description: Whether to expand task lists by default
  *           example: false
  *         createdAt:

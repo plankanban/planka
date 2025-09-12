@@ -11,6 +11,7 @@
  *     description: Deletes a notification service. Users can delete their own services, project managers can delete board services.
  *     tags:
  *       - Notification Services
+ *     operationId: deleteNotificationService
  *     parameters:
  *       - name: id
  *         in: path

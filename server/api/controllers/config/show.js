@@ -11,6 +11,7 @@
  *     description: Retrieves the application configuration.
  *     tags:
  *       - Config
+ *     operationId: getConfig
  *     responses:
  *       200:
  *         description: Configuration retrieved successfully
@@ -23,6 +24,7 @@
  *               properties:
  *                 item:
  *                   $ref: '#/components/schemas/Config'
+ *     security: []
  */
 
 module.exports = {

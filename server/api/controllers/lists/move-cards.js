@@ -11,6 +11,7 @@
  *     description: Moves all cards from a closed list to an archive list. Requires board editor permissions.
  *     tags:
  *       - Lists
+ *     operationId: moveListCards
  *     parameters:
  *       - name: id
  *         in: path

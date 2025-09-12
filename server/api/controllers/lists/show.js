@@ -11,6 +11,7 @@
  *     description: Retrieves comprehensive list information, including cards, attachments, and other related data. Requires access to the board.
  *     tags:
  *       - Lists
+ *     operationId: getList
  *     parameters:
  *       - name: id
  *         in: path

@@ -11,6 +11,7 @@
  *     description: Deletes a custom field value for a specific card. Requires board editor permissions.
  *     tags:
  *       - Custom Field Values
+ *     operationId: deleteCustomFieldValue
  *     parameters:
  *       - name: cardId
  *         in: path

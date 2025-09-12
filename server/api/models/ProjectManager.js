@@ -20,6 +20,8 @@
  *         - id
  *         - projectId
  *         - userId
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

@@ -19,7 +19,10 @@
  *       required:
  *         - id
  *         - cardId
+ *         - userId
  *         - text
+ *         - createdAt
+ *         - updatedAt
  *       properties:
  *         id:
  *           type: string

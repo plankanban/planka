@@ -11,6 +11,7 @@
  *     description: Updates a user. Users can update their own profile, admins can update any user.
  *     tags:
  *       - Users
+ *     operationId: updateUser
  *     parameters:
  *       - name: id
  *         in: path
@@ -40,6 +41,7 @@
  *                 type: object
  *                 nullable: true
  *                 description: Avatar of the user (only null value to remove avatar)
+ *                 example: null
  *               phone:
  *                 type: string
  *                 maxLength: 128

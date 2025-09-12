@@ -11,6 +11,7 @@
  *     description: Updates a notification. Users can only update their own notifications.
  *     tags:
  *       - Notifications
+ *     operationId: updateNotification
  *     parameters:
  *       - name: id
  *         in: path

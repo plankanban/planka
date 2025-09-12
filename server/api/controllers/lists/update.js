@@ -11,6 +11,7 @@
  *     description: Updates a list. Can move lists between boards. Requires board editor permissions.
  *     tags:
  *       - Lists
+ *     operationId: updateList
  *     parameters:
  *       - name: id
  *         in: path

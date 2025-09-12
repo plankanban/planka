@@ -11,6 +11,7 @@
  *     description: Creates a user account. Requires admin privileges.
  *     tags:
  *       - Users
+ *     operationId: createUser
  *     requestBody:
  *       required: true
  *       content:
