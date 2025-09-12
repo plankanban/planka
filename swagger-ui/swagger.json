@@ -15,6 +15,2048 @@
       "description": "Base path for API endpoints"
     }
   ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Action": {
+        "type": "object",
+        "required": [
+          "id",
+          "boardId",
+          "cardId",
+          "userId",
+          "type",
+          "data",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the action",
+            "example": "1357158568008091264"
+          },
+          "boardId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the board where the action occurred",
+            "example": "1357158568008091265"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card where the action occurred",
+            "example": "1357158568008091266"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the user who performed the action",
+            "example": "1357158568008091267"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "createCard",
+              "moveCard",
+              "addMemberToCard",
+              "removeMemberFromCard",
+              "completeTask",
+              "uncompleteTask"
+            ],
+            "description": "Type of the action",
+            "example": "moveCard"
+          },
+          "data": {
+            "type": "object",
+            "description": "Action specific data (varies by type)",
+            "example": {
+              "card": {
+                "name": "Implement user authentication"
+              },
+              "toList": {
+                "id": "1357158568008091268",
+                "name": "To Do",
+                "type": "active"
+              },
+              "fromList": {
+                "id": "1357158568008091269",
+                "name": "Done",
+                "type": "closed"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the action was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the action was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Attachment": {
+        "type": "object",
+        "required": [
+          "id",
+          "cardId",
+          "creatorUserId",
+          "type",
+          "data",
+          "name",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the attachment",
+            "example": "1357158568008091264"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card the attachment belongs to",
+            "example": "1357158568008091265"
+          },
+          "creatorUserId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the user who created the attachment",
+            "example": "1357158568008091266"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "file",
+              "link"
+            ],
+            "description": "Type of the attachment",
+            "example": "link"
+          },
+          "data": {
+            "type": "object",
+            "description": "Attachment specific data (varies by type)",
+            "example": {
+              "url": "https://google.com/search?q=planka",
+              "faviconUrl": "https://storage.example.com/favicons/google.com.png"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the attachment",
+            "example": "Important Attachment"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the attachment was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the attachment was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "BackgroundImage": {
+        "type": "object",
+        "required": [
+          "id",
+          "projectId",
+          "size",
+          "url",
+          "thumbnailUrls",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the background image",
+            "example": "1357158568008091264"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "ID of the project the background image belongs to",
+            "example": "1357158568008091265"
+          },
+          "size": {
+            "type": "string",
+            "description": "File size of the background image in bytes",
+            "example": 1024576
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to access the full-size background image",
+            "example": "https://storage.example.com/background-images/1357158568008091264/original.jpg"
+          },
+          "thumbnailUrls": {
+            "type": "object",
+            "required": [
+              "outside360"
+            ],
+            "description": "URLs for different thumbnail sizes of the background image",
+            "properties": {
+              "outside360": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL for 360px thumbnail version",
+                "example": "https://storage.example.com/background-images/1357158568008091264/outside-360.jpg"
+              }
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the background image was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the background image was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "BaseCustomFieldGroup": {
+        "type": "object",
+        "required": [
+          "id",
+          "projectId",
+          "name",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the base custom field group",
+            "example": "1357158568008091264"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "ID of the project the base custom field group belongs to",
+            "example": "1357158568008091265"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the base custom field group",
+            "example": "Base Properties"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the base custom field group was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the base custom field group was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Board": {
+        "type": "object",
+        "required": [
+          "id",
+          "projectId",
+          "position",
+          "name",
+          "defaultView",
+          "defaultCardType",
+          "limitCardTypesToDefaultOne",
+          "alwaysDisplayCardCreator",
+          "expandTaskListsByDefault",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the board",
+            "example": "1357158568008091264"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "ID of the project the board belongs to",
+            "example": "1357158568008091265"
+          },
+          "position": {
+            "type": "number",
+            "description": "Position of the board within the project",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the board",
+            "example": "Development Board"
+          },
+          "defaultView": {
+            "type": "string",
+            "enum": [
+              "kanban",
+              "grid",
+              "list"
+            ],
+            "default": "kanban",
+            "description": "Default view for the board",
+            "example": "kanban"
+          },
+          "defaultCardType": {
+            "type": "string",
+            "enum": [
+              "project",
+              "story"
+            ],
+            "default": "project",
+            "description": "Default card type for new cards",
+            "example": "project"
+          },
+          "limitCardTypesToDefaultOne": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to limit card types to default one",
+            "example": false
+          },
+          "alwaysDisplayCardCreator": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to always display the card creator",
+            "example": false
+          },
+          "expandTaskListsByDefault": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to expand task lists by default",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the board was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the board was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "BoardMembership": {
+        "type": "object",
+        "required": [
+          "id",
+          "projectId",
+          "boardId",
+          "userId",
+          "role",
+          "canComment",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the board membership",
+            "example": "1357158568008091264"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "ID of the project the board membership belongs to (denormalized)",
+            "example": "1357158568008091265"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "ID of the board the membership is associated with",
+            "example": "1357158568008091266"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who is a member of the board",
+            "example": "1357158568008091267"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "editor",
+              "viewer"
+            ],
+            "description": "Role of the user in the board",
+            "example": "editor"
+          },
+          "canComment": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Whether the user can comment on cards (applies only to viewers)",
+            "example": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the board membership was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the board membership was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Card": {
+        "type": "object",
+        "required": [
+          "id",
+          "boardId",
+          "listId",
+          "creatorUserId",
+          "prevListId",
+          "coverAttachmentId",
+          "type",
+          "position",
+          "name",
+          "description",
+          "dueDate",
+          "isDueCompleted",
+          "stopwatch",
+          "commentsTotal",
+          "isClosed",
+          "listChangedAt",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the card",
+            "example": "1357158568008091264"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "ID of the board the card belongs to (denormalized)",
+            "example": "1357158568008091265"
+          },
+          "listId": {
+            "type": "string",
+            "description": "ID of the list the card belongs to",
+            "example": "1357158568008091266"
+          },
+          "creatorUserId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the user who created the card",
+            "example": "1357158568008091267"
+          },
+          "prevListId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the previous list the card was in (available when in archive or trash)",
+            "example": "1357158568008091268"
+          },
+          "coverAttachmentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the attachment used as cover",
+            "example": "1357158568008091269"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "project",
+              "story"
+            ],
+            "description": "Type of the card",
+            "example": "project"
+          },
+          "position": {
+            "type": "number",
+            "nullable": true,
+            "description": "Position of the card within the list",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the card",
+            "example": "Implement user authentication"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Detailed description of the card",
+            "example": "Add JWT-based authentication system..."
+          },
+          "dueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Due date for the card",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "isDueCompleted": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Whether the due date is completed",
+            "example": false
+          },
+          "stopwatch": {
+            "type": "object",
+            "required": [
+              "startedAt",
+              "total"
+            ],
+            "nullable": true,
+            "description": "Stopwatch data for time tracking",
+            "properties": {
+              "startedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When the stopwatch was started",
+                "example": "2024-01-01T00:00:00.000Z"
+              },
+              "total": {
+                "type": "number",
+                "description": "Total time in seconds",
+                "example": 3600
+              }
+            }
+          },
+          "commentsTotal": {
+            "type": "number",
+            "default": 0,
+            "description": "Total number of comments on the card",
+            "example": 100
+          },
+          "isClosed": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the card is closed",
+            "example": false
+          },
+          "listChangedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the card was last moved between lists",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the card was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the card was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "CardLabel": {
+        "type": "object",
+        "required": [
+          "id",
+          "cardId",
+          "labelId",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the card-label association",
+            "example": "1357158568008091264"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card the label is associated with",
+            "example": "1357158568008091265"
+          },
+          "labelId": {
+            "type": "string",
+            "description": "ID of the label associated with the card",
+            "example": "1357158568008091266"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the card-label association was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the card-label association was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "CardMembership": {
+        "type": "object",
+        "required": [
+          "id",
+          "cardId",
+          "userId",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the card membership",
+            "example": "1357158568008091264"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card the user is a member of",
+            "example": "1357158568008091265"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who is a member of the card",
+            "example": "1357158568008091266"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the card membership was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the card membership was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "required": [
+          "id",
+          "cardId",
+          "userId",
+          "text",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the comment",
+            "example": "1357158568008091264"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card the comment belongs to",
+            "example": "1357158568008091265"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the user who created the comment",
+            "example": "1357158568008091266"
+          },
+          "text": {
+            "type": "string",
+            "description": "Content of the comment",
+            "example": "This task is almost complete..."
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the comment was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the comment was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Config": {
+        "type": "object",
+        "required": [
+          "version",
+          "oidc"
+        ],
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "Current version of the PLANKA application",
+            "example": "2.0.0"
+          },
+          "activeUsersLimit": {
+            "type": "number",
+            "nullable": true,
+            "description": "Maximum number of active users allowed (conditionally added for admins if configured)",
+            "example": 100
+          },
+          "oidc": {
+            "type": "object",
+            "required": [
+              "authorizationUrl",
+              "endSessionUrl",
+              "isEnforced"
+            ],
+            "nullable": true,
+            "description": "OpenID Connect configuration (null if not configured)",
+            "properties": {
+              "authorizationUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "OIDC authorization URL for initiating authentication",
+                "example": "https://oidc.example.com/auth"
+              },
+              "endSessionUrl": {
+                "type": "string",
+                "format": "uri",
+                "nullable": true,
+                "description": "OIDC end session URL for logout (null if not supported by provider)",
+                "example": "https://oidc.example.com/logout"
+              },
+              "isEnforced": {
+                "type": "boolean",
+                "description": "Whether OIDC authentication is enforced (users must use OIDC to login)",
+                "example": false
+              }
+            }
+          }
+        }
+      },
+      "CustomField": {
+        "type": "object",
+        "required": [
+          "id",
+          "baseCustomFieldGroupId",
+          "customFieldGroupId",
+          "position",
+          "name",
+          "showOnFrontOfCard",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the custom field",
+            "example": "1357158568008091264"
+          },
+          "baseCustomFieldGroupId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the base custom field group the custom field belongs to",
+            "example": "1357158568008091265"
+          },
+          "customFieldGroupId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the custom field group the custom field belongs to",
+            "example": "1357158568008091266"
+          },
+          "position": {
+            "type": "number",
+            "description": "Position of the custom field within the group",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the custom field",
+            "example": "Priority"
+          },
+          "showOnFrontOfCard": {
+            "type": "boolean",
+            "description": "Whether to show the field on the front of cards",
+            "example": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the custom field was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the custom field was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "CustomFieldGroup": {
+        "type": "object",
+        "required": [
+          "id",
+          "boardId",
+          "cardId",
+          "baseCustomFieldGroupId",
+          "position",
+          "name",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the custom field group",
+            "example": "1357158568008091264"
+          },
+          "boardId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the board the custom field group belongs to",
+            "example": "1357158568008091265"
+          },
+          "cardId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the card the custom field group belongs to",
+            "example": "1357158568008091266"
+          },
+          "baseCustomFieldGroupId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the base custom field group used as a template",
+            "example": "1357158568008091267"
+          },
+          "position": {
+            "type": "number",
+            "description": "Position of the custom field group within the board/card",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name/title of the custom field group",
+            "example": "Properties"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the custom field group was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the custom field group was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "CustomFieldValue": {
+        "type": "object",
+        "required": [
+          "id",
+          "cardId",
+          "customFieldGroupId",
+          "customFieldId",
+          "content",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the custom field value",
+            "example": "1357158568008091264"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card the value belongs to",
+            "example": "1357158568008091265"
+          },
+          "customFieldGroupId": {
+            "type": "string",
+            "description": "ID of the custom field group the value belongs to",
+            "example": "1357158568008091266"
+          },
+          "customFieldId": {
+            "type": "string",
+            "description": "ID of the custom field the value belongs to",
+            "example": "1357158568008091267"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content/value of the custom field",
+            "example": "High Priority"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the custom field value was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the custom field value was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Label": {
+        "type": "object",
+        "required": [
+          "id",
+          "boardId",
+          "position",
+          "name",
+          "color",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the label",
+            "example": "1357158568008091264"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "ID of the board the label belongs to",
+            "example": "1357158568008091265"
+          },
+          "position": {
+            "type": "number",
+            "description": "Position of the label within the board",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name/title of the label",
+            "example": "Bug"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "muddy-grey",
+              "autumn-leafs",
+              "morning-sky",
+              "antique-blue",
+              "egg-yellow",
+              "desert-sand",
+              "dark-granite",
+              "fresh-salad",
+              "lagoon-blue",
+              "midnight-blue",
+              "light-orange",
+              "pumpkin-orange",
+              "light-concrete",
+              "sunny-grass",
+              "navy-blue",
+              "lilac-eyes",
+              "apricot-red",
+              "orange-peel",
+              "silver-glint",
+              "bright-moss",
+              "deep-ocean",
+              "summer-sky",
+              "berry-red",
+              "light-cocoa",
+              "grey-stone",
+              "tank-green",
+              "coral-green",
+              "sugar-plum",
+              "pink-tulip",
+              "shady-rust",
+              "wet-rock",
+              "wet-moss",
+              "turquoise-sea",
+              "lavender-fields",
+              "piggy-red",
+              "light-mud",
+              "gun-metal",
+              "modern-green",
+              "french-coast",
+              "sweet-lilac",
+              "red-burgundy",
+              "pirate-gold"
+            ],
+            "description": "Color of the label",
+            "example": "berry-red"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the label was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the label was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "List": {
+        "type": "object",
+        "required": [
+          "id",
+          "boardId",
+          "type",
+          "position",
+          "name",
+          "color",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the list",
+            "example": "1357158568008091264"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "ID of the board the list belongs to",
+            "example": "1357158568008091265"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "active",
+              "closed",
+              "archive",
+              "trash"
+            ],
+            "description": "Type/status of the list",
+            "example": "active"
+          },
+          "position": {
+            "type": "number",
+            "nullable": true,
+            "description": "Position of the list within the board",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name/title of the list",
+            "example": "To Do"
+          },
+          "color": {
+            "type": "string",
+            "enum": [
+              "berry-red",
+              "pumpkin-orange",
+              "lagoon-blue",
+              "pink-tulip",
+              "light-mud",
+              "orange-peel",
+              "bright-moss",
+              "antique-blue",
+              "dark-granite",
+              "turquoise-sea"
+            ],
+            "nullable": true,
+            "description": "Color for the list",
+            "example": "lagoon-blue"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the list was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the list was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "creatorUserId",
+          "boardId",
+          "cardId",
+          "commentId",
+          "actionId",
+          "type",
+          "data",
+          "isRead",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the notification",
+            "example": "1357158568008091264"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who receives the notification",
+            "example": "1357158568008091265"
+          },
+          "creatorUserId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the user who created the notification",
+            "example": "1357158568008091266"
+          },
+          "boardId": {
+            "type": "string",
+            "description": "ID of the board associated with the notification (denormalized)",
+            "example": "1357158568008091267"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card associated with the notification",
+            "example": "1357158568008091268"
+          },
+          "commentId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the comment associated with the notification",
+            "example": "1357158568008091269"
+          },
+          "actionId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the action associated with the notification",
+            "example": "1357158568008091270"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "moveCard",
+              "commentCard",
+              "addMemberToCard",
+              "mentionInComment"
+            ],
+            "description": "Type of the notification",
+            "example": "commentCard"
+          },
+          "data": {
+            "type": "object",
+            "description": "Notification specific data (varies by type)",
+            "example": {
+              "card": {
+                "name": "Implement user authentication"
+              },
+              "text": "This task is almost complete..."
+            }
+          },
+          "isRead": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the notification has been read",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the notification was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the notification was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "NotificationService": {
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "boardId",
+          "url",
+          "format",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the notification service",
+            "example": "1357158568008091264"
+          },
+          "userId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the user the service is associated with",
+            "example": "1357158568008091265"
+          },
+          "boardId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the board the service is associated with",
+            "example": "1357158568008091266"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL endpoint for notifications",
+            "example": "https://service.example.com/planka"
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "text",
+              "markdown",
+              "html"
+            ],
+            "description": "Format for notification messages",
+            "example": "text"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the notification service was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the notification service was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "required": [
+          "id",
+          "ownerProjectManagerId",
+          "backgroundImageId",
+          "name",
+          "description",
+          "backgroundType",
+          "backgroundGradient",
+          "isHidden",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the project",
+            "example": "1357158568008091264"
+          },
+          "ownerProjectManagerId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the project manager who owns the project",
+            "example": "1357158568008091265"
+          },
+          "backgroundImageId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the background image used as background",
+            "example": "1357158568008091266"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the project",
+            "example": "Development Project"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Detailed description of the project",
+            "example": "A project for developing new features..."
+          },
+          "backgroundType": {
+            "type": "string",
+            "enum": [
+              "gradient",
+              "image"
+            ],
+            "nullable": true,
+            "description": "Type of background for the project",
+            "example": "gradient"
+          },
+          "backgroundGradient": {
+            "type": "string",
+            "enum": [
+              "old-lime",
+              "ocean-dive",
+              "tzepesch-style",
+              "jungle-mesh",
+              "strawberry-dust",
+              "purple-rose",
+              "sun-scream",
+              "warm-rust",
+              "sky-change",
+              "green-eyes",
+              "blue-xchange",
+              "blood-orange",
+              "sour-peel",
+              "green-ninja",
+              "algae-green",
+              "coral-reef",
+              "steel-grey",
+              "heat-waves",
+              "velvet-lounge",
+              "purple-rain",
+              "blue-steel",
+              "blueish-curve",
+              "prism-light",
+              "green-mist",
+              "red-curtain"
+            ],
+            "nullable": true,
+            "description": "Gradient background for the project",
+            "example": "ocean-dive"
+          },
+          "isHidden": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the project is hidden",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the project was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the project was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "ProjectManager": {
+        "type": "object",
+        "required": [
+          "id",
+          "projectId",
+          "userId",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the project manager",
+            "example": "1357158568008091264"
+          },
+          "projectId": {
+            "type": "string",
+            "description": "ID of the project the manager is associated with",
+            "example": "1357158568008091265"
+          },
+          "userId": {
+            "type": "string",
+            "description": "ID of the user who is assigned as project manager",
+            "example": "1357158568008091266"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the project manager was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the project manager was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Task": {
+        "type": "object",
+        "required": [
+          "id",
+          "taskListId",
+          "linkedCardId",
+          "assigneeUserId",
+          "position",
+          "name",
+          "isCompleted",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the task",
+            "example": "1357158568008091264"
+          },
+          "taskListId": {
+            "type": "string",
+            "description": "ID of the task list the task belongs to",
+            "example": "1357158568008091265"
+          },
+          "linkedCardId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the card linked to the task",
+            "example": "1357158568008091266"
+          },
+          "assigneeUserId": {
+            "type": "string",
+            "nullable": true,
+            "description": "ID of the user assigned to the task",
+            "example": "1357158568008091267"
+          },
+          "position": {
+            "type": "number",
+            "description": "Position of the task within the task list",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the task",
+            "example": "Write unit tests"
+          },
+          "isCompleted": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the task is completed",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the task was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the task was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "TaskList": {
+        "type": "object",
+        "required": [
+          "id",
+          "cardId",
+          "position",
+          "name",
+          "showOnFrontOfCard",
+          "hideCompletedTasks",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the task list",
+            "example": "1357158568008091264"
+          },
+          "cardId": {
+            "type": "string",
+            "description": "ID of the card the task list belongs to",
+            "example": "1357158568008091265"
+          },
+          "position": {
+            "type": "number",
+            "description": "Position of the task list within the card",
+            "example": 65536
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the task list",
+            "example": "Development Tasks"
+          },
+          "showOnFrontOfCard": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to show the task list on the front of the card",
+            "example": true
+          },
+          "hideCompletedTasks": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether to hide completed tasks",
+            "example": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the task list was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the task list was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": [
+          "id",
+          "role",
+          "name",
+          "username",
+          "avatar",
+          "phone",
+          "organization",
+          "termsType",
+          "isDeactivated",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the user",
+            "example": "1357158568008091264"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address for login and notifications (private field)",
+            "example": "john.doe@example.com"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "admin",
+              "projectOwner",
+              "boardUser"
+            ],
+            "description": "User role defining access permissions",
+            "example": "admin"
+          },
+          "name": {
+            "type": "string",
+            "description": "Full display name of the user",
+            "example": "John Doe"
+          },
+          "username": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 32,
+            "pattern": "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$",
+            "nullable": true,
+            "description": "Unique username for user identification",
+            "example": "john_doe"
+          },
+          "avatar": {
+            "type": "object",
+            "required": [
+              "url",
+              "thumbnailUrls"
+            ],
+            "nullable": true,
+            "description": "Avatar information for the user with generated URLs",
+            "properties": {
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "URL to the full-size avatar image",
+                "example": "https://storage.example.com/user-avatars/1357158568008091264/original.jpg"
+              },
+              "thumbnailUrls": {
+                "type": "object",
+                "required": [
+                  "cover180"
+                ],
+                "description": "URLs for different thumbnail sizes",
+                "properties": {
+                  "cover180": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL for 180px cover thumbnail",
+                    "example": "https://storage.example.com/user-avatars/1357158568008091264/cover-180.jpg"
+                  }
+                }
+              }
+            }
+          },
+          "gravatarUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Gravatar URL for the user (conditionally added if configured)",
+            "example": "https://www.gravatar.com/avatar/abc123"
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true,
+            "description": "Contact phone number",
+            "example": 1234567890
+          },
+          "organization": {
+            "type": "string",
+            "nullable": true,
+            "description": "Organization or company name",
+            "example": "Acme Corporation"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "ar-YE",
+              "bg-BG",
+              "cs-CZ",
+              "da-DK",
+              "de-DE",
+              "el-GR",
+              "en-GB",
+              "en-US",
+              "es-ES",
+              "et-EE",
+              "fa-IR",
+              "fi-FI",
+              "fr-FR",
+              "hu-HU",
+              "id-ID",
+              "it-IT",
+              "ja-JP",
+              "ko-KR",
+              "nl-NL",
+              "pl-PL",
+              "pt-BR",
+              "pt-PT",
+              "ro-RO",
+              "ru-RU",
+              "sk-SK",
+              "sr-Cyrl-RS",
+              "sr-Latn-RS",
+              "sv-SE",
+              "tr-TR",
+              "uk-UA",
+              "uz-UZ",
+              "zh-CN",
+              "zh-TW"
+            ],
+            "nullable": true,
+            "description": "Preferred language for user interface and notifications (personal field)",
+            "example": "en-US"
+          },
+          "subscribeToOwnCards": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the user subscribes to their own cards (personal field)",
+            "example": false
+          },
+          "subscribeToCardWhenCommenting": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether the user subscribes to cards when commenting (personal field)",
+            "example": true
+          },
+          "turnOffRecentCardHighlighting": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether recent card highlighting is disabled (personal field)",
+            "example": false
+          },
+          "enableFavoritesByDefault": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether favorites are enabled by default (personal field)",
+            "example": false
+          },
+          "defaultEditorMode": {
+            "type": "string",
+            "enum": [
+              "wysiwyg",
+              "markup"
+            ],
+            "default": "wysiwyg",
+            "description": "Default markdown editor mode (personal field)",
+            "example": "wysiwyg"
+          },
+          "defaultHomeView": {
+            "type": "string",
+            "enum": [
+              "gridProjects",
+              "groupedProjects"
+            ],
+            "default": "groupedProjects",
+            "description": "Default view mode for the home page (personal field)",
+            "example": "groupedProjects"
+          },
+          "defaultProjectsOrder": {
+            "type": "string",
+            "enum": [
+              "byDefault",
+              "alphabetically",
+              "byCreationTime"
+            ],
+            "default": "byDefault",
+            "description": "Default sort order for projects display (personal field)",
+            "example": "byDefault"
+          },
+          "termsType": {
+            "type": "string",
+            "description": "Type of terms applicable to the user based on role",
+            "example": "general"
+          },
+          "isSsoUser": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the user is SSO user (private field)",
+            "example": false
+          },
+          "isDeactivated": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the user account is deactivated and cannot log in",
+            "example": false
+          },
+          "isDefaultAdmin": {
+            "type": "boolean",
+            "description": "Whether the user is the default admin (visible only to current user or admin)",
+            "example": false
+          },
+          "lockedFieldNames": {
+            "type": "array",
+            "description": "List of fields locked from editing (visible only to current user or admin)",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "email",
+              "password",
+              "name"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the user was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the user was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      },
+      "Webhook": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "url",
+          "accessToken",
+          "events",
+          "excludedEvents",
+          "createdAt",
+          "updatedAt"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the webhook",
+            "example": "1357158568008091264"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name/title of the webhook",
+            "example": "Webhook Updates"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL endpoint for the webhook",
+            "example": "https://webhook.example.com/planka"
+          },
+          "accessToken": {
+            "type": "string",
+            "nullable": true,
+            "description": "Access token for webhook authentication",
+            "example": "secret_token_123"
+          },
+          "events": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of events that trigger the webhook",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "cardCreate",
+              "cardUpdate",
+              "cardDelete"
+            ]
+          },
+          "excludedEvents": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of events excluded from the webhook",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "userCreate",
+              "userUpdate",
+              "userDelete"
+            ]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the webhook was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the webhook was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Conflict": {
+        "description": "Request conflicts with current state of the resource",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Error code",
+                  "example": "E_CONFLICT"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Resource already exists"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Access forbidden - insufficient permissions",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Error code",
+                  "example": "E_FORBIDDEN"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Not enough rights"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Resource not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Error code",
+                  "example": "E_NOT_FOUND"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Resource not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Authentication required or invalid credentials",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Error code",
+                  "example": "E_UNAUTHORIZED"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Access token is missing, invalid or expired"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnprocessableEntity": {
+        "description": "Request contains semantic errors or validation failures",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Error code",
+                  "example": "E_UNPROCESSABLE_ENTITY"
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "Validation failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Request validation failed due to missing or invalid parameters",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "code",
+                "problems",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "Error code",
+                  "example": "E_MISSING_OR_INVALID_PARAMS"
+                },
+                "problems": {
+                  "type": "array",
+                  "description": "Array of specific validation error messages",
+                  "items": {
+                    "type": "string"
+                  },
+                  "example": [
+                    "\"emailOrUsername\" is required, but it was not defined.",
+                    "\"password\" is required, but it was not defined."
+                  ]
+                },
+                "message": {
+                  "type": "string",
+                  "description": "Error message",
+                  "example": "The server could not fulfill this request (`POST /api/access-tokens`) due to 2 missing or invalid parameters."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
   "paths": {
     "/access-tokens/accept-terms": {
       "post": {
@@ -23,6 +2065,7 @@
         "tags": [
           "Access Tokens"
         ],
+        "operationId": "acceptTerms",
         "requestBody": {
           "required": true,
           "content": {
@@ -132,7 +2175,8 @@
               }
             }
           }
-        }
+        },
+        "security": []
       }
     },
     "/access-tokens": {
@@ -142,6 +2186,7 @@
         "tags": [
           "Access Tokens"
         ],
+        "operationId": "createAccessToken",
         "requestBody": {
           "required": true,
           "content": {
@@ -270,7 +2315,8 @@
               }
             }
           }
-        }
+        },
+        "security": []
       },
       "delete": {
         "summary": "User logout",
@@ -278,6 +2324,7 @@
         "tags": [
           "Access Tokens"
         ],
+        "operationId": "deleteAccessToken",
         "responses": {
           "200": {
             "description": "Logout successful",
@@ -312,6 +2359,7 @@
         "tags": [
           "Access Tokens"
         ],
+        "operationId": "exchangeForAccessTokenWithOidc",
         "requestBody": {
           "required": true,
           "content": {
@@ -362,6 +2410,15 @@
                       "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4..."
                     }
                   }
+                }
+              }
+            },
+            "headers": {
+              "Set-Cookie": {
+                "description": "HTTP-only authentication cookie (if withHttpOnlyToken is true)",
+                "schema": {
+                  "type": "string",
+                  "example": "httpOnlyToken=29aa3e38-8d24-4029-9743-9cbcf0a0dd5c; HttpOnly; Secure; SameSite=Strict"
                 }
               }
             }
@@ -512,7 +2569,8 @@
               }
             }
           }
-        }
+        },
+        "security": []
       }
     },
     "/access-tokens/revoke-pending-token": {
@@ -522,6 +2580,7 @@
         "tags": [
           "Access Tokens"
         ],
+        "operationId": "revokePendingToken",
         "requestBody": {
           "required": true,
           "content": {
@@ -568,7 +2627,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           }
-        }
+        },
+        "security": []
       }
     },
     "/boards/{boardId}/actions": {
@@ -578,6 +2638,7 @@
         "tags": [
           "Actions"
         ],
+        "operationId": "getBoardActions",
         "parameters": [
           {
             "name": "boardId",
@@ -657,6 +2718,7 @@
         "tags": [
           "Actions"
         ],
+        "operationId": "getCardActions",
         "parameters": [
           {
             "name": "cardId",
@@ -736,6 +2798,7 @@
         "tags": [
           "Attachments"
         ],
+        "operationId": "createAttachment",
         "parameters": [
           {
             "name": "cardId",
@@ -751,25 +2814,31 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
                 "required": [
                   "type",
-                  "url",
                   "name"
                 ],
                 "properties": {
                   "type": {
                     "type": "string",
                     "enum": [
+                      "file",
                       "link"
                     ],
                     "description": "Type of the attachment",
                     "example": "link"
                   },
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File to upload"
+                  },
                   "url": {
                     "type": "string",
+                    "format": "url",
                     "maxLength": 2048,
                     "description": "URL for the link attachment",
                     "example": "https://google.com/search?q=planka"
@@ -778,38 +2847,7 @@
                     "type": "string",
                     "maxLength": 128,
                     "description": "Name/title of the attachment",
-                    "example": "Google Link"
-                  }
-                }
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "type",
-                  "file",
-                  "name"
-                ],
-                "properties": {
-                  "type": {
-                    "type": "string",
-                    "enum": [
-                      "file"
-                    ],
-                    "description": "Type of the attachment",
-                    "example": "file"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "File to upload"
-                  },
-                  "name": {
-                    "type": "string",
-                    "maxLength": 128,
-                    "description": "Name/title of the attachment",
-                    "example": "Important Document"
+                    "example": "Important Attachment"
                   },
                   "requestId": {
                     "type": "string",
@@ -893,6 +2931,7 @@
         "tags": [
           "Attachments"
         ],
+        "operationId": "deleteAttachment",
         "parameters": [
           {
             "name": "id",
@@ -944,6 +2983,7 @@
         "tags": [
           "Attachments"
         ],
+        "operationId": "updateAttachment",
         "parameters": [
           {
             "name": "id",
@@ -967,7 +3007,7 @@
                     "type": "string",
                     "maxLength": 128,
                     "description": "Name/title of the attachment",
-                    "example": "Google Link"
+                    "example": "Important Attachment"
                   }
                 }
               }
@@ -1015,6 +3055,7 @@
         "tags": [
           "Background Images"
         ],
+        "operationId": "createBackgroundImage",
         "parameters": [
           {
             "name": "projectId",
@@ -1124,6 +3165,7 @@
         "tags": [
           "Background Images"
         ],
+        "operationId": "deleteBackgroundImage",
         "parameters": [
           {
             "name": "id",
@@ -1177,6 +3219,7 @@
         "tags": [
           "Base Custom Field Groups"
         ],
+        "operationId": "createBaseCustomFieldGroup",
         "parameters": [
           {
             "name": "projectId",
@@ -1251,6 +3294,7 @@
         "tags": [
           "Base Custom Field Groups"
         ],
+        "operationId": "deleteBaseCustomFieldGroup",
         "parameters": [
           {
             "name": "id",
@@ -1302,6 +3346,7 @@
         "tags": [
           "Base Custom Field Groups"
         ],
+        "operationId": "updateBaseCustomFieldGroup",
         "parameters": [
           {
             "name": "id",
@@ -1368,17 +3413,18 @@
     },
     "/boards/{boardId}/memberships": {
       "post": {
-        "summary": "Add user to board",
-        "description": "Adds a user to a board. Requires project manager permissions.",
+        "summary": "Create board membership",
+        "description": "Creates a board membership within a board. Requires project manager permissions.",
         "tags": [
           "Board Memberships"
         ],
+        "operationId": "createBoardMembership",
         "parameters": [
           {
             "name": "boardId",
             "in": "path",
             "required": true,
-            "description": "ID of the board to add the user to",
+            "description": "ID of the board to create the board membership in",
             "schema": {
               "type": "string",
               "example": "1357158568008091264"
@@ -1398,7 +3444,7 @@
                 "properties": {
                   "userId": {
                     "type": "string",
-                    "description": "ID of the user to add to the board",
+                    "description": "ID of the user who is a member of the board",
                     "example": "1357158568008091265"
                   },
                   "role": {
@@ -1423,7 +3469,7 @@
         },
         "responses": {
           "200": {
-            "description": "User added to board successfully",
+            "description": "Board membership created successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -1460,17 +3506,18 @@
     },
     "/board-memberships/{id}": {
       "delete": {
-        "summary": "Remove user from board",
-        "description": "Removes a user from a board. Users can remove themselves, or project managers can remove any user.",
+        "summary": "Delete board membership",
+        "description": "Deletes a board membership. Users can remove their own membership, project managers can remove any membership.",
         "tags": [
           "Board Memberships"
         ],
+        "operationId": "deleteBoardMembership",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ID of the board membership to remove",
+            "description": "ID of the board membership to delete",
             "schema": {
               "type": "string",
               "example": "1357158568008091264"
@@ -1479,7 +3526,7 @@
         ],
         "responses": {
           "200": {
-            "description": "User removed from board successfully",
+            "description": "Board membership deleted successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -1513,6 +3560,7 @@
         "tags": [
           "Board Memberships"
         ],
+        "operationId": "updateBoardMembership",
         "parameters": [
           {
             "name": "id",
@@ -1590,6 +3638,7 @@
         "tags": [
           "Boards"
         ],
+        "operationId": "createBoard",
         "parameters": [
           {
             "name": "projectId",
@@ -1605,68 +3654,6 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "position",
-                  "name"
-                ],
-                "properties": {
-                  "position": {
-                    "type": "number",
-                    "minimum": 0,
-                    "description": "Position of the board within the project",
-                    "example": 65536
-                  },
-                  "name": {
-                    "type": "string",
-                    "maxLength": 128,
-                    "description": "Name/title of the board",
-                    "example": "Development Board"
-                  },
-                  "defaultView": {
-                    "type": "string",
-                    "enum": [
-                      "kanban",
-                      "grid",
-                      "list"
-                    ],
-                    "default": "kanban",
-                    "description": "Default view for the board",
-                    "example": "kanban"
-                  },
-                  "defaultCardType": {
-                    "type": "string",
-                    "enum": [
-                      "project",
-                      "story"
-                    ],
-                    "default": "project",
-                    "description": "Default card type for new cards",
-                    "example": "project"
-                  },
-                  "limitCardTypesToDefaultOne": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Whether to limit card types to default one",
-                    "example": false
-                  },
-                  "alwaysDisplayCardCreator": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Whether to always display the card creator",
-                    "example": false
-                  },
-                  "expandTaskListsByDefault": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Whether to expand task lists by default",
-                    "example": false
-                  }
-                }
-              }
-            },
             "multipart/form-data": {
               "schema": {
                 "type": "object",
@@ -1686,45 +3673,6 @@
                     "maxLength": 128,
                     "description": "Name/title of the board",
                     "example": "Development Board"
-                  },
-                  "defaultView": {
-                    "type": "string",
-                    "enum": [
-                      "kanban",
-                      "grid",
-                      "list"
-                    ],
-                    "default": "kanban",
-                    "description": "Default view for the board",
-                    "example": "kanban"
-                  },
-                  "defaultCardType": {
-                    "type": "string",
-                    "enum": [
-                      "project",
-                      "story"
-                    ],
-                    "default": "project",
-                    "description": "Default card type for new cards",
-                    "example": "project"
-                  },
-                  "limitCardTypesToDefaultOne": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Whether to limit card types to default one",
-                    "example": false
-                  },
-                  "alwaysDisplayCardCreator": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Whether to always display the card creator",
-                    "example": false
-                  },
-                  "expandTaskListsByDefault": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Whether to expand task lists by default",
-                    "example": false
                   },
                   "importType": {
                     "type": "string",
@@ -1833,6 +3781,7 @@
         "tags": [
           "Boards"
         ],
+        "operationId": "deleteBoard",
         "parameters": [
           {
             "name": "id",
@@ -1881,6 +3830,7 @@
         "tags": [
           "Boards"
         ],
+        "operationId": "getBoard",
         "parameters": [
           {
             "name": "id",
@@ -2087,6 +4037,7 @@
         "tags": [
           "Boards"
         ],
+        "operationId": "updateBoard",
         "parameters": [
           {
             "name": "id",
@@ -2139,7 +4090,8 @@
                   },
                   "limitCardTypesToDefaultOne": {
                     "type": "boolean",
-                    "description": "Whether to limit card types to default one"
+                    "description": "Whether to limit card types to default one",
+                    "example": false
                   },
                   "alwaysDisplayCardCreator": {
                     "type": "boolean",
@@ -2199,6 +4151,7 @@
         "tags": [
           "Card Labels"
         ],
+        "operationId": "createCardLabel",
         "parameters": [
           {
             "name": "cardId",
@@ -2275,6 +4228,7 @@
         "tags": [
           "Card Labels"
         ],
+        "operationId": "deleteCardLabel",
         "parameters": [
           {
             "name": "cardId",
@@ -2338,6 +4292,7 @@
         "tags": [
           "Card Memberships"
         ],
+        "operationId": "createCardMembership",
         "parameters": [
           {
             "name": "cardId",
@@ -2414,6 +4369,7 @@
         "tags": [
           "Card Memberships"
         ],
+        "operationId": "deleteCardMembership",
         "parameters": [
           {
             "name": "cardId",
@@ -2477,6 +4433,7 @@
         "tags": [
           "Cards"
         ],
+        "operationId": "createCard",
         "parameters": [
           {
             "name": "listId",
@@ -2611,6 +4568,7 @@
         "tags": [
           "Cards"
         ],
+        "operationId": "getCards",
         "parameters": [
           {
             "name": "listId",
@@ -2799,6 +4757,7 @@
         "tags": [
           "Cards"
         ],
+        "operationId": "deleteCard",
         "parameters": [
           {
             "name": "id",
@@ -2850,6 +4809,7 @@
         "tags": [
           "Cards"
         ],
+        "operationId": "getCard",
         "parameters": [
           {
             "name": "id",
@@ -2992,6 +4952,7 @@
         "tags": [
           "Cards"
         ],
+        "operationId": "updateCard",
         "parameters": [
           {
             "name": "id",
@@ -3144,6 +5105,7 @@
         "tags": [
           "Cards"
         ],
+        "operationId": "duplicateCard",
         "parameters": [
           {
             "name": "id",
@@ -3297,6 +5259,7 @@
         "tags": [
           "Cards"
         ],
+        "operationId": "readCardNotifications",
         "parameters": [
           {
             "name": "id",
@@ -3363,6 +5326,7 @@
         "tags": [
           "Comments"
         ],
+        "operationId": "createComment",
         "parameters": [
           {
             "name": "cardId",
@@ -3435,6 +5399,7 @@
         "tags": [
           "Comments"
         ],
+        "operationId": "getComments",
         "parameters": [
           {
             "name": "cardId",
@@ -3514,6 +5479,7 @@
         "tags": [
           "Comments"
         ],
+        "operationId": "deleteComment",
         "parameters": [
           {
             "name": "id",
@@ -3565,6 +5531,7 @@
         "tags": [
           "Comments"
         ],
+        "operationId": "updateComments",
         "parameters": [
           {
             "name": "id",
@@ -3636,6 +5603,7 @@
         "tags": [
           "Config"
         ],
+        "operationId": "getConfig",
         "responses": {
           "200": {
             "description": "Configuration retrieved successfully",
@@ -3655,16 +5623,18 @@
               }
             }
           }
-        }
+        },
+        "security": []
       }
     },
     "/boards/{boardId}/custom-field-groups": {
       "post": {
-        "summary": "Create custom field group in board",
+        "summary": "Create board custom field group",
         "description": "Creates a custom field group within a board. Either `baseCustomFieldGroupId` or `name` must be provided. Requires board editor permissions.",
         "tags": [
           "Custom Field Groups"
         ],
+        "operationId": "createBoardCustomFieldGroup",
         "parameters": [
           {
             "name": "boardId",
@@ -3749,11 +5719,12 @@
     },
     "/cards/{cardId}/custom-field-groups": {
       "post": {
-        "summary": "Create custom field group in card",
+        "summary": "Create card custom field group",
         "description": "Creates a custom field group within a card. Either `baseCustomFieldGroupId` or `name` must be provided. Requires board editor permissions.",
         "tags": [
           "Custom Field Groups"
         ],
+        "operationId": "createCardCustomFieldGroup",
         "parameters": [
           {
             "name": "cardId",
@@ -3843,6 +5814,7 @@
         "tags": [
           "Custom Field Groups"
         ],
+        "operationId": "deleteCustomFieldGroup",
         "parameters": [
           {
             "name": "id",
@@ -3894,6 +5866,7 @@
         "tags": [
           "Custom Field Groups"
         ],
+        "operationId": "getCustomFieldGroup",
         "parameters": [
           {
             "name": "id",
@@ -3930,17 +5903,17 @@
                       "properties": {
                         "customFields": {
                           "type": "array",
+                          "description": "Related custom fields",
                           "items": {
                             "$ref": "#/components/schemas/CustomField"
-                          },
-                          "description": "Related custom fields"
+                          }
                         },
                         "customFieldValues": {
                           "type": "array",
+                          "description": "Related custom field values (for card-specific groups)",
                           "items": {
                             "$ref": "#/components/schemas/CustomFieldValue"
-                          },
-                          "description": "Related custom field values (for card-specific groups)"
+                          }
                         }
                       }
                     }
@@ -3966,6 +5939,7 @@
         "tags": [
           "Custom Field Groups"
         ],
+        "operationId": "updateCustomFieldGroup",
         "parameters": [
           {
             "name": "id",
@@ -4047,6 +6021,7 @@
         "tags": [
           "Custom Field Values"
         ],
+        "operationId": "updateCustomFieldValue",
         "parameters": [
           {
             "name": "cardId",
@@ -4133,6 +6108,7 @@
         "tags": [
           "Custom Field Values"
         ],
+        "operationId": "deleteCustomFieldValue",
         "parameters": [
           {
             "name": "cardId",
@@ -4206,6 +6182,7 @@
         "tags": [
           "Custom Fields"
         ],
+        "operationId": "createCustomFieldInBaseGroup",
         "parameters": [
           {
             "name": "baseCustomFieldGroupId",
@@ -4289,6 +6266,7 @@
         "tags": [
           "Custom Fields"
         ],
+        "operationId": "createCustomFieldInGroup",
         "parameters": [
           {
             "name": "customFieldGroupId",
@@ -4375,6 +6353,7 @@
         "tags": [
           "Custom Fields"
         ],
+        "operationId": "deleteCustomField",
         "parameters": [
           {
             "name": "id",
@@ -4426,6 +6405,7 @@
         "tags": [
           "Custom Fields"
         ],
+        "operationId": "updateCustomField",
         "parameters": [
           {
             "name": "id",
@@ -4501,150 +6481,6 @@
         }
       }
     },
-    "/attachments/{id}/download/thumbnails/{fileName}.{fileExtension}": {
-      "get": {
-        "summary": "Download file attachment thumbnail",
-        "description": "Downloads a thumbnail for a file attachment. Only available for image attachments that have thumbnails generated. Requires access to the card.",
-        "tags": [
-          "File Attachments"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID of the file attachment to download the thumbnail for",
-            "schema": {
-              "type": "string",
-              "example": "1357158568008091264"
-            }
-          },
-          {
-            "name": "fileName",
-            "in": "path",
-            "required": true,
-            "description": "Thumbnail size identifier",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "outside-360",
-                "outside-720"
-              ],
-              "example": "outside-360"
-            }
-          },
-          {
-            "name": "fileExtension",
-            "in": "path",
-            "required": true,
-            "description": "File extension of the thumbnail",
-            "schema": {
-              "type": "string",
-              "example": "jpg"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Thumbnail image returned successfully",
-            "content": {
-              "image/*": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            },
-            "headers": {
-              "Content-Type": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "MIME type of the thumbnail image"
-              },
-              "Cache-Control": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "Cache control header"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/ValidationError"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
-    "/attachments/{id}/download": {
-      "get": {
-        "summary": "Download file attachment",
-        "description": "Downloads a file attachment. Requires access to the card.",
-        "tags": [
-          "File Attachments"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID of the file attachment to download",
-            "schema": {
-              "type": "string",
-              "example": "1357158568008091264"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "File attachment content returned successfully",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              },
-              "image/*": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            },
-            "headers": {
-              "Content-Disposition": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "Attachment disposition with filename"
-              },
-              "Content-Type": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "MIME type of the file"
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/ValidationError"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    },
     "/boards/{boardId}/labels": {
       "post": {
         "summary": "Create label",
@@ -4652,6 +6488,7 @@
         "tags": [
           "Labels"
         ],
+        "operationId": "createLabel",
         "parameters": [
           {
             "name": "boardId",
@@ -4783,6 +6620,7 @@
         "tags": [
           "Labels"
         ],
+        "operationId": "deleteLabel",
         "parameters": [
           {
             "name": "id",
@@ -4834,6 +6672,7 @@
         "tags": [
           "Labels"
         ],
+        "operationId": "updateLabel",
         "parameters": [
           {
             "name": "id",
@@ -4961,6 +6800,7 @@
         "tags": [
           "Lists"
         ],
+        "operationId": "clearList",
         "parameters": [
           {
             "name": "id",
@@ -5014,6 +6854,7 @@
         "tags": [
           "Lists"
         ],
+        "operationId": "createList",
         "parameters": [
           {
             "name": "boardId",
@@ -5105,6 +6946,7 @@
         "tags": [
           "Lists"
         ],
+        "operationId": "deleteList",
         "parameters": [
           {
             "name": "id",
@@ -5172,6 +7014,7 @@
         "tags": [
           "Lists"
         ],
+        "operationId": "getList",
         "parameters": [
           {
             "name": "id",
@@ -5322,6 +7165,7 @@
         "tags": [
           "Lists"
         ],
+        "operationId": "updateList",
         "parameters": [
           {
             "name": "id",
@@ -5431,6 +7275,7 @@
         "tags": [
           "Lists"
         ],
+        "operationId": "moveListCards",
         "parameters": [
           {
             "name": "id",
@@ -5528,6 +7373,7 @@
         "tags": [
           "Lists"
         ],
+        "operationId": "sortList",
         "parameters": [
           {
             "name": "id",
@@ -5630,6 +7476,7 @@
         "tags": [
           "Notification Services"
         ],
+        "operationId": "createBoardNotificationService",
         "parameters": [
           {
             "name": "boardId",
@@ -5715,6 +7562,7 @@
         "tags": [
           "Notification Services"
         ],
+        "operationId": "createUserNotificationService",
         "parameters": [
           {
             "name": "userId",
@@ -5800,6 +7648,7 @@
         "tags": [
           "Notification Services"
         ],
+        "operationId": "deleteNotificationService",
         "parameters": [
           {
             "name": "id",
@@ -5848,6 +7697,7 @@
         "tags": [
           "Notification Services"
         ],
+        "operationId": "updateNotificationService",
         "parameters": [
           {
             "name": "id",
@@ -5926,6 +7776,7 @@
         "tags": [
           "Notification Services"
         ],
+        "operationId": "testNotificationService",
         "parameters": [
           {
             "name": "id",
@@ -5976,6 +7827,7 @@
         "tags": [
           "Notifications"
         ],
+        "operationId": "getNotifications",
         "responses": {
           "200": {
             "description": "Notifications retrieved successfully",
@@ -6030,6 +7882,7 @@
         "tags": [
           "Notifications"
         ],
+        "operationId": "readAllNotifications",
         "responses": {
           "200": {
             "description": "Notifications marked as read successfully",
@@ -6068,6 +7921,7 @@
         "tags": [
           "Notifications"
         ],
+        "operationId": "getNotification",
         "parameters": [
           {
             "name": "id",
@@ -6132,6 +7986,7 @@
         "tags": [
           "Notifications"
         ],
+        "operationId": "updateNotification",
         "parameters": [
           {
             "name": "id",
@@ -6194,17 +8049,18 @@
     },
     "/projects/{projectId}/managers": {
       "post": {
-        "summary": "Add project manager",
-        "description": "Adds a user as a project manager. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.",
+        "summary": "Create project manager",
+        "description": "Creates a project manager within a project. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.",
         "tags": [
           "Project Managers"
         ],
+        "operationId": "createProjectManager",
         "parameters": [
           {
             "name": "projectId",
             "in": "path",
             "required": true,
-            "description": "ID of the project to add the manager to",
+            "description": "ID of the project to create the project manager in",
             "schema": {
               "type": "string",
               "example": "1357158568008091264"
@@ -6233,7 +8089,7 @@
         },
         "responses": {
           "200": {
-            "description": "Project manager added successfully",
+            "description": "Project manager created successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -6273,17 +8129,18 @@
     },
     "/project-managers/{id}": {
       "delete": {
-        "summary": "Remove project manager",
-        "description": "Removes a user from project managers. Requires admin privileges for shared projects or existing project manager permissions. Cannot remove the last project manager.",
+        "summary": "Delete project manager",
+        "description": "Deletes a project manager. Requires admin privileges for shared projects or existing project manager permissions. Cannot remove the last project manager.",
         "tags": [
           "Project Managers"
         ],
+        "operationId": "deleteProjectManager",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "ID of the project manager to remove",
+            "description": "ID of the project manager to delete",
             "schema": {
               "type": "string",
               "example": "1357158568008091264"
@@ -6292,7 +8149,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Project manager removed successfully",
+            "description": "Project manager deleted successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -6334,6 +8191,7 @@
         "tags": [
           "Projects"
         ],
+        "operationId": "createProject",
         "requestBody": {
           "required": true,
           "content": {
@@ -6421,6 +8279,7 @@
         "tags": [
           "Projects"
         ],
+        "operationId": "getProjects",
         "responses": {
           "200": {
             "description": "Projects retrieved successfully",
@@ -6545,6 +8404,7 @@
         "tags": [
           "Projects"
         ],
+        "operationId": "deleteProject",
         "parameters": [
           {
             "name": "id",
@@ -6596,6 +8456,7 @@
         "tags": [
           "Projects"
         ],
+        "operationId": "getProject",
         "parameters": [
           {
             "name": "id",
@@ -6730,6 +8591,7 @@
         "tags": [
           "Projects"
         ],
+        "operationId": "updateProject",
         "parameters": [
           {
             "name": "id",
@@ -6879,6 +8741,7 @@
         "tags": [
           "Task Lists"
         ],
+        "operationId": "createTaskList",
         "parameters": [
           {
             "name": "cardId",
@@ -6970,6 +8833,7 @@
         "tags": [
           "Task Lists"
         ],
+        "operationId": "deleteTaskList",
         "parameters": [
           {
             "name": "id",
@@ -7021,6 +8885,7 @@
         "tags": [
           "Task Lists"
         ],
+        "operationId": "getTaskList",
         "parameters": [
           {
             "name": "id",
@@ -7085,6 +8950,7 @@
         "tags": [
           "Task Lists"
         ],
+        "operationId": "updateTaskList",
         "parameters": [
           {
             "name": "id",
@@ -7172,6 +9038,7 @@
         "tags": [
           "Tasks"
         ],
+        "operationId": "createTask",
         "parameters": [
           {
             "name": "taskListId",
@@ -7266,6 +9133,7 @@
         "tags": [
           "Tasks"
         ],
+        "operationId": "deleteTask",
         "parameters": [
           {
             "name": "id",
@@ -7317,6 +9185,7 @@
         "tags": [
           "Tasks"
         ],
+        "operationId": "updateTask",
         "parameters": [
           {
             "name": "id",
@@ -7410,6 +9279,7 @@
         "tags": [
           "Terms"
         ],
+        "operationId": "getTerms",
         "parameters": [
           {
             "name": "type",
@@ -7504,7 +9374,8 @@
           "404": {
             "$ref": "#/components/responses/NotFound"
           }
-        }
+        },
+        "security": []
       }
     },
     "/users": {
@@ -7514,6 +9385,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "createUser",
         "requestBody": {
           "required": true,
           "content": {
@@ -7679,6 +9551,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "getUsers",
         "responses": {
           "200": {
             "description": "List of users retrieved successfully",
@@ -7720,6 +9593,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "deleteUser",
         "parameters": [
           {
             "name": "id",
@@ -7771,6 +9645,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "getUser",
         "parameters": [
           {
             "name": "id",
@@ -7845,6 +9720,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "updateUser",
         "parameters": [
           {
             "name": "id",
@@ -7883,7 +9759,8 @@
                   "avatar": {
                     "type": "object",
                     "nullable": true,
-                    "description": "Avatar of the user (only null value to remove avatar)"
+                    "description": "Avatar of the user (only null value to remove avatar)",
+                    "example": null
                   },
                   "phone": {
                     "type": "string",
@@ -8042,6 +9919,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "updateUserAvatar",
         "parameters": [
           {
             "name": "id",
@@ -8115,6 +9993,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "updateUserEmail",
         "parameters": [
           {
             "in": "path",
@@ -8199,6 +10078,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "updateUserPassword",
         "parameters": [
           {
             "in": "path",
@@ -8262,9 +10142,9 @@
                           "type": "array",
                           "description": "New acces tokens (when updating own password)",
                           "items": {
-                            "type": "string"
-                          },
-                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4..."
+                            "type": "string",
+                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4..."
+                          }
                         }
                       }
                     }
@@ -8295,6 +10175,7 @@
         "tags": [
           "Users"
         ],
+        "operationId": "updateUserUsername",
         "parameters": [
           {
             "in": "path",
@@ -8378,6 +10259,7 @@
         "tags": [
           "Webhooks"
         ],
+        "operationId": "createWebhook",
         "requestBody": {
           "required": true,
           "content": {
@@ -8464,6 +10346,7 @@
         "tags": [
           "Webhooks"
         ],
+        "operationId": "getWebhooks",
         "responses": {
           "200": {
             "description": "List of webhooks retrieved successfully",
@@ -8502,6 +10385,7 @@
         "tags": [
           "Webhooks"
         ],
+        "operationId": "deleteWebhook",
         "parameters": [
           {
             "name": "id",
@@ -8550,6 +10434,7 @@
         "tags": [
           "Webhooks"
         ],
+        "operationId": "updateWebhook",
         "parameters": [
           {
             "name": "id",
@@ -8635,1924 +10520,6 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
-          }
-        }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "Action": {
-        "type": "object",
-        "required": [
-          "id",
-          "cardId",
-          "type",
-          "data"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the action",
-            "example": "1357158568008091264"
-          },
-          "boardId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the board where the action occurred",
-            "example": "1357158568008091265"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card where the action occurred",
-            "example": "1357158568008091266"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the user who performed the action",
-            "example": "1357158568008091267"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "createCard",
-              "moveCard",
-              "addMemberToCard",
-              "removeMemberFromCard",
-              "completeTask",
-              "uncompleteTask"
-            ],
-            "description": "Type of the action",
-            "example": "moveCard"
-          },
-          "data": {
-            "type": "object",
-            "description": "Action specific data (varies by type)",
-            "example": {
-              "card": {
-                "name": "Implement user authentication"
-              },
-              "toList": {
-                "id": "1357158568008091268",
-                "name": "To Do",
-                "type": "active"
-              },
-              "fromList": {
-                "id": "1357158568008091269",
-                "name": "Done",
-                "type": "closed"
-              }
-            }
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the action was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the action was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Attachment": {
-        "type": "object",
-        "required": [
-          "id",
-          "cardId",
-          "type",
-          "data",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the attachment",
-            "example": "1357158568008091264"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card the attachment belongs to",
-            "example": "1357158568008091265"
-          },
-          "creatorUserId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the user who created the attachment",
-            "example": "1357158568008091266"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "file",
-              "link"
-            ],
-            "description": "Type of the attachment",
-            "example": "link"
-          },
-          "data": {
-            "type": "object",
-            "description": "Attachment specific data (varies by type)",
-            "example": {
-              "url": "https://google.com/search?q=planka",
-              "faviconUrl": "https://storage.example.com/favicons/google.com.png"
-            }
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the attachment",
-            "example": "Google Link"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the attachment was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the attachment was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "BackgroundImage": {
-        "type": "object",
-        "required": [
-          "id",
-          "projectId",
-          "size",
-          "url",
-          "thumbnailUrls"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the background image",
-            "example": "1357158568008091264"
-          },
-          "projectId": {
-            "type": "string",
-            "description": "ID of the project the background image belongs to",
-            "example": "1357158568008091265"
-          },
-          "size": {
-            "type": "string",
-            "description": "File size of the background image in bytes",
-            "example": 1024576
-          },
-          "url": {
-            "type": "string",
-            "format": "uri",
-            "description": "URL to access the full-size background image",
-            "example": "https://storage.example.com/background-images/1357158568008091264/original.jpg"
-          },
-          "thumbnailUrls": {
-            "type": "object",
-            "required": [
-              "outside360"
-            ],
-            "description": "URLs for different thumbnail sizes of the background image",
-            "properties": {
-              "outside360": {
-                "type": "string",
-                "format": "uri",
-                "description": "URL for 360px thumbnail version",
-                "example": "https://storage.example.com/background-images/1357158568008091264/outside-360.jpg"
-              }
-            }
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the background image was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the background image was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "BaseCustomFieldGroup": {
-        "type": "object",
-        "required": [
-          "id",
-          "projectId",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the base custom field group",
-            "example": "1357158568008091264"
-          },
-          "projectId": {
-            "type": "string",
-            "description": "ID of the project the base custom field group belongs to",
-            "example": "1357158568008091265"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the base custom field group",
-            "example": "Base Properties"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the base custom field group was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the base custom field group was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Board": {
-        "type": "object",
-        "required": [
-          "id",
-          "projectId",
-          "position",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the board",
-            "example": "1357158568008091264"
-          },
-          "projectId": {
-            "type": "string",
-            "description": "ID of the project the board belongs to",
-            "example": "1357158568008091265"
-          },
-          "position": {
-            "type": "number",
-            "description": "Position of the board within the project",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the board",
-            "example": "Development Board"
-          },
-          "defaultView": {
-            "type": "string",
-            "enum": [
-              "kanban",
-              "grid",
-              "list"
-            ],
-            "description": "Default view for the board",
-            "example": "kanban"
-          },
-          "defaultCardType": {
-            "type": "string",
-            "enum": [
-              "project",
-              "story"
-            ],
-            "description": "Default card type for new cards",
-            "example": "project"
-          },
-          "limitCardTypesToDefaultOne": {
-            "type": "boolean",
-            "description": "Whether to limit card types to default one",
-            "example": false
-          },
-          "alwaysDisplayCardCreator": {
-            "type": "boolean",
-            "description": "Whether to always display the card creator",
-            "example": false
-          },
-          "expandTaskListsByDefault": {
-            "type": "boolean",
-            "description": "Whether to expand task lists by default",
-            "example": false
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the board was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the board was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "BoardMembership": {
-        "type": "object",
-        "required": [
-          "id",
-          "projectId",
-          "boardId",
-          "userId",
-          "role"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the board membership",
-            "example": "1357158568008091264"
-          },
-          "projectId": {
-            "type": "string",
-            "description": "ID of the project the board membership belongs to (denormalized)",
-            "example": "1357158568008091265"
-          },
-          "boardId": {
-            "type": "string",
-            "description": "ID of the board the membership is associated with",
-            "example": "1357158568008091266"
-          },
-          "userId": {
-            "type": "string",
-            "description": "ID of the user who is a member of the board",
-            "example": "1357158568008091267"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "editor",
-              "viewer"
-            ],
-            "description": "Role of the user in the board",
-            "example": "editor"
-          },
-          "canComment": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Whether the user can comment on cards (applies only to viewers)",
-            "example": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the board membership was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the board membership was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Card": {
-        "type": "object",
-        "required": [
-          "id",
-          "boardId",
-          "listId",
-          "type",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the card",
-            "example": "1357158568008091264"
-          },
-          "boardId": {
-            "type": "string",
-            "description": "ID of the board the card belongs to (denormalized)",
-            "example": "1357158568008091265"
-          },
-          "listId": {
-            "type": "string",
-            "description": "ID of the list the card belongs to",
-            "example": "1357158568008091266"
-          },
-          "creatorUserId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the user who created the card",
-            "example": "1357158568008091267"
-          },
-          "prevListId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the previous list the card was in (available when in archive or trash)",
-            "example": "1357158568008091268"
-          },
-          "coverAttachmentId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the attachment used as cover",
-            "example": "1357158568008091269"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "project",
-              "story"
-            ],
-            "description": "Type of the card",
-            "example": "project"
-          },
-          "position": {
-            "type": "number",
-            "nullable": true,
-            "description": "Position of the card within the list",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the card",
-            "example": "Implement user authentication"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true,
-            "description": "Detailed description of the card",
-            "example": "Add JWT-based authentication system..."
-          },
-          "dueDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "Due date for the card",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "isDueCompleted": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Whether the due date is completed",
-            "example": false
-          },
-          "stopwatch": {
-            "type": "object",
-            "required": [
-              "startedAt",
-              "total"
-            ],
-            "nullable": true,
-            "description": "Stopwatch data for time tracking",
-            "properties": {
-              "startedAt": {
-                "type": "string",
-                "format": "date-time",
-                "description": "When the stopwatch was started",
-                "example": "2024-01-01T00:00:00.000Z"
-              },
-              "total": {
-                "type": "number",
-                "description": "Total time in seconds",
-                "example": 3600
-              }
-            }
-          },
-          "commentsTotal": {
-            "type": "number",
-            "description": "Total number of comments on the card",
-            "example": 100
-          },
-          "isClosed": {
-            "type": "boolean",
-            "description": "Whether the card is closed",
-            "example": false
-          },
-          "listChangedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the card was last moved between lists",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the card was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the card was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "CardLabel": {
-        "type": "object",
-        "required": [
-          "id",
-          "cardId",
-          "labelId"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the card-label association",
-            "example": "1357158568008091264"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card the label is associated with",
-            "example": "1357158568008091265"
-          },
-          "labelId": {
-            "type": "string",
-            "description": "ID of the label associated with the card",
-            "example": "1357158568008091266"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the card-label association was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the card-label association was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "CardMembership": {
-        "type": "object",
-        "required": [
-          "id",
-          "cardId",
-          "userId"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the card membership",
-            "example": "1357158568008091264"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card the user is a member of",
-            "example": "1357158568008091265"
-          },
-          "userId": {
-            "type": "string",
-            "description": "ID of the user who is a member of the card",
-            "example": "1357158568008091266"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the card membership was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the card membership was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Comment": {
-        "type": "object",
-        "required": [
-          "id",
-          "cardId",
-          "text"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the comment",
-            "example": "1357158568008091264"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card the comment belongs to",
-            "example": "1357158568008091265"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the user who created the comment",
-            "example": "1357158568008091266"
-          },
-          "text": {
-            "type": "string",
-            "description": "Content of the comment",
-            "example": "This task is almost complete..."
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the comment was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the comment was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Config": {
-        "type": "object",
-        "required": [
-          "version"
-        ],
-        "properties": {
-          "version": {
-            "type": "string",
-            "description": "Current version of the PLANKA application",
-            "example": "2.0.0"
-          },
-          "activeUsersLimit": {
-            "type": "number",
-            "nullable": true,
-            "description": "Maximum number of active users allowed (conditionally added for admins if configured)",
-            "example": 100
-          },
-          "oidc": {
-            "type": "object",
-            "required": [
-              "authorizationUrl",
-              "endSessionUrl",
-              "isEnforced"
-            ],
-            "nullable": true,
-            "description": "OpenID Connect configuration (null if not configured)",
-            "properties": {
-              "authorizationUrl": {
-                "type": "string",
-                "format": "uri",
-                "description": "OIDC authorization URL for initiating authentication",
-                "example": "https://oidc.example.com/auth"
-              },
-              "endSessionUrl": {
-                "type": "string",
-                "format": "uri",
-                "nullable": true,
-                "description": "OIDC end session URL for logout (null if not supported by provider)",
-                "example": "https://oidc.example.com/logout"
-              },
-              "isEnforced": {
-                "type": "boolean",
-                "description": "Whether OIDC authentication is enforced (users must use OIDC to login)",
-                "example": false
-              }
-            }
-          }
-        }
-      },
-      "CustomField": {
-        "type": "object",
-        "required": [
-          "id",
-          "position",
-          "name",
-          "showOnFrontOfCard"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the custom field",
-            "example": "1357158568008091264"
-          },
-          "baseCustomFieldGroupId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the base custom field group the custom field belongs to",
-            "example": "1357158568008091265"
-          },
-          "customFieldGroupId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the custom field group the custom field belongs to",
-            "example": "1357158568008091266"
-          },
-          "position": {
-            "type": "number",
-            "description": "Position of the custom field within the group",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the custom field",
-            "example": "Priority"
-          },
-          "showOnFrontOfCard": {
-            "type": "boolean",
-            "description": "Whether to show the field on the front of cards",
-            "example": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the custom field was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the custom field was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "CustomFieldGroup": {
-        "type": "object",
-        "required": [
-          "id",
-          "position"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the custom field group",
-            "example": "1357158568008091264"
-          },
-          "boardId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the board the custom field group belongs to",
-            "example": "1357158568008091265"
-          },
-          "cardId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the card the custom field group belongs to",
-            "example": "1357158568008091266"
-          },
-          "baseCustomFieldGroupId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the base custom field group used as a template",
-            "example": "1357158568008091267"
-          },
-          "position": {
-            "type": "number",
-            "description": "Position of the custom field group within the board/card",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "description": "Name/title of the custom field group",
-            "example": "Properties"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the custom field group was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the custom field group was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "CustomFieldValue": {
-        "type": "object",
-        "required": [
-          "id",
-          "cardId",
-          "customFieldGroupId",
-          "customFieldId",
-          "content"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the custom field value",
-            "example": "1357158568008091264"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card the value belongs to",
-            "example": "1357158568008091265"
-          },
-          "customFieldGroupId": {
-            "type": "string",
-            "description": "ID of the custom field group the value belongs to",
-            "example": "1357158568008091266"
-          },
-          "customFieldId": {
-            "type": "string",
-            "description": "ID of the custom field the value belongs to",
-            "example": "1357158568008091267"
-          },
-          "content": {
-            "type": "string",
-            "description": "Content/value of the custom field",
-            "example": "High Priority"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the custom field value was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the custom field value was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Label": {
-        "type": "object",
-        "required": [
-          "id",
-          "boardId",
-          "position",
-          "color"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the label",
-            "example": "1357158568008091264"
-          },
-          "boardId": {
-            "type": "string",
-            "description": "ID of the board the label belongs to",
-            "example": "1357158568008091265"
-          },
-          "position": {
-            "type": "number",
-            "description": "Position of the label within the board",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "description": "Name/title of the label",
-            "example": "Bug"
-          },
-          "color": {
-            "type": "string",
-            "enum": [
-              "muddy-grey",
-              "autumn-leafs",
-              "morning-sky",
-              "antique-blue",
-              "egg-yellow",
-              "desert-sand",
-              "dark-granite",
-              "fresh-salad",
-              "lagoon-blue",
-              "midnight-blue",
-              "light-orange",
-              "pumpkin-orange",
-              "light-concrete",
-              "sunny-grass",
-              "navy-blue",
-              "lilac-eyes",
-              "apricot-red",
-              "orange-peel",
-              "silver-glint",
-              "bright-moss",
-              "deep-ocean",
-              "summer-sky",
-              "berry-red",
-              "light-cocoa",
-              "grey-stone",
-              "tank-green",
-              "coral-green",
-              "sugar-plum",
-              "pink-tulip",
-              "shady-rust",
-              "wet-rock",
-              "wet-moss",
-              "turquoise-sea",
-              "lavender-fields",
-              "piggy-red",
-              "light-mud",
-              "gun-metal",
-              "modern-green",
-              "french-coast",
-              "sweet-lilac",
-              "red-burgundy",
-              "pirate-gold"
-            ],
-            "description": "Color of the label",
-            "example": "berry-red"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the label was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the label was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "List": {
-        "type": "object",
-        "required": [
-          "id",
-          "boardId",
-          "type"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the list",
-            "example": "1357158568008091264"
-          },
-          "boardId": {
-            "type": "string",
-            "description": "ID of the board the list belongs to",
-            "example": "1357158568008091265"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "active",
-              "closed",
-              "archive",
-              "trash"
-            ],
-            "description": "Type/status of the list",
-            "example": "active"
-          },
-          "position": {
-            "type": "number",
-            "nullable": true,
-            "description": "Position of the list within the board",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "description": "Name/title of the list",
-            "example": "To Do"
-          },
-          "color": {
-            "type": "string",
-            "enum": [
-              "berry-red",
-              "pumpkin-orange",
-              "lagoon-blue",
-              "pink-tulip",
-              "light-mud",
-              "orange-peel",
-              "bright-moss",
-              "antique-blue",
-              "dark-granite",
-              "turquoise-sea"
-            ],
-            "nullable": true,
-            "description": "Color for the list",
-            "example": "lagoon-blue"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the list was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the list was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Notification": {
-        "type": "object",
-        "required": [
-          "id",
-          "userId",
-          "boardId",
-          "cardId",
-          "type",
-          "data",
-          "isRead"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the notification",
-            "example": "1357158568008091264"
-          },
-          "userId": {
-            "type": "string",
-            "description": "ID of the user who receives the notification",
-            "example": "1357158568008091265"
-          },
-          "creatorUserId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the user who created the notification",
-            "example": "1357158568008091266"
-          },
-          "boardId": {
-            "type": "string",
-            "description": "ID of the board associated with the notification (denormalized)",
-            "example": "1357158568008091267"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card associated with the notification",
-            "example": "1357158568008091268"
-          },
-          "commentId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the comment associated with the notification",
-            "example": "1357158568008091269"
-          },
-          "actionId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the action associated with the notification",
-            "example": "1357158568008091270"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "moveCard",
-              "commentCard",
-              "addMemberToCard",
-              "mentionInComment"
-            ],
-            "description": "Type of the notification",
-            "example": "commentCard"
-          },
-          "data": {
-            "type": "object",
-            "description": "Notification payload specific to the type",
-            "example": {
-              "card": {
-                "name": "Implement user authentication"
-              },
-              "text": "This task is almost complete..."
-            }
-          },
-          "isRead": {
-            "type": "boolean",
-            "description": "Whether the notification has been read",
-            "example": false
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the notification was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the notification was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "NotificationService": {
-        "type": "object",
-        "required": [
-          "id",
-          "url",
-          "format"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the notification service",
-            "example": "1357158568008091264"
-          },
-          "userId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the user the service is associated with",
-            "example": "1357158568008091265"
-          },
-          "boardId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the board the service is associated with",
-            "example": "1357158568008091266"
-          },
-          "url": {
-            "type": "string",
-            "description": "URL endpoint for notifications",
-            "example": "https://service.example.com/planka"
-          },
-          "format": {
-            "type": "string",
-            "enum": [
-              "text",
-              "markdown",
-              "html"
-            ],
-            "description": "Format for notification messages",
-            "example": "text"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the notification service was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the notification service was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Project": {
-        "type": "object",
-        "required": [
-          "id",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the project",
-            "example": "1357158568008091264"
-          },
-          "ownerProjectManagerId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the project manager who owns the project",
-            "example": "1357158568008091265"
-          },
-          "backgroundImageId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the background image used as background",
-            "example": "1357158568008091266"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the project",
-            "example": "Development Project"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true,
-            "description": "Detailed description of the project",
-            "example": "A project for developing new features..."
-          },
-          "backgroundType": {
-            "type": "string",
-            "enum": [
-              "gradient",
-              "image"
-            ],
-            "nullable": true,
-            "description": "Type of background for the project",
-            "example": "gradient"
-          },
-          "backgroundGradient": {
-            "type": "string",
-            "enum": [
-              "old-lime",
-              "ocean-dive",
-              "tzepesch-style",
-              "jungle-mesh",
-              "strawberry-dust",
-              "purple-rose",
-              "sun-scream",
-              "warm-rust",
-              "sky-change",
-              "green-eyes",
-              "blue-xchange",
-              "blood-orange",
-              "sour-peel",
-              "green-ninja",
-              "algae-green",
-              "coral-reef",
-              "steel-grey",
-              "heat-waves",
-              "velvet-lounge",
-              "purple-rain",
-              "blue-steel",
-              "blueish-curve",
-              "prism-light",
-              "green-mist",
-              "red-curtain"
-            ],
-            "nullable": true,
-            "description": "Gradient background for the project",
-            "example": "ocean-dive"
-          },
-          "isHidden": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether the project is hidden",
-            "example": false
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the project was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the project was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "ProjectManager": {
-        "type": "object",
-        "required": [
-          "id",
-          "projectId",
-          "userId"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the project manager",
-            "example": "1357158568008091264"
-          },
-          "projectId": {
-            "type": "string",
-            "description": "ID of the project the manager is associated with",
-            "example": "1357158568008091265"
-          },
-          "userId": {
-            "type": "string",
-            "description": "ID of the user who is assigned as project manager",
-            "example": "1357158568008091266"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the project manager was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the project manager was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Task": {
-        "type": "object",
-        "required": [
-          "id",
-          "taskListId",
-          "position",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the task",
-            "example": "1357158568008091264"
-          },
-          "taskListId": {
-            "type": "string",
-            "description": "ID of the task list the task belongs to",
-            "example": "1357158568008091265"
-          },
-          "linkedCardId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the card linked to the task",
-            "example": "1357158568008091266"
-          },
-          "assigneeUserId": {
-            "type": "string",
-            "nullable": true,
-            "description": "ID of the user assigned to the task",
-            "example": "1357158568008091267"
-          },
-          "position": {
-            "type": "number",
-            "description": "Position of the task within the task list",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the task",
-            "example": "Write unit tests"
-          },
-          "isCompleted": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether the task is completed",
-            "example": false
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the task was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the task was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "TaskList": {
-        "type": "object",
-        "required": [
-          "id",
-          "cardId",
-          "position",
-          "name"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the task list",
-            "example": "1357158568008091264"
-          },
-          "cardId": {
-            "type": "string",
-            "description": "ID of the card the task list belongs to",
-            "example": "1357158568008091265"
-          },
-          "position": {
-            "type": "number",
-            "description": "Position of the task list within the card",
-            "example": 65536
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the task list",
-            "example": "Development Tasks"
-          },
-          "showOnFrontOfCard": {
-            "type": "boolean",
-            "default": true,
-            "description": "Whether to show the task list on the front of the card",
-            "example": true
-          },
-          "hideCompletedTasks": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether to hide completed tasks",
-            "example": false
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the task list was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "When the task list was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "User": {
-        "type": "object",
-        "required": [
-          "id",
-          "email",
-          "role",
-          "name",
-          "termsType"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the user",
-            "example": "1357158568008091264"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "Email address for login and notifications (private field)",
-            "example": "john.doe@example.com"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "admin",
-              "projectOwner",
-              "boardUser"
-            ],
-            "description": "User role defining access permissions",
-            "example": "admin"
-          },
-          "name": {
-            "type": "string",
-            "description": "Full display name of the user",
-            "example": "John Doe"
-          },
-          "username": {
-            "type": "string",
-            "minLength": 3,
-            "maxLength": 32,
-            "pattern": "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$",
-            "nullable": true,
-            "description": "Unique username for user identification",
-            "example": "john_doe"
-          },
-          "avatar": {
-            "type": "object",
-            "required": [
-              "url",
-              "thumbnailUrls"
-            ],
-            "nullable": true,
-            "description": "Avatar information for the user with generated URLs",
-            "properties": {
-              "url": {
-                "type": "string",
-                "format": "uri",
-                "description": "URL to the full-size avatar image",
-                "example": "https://storage.example.com/user-avatars/1357158568008091264/original.jpg"
-              },
-              "thumbnailUrls": {
-                "type": "object",
-                "required": [
-                  "cover180"
-                ],
-                "description": "URLs for different thumbnail sizes",
-                "properties": {
-                  "cover180": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "URL for 180px cover thumbnail",
-                    "example": "https://storage.example.com/user-avatars/1357158568008091264/cover-180.jpg"
-                  }
-                }
-              }
-            }
-          },
-          "gravatarUrl": {
-            "type": "string",
-            "format": "uri",
-            "nullable": true,
-            "description": "Gravatar URL for the user (conditionally added if configured)",
-            "example": "https://www.gravatar.com/avatar/abc123"
-          },
-          "phone": {
-            "type": "string",
-            "nullable": true,
-            "description": "Contact phone number",
-            "example": 1234567890
-          },
-          "organization": {
-            "type": "string",
-            "nullable": true,
-            "description": "Organization or company name",
-            "example": "Acme Corporation"
-          },
-          "language": {
-            "type": "string",
-            "enum": [
-              "ar-YE",
-              "bg-BG",
-              "cs-CZ",
-              "da-DK",
-              "de-DE",
-              "el-GR",
-              "en-GB",
-              "en-US",
-              "es-ES",
-              "et-EE",
-              "fa-IR",
-              "fi-FI",
-              "fr-FR",
-              "hu-HU",
-              "id-ID",
-              "it-IT",
-              "ja-JP",
-              "ko-KR",
-              "nl-NL",
-              "pl-PL",
-              "pt-BR",
-              "pt-PT",
-              "ro-RO",
-              "ru-RU",
-              "sk-SK",
-              "sr-Cyrl-RS",
-              "sr-Latn-RS",
-              "sv-SE",
-              "tr-TR",
-              "uk-UA",
-              "uz-UZ",
-              "zh-CN",
-              "zh-TW"
-            ],
-            "nullable": true,
-            "description": "Preferred language for user interface and notifications (personal field)",
-            "example": "en-US"
-          },
-          "subscribeToOwnCards": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether the user subscribes to their own cards (personal field)",
-            "example": false
-          },
-          "subscribeToCardWhenCommenting": {
-            "type": "boolean",
-            "default": true,
-            "description": "Whether the user subscribes to cards when commenting (personal field)",
-            "example": true
-          },
-          "turnOffRecentCardHighlighting": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether recent card highlighting is disabled (personal field)",
-            "example": false
-          },
-          "enableFavoritesByDefault": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether favorites are enabled by default (personal field)",
-            "example": false
-          },
-          "defaultEditorMode": {
-            "type": "string",
-            "enum": [
-              "wysiwyg",
-              "markup"
-            ],
-            "default": "wysiwyg",
-            "description": "Default markdown editor mode (personal field)",
-            "example": "wysiwyg"
-          },
-          "defaultHomeView": {
-            "type": "string",
-            "enum": [
-              "gridProjects",
-              "groupedProjects"
-            ],
-            "default": "groupedProjects",
-            "description": "Default view mode for the home page (personal field)",
-            "example": "groupedProjects"
-          },
-          "defaultProjectsOrder": {
-            "type": "string",
-            "enum": [
-              "byDefault",
-              "alphabetically",
-              "byCreationTime"
-            ],
-            "default": "byDefault",
-            "description": "Default sort order for projects display (personal field)",
-            "example": "byDefault"
-          },
-          "termsType": {
-            "type": "string",
-            "description": "Type of terms applicable to the user based on role",
-            "example": "general"
-          },
-          "isSsoUser": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether the user is SSO user (private field)",
-            "example": false
-          },
-          "isDeactivated": {
-            "type": "boolean",
-            "default": false,
-            "description": "Whether the user account is deactivated and cannot log in",
-            "example": false
-          },
-          "isDefaultAdmin": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Whether the user is the default admin (visible only to current user or admin)",
-            "example": false
-          },
-          "lockedFieldNames": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "description": "List of fields locked from editing (visible only to current user or admin)",
-            "example": [
-              "email",
-              "password",
-              "name"
-            ]
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the user was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the user was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      },
-      "Webhook": {
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "url"
-        ],
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "Unique identifier for the webhook",
-            "example": "1357158568008091264"
-          },
-          "name": {
-            "type": "string",
-            "description": "Name/title of the webhook",
-            "example": "Webhook Updates"
-          },
-          "url": {
-            "type": "string",
-            "description": "URL endpoint for the webhook",
-            "example": "https://webhook.example.com/planka"
-          },
-          "accessToken": {
-            "type": "string",
-            "nullable": true,
-            "description": "Access token for webhook authentication",
-            "example": "secret_token_123"
-          },
-          "events": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of events that trigger the webhook",
-            "example": [
-              "cardCreate",
-              "cardUpdate",
-              "cardDelete"
-            ]
-          },
-          "excludedEvents": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "List of events excluded from the webhook",
-            "example": [
-              "userCreate",
-              "userUpdate",
-              "userDelete"
-            ]
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the webhook was created",
-            "example": "2024-01-01T00:00:00.000Z"
-          },
-          "updatedAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the webhook was last updated",
-            "example": "2024-01-01T00:00:00.000Z"
-          }
-        }
-      }
-    },
-    "responses": {
-      "Conflict": {
-        "description": "Request conflicts with current state of the resource",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "type": "string",
-                  "description": "Error code",
-                  "example": "E_CONFLICT"
-                },
-                "message": {
-                  "type": "string",
-                  "description": "Error message",
-                  "example": "Resource already exists"
-                }
-              }
-            }
-          }
-        }
-      },
-      "Forbidden": {
-        "description": "Access forbidden - insufficient permissions",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "type": "string",
-                  "description": "Error code",
-                  "example": "E_FORBIDDEN"
-                },
-                "message": {
-                  "type": "string",
-                  "description": "Error message",
-                  "example": "Not enough rights"
-                }
-              }
-            }
-          }
-        }
-      },
-      "NotFound": {
-        "description": "Resource not found",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "type": "string",
-                  "description": "Error code",
-                  "example": "E_NOT_FOUND"
-                },
-                "message": {
-                  "type": "string",
-                  "description": "Error message",
-                  "example": "Resource not found"
-                }
-              }
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "Authentication required or invalid credentials",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "type": "string",
-                  "description": "Error code",
-                  "example": "E_UNAUTHORIZED"
-                },
-                "message": {
-                  "type": "string",
-                  "description": "Error message",
-                  "example": "Access token is missing, invalid or expired"
-                }
-              }
-            }
-          }
-        }
-      },
-      "UnprocessableEntity": {
-        "description": "Request contains semantic errors or validation failures",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "type": "string",
-                  "description": "Error code",
-                  "example": "E_UNPROCESSABLE_ENTITY"
-                },
-                "message": {
-                  "type": "string",
-                  "description": "Error message",
-                  "example": "Validation failed"
-                }
-              }
-            }
-          }
-        }
-      },
-      "ValidationError": {
-        "description": "Request validation failed due to missing or invalid parameters",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "code",
-                "problems",
-                "message"
-              ],
-              "properties": {
-                "code": {
-                  "type": "string",
-                  "description": "Error code",
-                  "example": "E_MISSING_OR_INVALID_PARAMS"
-                },
-                "problems": {
-                  "type": "array",
-                  "description": "Array of specific validation error messages",
-                  "items": {
-                    "type": "string"
-                  },
-                  "example": [
-                    "\"emailOrUsername\" is required, but it was not defined.",
-                    "\"password\" is required, but it was not defined."
-                  ]
-                },
-                "message": {
-                  "type": "string",
-                  "description": "Error message",
-                  "example": "The server could not fulfill this request (`POST /api/access-tokens`) due to 2 missing or invalid parameters."
-                }
-              }
-            }
           }
         }
       }
