@@ -18,7 +18,7 @@ index 6d06078..e22d4f0 100644
    // The result of the click likely has removed the e.target node.
    // Instead of node.contains(), we'll identify the click by X/Y position.
 diff --git a/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js b/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js
-index 1cc1bab..7abb016 100644
+index 1cc1bab..0e178ee 100644
 --- a/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js
 +++ b/node_modules/semantic-ui-react/dist/es/modules/Dropdown/Dropdown.js
 @@ -342,7 +342,7 @@ var Dropdown = /*#__PURE__*/function (_Component) {
@@ -57,6 +57,73 @@ index 1cc1bab..7abb016 100644
    noResultsMessage: 'No results found.',
    openOnFocus: true,
    renderLabel: renderItemContent,
+diff --git a/node_modules/semantic-ui-react/dist/es/modules/Modal/Modal.js b/node_modules/semantic-ui-react/dist/es/modules/Modal/Modal.js
+index a39f694..c9c616a 100644
+--- a/node_modules/semantic-ui-react/dist/es/modules/Modal/Modal.js
++++ b/node_modules/semantic-ui-react/dist/es/modules/Modal/Modal.js
+@@ -20,6 +20,7 @@ import ModalDescription from './ModalDescription';
+ import ModalDimmer from './ModalDimmer';
+ import ModalHeader from './ModalHeader';
+ import { canFit, getLegacyStyles, isLegacy } from './utils';
++var IS_WINDOWS = navigator.platform.startsWith('Win');
+ 
+ /**
+  * A modal displays content that temporarily blocks interactions with the main view of a site.
+@@ -41,6 +42,7 @@ var Modal = /*#__PURE__*/function (_Component) {
+     _this.ref = /*#__PURE__*/createRef();
+     _this.dimmerRef = /*#__PURE__*/createRef();
+     _this.latestDocumentMouseDownEvent = null;
++    _this.latestWindowFocusTimeOnWindows = null;
+ 
+     _this.getMountNode = function () {
+       return isBrowser() ? _this.props.mountNode || document.body : null;
+@@ -68,11 +70,17 @@ var Modal = /*#__PURE__*/function (_Component) {
+       }));
+     };
+ 
++    _this.handleWindowFocusOnWindows = function () {
++      _this.latestWindowFocusTimeOnWindows = Date.now();
++    };
++
+     _this.handleDocumentMouseDown = function (e) {
++      if (_this.latestWindowFocusTimeOnWindows && Date.now() - _this.latestWindowFocusTimeOnWindows < 50) return;
+       _this.latestDocumentMouseDownEvent = e;
+     };
+ 
+     _this.handleDocumentClick = function (e) {
++      if (!_this.latestDocumentMouseDownEvent) return;
+       var closeOnDimmerClick = _this.props.closeOnDimmerClick;
+       var currentDocumentMouseDownEvent = _this.latestDocumentMouseDownEvent;
+       _this.latestDocumentMouseDownEvent = null;
+@@ -116,6 +124,13 @@ var Modal = /*#__PURE__*/function (_Component) {
+ 
+       _this.setPositionAndClassNames();
+ 
++      if (IS_WINDOWS) {
++        eventStack.sub('focus', _this.handleWindowFocusOnWindows, {
++          pool: eventPool,
++          target: window
++        });
++      }
++
+       eventStack.sub('mousedown', _this.handleDocumentMouseDown, {
+         pool: eventPool,
+         target: _this.dimmerRef.current
+@@ -131,6 +146,14 @@ var Modal = /*#__PURE__*/function (_Component) {
+     _this.handlePortalUnmount = function (e) {
+       var eventPool = _this.props.eventPool;
+       cancelAnimationFrame(_this.animationRequestId);
++
++      if (IS_WINDOWS) {
++        eventStack.unsub('focus', _this.handleWindowFocusOnWindows, {
++          pool: eventPool,
++          target: window
++        });
++      }
++
+       eventStack.unsub('mousedown', _this.handleDocumentMouseDown, {
+         pool: eventPool,
+         target: _this.dimmerRef.current
 diff --git a/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js b/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js
 index d1ae271..43e1170 100644
 --- a/node_modules/semantic-ui-react/src/lib/doesNodeContainClick.js
