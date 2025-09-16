@@ -3,7 +3,7 @@
   "info": {
     "version": "2.0.0",
     "title": "PLANKA API",
-    "description": "API documentation for PLANKA - Real-time Collaborative Kanban Board Application",
+    "description": "API documentation for PLANKA - Real-Time Collaborative Kanban Board Application",
     "license": {
       "name": "Fair Use License",
       "url": "https://github.com/plankanban/planka/blob/master/LICENSE.md"
@@ -2317,7 +2317,9 @@
           }
         },
         "security": []
-      },
+      }
+    },
+    "/access-tokens/me": {
       "delete": {
         "summary": "User logout",
         "description": "Logs out the current user by deleting the session and access token. Clears HTTP-only cookies if present.",
@@ -3411,7 +3413,7 @@
         }
       }
     },
-    "/boards/{boardId}/memberships": {
+    "/boards/{boardId}/board-memberships": {
       "post": {
         "summary": "Create board membership",
         "description": "Creates a board membership within a board. Requires project manager permissions.",
@@ -4144,7 +4146,7 @@
         }
       }
     },
-    "/cards/{cardId}/labels": {
+    "/cards/{cardId}/card-labels": {
       "post": {
         "summary": "Add label to card",
         "description": "Adds a label to a card. Requires board editor permissions.",
@@ -4221,7 +4223,7 @@
         }
       }
     },
-    "/cards/{cardId}/labels/{labelId}": {
+    "/cards/{cardId}/card-labels/labelId:{labelId}": {
       "delete": {
         "summary": "Remove label from card",
         "description": "Removes a label from a card. Requires board editor permissions.",
@@ -4285,7 +4287,7 @@
         }
       }
     },
-    "/cards/{cardId}/memberships": {
+    "/cards/{cardId}/card-memberships": {
       "post": {
         "summary": "Add user to card",
         "description": "Adds a user to a card. Requires board editor permissions.",
@@ -4362,7 +4364,7 @@
         }
       }
     },
-    "/cards/{cardId}/memberships/{userId}": {
+    "/cards/{cardId}/card-memberships/userId:{userId}": {
       "delete": {
         "summary": "Remove user from card",
         "description": "Removes a user from a card. Requires board editor permissions.",
@@ -6013,8 +6015,8 @@
         }
       }
     },
-    "/cards/{cardId}/custom-field-values": {
-      "post": {
+    "/cards/{cardId}/custom-field-values/customFieldGroupId:{customFieldGroupId}:customFieldId:${customFieldId}": {
+      "patch": {
         "summary": "Create or update custom field value",
         "description": "Creates or updates a custom field value for a card. Requires board editor permissions.",
         "tags": [
@@ -6031,6 +6033,26 @@
               "type": "string",
               "example": "1357158568008091264"
             }
+          },
+          {
+            "name": "customFieldGroupId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the custom field group the value belongs to",
+            "schema": {
+              "type": "string",
+              "example": "1357158568008091265"
+            }
+          },
+          {
+            "name": "customFieldId",
+            "in": "path",
+            "required": true,
+            "description": "ID of the custom field the value belongs to",
+            "schema": {
+              "type": "string",
+              "example": "1357158568008091266"
+            }
           }
         ],
         "requestBody": {
@@ -6040,21 +6062,9 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "customFieldGroupId",
-                  "customFieldId",
                   "content"
                 ],
                 "properties": {
-                  "customFieldGroupId": {
-                    "type": "string",
-                    "description": "ID of the custom field group the value belongs to",
-                    "example": "1357158568008091265"
-                  },
-                  "customFieldId": {
-                    "type": "string",
-                    "description": "ID of the custom field the value belongs to",
-                    "example": "1357158568008091266"
-                  },
                   "content": {
                     "type": "string",
                     "maxLength": 512,
@@ -6100,7 +6110,7 @@
         }
       }
     },
-    "/cards/{cardId}/custom-field-groups/{customFieldGroupId}/custom-fields/{customFieldId}/value": {
+    "/cards/{cardId}/custom-field-value/customFieldGroupId:{customFieldGroupId}:customFieldId:${customFieldId}": {
       "delete": {
         "summary": "Delete custom field value",
         "description": "Deletes a custom field value for a specific card. Requires board editor permissions.",
@@ -8046,7 +8056,7 @@
         }
       }
     },
-    "/projects/{projectId}/managers": {
+    "/projects/{projectId}/project-managers": {
       "post": {
         "summary": "Create project manager",
         "description": "Creates a project manager within a project. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.",
@@ -9271,7 +9281,7 @@
         }
       }
     },
-    "/terms": {
+    "/terms/{type}": {
       "get": {
         "summary": "Get terms and conditions",
         "description": "Retrieves terms and conditions in the specified language.",
@@ -9282,7 +9292,7 @@
         "parameters": [
           {
             "name": "type",
-            "in": "query",
+            "in": "path",
             "required": true,
             "description": "Type of terms to retrieve",
             "schema": {
@@ -9912,7 +9922,7 @@
       }
     },
     "/users/{id}/avatar": {
-      "patch": {
+      "post": {
         "summary": "Update user avatar",
         "description": "Updates a user's avatar image. Users can update their own avatar, admins can update any user's avatar.",
         "tags": [
