@@ -350,7 +350,7 @@ export default class extends BaseModel {
     return this.getBoardMembershipsQuerySet()
       .toModelArray()
       .flatMap(({ board: { project: projectModel } }) => {
-        if (projectIds.includes(projectModel.id)) {
+        if (!projectModel || projectIds.includes(projectModel.id)) {
           return [];
         }
 
