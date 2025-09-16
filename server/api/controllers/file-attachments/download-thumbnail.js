@@ -86,7 +86,7 @@ module.exports = {
     }
 
     this.res.type(attachment.data.mimeType);
-    this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
+    this.res.set('Cache-Control', 'private, max-age=86400, no-transform'); // TODO: move to config
 
     return exits.success(readStream);
   },

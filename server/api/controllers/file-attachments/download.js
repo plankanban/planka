@@ -84,7 +84,7 @@ module.exports = {
     if (!INLINE_MIME_TYPES_SET.has(attachment.data.mimeType) && !attachment.data.image) {
       this.res.set('Content-Disposition', 'attachment');
     }
-    this.res.set('Cache-Control', 'private, max-age=900'); // TODO: move to config
+    this.res.set('Cache-Control', 'private, max-age=86400, no-transform'); // TODO: move to config
 
     return exits.success(readStream);
   },
