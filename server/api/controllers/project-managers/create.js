@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /projects/{projectId}/managers:
+ * /projects/{projectId}/project-managers:
  *   post:
  *     summary: Create project manager
  *     description: Creates a project manager within a project. Requires admin privileges for shared projects or existing project manager permissions. The user must be an admin or project owner.

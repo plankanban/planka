@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /terms:
+ * /terms/{type}:
  *   get:
  *     summary: Get terms and conditions
  *     description: Retrieves terms and conditions in the specified language.
@@ -14,7 +14,7 @@
  *     operationId: getTerms
  *     parameters:
  *       - name: type
- *         in: query
+ *         in: path
  *         required: true
  *         description: Type of terms to retrieve
  *         schema:

@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /access-tokens:
+ * /access-tokens/me:
  *   delete:
  *     summary: User logout
  *     description: Logs out the current user by deleting the session and access token. Clears HTTP-only cookies if present.

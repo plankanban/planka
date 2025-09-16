@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /cards/{cardId}/labels/{labelId}:
+ * /cards/{cardId}/card-labels/labelId:{labelId}:
  *   delete:
  *     summary: Remove label from card
  *     description: Removes a label from a card. Requires board editor permissions.

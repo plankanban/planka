@@ -12,7 +12,7 @@ module.exports = {
       version,
       title: 'PLANKA API',
       description:
-        'API documentation for PLANKA - Real-time Collaborative Kanban Board Application',
+        'API documentation for PLANKA - Real-Time Collaborative Kanban Board Application',
       license: {
         name: 'Fair Use License',
         url: 'https://github.com/plankanban/planka/blob/master/LICENSE.md',

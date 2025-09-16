@@ -6,7 +6,7 @@
 /**
  * @swagger
  * /users/{id}/avatar:
- *   patch:
+ *   post:
  *     summary: Update user avatar
  *     description: Updates a user's avatar image. Users can update their own avatar, admins can update any user's avatar.
  *     tags:

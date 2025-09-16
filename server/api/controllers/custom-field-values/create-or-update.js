@@ -5,8 +5,8 @@
 
 /**
  * @swagger
- * /cards/{cardId}/custom-field-values:
- *   post:
+ * /cards/{cardId}/custom-field-values/customFieldGroupId:{customFieldGroupId}:customFieldId:${customFieldId}:
+ *   patch:
  *     summary: Create or update custom field value
  *     description: Creates or updates a custom field value for a card. Requires board editor permissions.
  *     tags:
@@ -20,6 +20,20 @@
  *         schema:
  *           type: string
  *           example: "1357158568008091264"
+ *       - name: customFieldGroupId
+ *         in: path
+ *         required: true
+ *         description: ID of the custom field group the value belongs to
+ *         schema:
+ *           type: string
+ *           example: "1357158568008091265"
+ *       - name: customFieldId
+ *         in: path
+ *         required: true
+ *         description: ID of the custom field the value belongs to
+ *         schema:
+ *           type: string
+ *           example: "1357158568008091266"
  *     requestBody:
  *       required: true
  *       content:
@@ -27,18 +41,8 @@
  *           schema:
  *             type: object
  *             required:
- *               - customFieldGroupId
- *               - customFieldId
  *               - content
  *             properties:
- *               customFieldGroupId:
- *                 type: string
- *                 description: ID of the custom field group the value belongs to
- *                 example: "1357158568008091265"
- *               customFieldId:
- *                 type: string
- *                 description: ID of the custom field the value belongs to
- *                 example: "1357158568008091266"
  *               content:
  *                 type: string
  *                 maxLength: 512

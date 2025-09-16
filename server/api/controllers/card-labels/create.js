@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /cards/{cardId}/labels:
+ * /cards/{cardId}/card-labels:
  *   post:
  *     summary: Add label to card
  *     description: Adds a label to a card. Requires board editor permissions.

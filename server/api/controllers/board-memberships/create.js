@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /boards/{boardId}/memberships:
+ * /boards/{boardId}/board-memberships:
  *   post:
  *     summary: Create board membership
  *     description: Creates a board membership within a board. Requires project manager permissions.
