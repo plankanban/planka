@@ -8,6 +8,7 @@ import { call, fork, put, select, take } from 'redux-saga/effects';
 import { goToBoard, goToProject } from './router';
 import { openModal } from './modals';
 import request from '../request';
+import modalActions from '../../../actions/modals';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
@@ -245,6 +246,21 @@ export function* handleBoardDelete(board) {
   }
 }
 
+export function* moveBoardToProjectSaga(action) {
+  const { boardId, targetProjectId } = action.payload;
+  try {
+    const { item: updatedBoard, included } = yield call(request, api.moveToProject, boardId, {
+      targetProjectId,
+    });
+    yield put(actions.moveBoardToProject.success(updatedBoard, [], included.cards));
+    yield put(modalActions.closeModal());
+  } catch (err) {
+    yield put(actions.moveBoardToProject.failure(boardId, err));
+    // eslint-disable-next-line no-console
+    console.error(err);
+  }
+}
+
 export default {
   createBoard,
   createBoardInCurrentProject,
@@ -261,4 +277,5 @@ export default {
   searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,
+  moveBoardToProjectSaga,
 };
