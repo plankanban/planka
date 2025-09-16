@@ -43,7 +43,7 @@
  *               showOnFrontOfCard:
  *                 type: boolean
  *                 description: Whether to show the field on the front of cards
- *                 example: true
+ *                 example: false
  *     responses:
  *       200:
  *         description: Custom field created successfully

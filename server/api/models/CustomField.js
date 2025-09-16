@@ -50,8 +50,9 @@
  *           example: Priority
  *         showOnFrontOfCard:
  *           type: boolean
+ *           default: false
  *           description: Whether to show the field on the front of cards
- *           example: true
+ *           example: false
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -82,7 +83,7 @@ module.exports = {
     },
     showOnFrontOfCard: {
       type: 'boolean',
-      required: true,
+      defaultsTo: false,
       columnName: 'show_on_front_of_card',
     },
 
