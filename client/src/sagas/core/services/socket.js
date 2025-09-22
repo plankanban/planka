@@ -21,6 +21,7 @@ export function* handleSocketReconnect() {
 
   yield put(actions.handleSocketReconnect.fetchCore(currentUserId, boardId));
 
+  let bootstrap;
   let config;
   let user;
   let board;
@@ -47,7 +48,7 @@ export function* handleSocketReconnect() {
   let notificationServices;
 
   try {
-    ({ item: config } = yield call(request, api.getConfig));
+    ({ item: bootstrap } = yield call(request, api.getBootstrap));
 
     ({
       user,
@@ -80,6 +81,7 @@ export function* handleSocketReconnect() {
 
   yield put(
     actions.handleSocketReconnect(
+      bootstrap,
       config,
       user,
       board,

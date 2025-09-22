@@ -15,6 +15,7 @@ const initialState = {
   isFavoritesEnabled: false,
   isEditModeEnabled: false,
   modal: null,
+  config: null,
   boardId: null,
   cardId: null,
   recentCardId: null,
@@ -70,13 +71,30 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         isContentFetching: true,
       };
-    case ActionTypes.CORE_INITIALIZE:
-      return {
+    case ActionTypes.SOCKET_RECONNECT_HANDLE:
+    case ActionTypes.USER_UPDATE_HANDLE:
+      if (payload.config) {
+        return {
+          ...state,
+          config: payload.config,
+        };
+      }
+
+      return state;
+    case ActionTypes.CORE_INITIALIZE: {
+      const nextState = {
         ...state,
         isFavoritesEnabled: payload.user.enableFavoritesByDefault,
         homeView: payload.user.defaultHomeView,
         projectsOrder: payload.user.defaultProjectsOrder,
       };
+
+      if (payload.config) {
+        nextState.config = payload.config;
+      }
+
+      return nextState;
+    }
     case ActionTypes.FAVORITES_TOGGLE:
       return {
         ...state,
@@ -101,6 +119,27 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         modal: payload,
+      };
+    case ActionTypes.CONFIG_UPDATE:
+      return {
+        ...state,
+        config: {
+          ...state.config,
+          ...payload.data,
+        },
+      };
+    case ActionTypes.CONFIG_UPDATE__SUCCESS:
+      return {
+        ...state,
+        config: {
+          ...state.config,
+          ...payload.config,
+        },
+      };
+    case ActionTypes.CONFIG_UPDATE_HANDLE:
+      return {
+        ...state,
+        config: payload.config,
       };
     case ActionTypes.PROJECTS_SEARCH:
       return {

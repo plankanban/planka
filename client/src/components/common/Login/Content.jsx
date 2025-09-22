@@ -86,7 +86,7 @@ const createMessage = (error) => {
 };
 
 const Content = React.memo(() => {
-  const config = useSelector(selectors.selectConfig);
+  const bootstrap = useSelector(selectors.selectBootstrap);
 
   const {
     data: defaultData,
@@ -139,8 +139,8 @@ const Content = React.memo(() => {
     dispatch(entryActions.clearAuthenticateError());
   }, [dispatch]);
 
-  const withOidc = !!config.oidc;
-  const isOidcEnforced = withOidc && config.oidc.isEnforced;
+  const withOidc = !!bootstrap.oidc;
+  const isOidcEnforced = withOidc && bootstrap.oidc.isEnforced;
 
   useEffect(() => {
     if (!isOidcEnforced) {

@@ -94,16 +94,17 @@ services:
       # - OIDC_ENFORCED=true
 
       # Email Notifications (https://nodemailer.com/smtp/)
+      # These values override and disable configuration in the UI if set.
       # - SMTP_HOST=
       # - SMTP_PORT=587
       # - SMTP_NAME=
       # - SMTP_SECURE=true
+      # - SMTP_TLS_REJECT_UNAUTHORIZED=false
       # - SMTP_USER=
       # - SMTP_PASSWORD=
       # Optionally store in secrets - then SMTP_PASSWORD should not be set
       # - SMTP_PASSWORD__FILE=/run/secrets/smtp_password
       # - SMTP_FROM="Demo Demo" <demo@demo.demo>
-      # - SMTP_TLS_REJECT_UNAUTHORIZED=false
 
       # Using Gravatar directly exposes user IPs and hashed emails to a third party (GDPR risk).
       # Use a proxy you control for privacy, or leave commented out or empty to disable.

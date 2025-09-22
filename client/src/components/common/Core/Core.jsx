@@ -30,8 +30,8 @@ const Core = React.memo(() => {
 
   // TODO: move to selector?
   const isNewVersionAvailable = useSelector((state) => {
-    const config = selectors.selectConfig(state);
-    return !!config && config.version !== version;
+    const bootstrap = selectors.selectBootstrap(state);
+    return !!bootstrap && bootstrap.version !== version;
   });
 
   const [t] = useTranslation();

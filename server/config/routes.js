@@ -62,9 +62,13 @@ function staticDirServer(prefix, dirFn) {
 }
 
 module.exports.routes = {
-  'GET /api/config': 'config/show',
+  'GET /api/bootstrap': 'bootstrap/show',
 
   'GET /api/terms/:type': 'terms/show',
+
+  'GET /api/config': 'config/show',
+  'PATCH /api/config': 'config/update',
+  'POST /api/config/test-smtp': 'config/test-smtp',
 
   'GET /api/webhooks': 'webhooks/index',
   'POST /api/webhooks': 'webhooks/create',

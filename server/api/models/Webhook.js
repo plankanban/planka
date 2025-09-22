@@ -107,6 +107,8 @@ const Events = {
   COMMENT_UPDATE: 'commentUpdate',
   COMMENT_DELETE: 'commentDelete',
 
+  CONFIG_UPDATE: 'configUpdate',
+
   CUSTOM_FIELD_CREATE: 'customFieldCreate',
   CUSTOM_FIELD_UPDATE: 'customFieldUpdate',
   CUSTOM_FIELD_DELETE: 'customFieldDelete',

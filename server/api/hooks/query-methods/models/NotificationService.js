@@ -14,6 +14,11 @@ const getByUserId = (userId) =>
     userId,
   });
 
+const getByUserIds = (userIds) =>
+  defaultFind({
+    userId: userIds,
+  });
+
 const getByBoardId = (boardId) =>
   defaultFind({
     boardId,
@@ -36,6 +41,7 @@ const deleteOne = (criteria) => NotificationService.destroyOne(criteria);
 module.exports = {
   createOne,
   getByUserId,
+  getByUserIds,
   getByBoardId,
   getByBoardIds,
   getOneById,

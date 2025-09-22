@@ -5,10 +5,10 @@
 
 import ActionTypes from '../constants/ActionTypes';
 
-const initializeLogin = (config) => ({
+const initializeLogin = (bootstrap) => ({
   type: ActionTypes.LOGIN_INITIALIZE,
   payload: {
-    config,
+    bootstrap,
   },
 });
 

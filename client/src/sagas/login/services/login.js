@@ -16,9 +16,9 @@ import Paths from '../../../constants/Paths';
 import AccessTokenSteps from '../../../constants/AccessTokenSteps';
 
 export function* initializeLogin() {
-  const { item: config } = yield call(api.getConfig); // TODO: handle error
+  const { item: bootstrap } = yield call(api.getBootstrap); // TODO: handle error
 
-  yield put(actions.initializeLogin(config));
+  yield put(actions.initializeLogin(bootstrap));
 }
 
 export function* authenticate(data) {
@@ -42,7 +42,7 @@ export function* authenticate(data) {
 }
 
 export function* authenticateWithOidc() {
-  const oidcConfig = yield select(selectors.selectOidcConfig);
+  const oidcBootstrap = yield select(selectors.selectOidcBootstrap);
 
   const state = nanoid();
   window.localStorage.setItem('oidc-state', state);
@@ -50,7 +50,7 @@ export function* authenticateWithOidc() {
   const nonce = nanoid();
   window.localStorage.setItem('oidc-nonce', nonce);
 
-  let redirectUrl = `${oidcConfig.authorizationUrl}`;
+  let redirectUrl = `${oidcBootstrap.authorizationUrl}`;
   redirectUrl += `&state=${encodeURIComponent(state)}`;
   redirectUrl += `&nonce=${encodeURIComponent(nonce)}`;
 

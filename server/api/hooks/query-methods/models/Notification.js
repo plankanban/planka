@@ -9,6 +9,37 @@ const defaultFind = (criteria) => Notification.find(criteria).sort('id DESC');
 
 /* Query methods */
 
+const create = (arrayOfValues) =>
+  sails.getDatastore().transaction(async (db) => {
+    const notifications = await Notification.createEach(arrayOfValues).fetch().usingConnection(db);
+    const userIds = sails.helpers.utils.mapRecords(notifications, 'userId', true, true);
+
+    if (userIds.length > 0) {
+      const queryValues = [];
+      const inValues = userIds.map((userId) => {
+        queryValues.push(userId);
+        return `$${queryValues.length}`;
+      });
+
+      queryValues.push(LIMIT);
+
+      const query = `
+        WITH exceeded_notification AS (
+          SELECT id, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY id DESC) AS rank
+          FROM notification
+          WHERE user_id IN (${inValues.join(', ')}) AND is_read = FALSE
+        )
+        UPDATE notification
+        SET is_read = TRUE
+        WHERE id IN (SELECT id FROM exceeded_notification WHERE rank > $${queryValues.length})
+      `;
+
+      await sails.sendNativeQuery(query, queryValues).usingConnection(db);
+    }
+
+    return notifications;
+  });
+
 const createOne = (values) => {
   if (values.userId) {
     return sails.getDatastore().transaction(async (db) => {
@@ -26,7 +57,7 @@ const createOne = (values) => {
         )
         UPDATE notification
         SET is_read = TRUE
-        WHERE id in (SELECT id FROM exceeded_notification)
+        WHERE id IN (SELECT id FROM exceeded_notification)
       `;
 
       await sails.sendNativeQuery(query, [values.userId, LIMIT]).usingConnection(db);
@@ -66,6 +97,7 @@ const updateOne = (criteria, values) => Notification.updateOne(criteria).set({ .
 const delete_ = (criteria) => Notification.destroy(criteria).fetch();
 
 module.exports = {
+  create,
   createOne,
   getByIds,
   getUnreadByUserId,

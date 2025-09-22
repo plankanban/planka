@@ -5,9 +5,10 @@
 
 import http from './http';
 import socket from './socket';
-import config from './config';
+import bootstrap from './bootstrap';
 import terms from './terms';
 import accessTokens from './access-tokens';
+import config from './config';
 import webhooks from './webhooks';
 import users from './users';
 import projects from './projects';
@@ -35,9 +36,10 @@ import notificationServices from './notification-services';
 export { http, socket };
 
 export default {
-  ...config,
+  ...bootstrap,
   ...terms,
   ...accessTokens,
+  ...config,
   ...webhooks,
   ...users,
   ...projects,

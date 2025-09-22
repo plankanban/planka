@@ -22,8 +22,8 @@ const UsersPane = React.memo(() => {
   const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
 
   const canAdd = useSelector((state) => {
-    const oidcConfig = selectors.selectOidcConfig(state);
-    return !oidcConfig || !oidcConfig.isEnforced;
+    const oidcBootstrap = selectors.selectOidcBootstrap(state);
+    return !oidcBootstrap || !oidcBootstrap.isEnforced;
   });
 
   const [t] = useTranslation();

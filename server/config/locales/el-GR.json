@@ -5,7 +5,7 @@
 	"Test Title": "Τίτλος δοκιμής",
 	"This is a test text message!": "Αυτό είναι ένα δοκιμαστικό μήνυμα!",
 	"This is a *test* **markdown** `message`!": "Αυτό είναι ένα *δοκιμαστικό* **markdown** `μήνυμα`!",
-	"This is a <i>test</i> <b>html</b> <code>message</code>": "Αυτό είναι ένα <i>δοκιμαστικό</i> <b>html</b> <code>μήνυμα</code>",
+	"This is a <i>test</i> <b>html</b> <code>message</code>!": "Αυτό είναι ένα <i>δοκιμαστικό</i> <b>html</b> <code>μήνυμα</code>!",
 	"You Were Added to Card": "Προστέθηκες στην κάρτα",
 	"You Were Mentioned in Comment": "Αναφέρθηκες σε σχόλιο",
 	"%s added you to %s on %s": "%s σε πρόσθεσε στο %s στο %s",

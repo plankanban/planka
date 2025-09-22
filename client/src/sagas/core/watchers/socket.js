@@ -29,6 +29,18 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleConfigUpdate(item));
     };
 
+    const handleWebhookCreate = ({ item }) => {
+      emit(entryActions.handleWebhookCreate(item));
+    };
+
+    const handleWebhookUpdate = ({ item }) => {
+      emit(entryActions.handleWebhookUpdate(item));
+    };
+
+    const handleWebhookDelete = ({ item }) => {
+      emit(entryActions.handleWebhookDelete(item));
+    };
+
     const handleUserCreate = ({ item }) => {
       emit(entryActions.handleUserCreate(item));
     };
@@ -280,6 +292,10 @@ const createSocketEventsChannel = () =>
 
     socket.on('configUpdate', handleConfigUpdate);
 
+    socket.on('webhookCreate', handleWebhookCreate);
+    socket.on('webhookUpdate', handleWebhookUpdate);
+    socket.on('webhookDelete', handleWebhookDelete);
+
     socket.on('userCreate', handleUserCreate);
     socket.on('userUpdate', handleUserUpdate);
     socket.on('userDelete', handleUserDelete);
@@ -369,6 +385,10 @@ const createSocketEventsChannel = () =>
       socket.off('logout', handleLogout);
 
       socket.off('configUpdate', handleConfigUpdate);
+
+      socket.off('webhookCreate', handleWebhookCreate);
+      socket.off('webhookUpdate', handleWebhookUpdate);
+      socket.off('webhookDelete', handleWebhookDelete);
 
       socket.off('userCreate', handleUserCreate);
       socket.off('userUpdate', handleUserUpdate);

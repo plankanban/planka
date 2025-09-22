@@ -7,7 +7,7 @@ import ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
   isInitializing: true,
-  config: null,
+  bootstrap: null,
 };
 
 // eslint-disable-next-line default-param-last
@@ -16,13 +16,13 @@ export default (state = initialState, { type, payload }) => {
     case ActionTypes.SOCKET_RECONNECT_HANDLE:
       return {
         ...state,
-        config: payload.config,
+        bootstrap: payload.bootstrap,
       };
     case ActionTypes.LOGIN_INITIALIZE:
       return {
         ...state,
         isInitializing: false,
-        config: payload.config,
+        bootstrap: payload.bootstrap,
       };
     case ActionTypes.AUTHENTICATE__SUCCESS:
     case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
@@ -36,16 +36,16 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         isInitializing: false,
       };
-    case ActionTypes.CORE_INITIALIZE__CONFIG_FETCH:
+    case ActionTypes.CORE_INITIALIZE__BOOTSTRAP_FETCH:
       return {
         ...state,
-        config: payload.config,
+        bootstrap: payload.bootstrap,
       };
     case ActionTypes.USER_UPDATE_HANDLE:
-      if (payload.config) {
+      if (payload.bootstrap) {
         return {
           ...state,
-          config: payload.config,
+          bootstrap: payload.bootstrap,
         };
       }
 

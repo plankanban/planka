@@ -18,6 +18,10 @@ module.exports.policies = {
 
   '*': ['is-authenticated', 'is-external'],
 
+  'config/show': ['is-authenticated', 'is-admin'],
+  'config/update': ['is-authenticated', 'is-admin'],
+  'config/test-smtp': ['is-authenticated', 'is-admin'],
+
   'webhooks/index': ['is-authenticated', 'is-external', 'is-admin'],
   'webhooks/create': ['is-authenticated', 'is-external', 'is-admin'],
   'webhooks/update': ['is-authenticated', 'is-external', 'is-admin'],
@@ -35,7 +39,7 @@ module.exports.policies = {
 
   'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],
 
-  'config/show': true,
+  'bootstrap/show': true,
   'terms/show': true,
   'access-tokens/create': true,
   'access-tokens/exchange-with-oidc': true,

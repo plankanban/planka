@@ -3,12 +3,18 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import http from './http';
+import socket from './socket';
 
 /* Actions */
 
-const getConfig = (headers) => http.get('/config', undefined, headers);
+const getConfig = (headers) => socket.get('/config', undefined, headers);
+
+const updateConfig = (data, headers) => socket.patch('/config', data, headers);
+
+const testSmtpConfig = (headers) => socket.post('/config/test-smtp', undefined, headers);
 
 export default {
   getConfig,
+  updateConfig,
+  testSmtpConfig,
 };

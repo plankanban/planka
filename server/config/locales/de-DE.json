@@ -5,7 +5,7 @@
   "Test Title": "Testtitel",
   "This is a test text message!": "Dies ist eine Test-Textnachricht!",
   "This is a *test* **markdown** `message`!": "Dies ist eine *Test*-**Markdown**-`Nachricht`!",
-  "This is a <i>test</i> <b>html</b> <code>message</code>": "Dies ist eine <i>Test</i>-<b>HTML</b>-<code>Nachricht</code>",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Dies ist eine <i>Test</i>-<b>HTML</b>-<code>Nachricht</code>!",
   "You Were Added to Card": "Sie wurden zur Karte hinzugefügt",
   "You Were Mentioned in Comment": "Sie wurden in einem Kommentar erwähnt",
   "%s added you to %s on %s": "%s hat Sie zu %s am %s hinzugefügt",

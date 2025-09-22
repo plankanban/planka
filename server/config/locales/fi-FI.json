@@ -5,7 +5,7 @@
 	"Test Title": "Testin otsikko",
 	"This is a test text message!": "Tämä on testiviesti!",
 	"This is a *test* **markdown** `message`!": "Tämä on *testi* **markdown** `viesti`!",
-	"This is a <i>test</i> <b>html</b> <code>message</code>": "Tämä on <i>testi</i> <b>html</b> <code>viesti</code>",
+	"This is a <i>test</i> <b>html</b> <code>message</code>!": "Tämä on <i>testi</i> <b>html</b> <code>viesti</code>!",
 	"You Were Added to Card": "Sinut lisättiin korttiin",
 	"You Were Mentioned in Comment": "Sinut mainittiin kommentissa",
 	"%s added you to %s on %s": "%s lisäsi sinut kohteeseen %s kohteessa %s",

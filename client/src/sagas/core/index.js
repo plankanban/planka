@@ -21,14 +21,14 @@ export default function* coreSaga() {
 
   yield take(ActionTypes.LOGOUT);
 
-  const oidcConfig = yield select(selectors.selectOidcConfig);
+  const oidcBootstrap = yield select(selectors.selectOidcBootstrap);
 
-  if (oidcConfig && oidcConfig.endSessionUrl !== null) {
+  if (oidcBootstrap && oidcBootstrap.endSessionUrl !== null) {
     const currentUser = yield select(selectors.selectCurrentUser);
 
     if (!currentUser || currentUser.isSsoUser) {
       // Redirect the user to the IDP to log out.
-      window.location.href = oidcConfig.endSessionUrl;
+      window.location.href = oidcBootstrap.endSessionUrl;
       return;
     }
   }

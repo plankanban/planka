@@ -59,6 +59,28 @@ module.exports = function defineOidcHook(sails) {
       return client;
     },
 
+    async getBootstrap() {
+      const instance = await this.getClient();
+
+      if (!instance) {
+        return null;
+      }
+
+      const authorizationUrlParams = {
+        scope: sails.config.custom.oidcScopes,
+      };
+
+      if (!sails.config.custom.oidcUseDefaultResponseMode) {
+        authorizationUrlParams.response_mode = sails.config.custom.oidcResponseMode;
+      }
+
+      return {
+        authorizationUrl: instance.authorizationUrl(authorizationUrlParams),
+        endSessionUrl: instance.issuer.end_session_endpoint ? instance.endSessionUrl({}) : null,
+        isEnforced: sails.config.custom.oidcEnforced,
+      };
+    },
+
     isEnabled() {
       return !!sails.config.custom.oidcIssuer;
     },

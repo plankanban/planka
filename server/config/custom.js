@@ -102,10 +102,10 @@ module.exports.custom = {
   smtpPort: process.env.SMTP_PORT || 587,
   smtpName: process.env.SMTP_NAME,
   smtpSecure: process.env.SMTP_SECURE === 'true',
+  smtpTlsRejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
   smtpUser: process.env.SMTP_USER,
   smtpPassword: process.env.SMTP_PASSWORD,
   smtpFrom: process.env.SMTP_FROM,
-  smtpTlsRejectUnauthorized: process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== 'false',
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
 };

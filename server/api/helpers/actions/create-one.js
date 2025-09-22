@@ -154,9 +154,9 @@ module.exports = {
           await sails.helpers.notifications.createOne.with({
             values: {
               action,
+              userId: action.data.user.id,
               type: action.type,
               data: action.data,
-              userId: action.data.user.id,
               creatorUser: values.user,
               card: values.card,
             },
@@ -179,24 +179,20 @@ module.exports = {
 
         const notifiableUserIds = _.union(cardSubscriptionUserIds, boardSubscriptionUserIds);
 
-        await Promise.all(
-          notifiableUserIds.map((userId) =>
-            sails.helpers.notifications.createOne.with({
-              values: {
-                userId,
-                action,
-                type: action.type,
-                data: action.data,
-                creatorUser: values.user,
-                card: values.card,
-              },
-              project: inputs.project,
-              board: inputs.board,
-              list: inputs.list,
-              webhooks: inputs.webhooks,
-            }),
-          ),
-        );
+        await sails.helpers.notifications.createMany.with({
+          arrayOfValues: notifiableUserIds.map((userId) => ({
+            userId,
+            action,
+            type: action.type,
+            data: action.data,
+            creatorUser: values.user,
+            card: values.card,
+          })),
+          project: inputs.project,
+          board: inputs.board,
+          list: inputs.list,
+          webhooks: inputs.webhooks,
+        });
       }
     }
 

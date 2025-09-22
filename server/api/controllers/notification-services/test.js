@@ -84,10 +84,17 @@ module.exports = {
       }
     }
 
-    await sails.helpers.notificationServices.testOne.with({
-      record: notificationService,
-      i18n: this.req.i18n,
+    /* eslint-disable no-underscore-dangle */
+    await sails.helpers.utils.sendNotifications.with({
+      services: [_.pick(notificationService, ['url', 'format'])],
+      title: this.req.i18n.__('Test Title'),
+      bodyByFormat: {
+        text: this.req.i18n.__('This is a test text message!'),
+        markdown: this.req.i18n.__('This is a *test* **markdown** `message`!'),
+        html: this.req.i18n.__('This is a <i>test</i> <b>html</b> <code>message</code>!'),
+      },
     });
+    /* eslint-enable no-underscore-dangle */
 
     return {
       item: notificationService,

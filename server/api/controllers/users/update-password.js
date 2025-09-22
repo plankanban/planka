@@ -54,14 +54,12 @@
  *                 included:
  *                   type: object
  *                   required:
- *                     - accessTokens
+ *                     - accessToken
  *                   properties:
- *                     accessTokens:
- *                       type: array
+ *                     accessToken:
+ *                       type: string
  *                       description: New acces tokens (when updating own password)
- *                       items:
- *                         type: string
- *                         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
+ *                       example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
  *       400:
  *         $ref: '#/components/responses/ValidationError'
  *       401:
@@ -180,7 +178,7 @@ module.exports = {
       return {
         item: sails.helpers.users.presentOne(user, currentUser),
         included: {
-          accessTokens: [accessToken],
+          accessToken,
         },
       };
     }

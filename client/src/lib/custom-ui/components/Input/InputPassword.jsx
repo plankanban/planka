@@ -14,7 +14,7 @@ import styles from './InputPassword.module.css';
 const STRENGTH_SCORE_COLORS = ['red', 'orange', 'yellow', 'olive', 'green'];
 
 const InputPassword = React.forwardRef(
-  ({ value, withStrengthBar, minStrengthScore, className, ...props }, ref) => {
+  ({ value, withStrengthBar, minStrengthScore, className, onClear, ...props }, ref) => {
     const [isVisible, toggleVisible] = useToggle();
 
     const strengthScore = useMemo(() => {
@@ -32,8 +32,13 @@ const InputPassword = React.forwardRef(
     const inputProps = {
       ...props,
       ref,
+      value,
       type: isVisible ? 'text' : 'password',
-      icon: <Icon link name={isVisible ? 'eye' : 'eye slash'} onClick={handleToggleClick} />,
+      icon: onClear ? (
+        <Icon link name="cancel" onClick={onClear} />
+      ) : (
+        <Icon link name={isVisible ? 'eye' : 'eye slash'} onClick={handleToggleClick} />
+      ),
     };
 
     if (!withStrengthBar) {
@@ -68,12 +73,14 @@ InputPassword.propTypes = {
   withStrengthBar: PropTypes.bool,
   minStrengthScore: PropTypes.number,
   className: PropTypes.string,
+  onClear: PropTypes.func,
 };
 
 InputPassword.defaultProps = {
   withStrengthBar: false,
   minStrengthScore: 2,
   className: undefined,
+  onClear: undefined,
 };
 
 export default React.memo(InputPassword);

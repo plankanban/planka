@@ -5,7 +5,7 @@
 	"Test Title": "Test Title",
 	"This is a test text message!": "This is a test text message!",
 	"This is a *test* **markdown** `message`!": "This is a *test* **markdown** `message`!",
-	"This is a <i>test</i> <b>html</b> <code>message</code>": "This is a <i>test</i> <b>html</b> <code>message</code>",
+	"This is a <i>test</i> <b>html</b> <code>message</code>!": "This is a <i>test</i> <b>html</b> <code>message</code>!",
 	"You Were Added to Card": "You Were Added to Card",
 	"You Were Mentioned in Comment": "You Were Mentioned in Comment",
 	"%s added you to %s on %s": "%s added you to %s on %s",

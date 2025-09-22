@@ -124,29 +124,25 @@ module.exports = {
       boardSubscriptionUserIds,
     );
 
-    await Promise.all(
-      notifiableUserIds.map((userId) =>
-        sails.helpers.notifications.createOne.with({
-          webhooks,
-          values: {
-            userId,
-            comment,
-            type: mentionUserIdsSet.has(userId)
-              ? Notification.Types.MENTION_IN_COMMENT
-              : Notification.Types.COMMENT_CARD,
-            data: {
-              card: _.pick(values.card, ['name']),
-              text: comment.text,
-            },
-            creatorUser: values.user,
-            card: values.card,
-          },
-          project: inputs.project,
-          board: inputs.board,
-          list: inputs.list,
-        }),
-      ),
-    );
+    await sails.helpers.notifications.createMany.with({
+      webhooks,
+      arrayOfValues: notifiableUserIds.map((userId) => ({
+        userId,
+        comment,
+        type: mentionUserIdsSet.has(userId)
+          ? Notification.Types.MENTION_IN_COMMENT
+          : Notification.Types.COMMENT_CARD,
+        data: {
+          card: _.pick(values.card, ['name']),
+          text: comment.text,
+        },
+        creatorUser: values.user,
+        card: values.card,
+      })),
+      project: inputs.project,
+      board: inputs.board,
+      list: inputs.list,
+    });
 
     if (values.user.subscribeToCardWhenCommenting) {
       let cardSubscription;

@@ -8,6 +8,7 @@ import socket from './socket';
 import login from './login';
 import core from './core';
 import modals from './modals';
+import config from './config';
 import webhooks from './webhooks';
 import users from './users';
 import projects from './projects';
@@ -36,6 +37,7 @@ export default {
   ...login,
   ...core,
   ...modals,
+  ...config,
   ...webhooks,
   ...users,
   ...projects,

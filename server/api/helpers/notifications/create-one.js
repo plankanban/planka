@@ -137,7 +137,15 @@ const buildAndSendNotifications = async (services, board, card, notification, ac
 };
 
 // TODO: use templates (views) to build html
-const buildAndSendEmail = async (board, card, notification, actorUser, notifiableUser, t) => {
+const buildAndSendEmail = async (
+  transporter,
+  board,
+  card,
+  notification,
+  actorUser,
+  notifiableUser,
+  t,
+) => {
   const cardLink = `<a href="${sails.config.custom.baseUrl}/cards/${card.id}">${escapeHtml(card.name)}</a>`;
   const boardLink = `<a href="${sails.config.custom.baseUrl}/boards/${board.id}">${escapeHtml(board.name)}</a>`;
 
@@ -164,7 +172,7 @@ const buildAndSendEmail = async (board, card, notification, actorUser, notifiabl
         escapeHtml(actorUser.name),
         cardLink,
         boardLink,
-      )}</p><p>${escapeHtml(notification.data.text)}</p>`;
+      )}</p><p>${escapeHtml(mentionMarkupToText(notification.data.text))}</p>`;
 
       break;
     case Notification.Types.ADD_MEMBER_TO_CARD:
@@ -182,7 +190,7 @@ const buildAndSendEmail = async (board, card, notification, actorUser, notifiabl
         escapeHtml(actorUser.name),
         cardLink,
         boardLink,
-      )}</p><p>${escapeHtml(notification.data.text)}</p>`;
+      )}</p><p>${escapeHtml(mentionMarkupToText(notification.data.text))}</p>`;
 
       break;
     default:
@@ -190,10 +198,13 @@ const buildAndSendEmail = async (board, card, notification, actorUser, notifiabl
   }
 
   await sails.helpers.utils.sendEmail.with({
+    transporter,
     html,
     to: notifiableUser.email,
     subject: buildTitle(notification, t),
   });
+
+  transporter.close();
 };
 
 module.exports = {
@@ -222,10 +233,6 @@ module.exports = {
 
   async fn(inputs) {
     const { values } = inputs;
-
-    if (values.user) {
-      values.userId = values.user.id;
-    }
 
     const isCommentRelated =
       values.type === Notification.Types.COMMENT_CARD ||
@@ -274,9 +281,10 @@ module.exports = {
     });
 
     const notificationServices = await NotificationService.qm.getByUserId(notification.userId);
+    const { transporter } = await sails.helpers.utils.makeSmtpTransporter();
 
-    if (notificationServices.length > 0 || sails.hooks.smtp.isEnabled()) {
-      const notifiableUser = values.user || (await User.qm.getOneById(notification.userId));
+    if (notificationServices.length > 0 || transporter) {
+      const notifiableUser = await User.qm.getOneById(notification.userId);
       const t = sails.helpers.utils.makeTranslator(notifiableUser.language);
 
       if (notificationServices.length > 0) {
@@ -294,8 +302,9 @@ module.exports = {
         );
       }
 
-      if (sails.hooks.smtp.isEnabled()) {
+      if (transporter) {
         buildAndSendEmail(
+          transporter,
           inputs.board,
           values.card,
           notification,

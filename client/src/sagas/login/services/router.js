@@ -49,9 +49,9 @@ export function* handleLocationChange() {
 
   switch (pathsMatch.pattern.path) {
     case Paths.LOGIN: {
-      const oidcConfig = yield select(selectors.selectOidcConfig);
+      const oidcBootstrap = yield select(selectors.selectOidcBootstrap);
 
-      if (oidcConfig) {
+      if (oidcBootstrap) {
         const params = new URLSearchParams(window.location.search);
 
         if (params.has('authenticateWithOidc')) {

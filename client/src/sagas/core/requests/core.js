@@ -18,8 +18,11 @@ export function* fetchCore() {
     included: { notificationServices: notificationServices1 },
   } = yield call(request, api.getCurrentUser, true);
 
+  let config;
   let webhooks;
+
   if (user.role === UserRoles.ADMIN) {
+    ({ item: config } = yield call(request, api.getConfig));
     ({ items: webhooks } = yield call(request, api.getWebhooks));
   }
 
@@ -105,6 +108,7 @@ export function* fetchCore() {
   }
 
   return {
+    config,
     user,
     board,
     webhooks,

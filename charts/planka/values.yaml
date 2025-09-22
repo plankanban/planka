@@ -224,11 +224,11 @@ extraEnv: []
 ##     value: "Your Name"
 ##   - name: SMTP_SECURE
 ##     value: "true"
+##   - name: SMTP_TLS_REJECT_UNAUTHORIZED
+##     value: "false"
 ##   - name: SMTP_USER
 ##     value: "your_email@example.com"
 ##   - name: SMTP_PASSWORD
 ##     value: "your_password"
 ##   - name: SMTP_FROM
 ##     value: "your_email@example.com"
-##   - name: SMTP_TLS_REJECT_UNAUTHORIZED
-##     value: "false"

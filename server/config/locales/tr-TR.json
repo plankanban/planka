@@ -5,7 +5,7 @@
   "Test Title": "Test başlığı",
   "This is a test text message!": "Bu bir test metin mesajıdır!",
   "This is a *test* **markdown** `message`!": "Bu bir *test* **markdown** `mesajı`!",
-  "This is a <i>test</i> <b>html</b> <code>message</code>": "Bu bir <i>test</i> <b>html</b> <code>mesajı</code>",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Bu bir <i>test</i> <b>html</b> <code>mesajı</code>!",
   "You Were Added to Card": "Karta eklendiniz",
   "You Were Mentioned in Comment": "Bir yorumda bahsedildiniz",
   "%s added you to %s on %s": "%s sizi %s'ye %s tarihinde ekledi",

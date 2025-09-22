@@ -14,11 +14,12 @@ import i18n from '../../../i18n';
 import { removeAccessToken } from '../../../utils/access-token-storage';
 
 export function* initializeCore() {
-  const { item: config } = yield call(request, api.getConfig); // TODO: handle error
+  const { item: bootstrap } = yield call(request, api.getBootstrap); // TODO: handle error
 
-  yield put(actions.initializeCore.fetchConfig(config));
+  yield put(actions.initializeCore.fetchBootstrap(bootstrap));
 
   const {
+    config,
     user,
     board,
     webhooks,
@@ -49,6 +50,7 @@ export function* initializeCore() {
 
   yield put(
     actions.initializeCore(
+      config,
       user,
       board,
       webhooks,

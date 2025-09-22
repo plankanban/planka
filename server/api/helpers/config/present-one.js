@@ -11,20 +11,17 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    user: {
-      type: 'ref',
-    },
   },
 
   fn(inputs) {
-    const data = {
-      ...inputs.record,
-      version: sails.config.custom.version,
-    };
-    if (inputs.user && inputs.user.role === User.Roles.ADMIN) {
-      data.activeUsersLimit = sails.config.custom.activeUsersLimit;
+    if (sails.config.custom.smtpHost) {
+      return _.omit(inputs.record, Config.SMTP_FIELD_NAMES);
     }
 
-    return data;
+    if (inputs.record.smtpPassword) {
+      return _.omit(inputs.record, 'smtpPassword');
+    }
+
+    return inputs.record;
   },
 };

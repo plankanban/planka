@@ -39,6 +39,8 @@ export default [
   'commentUpdate',
   'commentDelete',
 
+  'configUpdate',
+
   'customFieldCreate',
   'customFieldUpdate',
   'customFieldDelete',

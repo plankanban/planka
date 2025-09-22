@@ -7,11 +7,11 @@ export const selectIsSocketDisconnected = ({ socket: { isDisconnected } }) => is
 
 export const selectIsInitializing = ({ common: { isInitializing } }) => isInitializing;
 
-export const selectConfig = ({ common: { config } }) => config;
+export const selectBootstrap = ({ common: { bootstrap } }) => bootstrap;
 
-export const selectOidcConfig = (state) => selectConfig(state).oidc;
+export const selectOidcBootstrap = (state) => selectBootstrap(state).oidc;
 
-export const selectActiveUsersLimit = (state) => selectConfig(state).activeUsersLimit;
+export const selectActiveUsersLimit = (state) => selectBootstrap(state).activeUsersLimit;
 
 export const selectAccessToken = ({ auth: { accessToken } }) => accessToken;
 
@@ -21,14 +21,17 @@ export const selectUserCreateForm = ({ ui: { userCreateForm } }) => userCreateFo
 
 export const selectProjectCreateForm = ({ ui: { projectCreateForm } }) => projectCreateForm;
 
+export const selectSmtpTest = ({ ui: { smtpTest } }) => smtpTest;
+
 export default {
   selectIsSocketDisconnected,
   selectIsInitializing,
-  selectConfig,
-  selectOidcConfig,
+  selectBootstrap,
+  selectOidcBootstrap,
   selectActiveUsersLimit,
   selectAccessToken,
   selectAuthenticateForm,
   selectUserCreateForm,
   selectProjectCreateForm,
+  selectSmtpTest,
 };

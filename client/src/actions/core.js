@@ -6,6 +6,7 @@
 import ActionTypes from '../constants/ActionTypes';
 
 const initializeCore = (
+  config,
   user,
   board,
   webhooks,
@@ -32,6 +33,7 @@ const initializeCore = (
 ) => ({
   type: ActionTypes.CORE_INITIALIZE,
   payload: {
+    config,
     user,
     board,
     webhooks,
@@ -58,10 +60,10 @@ const initializeCore = (
   },
 });
 
-initializeCore.fetchConfig = (config) => ({
-  type: ActionTypes.CORE_INITIALIZE__CONFIG_FETCH,
+initializeCore.fetchBootstrap = (bootstrap) => ({
+  type: ActionTypes.CORE_INITIALIZE__BOOTSTRAP_FETCH,
   payload: {
-    config,
+    bootstrap,
   },
 });
 

@@ -5,6 +5,10 @@
 
 module.exports = {
   inputs: {
+    transporter: {
+      type: 'ref',
+      required: true,
+    },
     to: {
       type: 'string',
       required: true,
@@ -20,13 +24,8 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const transporter = sails.hooks.smtp.getTransporter(); // TODO: check if enabled?
-
     try {
-      const info = await transporter.sendMail({
-        ...inputs,
-        from: sails.config.custom.smtpFrom,
-      });
+      const info = await inputs.transporter.sendMail(inputs);
 
       sails.log.info(`Email sent: ${info.messageId}`);
     } catch (error) {

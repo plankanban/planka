@@ -68,6 +68,7 @@ export function* handleUserUpdate(user) {
   const currentUser = yield select(selectors.selectCurrentUser);
   const isCurrentUser = user.id === currentUser.id;
 
+  let bootstrap;
   let config;
   let board;
   let webhooks;
@@ -102,6 +103,7 @@ export function* handleUserUpdate(user) {
     ({ items: users1 } = yield call(request, api.getUsers));
 
     if (user.role === UserRoles.ADMIN) {
+      ({ item: bootstrap } = yield call(request, api.getBootstrap));
       ({ item: config } = yield call(request, api.getConfig));
       ({ items: webhooks } = yield call(request, api.getWebhooks));
 
@@ -164,6 +166,7 @@ export function* handleUserUpdate(user) {
       user,
       projectIds,
       boardIds,
+      bootstrap,
       config,
       board,
       webhooks,
@@ -248,10 +251,10 @@ export function* updateUserPassword(id, data) {
   yield put(actions.updateUserPassword(id, data));
 
   let user;
-  let accessTokens;
+  let accessToken;
 
   try {
-    ({ item: user, included: { accessTokens } = {} } = yield call(
+    ({ item: user, included: { accessToken } = {} } = yield call(
       request,
       api.updateUserPassword,
       id,
@@ -261,8 +264,6 @@ export function* updateUserPassword(id, data) {
     yield put(actions.updateUserPassword.failure(id, error));
     return;
   }
-
-  const accessToken = accessTokens && accessTokens[0];
 
   if (accessToken) {
     yield call(setAccessToken, accessToken);

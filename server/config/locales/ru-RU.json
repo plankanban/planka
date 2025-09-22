@@ -5,7 +5,7 @@
 	"Test Title": "Тестовый заголовок",
 	"This is a test text message!": "Это тестовое сообщение!",
 	"This is a *test* **markdown** `message`!": "Это *тестовое* **markdown** `сообщение`!",
-	"This is a <i>test</i> <b>html</b> <code>message</code>": "Это <i>тестовое</i> <b>html</b> <code>сообщение</code>",
+	"This is a <i>test</i> <b>html</b> <code>message</code>!": "Это <i>тестовое</i> <b>html</b> <code>сообщение</code>!",
 	"You Were Added to Card": "Вы были добавлены к карточке",
 	"You Were Mentioned in Comment": "Вы были упомянуты в комментарии",
 	"%s added you to %s on %s": "%s добавил(а) вас к %s на %s",
