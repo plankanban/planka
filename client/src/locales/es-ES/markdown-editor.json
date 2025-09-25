@@ -5,10 +5,10 @@
     "heading": "Título"
   },
   "bundle": {
-    "error-title": "Error en el editor markdown",
+    "error-title": "Error en el editor de markdown",
     "settings_wysiwyg": "Editor visual (wysiwyg)",
-    "settings_markup": "Marcado Markdown",
-    "markup_placeholder": "Introduce el marcado markdown..."
+    "settings_markup": "Marcado markdown",
+    "markup_placeholder": "Introduce marcado markdown..."
   },
   "codeblock": {
     "remove": "Eliminar",
@@ -23,22 +23,22 @@
     "common_action_cancel": "Cancelar",
     "common_action_submit": "Enviar",
     "common_action_upload": "Seleccionar",
-    "common_tab_attach": "Agregar desde el dispositivo",
-    "common_tab_link": "Agregar por enlace",
+    "common_tab_attach": "Añadir desde dispositivo",
+    "common_tab_link": "Añadir por enlace",
     "common_link": "Enlace",
     "common_sizes": "Tamaño, px",
     "image_name": "Título",
-    "image_link_href": "Enlace de la imagen",
+    "image_link_href": "Enlace de imagen",
     "image_link_href_help": "Dirección a la que lleva el enlace de la imagen.",
     "image_alt": "Texto alternativo",
-    "image_alt_help": "El texto alternativo se muestra si la imagen no se puede cargar.",
-    "image_upload_help": "Imagen JPEG, GIF o PNG de no más de 1 MB.",
-    "image_upload_failed": "No se pudo agregar la imagen",
+    "image_alt_help": "El texto alternativo se muestra si la imagen no puede cargarse.",
+    "image_upload_help": "Imagen JPEG, GIF o PNG no mayor de 1 MB.",
+    "image_upload_failed": "Error al añadir imagen",
     "image_size_width": "Ancho",
     "image_size_height": "Alto",
     "link_url_help": "Dirección a la que lleva el enlace.",
     "link_text": "Texto del enlace",
-    "link_text_help": "Texto que se muestra como enlace.",
+    "link_text_help": "Texto mostrado como enlace.",
     "link_open_help": "Abrir el enlace en una nueva pestaña"
   },
   "md-hints": {
@@ -63,16 +63,16 @@
     "numbered-list_title": "Lista numerada",
     "numbered-list_hint": "1. Tu texto",
     "documentation": "Documentación",
-    "documentation_link": "https://diplodoc.com/docs/es/syntax/"
+    "documentation_link": "https://diplodoc.com/docs/en/syntax/"
   },
   "menubar": {
     "bold": "Negrita",
     "code": "Código",
     "code_inline": "Código en línea",
     "codeblock": "Bloque de código",
-    "colorify": "Color del texto",
+    "colorify": "Color de texto",
     "colorify__color_blue": "Azul",
-    "colorify__color_default": "Predeterminado",
+    "colorify__color_default": "Por defecto",
     "colorify__color_gray": "Gris",
     "colorify__color_green": "Verde",
     "colorify__color_orange": "Naranja",
@@ -82,7 +82,7 @@
     "colorify__group_text": "Texto",
     "cut": "Cortar",
     "emoji": "Emoji",
-    "emoji__hint": "Los emojis se pueden agregar en WYSIWYG o manualmente con marcado",
+    "emoji__hint": "Los emojis se pueden añadir en WYSIWYG o manualmente con marcado",
     "heading": "Encabezado",
     "heading1": "Encabezado 1",
     "heading2": "Encabezado 2",
@@ -95,7 +95,7 @@
     "italic": "Cursiva",
     "link": "Enlace",
     "list": "Lista",
-    "list__action_lift": "Subir elemento",
+    "list__action_lift": "Elevar elemento",
     "list__action_sink": "Bajar elemento",
     "list_action_disabled": "Contradice la lógica de la lista",
     "mark": "Marcado",
@@ -113,20 +113,20 @@
     "undo": "Deshacer"
   },
   "placeholder": {
-    "doc_empty": "Escribe / para usar comandos...",
-    "checkbox": "Introduce la descripción de la tarea...",
+    "doc_empty": "Escribe / para usar comandos de barra...",
+    "checkbox": "Introduce descripción de la tarea...",
     "deflist_term": "Término",
     "deflist_desc": "Descripción de la definición",
     "heading": "Encabezado",
     "cut_title": "Título",
-    "cut_content": "Contenido que se mostrará al hacer clic",
+    "cut_content": "Contenido a mostrar al hacer clic",
     "note_title": "Título",
     "note_content": "Contenido de la nota",
     "table_cell": "Contenido de la celda",
     "select_filter": "Buscar idiomas..."
   },
   "search": {
-    "label_case-sensitive": "Distinguir mayúsculas/minúsculas",
+    "label_case-sensitive": "Distinguir mayúsculas",
     "label_whole-word": "Palabra completa",
     "title": "Buscar en el código"
   },
@@ -134,30 +134,30 @@
     "empty-msg": "No encontrado"
   },
   "widgets": {
-    "image": "Agregar imagen",
-    "link": "Agregar enlace"
+    "image": "Añadir imagen",
+    "link": "Añadir enlace"
   },
   "yfm-note": {
-    "info": "Nota",
+    "info": "Información",
     "tip": "Consejo",
     "warning": "Advertencia",
     "alert": "Alerta",
     "remove": "Eliminar"
   },
   "yfm-table": {
-    "column.add.before": "Agregar columna antes",
-    "column.add.after": "Agregar columna después",
+    "column.add.before": "Añadir columna antes",
+    "column.add.after": "Añadir columna después",
     "column.remove": "Eliminar columna",
-    "row.add.before": "Agregar fila antes",
-    "row.add.after": "Agregar fila después",
+    "row.add.before": "Añadir fila antes",
+    "row.add.after": "Añadir fila después",
     "row.remove": "Eliminar fila",
     "table.remove": "Eliminar tabla",
     "table.menu.cell.align.left": "Alinear contenido de la celda a la izquierda",
     "table.menu.cell.align.right": "Alinear contenido de la celda a la derecha",
-    "table.menu.cell.align.center": "Alinear contenido de la celda al centro",
-    "table.menu.row.add": "Agregar fila después",
+    "table.menu.cell.align.center": "Centrar contenido de la celda",
+    "table.menu.row.add": "Añadir fila después",
     "table.menu.row.remove": "Eliminar fila",
-    "table.menu.column.add": "Agregar columna después",
+    "table.menu.column.add": "Añadir columna después",
     "table.menu.column.remove": "Eliminar columna",
     "table.menu.convert.yfm": "Convertir a tabla YFM",
     "table.menu.table.remove": "Eliminar tabla"
