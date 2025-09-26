@@ -27,11 +27,11 @@ module.exports.i18n = {
     'es-ES',
     'fi-FI',
     'fr-FR',
+    'hu-HU',
     'it-IT',
     'ru-RU',
     'tr-TR',
     'uk-UA',
-    'hu-HU',
   ],
 
   /**
