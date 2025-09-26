@@ -1,0 +1,16 @@
+{
+  "Card Created": "Kártya létrehozva",
+  "Card Moved": "Kártya áthelyezve",
+  "New Comment": "Új hozzászólás",
+  "Test Title": "Teszt cím",
+  "This is a test text message!": "Ez itt egy szöveges teszt üzenet!",
+  "This is a *test* **markdown** `message`!": "Ez itt egy **markdown** formátumú *teszt* `üzenet`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Ez egy <b>html</b> formátumú <i>teszt</i> <code>üzenet</code>!",
+  "You Were Added to Card": "Hozzádrendeltek egy kártyát",
+  "You Were Mentioned in Comment": "Megemlítettek egy kártyán",
+  "%s added you to %s on %s": "%s hozzárendelt téged a(z) %s kártyához a(z) %s projektben",
+  "%s created %s in %s on %s": "%s létrehozta a(z) %s kártyát a(z) %s projektben ekkor: %s",
+  "%s left a new comment to %s on %s": "%s hozzászólt a(z) %s kártyához a(z) %s projektben",
+  "%s mentioned you in %s on %s": "%s megemlített téged a(z) %s kártyán a(z) %s projektben",
+  "%s moved %s from %s to %s on %s": "%s átmozgatta a(z) %s kártyát a(z) %s projektből a(z) %s projektbe ekkor: %s"
+}
