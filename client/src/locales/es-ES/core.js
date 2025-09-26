@@ -48,15 +48,18 @@ export default {
       areYouSureYouWantToArchiveThisCard: '¿Estás seguro de que quieres archivar esta tarjeta?',
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
         '¿Estás seguro de que quieres asignar este gestor de proyecto como propietario?',
-      areYouSureYouWantToDeactivateThisUser: '¿Estás seguro de que quieres desactivar este usuario?',
-      areYouSureYouWantToDeleteThisAttachment: '¿Estás seguro de que quieres eliminar este archivo adjunto?',
+      areYouSureYouWantToDeactivateThisUser:
+        '¿Estás seguro de que quieres desactivar este usuario?',
+      areYouSureYouWantToDeleteThisAttachment:
+        '¿Estás seguro de que quieres eliminar este archivo adjunto?',
       areYouSureYouWantToDeleteThisBackgroundImage:
         '¿Estás seguro de que quieres eliminar esta imagen de fondo?',
       areYouSureYouWantToDeleteThisBoard: '¿Estás seguro de que quieres eliminar este tablero?',
       areYouSureYouWantToDeleteThisCard: '¿Estás seguro de que quieres eliminar esta tarjeta?',
       areYouSureYouWantToDeleteThisCardForever:
         '¿Estás seguro de que quieres eliminar esta tarjeta para siempre?',
-      areYouSureYouWantToDeleteThisComment: '¿Estás seguro de que quieres eliminar este comentario?',
+      areYouSureYouWantToDeleteThisComment:
+        '¿Estás seguro de que quieres eliminar este comentario?',
       areYouSureYouWantToDeleteThisCustomField:
         '¿Estás seguro de que quieres eliminar este campo personalizado?',
       areYouSureYouWantToDeleteThisCustomFieldGroup:
@@ -68,7 +71,8 @@ export default {
         '¿Estás seguro de que quieres eliminar este servicio de notificación?',
       areYouSureYouWantToDeleteThisProject: '¿Estás seguro de que quieres eliminar este proyecto?',
       areYouSureYouWantToDeleteThisTask: '¿Estás seguro de que quieres eliminar esta tarea?',
-      areYouSureYouWantToDeleteThisTaskList: '¿Estás seguro de que quieres eliminar esta lista de tareas?',
+      areYouSureYouWantToDeleteThisTaskList:
+        '¿Estás seguro de que quieres eliminar esta lista de tareas?',
       areYouSureYouWantToDeleteThisUser: '¿Estás seguro de que quieres eliminar este usuario?',
       areYouSureYouWantToDeleteThisWebhook: '¿Estás seguro de que quieres eliminar este webhook?',
       areYouSureYouWantToEmptyTrash: '¿Estás seguro de que quieres vaciar la papelera?',
@@ -113,14 +117,16 @@ export default {
         'Las tarjetas de esta lista están disponibles para todos los miembros del tablero.',
       cardsOnThisListAreCompleteAndReadyToBeArchived:
         'Las tarjetas de esta lista están completas y listas para ser archivadas.',
-      cardsOnThisListAreReadyToBeWorkedOn: 'Las tarjetas de esta lista están listas para trabajar en ellas.',
+      cardsOnThisListAreReadyToBeWorkedOn:
+        'Las tarjetas de esta lista están listas para trabajar en ellas.',
       clickHereOrRefreshPageToUpdate: '<0>Haz clic aquí</0> o actualiza la página para actualizar.',
       clientHostnameInEhlo: 'Nombre del host del cliente en EHLO',
       closed: 'Cerrado',
       color: 'Color',
       comments: 'Comentarios',
       contentExceedsLimit: 'El contenido excede {{limit}}',
-      contentOfThisAttachmentIsTooBigToDisplay: 'El contenido de este archivo adjunto es demasiado grande para mostrarse.',
+      contentOfThisAttachmentIsTooBigToDisplay:
+        'El contenido de este archivo adjunto es demasiado grande para mostrarse.',
       copy_inline: 'copiar',
       createBoard_title: 'Crear tablero',
       createCustomFieldGroup_title: 'Crear grupo de campos personalizados',
@@ -312,7 +318,8 @@ export default {
       typeTitleToConfirm: 'Escribe el título para confirmar.',
       unsavedChanges: 'Cambios sin guardar',
       uploadFailedFileIsTooBig: 'Error al subir: El archivo es demasiado grande.',
-      uploadFailedNotEnoughStorageSpace: 'Error al subir: No hay suficiente espacio de almacenamiento.',
+      uploadFailedNotEnoughStorageSpace:
+        'Error al subir: No hay suficiente espacio de almacenamiento.',
       uploadedImages: 'Imágenes subidas',
       url: 'URL',
       useSecureConnection: 'Usar conexión segura',
@@ -332,7 +339,8 @@ export default {
       userLeftThisCard: '<0>{{user}}</0> abandonó esta tarjeta',
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> marcó {{task}} como incompleta en <4>{{card}}</4>',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> marcó {{task}} como incompleta en esta tarjeta',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> marcó {{task}} como incompleta en esta tarjeta',
       userMentionedYouInCommentOnCard:
         '<0>{{user}}</0> te mencionó en un comentario «{{comment}}» en <2>{{card}}</2>',
       userMovedCardFromListToList:
