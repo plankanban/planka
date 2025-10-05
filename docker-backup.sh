@@ -40,7 +40,7 @@ tar -czf "$BACKUP_DATETIME-backup.tgz" \
     "$BACKUP_DATETIME-backup/attachments"
 echo "Success!"
 
-#Remove source files
+# Remove source files
 echo -n "Cleaning up temporary files and folders ... "
 rm -rf "$BACKUP_DATETIME-backup"
 echo "Success!"
