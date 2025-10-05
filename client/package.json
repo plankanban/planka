@@ -127,7 +127,7 @@
     "markdown-it": "^13.0.2",
     "nanoid": "^5.1.5",
     "papaparse": "^5.5.3",
-    "patch-package": "^8.0.0",
+    "patch-package": "^8.0.1",
     "photoswipe": "^5.4.4",
     "prop-types": "^15.8.1",
     "react": "18.2.0",
