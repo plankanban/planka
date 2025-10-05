@@ -245,6 +245,22 @@ export function* handleBoardDelete(board) {
   }
 }
 
+export function* setNoMemberToFilterInCurrentBoard() {
+  const { boardId } = yield select(selectors.selectPath);
+  yield put({
+    type: ActionTypes.NO_MEMBER_TO_BOARD_FILTER_SET,
+    payload: { boardId },
+  });
+}
+
+export function* removeNoMemberFromFilterInCurrentBoard() {
+  const { boardId } = yield select(selectors.selectPath);
+  yield put({
+    type: ActionTypes.NO_MEMBER_FROM_BOARD_FILTER_REMOVE,
+    payload: { boardId },
+  });
+}
+
 export default {
   createBoard,
   createBoardInCurrentProject,
@@ -261,4 +277,6 @@ export default {
   searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,
+  setNoMemberToFilterInCurrentBoard,
+  removeNoMemberFromFilterInCurrentBoard,
 };
