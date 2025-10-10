@@ -41,14 +41,12 @@ const NotificationsStep = React.memo(({ onClose }) => {
                 <Item key={notificationId} id={notificationId} onClose={onClose} />
               ))}
             </div>
-            {notificationIds.length > 1 && (
-              <Button
-                fluid
-                content={t('action.dismissAll')}
-                className={styles.deleteAllButton}
-                onClick={handleDeleteAllClick}
-              />
-            )}
+            <Button
+              fluid
+              content={t('action.dismissAll')}
+              className={styles.deleteAllButton}
+              onClick={handleDeleteAllClick}
+            />
           </>
         ) : (
           t('common.noUnreadNotifications')

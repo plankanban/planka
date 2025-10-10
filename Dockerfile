@@ -6,6 +6,7 @@ RUN apk -U upgrade \
 WORKDIR /app
 
 COPY server/package.json server/package-lock.json server/requirements.txt ./
+COPY server/patches ./patches
 
 RUN npm install npm --global \
   && npm install --omit=dev
