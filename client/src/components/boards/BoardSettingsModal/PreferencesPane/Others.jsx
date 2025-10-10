@@ -51,6 +51,14 @@ const Others = React.memo(() => {
         className={styles.radio}
         onChange={handleChange}
       />
+      <Radio
+        toggle
+        name="assignSelfToNewCreatedCard"
+        checked={board.assignSelfToNewCreatedCard}
+        label="Assign self-created task"
+        className={styles.radio}
+        onChange={handleChange}
+      />
     </Segment>
   );
 });

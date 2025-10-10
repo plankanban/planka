@@ -16,6 +16,7 @@ import { isListArchiveOrTrash, isListFinite } from '../../../utils/record-helper
 import ActionTypes from '../../../constants/ActionTypes';
 import { BoardViews, ListTypes, ListTypeStates } from '../../../constants/Enums';
 import LIST_TYPE_STATE_BY_TYPE from '../../../constants/ListTypeStateByType';
+import { addUserToCard } from './users';
 
 // eslint-disable-next-line no-underscore-dangle
 const _preloadImage = (url) =>
@@ -116,11 +117,13 @@ export function* handleCardsUpdate(cards, activities) {
 export function* createCard(listId, data, index, autoOpen) {
   const localId = yield call(createLocalId);
   const list = yield select(selectors.selectListById, listId);
+  const board = yield select(selectors.selectBoardById, list.boardId);
 
   const currentUserMembership = yield select(
     selectors.selectCurrentUserMembershipByBoardId,
     list.boardId,
   );
+  const creatorUserId = currentUserMembership.userId;
 
   const nextData = {
     ...data,
@@ -137,12 +140,18 @@ export function* createCard(listId, data, index, autoOpen) {
         listId,
         id: localId,
         boardId: list.boardId,
-        creatorUserId: currentUserMembership.userId,
+        creatorUserId,
         isClosed: LIST_TYPE_STATE_BY_TYPE[list.type] === ListTypeStates.CLOSED,
       },
       autoOpen,
     ),
   );
+
+  // This membership only live in store, not database.
+  // After the request of create card compeleted, this membership will disappear.
+  if (board.assignSelfToNewCreatedCard) {
+    yield put(actions.addUserToCard(creatorUserId, localId, true));
+  }
 
   // TODO: use race instead
   let watchForCreateCardActionTask;
@@ -161,6 +170,9 @@ export function* createCard(listId, data, index, autoOpen) {
   }
 
   yield put(actions.createCard.success(localId, card));
+  if (board.assignSelfToNewCreatedCard) {
+    yield call(addUserToCard, creatorUserId, card.id);
+  }
 
   if (watchForCreateCardActionTask && watchForCreateCardActionTask.isRunning()) {
     yield call(goToCard, card.id);

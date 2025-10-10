@@ -63,6 +63,10 @@
  *                 type: boolean
  *                 description: Whether the current user is subscribed to the board
  *                 example: true
+ *               assignSelfToNewCreatedCard:
+ *                 type: boolean
+ *                 description: Whether to assign self to task created by the user
+ *                 example: true
  *     responses:
  *       200:
  *         description: Board updated successfully
@@ -123,6 +127,9 @@ module.exports = {
     expandTaskListsByDefault: {
       type: 'boolean',
     },
+    assignSelfToNewCreatedCard: {
+      type: 'boolean',
+    },
     isSubscribed: {
       type: 'boolean',
     },
@@ -161,6 +168,7 @@ module.exports = {
         'limitCardTypesToDefaultOne',
         'alwaysDisplayCardCreator',
         'expandTaskListsByDefault',
+        'assignSelfToNewCreatedCard',
       );
     }
     if (isBoardMember) {
@@ -179,6 +187,7 @@ module.exports = {
       'limitCardTypesToDefaultOne',
       'alwaysDisplayCardCreator',
       'expandTaskListsByDefault',
+      'assignSelfToNewCreatedCard',
       'isSubscribed',
     ]);
 
