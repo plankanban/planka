@@ -55,7 +55,7 @@ const Others = React.memo(() => {
         toggle
         name="assignSelfToNewCreatedCard"
         checked={board.assignSelfToNewCreatedCard}
-        label="Assign self-created task"
+        label={t('common.assignSelfToNewCreatedCard')}
         className={styles.radio}
         onChange={handleChange}
       />

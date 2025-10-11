@@ -71,6 +71,7 @@ export default {
       areYouSureYouWantToRemoveThisManagerFromProject: '确认从本项目删除该管理员吗？',
       areYouSureYouWantToRemoveThisMemberFromBoard: '确认本面板删除该成员吗？',
       assignAsOwner_title: '指定为所有者',
+      assignSelfToNewCreatedCard: '创建新卡片时将自己设为成员',
       atLeastOneListMustBePresent: '至少需要存在一个列表',
       attachment: '附件',
       attachments: '多个附件',
