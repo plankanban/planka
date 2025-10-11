@@ -173,7 +173,7 @@ const Add = React.memo(() => {
           />
         </MentionsInput>
       </div>
-      {isOpened && (
+      {(isOpened || data.text.length > 0) && (
         <div className={styles.controls}>
           <Button
             {...clickAwayProps} // eslint-disable-line react/jsx-props-no-spreading
