@@ -26,6 +26,7 @@
  *         - limitCardTypesToDefaultOne
  *         - alwaysDisplayCardCreator
  *         - expandTaskListsByDefault
+ *         - assignSelfToNewCreatedCard
  *         - createdAt
  *         - updatedAt
  *       properties:
@@ -72,6 +73,11 @@
  *           default: false
  *           description: Whether to expand task lists by default
  *           example: false
+ *         assignSelfToNewCreatedCard:
+ *           type: boolean
+ *           default: true
+ *           description: Whether to assign self to task created by the user
+ *           example: true
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -141,6 +147,11 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'expand_task_lists_by_default',
+    },
+    assignSelfToNewCreatedCard: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'assign_self_to_new_created_card',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
