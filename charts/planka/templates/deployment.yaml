@@ -71,6 +71,19 @@ spec:
               subPath: app-logs
               name: emptydir
           {{- end }}
+          {{- /* Extra volume mounts */}}
+          {{- range .Values.extraMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              {{- if .subPath }}
+              subPath: {{ .subPath }}
+              {{- end }}
+              {{- if hasKey . "readOnly" }}
+              readOnly: {{ .readOnly }}
+              {{- else }}
+              readOnly: true
+              {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
@@ -200,4 +213,31 @@ spec:
     {{- if .Values.securityContext.readOnlyRootFilesystem }}
         - name: emptydir
           emptyDir: {}
-     {{- end }}
+    {{- end }}
+        {{- /* Extra volumes */}}
+        {{- range .Values.extraMounts }}
+        - name: {{ .name }}
+          {{- if .configMap }}
+          configMap:
+            {{- toYaml .configMap | nindent 12 }}
+          {{- else if .secret }}
+          secret:
+            {{- toYaml .secret | nindent 12 }}
+          {{- else if .emptyDir }}
+          emptyDir:
+            {{- toYaml .emptyDir | nindent 12 }}
+          {{- else if .hostPath }}
+          hostPath:
+            {{- toYaml .hostPath | nindent 12 }}
+          {{- else if .persistentVolumeClaim }}
+          persistentVolumeClaim:
+            {{- toYaml .persistentVolumeClaim | nindent 12 }}
+          {{- else if .nfs }}
+          nfs:
+            {{- toYaml .nfs | nindent 12 }}
+          {{- else }}
+          {{- /* Support any other volume type by removing known mount-specific keys */}}
+          {{- $volume := omit . "name" "mountPath" "subPath" "readOnly" }}
+          {{- toYaml $volume | nindent 10 }}
+          {{- end }}
+        {{- end }}
