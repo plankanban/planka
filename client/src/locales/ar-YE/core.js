@@ -142,7 +142,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'الوصف',
-      detectAutomatically: 'الكشف تلقائياً',
       display: null,
       dropFileToUpload: 'أفلت الملف لرفعه',
       dueDate_title: 'تاريخ الاستحقاق',

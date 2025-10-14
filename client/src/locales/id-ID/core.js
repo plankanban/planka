@@ -145,7 +145,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Deskripsi',
-      detectAutomatically: 'Deteksi otomatis',
       display: null,
       dropFileToUpload: 'Tarik berkas untuk menggungah',
       dueDate_title: 'Tenggat Waktu',

@@ -170,7 +170,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: 'Gelöschter Benutzer',
       description: 'Beschreibung',
-      detectAutomatically: 'Automatisch erkennen',
       display: 'Anzeige',
       dropFileToUpload: 'Datei für Upload ablegen',
       dueDate_title: 'Fälligkeitsdatum',

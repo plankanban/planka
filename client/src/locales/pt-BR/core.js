@@ -162,7 +162,6 @@ export default {
       deleteWebhook_title: 'Excluir Webhook',
       deletedUser_title: 'Usuário Excluído',
       description: 'Descrição',
-      detectAutomatically: 'Detectar automaticamente',
       display: 'Exibir',
       dropFileToUpload: 'Solte o arquivo para enviar',
       dueDate_title: 'Data de Vencimento',

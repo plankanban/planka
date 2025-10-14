@@ -143,7 +143,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: '설명',
-      detectAutomatically: '자동 감지',
       display: null,
       dropFileToUpload: '업로드할 파일을 드롭하세요',
       dueDate_title: '마감일',

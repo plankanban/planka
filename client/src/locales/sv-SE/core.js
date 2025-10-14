@@ -144,7 +144,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Beskrivning',
-      detectAutomatically: null,
       display: null,
       dropFileToUpload: 'Släpp en fil för att ladda upp',
       dueDate_title: 'Förfallodatum',

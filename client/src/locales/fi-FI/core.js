@@ -156,7 +156,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: 'Poistettu käyttäjä',
       description: 'Kuvaus',
-      detectAutomatically: 'Tunnista automaattisesti',
       display: 'Näyttö',
       dropFileToUpload: 'Pudota tiedosto ladattavaksi',
       dueDate_title: 'Määräpäivä',

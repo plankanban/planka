@@ -151,7 +151,7 @@ i18n.loadCoreLocale = async (language = i18n.resolvedLanguage) => {
   });
 };
 
-i18n.detectLanguage = () => {
+/* i18n.detectLanguage = () => {
   const {
     services: { languageDetector, languageUtils },
   } = i18n;
@@ -164,6 +164,6 @@ i18n.detectLanguage = () => {
 
   i18n.resolvedLanguage = undefined;
   i18n.setResolvedLanguage(i18n.language);
-};
+}; */
 
 export default i18n;

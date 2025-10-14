@@ -159,7 +159,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: 'Удалённый пользователь',
       description: 'Описание',
-      detectAutomatically: 'Определить автоматически',
       display: 'Отображение',
       dropFileToUpload: 'Перетяните файл, чтобы загрузить',
       dueDate_title: 'Срок исполнения',

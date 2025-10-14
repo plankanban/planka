@@ -33,6 +33,12 @@
  *                 maxLength: 64
  *                 description: Terms signature hash based on user role
  *                 example: 940226c4c41f51afe3980ceb63704e752636526f4c52a4ea579e85b247493d94
+ *               initialLanguage:
+ *                 type: string
+ *                 enum: [ar-YE, bg-BG, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *                 nullable: true
+ *                 description: Preferred language for user interface and notifications (used only if user language is not set)
+ *                 example: en-US
  *     responses:
  *       200:
  *         description: Terms accepted successfully
@@ -120,6 +126,11 @@ module.exports = {
       maxLength: 64,
       required: true,
     },
+    initialLanguage: {
+      type: 'string',
+      isIn: User.LANGUAGES,
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -179,10 +190,16 @@ module.exports = {
         throw Errors.INVALID_SIGNATURE;
       }
 
-      ({ user } = await User.qm.updateOne(user.id, {
+      const values = {
         termsSignature,
         termsAcceptedAt: new Date().toISOString(),
-      }));
+      };
+
+      if (!user.language && inputs.initialLanguage) {
+        values.language = inputs.initialLanguage;
+      }
+
+      ({ user } = await User.qm.updateOne(user.id, values));
     }
 
     const config = await Config.qm.getOneMain();

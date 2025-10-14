@@ -171,7 +171,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: 'Διαγραμμένος χρήστης',
       description: 'Περιγραφή',
-      detectAutomatically: 'Αυτόματη ανίχνευση',
       display: 'Εμφάνιση',
       dropFileToUpload: 'Σύρετε το αρχείο για μεταφόρτωση',
       dueDate_title: 'Ημερομηνία λήξης',

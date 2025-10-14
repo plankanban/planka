@@ -152,7 +152,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: 'Usunięty Użytkownik',
       description: 'Opis',
-      detectAutomatically: 'Wykryj automatycznie',
       display: 'Wyświetlanie',
       dropFileToUpload: 'Upuść plik aby wgrać',
       dueDate_title: 'Termin',

@@ -153,7 +153,6 @@ export default {
       deleteWebhook_title: 'Webhook törlése',
       deletedUser_title: 'Törölt felhasználó',
       description: 'Leírás',
-      detectAutomatically: 'Automatikus érzékelés',
       display: 'Megjelenítés',
       dropFileToUpload: 'Dobja ide a fájlt a feltöltéshez',
       dueDate_title: 'Esedékesség dátuma',

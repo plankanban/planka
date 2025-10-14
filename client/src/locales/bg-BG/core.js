@@ -146,7 +146,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Описание',
-      detectAutomatically: 'Aвтоматично откриване',
       display: null,
       dropFileToUpload: 'Пуснете файл за качване',
       dueDate_title: 'Краен срок',

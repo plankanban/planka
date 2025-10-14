@@ -29,8 +29,7 @@ const AccountPane = React.memo(() => {
 
   const handleLanguageChange = useCallback(
     (_, { value }) => {
-      // FIXME: hack
-      dispatch(entryActions.updateCurrentUserLanguage(value === 'auto' ? null : value));
+      dispatch(entryActions.updateCurrentUserLanguage(value));
     },
     [dispatch],
   );
@@ -62,18 +61,12 @@ const AccountPane = React.memo(() => {
       <Dropdown
         fluid
         selection
-        options={[
-          {
-            value: 'auto',
-            text: t('common.detectAutomatically'),
-          },
-          ...locales.map((locale) => ({
-            value: locale.language,
-            flag: locale.country,
-            text: locale.name,
-          })),
-        ]}
-        value={user.language || 'auto'}
+        options={locales.map((locale) => ({
+          value: locale.language,
+          flag: locale.country,
+          text: locale.name,
+        }))}
+        value={user.language}
         onChange={handleLanguageChange}
       />
       {(isUsernameEditable || isEmailEditable || isPasswordEditable) && (

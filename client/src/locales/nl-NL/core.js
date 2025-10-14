@@ -145,7 +145,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Beschrijving',
-      detectAutomatically: 'Automatisch detecteren',
       display: null,
       dropFileToUpload: 'Sleep bestand om te uploaden',
       dueDate_title: 'Vervaldatum',

@@ -79,14 +79,8 @@ export function* initializeCore() {
 }
 
 export function* changeCoreLanguage(language) {
-  if (language === null) {
-    yield call(i18n.detectLanguage);
-    yield call(i18n.loadCoreLocale);
-    yield call(i18n.changeLanguage, i18n.resolvedLanguage);
-  } else {
-    yield call(i18n.loadCoreLocale, language);
-    yield call(i18n.changeLanguage, language);
-  }
+  yield call(i18n.loadCoreLocale, language);
+  yield call(i18n.changeLanguage, language);
 }
 
 export function* toggleFavorites(isEnabled) {

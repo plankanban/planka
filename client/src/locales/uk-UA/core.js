@@ -157,7 +157,6 @@ export default {
       deleteWebhook_title: 'Видалити вебхук',
       deletedUser_title: 'Видалений користувач',
       description: 'Опис',
-      detectAutomatically: 'Визначити автоматично',
       display: 'Дисплей',
       dropFileToUpload: 'Перетягніть файл для завантаження',
       dueDate_title: 'Крайній Термін',

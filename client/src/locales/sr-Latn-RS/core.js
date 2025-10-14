@@ -142,7 +142,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Opis',
-      detectAutomatically: 'Detektuj automatski',
       display: null,
       dropFileToUpload: 'Prevuci datoteku za slanje',
       dueDate_title: 'Rok',

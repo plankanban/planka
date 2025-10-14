@@ -161,7 +161,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: 'Slettet bruger',
       description: 'Beskrivelse',
-      detectAutomatically: 'Registrer automatisk',
       display: 'Vis',
       dropFileToUpload: 'Slip fil for at uploade',
       dueDate_title: 'Frist',

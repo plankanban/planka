@@ -143,7 +143,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'توضیحات',
-      detectAutomatically: 'تشخیص خودکار',
       display: null,
       dropFileToUpload: 'فایل را برای آپلود بکشید',
       dueDate_title: 'تاریخ سررسید',

@@ -142,7 +142,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'açıklama',
-      detectAutomatically: 'Otomatik olarak algıla',
       display: null,
       dropFileToUpload: 'Yüklenecek dosyayı buraya bırakın',
       dueDate_title: 'Termin Tarihi',

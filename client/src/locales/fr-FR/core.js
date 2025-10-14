@@ -164,7 +164,6 @@ export default {
       deleteWebhook_title: 'Supprimer le webhook',
       deletedUser_title: 'Utilisateur supprimé',
       description: 'Description',
-      detectAutomatically: 'Détecter automatiquement',
       display: 'Affichage',
       dropFileToUpload: 'Déposer le fichier à télécharger',
       dueDate_title: "Date d'échéance",

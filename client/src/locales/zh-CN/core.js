@@ -142,7 +142,6 @@ export default {
       deleteWebhook_title: '删除Webhook',
       deletedUser_title: '已删除用户',
       description: '描述',
-      detectAutomatically: '自动检测',
       display: '显示',
       dropFileToUpload: '拖放文件以上传',
       dueDate_title: '截止日期',

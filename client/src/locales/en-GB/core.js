@@ -160,7 +160,6 @@ export default {
       deleteWebhook_title: 'Delete Webhook',
       deletedUser_title: 'Deleted User',
       description: 'Description',
-      detectAutomatically: 'Detect automatically',
       display: 'Display',
       dropFileToUpload: 'Drop file to upload',
       dueDate_title: 'Due Date',

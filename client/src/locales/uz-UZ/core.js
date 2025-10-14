@@ -141,7 +141,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Tavsif',
-      detectAutomatically: null,
       display: null,
       dropFileToUpload: 'Faylni yuklash uchun qoldiring',
       dueDate_title: 'Muddati',

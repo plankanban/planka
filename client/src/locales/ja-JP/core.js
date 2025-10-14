@@ -145,7 +145,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: '説明',
-      detectAutomatically: '自動的に検知',
       display: null,
       dropFileToUpload: 'ファイルをドロップしてアップロード',
       dueDate_title: '期限',

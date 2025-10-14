@@ -156,7 +156,6 @@ export default {
       deleteWebhook_title: 'Smazat webhook',
       deletedUser_title: 'Smazaný uživatel',
       description: 'Popis',
-      detectAutomatically: 'Automatická detekce',
       display: 'Zobrazit',
       dropFileToUpload: 'Přetažením nahrát soubor',
       dueDate_title: 'Termín',

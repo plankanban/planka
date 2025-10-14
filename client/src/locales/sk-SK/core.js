@@ -145,7 +145,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Popis',
-      detectAutomatically: null,
       display: null,
       dropFileToUpload: 'Potiahnutím nahraj súbor',
       dueDate_title: 'Termín do',

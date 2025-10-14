@@ -30,7 +30,8 @@ services:
       # Configure knex to accept SSL certificates
       # - KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE=false
 
-      # Used for per-board notifications
+      # The default application language used as a fallback when a user's language is not set.
+      # This language is also used for per-board notifications.
       # - DEFAULT_LANGUAGE=en-US
 
       # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted

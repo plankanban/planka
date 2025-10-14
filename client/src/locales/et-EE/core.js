@@ -160,7 +160,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: 'Kustutatud kasutaja',
       description: 'Kirjeldus',
-      detectAutomatically: 'Tuletage automaatselt',
       display: 'Kuva',
       dropFileToUpload: 'Lase faili üleslaadida',
       dueDate_title: 'Tähtaeg',

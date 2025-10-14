@@ -140,6 +140,7 @@ export function* acceptTerms(signature) {
     ({ item: accessToken } = yield call(api.acceptTerms, {
       pendingToken,
       signature,
+      initialLanguage: i18n.resolvedLanguage,
     }));
   } catch (error) {
     yield put(actions.acceptTerms.failure(error));

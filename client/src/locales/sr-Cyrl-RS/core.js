@@ -145,7 +145,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Опис',
-      detectAutomatically: 'Детектуј аутоматски',
       display: null,
       dropFileToUpload: 'Превуци датотеку за слање',
       dueDate_title: 'Рок',

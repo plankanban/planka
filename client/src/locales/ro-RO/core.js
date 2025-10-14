@@ -145,7 +145,6 @@ export default {
       deleteWebhook_title: null,
       deletedUser_title: null,
       description: 'Descriere',
-      detectAutomatically: 'Detectează automat',
       display: null,
       dropFileToUpload: 'Aruncă fișierul pentru a încărca',
       dueDate_title: 'Data scadentă',
