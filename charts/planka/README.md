@@ -114,7 +114,7 @@ Any questions or concerns, [raise an issue](https://github.com/Chris-Greaves/pla
 
 ### Extra Volume Mounts
 
-The Helm chart supports mounting arbitrary ConfigMaps, Secrets, and Volumes to the Planka deployment using the `extraMounts` configuration. This is especially useful for scenarios like:
+The Helm chart supports mounting arbitrary ConfigMaps, Secrets, and Volumes to the PLANKA deployment using the `extraMounts` configuration. This is especially useful for scenarios like:
 
 - Mounting custom CA certificates for OIDC with self-hosted identity providers
 - Adding custom configuration files
@@ -136,7 +136,7 @@ extraMounts:
     readOnly: true
     configMap:
       name: ca-certificates  # Must exist
-  
+
   # Mount TLS certificates from existing Secret
   - name: tls-certs
     mountPath: /etc/ssl/private
@@ -148,14 +148,14 @@ extraMounts:
           path: server.crt
         - key: tls.key
           path: server.key
-  
+
   # Temporary storage
   - name: temp-storage
     mountPath: /tmp/planka-temp
     readOnly: false
     emptyDir:
       sizeLimit: 1Gi
-  
+
   # Host path mount
   - name: backup-storage
     mountPath: /var/lib/planka-backups
@@ -163,7 +163,7 @@ extraMounts:
     hostPath:
       path: /var/lib/planka-backups
       type: DirectoryOrCreate
-  
+
   # NFS mount
   - name: nfs-storage
     mountPath: /shared/data
@@ -175,7 +175,7 @@ extraMounts:
 
 ### OIDC with Self-Hosted Keycloak
 
-A common use case is configuring OIDC with a self-hosted Keycloak instance that uses custom CA certificates. 
+A common use case is configuring OIDC with a self-hosted Keycloak instance that uses custom CA certificates.
 
 First, create the CA certificate ConfigMap:
 ```bash

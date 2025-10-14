@@ -240,7 +240,7 @@ extraEnv: []
 ##     value: "your_email@example.com"
 
 ## Extra volume mounts configuration
-## Mount ConfigMaps, Secrets, and arbitrary volumes to the Planka container
+## Mount ConfigMaps, Secrets, and arbitrary volumes to the PLANKA container
 ## This allows mounting any pre-existing ConfigMaps, Secrets, or other volume types
 ##
 extraMounts: []
