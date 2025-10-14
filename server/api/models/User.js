@@ -51,7 +51,7 @@
  *           type: string
  *           minLength: 3
  *           maxLength: 32
- *           pattern: "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$"
+ *           pattern: "^[a-z0-9._-]*$"
  *           nullable: true
  *           description: Unique username for user identification
  *           example: john_doe
@@ -298,7 +298,7 @@ module.exports = {
       isNotEmptyString: true,
       minLength: 3,
       maxLength: 32,
-      regex: /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/,
+      regex: /^[a-z0-9._-]*$/,
       allowNull: true,
     },
     avatar: {
