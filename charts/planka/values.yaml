@@ -238,3 +238,46 @@ extraEnv: []
 ##     value: "your_password"
 ##   - name: SMTP_FROM
 ##     value: "your_email@example.com"
+
+## Extra volume mounts configuration
+## Mount ConfigMaps, Secrets, and arbitrary volumes to the Planka container
+## This allows mounting any pre-existing ConfigMaps, Secrets, or other volume types
+##
+extraMounts: []
+## Example extraMounts:
+## extraMounts:
+##   - name: ca-certs
+##     mountPath: /etc/ssl/certs/ca-certificates.crt
+##     subPath: ca-bundle.crt
+##     readOnly: true
+##     configMap:
+##       name: ca-certificates
+##   - name: tls-certs
+##     mountPath: /etc/ssl/private
+##     readOnly: true
+##     secret:
+##       secretName: planka-tls
+##       items:
+##         - key: tls.crt
+##           path: server.crt
+##         - key: tls.key
+##           path: server.key
+##   - name: temp-storage
+##     mountPath: /tmp/planka-temp
+##     readOnly: false
+##     emptyDir:
+##       sizeLimit: 1Gi
+
+## Example configuration for OIDC with self-hosted Keycloak using custom CA
+## (Requires pre-existing ConfigMap "ca-certificates")
+## extraMounts:
+##   - name: keycloak-ca
+##     mountPath: /etc/ssl/certs/keycloak-ca.crt
+##     subPath: ca.crt
+##     readOnly: true
+##     configMap:
+##       name: ca-certificates
+##
+## extraEnv:
+##   - name: NODE_EXTRA_CA_CERTS
+##     value: "/etc/ssl/certs/keycloak-ca.crt"
