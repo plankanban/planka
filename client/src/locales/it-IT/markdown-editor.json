@@ -7,7 +7,7 @@
   "bundle": {
     "error-title": "Errore nell'editor markdown",
     "settings_wysiwyg": "Editor visuale (wysiwyg)",
-    "settings_markup": "Markup Markdown",
+    "settings_markup": "Markup markdown",
     "markup_placeholder": "Inserisci il markup markdown..."
   },
   "codeblock": {

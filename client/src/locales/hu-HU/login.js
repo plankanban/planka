@@ -1,20 +1,21 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: null,
-      adminLoginRequiredToInitializeInstance: null,
+      activeUsersLimitReached: 'Aktív felhasználók korlátja elérve',
+      adminLoginRequiredToInitializeInstance:
+        'Rendszergazdai bejelentkezés szükséges a példány inicializálásához',
       emailAlreadyInUse: 'Az e-mail cím már használatban van',
       emailOrUsername: 'E-mail vagy felhasználó',
-      iHaveReadAndAgreeToTheseTerms: null,
-      invalidCredentials: null,
+      iHaveReadAndAgreeToTheseTerms: 'Elolvastam és elfogadom ezeket a feltételeket',
+      invalidCredentials: 'Érvénytelen hitelesítő adatok',
       invalidEmailOrUsername: 'Érvénytelen e-mail vagy felhasználó',
       invalidPassword: 'Érvénytelen jelszó',
-      logIn_title: null,
+      logIn_title: 'Bejelentkezés',
       noInternetConnection: 'Nincs internet kapcsolat',
-      or: null,
+      or: 'Vagy',
       pageNotFound_title: 'Az oldal nem található',
       password: 'Jelszó',
-      poweredByPlanka: null,
+      poweredByPlanka: 'Működteti a <1>PLANKA</1>',
       serverConnectionFailed: 'A szerverkapcsolat sikertelen',
       unknownError: 'Ismeretlen hiba, próbáld meg később újra',
       useSingleSignOn: 'Egyszeri bejelentkezés használata',
@@ -22,8 +23,8 @@ export default {
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'Mégse és bezárás',
+      continue: 'Folytatás',
       logIn: 'Belépés',
       logInWithSso: 'Belépés SSO-val',
     },
