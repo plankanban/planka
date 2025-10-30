@@ -22,10 +22,13 @@
   left: 0;
   line-height: 20px;
   margin: 0 12px;
+  overflow: hidden;
   padding: 12px 28px 8px;
   position: absolute;
   right: 0;
+  text-overflow: ellipsis;
   top: 0;
+  white-space: nowrap;
 }
 
 .wrapper {

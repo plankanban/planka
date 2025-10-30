@@ -110,12 +110,12 @@ export default {
       byCreationTime: 'Nach Erstellungszeit',
       byDefault: 'Standardmäßig',
       byDueDate: 'Nach Fälligkeitsdatum',
-      canBeInvitedToWorkInBoards: 'Kann zu Projekten und Boards eingeladen werden.',
+      canBeInvitedToWorkInBoards: 'Kann zu Projekten und Arbeitsbereichen eingeladen werden.',
       canComment: 'Kann kommentieren',
       canCreateOwnProjectsAndBeInvitedToWorkInOthers:
         'Kann eigene Projekte erstellen und in Andere eingeladen werden.',
       canEditBoardLayoutAndAssignMembersToCards:
-        'Kann den Arbeitsbereich layout bearbeiten und Benutzern Karten uiweisen.',
+        'Kann das Arbeitsbereich-Layout bearbeiten und Mitgliedern Karten zuweisen.',
       canManageSystemWideSettingsAndActAsProjectOwner:
         'Kann systemweite Einstellungen vornehmen und als Projektleiter arbeiten.',
       canOnlyViewBoard: 'Kann das Board nur ansehen.',
@@ -219,7 +219,7 @@ export default {
       hideFromProjectListAndFavorites: 'Aus Projektliste und Favoriten ausblenden',
       host: 'Host',
       hours: 'Stunden',
-      importBoard_title: 'Board importieren',
+      importBoard_title: 'Arbeitsbereich importieren',
       invalidCurrentPassword: 'Das aktuelle Passwort ist falsch',
       kanban: 'Kanban',
       labels: 'Labels',
