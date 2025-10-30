@@ -122,7 +122,7 @@ export default {
       comments: 'Kommentaarid',
       contentExceedsLimit: 'Sisu ületab {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay: 'Sisu seda manusi ei õnnestu kuvada.',
-      copy_inline: 'kopeeri',
+      copy_inline: 'koopia',
       createBoard_title: 'Loo tahvel',
       createCustomFieldGroup_title: 'Loo kohandatud väljade grupp',
       createLabel_title: 'Loo silt',

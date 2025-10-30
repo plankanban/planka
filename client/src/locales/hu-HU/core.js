@@ -115,7 +115,7 @@ export default {
       comments: 'Megjegyzések',
       contentExceedsLimit: 'A tartalom meghaladja a(z) {{limit}} korlátot.',
       contentOfThisAttachmentIsTooBigToDisplay: 'A melléklet tartalma túl nagy a megjelenítéshez.',
-      copy_inline: 'másolás',
+      copy_inline: 'másolat',
       createBoard_title: 'Tábla létrehozása',
       createCustomFieldGroup_title: 'Egyedi mezőcsoport létrehozása',
       createLabel_title: 'Címke létrehozása',

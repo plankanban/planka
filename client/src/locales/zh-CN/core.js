@@ -104,7 +104,7 @@ export default {
       comments: '评论',
       contentExceedsLimit: '内容超过{{limit}}限制',
       contentOfThisAttachmentIsTooBigToDisplay: '此附件内容过大无法显示。',
-      copy_inline: '复制',
+      copy_inline: '副本',
       createBoard_title: '创建面板',
       createCustomFieldGroup_title: '创建自定义字段组',
       createLabel_title: '创建标签',

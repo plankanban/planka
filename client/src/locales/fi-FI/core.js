@@ -118,7 +118,7 @@ export default {
       comments: 'Kommentit',
       contentExceedsLimit: 'Sisältö ylittää rajan {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay: 'Liitteen sisältö on liian suuri näytettäväksi.',
-      copy_inline: 'kopioi',
+      copy_inline: 'kopio',
       createBoard_title: 'Luo taulu',
       createCustomFieldGroup_title: 'Luo mukautettujen kenttien ryhmä',
       createLabel_title: 'Luo tunniste',

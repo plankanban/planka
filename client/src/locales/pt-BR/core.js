@@ -124,7 +124,7 @@ export default {
       contentExceedsLimit: 'O conteúdo excede o {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay:
         'O conteúdo deste anexo é muito grande para ser exibido.',
-      copy_inline: 'copiar',
+      copy_inline: 'cópia',
       createBoard_title: 'Criar quadro',
       createCustomFieldGroup_title: 'Criar grupo de campo personalizado',
       createLabel_title: 'Criar rótulo',

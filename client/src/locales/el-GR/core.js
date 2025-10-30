@@ -134,7 +134,7 @@ export default {
       contentExceedsLimit: 'Το περιεχόμενο υπερβαίνει το όριο {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay:
         'Το περιεχόμενο αυτού του συνημμένου είναι πολύ μεγάλο για εμφάνιση.',
-      copy_inline: 'αντιγραφή',
+      copy_inline: 'αντίγραφο',
       createBoard_title: 'Δημιουργία πίνακα',
       createCustomFieldGroup_title: 'Δημιουργία ομάδας προσαρμοσμένων πεδίων',
       createLabel_title: 'Δημιουργία ετικέτας',

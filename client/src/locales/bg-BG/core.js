@@ -127,7 +127,7 @@ export default {
       contentExceedsLimit: 'Съдържанието надвишава {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay:
         'Съдържанието на този прикачен файл е твърде голямо за показване.',
-      copy_inline: 'копирай',
+      copy_inline: 'копие',
       createBoard_title: 'Създаване на табло',
       createCustomFieldGroup_title: 'Създаване на група персонализирани полета',
       createLabel_title: 'Създаване на етикет',

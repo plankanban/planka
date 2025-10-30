@@ -123,7 +123,7 @@ export default {
       contentExceedsLimit: 'Konten melebihi {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay:
         'Konten lampiran ini terlalu besar untuk ditampilkan.',
-      copy_inline: 'salin',
+      copy_inline: 'salinan',
       createBoard_title: 'Buat papan',
       createCustomFieldGroup_title: 'Buat grup bidang kustom',
       createLabel_title: 'Buat label',

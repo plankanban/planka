@@ -101,7 +101,7 @@ export default {
       comments: '評論',
       contentExceedsLimit: '內容超過{{limit}}限制',
       contentOfThisAttachmentIsTooBigToDisplay: '此附件的內容太大無法顯示。',
-      copy_inline: '複製',
+      copy_inline: '副本',
       createBoard_title: '創建看板',
       createCustomFieldGroup_title: '創建自定義欄位群組',
       createLabel_title: '創建標籤',
