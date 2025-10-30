@@ -1,0 +1,16 @@
+{
+  "Card Created": "Karta vytvořena",
+  "Card Moved": "Karta přesunuta",
+  "New Comment": "Nový komentář",
+  "Test Title": "Testovací název",
+  "This is a test text message!": "Toto je testovací textová zpráva!",
+  "This is a *test* **markdown** `message`!": "Toto je *testovací* **markdown** `zpráva`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Toto je <i>testovací</i> <b>html</b> <code>zpráva</code>!",
+  "You Were Added to Card": "Byli jste přidáni ke kartě",
+  "You Were Mentioned in Comment": "Byli jste zmíněni v komentáři",
+  "%s added you to %s on %s": "%s vás přidal k %s dne %s",
+  "%s created %s in %s on %s": "%s vytvořil %s v %s dne %s",
+  "%s left a new comment to %s on %s": "%s zanechal nový komentář k %s dne %s",
+  "%s mentioned you in %s on %s": "%s vás zmínil v %s dne %s",
+  "%s moved %s from %s to %s on %s": "%s přesunul %s z %s do %s dne %s"
+}

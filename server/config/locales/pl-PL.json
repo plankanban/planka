@@ -1,0 +1,16 @@
+{
+  "Card Created": "Karta utworzona",
+  "Card Moved": "Karta przeniesiona",
+  "New Comment": "Nowy komentarz",
+  "Test Title": "Tytuł testowy",
+  "This is a test text message!": "To jest testowa wiadomość tekstowa!",
+  "This is a *test* **markdown** `message`!": "To jest *testowa* **markdown** `wiadomość`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "To jest <i>testowa</i> <b>html</b> <code>wiadomość</code>!",
+  "You Were Added to Card": "Zostałeś dodany do karty",
+  "You Were Mentioned in Comment": "Zostałeś wspomniany w komentarzu",
+  "%s added you to %s on %s": "%s dodał cię do %s w dniu %s",
+  "%s created %s in %s on %s": "%s utworzył %s w %s w dniu %s",
+  "%s left a new comment to %s on %s": "%s zostawił nowy komentarz do %s w dniu %s",
+  "%s mentioned you in %s on %s": "%s wspomniał o tobie w %s w dniu %s",
+  "%s moved %s from %s to %s on %s": "%s przeniósł %s z %s do %s w dniu %s"
+}

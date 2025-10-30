@@ -1,0 +1,16 @@
+{
+  "Card Created": "Kartu dibuat",
+  "Card Moved": "Kartu dipindahkan",
+  "New Comment": "Komentar baru",
+  "Test Title": "Judul tes",
+  "This is a test text message!": "Ini adalah pesan teks tes!",
+  "This is a *test* **markdown** `message`!": "Ini adalah *pesan* **markdown** `tes`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Ini adalah <i>pesan</i> <b>html</b> <code>tes</code>!",
+  "You Were Added to Card": "Anda ditambahkan ke kartu",
+  "You Were Mentioned in Comment": "Anda disebutkan dalam komentar",
+  "%s added you to %s on %s": "%s menambahkan Anda ke %s pada %s",
+  "%s created %s in %s on %s": "%s membuat %s di %s pada %s",
+  "%s left a new comment to %s on %s": "%s meninggalkan komentar baru untuk %s pada %s",
+  "%s mentioned you in %s on %s": "%s menyebutkan Anda di %s pada %s",
+  "%s moved %s from %s to %s on %s": "%s memindahkan %s dari %s ke %s pada %s"
+}

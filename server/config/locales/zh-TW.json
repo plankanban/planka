@@ -1,0 +1,16 @@
+{
+  "Card Created": "卡片已建立",
+  "Card Moved": "卡片已移動",
+  "New Comment": "新留言",
+  "Test Title": "測試標題",
+  "This is a test text message!": "這是一則測試文字訊息！",
+  "This is a *test* **markdown** `message`!": "這是一則*測試***markdown**`訊息`！",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "這是一則<i>測試</i><b>html</b><code>訊息</code>！",
+  "You Were Added to Card": "您已被加入卡片",
+  "You Were Mentioned in Comment": "您在留言中被提及",
+  "%s added you to %s on %s": "%s 在 %s 將您加入 %s",
+  "%s created %s in %s on %s": "%s 在 %s 的 %s 中建立了 %s",
+  "%s left a new comment to %s on %s": "%s 在 %s 對 %s 留下了新留言",
+  "%s mentioned you in %s on %s": "%s 在 %s 的 %s 中提及了您",
+  "%s moved %s from %s to %s on %s": "%s 在 %s 將 %s 從 %s 移動到 %s"
+}

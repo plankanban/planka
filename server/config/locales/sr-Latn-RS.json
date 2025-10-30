@@ -1,0 +1,16 @@
+{
+  "Card Created": "Kartica kreirana",
+  "Card Moved": "Kartica premeštena",
+  "New Comment": "Novi komentar",
+  "Test Title": "Test naslov",
+  "This is a test text message!": "Ovo je test tekstualna poruka!",
+  "This is a *test* **markdown** `message`!": "Ovo je *test* **markdown** `poruka`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Ovo je <i>test</i> <b>html</b> <code>poruka</code>!",
+  "You Were Added to Card": "Dodati ste na karticu",
+  "You Were Mentioned in Comment": "Pomenuti ste u komentaru",
+  "%s added you to %s on %s": "%s vas je dodao na %s dana %s",
+  "%s created %s in %s on %s": "%s je kreirao %s u %s dana %s",
+  "%s left a new comment to %s on %s": "%s je ostavio novi komentar na %s dana %s",
+  "%s mentioned you in %s on %s": "%s vas je pomenuo u %s dana %s",
+  "%s moved %s from %s to %s on %s": "%s je premestio %s iz %s u %s dana %s"
+}

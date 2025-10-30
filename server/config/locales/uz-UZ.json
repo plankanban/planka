@@ -1,0 +1,16 @@
+{
+  "Card Created": "Karta yaratildi",
+  "Card Moved": "Karta ko'chirildi",
+  "New Comment": "Yangi izoh",
+  "Test Title": "Test sarlavha",
+  "This is a test text message!": "Bu test matn xabari!",
+  "This is a *test* **markdown** `message`!": "Bu *test* **markdown** `xabar`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Bu <i>test</i> <b>html</b> <code>xabar</code>!",
+  "You Were Added to Card": "Siz kartaga qo'shildingiz",
+  "You Were Mentioned in Comment": "Siz izohda eslatildingiz",
+  "%s added you to %s on %s": "%s sizni %s ga %s da qo'shdi",
+  "%s created %s in %s on %s": "%s yaratdi %s ni %s da %s da",
+  "%s left a new comment to %s on %s": "%s yangi izoh qoldirdi %s ga %s da",
+  "%s mentioned you in %s on %s": "%s sizni esladi %s da %s da",
+  "%s moved %s from %s to %s on %s": "%s ko'chirdi %s ni %s dan %s ga %s da"
+}

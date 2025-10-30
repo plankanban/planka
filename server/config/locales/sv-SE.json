@@ -1,0 +1,16 @@
+{
+  "Card Created": "Kort skapat",
+  "Card Moved": "Kort flyttat",
+  "New Comment": "Ny kommentar",
+  "Test Title": "Test titel",
+  "This is a test text message!": "Detta är ett test textmeddelande!",
+  "This is a *test* **markdown** `message`!": "Detta är ett *test* **markdown** `meddelande`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Detta är ett <i>test</i> <b>html</b> <code>meddelande</code>!",
+  "You Were Added to Card": "Du lades till på kort",
+  "You Were Mentioned in Comment": "Du nämndes i kommentar",
+  "%s added you to %s on %s": "%s lade till dig på %s den %s",
+  "%s created %s in %s on %s": "%s skapade %s i %s den %s",
+  "%s left a new comment to %s on %s": "%s lämnade en ny kommentar till %s den %s",
+  "%s mentioned you in %s on %s": "%s nämnde dig i %s den %s",
+  "%s moved %s from %s to %s on %s": "%s flyttade %s från %s till %s den %s"
+}

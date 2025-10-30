@@ -1,0 +1,16 @@
+{
+  "Card Created": "Kaart loodud",
+  "Card Moved": "Kaart liigutatud",
+  "New Comment": "Uus kommentaar",
+  "Test Title": "Testi pealkiri",
+  "This is a test text message!": "See on testi tekstisõnum!",
+  "This is a *test* **markdown** `message`!": "See on *testi* **markdown** `sõnum`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "See on <i>testi</i> <b>html</b> <code>sõnum</code>!",
+  "You Were Added to Card": "Teid lisati kaardile",
+  "You Were Mentioned in Comment": "Teid mainiti kommentaaris",
+  "%s added you to %s on %s": "%s lisas teid %s-le %s",
+  "%s created %s in %s on %s": "%s lõi %s %s-s %s",
+  "%s left a new comment to %s on %s": "%s jättis uue kommentaari %s-le %s",
+  "%s mentioned you in %s on %s": "%s mainis teid %s-s %s",
+  "%s moved %s from %s to %s on %s": "%s liigutas %s %s-st %s-sse %s"
+}
