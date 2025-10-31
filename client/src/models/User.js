@@ -74,6 +74,7 @@ export default class extends BaseModel {
     isSsoUser: attr(),
     isDeactivated: attr(),
     lockedFieldNames: attr(),
+    apiKeyPrefix: attr(),
     isAvatarUpdating: attr({
       getDefault: () => false,
     }),
@@ -275,6 +276,29 @@ export default class extends BaseModel {
         });
 
         break;
+      case ActionTypes.API_KEY_CREATE__SUCCESS:
+      case ActionTypes.API_KEY_CYCLE__SUCCESS: {
+        const userModel = User.withId(payload.userId);
+        if (userModel && payload.apiKey) {
+          // Extract prefix from API key (format: prefix.remainder)
+          const prefix = payload.apiKey.split('.')[0];
+          userModel.update({
+            apiKeyPrefix: prefix,
+          });
+        }
+
+        break;
+      }
+      case ActionTypes.API_KEY_DELETE__SUCCESS: {
+        const userModel = User.withId(payload.userId);
+        if (userModel) {
+          userModel.update({
+            apiKeyPrefix: null,
+          });
+        }
+
+        break;
+      }
       case ActionTypes.USER_DELETE:
         User.withId(payload.id).deleteWithRelated();
 

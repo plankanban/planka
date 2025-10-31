@@ -30,10 +30,16 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case LOCATION_CHANGE_HANDLE:
+      return {
+        ...state,
+        modal: null,
+      };
     case ActionTypes.MODAL_CLOSE:
       return {
         ...state,
         modal: null,
+        apiKeyDisplay: null,
+        apiKeyError: null,
       };
     case ActionTypes.LOCATION_CHANGE_HANDLE: {
       const nextState = {
