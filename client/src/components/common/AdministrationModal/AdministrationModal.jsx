@@ -13,6 +13,7 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useClosableModal } from '../../../hooks';
 import UsersPane from './UsersPane';
+import ApiKeysPane from './ApiKeysPane';
 import SmtpPane from './SmtpPane';
 import WebhooksPane from './WebhooksPane';
 
@@ -41,6 +42,12 @@ const AdministrationModal = React.memo(() => {
         context: 'title',
       }),
       render: () => <UsersPane />,
+    },
+    {
+      menuItem: t('common.apiKeys', {
+        context: 'title',
+      }),
+      render: () => <ApiKeysPane />,
     },
   ];
   if (config.smtpHost !== undefined) {

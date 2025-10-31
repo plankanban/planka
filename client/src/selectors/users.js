@@ -56,6 +56,12 @@ export const selectUsersExceptCurrent = createSelector(
       .toRefArray(),
 );
 
+export const selectUsersWithApiKeys = createSelector(orm, ({ User }) =>
+  User.getAllQuerySet()
+    .filter((user) => user.apiKeyPrefix !== null && user.apiKeyPrefix !== undefined)
+    .toRefArray(),
+);
+
 export const selectActiveUsers = createSelector(orm, ({ User }) =>
   User.getActiveQuerySet().toRefArray(),
 );
@@ -355,6 +361,7 @@ export default {
   selectUserById,
   selectCurrentUserId,
   selectUsersExceptCurrent,
+  selectUsersWithApiKeys,
   selectActiveUsers,
   selectActiveUsersTotal,
   selectActiveAdminOrProjectOwnerUsers,
