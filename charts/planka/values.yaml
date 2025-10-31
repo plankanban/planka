@@ -27,10 +27,10 @@ existingSecretkeySecret: ""
 ## NOTE: When it's set, the `admin_username` and `admin_password` parameters are ignored
 existingAdminCredsSecret: ""
 
-admin_username: ""
+admin_email: ""
 admin_password: ""
 admin_name: ""
-admin_email: ""
+admin_username: ""
 
 # Base url for PLANKA. Will override `ingress.hosts[0].host`
 # Defaults to `http://localhost:3000` if ingress is disabled.
