@@ -167,7 +167,7 @@
     "@babel/preset-env": "^7.28.3",
     "@cucumber/cucumber": "^11.3.0",
     "@cucumber/pretty-formatter": "^1.0.1",
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "^1.56.1",
     "babel-jest": "^29.7.0",
     "babel-preset-airbnb": "^5.0.0",
     "eslint": "^8.57.1",
@@ -179,7 +179,7 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
     "jest": "^29.7.0",
-    "playwright": "^1.55.0",
+    "playwright": "^1.56.1",
     "prettier": "3.3.3"
   }
 }
