@@ -78,6 +78,7 @@ export default {
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Are you sure you want to remove this member from the board?',
       assignAsOwner_title: 'Assign As Owner',
+      assignSelfToNewCreatedCard: 'Assign self to new created card',
       atLeastOneListMustBePresent: 'At least one list must be present',
       attachment: 'Attachment',
       attachments: 'Attachments',
