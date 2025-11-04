@@ -5,11 +5,12 @@ body:
   - type: dropdown
     id: idea-type
     attributes:
-      label: Is this a feature for the backend or frontend?
+      label: Is this a feature for the backend, frontend, or the Helm chart?
       multiple: true
       options:
         - Backend
         - Frontend
+        - Chart
     validations:
       required: true
   - type: textarea
