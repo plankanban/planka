@@ -121,7 +121,7 @@ const ActionsStep = React.memo(({ boardMembershipId, title, onBack, onClose }) =
       )}
       {user.organization && (
         <div className={styles.information}>
-          <Icon name="briefcase" className={styles.informationIcon} />
+          <Icon name="building" className={styles.informationIcon} />
           {user.organization}
         </div>
       )}

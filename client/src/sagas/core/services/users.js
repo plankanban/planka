@@ -338,6 +338,45 @@ export function* updateCurrentUserAvatar(data) {
   yield call(updateUserAvatar, currentUserId, data);
 }
 
+export function* createUserApiKey(id) {
+  yield put(actions.createUserApiKey(id));
+
+  let user;
+  let apiKey;
+
+  try {
+    ({
+      item: user,
+      included: { apiKey },
+    } = yield call(request, api.createUserApiKey, id));
+  } catch (error) {
+    yield put(actions.createUserApiKey.failure(id, error));
+    return;
+  }
+
+  yield put(actions.createUserApiKey.success(user, apiKey));
+}
+
+export function* deleteUserApiKey(id) {
+  yield put(actions.deleteUserApiKey(id));
+
+  let user;
+  try {
+    ({ item: user } = yield call(request, api.updateUser, id, {
+      apiKey: null,
+    }));
+  } catch (error) {
+    yield put(actions.deleteUserApiKey.failure(id, error));
+    return;
+  }
+
+  yield put(actions.deleteUserApiKey.success(user));
+}
+
+export function* clearUserApiKeyValue(id) {
+  yield put(actions.clearUserApiKeyValue(id));
+}
+
 export function* deleteUser(id) {
   yield put(actions.deleteUser(id));
 
@@ -474,6 +513,9 @@ export default {
   clearCurrentUserUsernameUpdateError,
   updateUserAvatar,
   updateCurrentUserAvatar,
+  createUserApiKey,
+  deleteUserApiKey,
+  clearUserApiKeyValue,
   deleteUser,
   handleUserDelete,
   addUserToCard,

@@ -40,6 +40,8 @@ export default {
         'Alle wijzigingen worden automatisch opgeslagen<br />nadat de verbinding is hersteld.',
       alphabetically: 'Alfabetisch',
       alwaysDisplayCardCreator: 'Kaartmaker altijd weergeven',
+      apiKeyCreated_title: 'API-sleutel aangemaakt',
+      apiKey_title: 'API-sleutel',
       archive: 'Archief',
       archiveCard_title: 'Kaart archiveren',
       archiveCards_title: 'Kaarten archiveren',
@@ -49,6 +51,8 @@ export default {
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
         'Weet u zeker dat u deze projectmanager als eigenaar wilt toewijzen?',
       areYouSureYouWantToDeactivateThisUser: 'Weet u zeker dat u deze gebruiker wilt deactiveren?',
+      areYouSureYouWantToDeleteThisApiKey:
+        'Weet je zeker dat je deze API-sleutel wilt verwijderen?',
       areYouSureYouWantToDeleteThisAttachment: 'Weet u zeker dat u deze bijlage wilt verwijderen?',
       areYouSureYouWantToDeleteThisBackgroundImage:
         'Weet u zeker dat u deze achtergrondafbeelding wilt verwijderen?',
@@ -77,6 +81,8 @@ export default {
       areYouSureYouWantToMakeThisProjectPrivate: 'Weet u zeker dat u dit project privé wilt maken?',
       areYouSureYouWantToMakeThisProjectShared:
         'Weet u zeker dat u dit project gedeeld wilt maken?',
+      areYouSureYouWantToRegenerateThisApiKey:
+        'Weet je zeker dat je deze API-sleutel opnieuw wilt genereren? De vorige sleutel werkt niet meer.',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Weet u zeker dat u deze manager uit het project wilt verwijderen?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -130,6 +136,7 @@ export default {
       createTextFile_title: 'Tekstbestand aanmaken',
       creator: 'Maker',
       currentPassword: 'Huidig wachtwoord',
+      currentUser: 'Huidige gebruiker',
       customFieldGroup_title: 'Aangepaste veldgroep',
       customFieldGroups_title: 'Aangepaste veldgroepen',
       customField_title: 'Aangepast veld',
@@ -142,6 +149,7 @@ export default {
       defaultView_title: 'Standaardweergave',
       deleteAllBoardsToBeAbleToDeleteThisProject:
         'Verwijder alle borden om dit project te kunnen verwijderen',
+      deleteApiKey_title: 'API-sleutel verwijderen',
       deleteAttachment_title: 'Bijlage verwijderen',
       deleteBackgroundImage_title: 'Achtergrondafbeelding verwijderen',
       deleteBoard_title: 'Bord verwijderen',
@@ -197,6 +205,8 @@ export default {
       forTeamBasedProjects: 'Voor teamgebaseerde projecten.',
       fromComputer_title: 'Van computer',
       fromTrello: 'Van Trello',
+      fullKeyIsHiddenForSecurityReasons:
+        'De volledige sleutel is om veiligheidsredenen verborgen. Genereer deze opnieuw om een nieuwe te maken.',
       general: 'Algemeen',
       gradients: 'Verlopen',
       grid: 'Raster',
@@ -204,7 +214,9 @@ export default {
       hideFromProjectListAndFavorites: 'Verbergen uit projectlijst en favorieten',
       host: 'Host',
       hours: 'Uren',
+      identity: 'Identiteit',
       importBoard_title: 'Bord importeren',
+      information: 'Informatie',
       invalidCurrentPassword: 'Ongeldig huidig wachtwoord',
       kanban: 'Kanban',
       labels: 'Labels',
@@ -233,6 +245,7 @@ export default {
       newUsername: 'Nieuwe gebruikersnaam',
       newVersionAvailable: 'Nieuwe versie beschikbaar',
       newestFirst: 'Nieuwste eerst',
+      noApiKeyCreated: 'Geen API-sleutel aangemaakt.',
       noBoards: 'Geen borden',
       noCardsFound: 'Geen kaarten gevonden.',
       noConnectionToServer: 'Geen verbinding met server',
@@ -260,10 +273,12 @@ export default {
       projectNotFound_title: 'Project niet gevonden',
       projectOwner: 'Projecteigenaar',
       referenceDataAndKnowledgeStorage: 'Referentiegegevens en kennisopslag.',
+      regenerateApiKey_title: 'API-sleutel opnieuw genereren',
       rejectUnauthorizedTlsCertificates: 'Niet-geautoriseerde TLS-certificaten weigeren',
       removeManager_title: 'Manager verwijderen',
       removeMember_title: 'Lid verwijderen',
       role: 'Rol',
+      saveThisKeyItWillNotBeShownAgain: 'Bewaar deze sleutel — deze wordt niet opnieuw getoond!',
       searchCards: 'Kaarten zoeken...',
       searchCustomFieldGroups: 'Aangepaste veldgroepen zoeken...',
       searchCustomFields: 'Aangepaste velden zoeken...',
@@ -380,6 +395,7 @@ export default {
       archiveCards_title: 'Kaarten archiveren',
       assignAsOwner: 'Toewijzen als eigenaar',
       cancel: 'Annuleren',
+      createApiKey: 'API-sleutel aanmaken',
       createBoard: 'Bord aanmaken',
       createCustomFieldGroup: 'Aangepaste veldgroep aanmaken',
       createFile: 'Bestand aanmaken',
@@ -389,6 +405,7 @@ export default {
       deactivateUser: 'Gebruiker deactiveren',
       deactivateUser_title: 'Gebruiker deactiveren',
       delete: 'Verwijderen',
+      deleteApiKey: 'API-sleutel verwijderen',
       deleteAttachment: 'Bijlage verwijderen',
       deleteAvatar: 'Avatar verwijderen',
       deleteBackgroundImage: 'Achtergrondafbeelding verwijderen',
@@ -447,6 +464,7 @@ export default {
       move: 'Verplaatsen',
       moveCard_title: 'Kaart verplaatsen',
       moveList_title: 'Lijst verplaatsen',
+      regenerateApiKey: 'API-sleutel opnieuw genereren',
       remove: 'Verwijderen',
       removeAssignee: 'Toegewezene verwijderen',
       removeColor: 'Kleur verwijderen',

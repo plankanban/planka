@@ -42,13 +42,18 @@ const createMessage = (error) => {
   }
 };
 
-const EditUserEmailStep = React.memo(({ id, withPasswordConfirmation, onBack, onClose }) => {
+const EditUserEmailStep = React.memo(({ id, onBack, onClose }) => {
   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
 
   const {
     email,
+    isSsoUser,
     emailUpdateForm: { data: defaultData, isSubmitting, error },
   } = useSelector((state) => selectUserById(state, id));
+
+  const withPasswordConfirmation = useSelector(
+    (state) => id === selectors.selectCurrentUserId(state) && !isSsoUser,
+  );
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -199,13 +204,11 @@ const EditUserEmailStep = React.memo(({ id, withPasswordConfirmation, onBack, on
 
 EditUserEmailStep.propTypes = {
   id: PropTypes.string.isRequired,
-  withPasswordConfirmation: PropTypes.bool,
   onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
 EditUserEmailStep.defaultProps = {
-  withPasswordConfirmation: false,
   onBack: undefined,
 };
 

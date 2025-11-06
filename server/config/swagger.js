@@ -31,11 +31,19 @@ module.exports = {
           scheme: 'bearer',
           bearerFormat: 'JWT',
         },
+        apiKeyAuth: {
+          type: 'apiKey',
+          in: 'header',
+          name: 'X-Api-Key',
+        },
       },
     },
     security: [
       {
         bearerAuth: [],
+      },
+      {
+        apiKeyAuth: [],
       },
     ],
   },

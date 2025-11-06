@@ -40,6 +40,8 @@ export default {
         'Sve promene će automatski biti sačuvane<br />nakon uspostavljanja konekcije.',
       alphabetically: 'Abecedno',
       alwaysDisplayCardCreator: 'Uvek prikaži tvorca kartice',
+      apiKeyCreated_title: 'API ključ kreiran',
+      apiKey_title: 'API ključ',
       archive: 'Arhiva',
       archiveCard_title: 'Arhiviraj karticu',
       archiveCards_title: 'Arhiviraj kartice',
@@ -49,6 +51,8 @@ export default {
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
         'Da li zaista želite da dodelite ovog rukovodioca projekta kao vlasnika?',
       areYouSureYouWantToDeactivateThisUser: 'Da li zaista želite da deaktivirate ovog korisnika?',
+      areYouSureYouWantToDeleteThisApiKey:
+        'Da li ste sigurni da želite da obrišete ovaj API ključ?',
       areYouSureYouWantToDeleteThisAttachment: 'Da li zaista želite da obrišete ovaj prilog?',
       areYouSureYouWantToDeleteThisBackgroundImage:
         'Da li zaista želite da obrišete ovu pozadinsku sliku?',
@@ -77,6 +81,8 @@ export default {
       areYouSureYouWantToMakeThisProjectPrivate:
         'Da li zaista želite da učinite ovaj projekat privatnim?',
       areYouSureYouWantToMakeThisProjectShared: 'Da li zaista želite da podelite ovaj projekat?',
+      areYouSureYouWantToRegenerateThisApiKey:
+        'Da li ste sigurni da želite da regenerišete ovaj API ključ? Prethodni ključ više neće raditi.',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Da li zaista želite da uklonite ovog rukovodioca iz ovog projekta?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -129,6 +135,7 @@ export default {
       createTextFile_title: 'Napravi tekstualnu datoteku',
       creator: 'Tvorac',
       currentPassword: 'Trenutna lozinka',
+      currentUser: 'Trenutni korisnik',
       customFieldGroup_title: 'Grupa prilagođenih polja',
       customFieldGroups_title: 'Grupe prilagođenih polja',
       customField_title: 'Prilagođeno polje',
@@ -141,6 +148,7 @@ export default {
       defaultView_title: 'Podrazumevani prikaz',
       deleteAllBoardsToBeAbleToDeleteThisProject:
         'Obrišite sve table da biste mogli da obrišete ovaj projekat',
+      deleteApiKey_title: 'Obriši API ključ',
       deleteAttachment_title: 'Obriši prilog',
       deleteBackgroundImage_title: 'Obriši pozadinsku sliku',
       deleteBoard_title: 'Obriši tablu',
@@ -196,6 +204,8 @@ export default {
       forTeamBasedProjects: 'Za timske projekte.',
       fromComputer_title: 'Sa računara',
       fromTrello: 'Sa Trello-a',
+      fullKeyIsHiddenForSecurityReasons:
+        'Kompletan ključ je sakriven iz bezbednosnih razloga. Regenerišite ga da biste kreirali novi.',
       general: 'Opšte',
       gradients: 'Gradijenti',
       grid: 'Mreža',
@@ -203,7 +213,9 @@ export default {
       hideFromProjectListAndFavorites: 'Sakrij iz liste projekata i omiljenih',
       host: 'Host',
       hours: 'Sati',
+      identity: 'Identitet',
       importBoard_title: 'Uvezi tablu',
+      information: 'Informacije',
       invalidCurrentPassword: 'Neispravna trenutna lozinka',
       kanban: 'Kanban',
       labels: 'Oznake',
@@ -232,6 +244,7 @@ export default {
       newUsername: 'Novo korisničko ime',
       newVersionAvailable: 'Nova verzija je dostupna',
       newestFirst: 'Prvo najnovije',
+      noApiKeyCreated: 'API ključ nije kreiran.',
       noBoards: 'Nema tabli',
       noCardsFound: 'Nema pronađenih kartica.',
       noConnectionToServer: 'Nema konekcije sa serverom',
@@ -259,10 +272,12 @@ export default {
       projectNotFound_title: 'Projekat nije pronađen',
       projectOwner: 'Vlasnik projekta',
       referenceDataAndKnowledgeStorage: 'Skladištenje referentnih podataka i znanja.',
+      regenerateApiKey_title: 'Regeneriši API ključ',
       rejectUnauthorizedTlsCertificates: 'Odbaci neovlašćene TLS sertifikate',
       removeManager_title: 'Ukloni rukovodioca',
       removeMember_title: 'Ukloni člana',
       role: 'Uloga',
+      saveThisKeyItWillNotBeShownAgain: 'Sačuvajte ovaj ključ — neće biti prikazan ponovo!',
       searchCards: 'Pretraži kartice...',
       searchCustomFieldGroups: 'Pretraži grupe prilagođenih polja...',
       searchCustomFields: 'Pretraži prilagođena polja...',
@@ -376,6 +391,7 @@ export default {
       archiveCards_title: 'Arhiviraj kartice',
       assignAsOwner: 'Dodeli kao vlasnika',
       cancel: 'Otkaži',
+      createApiKey: 'Kreiraj API ključ',
       createBoard: 'Napravi tablu',
       createCustomFieldGroup: 'Napravi grupu prilagođenih polja',
       createFile: 'Napravi datoteku',
@@ -385,6 +401,7 @@ export default {
       deactivateUser: 'Deaktiviraj korisnika',
       deactivateUser_title: 'Deaktiviraj korisnika',
       delete: 'Obriši',
+      deleteApiKey: 'Obriši API ključ',
       deleteAttachment: 'Obriši prilog',
       deleteAvatar: 'Obriši avatara',
       deleteBackgroundImage: 'Obriši pozadinsku sliku',
@@ -443,6 +460,7 @@ export default {
       move: 'Premesti',
       moveCard_title: 'Premesti karticu',
       moveList_title: 'Premesti spisak',
+      regenerateApiKey: 'Regeneriši API ključ',
       remove: 'Ukloni',
       removeAssignee: 'Ukloni izvršioca',
       removeColor: 'Ukloni boju',

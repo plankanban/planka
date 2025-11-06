@@ -59,6 +59,11 @@
  *                 enum: [ar-YE, bg-BG, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
  *                 description: Preferred language for user interface and notifications
  *                 example: en-US
+ *               apiKey:
+ *                 type: object
+ *                 nullable: true
+ *                 description: API key of the user (only null value to remove API key)
+ *                 example: null
  *               subscribeToOwnCards:
  *                 type: boolean
  *                 description: Whether the user subscribes to their own cards
@@ -167,6 +172,10 @@ module.exports = {
       type: 'string',
       isIn: User.LANGUAGES,
     },
+    apiKey: {
+      type: 'json',
+      custom: _.isNull,
+    },
     subscribeToOwnCards: {
       type: 'boolean',
     },
@@ -220,6 +229,10 @@ module.exports = {
       throw Errors.USER_NOT_FOUND; // Forbidden
     }
 
+    if (currentUser.role === User.Roles.ADMIN) {
+      availableInputKeys.push('apiKey');
+    }
+
     if (_.difference(Object.keys(inputs), availableInputKeys).length > 0) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
@@ -253,6 +266,7 @@ module.exports = {
         'phone',
         'organization',
         'language',
+        'apiKey',
         'subscribeToOwnCards',
         'subscribeToCardWhenCommenting',
         'turnOffRecentCardHighlighting',

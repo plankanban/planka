@@ -100,6 +100,11 @@
  *           nullable: true
  *           description: Preferred language for user interface and notifications (personal field)
  *           example: en-US
+ *         apiKeyPrefix:
+ *           type: string
+ *           nullable: true
+ *           description: Prefix of the API key for display purposes (private field)
+ *           example: D89VszVs
  *         subscribeToOwnCards:
  *           type: boolean
  *           default: false
@@ -235,7 +240,8 @@ const LANGUAGES = [
   'zh-TW',
 ];
 
-const PRIVATE_FIELD_NAMES = ['email', 'isSsoUser'];
+// TODO: find better way to handle apiKeyHash and apiKeyCreatedAt
+const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'apiKeyHash', 'isSsoUser', 'apiKeyCreatedAt'];
 
 const PERSONAL_FIELD_NAMES = [
   'language',
@@ -319,6 +325,18 @@ module.exports = {
       isIn: LANGUAGES,
       allowNull: true,
     },
+    apiKeyPrefix: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'api_key_prefix',
+    },
+    apiKeyHash: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'api_key_hash',
+    },
     subscribeToOwnCards: {
       type: 'boolean',
       defaultsTo: false,
@@ -376,6 +394,10 @@ module.exports = {
     passwordChangedAt: {
       type: 'ref',
       columnName: 'password_changed_at',
+    },
+    apiKeyCreatedAt: {
+      type: 'ref',
+      columnName: 'api_key_created_at',
     },
     termsAcceptedAt: {
       type: 'ref',

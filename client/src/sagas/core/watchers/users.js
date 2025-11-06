@@ -66,6 +66,15 @@ export default function* usersWatchers() {
     takeEvery(EntryActionTypes.CURRENT_USER_AVATAR_UPDATE, ({ payload: { data } }) =>
       services.updateCurrentUserAvatar(data),
     ),
+    takeEvery(EntryActionTypes.USER_API_KEY_CREATE, ({ payload: { id } }) =>
+      services.createUserApiKey(id),
+    ),
+    takeEvery(EntryActionTypes.USER_API_KEY_DELETE, ({ payload: { id } }) =>
+      services.deleteUserApiKey(id),
+    ),
+    takeEvery(EntryActionTypes.USER_API_KEY_VALUE_CLEAR, ({ payload: { id } }) =>
+      services.clearUserApiKeyValue(id),
+    ),
     takeEvery(EntryActionTypes.USER_DELETE, ({ payload: { id } }) => services.deleteUser(id)),
     takeEvery(EntryActionTypes.USER_DELETE_HANDLE, ({ payload: { user } }) =>
       services.handleUserDelete(user),

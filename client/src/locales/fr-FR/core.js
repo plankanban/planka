@@ -40,6 +40,8 @@ export default {
         'Toutes les modifications seront automatiquement enregistrées<br />une fois la connexion rétablie.',
       alphabetically: 'Alphabétique',
       alwaysDisplayCardCreator: 'Toujours afficher le créateur de la carte',
+      apiKeyCreated_title: 'Clé API créée',
+      apiKey_title: 'Clé API',
       archive: 'Archiver',
       archiveCard_title: 'Archiver la carte',
       archiveCards_title: 'Cartes archivées',
@@ -50,6 +52,7 @@ export default {
         'Êtes-vous sûr de vouloir attribuer ce responsable de projet comme propriétaire ?',
       areYouSureYouWantToDeactivateThisUser:
         'Etes-vous sûr de vouloir désactiver cet utilisateur ?',
+      areYouSureYouWantToDeleteThisApiKey: 'Êtes-vous sûr de vouloir supprimer cette clé API ?',
       areYouSureYouWantToDeleteThisAttachment:
         'Êtes-vous sûr de vouloir supprimer cette pièce jointe ?',
       areYouSureYouWantToDeleteThisBackgroundImage:
@@ -81,6 +84,8 @@ export default {
         'Êtes-vous sûr de vouloir rendre ce projet privé ?',
       areYouSureYouWantToMakeThisProjectShared:
         "Etes-vous sûr de vouloir transformer ce projet en projet d'équipe ?",
+      areYouSureYouWantToRegenerateThisApiKey:
+        'Êtes-vous sûr de vouloir régénérer cette clé API ? La clé précédente ne fonctionnera plus.',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Êtes-vous sûr de vouloir supprimer ce responsable du projet ?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -135,6 +140,7 @@ export default {
       createTextFile_title: 'Créer un fichier texte',
       creator: 'Créateur',
       currentPassword: 'Mot de passe actuel',
+      currentUser: 'Utilisateur actuel',
       customFieldGroup_title: 'Groupe de champs personnalisés',
       customFieldGroups_title: 'Groupes de champs personnalisés',
       customField_title: 'Champ personnalisé',
@@ -147,6 +153,7 @@ export default {
       defaultView_title: 'Vue par défaut',
       deleteAllBoardsToBeAbleToDeleteThisProject:
         'Supprimer tous les tableaux pour pouvoir supprimer ce projet.',
+      deleteApiKey_title: 'Supprimer la clé API',
       deleteAttachment_title: 'Supprimer la pièce jointe',
       deleteBackgroundImage_title: 'Supprimer l’image d’arrière-plan',
       deleteBoard_title: 'Supprimer le tableau',
@@ -202,6 +209,8 @@ export default {
       forTeamBasedProjects: 'Pour les projets basés sur une équipe.',
       fromComputer_title: "Depuis l'ordinateur",
       fromTrello: 'Depuis Trello',
+      fullKeyIsHiddenForSecurityReasons:
+        'La clé complète est masquée pour des raisons de sécurité. Régénérez-la pour en créer une nouvelle.',
       general: 'Général',
       gradients: 'Dégradés',
       grid: 'Grille',
@@ -209,7 +218,9 @@ export default {
       hideFromProjectListAndFavorites: 'Masquer de la liste des projets et des favoris',
       host: 'Hôte',
       hours: 'Heures',
+      identity: 'Identité',
       importBoard_title: 'Importer un tableau',
+      information: 'Information',
       invalidCurrentPassword: 'Mot de passe actuel invalide',
       kanban: 'Kanban',
       labels: 'Étiquettes',
@@ -238,6 +249,7 @@ export default {
       newUsername: "Nouveau nom d'utilisateur",
       newVersionAvailable: 'Une nouvelle version est disponible',
       newestFirst: 'Le plus récent en premier',
+      noApiKeyCreated: 'Aucune clé API créée.',
       noBoards: 'Pas de tableau',
       noCardsFound: 'Aucune carte trouvée.',
       noConnectionToServer: 'Pas de connexion au serveur',
@@ -265,10 +277,12 @@ export default {
       projectNotFound_title: 'Projet introuvable',
       projectOwner: 'Propriétaire de projet',
       referenceDataAndKnowledgeStorage: 'Stockage de données de référence et de connaissances.',
+      regenerateApiKey_title: 'Régénérer la clé API',
       rejectUnauthorizedTlsCertificates: 'Rejeter les certificats TLS non autorisés',
       removeManager_title: 'Supprimer le responsable',
       removeMember_title: 'Supprimer le membre',
       role: 'Rôle',
+      saveThisKeyItWillNotBeShownAgain: 'Enregistrez cette clé — elle ne sera plus affichée !',
       searchCards: 'Rechercher une carte...',
       searchCustomFieldGroups: 'Chercher un groupe de champs personnalisés...',
       searchCustomFields: 'Chercher un champ personnalisé...',
@@ -382,6 +396,7 @@ export default {
       archiveCards_title: 'Archiver les cartes',
       assignAsOwner: 'Assigner comme propriétaire',
       cancel: 'Annuler',
+      createApiKey: 'Créer une clé API',
       createBoard: 'Créer un tableau',
       createCustomFieldGroup: 'Créer un groupe de champs personnalisés',
       createFile: 'Créer un fichier',
@@ -391,6 +406,7 @@ export default {
       deactivateUser: 'Désactiver l’utilisateur',
       deactivateUser_title: 'Désactiver l’utilisateur',
       delete: 'Supprimer',
+      deleteApiKey: 'Supprimer la clé API',
       deleteAttachment: 'Supprimer la pièce jointe',
       deleteAvatar: "Supprimer l'avatar",
       deleteBackgroundImage: 'Supprimer l’image d’arrière-plan',
@@ -449,6 +465,7 @@ export default {
       move: 'Déplacer',
       moveCard_title: 'Déplacer la carte',
       moveList_title: 'Déplacer la liste',
+      regenerateApiKey: 'Régénérer la clé API',
       remove: 'Supprimer',
       removeAssignee: 'Retirer le responsable',
       removeColor: 'Supprimer la couleur',

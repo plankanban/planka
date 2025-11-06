@@ -27,6 +27,8 @@ module.exports.policies = {
   'webhooks/update': ['is-authenticated', 'is-external', 'is-admin'],
   'webhooks/delete': ['is-authenticated', 'is-external', 'is-admin'],
 
+  'access-tokens/delete': ['is-authenticated', 'is-external', 'is-session'],
+
   'users/index': 'is-authenticated',
   'users/create': ['is-authenticated', 'is-admin'],
   'users/show': 'is-authenticated',
@@ -35,6 +37,7 @@ module.exports.policies = {
   'users/update-password': 'is-authenticated',
   'users/update-username': 'is-authenticated',
   'users/update-avatar': 'is-authenticated',
+  'users/create-api-key': ['is-authenticated', 'is-admin'],
   'users/delete': ['is-authenticated', 'is-admin'],
 
   'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],

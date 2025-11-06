@@ -14,6 +14,7 @@ import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { useSteps } from '../../../../hooks';
 import SelectRoleStep from './SelectRoleStep';
+import ApiKeyStep from './ApiKeyStep';
 import ConfirmationStep from '../../ConfirmationStep';
 import EditUserInformationStep from '../../../users/EditUserInformationStep';
 import EditUserUsernameStep from '../../../users/EditUserUsernameStep';
@@ -28,6 +29,7 @@ const StepTypes = {
   EDIT_EMAIL: 'EDIT_EMAIL',
   EDIT_PASSWORD: 'EDIT_PASSWORD',
   EDIT_ROLE: 'EDIT_ROLE',
+  API_KEY: 'API_KEY',
   ACTIVATE: 'ACTIVATE',
   DEACTIVATE: 'DEACTIVATE',
   DELETE: 'DELETE',
@@ -39,6 +41,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
   const activeUsersLimit = useSelector(selectors.selectActiveUsersLimit);
   const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
   const user = useSelector((state) => selectUserById(state, userId));
+  const isCurrentUser = useSelector((state) => user.id === selectors.selectCurrentUserId(state));
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -99,6 +102,10 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     openStep(StepTypes.EDIT_ROLE);
   }, [openStep]);
 
+  const handleApiKeyClick = useCallback(() => {
+    openStep(StepTypes.API_KEY);
+  }, [openStep]);
+
   const handleActivateClick = useCallback(() => {
     openStep(StepTypes.ACTIVATE);
   }, [openStep]);
@@ -133,6 +140,8 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
             onClose={onClose}
           />
         );
+      case StepTypes.API_KEY:
+        return <ApiKeyStep userId={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.ACTIVATE:
         return (
           <ConfirmationStep
@@ -209,7 +218,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               })}
             </Menu.Item>
           )}
-          {!user.lockedFieldNames.includes('role') && (
+          {!user.lockedFieldNames.includes('role') && !isCurrentUser && (
             <Menu.Item className={styles.menuItem} onClick={handleEditRoleClick}>
               <Icon name="sun outline" className={styles.menuItemIcon} />
               {t('action.editRole', {
@@ -217,31 +226,44 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               })}
             </Menu.Item>
           )}
-          <Menu.Item
-            disabled={
-              user.isDeactivated &&
-              activeUsersLimit !== null &&
-              activeUsersTotal >= activeUsersLimit
-            }
-            className={styles.menuItem}
-            onClick={user.isDeactivated ? handleActivateClick : handleDeactivateClick}
-          >
-            <Icon name={user.isDeactivated ? 'plus' : 'close'} className={styles.menuItemIcon} />
-            {user.isDeactivated
-              ? t('action.activateUser', {
-                  context: 'title',
-                })
-              : t('action.deactivateUser', {
-                  context: 'title',
-                })}
+          <Menu.Item className={styles.menuItem} onClick={handleApiKeyClick}>
+            <Icon name="key" className={styles.menuItemIcon} />
+            {t('common.apiKey', {
+              context: 'title',
+            })}
           </Menu.Item>
-          {user.isDeactivated && !user.isDefaultAdmin && (
-            <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
-              <Icon name="trash alternate outline" className={styles.menuItemIcon} />
-              {t('action.deleteUser', {
-                context: 'title',
-              })}
-            </Menu.Item>
+          {!isCurrentUser && (
+            <>
+              <Menu.Item
+                disabled={
+                  user.isDeactivated &&
+                  activeUsersLimit !== null &&
+                  activeUsersTotal >= activeUsersLimit
+                }
+                className={styles.menuItem}
+                onClick={user.isDeactivated ? handleActivateClick : handleDeactivateClick}
+              >
+                <Icon
+                  name={user.isDeactivated ? 'plus' : 'close'}
+                  className={styles.menuItemIcon}
+                />
+                {user.isDeactivated
+                  ? t('action.activateUser', {
+                      context: 'title',
+                    })
+                  : t('action.deactivateUser', {
+                      context: 'title',
+                    })}
+              </Menu.Item>
+              {user.isDeactivated && !user.isDefaultAdmin && (
+                <Menu.Item className={styles.menuItem} onClick={handleDeleteClick}>
+                  <Icon name="trash alternate outline" className={styles.menuItemIcon} />
+                  {t('action.deleteUser', {
+                    context: 'title',
+                  })}
+                </Menu.Item>
+              )}
+            </>
           )}
         </Menu>
       </Popup.Content>

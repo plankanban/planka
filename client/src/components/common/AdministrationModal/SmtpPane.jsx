@@ -20,7 +20,7 @@ import styles from './SmtpPane.module.scss';
 
 const SmtpPane = React.memo(() => {
   const config = useSelector(selectors.selectConfig);
-  const smtpTest = useSelector(selectors.selectSmtpTest);
+  const smtpTestState = useSelector(selectors.selectSmtpTestState);
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -196,14 +196,14 @@ const SmtpPane = React.memo(() => {
             <Button
               type="button"
               content={t('action.sendTestEmail')}
-              loading={smtpTest.isLoading}
-              disabled={smtpTest.isLoading}
+              loading={smtpTestState.isLoading}
+              disabled={smtpTestState.isLoading}
               onClick={handleTestClick}
             />
           )}
         </div>
       </Form>
-      {smtpTest.logs && (
+      {smtpTestState.logs && (
         <>
           <Divider horizontal>
             <Header as="h4">
@@ -215,7 +215,7 @@ const SmtpPane = React.memo(() => {
           <TextArea
             readOnly
             as={TextareaAutosize}
-            value={smtpTest.logs.join('\n')}
+            value={smtpTestState.logs.join('\n')}
             className={styles.testLog}
           />
         </>

@@ -40,6 +40,8 @@ export default {
         'Alle ændringer vil automatisk blive gemt<br />ved genoprettelse af forbindelsen.',
       alphabetically: 'Alfabetisk',
       alwaysDisplayCardCreator: 'Vis altid kortets skaber',
+      apiKeyCreated_title: 'API-nøgle oprettet',
+      apiKey_title: 'API-nøgle',
       archive: 'Arkiv',
       archiveCard_title: 'Arkiver kort',
       archiveCards_title: 'Arkiver kort',
@@ -49,6 +51,7 @@ export default {
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
         'Er du sikker på, at du vil sætte denne projektleder som ejer?',
       areYouSureYouWantToDeactivateThisUser: 'Er du sikker på, at du vil deaktivere denne bruger?',
+      areYouSureYouWantToDeleteThisApiKey: 'Er du sikker på, at du vil slette denne API-nøgle?',
       areYouSureYouWantToDeleteThisAttachment:
         'Er du sikker på at du vil slette denne vedhæftede fil?',
       areYouSureYouWantToDeleteThisBackgroundImage:
@@ -78,6 +81,8 @@ export default {
       areYouSureYouWantToMakeThisProjectPrivate:
         'Er du sikker på at du vil gøre dette projekt privat?',
       areYouSureYouWantToMakeThisProjectShared: 'Er du sikker på at du vil dele dette projekt?',
+      areYouSureYouWantToRegenerateThisApiKey:
+        'Er du sikker på, at du vil regenerere denne API-nøgle? Den forrige nøgle vil ikke længere virke.',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Er du sikker på at du vil fjerne denne projektleder fra projektet?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -131,6 +136,7 @@ export default {
       createTextFile_title: 'Opret tekstfil',
       creator: 'Skaber',
       currentPassword: 'Nuværende adgangskode',
+      currentUser: 'Nuværende bruger',
       customFieldGroup_title: 'Brugerdefineret feltgruppe',
       customFieldGroups_title: 'Brugerdefinerede feltgrupper',
       customField_title: 'Brugerdefineret felt',
@@ -143,6 +149,7 @@ export default {
       defaultView_title: 'Standard visning',
       deleteAllBoardsToBeAbleToDeleteThisProject:
         'Slet alle tavler for at kunne slette dette projekt.',
+      deleteApiKey_title: 'Slet API-nøgle',
       deleteAttachment_title: 'Slet vedhæftning',
       deleteBackgroundImage_title: 'Slet baggrundsbillede',
       deleteBoard_title: 'Slet tavle',
@@ -198,6 +205,8 @@ export default {
       forTeamBasedProjects: 'For team-baserede projekter.',
       fromComputer_title: 'Fra computer',
       fromTrello: 'Fra Trello',
+      fullKeyIsHiddenForSecurityReasons:
+        'Den fulde nøgle er skjult af sikkerhedsmæssige årsager. Regenerer den for at oprette en ny.',
       general: 'Generelt',
       gradients: 'Gradienter',
       grid: 'Gitter',
@@ -205,7 +214,9 @@ export default {
       hideFromProjectListAndFavorites: 'Skjul fra projektliste og favoritter',
       host: 'Vært',
       hours: 'Timer',
+      identity: 'Identitet',
       importBoard_title: 'Importer tavle',
+      information: 'Information',
       invalidCurrentPassword: 'Nuværende adgangskode er ugyldig',
       kanban: 'Kanban',
       labels: 'Labels',
@@ -234,6 +245,7 @@ export default {
       newUsername: 'Nyt brugernavn',
       newVersionAvailable: 'Ny version tilgængelig',
       newestFirst: 'Nyeste først',
+      noApiKeyCreated: 'Ingen API-nøgle oprettet.',
       noBoards: 'Ingen tavler',
       noCardsFound: 'Ingen kort fundet.',
       noConnectionToServer: 'Ingen forbindelse til serveren',
@@ -261,10 +273,12 @@ export default {
       projectNotFound_title: 'Projekt ikke fundet',
       projectOwner: 'Projektejer',
       referenceDataAndKnowledgeStorage: 'Reference data og vidensopbevaring.',
+      regenerateApiKey_title: 'Regenerer API-nøgle',
       rejectUnauthorizedTlsCertificates: 'Afvis uautoriserede TLS-certifikater',
       removeManager_title: 'Fjern projektleder',
       removeMember_title: 'Fjern medlem',
       role: 'Rolle',
+      saveThisKeyItWillNotBeShownAgain: 'Gem denne nøgle — den vises ikke igen!',
       searchCards: 'Søg efter kort...',
       searchCustomFieldGroups: 'Søg efter brugerdefinerede feltgrupper...',
       searchCustomFields: 'Søg efter brugerdefinerede felter...',
@@ -378,6 +392,7 @@ export default {
       archiveCards_title: 'Arkivér kort',
       assignAsOwner: 'Sæt som ejer',
       cancel: 'Annuller',
+      createApiKey: 'Opret API-nøgle',
       createBoard: 'Opret tavle',
       createCustomFieldGroup: 'Opret brugerdefineret feltgruppe',
       createFile: 'Opret fil',
@@ -387,6 +402,7 @@ export default {
       deactivateUser: 'Deaktivér bruger',
       deactivateUser_title: 'Deaktivér bruger',
       delete: 'Slet',
+      deleteApiKey: 'Slet API-nøgle',
       deleteAttachment: 'Slet vedhæftning',
       deleteAvatar: 'Slet profilbillede',
       deleteBackgroundImage: 'Slet baggrundsbillede',
@@ -445,6 +461,7 @@ export default {
       move: 'Flyt',
       moveCard_title: 'Flyt kort',
       moveList_title: 'Flyt liste',
+      regenerateApiKey: 'Regenerer API-nøgle',
       remove: 'Fjern',
       removeAssignee: 'Fjern ansvarlig',
       removeColor: 'Fjern farve',

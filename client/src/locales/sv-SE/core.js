@@ -40,6 +40,8 @@ export default {
         'Alla ändringar kommer att sparas automatiskt<br />så fort anslutningen är återställd.',
       alphabetically: 'Alfabetiskt',
       alwaysDisplayCardCreator: 'Visa alltid kortskapare',
+      apiKeyCreated_title: 'API-nyckel skapad',
+      apiKey_title: 'API-nyckel',
       archive: 'Arkiv',
       archiveCard_title: 'Arkivera kort',
       archiveCards_title: 'Arkivera kort',
@@ -51,6 +53,7 @@ export default {
         'Är du säker på att du vill tilldela den här projektledaren som ägare?',
       areYouSureYouWantToDeactivateThisUser:
         'Är du säker på att du vill inaktivera den här användaren?',
+      areYouSureYouWantToDeleteThisApiKey: 'Är du säker på att du vill ta bort denna API-nyckel?',
       areYouSureYouWantToDeleteThisAttachment:
         'Är du säker på att du vill ta bort den här bilagan?',
       areYouSureYouWantToDeleteThisBackgroundImage:
@@ -83,6 +86,8 @@ export default {
         'Är du säker på att du vill göra det här projektet privat?',
       areYouSureYouWantToMakeThisProjectShared:
         'Är du säker på att du vill dela det här projektet?',
+      areYouSureYouWantToRegenerateThisApiKey:
+        'Är du säker på att du vill regenerera denna API-nyckel? Den tidigare nyckeln kommer inte längre att fungera.',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Är du säker på att du vill ta bort den här projektledaren från projektet?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -136,6 +141,7 @@ export default {
       createTextFile_title: 'Skapa textfil',
       creator: 'Skapare',
       currentPassword: 'Nuvarande lösenord',
+      currentUser: 'Nuvarande användare',
       customFieldGroup_title: 'Anpassad fältgrupp',
       customFieldGroups_title: 'Anpassade fältgrupper',
       customField_title: 'Anpassat fält',
@@ -148,6 +154,7 @@ export default {
       defaultView_title: 'Standardvy',
       deleteAllBoardsToBeAbleToDeleteThisProject:
         'Ta bort alla tavlor för att kunna ta bort det här projektet',
+      deleteApiKey_title: 'Ta bort API-nyckel',
       deleteAttachment_title: 'Ta bort bilaga',
       deleteBackgroundImage_title: 'Ta bort bakgrundsbild',
       deleteBoard_title: 'Ta bort tavla',
@@ -203,6 +210,8 @@ export default {
       forTeamBasedProjects: 'För teambaserade projekt.',
       fromComputer_title: 'Från dator',
       fromTrello: 'Från Trello',
+      fullKeyIsHiddenForSecurityReasons:
+        'Den fullständiga nyckeln är dold av säkerhetsskäl. Regenerera den för att skapa en ny.',
       general: 'Allmänt',
       gradients: 'Gradienter',
       grid: 'Rutnät',
@@ -210,7 +219,9 @@ export default {
       hideFromProjectListAndFavorites: 'Dölj från projektlista och favoriter',
       host: 'Värd',
       hours: 'Timmar',
+      identity: 'Identitet',
       importBoard_title: 'Importera tavla',
+      information: 'Information',
       invalidCurrentPassword: 'Ogiltigt nuvarande lösenord',
       kanban: 'Kanban',
       labels: 'Etiketter',
@@ -239,6 +250,7 @@ export default {
       newUsername: 'Nytt användarnamn',
       newVersionAvailable: 'Ny version tillgänglig',
       newestFirst: 'Nyaste först',
+      noApiKeyCreated: 'Ingen API-nyckel skapad.',
       noBoards: 'Inga tavlor',
       noCardsFound: 'Inga kort hittades.',
       noConnectionToServer: 'Ingen anslutning till servern',
@@ -266,10 +278,12 @@ export default {
       projectNotFound_title: 'Projekt hittades inte',
       projectOwner: 'Projektägare',
       referenceDataAndKnowledgeStorage: 'Referensdata och kunskapslagring.',
+      regenerateApiKey_title: 'Regenerera API-nyckel',
       rejectUnauthorizedTlsCertificates: 'Avvisa obehöriga TLS-certifikat',
       removeManager_title: 'Ta bort projektledare',
       removeMember_title: 'Ta bort medlem',
       role: 'Roll',
+      saveThisKeyItWillNotBeShownAgain: 'Spara denna nyckel — den visas inte igen!',
       searchCards: 'Sök kort...',
       searchCustomFieldGroups: 'Sök anpassade fältgrupper...',
       searchCustomFields: 'Sök anpassade fält...',
@@ -384,6 +398,7 @@ export default {
       archiveCards_title: 'Arkivera kort',
       assignAsOwner: 'Tilldela som ägare',
       cancel: 'Avbryt',
+      createApiKey: 'Skapa API-nyckel',
       createBoard: 'Skapa tavla',
       createCustomFieldGroup: 'Skapa anpassad fältgrupp',
       createFile: 'Skapa fil',
@@ -393,6 +408,7 @@ export default {
       deactivateUser: 'Inaktivera användare',
       deactivateUser_title: 'Inaktivera användare',
       delete: 'Ta bort',
+      deleteApiKey: 'Ta bort API-nyckel',
       deleteAttachment: 'Ta bort bilaga',
       deleteAvatar: 'Ta bort avatar',
       deleteBackgroundImage: 'Ta bort bakgrundsbild',
@@ -451,6 +467,7 @@ export default {
       move: 'Flytta',
       moveCard_title: 'Flytta kort',
       moveList_title: 'Flytta lista',
+      regenerateApiKey: 'Regenerera API-nyckel',
       remove: 'Ta bort',
       removeAssignee: 'Ta bort tilldelad',
       removeColor: 'Ta bort färg',

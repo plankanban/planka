@@ -40,6 +40,8 @@ export default {
         'Όλες οι αλλαγές θα αποθηκευτούν αυτόματα<br />όταν αποκατασταθεί η σύνδεση.',
       alphabetically: 'Αλφαβητικά',
       alwaysDisplayCardCreator: 'Πάντα εμφάνιση δημιουργού κάρτας',
+      apiKeyCreated_title: 'Δημιουργήθηκε κλειδί API',
+      apiKey_title: 'Κλειδί API',
       archive: 'Αρχειοθέτηση',
       archiveCard_title: 'Αρχειοθέτηση κάρτας',
       archiveCards_title: 'Αρχειοθέτηση καρτών',
@@ -52,6 +54,8 @@ export default {
         'Είστε σίγουροι ότι θέλετε να ορίσετε αυτόν τον διαχειριστή έργου ως ιδιοκτήτη;',
       areYouSureYouWantToDeactivateThisUser:
         'Είστε σίγουροι ότι θέλετε να απενεργοποιήσετε αυτόν τον χρήστη;',
+      areYouSureYouWantToDeleteThisApiKey:
+        'Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτό το κλειδί API;',
       areYouSureYouWantToDeleteThisAttachment:
         'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το συνημμένο;',
       areYouSureYouWantToDeleteThisBackgroundImage:
@@ -89,6 +93,8 @@ export default {
         'Είστε σίγουροι ότι θέλετε να κάνετε αυτό το έργο ιδιωτικό;',
       areYouSureYouWantToMakeThisProjectShared:
         'Είστε σίγουροι ότι θέλετε να κάνετε αυτό το έργο κοινόχρηστο;',
+      areYouSureYouWantToRegenerateThisApiKey:
+        'Είστε βέβαιοι ότι θέλετε να αναδημιουργήσετε αυτό το κλειδί API; Το προηγούμενο κλειδί δεν θα λειτουργεί πλέον.',
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτόν τον διαχειριστή από το έργο;',
       areYouSureYouWantToRemoveThisMemberFromBoard:
@@ -143,6 +149,7 @@ export default {
       createTextFile_title: 'Δημιουργία αρχείου κειμένου',
       creator: 'Δημιουργός',
       currentPassword: 'Τρέχων κωδικός',
+      currentUser: 'Τρέχων χρήστης',
       customFieldGroup_title: 'Ομάδα προσαρμοσμένων πεδίων',
       customFieldGroups_title: 'Ομάδες προσαρμοσμένων πεδίων',
       customField_title: 'Προσαρμοσμένο πεδίο',
@@ -155,6 +162,7 @@ export default {
       defaultView_title: 'Προεπιλεγμένη προβολή',
       deleteAllBoardsToBeAbleToDeleteThisProject:
         'Διαγράψτε όλους τους πίνακες για να μπορέσετε να διαγράψετε αυτό το έργο',
+      deleteApiKey_title: 'Διαγραφή κλειδιού API',
       deleteAttachment_title: 'Διαγραφή συνημμένου',
       deleteBackgroundImage_title: 'Διαγραφή εικόνας φόντου',
       deleteBoard_title: 'Διαγραφή πίνακα',
@@ -210,6 +218,8 @@ export default {
       forTeamBasedProjects: 'Για έργα βασισμένα σε ομάδες.',
       fromComputer_title: 'Από υπολογιστή',
       fromTrello: 'Από Trello',
+      fullKeyIsHiddenForSecurityReasons:
+        'Το πλήρες κλειδί είναι κρυφό για λόγους ασφαλείας. Αναδημιουργήστε το για να δημιουργήσετε ένα νέο.',
       general: 'Γενικά',
       gradients: 'Διαβαθμίσεις',
       grid: 'Πλέγμα',
@@ -217,7 +227,9 @@ export default {
       hideFromProjectListAndFavorites: 'Απόκρυψη από τη λίστα έργων και τα αγαπημένα',
       host: 'Κεντρικός υπολογιστής',
       hours: 'Ώρες',
+      identity: 'Ταυτότητα',
       importBoard_title: 'Εισαγωγή πίνακα',
+      information: 'Πληροφορίες',
       invalidCurrentPassword: 'Μη έγκυρος τρέχων κωδικός',
       kanban: 'Kanban',
       labels: 'Ετικέτες',
@@ -246,6 +258,7 @@ export default {
       newUsername: 'Νέο όνομα χρήστη',
       newVersionAvailable: 'Διαθέσιμη νέα έκδοση',
       newestFirst: 'Νεότερα πρώτα',
+      noApiKeyCreated: 'Δεν έχει δημιουργηθεί κλειδί API.',
       noBoards: 'Δεν υπάρχουν πίνακες',
       noCardsFound: 'Δεν βρέθηκαν κάρτες.',
       noConnectionToServer: 'Δεν υπάρχει σύνδεση με τον διακομιστή',
@@ -273,10 +286,12 @@ export default {
       projectNotFound_title: 'Το έργο δεν βρέθηκε',
       projectOwner: 'Ιδιοκτήτης έργου',
       referenceDataAndKnowledgeStorage: 'Αποθήκευση δεδομένων και γνώσης αναφοράς.',
+      regenerateApiKey_title: 'Αναδημιουργία κλειδιού API',
       rejectUnauthorizedTlsCertificates: 'Απόρριψη μη εξουσιοδοτημένων πιστοποιητικών TLS',
       removeManager_title: 'Αφαίρεση διαχειριστή',
       removeMember_title: 'Αφαίρεση μέλους',
       role: 'Ρόλος',
+      saveThisKeyItWillNotBeShownAgain: 'Αποθηκεύστε αυτό το κλειδί — δεν θα εμφανιστεί ξανά!',
       searchCards: 'Αναζήτηση καρτών...',
       searchCustomFieldGroups: 'Αναζήτηση ομάδων προσαρμοσμένων πεδίων...',
       searchCustomFields: 'Αναζήτηση προσαρμοσμένων πεδίων...',
@@ -397,6 +412,7 @@ export default {
       archiveCards_title: 'Αρχειοθέτηση καρτών',
       assignAsOwner: 'Ορισμός ως ιδιοκτήτης',
       cancel: 'Ακύρωση',
+      createApiKey: 'Δημιουργία κλειδιού API',
       createBoard: 'Δημιουργία πίνακα',
       createCustomFieldGroup: 'Δημιουργία ομάδας προσαρμοσμένων πεδίων',
       createFile: 'Δημιουργία αρχείου',
@@ -406,6 +422,7 @@ export default {
       deactivateUser: 'Απενεργοποίηση χρήστη',
       deactivateUser_title: 'Απενεργοποίηση χρήστη',
       delete: 'Διαγραφή',
+      deleteApiKey: 'Διαγραφή κλειδιού API',
       deleteAttachment: 'Διαγραφή συνημμένου',
       deleteAvatar: 'Διαγραφή avatar',
       deleteBackgroundImage: 'Διαγραφή εικόνας φόντου',
@@ -464,6 +481,7 @@ export default {
       move: 'Μετακίνηση',
       moveCard_title: 'Μετακίνηση κάρτας',
       moveList_title: 'Μετακίνηση λίστας',
+      regenerateApiKey: 'Αναδημιουργία κλειδιού API',
       remove: 'Αφαίρεση',
       removeAssignee: 'Αφαίρεση υπευθύνου',
       removeColor: 'Αφαίρεση χρώματος',

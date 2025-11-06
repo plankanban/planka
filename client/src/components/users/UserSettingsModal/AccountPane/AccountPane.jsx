@@ -80,7 +80,7 @@ const AccountPane = React.memo(() => {
           </Divider>
           {isUsernameEditable && (
             <div className={styles.action}>
-              <EditUserUsernamePopup id={user.id} withPasswordConfirmation={!user.isSsoUser}>
+              <EditUserUsernamePopup id={user.id}>
                 <Button className={styles.actionButton}>
                   {t('action.editUsername', {
                     context: 'title',
@@ -91,7 +91,7 @@ const AccountPane = React.memo(() => {
           )}
           {isEmailEditable && (
             <div className={styles.action}>
-              <EditUserEmailPopup id={user.id} withPasswordConfirmation={!user.isSsoUser}>
+              <EditUserEmailPopup id={user.id}>
                 <Button className={styles.actionButton}>
                   {t('action.editEmail', {
                     context: 'title',
@@ -102,7 +102,7 @@ const AccountPane = React.memo(() => {
           )}
           {isPasswordEditable && (
             <div className={styles.action}>
-              <EditUserPasswordPopup id={user.id} withPasswordConfirmation={!user.isSsoUser}>
+              <EditUserPasswordPopup id={user.id}>
                 <Button className={styles.actionButton}>
                   {t('action.editPassword', {
                     context: 'title',

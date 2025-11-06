@@ -235,6 +235,58 @@ updateUserAvatar.failure = (id, error) => ({
   },
 });
 
+const createUserApiKey = (id) => ({
+  type: ActionTypes.USER_API_KEY_CREATE,
+  payload: {
+    id,
+  },
+});
+
+createUserApiKey.success = (user, apiKey) => ({
+  type: ActionTypes.USER_API_KEY_CREATE__SUCCESS,
+  payload: {
+    user,
+    apiKey,
+  },
+});
+
+createUserApiKey.failure = (id, error) => ({
+  type: ActionTypes.USER_API_KEY_CREATE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const deleteUserApiKey = (id) => ({
+  type: ActionTypes.USER_API_KEY_DELETE,
+  payload: {
+    id,
+  },
+});
+
+deleteUserApiKey.success = (user) => ({
+  type: ActionTypes.USER_API_KEY_DELETE__SUCCESS,
+  payload: {
+    user,
+  },
+});
+
+deleteUserApiKey.failure = (id, error) => ({
+  type: ActionTypes.USER_API_KEY_DELETE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const clearUserApiKeyValue = (id) => ({
+  type: ActionTypes.USER_API_KEY_VALUE_CLEAR,
+  payload: {
+    id,
+  },
+});
+
 const deleteUser = (id) => ({
   type: ActionTypes.USER_DELETE,
   payload: {
@@ -359,6 +411,9 @@ export default {
   updateUserUsername,
   clearUserUsernameUpdateError,
   updateUserAvatar,
+  createUserApiKey,
+  deleteUserApiKey,
+  clearUserApiKeyValue,
   deleteUser,
   handleUserDelete,
   addUserToCard,
