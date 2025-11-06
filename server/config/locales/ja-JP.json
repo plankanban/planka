@@ -1,0 +1,16 @@
+{
+  "Card Created": "カードが作成されました",
+  "Card Moved": "カードが移動されました",
+  "New Comment": "新しいコメント",
+  "Test Title": "テストタイトル",
+  "This is a test text message!": "これはテストテキストメッセージです！",
+  "This is a *test* **markdown** `message`!": "これは*テスト***markdown**`メッセージ`です！",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "これは<i>テスト</i><b>html</b><code>メッセージ</code>です！",
+  "You Were Added to Card": "カードに追加されました",
+  "You Were Mentioned in Comment": "コメントでメンションされました",
+  "%s added you to %s on %s": "%sが%sの%sにあなたを追加しました",
+  "%s created %s in %s on %s": "%sが%sの%sに%sを作成しました",
+  "%s left a new comment to %s on %s": "%sが%sの%sに新しいコメントを残しました",
+  "%s mentioned you in %s on %s": "%sが%sの%sであなたをメンションしました",
+  "%s moved %s from %s to %s on %s": "%sが%sの%sを%sから%sに移動しました"
+}

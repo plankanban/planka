@@ -1,0 +1,16 @@
+{
+  "Card Created": "Card creat",
+  "Card Moved": "Card mutat",
+  "New Comment": "Comentariu nou",
+  "Test Title": "Titlu de test",
+  "This is a test text message!": "Acesta este un mesaj text de test!",
+  "This is a *test* **markdown** `message`!": "Acesta este un *mesaj* **markdown** `de test`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Acesta este un <i>mesaj</i> <b>html</b> <code>de test</code>!",
+  "You Were Added to Card": "Ați fost adăugat la card",
+  "You Were Mentioned in Comment": "Ați fost menționat într-un comentariu",
+  "%s added you to %s on %s": "%s v-a adăugat la %s pe %s",
+  "%s created %s in %s on %s": "%s a creat %s în %s pe %s",
+  "%s left a new comment to %s on %s": "%s a lăsat un comentariu nou la %s pe %s",
+  "%s mentioned you in %s on %s": "%s v-a menționat în %s pe %s",
+  "%s moved %s from %s to %s on %s": "%s a mutat %s din %s în %s pe %s"
+}

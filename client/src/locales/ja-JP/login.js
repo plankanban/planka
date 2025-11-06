@@ -1,20 +1,21 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: null,
-      adminLoginRequiredToInitializeInstance: null,
+      activeUsersLimitReached: 'アクティブユーザーの上限に達しました',
+      adminLoginRequiredToInitializeInstance:
+        'インスタンスを初期化するには管理者ログインが必要です',
       emailAlreadyInUse: 'Eメールは既に使われています',
       emailOrUsername: 'Eメールまたはユーザー名',
-      iHaveReadAndAgreeToTheseTerms: null,
-      invalidCredentials: null,
+      iHaveReadAndAgreeToTheseTerms: 'これらの利用規約を読み、同意します',
+      invalidCredentials: '認証情報が無効です',
       invalidEmailOrUsername: 'Eメールまたはユーザー名が無効',
       invalidPassword: 'パスワードが無効',
-      logIn_title: null,
+      logIn_title: 'ログイン',
       noInternetConnection: 'インターネットに接続されていません',
-      or: null,
+      or: 'または',
       pageNotFound_title: 'ページが見つかりません',
       password: 'パスワード',
-      poweredByPlanka: null,
+      poweredByPlanka: '<1>PLANKA</1>で動作',
       serverConnectionFailed: 'サーバーの接続に失敗',
       unknownError: '不明なエラーです。後でもう一度試してください。',
       useSingleSignOn: 'SSOを使用',
@@ -22,8 +23,8 @@ export default {
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'キャンセルして閉じる',
+      continue: '続行',
       logIn: 'ログイン',
       logInWithSso: 'SSOでログイン',
     },

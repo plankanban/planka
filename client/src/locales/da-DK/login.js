@@ -2,10 +2,11 @@ export default {
   translation: {
     common: {
       activeUsersLimitReached: 'Grænsen for aktive brugere er nået',
-      adminLoginRequiredToInitializeInstance: null,
+      adminLoginRequiredToInitializeInstance:
+        'Administrator login påkrævet for at initialisere instans',
       emailAlreadyInUse: 'E-mail allerede i brug',
       emailOrUsername: 'E-mail eller brugernavn',
-      iHaveReadAndAgreeToTheseTerms: null,
+      iHaveReadAndAgreeToTheseTerms: 'Jeg har læst og accepterer disse vilkår',
       invalidCredentials: 'Forkerte loginoplysninger',
       invalidEmailOrUsername: 'Ugyldig e-mail eller brugernavn',
       invalidPassword: 'Ugyldig adgangskode',
@@ -22,8 +23,8 @@ export default {
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'Annuller og luk',
+      continue: 'Fortsæt',
       logIn: 'Log på',
       logInWithSso: 'Log på med SSO',
     },

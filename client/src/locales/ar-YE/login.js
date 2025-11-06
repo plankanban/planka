@@ -1,20 +1,20 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: null,
-      adminLoginRequiredToInitializeInstance: null,
+      activeUsersLimitReached: 'تم الوصول إلى حد المستخدمين النشطين',
+      adminLoginRequiredToInitializeInstance: 'مطلوب تسجيل دخول المدير لتهيئة المثيل',
       emailAlreadyInUse: 'البريد الإلكتروني مستخدم بالفعل',
       emailOrUsername: 'البريد الإلكتروني أو اسم المستخدم',
-      iHaveReadAndAgreeToTheseTerms: null,
+      iHaveReadAndAgreeToTheseTerms: 'لقد قرأت ووافقت على هذه الشروط',
       invalidCredentials: 'بيانات الاعتماد غير صالحة',
       invalidEmailOrUsername: 'البريد الإلكتروني أو اسم المستخدم غير صالح',
       invalidPassword: 'كلمة المرور غير صالحة',
-      logIn_title: null,
+      logIn_title: 'تسجيل الدخول',
       noInternetConnection: 'لا يوجد اتصال بالإنترنت',
-      or: null,
+      or: 'أو',
       pageNotFound_title: 'الصفحة غير موجودة',
       password: 'كلمة المرور',
-      poweredByPlanka: null,
+      poweredByPlanka: 'مدعوم بواسطة <1>PLANKA</1>',
       serverConnectionFailed: 'فشل الاتصال بالخادم',
       unknownError: 'خطأ غير معروف، يرجى المحاولة لاحقاً',
       useSingleSignOn: 'استخدم تسجيل الدخول الموحد',
@@ -22,8 +22,8 @@ export default {
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'إلغاء وإغلاق',
+      continue: 'متابعة',
       logIn: 'تسجيل الدخول',
       logInWithSso: 'تسجيل الدخول باستخدام SSO',
     },

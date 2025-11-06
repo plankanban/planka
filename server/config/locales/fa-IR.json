@@ -1,0 +1,16 @@
+{
+  "Card Created": "کارت ایجاد شد",
+  "Card Moved": "کارت منتقل شد",
+  "New Comment": "نظر جدید",
+  "Test Title": "عنوان آزمایشی",
+  "This is a test text message!": "این یک پیام متنی آزمایشی است!",
+  "This is a *test* **markdown** `message`!": "این یک *پیام* **markdown** `آزمایشی` است!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "این یک <i>پیام</i> <b>html</b> <code>آزمایشی</code> است!",
+  "You Were Added to Card": "شما به کارت اضافه شدید",
+  "You Were Mentioned in Comment": "در نظری از شما نام برده شد",
+  "%s added you to %s on %s": "%s شما را به %s در %s اضافه کرد",
+  "%s created %s in %s on %s": "%s ایجاد کرد %s در %s در %s",
+  "%s left a new comment to %s on %s": "%s نظر جدیدی برای %s در %s گذاشت",
+  "%s mentioned you in %s on %s": "%s از شما در %s در %s نام برد",
+  "%s moved %s from %s to %s on %s": "%s منتقل کرد %s از %s به %s در %s"
+}

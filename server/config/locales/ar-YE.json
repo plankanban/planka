@@ -1,0 +1,16 @@
+{
+  "Card Created": "تم إنشاء البطاقة",
+  "Card Moved": "تم نقل البطاقة",
+  "New Comment": "تعليق جديد",
+  "Test Title": "عنوان تجريبي",
+  "This is a test text message!": "هذه رسالة نصية تجريبية!",
+  "This is a *test* **markdown** `message`!": "هذه *رسالة* **markdown** `تجريبية`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "هذه <i>رسالة</i> <b>html</b> <code>تجريبية</code>!",
+  "You Were Added to Card": "تمت إضافتك إلى البطاقة",
+  "You Were Mentioned in Comment": "تم ذكرك في تعليق",
+  "%s added you to %s on %s": "%s أضافك إلى %s في %s",
+  "%s created %s in %s on %s": "%s أنشأ %s في %s في %s",
+  "%s left a new comment to %s on %s": "%s ترك تعليقاً جديداً على %s في %s",
+  "%s mentioned you in %s on %s": "%s ذكرك في %s في %s",
+  "%s moved %s from %s to %s on %s": "%s نقل %s من %s إلى %s في %s"
+}

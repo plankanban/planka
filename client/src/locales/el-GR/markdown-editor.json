@@ -7,7 +7,7 @@
   "bundle": {
     "error-title": "Σφάλμα στον επεξεργαστή markdown",
     "settings_wysiwyg": "Οπτικός επεξεργαστής (wysiwyg)",
-    "settings_markup": "Σήμανση Markdown",
+    "settings_markup": "Σήμανση markdown",
     "markup_placeholder": "Εισάγετε σήμανση markdown..."
   },
   "codeblock": {

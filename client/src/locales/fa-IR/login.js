@@ -1,20 +1,20 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: null,
-      adminLoginRequiredToInitializeInstance: null,
+      activeUsersLimitReached: 'حد کاربران فعال به پایان رسیده است',
+      adminLoginRequiredToInitializeInstance: 'ورود مدیر برای راه‌اندازی نمونه مورد نیاز است',
       emailAlreadyInUse: 'ایمیل قبلا استفاده شده است',
       emailOrUsername: 'ایمیل یا نام کاربری',
-      iHaveReadAndAgreeToTheseTerms: null,
-      invalidCredentials: null,
+      iHaveReadAndAgreeToTheseTerms: 'این شرایط را خوانده‌ام و با آن موافقم',
+      invalidCredentials: 'اطلاعات ورود نامعتبر',
       invalidEmailOrUsername: 'ایمیل یا نام کاربری نامعتبر است',
       invalidPassword: 'رمز عبور نامعتبر است',
-      logIn_title: null,
+      logIn_title: 'ورود',
       noInternetConnection: 'بدون اتصال به اینترنت',
-      or: null,
+      or: 'یا',
       pageNotFound_title: 'صفحه یافت نشد',
       password: 'رمز عبور',
-      poweredByPlanka: null,
+      poweredByPlanka: 'قدرت گرفته از <1>PLANKA</1>',
       serverConnectionFailed: 'اتصال به سرور ناموفق بود',
       unknownError: 'خطای ناشناخته، بعداً دوباره تلاش کنید',
       useSingleSignOn: 'استفاده از ورود یکپارچه',
@@ -22,8 +22,8 @@ export default {
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'لغو و بستن',
+      continue: 'ادامه',
       logIn: 'ورود',
       logInWithSso: 'ورود با SSO',
     },

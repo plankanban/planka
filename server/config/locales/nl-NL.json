@@ -1,0 +1,16 @@
+{
+  "Card Created": "Kaart aangemaakt",
+  "Card Moved": "Kaart verplaatst",
+  "New Comment": "Nieuwe reactie",
+  "Test Title": "Test titel",
+  "This is a test text message!": "Dit is een test tekstbericht!",
+  "This is a *test* **markdown** `message`!": "Dit is een *test* **markdown** `bericht`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Dit is een <i>test</i> <b>html</b> <code>bericht</code>!",
+  "You Were Added to Card": "Je bent toegevoegd aan kaart",
+  "You Were Mentioned in Comment": "Je bent genoemd in reactie",
+  "%s added you to %s on %s": "%s heeft je toegevoegd aan %s op %s",
+  "%s created %s in %s on %s": "%s heeft %s aangemaakt in %s op %s",
+  "%s left a new comment to %s on %s": "%s heeft een nieuwe reactie achtergelaten op %s op %s",
+  "%s mentioned you in %s on %s": "%s heeft je genoemd in %s op %s",
+  "%s moved %s from %s to %s on %s": "%s heeft %s verplaatst van %s naar %s op %s"
+}

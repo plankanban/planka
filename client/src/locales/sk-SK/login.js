@@ -1,31 +1,32 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: null,
-      adminLoginRequiredToInitializeInstance: null,
+      activeUsersLimitReached: 'Limit aktívnych používateľov bol dosiahnutý',
+      adminLoginRequiredToInitializeInstance:
+        'Na inicializáciu inštancie je potrebné prihlásenie správcu',
       emailAlreadyInUse: 'E-mail je už použitý',
       emailOrUsername: 'E-mail alebo používateľské meno',
-      iHaveReadAndAgreeToTheseTerms: null,
-      invalidCredentials: null,
+      iHaveReadAndAgreeToTheseTerms: 'Prečítal som si a súhlasím s týmito podmienkami',
+      invalidCredentials: 'Neplatné prihlasovacie údaje',
       invalidEmailOrUsername: 'Nesprávny e-mail alebo používateľské meno',
       invalidPassword: 'Nesprávne heslo',
-      logIn_title: null,
+      logIn_title: 'Prihlásiť sa',
       noInternetConnection: 'Bez pripojenia k internetu',
-      or: null,
+      or: 'Alebo',
       pageNotFound_title: 'Stránka neexistuje',
       password: 'Heslo',
-      poweredByPlanka: null,
+      poweredByPlanka: 'Poháňané <1>PLANKA</1>',
       serverConnectionFailed: 'Pripojenie k serveru zlyhalo',
       unknownError: 'Neznáma chyba, skúste to neskôr',
-      useSingleSignOn: null,
+      useSingleSignOn: 'Použiť jednotné prihlásenie',
       usernameAlreadyInUse: 'Používateľské meno je zabrané',
     },
 
     action: {
-      cancelAndClose: null,
-      continue: null,
+      cancelAndClose: 'Zrušiť a zavrieť',
+      continue: 'Pokračovať',
       logIn: 'Prihlásiť sa',
-      logInWithSso: null,
+      logInWithSso: 'Prihlásiť sa cez SSO',
     },
   },
 };
