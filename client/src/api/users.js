@@ -33,6 +33,9 @@ const updateUserUsername = (id, data, headers) =>
 
 const updateUserAvatar = (id, data, headers) => http.post(`/users/${id}/avatar`, data, headers);
 
+const createUserApiKey = (userId, headers) =>
+  socket.post(`/users/${userId}/api-key`, undefined, headers);
+
 const deleteUser = (id, headers) => socket.delete(`/users/${id}`, undefined, headers);
 
 export default {
@@ -45,5 +48,6 @@ export default {
   updateUserPassword,
   updateUserUsername,
   updateUserAvatar,
+  createUserApiKey,
   deleteUser,
 };

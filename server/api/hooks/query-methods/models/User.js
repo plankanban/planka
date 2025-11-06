@@ -78,6 +78,12 @@ const getOneActiveByEmailOrUsername = (emailOrUsername) => {
   });
 };
 
+const getOneActiveByApiKeyHash = (apiKeyHash) =>
+  User.findOne({
+    apiKeyHash,
+    isDeactivated: false,
+  });
+
 const updateOne = async (criteria, values) => {
   const enforceActiveLimit =
     values.isDeactivated === false && sails.config.custom.activeUsersLimit !== null;
@@ -201,6 +207,7 @@ module.exports = {
   getOneById,
   getOneByEmail,
   getOneActiveByEmailOrUsername,
+  getOneActiveByApiKeyHash,
   updateOne,
   deleteOne,
 };

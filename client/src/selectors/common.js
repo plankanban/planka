@@ -21,7 +21,7 @@ export const selectUserCreateForm = ({ ui: { userCreateForm } }) => userCreateFo
 
 export const selectProjectCreateForm = ({ ui: { projectCreateForm } }) => projectCreateForm;
 
-export const selectSmtpTest = ({ ui: { smtpTest } }) => smtpTest;
+export const selectSmtpTestState = ({ ui: { smtpTestState } }) => smtpTestState;
 
 export default {
   selectIsSocketDisconnected,
@@ -33,5 +33,5 @@ export default {
   selectAuthenticateForm,
   selectUserCreateForm,
   selectProjectCreateForm,
-  selectSmtpTest,
+  selectSmtpTestState,
 };

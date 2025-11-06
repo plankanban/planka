@@ -23,6 +23,7 @@ module.exports = {
       ..._.omit(inputs.record, [
         'password',
         'avatar',
+        'apiKeyHash',
         'termsSignature',
         'passwordChangedAt',
         'termsAcceptedAt',

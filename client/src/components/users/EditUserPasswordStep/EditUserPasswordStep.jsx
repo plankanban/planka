@@ -38,14 +38,17 @@ const createMessage = (error) => {
   }
 };
 
-const EditUserPasswordStep = React.memo(({ id, withPasswordConfirmation, onBack, onClose }) => {
+const EditUserPasswordStep = React.memo(({ id, onBack, onClose }) => {
   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
 
   const {
-    data: defaultData,
-    isSubmitting,
-    error,
-  } = useSelector((state) => selectUserById(state, id).passwordUpdateForm);
+    isSsoUser,
+    passwordUpdateForm: { data: defaultData, isSubmitting, error },
+  } = useSelector((state) => selectUserById(state, id));
+
+  const withPasswordConfirmation = useSelector(
+    (state) => id === selectors.selectCurrentUserId(state) && !isSsoUser,
+  );
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -168,13 +171,11 @@ const EditUserPasswordStep = React.memo(({ id, withPasswordConfirmation, onBack,
 
 EditUserPasswordStep.propTypes = {
   id: PropTypes.string.isRequired,
-  withPasswordConfirmation: PropTypes.bool,
   onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
 EditUserPasswordStep.defaultProps = {
-  withPasswordConfirmation: false,
   onBack: undefined,
 };
 

@@ -89,11 +89,8 @@ module.exports.routes = {
   'PATCH /api/users/:id/password': 'users/update-password',
   'PATCH /api/users/:id/username': 'users/update-username',
   'POST /api/users/:id/avatar': 'users/update-avatar',
+  'POST /api/users/:id/api-key': 'users/create-api-key',
   'DELETE /api/users/:id': 'users/delete',
-
-  'POST /api/users/:id/api-key': 'api-key/create',
-  'PATCH /api/users/:id/api-key': 'api-key/cycle',
-  'DELETE /api/users/:id/api-key': 'api-key/delete',
 
   'GET /api/projects': 'projects/index',
   'POST /api/projects': 'projects/create',

@@ -12,7 +12,6 @@ import common from './common';
 import auth from './auth';
 import core from './core';
 import ui from './ui';
-import actions from './actions';
 
 export default combineReducers({
   router,
@@ -22,5 +21,4 @@ export default combineReducers({
   auth,
   core,
   ui,
-  actions,
 });

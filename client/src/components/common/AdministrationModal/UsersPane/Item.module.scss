@@ -9,12 +9,43 @@
     margin-right: 0;
   }
 
+  .icon {
+    color: #888888;
+    margin: 0 0.35714286em 0 0;
+  }
+
+  .information {
+    font-size: 13px;
+
+    &:not(:last-of-type) {
+      margin-bottom: 4px;
+    }
+  }
+
+  .informationApiKey {
+    color: #cf513d;
+
+    .icon {
+      color: inherit;
+    }
+  }
+
+  .note {
+    color: #888888;
+  }
+
   .roleCell {
     white-space: nowrap;
   }
 
-  .roleIcon {
-    margin: 0 0.35714286em 0 0;
+  .user {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+  }
+
+  .wrapper {
+    color: #212121;
   }
 
   .wrapperDeactivated {

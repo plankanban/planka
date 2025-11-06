@@ -64,6 +64,18 @@ module.exports = {
       values.username = values.username.toLowerCase();
     }
 
+    if (_.isNull(values.apiKey)) {
+      Object.assign(values, {
+        apiKeyPrefix: null,
+        apiKeyHash: null,
+        apiKeyCreatedAt: null,
+      });
+    }
+
+    if (values.apiKeyHash) {
+      values.apiKeyCreatedAt = new Date().toISOString();
+    }
+
     if (values.isDeactivated && values.isDeactivated !== inputs.record.isDeactivated) {
       isDeactivatedChangeToTrue = true;
     }

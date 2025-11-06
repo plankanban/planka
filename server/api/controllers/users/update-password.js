@@ -161,7 +161,7 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    if (user.id === currentUser.id) {
+    if (currentSession && user.id === currentUser.id) {
       const { token: accessToken } = sails.helpers.utils.createJwtToken(
         user.id,
         user.passwordChangedAt,

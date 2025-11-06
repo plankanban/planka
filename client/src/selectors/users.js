@@ -45,22 +45,7 @@ export const makeSelectUserById = () =>
 
 export const selectUserById = makeSelectUserById();
 
-export const selectUsersExceptCurrent = createSelector(
-  orm,
-  (state) => selectCurrentUserId(state),
-  ({ User }, id) =>
-    User.getAllQuerySet()
-      .exclude({
-        id,
-      })
-      .toRefArray(),
-);
-
-export const selectUsersWithApiKeys = createSelector(orm, ({ User }) =>
-  User.getAllQuerySet()
-    .filter((user) => user.apiKeyPrefix !== null && user.apiKeyPrefix !== undefined)
-    .toRefArray(),
-);
+export const selectUsers = createSelector(orm, ({ User }) => User.getAllQuerySet().toRefArray());
 
 export const selectActiveUsers = createSelector(orm, ({ User }) =>
   User.getActiveQuerySet().toRefArray(),
@@ -360,8 +345,7 @@ export default {
   makeSelectUserById,
   selectUserById,
   selectCurrentUserId,
-  selectUsersExceptCurrent,
-  selectUsersWithApiKeys,
+  selectUsers,
   selectActiveUsers,
   selectActiveUsersTotal,
   selectActiveAdminOrProjectOwnerUsers,

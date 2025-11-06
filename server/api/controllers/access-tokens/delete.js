@@ -28,6 +28,8 @@
  *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
+ *     security:
+ *       - bearerAuth: []
  */
 
 module.exports = {

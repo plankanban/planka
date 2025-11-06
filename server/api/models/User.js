@@ -100,6 +100,11 @@
  *           nullable: true
  *           description: Preferred language for user interface and notifications (personal field)
  *           example: en-US
+ *         apiKeyPrefix:
+ *           type: string
+ *           nullable: true
+ *           description: Prefix of the API key for display purposes (private field)
+ *           example: D89VszVs
  *         subscribeToOwnCards:
  *           type: boolean
  *           default: false
@@ -162,6 +167,12 @@
  *           items:
  *             type: string
  *           example: [email, password, name]
+ *         apiKeyCreatedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When the API key was created (private field)
+ *           example: 2024-01-01T00:00:00.000Z
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -235,7 +246,7 @@ const LANGUAGES = [
   'zh-TW',
 ];
 
-const PRIVATE_FIELD_NAMES = ['email', 'isSsoUser'];
+const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'isSsoUser', 'apiKeyCreatedAt'];
 
 const PERSONAL_FIELD_NAMES = [
   'language',
@@ -319,6 +330,18 @@ module.exports = {
       isIn: LANGUAGES,
       allowNull: true,
     },
+    apiKeyPrefix: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'api_key_prefix',
+    },
+    apiKeyHash: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'api_key_hash',
+    },
     subscribeToOwnCards: {
       type: 'boolean',
       defaultsTo: false,
@@ -377,18 +400,9 @@ module.exports = {
       type: 'ref',
       columnName: 'password_changed_at',
     },
-    apiKeyPrefix: {
-      type: 'string',
-      columnName: 'api_key_prefix',
-      isNotEmptyString: true,
-      allowNull: true,
-      unique: true,
-    },
-    apiKeyHash: {
-      type: 'string',
-      columnName: 'api_key_hash',
-      isNotEmptyString: true,
-      allowNull: true,
+    apiKeyCreatedAt: {
+      type: 'ref',
+      columnName: 'api_key_created_at',
     },
     termsAcceptedAt: {
       type: 'ref',
