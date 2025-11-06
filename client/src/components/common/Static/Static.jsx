@@ -13,6 +13,7 @@ import { useTransitioning } from '../../../lib/hooks';
 import selectors from '../../../selectors';
 import { BoardViews } from '../../../constants/Enums';
 import Home from '../Home';
+import GhostError from '../GhostError';
 import Board from '../../boards/Board';
 
 import styles from './Static.module.scss';
@@ -42,40 +43,13 @@ const Static = React.memo(() => {
     contentNode = <Home />;
   } else if (cardId === null) {
     wrapperClassNames = [isFavoritesActive && styles.wrapperWithFavorites, styles.wrapperFlex];
-
-    contentNode = (
-      <div className={styles.message}>
-        <h1>
-          {t('common.cardNotFound', {
-            context: 'title',
-          })}
-        </h1>
-      </div>
-    );
+    contentNode = <GhostError message="common.cardNotFound" />;
   } else if (board === null) {
     wrapperClassNames = [isFavoritesActive && styles.wrapperWithFavorites, styles.wrapperFlex];
-
-    contentNode = (
-      <div className={styles.message}>
-        <h1>
-          {t('common.boardNotFound', {
-            context: 'title',
-          })}
-        </h1>
-      </div>
-    );
+    contentNode = <GhostError message="common.boardNotFound" />;
   } else if (projectId === null) {
     wrapperClassNames = [isFavoritesActive && styles.wrapperWithFavorites, styles.wrapperFlex];
-
-    contentNode = (
-      <div className={styles.message}>
-        <h1>
-          {t('common.projectNotFound', {
-            context: 'title',
-          })}
-        </h1>
-      </div>
-    );
+    contentNode = <GhostError message="common.projectNotFound" />;
   } else if (board === undefined) {
     wrapperClassNames = [
       isFavoritesActive ? styles.wrapperProjectWithFavorites : styles.wrapperProject,

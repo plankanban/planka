@@ -20,11 +20,14 @@ export default {
       unknownError: 'Ismeretlen hiba, próbáld meg később újra',
       useSingleSignOn: 'Egyszeri bejelentkezés használata',
       usernameAlreadyInUse: 'A felhasználónév már használatban van',
+      whoops_title: 'Hoppá!',
     },
 
     action: {
       cancelAndClose: 'Mégse és bezárás',
       continue: 'Folytatás',
+      goBack: 'Vissza',
+      goHome: 'Kezdőlapra',
       logIn: 'Belépés',
       logInWithSso: 'Belépés SSO-val',
     },

@@ -20,11 +20,14 @@ export default {
       unknownError: 'Невідома помилка, спробуйте ще раз пізніше',
       useSingleSignOn: 'Використовувати одночасний вхід',
       usernameAlreadyInUse: "Ім'я користувача вже використовується",
+      whoops_title: 'Ой!',
     },
 
     action: {
       cancelAndClose: 'Скасувати та закрити',
       continue: 'Продовжити',
+      goBack: 'Назад',
+      goHome: 'На головну',
       logIn: 'Увійти',
       logInWithSso: 'Увійти за допомогою SSO',
     },

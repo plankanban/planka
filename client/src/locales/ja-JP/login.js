@@ -20,11 +20,14 @@ export default {
       unknownError: '不明なエラーです。後でもう一度試してください。',
       useSingleSignOn: 'SSOを使用',
       usernameAlreadyInUse: 'ユーザー名は既に使われています',
+      whoops_title: 'おっと！',
     },
 
     action: {
       cancelAndClose: 'キャンセルして閉じる',
       continue: '続行',
+      goBack: '戻る',
+      goHome: 'ホームへ',
       logIn: 'ログイン',
       logInWithSso: 'SSOでログイン',
     },

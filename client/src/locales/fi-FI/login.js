@@ -20,11 +20,14 @@ export default {
       unknownError: 'Tuntematon virhe, yritä myöhemmin uudelleen',
       useSingleSignOn: 'Käytä kertakirjautumista',
       usernameAlreadyInUse: 'Käyttäjänimi on jo käytössä',
+      whoops_title: 'Hups!',
     },
 
     action: {
       cancelAndClose: 'Peruuta ja sulje',
       continue: 'Jatka',
+      goBack: 'Takaisin',
+      goHome: 'Kotiin',
       logIn: 'Kirjaudu sisään',
       logInWithSso: 'Kirjaudu SSO:lla',
     },

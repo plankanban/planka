@@ -20,11 +20,14 @@ export default {
       unknownError: 'Что-то пошло не так, попробуйте позже',
       useSingleSignOn: 'Используйте единый вход',
       usernameAlreadyInUse: 'Имя пользователя уже занято',
+      whoops_title: 'Упс!',
     },
 
     action: {
       cancelAndClose: 'Отменить и закрыть',
       continue: 'Продолжить',
+      goBack: 'Назад',
+      goHome: 'На главную',
       logIn: 'Войти',
       logInWithSso: 'Войти с помощью единого входа',
     },

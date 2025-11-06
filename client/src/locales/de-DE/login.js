@@ -20,11 +20,14 @@ export default {
       unknownError: 'Unbekannter Fehler, bitte später erneut versuchen',
       useSingleSignOn: 'Einmalige Anmeldung (SSO) verwenden',
       usernameAlreadyInUse: 'Benutzername wird bereits verwendet',
+      whoops_title: 'Hoppla!',
     },
 
     action: {
       cancelAndClose: 'Abbrechen und schließen',
       continue: 'Fortfahren',
+      goBack: 'Zurück gehen',
+      goHome: 'Zur Startseite',
       logIn: 'Einloggen',
       logInWithSso: 'Einloggen mit SSO',
     },

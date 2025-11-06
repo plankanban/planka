@@ -39,8 +39,8 @@ export default (state = initialState, { type, payload }) => {
       const nextState = {
         ...state,
         isContentFetching: false,
-        boardId: payload.currentBoardId,
-        cardId: payload.currentCardId,
+        boardId: payload.currentBoardId || null,
+        cardId: payload.currentCardId || null,
       };
 
       if (payload.currentCardId) {

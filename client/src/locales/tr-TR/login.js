@@ -19,11 +19,14 @@ export default {
       unknownError: 'Bilinmeyen hata, daha sonra tekrar deneyin',
       useSingleSignOn: 'Tek oturum açma kullan',
       usernameAlreadyInUse: 'Kullanıcı adı zaten kullanımda',
+      whoops_title: 'Hata!',
     },
 
     action: {
       cancelAndClose: 'İptal et ve kapat',
       continue: 'Devam et',
+      goBack: 'Geri dön',
+      goHome: 'Ana sayfaya git',
       logIn: 'Giriş yap',
       logInWithSso: 'SSO ile giriş yap',
     },

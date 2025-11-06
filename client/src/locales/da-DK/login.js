@@ -20,11 +20,14 @@ export default {
       unknownError: 'Ukendt fejl - prøv igen',
       useSingleSignOn: 'Anvend single sign-on',
       usernameAlreadyInUse: 'Brugernavn allerede i brug',
+      whoops_title: 'Ups!',
     },
 
     action: {
       cancelAndClose: 'Annuller og luk',
       continue: 'Fortsæt',
+      goBack: 'Gå tilbage',
+      goHome: 'Gå hjem',
       logIn: 'Log på',
       logInWithSso: 'Log på med SSO',
     },

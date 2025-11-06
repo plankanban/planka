@@ -19,11 +19,14 @@ export default {
       unknownError: 'خطای ناشناخته، بعداً دوباره تلاش کنید',
       useSingleSignOn: 'استفاده از ورود یکپارچه',
       usernameAlreadyInUse: 'نام کاربری قبلا استفاده شده است',
+      whoops_title: 'اوه!',
     },
 
     action: {
       cancelAndClose: 'لغو و بستن',
       continue: 'ادامه',
+      goBack: 'بازگشت',
+      goHome: 'رفتن به خانه',
       logIn: 'ورود',
       logInWithSso: 'ورود با SSO',
     },

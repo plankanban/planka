@@ -20,11 +20,14 @@ export default {
       unknownError: "Noma'lum xatolik, qaytadan urinib ko'ring",
       useSingleSignOn: 'Yagona kirish tizimidan foydalaning',
       usernameAlreadyInUse: 'Foydalanuvchi nomi allaqachon mavjud',
+      whoops_title: 'Voy!',
     },
 
     action: {
       cancelAndClose: 'Bekor qilish va yopish',
       continue: 'Davom etish',
+      goBack: 'Orqaga',
+      goHome: 'Bosh sahifaga',
       logIn: 'Kirish',
       logInWithSso: 'SSO orqali kirish',
     },

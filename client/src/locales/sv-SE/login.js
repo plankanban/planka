@@ -20,11 +20,14 @@ export default {
       unknownError: 'Okänt fel, försök igen senare',
       useSingleSignOn: 'Använd enkel inloggning',
       usernameAlreadyInUse: 'Användarnamnet används redan',
+      whoops_title: 'Hoppsan!',
     },
 
     action: {
       cancelAndClose: 'Avbryt och stäng',
       continue: 'Fortsätt',
+      goBack: 'Gå tillbaka',
+      goHome: 'Gå hem',
       logIn: 'Logga in',
       logInWithSso: 'Logga in med SSO',
     },

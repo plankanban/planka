@@ -19,11 +19,14 @@ export default {
       unknownError: 'خطأ غير معروف، يرجى المحاولة لاحقاً',
       useSingleSignOn: 'استخدم تسجيل الدخول الموحد',
       usernameAlreadyInUse: 'اسم المستخدم تم استخدامه بالفعل',
+      whoops_title: 'عفواً!',
     },
 
     action: {
       cancelAndClose: 'إلغاء وإغلاق',
       continue: 'متابعة',
+      goBack: 'العودة',
+      goHome: 'الذهاب للرئيسية',
       logIn: 'تسجيل الدخول',
       logInWithSso: 'تسجيل الدخول باستخدام SSO',
     },

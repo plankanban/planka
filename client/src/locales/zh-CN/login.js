@@ -19,11 +19,14 @@ export default {
       unknownError: '未知错误，请稍后重试',
       useSingleSignOn: '使用单点登录',
       usernameAlreadyInUse: '用户名已被占用',
+      whoops_title: '哎呀！',
     },
 
     action: {
       cancelAndClose: '取消并关闭',
       continue: '继续',
+      goBack: '返回',
+      goHome: '回到首页',
       logIn: '登录',
       logInWithSso: '使用SSO登录',
     },

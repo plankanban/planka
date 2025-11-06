@@ -20,11 +20,14 @@ export default {
       unknownError: 'Kesalahan tidak diketahui, coba lagi nanti.',
       useSingleSignOn: 'Gunakan single sign-on',
       usernameAlreadyInUse: 'Username telah digunakan',
+      whoops_title: 'Ups!',
     },
 
     action: {
       cancelAndClose: 'Batal dan tutup',
       continue: 'Lanjutkan',
+      goBack: 'Kembali',
+      goHome: 'Ke beranda',
       logIn: 'Masuk',
       logInWithSso: 'Masuk dengan SSO',
     },

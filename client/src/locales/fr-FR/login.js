@@ -20,11 +20,14 @@ export default {
       unknownError: 'Erreur inconnue, réessayez plus tard',
       useSingleSignOn: "Utiliser l'authentification unique",
       usernameAlreadyInUse: "Nom d'utilisateur déjà utilisé",
+      whoops_title: 'Oups !',
     },
 
     action: {
       cancelAndClose: 'Annuler et fermer',
       continue: 'Continuer',
+      goBack: 'Retour',
+      goHome: "Aller à l'accueil",
       logIn: 'Se connecter',
       logInWithSso: "Se connecter avec l'authentification unique",
     },

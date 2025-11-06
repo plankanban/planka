@@ -20,11 +20,14 @@ export default {
       unknownError: 'Tundmatu viga, proovi hiljem uuesti',
       useSingleSignOn: 'Kasuta ühekordset sisselogimist',
       usernameAlreadyInUse: 'Kasutajanimi on juba kasutusel',
+      whoops_title: 'Ups!',
     },
 
     action: {
       cancelAndClose: 'Tühista ja sulge',
       continue: 'Jätka',
+      goBack: 'Tagasi',
+      goHome: 'Koju',
       logIn: 'Logi sisse',
       logInWithSso: 'Logi sisse SSO-ga',
     },

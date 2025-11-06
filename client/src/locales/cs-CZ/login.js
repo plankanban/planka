@@ -20,11 +20,14 @@ export default {
       unknownError: 'Neznámá chyba, zkuste to později',
       useSingleSignOn: 'Použít jednorázové přihlášení',
       usernameAlreadyInUse: 'Uživatelské jméno se již používá',
+      whoops_title: 'Jejda!',
     },
 
     action: {
       cancelAndClose: 'Zrušit a zavřít',
       continue: 'Pokračovat',
+      goBack: 'Zpět',
+      goHome: 'Domů',
       logIn: 'Přihlásit se',
       logInWithSso: 'Přihlásit se pomocí SSO',
     },

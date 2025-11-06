@@ -20,11 +20,14 @@ export default {
       unknownError: 'Neznáma chyba, skúste to neskôr',
       useSingleSignOn: 'Použiť jednotné prihlásenie',
       usernameAlreadyInUse: 'Používateľské meno je zabrané',
+      whoops_title: 'Ups!',
     },
 
     action: {
       cancelAndClose: 'Zrušiť a zavrieť',
       continue: 'Pokračovať',
+      goBack: 'Ísť späť',
+      goHome: 'Ísť domov',
       logIn: 'Prihlásiť sa',
       logInWithSso: 'Prihlásiť sa cez SSO',
     },

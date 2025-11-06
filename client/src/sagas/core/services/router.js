@@ -47,6 +47,7 @@ export function* handleLocationChange() {
   const pathsMatch = yield select(selectors.selectPathsMatch);
 
   if (!pathsMatch) {
+    yield put(actions.handleLocationChange());
     return;
   }
 

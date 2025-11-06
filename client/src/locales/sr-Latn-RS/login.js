@@ -20,11 +20,14 @@ export default {
       unknownError: 'Nepoznata greška, pokušajte ponovo kasnije',
       useSingleSignOn: 'Koristi univerzalnu prijavu',
       usernameAlreadyInUse: 'Korisničko ime je već u upotrebi',
+      whoops_title: 'Ups!',
     },
 
     action: {
       cancelAndClose: 'Otkaži i zatvori',
       continue: 'Nastavi',
+      goBack: 'Nazad',
+      goHome: 'Idi kući',
       logIn: 'Prijava',
       logInWithSso: 'Prijava sa UP',
     },

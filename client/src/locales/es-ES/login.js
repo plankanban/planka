@@ -20,11 +20,14 @@ export default {
       unknownError: 'Error desconocido, inténtalo más tarde',
       useSingleSignOn: 'Usar inicio de sesión único',
       usernameAlreadyInUse: 'Nombre de usuario ya en uso',
+      whoops_title: '¡Ups!',
     },
 
     action: {
       cancelAndClose: 'Cancelar y cerrar',
       continue: 'Continuar',
+      goBack: 'Volver',
+      goHome: 'Ir al inicio',
       logIn: 'Iniciar sesión',
       logInWithSso: 'Iniciar sesión con SSO',
     },

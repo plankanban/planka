@@ -20,11 +20,14 @@ export default {
       unknownError: 'Неизвестна грешка, опитайте отново по-късно',
       useSingleSignOn: 'Използване на single sign-on',
       usernameAlreadyInUse: 'Потребителското име вече се използва',
+      whoops_title: 'Опа!',
     },
 
     action: {
       cancelAndClose: 'Отказ и затваряне',
       continue: 'Продължи',
+      goBack: 'Назад',
+      goHome: 'Към началото',
       logIn: 'Вход',
       logInWithSso: 'Вход чрез SSO',
     },

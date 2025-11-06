@@ -20,11 +20,14 @@ export default {
       unknownError: 'Eroarea necunoscuta, mai incercați',
       useSingleSignOn: 'Folosiți autentificarea unica',
       usernameAlreadyInUse: 'Nume utilizator deja exista',
+      whoops_title: 'Ups!',
     },
 
     action: {
       cancelAndClose: 'Anulează și închide',
       continue: 'Continuă',
+      goBack: 'Înapoi',
+      goHome: 'Acasă',
       logIn: 'Autentificarea',
       logInWithSso: 'Autentificarea cu SSO',
     },

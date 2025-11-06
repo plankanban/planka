@@ -20,11 +20,14 @@ export default {
       unknownError: 'Άγνωστο σφάλμα, δοκιμάστε ξανά αργότερα',
       useSingleSignOn: 'Χρήση Single Sign-On',
       usernameAlreadyInUse: 'Το όνομα χρήστη χρησιμοποιείται ήδη',
+      whoops_title: 'Ωχ!',
     },
 
     action: {
       cancelAndClose: 'Ακύρωση και κλείσιμο',
       continue: 'Συνέχεια',
+      goBack: 'Επιστροφή',
+      goHome: 'Αρχική σελίδα',
       logIn: 'Σύνδεση',
       logInWithSso: 'Σύνδεση με SSO',
     },

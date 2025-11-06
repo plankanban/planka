@@ -20,11 +20,14 @@ export default {
       unknownError: 'Errore sconosciuto, prova ancora',
       useSingleSignOn: 'Accedi con SSO',
       usernameAlreadyInUse: 'Username già in uso',
+      whoops_title: 'Ops!',
     },
 
     action: {
       cancelAndClose: 'Annulla e chiudi',
       continue: 'Continua',
+      goBack: 'Torna indietro',
+      goHome: 'Vai alla home',
       logIn: 'Accedi',
       logInWithSso: 'Accedi con SSO',
     },
