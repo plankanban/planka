@@ -26,6 +26,7 @@ module.exports = {
         'apiKeyHash',
         'termsSignature',
         'passwordChangedAt',
+        'apiKeyCreatedAt',
         'termsAcceptedAt',
       ]),
       avatar: inputs.record.avatar && {

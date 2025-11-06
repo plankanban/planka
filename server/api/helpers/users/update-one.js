@@ -38,13 +38,23 @@ module.exports = {
       values.email = values.email.toLowerCase();
     }
 
-    let isOnlyEmailChange = false;
-    let isOnlyPasswordChange = false;
+    if (_.isNull(values.apiKey)) {
+      Object.assign(values, {
+        apiKeyPrefix: null,
+        apiKeyHash: null,
+        apiKeyCreatedAt: null,
+      });
+
+      delete values.apiKey;
+    }
+
+    let isOnlyPrivateFieldsChange = false;
     let isOnlyPersonalFieldsChange = false;
+    let isOnlyPasswordChange = false;
     let isDeactivatedChangeToTrue = false;
 
-    if (!_.isUndefined(values.email) && Object.keys(values).length === 1) {
-      isOnlyEmailChange = true;
+    if (_.difference(Object.keys(values), User.PRIVATE_FIELD_NAMES).length === 0) {
+      isOnlyPrivateFieldsChange = true;
     }
 
     if (_.difference(Object.keys(values), User.PERSONAL_FIELD_NAMES).length === 0) {
@@ -62,14 +72,6 @@ module.exports = {
 
     if (values.username) {
       values.username = values.username.toLowerCase();
-    }
-
-    if (_.isNull(values.apiKey)) {
-      Object.assign(values, {
-        apiKeyPrefix: null,
-        apiKeyHash: null,
-        apiKeyCreatedAt: null,
-      });
     }
 
     if (values.apiKeyHash) {
@@ -166,7 +168,7 @@ module.exports = {
             );
           });
 
-          if (!isOnlyEmailChange) {
+          if (!isOnlyPrivateFieldsChange) {
             if (inputs.record.role === User.Roles.ADMIN && user.role !== User.Roles.ADMIN) {
               const managerProjectIds = await sails.helpers.users.getManagerProjectIds(user.id);
 

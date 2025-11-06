@@ -167,12 +167,6 @@
  *           items:
  *             type: string
  *           example: [email, password, name]
- *         apiKeyCreatedAt:
- *           type: string
- *           format: date-time
- *           nullable: true
- *           description: When the API key was created (private field)
- *           example: 2024-01-01T00:00:00.000Z
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -246,7 +240,8 @@ const LANGUAGES = [
   'zh-TW',
 ];
 
-const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'isSsoUser', 'apiKeyCreatedAt'];
+// TODO: find better way to handle apiKeyHash and apiKeyCreatedAt
+const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'apiKeyHash', 'isSsoUser', 'apiKeyCreatedAt'];
 
 const PERSONAL_FIELD_NAMES = [
   'language',

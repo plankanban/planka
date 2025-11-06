@@ -44,7 +44,8 @@ const UsersPane = React.memo(() => {
           user.email.includes(cleanSearch) ||
           user.name.toLowerCase().includes(cleanSearch) ||
           (user.username && user.username.includes(cleanSearch)) ||
-          (user.organization && user.organization.toLowerCase().includes(cleanSearch))
+          (user.organization && user.organization.toLowerCase().includes(cleanSearch)) ||
+          (user.apiKeyPrefix && user.apiKeyPrefix.toLowerCase().includes(cleanSearch))
         );
       }),
     [users, isDeactivatedVisible, cleanSearch],

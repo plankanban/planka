@@ -277,7 +277,7 @@ export default {
       removeManager_title: 'Remove Manager',
       removeMember_title: 'Remove Member',
       role: 'Role',
-      saveThisKeyItWontBeShownAgain: 'Save this key — it won’t be shown again!',
+      saveThisKeyItWillNotBeShownAgain: 'Save this key — it will not be shown again!',
       searchCards: 'Search cards...',
       searchCustomFieldGroups: 'Search custom field groups...',
       searchCustomFields: 'Search custom fields...',

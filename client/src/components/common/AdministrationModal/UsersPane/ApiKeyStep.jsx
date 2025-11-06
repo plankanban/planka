@@ -111,7 +111,7 @@ const ApiKeyStep = React.memo(({ userId, onBack, onClose }) => {
                     header={t('common.apiKeyCreated', {
                       context: 'title',
                     })}
-                    content={t('common.saveThisKeyItWontBeShownAgain')}
+                    content={t('common.saveThisKeyItWillNotBeShownAgain')}
                   />
                   <div className={styles.valueWrapper}>
                     <Input fluid readOnly value={user.apiKeyState.value} className={styles.value} />

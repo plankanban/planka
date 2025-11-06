@@ -14,6 +14,7 @@ import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { useSteps } from '../../../../hooks';
 import SelectRoleStep from './SelectRoleStep';
+import ApiKeyStep from './ApiKeyStep';
 import ConfirmationStep from '../../ConfirmationStep';
 import EditUserInformationStep from '../../../users/EditUserInformationStep';
 import EditUserUsernameStep from '../../../users/EditUserUsernameStep';
@@ -21,7 +22,6 @@ import EditUserEmailStep from '../../../users/EditUserEmailStep';
 import EditUserPasswordStep from '../../../users/EditUserPasswordStep';
 
 import styles from './ActionsStep.module.scss';
-import ApiKeyStep from './ApiKeyStep';
 
 const StepTypes = {
   EDIT_INFORMATION: 'EDIT_INFORMATION',
