@@ -22,6 +22,7 @@ module.exports.i18n = {
   locales: [
     'ar-YE',
     'bg-BG',
+    'ca-ES',
     'cs-CZ',
     'da-DK',
     'de-DE',

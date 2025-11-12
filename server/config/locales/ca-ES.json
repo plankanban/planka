@@ -1,0 +1,16 @@
+{
+  "Card Created": "Targeta creada",
+  "Card Moved": "Targeta moguda",
+  "New Comment": "Comentari nou",
+  "Test Title": "Títol de prova",
+  "This is a test text message!": "Aquest és un missatge de text de prova!",
+  "This is a *test* **markdown** `message`!": "Aquest és un *missatge* **markdown** `de prova`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Aquest és un <i>missatge</i> <b>html</b> <code>de prova</code>!",
+  "You Were Added to Card": "Has estat afegit a la targeta",
+  "You Were Mentioned in Comment": "Has estat mencionat en un comentari",
+  "%s added you to %s on %s": "%s t'ha afegit a %s el %s",
+  "%s created %s in %s on %s": "%s s'ha creat %s a %s el %s",
+  "%s left a new comment to %s on %s": "%s ha deixat un comentari nou a %s el %s",
+  "%s mentioned you in %s on %s": "%s t'ha mencionat a %s el %s",
+  "%s moved %s from %s to %s on %s": "%s s'ha mogut %s de %s a %s el %s"
+}
