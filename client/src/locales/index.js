@@ -7,6 +7,7 @@ import keyBy from 'lodash/keyBy';
 
 import arYE from './ar-YE';
 import bgBG from './bg-BG';
+import caES from './ca-ES';
 import csCZ from './cs-CZ';
 import daDK from './da-DK';
 import deDE from './de-DE';
@@ -42,6 +43,7 @@ import zhTW from './zh-TW';
 const locales = [
   arYE,
   bgBG,
+  caES,
   csCZ,
   daDK,
   deDE,
