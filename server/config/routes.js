@@ -241,6 +241,8 @@ module.exports.routes = {
     skipAssets: false,
   },
 
+  'GET /api/cards/assigned': 'cards/assigned',
+
   'GET /*': {
     view: 'index',
     skipAssets: true,
