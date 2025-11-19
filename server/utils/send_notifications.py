@@ -1,15 +1,29 @@
-# Copyright (c) 2024 PLANKA Software GmbH
-# Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
-
 import sys
 import json
+import logging
 import apprise
+
+
+last_apprise_message = None
+class CaptureWarningHandler(logging.Handler):
+    def emit(self, record):
+        global last_apprise_message
+        last_apprise_message = record.getMessage()
+
+
+capture_warning_handler = CaptureWarningHandler()
+capture_warning_handler.setLevel(logging.WARNING)
+
+apprise_logger = logging.getLogger('apprise')
+apprise_logger.setLevel(logging.WARNING)
+apprise_logger.propagate = False
+apprise_logger.addHandler(capture_warning_handler)
 
 
 def send_notification(url, title, body, body_format):
     app = apprise.Apprise()
     app.add(url)
-    app.notify(title=title, body=body, body_format=body_format)
+    return app.notify(title=title, body=body, body_format=body_format)
 
 
 if __name__ == '__main__':
@@ -22,4 +36,14 @@ if __name__ == '__main__':
         body_format = service['format']
         body = body_by_format[body_format]
 
-        send_notification(url, title, body, body_format)
+        last_apprise_message = None
+        if not send_notification(url, title, body, body_format):
+            if last_apprise_message:
+                if last_apprise_message == 'There are no service(s) to notify':
+                    sys.stderr.write('Unknown service URL')
+                else:
+                    sys.stderr.write(last_apprise_message)
+            else:
+                sys.stderr.write('Unknown error')
+
+            sys.exit(1)

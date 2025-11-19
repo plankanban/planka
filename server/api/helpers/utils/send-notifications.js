@@ -25,11 +25,15 @@ module.exports = {
   },
 
   async fn(inputs) {
-    return promisifyExecFile(`${sails.config.appPath}/.venv/bin/python3`, [
-      `${sails.config.appPath}/utils/send_notifications.py`,
-      JSON.stringify(inputs.services),
-      inputs.title,
-      JSON.stringify(inputs.bodyByFormat),
-    ]);
+    try {
+      await promisifyExecFile(`${sails.config.appPath}/.venv/bin/python3`, [
+        `${sails.config.appPath}/utils/send_notifications.py`,
+        JSON.stringify(inputs.services),
+        inputs.title,
+        JSON.stringify(inputs.bodyByFormat),
+      ]);
+    } catch (error) {
+      sails.log.error(`Error sending notifications: ${error.stderr || error.message}`);
+    }
   },
 };
