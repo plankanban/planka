@@ -23,6 +23,7 @@
  *         - userId
  *         - role
  *         - canComment
+ *         - limitAccessToAssigned
  *         - createdAt
  *         - updatedAt
  *       properties:
@@ -52,6 +53,11 @@
  *           nullable: true
  *           description: Whether the user can comment on cards (applies only to viewers)
  *           example: true
+ *         limitAccessToAssigned:
+ *           type: boolean
+ *           nullable: true
+ *           description: If this field is set then the user's access is limited to cards assigned to them
+ *           example: false
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -74,6 +80,7 @@ const Roles = {
 const SHARED_RULES = {
   role: {},
   canComment: { setTo: null },
+  limitAccessToAssigned: {},
 };
 
 const RULES_BY_ROLE = {
@@ -104,6 +111,12 @@ module.exports = {
       type: 'boolean',
       allowNull: true,
       columnName: 'can_comment',
+    },
+    limitAccessToAssigned: {
+      type: 'boolean',
+      allowNull: true,
+      defaultsTo: false,
+      columnName: 'limit_access_to_assigned',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

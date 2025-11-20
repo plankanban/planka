@@ -243,6 +243,17 @@ module.exports = {
       throw Errors.CARD_NOT_FOUND; // Forbidden
     }
 
+    if (boardMembership.limitAccessToAssigned) {
+      const cardMembership = await CardMembership.qm.getOneByCardIdAndUserId(
+        card.id,
+        currentUser.id,
+      );
+
+      if (!cardMembership) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    }
+
     const availableInputKeys = ['id', 'isSubscribed'];
     if (boardMembership.role === BoardMembership.Roles.EDITOR) {
       availableInputKeys.push(

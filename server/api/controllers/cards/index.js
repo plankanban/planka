@@ -235,6 +235,15 @@ module.exports = {
       filterLabelIds = filterLabelIds.filter((labelId) => availableLabelIdsSet.has(labelId));
     }
 
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      list.boardId,
+      currentUser.id,
+    );
+
+    if (boardMembership && boardMembership.limitAccessToAssigned) {
+      filterUserIds = [String(currentUser.id)];
+    }
+
     const cards = await Card.qm.getByEndlessListId(list.id, {
       filterUserIds,
       filterLabelIds,
