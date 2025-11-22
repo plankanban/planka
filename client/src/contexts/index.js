@@ -4,5 +4,6 @@
  */
 
 import ClosableContext from './ClosableContext';
+import CardKeyboardShortcutsContext from './CardKeyboardShortcutsContext';
 
-export { ClosableContext }; // eslint-disable-line import/prefer-default-export
+export { ClosableContext, CardKeyboardShortcutsContext };

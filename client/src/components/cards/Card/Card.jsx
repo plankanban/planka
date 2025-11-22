@@ -5,7 +5,7 @@
 
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,6 +16,7 @@ import { closePopup, usePopup } from '../../../lib/popup';
 import selectors from '../../../selectors';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, CardTypes } from '../../../constants/Enums';
+import { CardKeyboardShortcutsContext } from '../../../contexts';
 import ProjectContent from './ProjectContent';
 import StoryContent from './StoryContent';
 import InlineContent from './InlineContent';
@@ -29,9 +30,11 @@ const Card = React.memo(({ id, isInline }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
   const selectIsCardWithIdRecent = useMemo(() => selectors.makeSelectIsCardWithIdRecent(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
+  const selectLabelIdsByCardId = useMemo(() => selectors.makeSelectLabelIdsByCardId(), []);
 
   const card = useSelector((state) => selectCardById(state, id));
   const list = useSelector((state) => selectListById(state, card.listId));
+  const labelIds = useSelector((state) => selectLabelIdsByCardId(state, id));
 
   const isHighlightedAsRecent = useSelector((state) => {
     const { turnOffRecentCardHighlighting } = selectors.selectCurrentUser(state);
@@ -52,6 +55,10 @@ const Card = React.memo(({ id, isInline }) => {
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
 
   const actionsPopupRef = useRef(null);
+  const cardRef = useRef(null);
+
+  // Get keyboard shortcuts context
+  const { setHoveredCard, clearHoveredCard } = useContext(CardKeyboardShortcutsContext);
 
   const handleClick = useCallback(() => {
     if (document.activeElement) {
@@ -78,6 +85,31 @@ const Card = React.memo(({ id, isInline }) => {
 
   const handleEditNameClose = useCallback(() => {
     setIsEditNameOpened(false);
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    setHoveredCard(id, labelIds);
+  }, [id, labelIds, setHoveredCard]);
+
+  const handleMouseLeave = useCallback(() => {
+    clearHoveredCard();
+  }, [clearHoveredCard]);
+
+  // Listen for custom edit title event from keyboard shortcut
+  useEffect(() => {
+    const handleEditTitle = () => {
+      setIsEditNameOpened(true);
+    };
+
+    const element = cardRef.current;
+    if (element) {
+      element.addEventListener('editTitle', handleEditTitle);
+      return () => {
+        element.removeEventListener('editTitle', handleEditTitle);
+      };
+    }
+
+    return undefined;
   }, []);
 
   const ActionsPopup = usePopup(ActionsStep);
@@ -114,7 +146,11 @@ const Card = React.memo(({ id, isInline }) => {
 
   return (
     <div
+      ref={cardRef}
+      data-card-id={id}
       className={classNames(styles.wrapper, isHighlightedAsRecent && styles.wrapperRecent, 'card')}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {card.isPersisted ? (
         <>
