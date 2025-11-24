@@ -7,7 +7,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
-import { FilePicker, Popup } from '../../../../lib/custom-ui';
+import { FilePicker, Popup } from '../../../lib/custom-ui';
 
 import styles from './ImportStep.module.scss';
 

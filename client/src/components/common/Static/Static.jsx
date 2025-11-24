@@ -16,7 +16,7 @@ import { BoardViews } from '../../../constants/Enums';
 import Home from '../Home';
 import GhostError from '../GhostError';
 import Board from '../../boards/Board';
-import AddStep from '../../boards/Boards/AddStep/AddStep';
+import AddBoardStep from '../../boards/AddBoardStep';
 
 import styles from './Static.module.scss';
 
@@ -26,15 +26,9 @@ const Static = React.memo(() => {
   const isFetching = useSelector(selectors.selectIsContentFetching);
   const isFavoritesActive = useSelector(selectors.selectIsFavoritesActiveForCurrentUser);
 
-  const canAddBoard = useSelector((state) => {
-    const isEditModeEnabled = selectors.selectIsEditModeEnabled(state);
-
-    if (!isEditModeEnabled) {
-      return isEditModeEnabled;
-    }
-
-    return selectors.selectIsCurrentUserManagerForCurrentProject(state);
-  });
+  const canAddBoard = useSelector((state) =>
+    selectors.selectIsCurrentUserManagerForCurrentProject(state),
+  );
 
   const [t] = useTranslation();
 
@@ -44,7 +38,7 @@ const Static = React.memo(() => {
     isFavoritesActive,
   ]);
 
-  const AddPopup = usePopup(AddStep);
+  const AddBoardPopup = usePopup(AddBoardStep);
 
   let wrapperClassNames;
   let contentNode;
@@ -82,11 +76,12 @@ const Static = React.memo(() => {
           <Trans i18nKey="common.createNewOneOrSelectExistingOne" />
         </div>
         {canAddBoard && (
-          <AddPopup>
-            <Button positive className={styles.createButton}>
-              {t('common.createBoard')}
+          <AddBoardPopup>
+            <Button basic positive size="large" className={styles.button}>
+              <Icon name="plus" />
+              {t('action.createBoard')}
             </Button>
-          </AddPopup>
+          </AddBoardPopup>
         )}
       </div>
     );

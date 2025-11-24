@@ -9,20 +9,20 @@ import classNames from 'classnames';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Form, Icon } from 'semantic-ui-react';
-import { useDidUpdate, useToggle } from '../../../../lib/hooks';
-import { Input, Popup } from '../../../../lib/custom-ui';
+import { useDidUpdate, useToggle } from '../../../lib/hooks';
+import { Input, Popup } from '../../../lib/custom-ui';
 
-import entryActions from '../../../../entry-actions';
-import { useForm, useNestedRef, useSteps } from '../../../../hooks';
+import entryActions from '../../../entry-actions';
+import { useForm, useNestedRef, useSteps } from '../../../hooks';
 import ImportStep from './ImportStep';
 
-import styles from './AddStep.module.scss';
+import styles from './AddBoardStep.module.scss';
 
 const StepTypes = {
   IMPORT: 'IMPORT',
 };
 
-const AddStep = React.memo(({ onClose }) => {
+const AddBoardStep = React.memo(({ onClose }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
@@ -123,8 +123,8 @@ const AddStep = React.memo(({ onClose }) => {
   );
 });
 
-AddStep.propTypes = {
+AddBoardStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default AddStep;
+export default AddBoardStep;
