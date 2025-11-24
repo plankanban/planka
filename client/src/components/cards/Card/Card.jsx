@@ -21,7 +21,7 @@ import ProjectContent from './ProjectContent';
 import StoryContent from './StoryContent';
 import InlineContent from './InlineContent';
 import EditName from './EditName';
-import ActionsStep from './ActionsStep';
+import CardActionsStep from '../CardActionsStep';
 
 import styles from './Card.module.scss';
 import globalStyles from '../../../styles.module.scss';
@@ -69,11 +69,11 @@ const Card = React.memo(({ id, isInline }) => {
       () => {
         setIsEditNameOpened(true);
       },
-      () => {
+      (step) => {
         closePopup();
 
         actionsPopupRef.current.open({
-          defaultStep: ActionsStep.StepTypes.ARCHIVE,
+          defaultStep: step,
         });
       },
     );
@@ -98,7 +98,7 @@ const Card = React.memo(({ id, isInline }) => {
     setIsEditNameOpened(false);
   }, []);
 
-  const ActionsPopup = usePopup(ActionsStep);
+  const CardActionsPopup = usePopup(CardActionsStep);
 
   if (isEditNameOpened) {
     return <EditName cardId={id} onClose={handleEditNameClose} />;
@@ -149,11 +149,11 @@ const Card = React.memo(({ id, isInline }) => {
             {colorLineNode}
           </div>
           {canUseActions && (
-            <ActionsPopup ref={actionsPopupRef} cardId={id} onNameEdit={handleNameEdit}>
+            <CardActionsPopup ref={actionsPopupRef} cardId={id} onNameEdit={handleNameEdit}>
               <Button className={styles.actionsButton}>
                 <Icon fitted name="pencil" size="small" />
               </Button>
-            </ActionsPopup>
+            </CardActionsPopup>
           )}
         </>
       ) : (

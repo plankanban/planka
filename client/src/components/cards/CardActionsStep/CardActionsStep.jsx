@@ -23,12 +23,12 @@ import ConfirmationStep from '../../common/ConfirmationStep';
 import BoardMembershipsStep from '../../board-memberships/BoardMembershipsStep';
 import LabelsStep from '../../labels/LabelsStep';
 
-import styles from './ActionsStep.module.scss';
+import styles from './CardActionsStep.module.scss';
 
 const StepTypes = {
-  EDIT_TYPE: 'EDIT_TYPE',
-  USERS: 'USERS',
+  MEMBERS: 'MEMBERS',
   LABELS: 'LABELS',
+  EDIT_TYPE: 'EDIT_TYPE',
   EDIT_DUE_DATE: 'EDIT_DUE_DATE',
   EDIT_STOPWATCH: 'EDIT_STOPWATCH',
   MOVE: 'MOVE',
@@ -36,7 +36,7 @@ const StepTypes = {
   DELETE: 'DELETE',
 };
 
-const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) => {
+const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectPrevListById = useMemo(() => selectors.makeSelectListById(), []);
@@ -180,16 +180,16 @@ const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) =>
     onClose();
   }, [onNameEdit, onClose]);
 
-  const handleEditTypeClick = useCallback(() => {
-    openStep(StepTypes.EDIT_TYPE);
-  }, [openStep]);
-
-  const handleUsersClick = useCallback(() => {
-    openStep(StepTypes.USERS);
+  const handleMembersClick = useCallback(() => {
+    openStep(StepTypes.MEMBERS);
   }, [openStep]);
 
   const handleLabelsClick = useCallback(() => {
     openStep(StepTypes.LABELS);
+  }, [openStep]);
+
+  const handleEditTypeClick = useCallback(() => {
+    openStep(StepTypes.EDIT_TYPE);
   }, [openStep]);
 
   const handleEditDueDateClick = useCallback(() => {
@@ -214,19 +214,7 @@ const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) =>
 
   if (step) {
     switch (step.type) {
-      case StepTypes.EDIT_TYPE:
-        return (
-          <SelectCardTypeStep
-            withButton
-            defaultValue={card.type}
-            title="common.editType"
-            buttonContent="action.save"
-            onSelect={handleTypeSelect}
-            onBack={handleBack}
-            onClose={onClose}
-          />
-        );
-      case StepTypes.USERS:
+      case StepTypes.MEMBERS:
         return (
           <BoardMembershipsStep
             currentUserIds={userIds}
@@ -243,6 +231,18 @@ const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) =>
             onSelect={handleLabelSelect}
             onDeselect={handleLabelDeselect}
             onBack={handleBack}
+          />
+        );
+      case StepTypes.EDIT_TYPE:
+        return (
+          <SelectCardTypeStep
+            withButton
+            defaultValue={card.type}
+            title="common.editType"
+            buttonContent="action.save"
+            onSelect={handleTypeSelect}
+            onBack={handleBack}
+            onClose={onClose}
           />
         );
       case StepTypes.EDIT_DUE_DATE:
@@ -305,7 +305,7 @@ const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) =>
             </Menu.Item>
           )}
           {card.type === CardTypes.PROJECT && canUseMembers && (
-            <Menu.Item className={styles.menuItem} onClick={handleUsersClick}>
+            <Menu.Item className={styles.menuItem} onClick={handleMembersClick}>
               <Icon name="user outline" className={styles.menuItemIcon} />
               {t('common.members', {
                 context: 'title',
@@ -321,7 +321,7 @@ const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) =>
             </Menu.Item>
           )}
           {card.type === CardTypes.STORY && canUseMembers && (
-            <Menu.Item className={styles.menuItem} onClick={handleUsersClick}>
+            <Menu.Item className={styles.menuItem} onClick={handleMembersClick}>
               <Icon name="user outline" className={styles.menuItemIcon} />
               {t('common.members', {
                 context: 'title',
@@ -395,17 +395,17 @@ const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) =>
   );
 });
 
-ActionsStep.propTypes = {
+CardActionsStep.propTypes = {
   cardId: PropTypes.string.isRequired,
   defaultStep: PropTypes.string,
   onNameEdit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 
-ActionsStep.defaultProps = {
+CardActionsStep.defaultProps = {
   defaultStep: undefined,
 };
 
-ActionsStep.StepTypes = StepTypes;
+CardActionsStep.StepTypes = StepTypes;
 
-export default ActionsStep;
+export default CardActionsStep;

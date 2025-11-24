@@ -18,6 +18,7 @@ import { isModifierKeyPressed } from '../../../utils/event-helpers';
 import { BoardShortcutsContext } from '../../../contexts';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, ListTypes } from '../../../constants/Enums';
+import CardActionsStep from '../../cards/CardActionsStep';
 
 const canEditCardName = (boardMembership, list) => {
   if (isListArchiveOrTrash(list)) {
@@ -29,6 +30,14 @@ const canEditCardName = (boardMembership, list) => {
 
 const canArchiveCard = (boardMembership, list) => {
   if (list.type === ListTypes.ARCHIVE) {
+    return false;
+  }
+
+  return boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+};
+
+const canUseCardMembers = (boardMembership, list) => {
+  if (isListArchiveOrTrash(list)) {
     return false;
   }
 
@@ -50,11 +59,11 @@ const ShortcutsProvider = React.memo(({ children }) => {
 
   const selectedCardRef = useRef(null);
 
-  const handleCardMouseEnter = useCallback((id, editName, archive) => {
+  const handleCardMouseEnter = useCallback((id, editName, openActions) => {
     selectedCardRef.current = {
       id,
       editName,
-      archive,
+      openActions,
     };
   }, []);
 
@@ -128,7 +137,51 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
-      selectedCardRef.current.archive();
+      selectedCardRef.current.openActions(CardActionsStep.StepTypes.ARCHIVE);
+    };
+
+    const handleCardMembers = () => {
+      if (!selectedCardRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const card = selectors.selectCardById(state, selectedCardRef.current.id);
+
+      if (!card || !card.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+      const list = selectors.selectListById(state, card.listId);
+
+      if (!canUseCardMembers(boardMembership, list)) {
+        return;
+      }
+
+      selectedCardRef.current.openActions(CardActionsStep.StepTypes.MEMBERS);
+    };
+
+    const handleCardLabels = () => {
+      if (!selectedCardRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const card = selectors.selectCardById(state, selectedCardRef.current.id);
+
+      if (!card || !card.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+      const list = selectors.selectListById(state, card.listId);
+
+      if (!canUseCardLabels(boardMembership, list)) {
+        return;
+      }
+
+      selectedCardRef.current.openActions(CardActionsStep.StepTypes.LABELS);
     };
 
     const handleLabelToCardAdd = (index) => {
@@ -178,6 +231,16 @@ const ShortcutsProvider = React.memo(({ children }) => {
         case 'KeyE':
         case 'Enter':
           handleCardOpen();
+
+          break;
+        case 'KeyL':
+          event.preventDefault();
+          handleCardLabels();
+
+          break;
+        case 'KeyM':
+          event.preventDefault();
+          handleCardMembers();
 
           break;
         case 'KeyT':
