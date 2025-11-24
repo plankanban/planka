@@ -5,9 +5,4 @@
 
 import { createContext } from 'react';
 
-const CardKeyboardShortcutsContext = createContext({
-  setHoveredCard: () => {},
-  clearHoveredCard: () => {},
-});
-
-export default CardKeyboardShortcutsContext;
+export default createContext([null, null]);

@@ -12,7 +12,6 @@ import useSteps from './use-steps';
 import useModal from './use-modal';
 import useClosableModal from './use-closable-modal';
 import usePopupInClosableContext from './use-popup-in-closable-context';
-import useCardKeyboardShortcuts from './use-card-keyboard-shortcuts';
 
 export {
   useNestedRef,
@@ -24,5 +23,4 @@ export {
   useModal,
   useClosableModal,
   usePopupInClosableContext,
-  useCardKeyboardShortcuts,
 };

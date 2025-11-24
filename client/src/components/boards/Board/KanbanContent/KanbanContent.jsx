@@ -12,8 +12,6 @@ import { closePopup } from '../../../../lib/popup';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
-import { useCardKeyboardShortcuts } from '../../../../hooks';
-import { CardKeyboardShortcutsContext } from '../../../../contexts';
 import parseDndId from '../../../../utils/parse-dnd-id';
 import DroppableTypes from '../../../../constants/DroppableTypes';
 import { BoardMembershipRoles } from '../../../../constants/Enums';
@@ -44,9 +42,6 @@ const KanbanContent = React.memo(() => {
 
   const wrapperRef = useRef(null);
   const prevPositionRef = useRef(null);
-
-  // Enable keyboard shortcuts for cards
-  const cardKeyboardShortcuts = useCardKeyboardShortcuts();
 
   const handleDragStart = useCallback(() => {
     document.body.classList.add(globalStyles.dragging);
@@ -154,48 +149,46 @@ const KanbanContent = React.memo(() => {
   }, [listIds, isAddListOpened]);
 
   return (
-    <CardKeyboardShortcutsContext.Provider value={cardKeyboardShortcuts}>
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
-      <div ref={wrapperRef} className={styles.wrapper} onMouseDown={handleMouseDown}>
-        <div>
-          <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-            <Droppable droppableId="board" type={DroppableTypes.LIST} direction="horizontal">
-              {({ innerRef, droppableProps, placeholder }) => (
-                <div
-                  {...droppableProps} // eslint-disable-line react/jsx-props-no-spreading
-                  data-drag-scroller
-                  ref={innerRef}
-                  className={styles.lists}
-                >
-                  {listIds.map((listId, index) => (
-                    <List key={listId} id={listId} index={index} />
-                  ))}
-                  {placeholder}
-                  {canAddList && (
-                    <div data-drag-scroller className={styles.list}>
-                      {isAddListOpened ? (
-                        <AddList onClose={handleAddListClose} />
-                      ) : (
-                        <button
-                          type="button"
-                          className={styles.addListButton}
-                          onClick={handleAddListClick}
-                        >
-                          <PlusMathIcon className={styles.addListButtonIcon} />
-                          <span className={styles.addListButtonText}>
-                            {listIds.length > 0 ? t('action.addAnotherList') : t('action.addList')}
-                          </span>
-                        </button>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </Droppable>
-          </DragDropContext>
-        </div>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div ref={wrapperRef} className={styles.wrapper} onMouseDown={handleMouseDown}>
+      <div>
+        <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+          <Droppable droppableId="board" type={DroppableTypes.LIST} direction="horizontal">
+            {({ innerRef, droppableProps, placeholder }) => (
+              <div
+                {...droppableProps} // eslint-disable-line react/jsx-props-no-spreading
+                data-drag-scroller
+                ref={innerRef}
+                className={styles.lists}
+              >
+                {listIds.map((listId, index) => (
+                  <List key={listId} id={listId} index={index} />
+                ))}
+                {placeholder}
+                {canAddList && (
+                  <div data-drag-scroller className={styles.list}>
+                    {isAddListOpened ? (
+                      <AddList onClose={handleAddListClose} />
+                    ) : (
+                      <button
+                        type="button"
+                        className={styles.addListButton}
+                        onClick={handleAddListClick}
+                      >
+                        <PlusMathIcon className={styles.addListButtonIcon} />
+                        <span className={styles.addListButtonText}>
+                          {listIds.length > 0 ? t('action.addAnotherList') : t('action.addList')}
+                        </span>
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
-    </CardKeyboardShortcutsContext.Provider>
+    </div>
   );
 });
 

@@ -36,7 +36,7 @@ const StepTypes = {
   DELETE: 'DELETE',
 };
 
-const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
+const ActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
   const selectPrevListById = useMemo(() => selectors.makeSelectListById(), []);
@@ -104,7 +104,7 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
-  const [step, openStep, handleBack] = useSteps();
+  const [step, openStep, handleBack] = useSteps(defaultStep || null);
 
   const handleTypeSelect = useCallback(
     (type) => {
@@ -397,8 +397,15 @@ const ActionsStep = React.memo(({ cardId, onNameEdit, onClose }) => {
 
 ActionsStep.propTypes = {
   cardId: PropTypes.string.isRequired,
+  defaultStep: PropTypes.string,
   onNameEdit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
+
+ActionsStep.defaultProps = {
+  defaultStep: undefined,
+};
+
+ActionsStep.StepTypes = StepTypes;
 
 export default ActionsStep;

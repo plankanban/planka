@@ -4,6 +4,6 @@
  */
 
 import ClosableContext from './ClosableContext';
-import CardKeyboardShortcutsContext from './CardKeyboardShortcutsContext';
+import BoardShortcutsContext from './BoardShortcutsContext';
 
-export { ClosableContext, CardKeyboardShortcutsContext };
+export { BoardShortcutsContext, ClosableContext };

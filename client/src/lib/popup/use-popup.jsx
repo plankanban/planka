@@ -13,13 +13,13 @@ import styles from './Popup.module.css';
 export default (Step, { position, onOpen, onClose } = {}) => {
   return useMemo(() => {
     const Popup = React.forwardRef(({ children, ...stepProps }, ref) => {
-      const [isOpened, setIsOpened] = useState(false);
+      const [stepParams, setStepParams] = useState(null);
 
       const wrapperRef = useRef(null);
       const resizeObserverRef = useRef(null);
 
-      const open = useCallback(() => {
-        setIsOpened(true);
+      const open = useCallback((params = {}) => {
+        setStepParams(params);
 
         if (onOpen) {
           onOpen();
@@ -31,7 +31,7 @@ export default (Step, { position, onOpen, onClose } = {}) => {
       }, [open]);
 
       const handleClose = useCallback(() => {
-        setIsOpened(false);
+        setStepParams(null);
       }, []);
 
       const handleMouseDown = useCallback((event) => {
@@ -96,7 +96,7 @@ export default (Step, { position, onOpen, onClose } = {}) => {
           ref={wrapperRef}
           trigger={tigger}
           on="click"
-          open={isOpened}
+          open={!!stepParams}
           position={position || 'bottom left'}
           popperModifiers={[
             {
@@ -118,7 +118,7 @@ export default (Step, { position, onOpen, onClose } = {}) => {
           <div ref={handleContentRef}>
             <Button icon="close" onClick={handleClose} className={styles.closeButton} />
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <Step {...stepProps} onClose={handleClose} />
+            <Step {...stepProps} {...stepParams} onClose={handleClose} />
           </div>
         </SemanticUIPopup>
       );
