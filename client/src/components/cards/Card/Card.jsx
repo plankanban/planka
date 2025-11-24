@@ -133,8 +133,6 @@ const Card = React.memo(({ id, isInline }) => {
   return (
     <div
       className={classNames(styles.wrapper, isHighlightedAsRecent && styles.wrapperRecent, 'card')}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleCardMouseLeave}
     >
       {card.isPersisted ? (
         <>
@@ -142,6 +140,8 @@ const Card = React.memo(({ id, isInline }) => {
                                        jsx-a11y/no-static-element-interactions */}
           <div
             className={classNames(styles.content, card.isClosed && styles.contentDisabled)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleCardMouseLeave}
             onClick={handleClick}
             onContextMenu={handleContextMenu}
           >

@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from '../../../lib/redux-router';
 import { useDidUpdate } from '../../../lib/hooks';
+import { closePopup } from '../../../lib/popup';
 
 import store from '../../../store';
 import selectors from '../../../selectors';
@@ -81,7 +82,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
   }, [cardId, boardId]);
 
   useEffect(() => {
-    const handleCardOpen = () => {
+    const handleCardOpen = (event) => {
       if (!selectedCardRef.current) {
         return;
       }
@@ -93,6 +94,9 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
+      event.preventDefault();
+
+      closePopup();
       dispatch(push(Paths.CARDS.replace(':id', card.id)));
     };
 
@@ -119,7 +123,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
       selectedCardRef.current.editName();
     };
 
-    const handleCardArchive = () => {
+    const handleCardArchive = (event) => {
       if (!selectedCardRef.current) {
         return;
       }
@@ -138,6 +142,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
+      event.preventDefault();
       selectedCardRef.current.openActions(CardActionsStep.StepTypes.ARCHIVE);
     };
 
@@ -187,7 +192,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
       selectedCardRef.current.openActions(CardActionsStep.StepTypes.LABELS);
     };
 
-    const handleLabelToCardAdd = (index) => {
+    const handleLabelToCardAdd = (event) => {
       if (!selectedCardRef.current) {
         return;
       }
@@ -206,12 +211,14 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
+      const index = event.code === 'Digit0' ? 10 : parseInt(event.code.slice(-1), 10) - 1;
       const label = selectors.selectLabelsForCurrentBoard(state)[index];
 
       if (!label) {
         return;
       }
 
+      event.preventDefault();
       const labelIds = selectors.selectLabelIdsByCardId(state, card.id);
 
       if (labelIds.includes(label.id)) {
@@ -233,7 +240,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
       switch (event.code) {
         case 'KeyE':
         case 'Enter':
-          handleCardOpen();
+          handleCardOpen(event);
 
           break;
         case 'KeyL':
@@ -249,7 +256,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
 
           break;
         case 'KeyV':
-          handleCardArchive();
+          handleCardArchive(event);
 
           break;
         case 'Digit1':
@@ -261,12 +268,10 @@ const ShortcutsProvider = React.memo(({ children }) => {
         case 'Digit7':
         case 'Digit8':
         case 'Digit9':
-        case 'Digit0': {
-          const index = event.code === 'Digit0' ? 10 : parseInt(event.code.slice(-1), 10) - 1;
-          handleLabelToCardAdd(index);
+        case 'Digit0':
+          handleLabelToCardAdd(event);
 
           break;
-        }
         default:
       }
     };
