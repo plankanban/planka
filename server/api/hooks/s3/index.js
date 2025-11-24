@@ -31,7 +31,7 @@ module.exports = function defineS3Hook(sails) {
 
       client = new S3Client({
         endpoint: sails.config.custom.s3Endpoint,
-        region: sails.config.custom.s3Region || '-',
+        region: sails.config.custom.s3Region || 'eu-central-1',
         credentials: {
           accessKeyId: sails.config.custom.s3AccessKeyId,
           secretAccessKey: sails.config.custom.s3SecretAccessKey,
