@@ -96,7 +96,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
       dispatch(push(Paths.CARDS.replace(':id', card.id)));
     };
 
-    const handleCardNameEdit = () => {
+    const handleCardNameEdit = (event) => {
       if (!selectedCardRef.current) {
         return;
       }
@@ -115,6 +115,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
+      event.preventDefault();
       selectedCardRef.current.editName();
     };
 
@@ -140,7 +141,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
       selectedCardRef.current.openActions(CardActionsStep.StepTypes.ARCHIVE);
     };
 
-    const handleCardMembers = () => {
+    const handleCardMembers = (event) => {
       if (!selectedCardRef.current) {
         return;
       }
@@ -159,10 +160,11 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
+      event.preventDefault();
       selectedCardRef.current.openActions(CardActionsStep.StepTypes.MEMBERS);
     };
 
-    const handleCardLabels = () => {
+    const handleCardLabels = (event) => {
       if (!selectedCardRef.current) {
         return;
       }
@@ -181,6 +183,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
+      event.preventDefault();
       selectedCardRef.current.openActions(CardActionsStep.StepTypes.LABELS);
     };
 
@@ -234,18 +237,15 @@ const ShortcutsProvider = React.memo(({ children }) => {
 
           break;
         case 'KeyL':
-          event.preventDefault();
-          handleCardLabels();
+          handleCardLabels(event);
 
           break;
         case 'KeyM':
-          event.preventDefault();
-          handleCardMembers();
+          handleCardMembers(event);
 
           break;
         case 'KeyT':
-          event.preventDefault();
-          handleCardNameEdit();
+          handleCardNameEdit(event);
 
           break;
         case 'KeyV':
