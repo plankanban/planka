@@ -4,6 +4,11 @@
  */
 
 :global(#app) {
+  .button {
+    margin-top: 24px;
+    padding: 0.78571429em 1.5em 0.78571429em;
+  }
+
   .message {
     align-content: space-between;
     align-items: center;
