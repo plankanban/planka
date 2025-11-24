@@ -5,7 +5,7 @@
 
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +14,7 @@ import { push } from '../../../lib/redux-router';
 import { closePopup, usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
+import { BoardShortcutsContext } from '../../../contexts';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, CardTypes } from '../../../constants/Enums';
 import ProjectContent from './ProjectContent';
@@ -50,6 +51,7 @@ const Card = React.memo(({ id, isInline }) => {
 
   const dispatch = useDispatch();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
+  const [handleCardMouseEnter, handleCardMouseLeave] = useContext(BoardShortcutsContext);
 
   const actionsPopupRef = useRef(null);
 
@@ -60,6 +62,22 @@ const Card = React.memo(({ id, isInline }) => {
 
     dispatch(push(Paths.CARDS.replace(':id', id)));
   }, [id, dispatch]);
+
+  const handleMouseEnter = useCallback(() => {
+    handleCardMouseEnter(
+      id,
+      () => {
+        setIsEditNameOpened(true);
+      },
+      () => {
+        closePopup();
+
+        actionsPopupRef.current.open({
+          defaultStep: ActionsStep.StepTypes.ARCHIVE,
+        });
+      },
+    );
+  }, [id, handleCardMouseEnter]);
 
   const handleContextMenu = useCallback((event) => {
     if (!actionsPopupRef.current) {
@@ -115,6 +133,8 @@ const Card = React.memo(({ id, isInline }) => {
   return (
     <div
       className={classNames(styles.wrapper, isHighlightedAsRecent && styles.wrapperRecent, 'card')}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleCardMouseLeave}
     >
       {card.isPersisted ? (
         <>
