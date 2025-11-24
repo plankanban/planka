@@ -54,7 +54,6 @@ const Card = React.memo(({ id, isInline }) => {
   const [handleCardMouseEnter, handleCardMouseLeave] = useContext(BoardShortcutsContext);
 
   const actionsPopupRef = useRef(null);
-  const cardRef = useRef(null);
 
   const handleClick = useCallback(() => {
     if (document.activeElement) {
@@ -71,9 +70,7 @@ const Card = React.memo(({ id, isInline }) => {
         setIsEditNameOpened(true);
       },
       () => {
-        if (actionsPopupRef.current) {
-          closePopup();
-        }
+        closePopup();
 
         actionsPopupRef.current.open({
           defaultStep: ActionsStep.StepTypes.ARCHIVE,
@@ -135,8 +132,6 @@ const Card = React.memo(({ id, isInline }) => {
 
   return (
     <div
-      ref={cardRef}
-      data-card-id={id}
       className={classNames(styles.wrapper, isHighlightedAsRecent && styles.wrapperRecent, 'card')}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleCardMouseLeave}
