@@ -6,4 +6,4 @@
 import ClosableContext from './ClosableContext';
 import BoardShortcutsContext from './BoardShortcutsContext';
 
-export { BoardShortcutsContext, ClosableContext };
+export { ClosableContext, BoardShortcutsContext };
