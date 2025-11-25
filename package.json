@@ -21,6 +21,7 @@
     "server:lint": "npm run lint --prefix server",
     "server:start": "npm start --prefix server",
     "server:start:prod": "npm run start:prod --prefix server",
+    "server:swagger:generate": "npm run swagger:generate --prefix server",
     "server:test": "npm test --prefix server",
     "start": "concurrently -n server,client \"npm run server:start\" \"npm run client:start\"",
     "test": "npm run server:test && npm run client:test"

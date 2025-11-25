@@ -129,6 +129,8 @@ lib-cov
 *.out
 *.pid
 
+swagger.json
+
 public/*
 !public/preloaded-favicons
 !public/favicons

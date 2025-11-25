@@ -25,7 +25,7 @@
  *                 nullable: true
  *                 description: Hostname or IP address of the SMTP server
  *                 example: smtp.example.com
- *               smtpHost:
+ *               smtpPort:
  *                 type: number
  *                 minimum: 0
  *                 maximum: 65535

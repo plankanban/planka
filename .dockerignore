@@ -6,6 +6,7 @@
 
 server/**/.gitkeep
 
+server/swagger.json
 server/.env
 server/.editorconfig
 server/.eslintignore
