@@ -50,7 +50,7 @@
  *         username:
  *           type: string
  *           minLength: 3
- *           maxLength: 32
+ *           maxLength: 64
  *           pattern: "^[a-z0-9._-]*$"
  *           nullable: true
  *           description: Unique username for user identification
@@ -304,7 +304,7 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
       minLength: 3,
-      maxLength: 32,
+      maxLength: 64,
       regex: /^[a-z0-9._-]*$/,
       allowNull: true,
     },

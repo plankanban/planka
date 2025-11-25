@@ -30,7 +30,7 @@
  *               username:
  *                 type: string
  *                 minLength: 3
- *                 maxLength: 16
+ *                 maxLength: 32
  *                 pattern: '^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$'
  *                 nullable: true
  *                 description: Unique username for user identification
@@ -93,7 +93,7 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
       minLength: 3,
-      maxLength: 16,
+      maxLength: 32,
       regex: /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/,
       allowNull: true,
     },

@@ -33,7 +33,7 @@ const isPassword = (value) => zxcvbn(value).score >= 2; // TODO: move to config
 const isEmailOrUsername = (value) =>
   value.includes('@')
     ? validator.isEmail(value)
-    : value.length >= 3 && value.length <= 16 && USERNAME_REGEX.test(value);
+    : value.length >= 3 && value.length <= 32 && USERNAME_REGEX.test(value);
 
 const isDueDate = (value) => moment(value, moment.ISO_8601, true).isValid();
 

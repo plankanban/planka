@@ -221,7 +221,7 @@ const AddStep = React.memo(({ onClose }) => {
             ref={handleUsernameFieldRef}
             name="username"
             value={data.username}
-            maxLength={16}
+            maxLength={32}
             readOnly={isSubmitting}
             className={styles.field}
             onChange={handleFieldChange}
