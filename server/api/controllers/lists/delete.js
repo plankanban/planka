@@ -100,7 +100,7 @@ module.exports = {
       throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
-    if (!sails.helpers.lists.isFinite(list)) {
+    if (!sails.helpers.lists.isKanban(list)) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 

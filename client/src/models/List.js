@@ -336,13 +336,11 @@ export default class extends BaseModel {
           return [];
         }
 
-        if (searchRegex) {
-          cardModels = cardModels.filter(
-            (cardModel) =>
-              searchRegex.test(cardModel.name) ||
-              (cardModel.description && searchRegex.test(cardModel.description)),
-          );
-        }
+        cardModels = cardModels.filter(
+          (cardModel) =>
+            searchRegex.test(cardModel.name) ||
+            (cardModel.description && searchRegex.test(cardModel.description)),
+        );
       } else {
         const searchParts = buildSearchParts(this.board.search);
 

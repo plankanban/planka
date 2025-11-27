@@ -23,7 +23,7 @@ import styles from './KanbanContent.module.scss';
 import globalStyles from '../../../../styles.module.scss';
 
 const KanbanContent = React.memo(() => {
-  const listIds = useSelector(selectors.selectFiniteListIdsForCurrentBoard);
+  const listIds = useSelector(selectors.selectKanbanListIdsForCurrentBoard);
 
   const canAddList = useSelector((state) => {
     const isEditModeEnabled = selectors.selectIsEditModeEnabled(state); // TODO: move out?

@@ -23,10 +23,10 @@
  *       - name: before
  *         in: query
  *         required: false
- *         description: Pagination cursor (JSON object with id and listChangedAt)
+ *         description: Pagination cursor (JSON object with listChangedAt and id)
  *         schema:
  *           type: string
- *           example: '{"id": "1357158568008091269", "listChangedAt": "2024-01-01T00:00:00.000Z"}'
+ *           example: '{"listChangedAt": "2024-01-01T00:00:00.000Z", "id": "1357158568008091269"}'
  *       - name: search
  *         in: query
  *         required: false

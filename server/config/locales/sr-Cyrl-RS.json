@@ -1,4 +1,5 @@
 {
+  "Archive": "Архива",
   "Card Created": "Картица креирана",
   "Card Moved": "Картица премештена",
   "New Comment": "Нови коментар",
@@ -6,6 +7,7 @@
   "This is a test text message!": "Ово је тест текстуална порука!",
   "This is a *test* **markdown** `message`!": "Ово је *тест* **markdown** `порука`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Ово је <i>тест</i> <b>html</b> <code>порука</code>!",
+  "Trash": "Корпа за отпатке",
   "You Were Added to Card": "Додати сте на картицу",
   "You Were Mentioned in Comment": "Поменути сте у коментару",
   "%s added you to %s on %s": "%s вас је додао на %s дана %s",

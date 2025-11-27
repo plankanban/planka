@@ -3,7 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-// TODO: rename?
 module.exports = {
   sync: true,
 
@@ -12,9 +11,17 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    t: {
+      type: 'ref',
+    },
   },
 
   fn(inputs) {
-    return inputs.record.name || _.upperFirst(inputs.record.type);
+    if (inputs.record.name) {
+      return inputs.record.name;
+    }
+
+    const name = _.upperFirst(inputs.record.type);
+    return inputs.t ? inputs.t(name) : name;
   },
 };

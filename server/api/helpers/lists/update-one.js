@@ -58,7 +58,7 @@ module.exports = {
     const board = values.board || inputs.board;
 
     if (!_.isUndefined(values.position)) {
-      const lists = await sails.helpers.boards.getFiniteListsById(board.id, inputs.record.id);
+      const lists = await sails.helpers.boards.getKanbanListsById(board.id, inputs.record.id);
 
       const { position, repositions } = sails.helpers.utils.insertToPositionables(
         values.position,

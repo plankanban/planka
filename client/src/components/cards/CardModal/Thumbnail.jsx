@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Item as GalleryItem } from 'react-photoswipe-gallery';
 
-import selectors from '../../../../selectors';
+import selectors from '../../../selectors';
 
 import styles from './Thumbnail.module.scss';
 

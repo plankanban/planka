@@ -16,6 +16,7 @@ const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
 const isUrl = (value) =>
   validator.isURL(value, {
     protocols: ['http', 'https'],
+    require_tld: false,
     require_protocol: true,
   });
 

@@ -1,4 +1,5 @@
 {
+  "Archive": "封存",
   "Card Created": "卡片已建立",
   "Card Moved": "卡片已移動",
   "New Comment": "新留言",
@@ -6,6 +7,7 @@
   "This is a test text message!": "這是一則測試文字訊息！",
   "This is a *test* **markdown** `message`!": "這是一則*測試***markdown**`訊息`！",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "這是一則<i>測試</i><b>html</b><code>訊息</code>！",
+  "Trash": "垃圾桶",
   "You Were Added to Card": "您已被加入卡片",
   "You Were Mentioned in Comment": "您在留言中被提及",
   "%s added you to %s on %s": "%s 在 %s 將您加入 %s",

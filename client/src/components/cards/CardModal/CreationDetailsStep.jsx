@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
-import { StaticUserIds } from '../../../constants/StaticUsers';
+import { isUserStatic } from '../../../utils/record-helpers';
 import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
 
@@ -32,7 +32,7 @@ const CreationDetailsStep = React.memo(({ userId }) => {
         </span>
         <span className={styles.content}>
           <div className={styles.name}>
-            {user.id === StaticUserIds.DELETED
+            {isUserStatic(user)
               ? t(`common.${user.name}`, {
                   context: 'title',
                 })

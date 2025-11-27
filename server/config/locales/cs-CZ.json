@@ -1,4 +1,5 @@
 {
+  "Archive": "Archiv",
   "Card Created": "Karta vytvořena",
   "Card Moved": "Karta přesunuta",
   "New Comment": "Nový komentář",
@@ -6,6 +7,7 @@
   "This is a test text message!": "Toto je testovací textová zpráva!",
   "This is a *test* **markdown** `message`!": "Toto je *testovací* **markdown** `zpráva`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Toto je <i>testovací</i> <b>html</b> <code>zpráva</code>!",
+  "Trash": "Koš",
   "You Were Added to Card": "Byli jste přidáni ke kartě",
   "You Were Mentioned in Comment": "Byli jste zmíněni v komentáři",
   "%s added you to %s on %s": "%s vás přidal k %s dne %s",

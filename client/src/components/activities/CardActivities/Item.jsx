@@ -10,7 +10,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Comment } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
-import { StaticUserIds } from '../../../constants/StaticUsers';
+import { isUserStatic } from '../../../utils/record-helpers';
 import { ActivityTypes } from '../../../constants/Enums';
 import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
@@ -26,12 +26,11 @@ const Item = React.memo(({ id }) => {
 
   const [t] = useTranslation();
 
-  const userName =
-    user.id === StaticUserIds.DELETED
-      ? t(`common.${user.name}`, {
-          context: 'title',
-        })
-      : user.name;
+  const userName = isUserStatic(user)
+    ? t(`common.${user.name}`, {
+        context: 'title',
+      })
+    : user.name;
 
   let contentNode;
   switch (activity.type) {

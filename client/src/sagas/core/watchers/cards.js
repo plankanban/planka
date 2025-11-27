@@ -20,9 +20,9 @@ export default function* cardsWatchers() {
       services.createCard(listId, data, index, autoOpen),
     ),
     takeEvery(
-      EntryActionTypes.CARD_IN_FIRST_FINITE_LIST_CREATE,
+      EntryActionTypes.CARD_IN_CURRENT_CONTEXT_CREATE,
       ({ payload: { data, index, autoOpen } }) =>
-        services.createCardInFirstFiniteList(data, index, autoOpen),
+        services.createCardInCurrentContext(data, index, autoOpen),
     ),
     takeEvery(EntryActionTypes.CARD_IN_CURRENT_LIST_CREATE, ({ payload: { data, autoOpen } }) =>
       services.createCardInCurrentList(data, autoOpen),

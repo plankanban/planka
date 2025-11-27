@@ -11,6 +11,7 @@ const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
 export const isUrl = (string) =>
   isURL(string, {
     protocols: ['http', 'https'],
+    require_tld: false,
     require_protocol: true,
     max_allowed_length: 2048,
   });

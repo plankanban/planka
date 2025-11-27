@@ -17,7 +17,7 @@ module.exports = {
   async fn(inputs) {
     return List.qm.getByBoardId(inputs.id, {
       exceptIdOrIds: inputs.exceptListIdOrIds,
-      typeOrTypes: List.FINITE_TYPES,
+      typeOrTypes: List.KANBAN_TYPES,
     });
   },
 };

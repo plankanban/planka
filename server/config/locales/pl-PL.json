@@ -1,4 +1,5 @@
 {
+  "Archive": "Archiwum",
   "Card Created": "Karta utworzona",
   "Card Moved": "Karta przeniesiona",
   "New Comment": "Nowy komentarz",
@@ -6,6 +7,7 @@
   "This is a test text message!": "To jest testowa wiadomość tekstowa!",
   "This is a *test* **markdown** `message`!": "To jest *testowa* **markdown** `wiadomość`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "To jest <i>testowa</i> <b>html</b> <code>wiadomość</code>!",
+  "Trash": "Kosz",
   "You Were Added to Card": "Zostałeś dodany do karty",
   "You Were Mentioned in Comment": "Zostałeś wspomniany w komentarzu",
   "%s added you to %s on %s": "%s dodał cię do %s w dniu %s",

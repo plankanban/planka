@@ -28,8 +28,8 @@ const createCard = (listId, data, index, autoOpen = false) => ({
   },
 });
 
-const createCardInFirstFiniteList = (data, index = 0, autoOpen = false) => ({
-  type: EntryActionTypes.CARD_IN_FIRST_FINITE_LIST_CREATE,
+const createCardInCurrentContext = (data, index = 0, autoOpen = false) => ({
+  type: EntryActionTypes.CARD_IN_CURRENT_CONTEXT_CREATE,
   payload: {
     data,
     index,
@@ -180,7 +180,7 @@ export default {
   fetchCardsInCurrentList,
   handleCardsUpdate,
   createCard,
-  createCardInFirstFiniteList,
+  createCardInCurrentContext,
   createCardInCurrentList,
   handleCardCreate,
   updateCard,

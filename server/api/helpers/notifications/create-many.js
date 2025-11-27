@@ -29,8 +29,8 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
 
   switch (notification.type) {
     case Notification.Types.MOVE_CARD: {
-      const fromListName = sails.helpers.lists.makeName(notification.data.fromList);
-      const toListName = sails.helpers.lists.makeName(notification.data.toList);
+      const fromListName = sails.helpers.lists.resolveName(notification.data.fromList, t);
+      const toListName = sails.helpers.lists.resolveName(notification.data.toList, t);
 
       return {
         text: t(
@@ -144,8 +144,8 @@ const buildEmail = (board, card, notification, actorUser, notifiableUser, t) => 
   let html;
   switch (notification.type) {
     case Notification.Types.MOVE_CARD: {
-      const fromListName = sails.helpers.lists.makeName(notification.data.fromList);
-      const toListName = sails.helpers.lists.makeName(notification.data.toList);
+      const fromListName = sails.helpers.lists.resolveName(notification.data.fromList, t);
+      const toListName = sails.helpers.lists.resolveName(notification.data.toList, t);
 
       html = `<p>${t(
         '%s moved %s from %s to %s on %s',
@@ -243,10 +243,6 @@ module.exports = {
       arrayOfValues.map((values) => {
         const id = ids.shift();
 
-        const isCommentRelated =
-          values.type === Notification.Types.COMMENT_CARD ||
-          values.type === Notification.Types.MENTION_IN_COMMENT;
-
         const nextValues = {
           ...values,
           id,
@@ -254,10 +250,10 @@ module.exports = {
           boardId: values.card.boardId,
           cardId: values.card.id,
         };
-
-        if (isCommentRelated) {
+        if (values.comment) {
           nextValues.commentId = values.comment.id;
-        } else {
+        }
+        if (values.action) {
           nextValues.actionId = values.action.id;
         }
 

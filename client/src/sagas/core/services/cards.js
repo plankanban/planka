@@ -167,10 +167,10 @@ export function* createCard(listId, data, index, autoOpen) {
   }
 }
 
-export function* createCardInFirstFiniteList(data, index, autoOpen) {
-  const firstFiniteListId = yield select(selectors.selectFirstFiniteListId);
+export function* createCardInCurrentContext(data, index, autoOpen) {
+  const firstKanbanListId = yield select(selectors.selectFirstKanbanListId);
 
-  yield call(createCard, firstFiniteListId, data, index, autoOpen);
+  yield call(createCard, firstKanbanListId, data, index, autoOpen);
 }
 
 export function* createCardInCurrentList(data, autoOpen) {
@@ -601,7 +601,7 @@ export default {
   fetchCardsInCurrentList,
   handleCardsUpdate,
   createCard,
-  createCardInFirstFiniteList,
+  createCardInCurrentContext,
   createCardInCurrentList,
   handleCardCreate,
   updateCard,

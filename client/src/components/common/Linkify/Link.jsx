@@ -12,7 +12,7 @@ import selectors from '../../../selectors';
 import matchPaths from '../../../utils/match-paths';
 import Paths from '../../../constants/Paths';
 
-const Linkify = React.memo(({ href, content, stopPropagation, ...props }) => {
+const Link = React.memo(({ href, content, stopPropagation, ...props }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
 
   const url = useMemo(() => {
@@ -68,14 +68,14 @@ const Linkify = React.memo(({ href, content, stopPropagation, ...props }) => {
   );
 });
 
-Linkify.propTypes = {
+Link.propTypes = {
   href: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   stopPropagation: PropTypes.bool,
 };
 
-Linkify.defaultProps = {
+Link.defaultProps = {
   stopPropagation: false,
 };
 
-export default Linkify;
+export default Link;

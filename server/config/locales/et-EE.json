@@ -1,4 +1,5 @@
 {
+  "Archive": "Arhiiv",
   "Card Created": "Kaart loodud",
   "Card Moved": "Kaart liigutatud",
   "New Comment": "Uus kommentaar",
@@ -6,6 +7,7 @@
   "This is a test text message!": "See on testi tekstisõnum!",
   "This is a *test* **markdown** `message`!": "See on *testi* **markdown** `sõnum`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "See on <i>testi</i> <b>html</b> <code>sõnum</code>!",
+  "Trash": "Prügikast",
   "You Were Added to Card": "Teid lisati kaardile",
   "You Were Mentioned in Comment": "Teid mainiti kommentaaris",
   "%s added you to %s on %s": "%s lisas teid %s-le %s",

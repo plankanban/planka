@@ -56,19 +56,12 @@ const getIdsByEndlessListId = async (
       const searchParts = buildSearchParts(search);
 
       if (searchParts.length > 0) {
-        let ilikeValues = searchParts.map((searchPart) => {
+        const ilikeValues = searchParts.map((searchPart) => {
           queryValues.push(searchPart);
           return `'%' || $${queryValues.length} || '%'`;
         });
 
-        query += ` AND ((card.name ILIKE ALL(ARRAY[${ilikeValues.join(', ')}]))`;
-
-        ilikeValues = searchParts.map((searchPart) => {
-          queryValues.push(searchPart);
-          return `'%' || $${queryValues.length} || '%'`;
-        });
-
-        query += ` OR (card.description ILIKE ALL(ARRAY[${ilikeValues.join(', ')}])))`;
+        query += ` AND ((card.name ILIKE ALL(ARRAY[${ilikeValues.join(', ')}])) OR (card.description ILIKE ALL(ARRAY[${ilikeValues.join(', ')}])))`;
       }
     }
   }

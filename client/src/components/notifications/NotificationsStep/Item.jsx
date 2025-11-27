@@ -14,8 +14,8 @@ import { Button } from 'semantic-ui-react';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { mentionMarkupToText } from '../../../utils/mentions';
+import { isUserStatic } from '../../../utils/record-helpers';
 import Paths from '../../../constants/Paths';
-import { StaticUserIds } from '../../../constants/StaticUsers';
 import { NotificationTypes } from '../../../constants/Enums';
 import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
@@ -42,12 +42,11 @@ const Item = React.memo(({ id, onClose }) => {
     dispatch(entryActions.deleteNotification(id));
   }, [id, dispatch]);
 
-  const creatorUserName =
-    creatorUser.id === StaticUserIds.DELETED
-      ? t(`common.${creatorUser.name}`, {
-          context: 'title',
-        })
-      : creatorUser.name;
+  const creatorUserName = isUserStatic(creatorUser)
+    ? t(`common.${creatorUser.name}`, {
+        context: 'title',
+      })
+    : creatorUser.name;
 
   const cardName = card ? card.name : notification.data.card.name;
 

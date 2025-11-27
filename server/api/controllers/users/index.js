@@ -14,7 +14,7 @@
  *     operationId: getUsers
  *     responses:
  *       200:
- *         description: List of users retrieved successfully
+ *         description: Users retrieved successfully
  *         content:
  *           application/json:
  *             schema:

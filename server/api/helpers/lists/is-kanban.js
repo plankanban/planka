@@ -4,18 +4,16 @@
  */
 
 module.exports = {
+  sync: true,
+
   inputs: {
-    roleOrRoles: {
-      type: 'json',
+    record: {
+      type: 'ref',
       required: true,
     },
   },
 
-  async fn(inputs) {
-    const users = await User.qm.getAll({
-      roleOrRoles: inputs.roleOrRoles,
-    });
-
-    return sails.helpers.utils.mapRecords(users);
+  fn(inputs) {
+    return List.KANBAN_TYPES.includes(inputs.record.type);
   },
 };

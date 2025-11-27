@@ -1,4 +1,5 @@
 {
+  "Archive": "بایگانی",
   "Card Created": "کارت ایجاد شد",
   "Card Moved": "کارت منتقل شد",
   "New Comment": "نظر جدید",
@@ -6,6 +7,7 @@
   "This is a test text message!": "این یک پیام متنی آزمایشی است!",
   "This is a *test* **markdown** `message`!": "این یک *پیام* **markdown** `آزمایشی` است!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "این یک <i>پیام</i> <b>html</b> <code>آزمایشی</code> است!",
+  "Trash": "سطل زباله",
   "You Were Added to Card": "شما به کارت اضافه شدید",
   "You Were Mentioned in Comment": "در نظری از شما نام برده شد",
   "%s added you to %s on %s": "%s شما را به %s در %s اضافه کرد",

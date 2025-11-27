@@ -41,12 +41,26 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    if (sails.helpers.lists.isFinite(inputs.list)) {
+    if (values.list) {
+      const typeState = List.TYPE_STATE_BY_TYPE[values.list.type];
+
+      if (inputs.record.isClosed) {
+        if (typeState === List.TypeStates.OPENED) {
+          values.isClosed = false;
+        }
+      } else if (typeState === List.TypeStates.CLOSED) {
+        values.isClosed = true;
+      }
+    }
+
+    const list = values.list || inputs.list;
+
+    if (sails.helpers.lists.isFinite(list)) {
       if (_.isUndefined(values.position)) {
         throw 'positionMustBeInValues';
       }
 
-      const cards = await Card.qm.getByListId(inputs.list.id);
+      const cards = await Card.qm.getByListId(list.id);
 
       const { position, repositions } = sails.helpers.utils.insertToPositionables(
         values.position,
@@ -84,7 +98,6 @@ module.exports = {
     let card = await Card.qm.createOne({
       ..._.pick(inputs.record, [
         'boardId',
-        'listId',
         'prevListId',
         'type',
         'name',
@@ -95,6 +108,7 @@ module.exports = {
         'isClosed',
       ]),
       ...values,
+      listId: list.id,
       creatorUserId: values.creatorUser.id,
       listChangedAt: new Date().toISOString(),
     });
@@ -240,7 +254,7 @@ module.exports = {
         included: {
           projects: [inputs.project],
           boards: [inputs.board],
-          lists: [inputs.list],
+          lists: [list],
           cardMemberships: nextCardMemberships,
           cardLabels: nextCardLabels,
           taskLists: nextTaskLists,
@@ -277,19 +291,19 @@ module.exports = {
     }
 
     await sails.helpers.actions.createOne.with({
+      list,
       webhooks,
       values: {
         card,
         type: Action.Types.CREATE_CARD, // TODO: introduce separate type?
         data: {
           card: _.pick(card, ['name']),
-          list: _.pick(inputs.list, ['id', 'type', 'name']),
+          list: _.pick(list, ['id', 'type', 'name']),
         },
         user: values.creatorUser,
       },
       project: inputs.project,
       board: inputs.board,
-      list: inputs.list,
     });
 
     return {

@@ -1,4 +1,5 @@
 {
+  "Archive": "Arkiv",
   "Card Created": "Kort skapat",
   "Card Moved": "Kort flyttat",
   "New Comment": "Ny kommentar",
@@ -6,6 +7,7 @@
   "This is a test text message!": "Detta är ett test textmeddelande!",
   "This is a *test* **markdown** `message`!": "Detta är ett *test* **markdown** `meddelande`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Detta är ett <i>test</i> <b>html</b> <code>meddelande</code>!",
+  "Trash": "Papperskorg",
   "You Were Added to Card": "Du lades till på kort",
   "You Were Mentioned in Comment": "Du nämndes i kommentar",
   "%s added you to %s on %s": "%s lade till dig på %s den %s",

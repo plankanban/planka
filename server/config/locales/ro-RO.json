@@ -1,4 +1,5 @@
 {
+  "Archive": "Arhivă",
   "Card Created": "Card creat",
   "Card Moved": "Card mutat",
   "New Comment": "Comentariu nou",
@@ -6,6 +7,7 @@
   "This is a test text message!": "Acesta este un mesaj text de test!",
   "This is a *test* **markdown** `message`!": "Acesta este un *mesaj* **markdown** `de test`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Acesta este un <i>mesaj</i> <b>html</b> <code>de test</code>!",
+  "Trash": "Coș de gunoi",
   "You Were Added to Card": "Ați fost adăugat la card",
   "You Were Mentioned in Comment": "Ați fost menționat într-un comentariu",
   "%s added you to %s on %s": "%s v-a adăugat la %s pe %s",

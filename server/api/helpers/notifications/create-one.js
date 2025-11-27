@@ -29,8 +29,8 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
 
   switch (notification.type) {
     case Notification.Types.MOVE_CARD: {
-      const fromListName = sails.helpers.lists.makeName(notification.data.fromList);
-      const toListName = sails.helpers.lists.makeName(notification.data.toList);
+      const fromListName = sails.helpers.lists.resolveName(notification.data.fromList, t);
+      const toListName = sails.helpers.lists.resolveName(notification.data.toList, t);
 
       return {
         text: t(
@@ -152,8 +152,8 @@ const buildAndSendEmail = async (
   let html;
   switch (notification.type) {
     case Notification.Types.MOVE_CARD: {
-      const fromListName = sails.helpers.lists.makeName(notification.data.fromList);
-      const toListName = sails.helpers.lists.makeName(notification.data.toList);
+      const fromListName = sails.helpers.lists.resolveName(notification.data.fromList, t);
+      const toListName = sails.helpers.lists.resolveName(notification.data.toList, t);
 
       html = `<p>${t(
         '%s moved %s from %s to %s on %s',
@@ -234,13 +234,11 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const isCommentRelated =
-      values.type === Notification.Types.COMMENT_CARD ||
-      values.type === Notification.Types.MENTION_IN_COMMENT;
-
-    if (isCommentRelated) {
+    if (values.comment) {
       values.commentId = values.comment.id;
-    } else {
+    }
+
+    if (values.action) {
       values.actionId = values.action.id;
     }
 
@@ -268,13 +266,12 @@ module.exports = {
           boards: [inputs.board],
           lists: [inputs.list],
           cards: [values.card],
-          ...(isCommentRelated
-            ? {
-                comments: [values.comment],
-              }
-            : {
-                actions: [values.action],
-              }),
+          ...(values.comment && {
+            comments: [values.comment],
+          }),
+          ...(values.action && {
+            actions: [values.action],
+          }),
         },
       }),
       user: values.creatorUser,

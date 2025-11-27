@@ -15,13 +15,13 @@ import ListView from './ListView';
 const FiniteContent = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
   const cardIds = useSelector(selectors.selectFilteredCardIdsForCurrentBoard);
-  const hasAnyFiniteList = useSelector((state) => !!selectors.selectFirstFiniteListId(state));
+  const canAddCard = useSelector((state) => !!selectors.selectFirstKanbanListId(state));
 
   const dispatch = useDispatch();
 
   const handleCardCreate = useCallback(
     (data, autoOpen) => {
-      dispatch(entryActions.createCardInFirstFiniteList(data, undefined, autoOpen));
+      dispatch(entryActions.createCardInCurrentContext(data, undefined, autoOpen));
     },
     [dispatch],
   );
@@ -39,7 +39,7 @@ const FiniteContent = React.memo(() => {
     default:
   }
 
-  return <View cardIds={cardIds} onCardCreate={hasAnyFiniteList ? handleCardCreate : undefined} />;
+  return <View cardIds={cardIds} onCardCreate={canAddCard ? handleCardCreate : undefined} />;
 });
 
 export default FiniteContent;

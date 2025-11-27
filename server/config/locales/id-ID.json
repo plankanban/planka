@@ -1,4 +1,5 @@
 {
+  "Archive": "Arsip",
   "Card Created": "Kartu dibuat",
   "Card Moved": "Kartu dipindahkan",
   "New Comment": "Komentar baru",
@@ -6,6 +7,7 @@
   "This is a test text message!": "Ini adalah pesan teks tes!",
   "This is a *test* **markdown** `message`!": "Ini adalah *pesan* **markdown** `tes`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Ini adalah <i>pesan</i> <b>html</b> <code>tes</code>!",
+  "Trash": "Sampah",
   "You Were Added to Card": "Anda ditambahkan ke kartu",
   "You Were Mentioned in Comment": "Anda disebutkan dalam komentar",
   "%s added you to %s on %s": "%s menambahkan Anda ke %s pada %s",

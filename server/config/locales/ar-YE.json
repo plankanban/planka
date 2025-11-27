@@ -1,4 +1,5 @@
 {
+  "Archive": "أرشيف",
   "Card Created": "تم إنشاء البطاقة",
   "Card Moved": "تم نقل البطاقة",
   "New Comment": "تعليق جديد",
@@ -6,6 +7,7 @@
   "This is a test text message!": "هذه رسالة نصية تجريبية!",
   "This is a *test* **markdown** `message`!": "هذه *رسالة* **markdown** `تجريبية`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "هذه <i>رسالة</i> <b>html</b> <code>تجريبية</code>!",
+  "Trash": "سلة المهملات",
   "You Were Added to Card": "تمت إضافتك إلى البطاقة",
   "You Were Mentioned in Comment": "تم ذكرك في تعليق",
   "%s added you to %s on %s": "%s أضافك إلى %s في %s",

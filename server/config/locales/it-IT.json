@@ -1,4 +1,5 @@
 {
+  "Archive": "Archivio",
   "Card Created": "Nuova task creata",
   "Card Moved": "Task spostata",
   "New Comment": "Nuovo commento",
@@ -6,6 +7,7 @@
   "This is a test text message!": "Questo è un messaggio di testo di test!",
   "This is a *test* **markdown** `message`!": "Questo è un *test* **markdown** `messaggio`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Questo è un <i>test</i> <b>html</b> <code>messaggio</code>!",
+  "Trash": "Cestino",
   "You Were Added to Card": "Sei stato aggiunto alla task",
   "You Were Mentioned in Comment": "Sei stato menzionato nel commento",
   "%s created %s in %s on %s": "%s ha creato %s in %s in %s",

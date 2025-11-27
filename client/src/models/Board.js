@@ -7,7 +7,7 @@ import { attr, fk, many } from 'redux-orm';
 
 import BaseModel from './BaseModel';
 import buildSearchParts from '../utils/build-search-parts';
-import { isListFinite } from '../utils/record-helpers';
+import { isListKanban } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { BoardContexts, BoardViews } from '../constants/Enums';
@@ -285,8 +285,8 @@ export default class extends BaseModel {
     return this.lists.orderBy(['position', 'id.length', 'id']);
   }
 
-  getFiniteListsQuerySet() {
-    return this.getListsQuerySet().filter((list) => isListFinite(list));
+  getKanbanListsQuerySet() {
+    return this.getListsQuerySet().filter((list) => isListKanban(list));
   }
 
   getCustomFieldGroupsQuerySet() {
@@ -316,7 +316,7 @@ export default class extends BaseModel {
   }
 
   getCardsModelArray() {
-    return this.getFiniteListsQuerySet()
+    return this.getKanbanListsQuerySet()
       .toModelArray()
       .flatMap((listModel) => listModel.getCardsModelArray());
   }

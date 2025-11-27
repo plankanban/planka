@@ -1,4 +1,5 @@
 {
+  "Archive": "Archief",
   "Card Created": "Kaart aangemaakt",
   "Card Moved": "Kaart verplaatst",
   "New Comment": "Nieuwe reactie",
@@ -6,6 +7,7 @@
   "This is a test text message!": "Dit is een test tekstbericht!",
   "This is a *test* **markdown** `message`!": "Dit is een *test* **markdown** `bericht`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Dit is een <i>test</i> <b>html</b> <code>bericht</code>!",
+  "Trash": "Prullenbak",
   "You Were Added to Card": "Je bent toegevoegd aan kaart",
   "You Were Mentioned in Comment": "Je bent genoemd in reactie",
   "%s added you to %s on %s": "%s heeft je toegevoegd aan %s op %s",

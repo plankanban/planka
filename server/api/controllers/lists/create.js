@@ -87,7 +87,7 @@ module.exports = {
     },
     type: {
       type: 'string',
-      isIn: List.FINITE_TYPES,
+      isIn: List.KANBAN_TYPES,
       required: true,
     },
     position: {

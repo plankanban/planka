@@ -17,9 +17,9 @@ import AddStep from './AddStep';
 import styles from './UsersPane.module.scss';
 
 const UsersPane = React.memo(() => {
+  const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
   const activeUsersLimit = useSelector(selectors.selectActiveUsersLimit);
   const users = useSelector(selectors.selectUsers);
-  const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
 
   const canAdd = useSelector((state) => {
     const oidcBootstrap = selectors.selectOidcBootstrap(state);

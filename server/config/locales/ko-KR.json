@@ -1,4 +1,5 @@
 {
+  "Archive": "보관함",
   "Card Created": "카드가 생성됨",
   "Card Moved": "카드가 이동됨",
   "New Comment": "새 댓글",
@@ -6,6 +7,7 @@
   "This is a test text message!": "이것은 테스트 텍스트 메시지입니다!",
   "This is a *test* **markdown** `message`!": "이것은 *테스트* **markdown** `메시지`입니다!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "이것은 <i>테스트</i> <b>html</b> <code>메시지</code>입니다!",
+  "Trash": "휴지통",
   "You Were Added to Card": "카드에 추가되었습니다",
   "You Were Mentioned in Comment": "댓글에서 언급되었습니다",
   "%s added you to %s on %s": "%s님이 %s의 %s에 당신을 추가했습니다",

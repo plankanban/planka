@@ -14,7 +14,7 @@
  *     operationId: getWebhooks
  *     responses:
  *       200:
- *         description: List of webhooks retrieved successfully
+ *         description: Webhooks retrieved successfully
  *         content:
  *           application/json:
  *             schema:

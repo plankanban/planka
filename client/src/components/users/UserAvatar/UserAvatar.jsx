@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import selectors from '../../../selectors';
-import { StaticUserIds } from '../../../constants/StaticUsers';
+import { isUserStatic } from '../../../utils/record-helpers';
 
 import styles from './UserAvatar.module.scss';
 
@@ -62,7 +62,7 @@ const UserAvatar = React.memo(
     const contentNode = (
       <span
         title={
-          user.id === StaticUserIds.DELETED
+          isUserStatic(user)
             ? t(`common.${user.name}`, {
                 context: 'title',
               })
