@@ -3,6 +3,10 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const { makeRowToModelTransformer } = require('../helpers');
+
+const transformRowToModel = makeRowToModelTransformer(CustomFieldValue);
+
 const defaultFind = (criteria, { customFieldGroupIdOrIds }) => {
   if (customFieldGroupIdOrIds) {
     criteria.customFieldGroupId = customFieldGroupIdOrIds; // eslint-disable-line no-param-reassign
@@ -32,17 +36,7 @@ const createOrUpdateOne = async (values) => {
     new Date().toISOString(),
   ]);
 
-  const [row] = queryResult.rows;
-
-  return {
-    id: row.id,
-    cardId: row.card_id,
-    customFieldGroupId: row.custom_field_group_id,
-    customFieldId: row.custom_field_id,
-    content: row.content,
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
-  };
+  return transformRowToModel(queryResult.rows[0]);
 };
 
 const getByIds = (ids) => defaultFind(ids);

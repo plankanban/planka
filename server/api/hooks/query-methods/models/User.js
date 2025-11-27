@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const { makeWhereQueryBuilder } = require('../helpers');
+const { makeRowToModelTransformer, makeWhereQueryBuilder } = require('../helpers');
 
 const hasAvatarChanged = (avatar, prevAvatar) => {
   if (!avatar && !prevAvatar) {
@@ -18,6 +18,7 @@ const hasAvatarChanged = (avatar, prevAvatar) => {
 };
 
 const buildWhereQuery = makeWhereQueryBuilder(User);
+const transformRowToModel = makeRowToModelTransformer(User);
 
 const defaultFind = (criteria) => User.find(criteria).sort('id');
 
@@ -117,9 +118,7 @@ const updateOne = async (criteria, values) => {
           return { user: null };
         }
 
-        prev = {
-          avatar: queryResult.rows[0].avatar,
-        };
+        prev = transformRowToModel(queryResult.rows[0]);
       }
 
       const user = await User.updateOne(criteria)
@@ -136,17 +135,7 @@ const updateOne = async (criteria, values) => {
             )
             .usingConnection(db);
 
-          const [row] = queryResult.rows;
-
-          uploadedFile = {
-            id: row.id,
-            type: row.type,
-            mimeType: row.mime_type,
-            size: row.size,
-            referencesTotal: row.references_total,
-            createdAt: row.created_at,
-            updatedAt: row.updated_at,
-          };
+          uploadedFile = UploadedFile.qm.transformRowToModel(queryResult.rows[0]);
         }
 
         if (user.avatar) {
@@ -184,17 +173,7 @@ const deleteOne = (criteria) =>
         )
         .usingConnection(db);
 
-      const [row] = queryResult.rows;
-
-      uploadedFile = {
-        id: row.id,
-        type: row.type,
-        mimeType: row.mime_type,
-        size: row.size,
-        referencesTotal: row.references_total,
-        createdAt: row.created_at,
-        updatedAt: row.updated_at,
-      };
+      uploadedFile = UploadedFile.qm.transformRowToModel(queryResult.rows[0]);
     }
 
     return { user, uploadedFile };

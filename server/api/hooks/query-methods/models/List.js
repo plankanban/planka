@@ -3,9 +3,10 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const { makeWhereQueryBuilder } = require('../helpers');
+const { makeRowToModelTransformer, makeWhereQueryBuilder } = require('../helpers');
 
 const buildWhereQuery = makeWhereQueryBuilder(List);
+const transformRowToModel = makeRowToModelTransformer(List);
 
 const defaultFind = (criteria, { sort = 'id' } = {}) => List.find(criteria).sort(sort);
 
@@ -67,10 +68,7 @@ const updateOne = async (criteria, values) => {
         return { list: null };
       }
 
-      const prev = {
-        boardId: queryResult.rows[0].board_id,
-        type: queryResult.rows[0].type,
-      };
+      const prev = transformRowToModel(queryResult.rows[0]);
 
       const list = await List.updateOne(criteria)
         .set({ ...values })

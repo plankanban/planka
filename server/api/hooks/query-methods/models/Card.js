@@ -4,101 +4,16 @@
  */
 
 const buildSearchParts = require('../../../../utils/build-query-parts');
+const { makeRowToModelTransformer } = require('../helpers');
 
 const LIMIT = 50;
+
+const transformRowToModel = makeRowToModelTransformer(Card);
 
 const defaultFind = (criteria, { sort = 'id', limit } = {}) =>
   Card.find(criteria).sort(sort).limit(limit);
 
 /* Query methods */
-
-const getIdsByEndlessListId = async (listId, { before, search, userIds, labelIds } = {}) => {
-  if (userIds && userIds.length === 0) {
-    return [];
-  }
-
-  if (labelIds && labelIds.length === 0) {
-    return [];
-  }
-
-  const queryValues = [];
-  let query = 'SELECT DISTINCT card.id FROM card';
-
-  if (userIds) {
-    query += ' LEFT JOIN card_membership ON card.id = card_membership.card_id';
-    query += ' LEFT JOIN task_list ON card.id = task_list.card_id';
-    query += ' LEFT JOIN task ON task_list.id = task.task_list_id';
-  }
-
-  if (labelIds) {
-    query += ' LEFT JOIN card_label ON card.id = card_label.card_id';
-  }
-
-  queryValues.push(listId);
-  query += ` WHERE card.list_id = $${queryValues.length}`;
-
-  if (before) {
-    queryValues.push(before.listChangedAt);
-    query += ` AND (card.list_changed_at < $${queryValues.length} OR (card.list_changed_at = $${queryValues.length}`;
-
-    queryValues.push(before.id);
-    query += ` AND card.id < $${queryValues.length}))`;
-  }
-
-  if (search) {
-    if (search.startsWith('/')) {
-      queryValues.push(search.substring(1));
-      query += ` AND (card.name ~* $${queryValues.length} OR card.description ~* $${queryValues.length})`;
-    } else {
-      const searchParts = buildSearchParts(search);
-
-      if (searchParts.length > 0) {
-        const ilikeValues = searchParts.map((searchPart) => {
-          queryValues.push(searchPart);
-          return `'%' || $${queryValues.length} || '%'`;
-        });
-
-        query += ` AND ((card.name ILIKE ALL(ARRAY[${ilikeValues.join(', ')}])) OR (card.description ILIKE ALL(ARRAY[${ilikeValues.join(', ')}])))`;
-      }
-    }
-  }
-
-  if (userIds) {
-    const inValues = userIds.map((userId) => {
-      queryValues.push(userId);
-      return `$${queryValues.length}`;
-    });
-
-    query += ` AND (card_membership.user_id IN (${inValues.join(', ')}) OR task.assignee_user_id IN (${inValues.join(', ')}))`;
-  }
-
-  if (labelIds) {
-    const inValues = labelIds.map((labelId) => {
-      queryValues.push(labelId);
-      return `$${queryValues.length}`;
-    });
-
-    query += ` AND card_label.label_id IN (${inValues.join(', ')})`;
-  }
-
-  query += ` LIMIT ${LIMIT}`;
-
-  let queryResult;
-  try {
-    queryResult = await sails.sendNativeQuery(query, queryValues);
-  } catch (error) {
-    if (
-      error.code === 'E_QUERY_FAILED' &&
-      error.message.includes('Query failed: invalid regular expression')
-    ) {
-      return [];
-    }
-
-    throw error;
-  }
-
-  return sails.helpers.utils.mapRecords(queryResult.rows);
-};
 
 const createOne = (values) => Card.create({ ...values }).fetch();
 
@@ -124,44 +39,120 @@ const getByListId = async (listId, { exceptIdOrIds, sort = ['position', 'id'] } 
 };
 
 const getByEndlessListId = async (listId, { before, search, userIds, labelIds }) => {
-  const criteria = {};
-
-  const options = {
-    sort: ['listChangedAt DESC', 'id DESC'],
-  };
-
   if (search || userIds || labelIds) {
-    criteria.id = await getIdsByEndlessListId(listId, {
-      before,
-      search,
-      userIds,
-      labelIds,
-    });
-  } else {
-    criteria.and = [{ listId }];
-
-    if (before) {
-      criteria.and.push({
-        or: [
-          {
-            listChangedAt: {
-              '<': before.listChangedAt,
-            },
-          },
-          {
-            listChangedAt: before.listChangedAt,
-            id: {
-              '<': before.id,
-            },
-          },
-        ],
-      });
+    if (userIds && userIds.length === 0) {
+      return [];
     }
 
-    options.limit = LIMIT;
+    if (labelIds && labelIds.length === 0) {
+      return [];
+    }
+
+    const queryValues = [];
+    let query = 'SELECT DISTINCT card.* FROM card';
+
+    if (userIds) {
+      query += ' LEFT JOIN card_membership ON card.id = card_membership.card_id';
+      query += ' LEFT JOIN task_list ON card.id = task_list.card_id';
+      query += ' LEFT JOIN task ON task_list.id = task.task_list_id';
+    }
+
+    if (labelIds) {
+      query += ' LEFT JOIN card_label ON card.id = card_label.card_id';
+    }
+
+    queryValues.push(listId);
+    query += ` WHERE card.list_id = $${queryValues.length}`;
+
+    if (before) {
+      queryValues.push(before.listChangedAt);
+      query += ` AND (card.list_changed_at < $${queryValues.length} OR (card.list_changed_at = $${queryValues.length}`;
+
+      queryValues.push(before.id);
+      query += ` AND card.id < $${queryValues.length}))`;
+    }
+
+    if (search) {
+      if (search.startsWith('/')) {
+        queryValues.push(search.substring(1));
+        query += ` AND (card.name ~* $${queryValues.length} OR card.description ~* $${queryValues.length})`;
+      } else {
+        const searchParts = buildSearchParts(search);
+
+        if (searchParts.length > 0) {
+          const ilikeValues = searchParts.map((searchPart) => {
+            queryValues.push(searchPart);
+            return `'%' || $${queryValues.length} || '%'`;
+          });
+
+          query += ` AND ((card.name ILIKE ALL(ARRAY[${ilikeValues.join(', ')}])) OR (card.description ILIKE ALL(ARRAY[${ilikeValues.join(', ')}])))`;
+        }
+      }
+    }
+
+    if (userIds) {
+      const inValues = userIds.map((userId) => {
+        queryValues.push(userId);
+        return `$${queryValues.length}`;
+      });
+
+      query += ` AND (card_membership.user_id IN (${inValues.join(', ')}) OR task.assignee_user_id IN (${inValues.join(', ')}))`;
+    }
+
+    if (labelIds) {
+      const inValues = labelIds.map((labelId) => {
+        queryValues.push(labelId);
+        return `$${queryValues.length}`;
+      });
+
+      query += ` AND card_label.label_id IN (${inValues.join(', ')})`;
+    }
+
+    query += ` LIMIT ${LIMIT}`;
+
+    let queryResult;
+    try {
+      queryResult = await sails.sendNativeQuery(query, queryValues);
+    } catch (error) {
+      if (
+        error.code === 'E_QUERY_FAILED' &&
+        error.message.includes('Query failed: invalid regular expression')
+      ) {
+        return [];
+      }
+
+      throw error;
+    }
+
+    return queryResult.rows.map((row) => transformRowToModel(row));
   }
 
-  return defaultFind(criteria, options);
+  const criteria = {
+    and: [{ listId }],
+  };
+
+  if (before) {
+    criteria.and.push({
+      or: [
+        {
+          listChangedAt: {
+            '<': before.listChangedAt,
+          },
+        },
+        {
+          listChangedAt: before.listChangedAt,
+          id: {
+            '<': before.id,
+          },
+        },
+      ],
+    });
+  }
+
+  return defaultFind(criteria, {
+    sort: ['listChangedAt DESC', 'id DESC'],
+    limit: LIMIT,
+  });
 };
 
 const getByListIds = async (listIds, { sort = ['position', 'id'] } = {}) =>
@@ -242,8 +233,6 @@ const delete_ = (criteria) => Card.destroy(criteria).fetch();
 const deleteOne = (criteria) => Card.destroyOne(criteria);
 
 module.exports = {
-  getIdsByEndlessListId,
-
   createOne,
   getByIds,
   getByBoardId,
