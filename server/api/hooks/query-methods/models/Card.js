@@ -12,28 +12,25 @@ const defaultFind = (criteria, { sort = 'id', limit } = {}) =>
 
 /* Query methods */
 
-const getIdsByEndlessListId = async (
-  listId,
-  { before, search, filterUserIds, filterLabelIds } = {},
-) => {
-  if (filterUserIds && filterUserIds.length === 0) {
+const getIdsByEndlessListId = async (listId, { before, search, userIds, labelIds } = {}) => {
+  if (userIds && userIds.length === 0) {
     return [];
   }
 
-  if (filterLabelIds && filterLabelIds.length === 0) {
+  if (labelIds && labelIds.length === 0) {
     return [];
   }
 
   const queryValues = [];
   let query = 'SELECT DISTINCT card.id FROM card';
 
-  if (filterUserIds) {
+  if (userIds) {
     query += ' LEFT JOIN card_membership ON card.id = card_membership.card_id';
     query += ' LEFT JOIN task_list ON card.id = task_list.card_id';
     query += ' LEFT JOIN task ON task_list.id = task.task_list_id';
   }
 
-  if (filterLabelIds) {
+  if (labelIds) {
     query += ' LEFT JOIN card_label ON card.id = card_label.card_id';
   }
 
@@ -66,18 +63,18 @@ const getIdsByEndlessListId = async (
     }
   }
 
-  if (filterUserIds) {
-    const inValues = filterUserIds.map((filterUserId) => {
-      queryValues.push(filterUserId);
+  if (userIds) {
+    const inValues = userIds.map((userId) => {
+      queryValues.push(userId);
       return `$${queryValues.length}`;
     });
 
     query += ` AND (card_membership.user_id IN (${inValues.join(', ')}) OR task.assignee_user_id IN (${inValues.join(', ')}))`;
   }
 
-  if (filterLabelIds) {
-    const inValues = filterLabelIds.map((filterLabelId) => {
-      queryValues.push(filterLabelId);
+  if (labelIds) {
+    const inValues = labelIds.map((labelId) => {
+      queryValues.push(labelId);
       return `$${queryValues.length}`;
     });
 
@@ -126,19 +123,19 @@ const getByListId = async (listId, { exceptIdOrIds, sort = ['position', 'id'] } 
   return defaultFind(criteria, { sort });
 };
 
-const getByEndlessListId = async (listId, { before, search, filterUserIds, filterLabelIds }) => {
+const getByEndlessListId = async (listId, { before, search, userIds, labelIds }) => {
   const criteria = {};
 
   const options = {
     sort: ['listChangedAt DESC', 'id DESC'],
   };
 
-  if (search || filterUserIds || filterLabelIds) {
+  if (search || userIds || labelIds) {
     criteria.id = await getIdsByEndlessListId(listId, {
       before,
       search,
-      filterUserIds,
-      filterLabelIds,
+      userIds,
+      labelIds,
     });
   } else {
     criteria.and = [{ listId }];

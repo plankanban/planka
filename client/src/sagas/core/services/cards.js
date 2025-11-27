@@ -40,8 +40,8 @@ export function* fetchCards(listId) {
     try {
       response.body = yield call(request, api.getCards, listId, {
         search: (search && search.trim()) || undefined,
-        filterUserIds: filterUserIds.length > 0 ? filterUserIds.join(',') : undefined,
-        filterLabelIds: filterLabelIds.length > 0 ? filterLabelIds.join(',') : undefined,
+        userIds: filterUserIds.length > 0 ? filterUserIds.join(',') : undefined,
+        labelIds: filterLabelIds.length > 0 ? filterLabelIds.join(',') : undefined,
         before: lastCard || undefined,
       });
     } catch (error) {

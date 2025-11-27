@@ -35,14 +35,14 @@
  *           type: string
  *           maxLength: 128
  *           example: bug fix
- *       - name: filterUserIds
+ *       - name: userIds
  *         in: query
  *         required: false
- *         description: Comma-separated user IDs to filter by members
+ *         description: Comma-separated user IDs to filter by members or task assignees
  *         schema:
  *           type: string
  *           example: 1357158568008091265,1357158568008091266
- *       - name: filterLabelIds
+ *       - name: labelIds
  *         in: query
  *         required: false
  *         description: Comma-separated label IDs to filter by labels
@@ -179,8 +179,8 @@ module.exports = {
       isNotEmptyString: true,
       maxLength: 128,
     },
-    filterUserIds: idsInput,
-    filterLabelIds: idsInput,
+    userIds: idsInput,
+    labelIds: idsInput,
   },
 
   exits: {
@@ -215,31 +215,31 @@ module.exports = {
     }
 
     let filterUserIds;
-    if (inputs.filterUserIds) {
+    if (inputs.userIds) {
       const boardMemberships = await BoardMembership.qm.getByBoardId(list.boardId);
 
       const availableUserIdsSet = new Set(
         sails.helpers.utils.mapRecords(boardMemberships, 'userId'),
       );
 
-      filterUserIds = _.uniq(inputs.filterUserIds.split(','));
+      filterUserIds = _.uniq(inputs.userIds.split(','));
       filterUserIds = filterUserIds.filter((userId) => availableUserIdsSet.has(userId));
     }
 
     let filterLabelIds;
-    if (inputs.filterLabelIds) {
+    if (inputs.labelIds) {
       const labels = await Label.qm.getByBoardId(list.boardId);
       const availableLabelIdsSet = new Set(sails.helpers.utils.mapRecords(labels));
 
-      filterLabelIds = _.uniq(inputs.filterLabelIds.split(','));
+      filterLabelIds = _.uniq(inputs.labelIds.split(','));
       filterLabelIds = filterLabelIds.filter((labelId) => availableLabelIdsSet.has(labelId));
     }
 
     const cards = await Card.qm.getByEndlessListId(list.id, {
-      filterUserIds,
-      filterLabelIds,
       before: inputs.before,
       search: inputs.search,
+      userIds: filterUserIds,
+      labelIds: filterLabelIds,
     });
 
     const cardIds = sails.helpers.utils.mapRecords(cards);
