@@ -1,6 +1,6 @@
 **PLANKA Commercial License**
 
-Version 1.1 - Last updated: May 20, 2025
+Version 1.2 - Last updated: Nov 28, 2025
 
 Related files in English:
 
@@ -20,7 +20,7 @@ Related files in German:
 
 Copyright (c) 2025 to present by PLANKA Software GmbH.
 
-Our software and associated documentation files (the "Software") may only be used in production if you (and any entity that you represent) hold a valid "PLANKA Pro/Enterprise License" corresponding to your usage. Subject to the foregoing sentence, you are free to modify our Software and publish patches for it. You agree that PLANKA Software GmbH and/or its licensors (as applicable) retain all right, title, and interest in and to all such modifications and/or patches, and all such modifications and/or patches may only be used, copied, modified, displayed, distributed, or otherwise exploited with a valid "PLANKA Pro/Enterprise License" for the corresponding usage. Notwithstanding the foregoing, you may copy and modify the Software for development and testing purposes without requiring a subscription. You agree that PLANKA Software GmbH and/or its licensors (as applicable) retain all right, title, and interest in and to all such modifications. You are not granted any other rights beyond what is expressly stated herein. Subject to the foregoing, it is forbidden to copy, merge, publish, distribute, sublicense, and/or sell the Software.
+Our software and associated documentation files (the "Software") may only be used in production if you (and any entity that you represent) hold a valid "PLANKA Pro/Enterprise License" corresponding to your usage. You agree that PLANKA Software GmbH and/or its licensors (as applicable) retain all right, title, and interest in and to all such modifications and/or patches, and all such modifications and/or patches may only be used, copied, modified, displayed, distributed, or otherwise exploited with a valid "PLANKA Pro/Enterprise License" for the corresponding usage. Notwithstanding the foregoing, you may copy and modify the Software for development and testing purposes without requiring a subscription. You agree that PLANKA Software GmbH and/or its licensors (as applicable) retain all right, title, and interest in and to all such modifications. You are not granted any other rights beyond what is expressly stated herein. Subject to the foregoing, it is forbidden to copy, merge, publish, distribute, sublicense, and/or sell the Software.
 
 #### Third-Party Components
 
@@ -28,7 +28,11 @@ For all third-party components incorporated into our Software, those components 
 
 ## PLANKA Pro/Enterprise Repositories
 
-After purchasing our "PLANKA Pro/Enterprise License", you get access to our "PLANKA Pro/Enterprise" repositories. Here you find our latest stable builds, which have passed extensive in-depth tests and are considered battle-proof. Under no circumstances are you allowed to pass files, source code, or any part of it from our "PLANKA Pro/Enterprise" repositories to anyone not eligible for access without prior permission from PLANKA Software GmbH.
+After purchasing a "PLANKA Pro/Enterprise License", you will receive access to our "PLANKA Pro/Enterprise" repositories. There you will find our latest stable builds, which have undergone extensive testing and are considered production-ready.
+
+Important note on access scope: Standard access includes only the precompiled versions of our software. Access to the source code is granted only in exceptional cases and requires a separate agreement with PLANKA Software GmbH.
+
+Regardless of access scope: The distribution of files, source code, or any parts thereof from our "PLANKA Pro/Enterprise" repositories to third parties who are not authorized for access is prohibited without prior written permission from PLANKA Software GmbH.
 
 ## Limited Warranty
 
