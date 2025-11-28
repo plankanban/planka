@@ -150,6 +150,26 @@ module.exports = {
       list: values.list,
     });
 
+    // access restricted users shall be assigned to the new cards, otherwise they won't see it after creation
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      card.boardId,
+      card.creatorUserId,
+    );
+
+    if (boardMembership && boardMembership.limitAccessToAssigned) {
+      const membership = await CardMembership.create({
+        cardId: card.id,
+        userId: card.creatorUserId,
+      }).fetch();
+
+      // send notification otherwise the avatar will not be visible
+      setImmediate(() => {
+        sails.sockets.broadcast(`board:${card.boardId}`, 'cardMembershipCreate', {
+          item: membership,
+        });
+      });
+    }
+
     return card;
   },
 };

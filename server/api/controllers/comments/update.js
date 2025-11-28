@@ -116,6 +116,17 @@ module.exports = {
       }
     }
 
+    if (boardMembership.limitAccessToAssigned) {
+      const cardMembership = await CardMembership.qm.getOneByCardIdAndUserId(
+        card.id,
+        currentUser.id,
+      );
+
+      if (!cardMembership) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    }
+
     const values = _.pick(inputs, ['text']);
 
     comment = await sails.helpers.comments.updateOne.with({

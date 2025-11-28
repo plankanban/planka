@@ -100,6 +100,7 @@ export default {
       byDueDate: 'By due date',
       canBeInvitedToWorkInBoards: 'Can be invited to work in boards.',
       canComment: 'Can comment',
+      limitAccessToAssigned: 'Limit access to the assigned cards',
       canCreateOwnProjectsAndBeInvitedToWorkInOthers:
         'Can create own projects and be invited to work in others.',
       canEditBoardLayoutAndAssignMembersToCards:

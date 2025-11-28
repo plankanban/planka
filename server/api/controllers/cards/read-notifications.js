@@ -80,6 +80,19 @@ module.exports = {
       .getPathToProjectById(inputs.id)
       .intercept('pathNotFound', () => Errors.CARD_NOT_FOUND);
 
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      card.boardId,
+      currentUser.id,
+    );
+
+    if (boardMembership && boardMembership.limitAccessToAssigned) {
+      const cardMembership = await CardMembership.qm.getOneByCardIdAndUserId(card.id, userId);
+
+      if (!cardMembership) {
+        throw Errors.CARD_NOT_FOUND; // Forbidden
+      }
+    }
+
     if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
       const isProjectManager = await sails.helpers.users.isProjectManager(
         currentUser.id,
@@ -87,11 +100,6 @@ module.exports = {
       );
 
       if (!isProjectManager) {
-        const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
-          card.boardId,
-          currentUser.id,
-        );
-
         if (!boardMembership) {
           throw Errors.CARD_NOT_FOUND; // Forbidden
         }

@@ -81,16 +81,15 @@ module.exports = {
     const { card, list, board, project } = pathToProject;
 
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
 
     if (!isProjectManager) {
       if (comment.userId !== currentUser.id) {
         throw Errors.NOT_ENOUGH_RIGHTS;
       }
-
-      const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
-        board.id,
-        currentUser.id,
-      );
 
       if (!boardMembership) {
         throw Errors.COMMENT_NOT_FOUND; // Forbidden
@@ -100,6 +99,17 @@ module.exports = {
         if (!boardMembership.canComment) {
           throw Errors.NOT_ENOUGH_RIGHTS;
         }
+      }
+    }
+
+    if (boardMembership.limitAccessToAssigned) {
+      const cardMembership = await CardMembership.qm.getOneByCardIdAndUserId(
+        card.id,
+        currentUser.id,
+      );
+
+      if (!cardMembership) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
       }
     }
 

@@ -145,6 +145,11 @@ module.exports = {
       throw Errors.LIST_NOT_FOUND;
     }
 
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      list.boardId,
+      currentUser.id,
+    );
+
     if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
       const isProjectManager = await sails.helpers.users.isProjectManager(
         currentUser.id,
@@ -152,18 +157,24 @@ module.exports = {
       );
 
       if (!isProjectManager) {
-        const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
-          list.boardId,
-          currentUser.id,
-        );
-
         if (!boardMembership) {
           throw Errors.LIST_NOT_FOUND; // Forbidden
         }
       }
     }
 
-    const cards = await Card.qm.getByListId(list.id);
+    let cards = await Card.qm.getByListId(list.id);
+    if (boardMembership.limitAccessToAssigned) {
+      const cardIds = cards.map((c) => c.id);
+
+      const cardMemberships = await CardMembership.qm.getByCardIds(cardIds);
+
+      const allowedIds = new Set(
+        cardMemberships.filter((m) => m.userId === currentUser.id).map((m) => m.cardId),
+      );
+
+      cards = cards.filter((c) => allowedIds.has(c.id));
+    }
     const cardIds = sails.helpers.utils.mapRecords(cards);
 
     const userIds = sails.helpers.utils.mapRecords(cards, 'creatorUserId', true, true);

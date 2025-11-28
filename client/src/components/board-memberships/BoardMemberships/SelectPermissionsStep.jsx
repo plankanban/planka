@@ -31,6 +31,7 @@ const SelectPermissionsStep = React.memo(
         boardMembership && {
           role: boardMembership.role,
           canComment: boardMembership.canComment,
+          limitAccessToAssigned: boardMembership.limitAccessToAssigned,
         },
       [boardMembership],
     );
@@ -38,6 +39,7 @@ const SelectPermissionsStep = React.memo(
     const [data, handleFieldChange, setData] = useForm(() => ({
       role: BoardMembershipRoles.EDITOR,
       canComment: null,
+      limitAccessToAssigned: null,
       ...defaultData,
     }));
 
@@ -96,6 +98,16 @@ const SelectPermissionsStep = React.memo(
                 />
               </Segment>
             )}
+            <Segment basic className={styles.settings}>
+              <Radio
+                toggle
+                name="limitAccessToAssigned"
+                checked={data.limitAccessToAssigned}
+                label={t('common.limitAccessToAssigned')}
+                className={styles.fieldRadio}
+                onChange={handleFieldChange}
+              />
+            </Segment>
             <Button positive content={t(buttonContent)} />
           </Form>
         </Popup.Content>

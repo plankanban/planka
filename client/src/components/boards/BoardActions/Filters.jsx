@@ -33,6 +33,8 @@ const Filters = React.memo(() => {
     (state) => !!selectors.selectCurrentUserMembershipForCurrentBoard(state),
   );
 
+  const boardMembership = useSelector(selectors.selectCurrentUserMembershipForCurrentBoard);
+
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [search, setSearch] = useState(board.search);
@@ -149,31 +151,35 @@ const Filters = React.memo(() => {
 
   return (
     <>
-      <span className={styles.filter}>
-        <BoardMembershipsPopup
-          currentUserIds={userIds}
-          title="common.filterByMembers"
-          onUserSelect={handleUserSelect}
-          onUserDeselect={handleUserDeselect}
-        >
-          <button type="button" className={styles.filterButton}>
-            <span className={styles.filterTitle}>{`${t('common.members')}:`}</span>
-            {userIds.length === 0 && <span className={styles.filterLabel}>{t('common.all')}</span>}
-          </button>
-        </BoardMembershipsPopup>
-        {userIds.length === 0 && withCurrentUserSelector && (
-          <button type="button" className={styles.filterButton} onClick={handleCurrentUserSelect}>
-            <span className={styles.filterLabel}>
-              <Icon fitted name="target" className={styles.filterLabelIcon} />
+      {!boardMembership?.limitAccessToAssigned && (
+        <span className={styles.filter}>
+          <BoardMembershipsPopup
+            currentUserIds={userIds}
+            title="common.filterByMembers"
+            onUserSelect={handleUserSelect}
+            onUserDeselect={handleUserDeselect}
+          >
+            <button type="button" className={styles.filterButton}>
+              <span className={styles.filterTitle}>{`${t('common.members')}:`}</span>
+              {userIds.length === 0 && (
+                <span className={styles.filterLabel}>{t('common.all')}</span>
+              )}
+            </button>
+          </BoardMembershipsPopup>
+          {userIds.length === 0 && withCurrentUserSelector && (
+            <button type="button" className={styles.filterButton} onClick={handleCurrentUserSelect}>
+              <span className={styles.filterLabel}>
+                <Icon fitted name="target" className={styles.filterLabelIcon} />
+              </span>
+            </button>
+          )}
+          {userIds.map((userId) => (
+            <span key={userId} className={styles.filterItem}>
+              <UserAvatar id={userId} size="tiny" onClick={handleUserClick} />
             </span>
-          </button>
-        )}
-        {userIds.map((userId) => (
-          <span key={userId} className={styles.filterItem}>
-            <UserAvatar id={userId} size="tiny" onClick={handleUserClick} />
-          </span>
-        ))}
-      </span>
+          ))}
+        </span>
+      )}
       <span className={styles.filter}>
         <LabelsPopup
           currentIds={labelIds}

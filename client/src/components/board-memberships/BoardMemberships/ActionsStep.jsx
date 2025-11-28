@@ -31,6 +31,9 @@ const ActionsStep = React.memo(({ boardMembershipId, title, onBack, onClose }) =
   const boardMembership = useSelector((state) =>
     selectBoardMembershipById(state, boardMembershipId),
   );
+  const currentUserBoardMembership = useSelector(
+    selectors.selectCurrentUserMembershipForCurrentBoard,
+  );
 
   const user = useSelector((state) => selectUserById(state, boardMembership.userId));
 
@@ -125,13 +128,15 @@ const ActionsStep = React.memo(({ boardMembershipId, title, onBack, onClose }) =
           {user.organization}
         </div>
       )}
-      <Button
-        basic
-        content={t('action.showCardsWithThisUser')}
-        icon="filter"
-        size="tiny"
-        onClick={handleFilterClick}
-      />
+      {!currentUserBoardMembership?.limitAccessToAssigned && (
+        <Button
+          basic
+          content={t('action.showCardsWithThisUser')}
+          icon="filter"
+          size="tiny"
+          onClick={handleFilterClick}
+        />
+      )}
       {(isCurrentUser || canEdit) && (
         <>
           <hr className={styles.divider} />

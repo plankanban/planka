@@ -93,6 +93,14 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
+    if (boardMembership.limitAccessToAssigned) {
+      const cardMembership = await CardMembership.qm.getOneByCardIdAndUserId(card.id, userId);
+
+      if (!cardMembership) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    }
+
     card = await sails.helpers.cards.deleteOne.with({
       project,
       board,
