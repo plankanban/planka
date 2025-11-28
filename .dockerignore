@@ -1,34 +1,34 @@
-*/README.md
-*/.gitignore
-*/node_modules
-
 **/.DS_Store
 
-server/**/.gitkeep
+*/node_modules
 
 server/swagger.json
 server/.env
-server/.editorconfig
-server/.eslintignore
-server/.npmrc
-server/test
+
+server/dist
 server/logs
-server/.venv
+server/test
 server/.tmp
+server/.venv
 
 server/views/*
+!server/views/.gitkeep
 
 server/public/*
 !server/public/preloaded-favicons
 !server/public/favicons
 server/public/favicons/*
+!server/public/favicons/.gitkeep
 !server/public/user-avatars
 server/public/user-avatars/*
+!server/public/user-avatars/.gitkeep
 !server/public/background-images
 server/public/background-images/*
+!server/public/background-images/.gitkeep
 
 server/private/*
 !server/private/attachments
 server/private/attachments/*
+!server/private/attachments/.gitkeep
 
 client/dist

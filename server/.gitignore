@@ -131,6 +131,12 @@ lib-cov
 
 swagger.json
 
+dist
+logs
+
+views/*
+!views/.gitkeep
+
 public/*
 !public/preloaded-favicons
 !public/favicons
@@ -147,8 +153,3 @@ private/*
 !private/attachments
 private/attachments/*
 !private/attachments/.gitkeep
-
-views/*
-!views/.gitkeep
-
-logs

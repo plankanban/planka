@@ -3,6 +3,7 @@
   "private": true,
   "main": "app.js",
   "scripts": {
+    "build": "node build.js",
     "console": "dotenv sails console",
     "db:create-admin-user": "node db/create-admin-user.js",
     "db:init": "node db/init.js",
@@ -84,6 +85,7 @@
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
+    "ignore": "^7.0.5",
     "mocha": "^10.8.2",
     "nodemon": "^3.1.11",
     "prettier": "3.3.3",

@@ -12,6 +12,7 @@
     "postinstall": "npm i --prefix server && npm i --prefix client",
     "lint": "npm run server:lint && npm run client:lint",
     "prepare": "husky",
+    "server:build": "npm run build --prefix server",
     "server:console": "npm run console --prefix server",
     "server:db:create-admin-user": "npm run db:create-admin-user --prefix server",
     "server:db:init": "npm run db:init --prefix server",

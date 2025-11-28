@@ -21,6 +21,14 @@ jobs:
       - name: Update npm
         run: npm install npm --global
 
+      - name: Install server dependencies
+        run: npm install --omit=prod --ignore-scripts
+        working-directory: ./server
+
+      - name: Build server
+        run: npm run build
+        working-directory: ./server
+
       - name: Install client dependencies
         run: npm install --omit=dev
         working-directory: ./client
@@ -29,24 +37,25 @@ jobs:
         run: DISABLE_ESLINT_PLUGIN=true npm run build
         working-directory: ./client
 
-      - name: Include server into dist
-        run: mv server dist
+      - name: Include licenses into dist
+        run: |
+          mv LICENSE.md server/dist
+          mv "LICENSES/PLANKA Community License DE.md" server/dist/LICENSE_DE.md
 
       - name: Include built client into dist
         run: |
-          mv dist/* ../dist/public
-          cp ../dist/public/index.html ../dist/views
-        working-directory: ./client
-
-      - name: Include LICENSE.md, README.md, SECURITY.md into dist
-        run: mv LICENSE.md README.md SECURITY.md dist
+          mv ../../client/dist/* public
+          cp public/index.html views
+        working-directory: ./server/dist
 
       - name: Create release package
         run: |
           mv dist planka
           zip -r planka-prebuild.zip planka
+        working-directory: ./server
 
       - name: Publish release package
-        run: gh release upload ${{ github.event.release.tag_name }} planka-prebuild.zip
         env:
           GH_TOKEN: ${{ github.token }}
+        run: gh release upload ${{ github.event.release.tag_name }} planka-prebuild.zip
+        working-directory: ./server
