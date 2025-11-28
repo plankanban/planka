@@ -47,7 +47,11 @@ function staticDirServer(prefix, dirFn) {
     // Custom config properties are not available when the routes config is
     // loaded, so resolve the target value just before serving the request.
     const dir = dirFn();
-    const staticServer = serveStatic(dir, { index: false });
+    const staticServer = serveStatic(dir, {
+      index: false,
+      maxAge: sails.config.http.cache,
+      immutable: true,
+    });
 
     const reqPath = req.url;
     if (reqPath.startsWith(prefix)) {
