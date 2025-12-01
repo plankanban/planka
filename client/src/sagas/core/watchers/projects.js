@@ -35,6 +35,7 @@ export default function* projectsWatchers() {
       services.handleProjectUpdate(project),
     ),
     takeEvery(EntryActionTypes.CURRENT_PROJECT_DELETE, () => services.deleteCurrentProject()),
+    takeEvery(EntryActionTypes.PROJECT_DELETE, ({ payload: { id } }) => services.deleteProject(id)),
     takeEvery(EntryActionTypes.PROJECT_DELETE_HANDLE, ({ payload: { project } }) =>
       services.handleProjectDelete(project),
     ),
