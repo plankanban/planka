@@ -13,12 +13,12 @@ version-template.ejs
 .gitignore
 .npmrc
 
-.tmp
-.venv
 dist
 logs
 node_modules
 test
+.tmp
+.venv
 
 views/*
 

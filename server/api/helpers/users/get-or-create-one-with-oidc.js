@@ -84,8 +84,8 @@ module.exports = {
       }
     }
 
-    const email = claims[sails.config.custom.oidcEmailAttribute];
-    const name = claims[sails.config.custom.oidcNameAttribute];
+    const email = _.get(claims, sails.config.custom.oidcEmailAttribute);
+    const name = _.get(claims, sails.config.custom.oidcNameAttribute);
 
     if (!email || !name) {
       throw 'missingValues';
@@ -93,7 +93,7 @@ module.exports = {
 
     let role = User.Roles.BOARD_USER;
     if (!sails.config.custom.oidcIgnoreRoles) {
-      const claimsRoles = claims[sails.config.custom.oidcRolesAttribute];
+      const claimsRoles = _.get(claims, sails.config.custom.oidcRolesAttribute);
 
       if (Array.isArray(claimsRoles)) {
         // Use a Set here to avoid quadratic time complexity
@@ -123,7 +123,7 @@ module.exports = {
       isSsoUser: true,
     };
     if (!sails.config.custom.oidcIgnoreUsername) {
-      values.username = claims[sails.config.custom.oidcUsernameAttribute];
+      values.username = _.get(claims, sails.config.custom.oidcUsernameAttribute);
     }
 
     // This whole block technically needs to be executed in a transaction
