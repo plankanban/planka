@@ -1,1 +1,1 @@
-apprise==1.9.4
+apprise==1.9.5
