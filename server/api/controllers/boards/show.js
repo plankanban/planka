@@ -209,7 +209,24 @@ module.exports = {
     const finiteLists = lists.filter((list) => sails.helpers.lists.isFinite(list));
     const finiteListIds = sails.helpers.utils.mapRecords(finiteLists);
 
-    const cards = await Card.qm.getByListIds(finiteListIds);
+    let cards = await Card.qm.getByListIds(finiteListIds);
+    const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+      board.id,
+      currentUser.id,
+    );
+
+    if (boardMembership.limitAccessToAssigned) {
+      const cardIds = cards.map((c) => c.id);
+
+      const cardMemberships = await CardMembership.qm.getByCardIds(cardIds);
+
+      const allowedIds = new Set(
+        cardMemberships.filter((m) => m.userId === currentUser.id).map((m) => m.cardId),
+      );
+
+      cards = cards.filter((c) => allowedIds.has(c.id));
+    }
+
     const cardIds = sails.helpers.utils.mapRecords(cards);
 
     const userIds = _.union(

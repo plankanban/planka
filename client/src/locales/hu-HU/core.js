@@ -98,6 +98,7 @@ export default {
       byDueDate: 'Határidő szerint',
       canBeInvitedToWorkInBoards: 'Meghívható táblákon való munkára.',
       canComment: 'Hozzászólhat',
+      limitAccessToAssigned: 'Csak a hozzárendelt kártyákhoz férhet hozzá',
       canCreateOwnProjectsAndBeInvitedToWorkInOthers:
         'Létrehozhat saját projekteket, és meghívható másokéba.',
       canEditBoardLayoutAndAssignMembersToCards:

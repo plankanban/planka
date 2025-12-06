@@ -110,6 +110,17 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
+    if (boardMembership.limitAccessToAssigned) {
+      const cardMembership = await CardMembership.qm.getOneByCardIdAndUserId(
+        card.id,
+        currentUser.id,
+      );
+
+      if (!cardMembership) {
+        throw Errors.NOT_ENOUGH_RIGHTS;
+      }
+    }
+
     const values = _.pick(inputs, ['name']);
 
     attachment = await sails.helpers.attachments.updateOne.with({
