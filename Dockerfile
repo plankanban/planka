@@ -41,7 +41,11 @@ COPY --from=server --chown=node:node /app/node_modules node_modules
 COPY --from=server --chown=node:node /app/dist .
 
 COPY --from=client --chown=node:node /app/dist public
-COPY --from=client --chown=node:node /app/dist/index.html views
+
+# Convert index.html to EJS template with injected config
+RUN chmod +x inject-config-template.sh \
+  && ./inject-config-template.sh public/index.html views/index.ejs \
+  && rm public/index.html
 
 RUN python3 -m venv .venv \
   && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
