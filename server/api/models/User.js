@@ -77,7 +77,7 @@
  *                 cover180:
  *                   type: string
  *                   format: uri
- *                   description: URL for 180px cover thumbnail
+ *                   description: URL for 180px thumbnail version
  *                   example: https://storage.example.com/user-avatars/1357158568008091264/cover-180.jpg
  *         gravatarUrl:
  *           type: string

@@ -40,7 +40,7 @@
  *         url:
  *           type: string
  *           format: uri
- *           description: URL to access the full-size background image
+ *           description: URL to the full-size background image
  *           example: https://storage.example.com/background-images/1357158568008091264/original.jpg
  *         thumbnailUrls:
  *           type: object

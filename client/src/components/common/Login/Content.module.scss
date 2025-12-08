@@ -5,7 +5,7 @@
 
 :global(#app) {
   .cover {
-    background: url("../../../assets/images/cover.jpg") left / cover;
+    background: url("../../../assets/images/login-cover.jpg") left / cover;
   }
 
   .coverOverlay {
@@ -23,16 +23,16 @@
     font-weight: normal;
   }
 
-  .formFooter {
-    color: #6b808c;
-    font-weight: lighter;
-    text-align: center;
+  .form {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .formTitle {
     font-size: 36px;
     font-weight: bold;
-    margin-bottom: 36px;
   }
 
   .formSubtitle {
@@ -41,16 +41,14 @@
     margin-bottom: 32px;
   }
 
-  .formWrapper {
-    margin-bottom: 36px;
-  }
-
-  .fullHeight {
-    height: 100%;
-  }
-
   .grid {
+    height: 100%;
     margin: 0;
+  }
+
+  .gridItem {
+    height: 100%;
+    padding: 0;
   }
 
   .inputLabel {
@@ -63,10 +61,40 @@
     margin-bottom: 16px;
   }
 
-  .loginWrapper {
+  .login {
+    display: flex;
+    flex-direction: column;
     margin: 0 auto;
     max-width: 440px;
-    padding: 0 20px;
+    min-height: 100vh;
+    padding: 40px;
+    row-gap: 40px;
+  }
+
+  .logo {
+    max-height: 144px;
+    max-width: 80%;
+  }
+
+  .logoWrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .poweredBy {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    margin-top: auto;
+  }
+
+  .poweredByText {
+    color: #6b808c;
+    font-weight: lighter;
+    text-align: center;
   }
 
   .wrapper {

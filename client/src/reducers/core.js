@@ -129,13 +129,6 @@ export default (state = initialState, { type, payload }) => {
         },
       };
     case ActionTypes.CONFIG_UPDATE__SUCCESS:
-      return {
-        ...state,
-        config: {
-          ...state.config,
-          ...payload.config,
-        },
-      };
     case ActionTypes.CONFIG_UPDATE_HANDLE:
       return {
         ...state,

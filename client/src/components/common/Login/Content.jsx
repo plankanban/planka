@@ -19,6 +19,8 @@ import { isUsername } from '../../../utils/validator';
 import AccessTokenSteps from '../../../constants/AccessTokenSteps';
 import TermsModal from './TermsModal';
 
+import logo from '../../../assets/images/logo.png';
+
 import styles from './Content.module.scss';
 
 const createMessage = (error) => {
@@ -175,19 +177,27 @@ const Content = React.memo(() => {
 
   return (
     <div className={classNames(styles.wrapper, styles.fullHeight)}>
-      <Grid verticalAlign="middle" className={classNames(styles.grid, styles.fullHeight)}>
-        <Grid.Column computer={6} tablet={16} mobile={16}>
-          <div className={styles.loginWrapper}>
-            <Header as="h1" textAlign="center" content="PLANKA" className={styles.formTitle} />
-            <Header
-              as="h2"
-              textAlign="center"
-              content={t('common.logIn', {
-                context: 'title',
-              })}
-              className={styles.formSubtitle}
-            />
-            <div className={styles.formWrapper}>
+      <Grid verticalAlign="middle" className={styles.grid}>
+        <Grid.Column computer={6} tablet={16} mobile={16} className={styles.gridItem}>
+          <div className={styles.login}>
+            <div className={styles.form}>
+              <div className={styles.logoWrapper}>
+                <img src={logo} alt="" className={styles.logo} />
+              </div>
+              <Header
+                as="h1"
+                textAlign="center"
+                content={bootstrap.instanceName || 'PLANKA'}
+                className={styles.formTitle}
+              />
+              <Header
+                as="h2"
+                textAlign="center"
+                content={t('common.logIn', {
+                  context: 'title',
+                })}
+                className={styles.formSubtitle}
+              />
               {message && (
                 <Message
                   {...{
@@ -255,20 +265,22 @@ const Content = React.memo(() => {
                 />
               )}
             </div>
-            <p className={styles.formFooter}>
-              <Trans i18nKey="common.poweredByPlanka">
-                {'Powered by '}
-                <a href="https://github.com/plankanban/planka" target="_blank" rel="noreferrer">
-                  PLANKA
-                </a>
-              </Trans>
-            </p>
+            <div className={styles.poweredBy}>
+              <p className={styles.poweredByText}>
+                <Trans i18nKey="common.poweredByPlanka">
+                  {'Powered by '}
+                  <a href="https://github.com/plankanban/planka" target="_blank" rel="noreferrer">
+                    PLANKA
+                  </a>
+                </Trans>
+              </p>
+            </div>
           </div>
         </Grid.Column>
         <Grid.Column
           computer={10}
           only="computer"
-          className={classNames(styles.cover, styles.fullHeight)}
+          className={classNames(styles.gridItem, styles.cover)}
         >
           <div className={styles.coverOverlay} />
         </Grid.Column>
