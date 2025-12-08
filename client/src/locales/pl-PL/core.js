@@ -140,6 +140,7 @@ export default {
       customFieldGroups_title: 'Grupy pól własnych',
       customField_title: 'Własne pole',
       customFields_title: 'Własne pola',
+      customerPanel_title: 'Panel klienta',
       dangerZone_title: 'Strefa niebezpieczeństwa',
       date: 'Data',
       deactivateUser_title: 'Dezaktywuj użytkownika',

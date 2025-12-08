@@ -139,6 +139,7 @@ export default {
       customFieldGroups_title: 'Grupuri de câmpuri personalizate',
       customField_title: 'Câmp personalizat',
       customFields_title: 'Câmpuri personalizate',
+      customerPanel_title: 'Panoul clientului',
       dangerZone_title: 'Zona periculoasă',
       date: 'Data',
       deactivateUser_title: 'Dezactivează utilizatorul',

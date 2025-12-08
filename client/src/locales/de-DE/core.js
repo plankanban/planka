@@ -156,6 +156,7 @@ export default {
       customFieldGroups_title: 'Benutzerdefinierte Feldgruppen',
       customField_title: 'Feldgruppe',
       customFields_title: 'Feldgruppen',
+      customerPanel_title: 'Kundenpanel',
       dangerZone_title: 'Gefahrenbereich',
       date: 'Datum',
       deactivateUser_title: 'Benutzer deaktivieren',

@@ -122,6 +122,7 @@ export default {
       customFieldGroups_title: '自定义字段组',
       customField_title: '自定义字段',
       customFields_title: '自定义字段',
+      customerPanel_title: '客户面板',
       dangerZone_title: '危险区域',
       date: '日期',
       deactivateUser_title: '停用用户',

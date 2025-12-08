@@ -137,6 +137,7 @@ export default {
       customFieldGroups_title: 'Skupina vlastních polí',
       customField_title: 'Vlastní pole',
       customFields_title: 'Vlastní pole',
+      customerPanel_title: 'Panel zákazníka',
       dangerZone_title: 'Nebezpečná zóna',
       date: 'Datum',
       deactivateUser_title: 'Deaktivace uživatele',

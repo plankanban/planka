@@ -145,6 +145,7 @@ export default {
       customFieldGroups_title: 'Grups de camps personalitzats',
       customField_title: 'Camp personalitzat',
       customFields_title: 'Camps personalitzats',
+      customerPanel_title: 'Panell del client',
       dangerZone_title: 'Zona de perill',
       date: 'Data',
       deactivateUser_title: 'Desactivar usuari',

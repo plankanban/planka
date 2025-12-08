@@ -141,6 +141,7 @@ export default {
       customFieldGroups_title: 'Aangepaste veldgroepen',
       customField_title: 'Aangepast veld',
       customFields_title: 'Aangepaste velden',
+      customerPanel_title: 'Klantenpaneel',
       dangerZone_title: 'Gevaarlijke zone',
       date: 'Datum',
       deactivateUser_title: 'Gebruiker deactiveren',

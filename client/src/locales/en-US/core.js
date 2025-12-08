@@ -135,6 +135,7 @@ export default {
       customFieldGroups_title: 'Custom Field Groups',
       customField_title: 'Custom Field',
       customFields_title: 'Custom Fields',
+      customerPanel_title: 'Customer Panel',
       dangerZone_title: 'Danger Zone',
       date: 'Date',
       deactivateUser_title: 'Deactivate User',

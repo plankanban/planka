@@ -52,6 +52,11 @@
  *                   nullable: true
  *                   description: Maximum number of active users allowed (conditionally added for admins if configured)
  *                   example: 100
+ *                 customerPanelUrl:
+ *                   type: string
+ *                   format: uri
+ *                   description: URL to the customer management panel (conditionally added for admins if configured)
+ *                   example: https://panel.example.com
  *                 version:
  *                   type: string
  *                   description: Current version of the PLANKA application

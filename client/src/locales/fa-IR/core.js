@@ -144,6 +144,7 @@ export default {
       customFieldGroups_title: 'گروه‌های فیلد سفارشی',
       customField_title: 'فیلد سفارشی',
       customFields_title: 'فیلدهای سفارشی',
+      customerPanel_title: 'پنل مشتری',
       dangerZone_title: 'منطقه خطر',
       date: 'تاریخ',
       deactivateUser_title: 'غیرفعال کردن کاربر',

@@ -142,6 +142,7 @@ export default {
       customFieldGroups_title: 'Группы настраиваемых полей',
       customField_title: 'Настраиваемое поле',
       customFields_title: 'Настраиваемые поля',
+      customerPanel_title: 'Панель клиента',
       dangerZone_title: 'Опасная зона',
       date: 'Дата',
       deactivateUser_title: 'Деактивировать пользователя',

@@ -143,6 +143,7 @@ export default {
       customFieldGroups_title: 'özel alan grupları',
       customField_title: 'Özel alan',
       customFields_title: 'Özel alanlar',
+      customerPanel_title: 'Müşteri paneli',
       dangerZone_title: 'Tehlikeli bölge',
       date: 'tarih',
       deactivateUser_title: 'Kullanıcıyı devre dışı bırak',

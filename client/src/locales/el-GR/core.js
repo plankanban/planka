@@ -154,6 +154,7 @@ export default {
       customFieldGroups_title: 'Ομάδες προσαρμοσμένων πεδίων',
       customField_title: 'Προσαρμοσμένο πεδίο',
       customFields_title: 'Προσαρμοσμένα πεδία',
+      customerPanel_title: 'Πίνακας πελάτη',
       dangerZone_title: 'Επικίνδυνη ζώνη',
       date: 'Ημερομηνία',
       deactivateUser_title: 'Απενεργοποίηση χρήστη',

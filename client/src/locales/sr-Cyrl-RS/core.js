@@ -139,6 +139,7 @@ export default {
       customFieldGroups_title: 'Групе прилагођених поља',
       customField_title: 'Прилагођено поље',
       customFields_title: 'Прилагођена поља',
+      customerPanel_title: 'Панел купца',
       dangerZone_title: 'Опасна зона',
       date: 'Датум',
       deactivateUser_title: 'Деактивирај корисника',

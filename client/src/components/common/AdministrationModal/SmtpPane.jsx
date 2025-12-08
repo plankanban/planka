@@ -44,7 +44,7 @@ const SmtpPane = React.memo(() => {
   const [data, handleFieldChange] = useForm(() => ({
     ...defaultData,
     smtpHost: defaultData.smtpHost || '',
-    smtpPort: defaultData.smtpPort || '',
+    smtpPort: defaultData.smtpPort === null ? '' : `${defaultData.smtpPort}`,
     smtpName: defaultData.smtpName || '',
     smtpSecure: defaultData.smtpSecure,
     smtpTlsRejectUnauthorized: defaultData.smtpTlsRejectUnauthorized,

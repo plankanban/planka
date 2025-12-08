@@ -135,6 +135,7 @@ export default {
       customFieldGroups_title: 'مجموعات الحقول المخصصة',
       customField_title: 'الحقل المخصص',
       customFields_title: 'الحقول المخصصة',
+      customerPanel_title: 'لوحة العملاء',
       dangerZone_title: 'منطقة الخطر',
       date: 'تاريخ',
       deactivateUser_title: 'إلغاء تفعيل المستخدم',

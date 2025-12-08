@@ -146,6 +146,7 @@ export default {
       customFieldGroups_title: 'Групи персонализирани полета',
       customField_title: 'Персонализирано поле',
       customFields_title: 'Персонализирани полета',
+      customerPanel_title: 'Панел на клиента',
       dangerZone_title: 'Опасна зона',
       date: 'Дата',
       deactivateUser_title: 'Деактивиране на потребител',

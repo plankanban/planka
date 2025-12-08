@@ -137,6 +137,7 @@ export default {
       customFieldGroups_title: 'Maxsus maydon guruhlari',
       customField_title: 'Maxsus maydon',
       customFields_title: 'Maxsus maydonlar',
+      customerPanel_title: 'Mijoz paneli',
       dangerZone_title: 'Xavfli hudud',
       date: 'Sana',
       deactivateUser_title: 'Foydalanuvchini faolsizlantirish',

@@ -145,6 +145,7 @@ export default {
       customFieldGroups_title: 'Grupos de campos personalizados',
       customField_title: 'Campo personalizado',
       customFields_title: 'Campos personalizados',
+      customerPanel_title: 'Painel do cliente',
       dangerZone_title: 'Zona perigosa',
       date: 'Data',
       deactivateUser_title: 'Desativar utilizador',

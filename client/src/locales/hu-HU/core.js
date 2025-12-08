@@ -135,6 +135,7 @@ export default {
       customFieldGroups_title: 'Egyedi mezőcsoportok',
       customField_title: 'Egyedi mező',
       customFields_title: 'Egyedi mezők',
+      customerPanel_title: 'Ügyfélpanel',
       dangerZone_title: 'Veszélyzóna',
       date: 'Dátum',
       deactivateUser_title: 'Felhasználó inaktiválása',

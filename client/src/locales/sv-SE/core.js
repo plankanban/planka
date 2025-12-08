@@ -146,6 +146,7 @@ export default {
       customFieldGroups_title: 'Anpassade fältgrupper',
       customField_title: 'Anpassat fält',
       customFields_title: 'Anpassade fält',
+      customerPanel_title: 'Kundpanel',
       dangerZone_title: 'Farozon',
       date: 'Datum',
       deactivateUser_title: 'Inaktivera användare',

@@ -141,6 +141,7 @@ export default {
       customFieldGroups_title: 'Kohandatud väljade grupid',
       customField_title: 'Kohandatud väli',
       customFields_title: 'Kohandatud väljad',
+      customerPanel_title: 'Kliendi paneel',
       dangerZone_title: 'Ohtliku ala',
       date: 'Kuupäev',
       deactivateUser_title: 'Deaktiveeri kasutaja',

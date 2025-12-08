@@ -62,6 +62,7 @@ module.exports.custom = {
   internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,
   storageLimit: envToBytes(process.env.STORAGE_LIMIT),
   activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
+  customerPanelUrl: process.env.CUSTOMER_PANEL_URL,
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
 

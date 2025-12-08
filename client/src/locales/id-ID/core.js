@@ -142,6 +142,7 @@ export default {
       customFieldGroups_title: 'Grup bidang kustom',
       customField_title: 'Bidang kustom',
       customFields_title: 'Bidang kustom',
+      customerPanel_title: 'Panel pelanggan',
       dangerZone_title: 'Zona berbahaya',
       date: 'Tanggal',
       deactivateUser_title: 'Nonaktifkan pengguna',

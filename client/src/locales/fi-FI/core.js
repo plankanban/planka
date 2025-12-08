@@ -137,6 +137,7 @@ export default {
       customFieldGroups_title: 'Mukautettujen kenttien ryhmät',
       customField_title: 'Mukautettu kenttä',
       customFields_title: 'Mukautetut kentät',
+      customerPanel_title: 'Asiakaspaneeli',
       dangerZone_title: 'Vaaravyöhyke',
       date: 'Päivämäärä',
       deactivateUser_title: 'Poista käyttäjä käytöstä',

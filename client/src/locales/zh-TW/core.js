@@ -122,6 +122,7 @@ export default {
       customFieldGroups_title: '自定義欄位群組',
       customField_title: '自定義欄位',
       customFields_title: '自定義欄位',
+      customerPanel_title: '客戶面板',
       dangerZone_title: '危險區域',
       date: '日期',
       deactivateUser_title: '停用使用者',

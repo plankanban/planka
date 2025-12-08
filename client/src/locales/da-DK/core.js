@@ -141,6 +141,7 @@ export default {
       customFieldGroups_title: 'Brugerdefinerede feltgrupper',
       customField_title: 'Brugerdefineret felt',
       customFields_title: 'Brugerdefinerede felter',
+      customerPanel_title: 'Kundepanel',
       dangerZone_title: 'Farezone',
       date: 'Dato',
       deactivateUser_title: 'Deaktiver bruger',

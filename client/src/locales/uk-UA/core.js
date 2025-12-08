@@ -141,6 +141,7 @@ export default {
       customFieldGroups_title: 'Користувацькі групи полів',
       customField_title: 'Користувацьке поле',
       customFields_title: 'Користувацькі поля',
+      customerPanel_title: 'Панель клієнта',
       dangerZone_title: 'Небезпечна зона',
       date: 'Дата',
       deactivateUser_title: 'Деактивувати користувача',

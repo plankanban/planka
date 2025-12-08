@@ -138,6 +138,7 @@ export default {
       customFieldGroups_title: 'カスタムフィールドグループ',
       customField_title: 'カスタムフィールド',
       customFields_title: 'カスタムフィールド',
+      customerPanel_title: '顧客パネル',
       dangerZone_title: '危険ゾーン',
       date: '日付',
       deactivateUser_title: 'ユーザーを非アクティブにする',

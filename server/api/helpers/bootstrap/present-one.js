@@ -21,7 +21,10 @@ module.exports = {
       version: sails.config.custom.version,
     };
     if (inputs.user && inputs.user.role === User.Roles.ADMIN) {
-      data.activeUsersLimit = sails.config.custom.activeUsersLimit;
+      Object.assign(data, {
+        activeUsersLimit: sails.config.custom.activeUsersLimit,
+        customerPanelUrl: sails.config.custom.customerPanelUrl,
+      });
     }
 
     return data;

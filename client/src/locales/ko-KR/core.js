@@ -133,6 +133,7 @@ export default {
       customFieldGroups_title: '사용자 정의 필드 그룹들',
       customField_title: '사용자 정의 필드',
       customFields_title: '사용자 정의 필드들',
+      customerPanel_title: '고객 패널',
       dangerZone_title: '위험 구역',
       date: '날짜',
       deactivateUser_title: '사용자 비활성화',

@@ -43,6 +43,7 @@ services:
       # - INTERNAL_ACCESS_TOKEN=
       # - STORAGE_LIMIT=
       # - ACTIVE_USERS_LIMIT=
+      # - CUSTOMER_PANEL_URL=
 
       # Set to true to show more detailed authentication error messages.
       # It should not be enabled without a rate limiter for security reasons.

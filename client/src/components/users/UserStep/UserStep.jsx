@@ -19,6 +19,10 @@ import styles from './UserStep.module.scss';
 const UserStep = React.memo(({ onClose }) => {
   const isLogouting = useSelector(selectors.selectIsLogouting);
 
+  const customerPanelUrl = useSelector(
+    (state) => selectors.selectBootstrap(state).customerPanelUrl,
+  );
+
   const withAdministration = useSelector(
     (state) => selectors.selectCurrentUser(state).role === UserRoles.ADMIN,
   );
@@ -67,12 +71,27 @@ const UserStep = React.memo(({ onClose }) => {
             })}
           </Menu.Item>
           {withAdministration && (
-            <Menu.Item className={styles.menuItem} onClick={handleAdministrationClick}>
-              <Icon name="setting" className={styles.menuItemIcon} />
-              {t('common.administration', {
-                context: 'title',
-              })}
-            </Menu.Item>
+            <>
+              <Menu.Item className={styles.menuItem} onClick={handleAdministrationClick}>
+                <Icon name="setting" className={styles.menuItemIcon} />
+                {t('common.administration', {
+                  context: 'title',
+                })}
+              </Menu.Item>
+              {customerPanelUrl && (
+                <Menu.Item
+                  href={customerPanelUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.menuItem}
+                >
+                  <Icon name="shield alternate" className={styles.menuItemIcon} />
+                  {t('common.customerPanel', {
+                    context: 'title',
+                  })}
+                </Menu.Item>
+              )}
+            </>
           )}
           <hr className={styles.divider} />
           <Menu.Item
