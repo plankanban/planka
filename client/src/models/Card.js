@@ -273,7 +273,7 @@ export default class extends BaseModel {
           const cardModel = Card.withId(card.id);
 
           if (cardModel) {
-            cardModel.deleteWithRelated();
+            cardModel.deleteWithRelated(true);
           }
 
           Card.upsert(card);
@@ -346,7 +346,7 @@ export default class extends BaseModel {
 
         if (payload.card.boardId === null || payload.isFetched) {
           if (cardModel) {
-            cardModel.deleteWithRelated();
+            cardModel.deleteWithRelated(true);
           }
         }
 
@@ -388,7 +388,7 @@ export default class extends BaseModel {
         const cardModel = Card.withId(payload.card.id);
 
         if (cardModel) {
-          cardModel.deleteWithRelated();
+          cardModel.deleteWithRelated(true);
         }
 
         Card.upsert(payload.card);
@@ -411,7 +411,7 @@ export default class extends BaseModel {
         const cardModel = Card.withId(payload.id);
 
         if (cardModel) {
-          cardModel.deleteWithRelated();
+          cardModel.deleteWithRelated(true);
         }
 
         if (payload.card) {
@@ -756,18 +756,20 @@ export default class extends BaseModel {
     this.labels.clear();
   }
 
-  deleteRelated() {
+  deleteRelated(soft = false) {
     this.deleteClearable();
 
     this.taskLists.toModelArray().forEach((taskListModel) => {
       taskListModel.deleteWithRelated();
     });
 
-    this.linkedTasks.toModelArray().forEach((taskModel) => {
-      taskModel.update({
-        linkedCardId: null,
+    if (!soft) {
+      this.linkedTasks.toModelArray().forEach((taskModel) => {
+        taskModel.update({
+          linkedCardId: null,
+        });
       });
-    });
+    }
 
     this.attachments.delete();
 
@@ -784,8 +786,8 @@ export default class extends BaseModel {
     this.delete();
   }
 
-  deleteWithRelated() {
-    this.deleteRelated();
+  deleteWithRelated(soft) {
+    this.deleteRelated(soft);
     this.delete();
   }
 }
