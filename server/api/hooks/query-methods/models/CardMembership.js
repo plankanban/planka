@@ -13,10 +13,16 @@ const createOne = (values) => CardMembership.create({ ...values }).fetch();
 
 const getByIds = (ids) => defaultFind(ids);
 
-const getByCardId = (cardId) =>
-  defaultFind({
+const getByCardId = (cardId, { userIdOrIds } = {}) => {
+  const criteria = {
     cardId,
-  });
+  };
+  if (userIdOrIds) {
+    criteria.userId = userIdOrIds;
+  }
+
+  return defaultFind(criteria);
+};
 
 const getByCardIds = (cardIds) =>
   defaultFind({

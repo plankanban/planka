@@ -309,6 +309,10 @@ export default {
       showOnFrontOfCard: 'Mostrar na frente do cartão',
       smtp: 'SMTP',
       sortList_title: 'Ordenar lista',
+      sourceCardIsNoLongerAvailableForCopying:
+        'O cartão de origem já não está disponível para cópia.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'O cartão de origem já não está disponível para mover.',
       stopwatch: 'Cronómetro',
       story: 'História',
       subscribeToCardWhenCommenting: 'Subscrever cartão ao comentar',
@@ -398,6 +402,7 @@ export default {
       archiveCards_title: 'Arquivar cartões',
       assignAsOwner: 'Atribuir como proprietário',
       cancel: 'Cancelar',
+      copyCard_title: 'Copiar cartão',
       createApiKey: 'Criar chave API',
       createBoard: 'Criar quadro',
       createCustomFieldGroup: 'Criar grupo de campos personalizados',
@@ -405,6 +410,7 @@ export default {
       createLabel: 'Criar etiqueta',
       createNewLabel: 'Criar nova etiqueta',
       createProject: 'Criar projeto',
+      cutCard_title: 'Cortar cartão',
       deactivateUser: 'Desativar utilizador',
       deactivateUser_title: 'Desativar utilizador',
       delete: 'Eliminar',

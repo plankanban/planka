@@ -309,6 +309,10 @@ export default {
       showOnFrontOfCard: 'Afficher sur le devant de la carte',
       smtp: 'SMTP',
       sortList_title: 'Trier la liste',
+      sourceCardIsNoLongerAvailableForCopying:
+        "La carte source n'est plus disponible pour la copie.",
+      sourceCardIsNoLongerAvailableForMoving:
+        "La carte source n'est plus disponible pour le déplacement.",
       stopwatch: 'Minuteur',
       story: 'Story',
       subscribeToCardWhenCommenting: 'S’abonner à la carte lors de la rédaction d’un commentaire',
@@ -397,6 +401,7 @@ export default {
       archiveCards_title: 'Archiver les cartes',
       assignAsOwner: 'Assigner comme propriétaire',
       cancel: 'Annuler',
+      copyCard_title: 'Copier la carte',
       createApiKey: 'Créer une clé API',
       createBoard: 'Créer un tableau',
       createCustomFieldGroup: 'Créer un groupe de champs personnalisés',
@@ -404,6 +409,7 @@ export default {
       createLabel: 'Créer une étiquette',
       createNewLabel: 'Créer une nouvelle étiquette',
       createProject: 'Créer un projet',
+      cutCard_title: 'Couper la carte',
       deactivateUser: 'Désactiver l’utilisateur',
       deactivateUser_title: 'Désactiver l’utilisateur',
       delete: 'Supprimer',

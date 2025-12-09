@@ -301,6 +301,10 @@ export default {
       showOnFrontOfCard: 'Näytä kortin etupuolella',
       smtp: 'SMTP',
       sortList_title: 'Lajittele lista',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Lähdekortti ei ole enää saatavilla kopiointia varten.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Lähdekortti ei ole enää saatavilla siirtämistä varten.',
       stopwatch: 'Ajastin',
       story: 'Tarina',
       subscribeToCardWhenCommenting: 'Tilaa kortti kommentoidessa',
@@ -392,6 +396,7 @@ export default {
       archiveCards_title: 'Arkistoi kortit',
       assignAsOwner: 'Aseta omistajaksi',
       cancel: 'Peruuta',
+      copyCard_title: 'Kopioi kortti',
       createApiKey: 'Luo API-avain',
       createBoard: 'Luo taulu',
       createCustomFieldGroup: 'Luo mukautettujen kenttien ryhmä',
@@ -399,6 +404,7 @@ export default {
       createLabel: 'Luo tunniste',
       createNewLabel: 'Luo uusi tunniste',
       createProject: 'Luo projekti',
+      cutCard_title: 'Leikkaa kortti',
       deactivateUser: 'Poista käyttäjä käytöstä',
       deactivateUser_title: 'Poista käyttäjä käytöstä',
       delete: 'Poista',

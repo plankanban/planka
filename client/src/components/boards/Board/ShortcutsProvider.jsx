@@ -18,15 +18,34 @@ import { isActiveTextElement } from '../../../utils/element-helpers';
 import { isModifierKeyPressed } from '../../../utils/event-helpers';
 import { BoardShortcutsContext } from '../../../contexts';
 import Paths from '../../../constants/Paths';
-import { BoardMembershipRoles, ListTypes } from '../../../constants/Enums';
+import {
+  BoardContexts,
+  BoardMembershipRoles,
+  BoardViews,
+  ListTypes,
+} from '../../../constants/Enums';
 import CardActionsStep from '../../cards/CardActionsStep';
+
+const canCopyCard = (isManager, boardMembership) => {
+  if (isManager) {
+    return true;
+  }
+
+  return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+};
+
+const canCutCard = (boardMembership) =>
+  !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+
+const canPasteCard = (boardMembership) =>
+  !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 
 const canEditCardName = (boardMembership, list) => {
   if (isListArchiveOrTrash(list)) {
     return false;
   }
 
-  return boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+  return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 };
 
 const canArchiveCard = (boardMembership, list) => {
@@ -34,7 +53,7 @@ const canArchiveCard = (boardMembership, list) => {
     return false;
   }
 
-  return boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+  return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 };
 
 const canUseCardMembers = (boardMembership, list) => {
@@ -42,7 +61,7 @@ const canUseCardMembers = (boardMembership, list) => {
     return false;
   }
 
-  return boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+  return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 };
 
 const canUseCardLabels = (boardMembership, list) => {
@@ -50,7 +69,7 @@ const canUseCardLabels = (boardMembership, list) => {
     return false;
   }
 
-  return boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+  return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 };
 
 const ShortcutsProvider = React.memo(({ children }) => {
@@ -58,7 +77,19 @@ const ShortcutsProvider = React.memo(({ children }) => {
 
   const dispatch = useDispatch();
 
+  const selectedListRef = useRef(null);
   const selectedCardRef = useRef(null);
+
+  const handleListMouseEnter = useCallback((id, onPaste) => {
+    selectedListRef.current = {
+      id,
+      onPaste,
+    };
+  }, []);
+
+  const handleListMouseLeave = useCallback(() => {
+    selectedListRef.current = null;
+  }, []);
 
   const handleCardMouseEnter = useCallback((id, editName, openActions) => {
     selectedCardRef.current = {
@@ -73,15 +104,106 @@ const ShortcutsProvider = React.memo(({ children }) => {
   }, []);
 
   const contextValue = useMemo(
-    () => [handleCardMouseEnter, handleCardMouseLeave],
-    [handleCardMouseEnter, handleCardMouseLeave],
+    () => [handleListMouseEnter, handleListMouseLeave, handleCardMouseEnter, handleCardMouseLeave],
+    [handleListMouseEnter, handleListMouseLeave, handleCardMouseEnter, handleCardMouseLeave],
   );
 
   useDidUpdate(() => {
+    selectedListRef.current = null;
     selectedCardRef.current = null;
   }, [cardId, boardId]);
 
   useEffect(() => {
+    const handleCardCopy = (event) => {
+      if (!selectedCardRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const card = selectors.selectCardById(state, selectedCardRef.current.id);
+
+      if (!card || !card.isPersisted) {
+        return;
+      }
+
+      const isManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+
+      if (!canCopyCard(isManager, boardMembership)) {
+        return;
+      }
+
+      event.preventDefault();
+      dispatch(entryActions.copyCard(card.id));
+    };
+
+    const handleCardCut = (event) => {
+      if (!selectedCardRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const card = selectors.selectCardById(state, selectedCardRef.current.id);
+
+      if (!card || !card.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+
+      if (!canCutCard(boardMembership)) {
+        return;
+      }
+
+      event.preventDefault();
+      dispatch(entryActions.cutCard(card.id));
+    };
+
+    const handleCardPaste = (event) => {
+      const state = store.getState();
+      const clipboard = selectors.selectClipboard(state);
+
+      if (!clipboard) {
+        return;
+      }
+
+      const board = selectors.selectCurrentBoard(state);
+
+      let listId;
+      if (board.context === BoardContexts.BOARD) {
+        if (board.view === BoardViews.KANBAN) {
+          listId = selectedListRef.current?.id;
+        } else {
+          listId = selectors.selectFirstKanbanListId(state);
+        }
+      } else {
+        listId = selectors.selectCurrentListId(state);
+      }
+
+      if (!listId) {
+        return;
+      }
+
+      const list = selectors.selectListById(state, listId);
+
+      if (!list || !list.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+
+      if (!canPasteCard(boardMembership)) {
+        return;
+      }
+
+      event.preventDefault();
+      dispatch(entryActions.pasteCard(list.id));
+
+      if (selectedListRef.current) {
+        selectedListRef.current.onPaste();
+      }
+    };
+
     const handleCardOpen = (event) => {
       if (!selectedCardRef.current) {
         return;
@@ -234,6 +356,22 @@ const ShortcutsProvider = React.memo(({ children }) => {
       }
 
       if (isModifierKeyPressed(event)) {
+        switch (event.key) {
+          case 'c':
+            handleCardCopy(event);
+
+            break;
+          case 'x':
+            handleCardCut(event);
+
+            break;
+          case 'v':
+            handleCardPaste(event);
+
+            break;
+          default:
+        }
+
         return;
       }
 

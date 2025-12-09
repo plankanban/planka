@@ -7,6 +7,7 @@ import { LOCATION_CHANGE_HANDLE } from '../lib/redux-router';
 
 import ActionTypes from '../constants/ActionTypes';
 import ModalTypes from '../constants/ModalTypes';
+import ClipboardTypes from '../constants/ClipboardTypes';
 import { HomeViews, ProjectOrders } from '../constants/Enums';
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   isFavoritesEnabled: false,
   isEditModeEnabled: false,
   modal: null,
+  clipboard: null,
   config: null,
   boardId: null,
   cardId: null,
@@ -175,6 +177,45 @@ export default (state = initialState, { type, payload }) => {
       }
 
       return state;
+    case ActionTypes.CARD_DELETE:
+      if (payload.clipboard && payload.id === payload.clipboard.cardId) {
+        return {
+          ...state,
+          clipboard: null,
+        };
+      }
+
+      return state;
+    case ActionTypes.CARD_DELETE_HANDLE:
+      if (payload.clipboard && payload.card.id === payload.clipboard.cardId) {
+        return {
+          ...state,
+          clipboard: null,
+        };
+      }
+
+      return state;
+    case ActionTypes.CARD_COPY:
+      return {
+        ...state,
+        clipboard: {
+          type: ClipboardTypes.COPY,
+          cardId: payload.id,
+        },
+      };
+    case ActionTypes.CARD_CUT:
+      return {
+        ...state,
+        clipboard: {
+          type: ClipboardTypes.CUT,
+          cardId: payload.id,
+        },
+      };
+    case ActionTypes.CARD_PASTE:
+      return {
+        ...state,
+        clipboard: null,
+      };
     default:
       return state;
   }

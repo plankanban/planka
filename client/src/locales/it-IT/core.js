@@ -306,6 +306,10 @@ export default {
       showOnFrontOfCard: 'Mostra davanti alla scheda',
       smtp: 'SMTP',
       sortList_title: 'Ordina',
+      sourceCardIsNoLongerAvailableForCopying:
+        'La scheda sorgente non è più disponibile per la copia.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'La scheda sorgente non è più disponibile per lo spostamento.',
       stopwatch: 'Timer',
       story: 'Storia',
       subscribeToCardWhenCommenting: 'Iscrivimi alla scheda quando commento',
@@ -395,6 +399,7 @@ export default {
       archiveCards_title: 'Archivia schede',
       assignAsOwner: 'Assegna come proprietario',
       cancel: 'Annulla',
+      copyCard_title: 'Copia scheda',
       createApiKey: 'Crea chiave API',
       createBoard: 'Crea bacheca',
       createCustomFieldGroup: 'Crea campi personalizzati',
@@ -402,6 +407,7 @@ export default {
       createLabel: 'Crea etichetta',
       createNewLabel: 'Crea nuova etichetta',
       createProject: 'Crea progetto',
+      cutCard_title: 'Taglia scheda',
       deactivateUser: 'Disattiva utente',
       deactivateUser_title: 'Disattiva utente',
       delete: 'Elimina',

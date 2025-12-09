@@ -318,6 +318,10 @@ export default {
       showOnFrontOfCard: 'Εμφάνιση στο μπροστινό μέρος της κάρτας',
       smtp: 'SMTP',
       sortList_title: 'Ταξινόμηση λίστας',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Η κάρτα πηγής δεν είναι πλέον διαθέσιμη για αντιγραφή.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Η κάρτα πηγής δεν είναι πλέον διαθέσιμη για μετακίνηση.',
       stopwatch: 'Χρονόμετρο',
       story: 'Ιστορία',
       subscribeToCardWhenCommenting: 'Εγγραφή στην κάρτα κατά τη σχολιασμό',
@@ -413,6 +417,7 @@ export default {
       archiveCards_title: 'Αρχειοθέτηση καρτών',
       assignAsOwner: 'Ορισμός ως ιδιοκτήτης',
       cancel: 'Ακύρωση',
+      copyCard_title: 'Αντιγραφή κάρτας',
       createApiKey: 'Δημιουργία κλειδιού API',
       createBoard: 'Δημιουργία πίνακα',
       createCustomFieldGroup: 'Δημιουργία ομάδας προσαρμοσμένων πεδίων',
@@ -420,6 +425,7 @@ export default {
       createLabel: 'Δημιουργία ετικέτας',
       createNewLabel: 'Δημιουργία νέας ετικέτας',
       createProject: 'Δημιουργία έργου',
+      cutCard_title: 'Αποκοπή κάρτας',
       deactivateUser: 'Απενεργοποίηση χρήστη',
       deactivateUser_title: 'Απενεργοποίηση χρήστη',
       delete: 'Διαγραφή',

@@ -309,6 +309,10 @@ export default {
       showOnFrontOfCard: 'Mostrar a la part frontal de la targeta',
       smtp: 'SMTP',
       sortList_title: 'Ordenar llista',
+      sourceCardIsNoLongerAvailableForCopying:
+        "La targeta d'origen ja no està disponible per copiar.",
+      sourceCardIsNoLongerAvailableForMoving:
+        "La targeta d'origen ja no està disponible per moure.",
       stopwatch: 'Cronòmetre',
       story: 'Història',
       subscribeToCardWhenCommenting: "Subscriure's a la targeta en comentar",
@@ -399,6 +403,7 @@ export default {
       archiveCards_title: 'Arxivar targetes',
       assignAsOwner: 'Assignar com a propietari',
       cancel: 'Cancel·lar',
+      copyCard_title: 'Copiar targeta',
       createApiKey: 'Crear clau API',
       createBoard: 'Crear tauler',
       createCustomFieldGroup: 'Crear grup de camps personalitzats',
@@ -406,6 +411,7 @@ export default {
       createLabel: 'Crear etiqueta',
       createNewLabel: 'Crear nova etiqueta',
       createProject: 'Crear projecte',
+      cutCard_title: 'Tallar targeta',
       deactivateUser: 'Desactivar usuari',
       deactivateUser_title: 'Desactivar usuari',
       delete: 'Eliminar',

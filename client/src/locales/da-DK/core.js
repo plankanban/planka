@@ -305,6 +305,10 @@ export default {
       showOnFrontOfCard: 'Vis på forsiden af kortet',
       smtp: 'SMTP',
       sortList_title: 'Sortér liste',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Kildekortet er ikke længere tilgængeligt til kopiering.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Kildekortet er ikke længere tilgængeligt til flytning.',
       stopwatch: 'Stopur',
       story: 'Story',
       subscribeToCardWhenCommenting: 'Abonnér på kort ved kommentering',
@@ -393,6 +397,7 @@ export default {
       archiveCards_title: 'Arkivér kort',
       assignAsOwner: 'Sæt som ejer',
       cancel: 'Annuller',
+      copyCard_title: 'Kopiér kort',
       createApiKey: 'Opret API-nøgle',
       createBoard: 'Opret tavle',
       createCustomFieldGroup: 'Opret brugerdefineret feltgruppe',
@@ -400,6 +405,7 @@ export default {
       createLabel: 'Opret label',
       createNewLabel: 'Opret ny label',
       createProject: 'Opret projekt',
+      cutCard_title: 'Klip kort',
       deactivateUser: 'Deaktivér bruger',
       deactivateUser_title: 'Deaktivér bruger',
       delete: 'Slet',

@@ -306,6 +306,10 @@ export default {
       showOnFrontOfCard: 'Показать на лицевой стороне карточки',
       smtp: 'SMTP',
       sortList_title: 'Сортировка списка',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Исходная карточка больше не доступна для копирования.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Исходная карточка больше не доступна для перемещения.',
       stopwatch: 'Секундомер',
       story: 'История',
       subscribeToCardWhenCommenting: 'Подписаться на карточку при комментировании',
@@ -394,6 +398,7 @@ export default {
       archiveCards_title: 'Архивировать карточки',
       assignAsOwner: 'Назначить владельцем',
       cancel: 'Отменить',
+      copyCard_title: 'Копировать карточку',
       createApiKey: 'Создать ключ API',
       createBoard: 'Создать доску',
       createCustomFieldGroup: 'Создать группу настраиваемых полей',
@@ -401,6 +406,7 @@ export default {
       createLabel: 'Создать метку',
       createNewLabel: 'Создать новую метку',
       createProject: 'Создать проект',
+      cutCard_title: 'Вырезать карточку',
       deactivateUser: 'Деактивировать пользователя',
       deactivateUser_title: 'Деактивировать пользователя',
       delete: 'Удалить',

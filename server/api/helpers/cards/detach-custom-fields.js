@@ -198,11 +198,10 @@ module.exports = {
           }
 
           customFieldsItem.forEach((customField) => {
+            const groupedId = `${customFieldGroup.id}:${customField.id}`;
             const id = ids.shift();
 
-            nextCustomFieldIdByCustomFieldIdByCardId[cardId][
-              `${customFieldGroup.id}:${customField.id}`
-            ] = id;
+            nextCustomFieldIdByCustomFieldIdByCardId[cardId][groupedId] = id;
 
             nextCustomFieldsValues.push({
               ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position']),
@@ -223,11 +222,10 @@ module.exports = {
         }
 
         customFieldsItem.forEach((customField) => {
+          const groupedId = `${customFieldGroup.id}:${customField.id}`;
           const id = ids.shift();
 
-          nextCustomFieldIdByCustomFieldIdByCardId[customFieldGroup.cardId][
-            `${customFieldGroup.id}:${customField.id}`
-          ] = id;
+          nextCustomFieldIdByCustomFieldIdByCardId[customFieldGroup.cardId][groupedId] = id;
 
           nextCustomFieldsValues.push({
             ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position']),
@@ -262,10 +260,11 @@ module.exports = {
           nextCustomFieldIdByCustomFieldIdByCardId[customFieldValue.cardId];
 
         if (nextCustomFieldIdByCustomFieldId) {
+          const groupedId = `${customFieldValue.customFieldGroupId}:${customFieldValue.customFieldId}`;
+
           const nextCustomFieldId =
-            nextCustomFieldIdByCustomFieldId[
-              `${customFieldValue.customFieldGroupId}:${customFieldValue.customFieldId}`
-            ] || nextCustomFieldIdByCustomFieldId[customFieldValue.customFieldId];
+            nextCustomFieldIdByCustomFieldId[groupedId] ||
+            nextCustomFieldIdByCustomFieldId[customFieldValue.customFieldId];
 
           if (nextCustomFieldId) {
             updateValues.customFieldId = nextCustomFieldId;

@@ -16,6 +16,7 @@ import { closePopup, usePopup } from '../../../lib/popup';
 import selectors from '../../../selectors';
 import { BoardShortcutsContext } from '../../../contexts';
 import Paths from '../../../constants/Paths';
+import ClipboardTypes from '../../../constants/ClipboardTypes';
 import { BoardMembershipRoles, CardTypes } from '../../../constants/Enums';
 import ProjectContent from './ProjectContent';
 import StoryContent from './StoryContent';
@@ -44,14 +45,25 @@ const Card = React.memo(({ id, isInline }) => {
     return selectIsCardWithIdRecent(state, id);
   });
 
+  const isCut = useSelector((state) => {
+    const clipboard = selectors.selectClipboard(state);
+    return clipboard && clipboard.type === ClipboardTypes.CUT && card.id === clipboard.cardId;
+  });
+
   const canUseActions = useSelector((state) => {
+    const isManager = selectors.selectIsCurrentUserManagerForCurrentProject(state);
+
+    if (isManager) {
+      return true;
+    }
+
     const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
     return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
   });
 
   const dispatch = useDispatch();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
-  const [handleCardMouseEnter, handleCardMouseLeave] = useContext(BoardShortcutsContext);
+  const [, , handleCardMouseEnter, handleCardMouseLeave] = useContext(BoardShortcutsContext);
 
   const actionsPopupRef = useRef(null);
 
@@ -139,7 +151,11 @@ const Card = React.memo(({ id, isInline }) => {
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
                                        jsx-a11y/no-static-element-interactions */}
           <div
-            className={classNames(styles.content, card.isClosed && styles.contentDisabled)}
+            className={classNames(
+              styles.content,
+              card.isClosed && styles.contentDisabled,
+              isCut && styles.contentCut,
+            )}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleCardMouseLeave}
             onClick={handleClick}

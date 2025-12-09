@@ -104,7 +104,7 @@ const StoryContent = React.memo(() => {
         canSubscribe: isMember,
         canJoin: false,
         canDuplicate: false,
-        canMove: false,
+        canMove: isEditor,
         canRestore: isEditor,
         canArchive: isEditor,
         canDelete: isEditor,

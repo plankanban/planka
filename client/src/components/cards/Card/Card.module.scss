@@ -44,6 +44,10 @@
     }
   }
 
+  .contentCut {
+    opacity: 0.5;
+  }
+
   .contentDisabled {
     filter: saturate(0.5);
     opacity: 0.64;

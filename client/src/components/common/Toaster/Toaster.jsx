@@ -7,14 +7,18 @@ import React from 'react';
 import { Toaster as HotToaster, ToastBar as HotToastBar } from 'react-hot-toast';
 
 import ToastTypes from '../../../constants/ToastTypes';
-import FileIsTooBig from './FileIsTooBig';
-import NotEnoughStorage from './NotEnoughStorage';
+import FileIsTooBigToast from './FileIsTooBigToast';
+import NotEnoughStorageToast from './NotEnoughStorageToast';
 import EmptyTrashToast from './EmptyTrashToast';
+import SourceCardNotCopyableToast from './SourceCardNotCopyableToast';
+import SourceCardNotMovableToast from './SourceCardNotMovableToast';
 
 const TOAST_BY_TYPE = {
-  [ToastTypes.FILE_IS_TOO_BIG]: FileIsTooBig,
-  [ToastTypes.NOT_ENOUGH_STORAGE]: NotEnoughStorage,
+  [ToastTypes.FILE_IS_TOO_BIG]: FileIsTooBigToast,
+  [ToastTypes.NOT_ENOUGH_STORAGE]: NotEnoughStorageToast,
   [ToastTypes.EMPTY_TRASH]: EmptyTrashToast,
+  [ToastTypes.SOURCE_CARD_NOT_COPYABLE]: SourceCardNotCopyableToast,
+  [ToastTypes.SOURCE_CARD_NOT_MOVABLE]: SourceCardNotMovableToast,
 };
 
 const Toaster = React.memo(() => (

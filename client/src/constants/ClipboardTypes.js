@@ -3,6 +3,10 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { createContext } from 'react';
+const COPY = 'COPY';
+const CUT = 'CUT';
 
-export default createContext([null, null, null, null]);
+export default {
+  COPY,
+  CUT,
+};

@@ -4,6 +4,7 @@
  */
 
 import { call, fork, join, put, race, select, take } from 'redux-saga/effects';
+import toast from 'react-hot-toast';
 import { LOCATION_CHANGE_HANDLE } from '../../../lib/redux-router';
 
 import { goToBoard, goToCard } from './router';
@@ -11,9 +12,12 @@ import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
+import i18n from '../../../i18n';
 import { createLocalId } from '../../../utils/local-id';
 import { isListArchiveOrTrash, isListFinite } from '../../../utils/record-helpers';
 import ActionTypes from '../../../constants/ActionTypes';
+import ClipboardTypes from '../../../constants/ClipboardTypes';
+import ToastTypes from '../../../constants/ToastTypes';
 import { BoardViews, ListTypes, ListTypeStates } from '../../../constants/Enums';
 import LIST_TYPE_STATE_BY_TYPE from '../../../constants/ListTypeStateByType';
 
@@ -419,7 +423,92 @@ export function* transferCard(id, boardId, listId, index) {
     data.position = yield select(selectors.selectNextCardPosition, listId, index, id);
   }
 
-  yield call(updateCard, id, data);
+  const typeState = LIST_TYPE_STATE_BY_TYPE[list.type];
+
+  yield put(
+    actions.transferCard(id, {
+      ...data,
+      isClosed: typeState === ListTypeStates.CLOSED,
+    }),
+  );
+
+  let card;
+  let updateError;
+
+  try {
+    ({ item: card } = yield call(request, api.updateCard, id, data));
+  } catch (error) {
+    updateError = error;
+  }
+
+  let users;
+  let cardMemberships;
+  let cardLabels;
+  let taskLists;
+  let tasks;
+  let attachments;
+  let customFieldGroups;
+  let customFields;
+  let customFieldValues;
+
+  try {
+    ({
+      item: card,
+      included: {
+        users,
+        cardMemberships,
+        cardLabels,
+        taskLists,
+        tasks,
+        attachments,
+        customFieldGroups,
+        customFields,
+        customFieldValues,
+      },
+    } = yield call(request, api.getCard, id));
+  } catch (error) {
+    yield put(actions.transferCard.failure(id, error));
+  }
+
+  if (updateError) {
+    yield put(
+      actions.transferCard.failure(
+        id,
+        updateError,
+        card,
+        users,
+        cardMemberships,
+        cardLabels,
+        taskLists,
+        tasks,
+        attachments,
+        customFieldGroups,
+        customFields,
+        customFieldValues,
+      ),
+    );
+
+    yield call(toast, {
+      type: ToastTypes.SOURCE_CARD_NOT_MOVABLE,
+    });
+
+    return;
+  }
+
+  yield put(
+    actions.transferCard.success(
+      card,
+      users,
+      cardMemberships,
+      cardLabels,
+      taskLists,
+      tasks,
+      attachments,
+      customFieldGroups,
+      customFields,
+      customFieldValues,
+    ),
+  );
 }
 
 export function* transferCurrentCard(boardId, listId, index) {
@@ -431,23 +520,38 @@ export function* transferCurrentCard(boardId, listId, index) {
 export function* duplicateCard(id, data) {
   const localId = yield call(createLocalId);
   const { cardId: currentCardId } = yield select(selectors.selectPath);
-  const { boardId, listId } = yield select(selectors.selectCardById, id);
-  const index = yield select(selectors.selectCardIndexById, id);
+  const sourceCard = yield select(selectors.selectCardById, id);
+
+  const boardId = data.boardId || sourceCard.boardId;
+  const listId = data.listId || sourceCard.listId;
+
+  const list = yield select(selectors.selectListById, listId);
+  const typeState = LIST_TYPE_STATE_BY_TYPE[list.type];
+
+  const nextData = {
+    ...data,
+  };
+
+  if (!nextData.position && isListFinite(list)) {
+    const index = yield select(selectors.selectCardIndexById, id);
+    nextData.position = yield select(selectors.selectNextCardPosition, listId, index + 1);
+  }
 
   const currentUserMembership = yield select(
     selectors.selectCurrentUserMembershipByBoardId,
     boardId,
   );
 
-  const nextData = {
-    ...data,
-    position: yield select(selectors.selectNextCardPosition, listId, index + 1),
-  };
-
   yield put(
     actions.duplicateCard(id, localId, {
       ...nextData,
       creatorUserId: currentUserMembership.userId,
+      isClosed: typeState === ListTypeStates.CLOSED,
+      ...(sourceCard && {
+        name: `${sourceCard.name} (${i18n.t('common.copy', {
+          context: 'inline',
+        })})`,
+      }),
     }),
   );
 
@@ -481,6 +585,11 @@ export function* duplicateCard(id, data) {
     } = yield call(request, api.duplicateCard, id, nextData));
   } catch (error) {
     yield put(actions.duplicateCard.failure(localId, error));
+
+    yield call(toast, {
+      type: ToastTypes.SOURCE_CARD_NOT_COPYABLE,
+    });
+
     return;
   }
 
@@ -514,6 +623,54 @@ export function* duplicateCurrentCard(data) {
   const { cardId } = yield select(selectors.selectPath);
 
   yield call(duplicateCard, cardId, data);
+}
+
+export function* copyCard(id) {
+  yield put(actions.copyCard(id));
+}
+
+export function* cutCard(id) {
+  yield put(actions.cutCard(id));
+}
+
+export function* pasteCard(listId) {
+  const list = yield select(selectors.selectListById, listId);
+  const clipboard = yield select(selectors.selectClipboard);
+  const sourceCard = yield select(selectors.selectCardById, clipboard.cardId);
+
+  yield put(actions.pasteCard());
+
+  if (clipboard.type === ClipboardTypes.COPY) {
+    const data = {
+      listId,
+    };
+    if (!sourceCard || list.boardId !== sourceCard.boardId) {
+      data.boardId = list.boardId;
+    }
+    if (isListFinite(list)) {
+      data.position = yield select(selectors.selectNextCardPosition, listId);
+    }
+
+    yield call(duplicateCard, clipboard.cardId, data);
+  } else if (clipboard.type === ClipboardTypes.CUT) {
+    if (sourceCard && listId === sourceCard.listId) {
+      return;
+    }
+
+    yield call(transferCard, clipboard.cardId, list.boardId, list.id);
+  }
+}
+
+export function* pasteCardInCurrentContext() {
+  const listId = yield select(selectors.selectFirstKanbanListId);
+
+  yield call(pasteCard, listId);
+}
+
+export function* pasteCardInCurrentList() {
+  const currentListId = yield select(selectors.selectCurrentListId);
+
+  yield call(pasteCard, currentListId);
 }
 
 export function* goToAdjacentCard(direction) {
@@ -617,6 +774,11 @@ export default {
   transferCurrentCard,
   duplicateCard,
   duplicateCurrentCard,
+  copyCard,
+  cutCard,
+  pasteCard,
+  pasteCardInCurrentContext,
+  pasteCardInCurrentList,
   goToAdjacentCard,
   deleteCard,
   deleteCurrentCard,

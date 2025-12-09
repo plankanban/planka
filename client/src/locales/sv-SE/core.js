@@ -310,6 +310,10 @@ export default {
       showOnFrontOfCard: 'Visa på framsidan av kort',
       smtp: 'SMTP',
       sortList_title: 'Sortera lista',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Källkortet är inte längre tillgängligt för kopiering.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Källkortet är inte längre tillgängligt för flyttning.',
       stopwatch: 'Timer',
       story: 'Berättelse',
       subscribeToCardWhenCommenting: 'Prenumerera på kort vid kommentering',
@@ -399,6 +403,7 @@ export default {
       archiveCards_title: 'Arkivera kort',
       assignAsOwner: 'Tilldela som ägare',
       cancel: 'Avbryt',
+      copyCard_title: 'Kopiera kort',
       createApiKey: 'Skapa API-nyckel',
       createBoard: 'Skapa tavla',
       createCustomFieldGroup: 'Skapa anpassad fältgrupp',
@@ -406,6 +411,7 @@ export default {
       createLabel: 'Skapa etikett',
       createNewLabel: 'Skapa ny etikett',
       createProject: 'Skapa projekt',
+      cutCard_title: 'Klipp ut kort',
       deactivateUser: 'Inaktivera användare',
       deactivateUser_title: 'Inaktivera användare',
       delete: 'Ta bort',

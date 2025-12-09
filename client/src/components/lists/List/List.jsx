@@ -5,18 +5,19 @@
 
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
-import { useDidUpdate, useTransitioning } from '../../../lib/hooks';
+import { useDidUpdate, useToggle, useTransitioning } from '../../../lib/hooks';
 import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
+import { BoardShortcutsContext } from '../../../contexts';
 import DroppableTypes from '../../../constants/DroppableTypes';
 import { BoardMembershipRoles, ListTypes } from '../../../constants/Enums';
 import { ListTypeIcons } from '../../../constants/Icons';
@@ -47,28 +48,36 @@ const List = React.memo(({ id, index }) => {
     [],
   );
 
+  const clipboard = useSelector(selectors.selectClipboard);
   const isFavoritesActive = useSelector(selectors.selectIsFavoritesActiveForCurrentUser);
+
   const list = useSelector((state) => selectListById(state, id));
   const cardIds = useSelector((state) => selectFilteredCardIdsByListId(state, id));
 
-  const { canEdit, canArchiveCards, canAddCard, canDropCard } = useSelector((state) => {
-    const isEditModeEnabled = selectors.selectIsEditModeEnabled(state); // TODO: move out?
+  const { canEdit, canArchiveCards, canAddCard, canPasteCard, canDropCard } = useSelector(
+    (state) => {
+      const isEditModeEnabled = selectors.selectIsEditModeEnabled(state); // TODO: move out?
 
-    const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
-    const isEditor = !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+      const isEditor = !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 
-    return {
-      canEdit: isEditModeEnabled && isEditor,
-      canArchiveCards: list.type === ListTypes.CLOSED && isEditor,
-      canAddCard: isEditor,
-      canDropCard: isEditor,
-    };
-  }, shallowEqual);
+      return {
+        canEdit: isEditModeEnabled && isEditor,
+        canArchiveCards: list.type === ListTypes.CLOSED && isEditor,
+        canAddCard: isEditor,
+        canPasteCard: isEditor,
+        canDropCard: isEditor,
+      };
+    },
+    shallowEqual,
+  );
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
   const [addCardPosition, setAddCardPosition] = useState(null);
+  const [scrollBottomState, scrollBottom] = useToggle();
+  const [handleListMouseEnter, handleListMouseLeave] = useContext(BoardShortcutsContext);
 
   const wrapperRef = useRef(null);
   const cardsWrapperRef = useRef(null);
@@ -81,6 +90,17 @@ const List = React.memo(({ id, index }) => {
     },
     [id, dispatch, addCardPosition],
   );
+
+  const handlePasteCardClick = useCallback(() => {
+    dispatch(entryActions.pasteCard(id));
+    scrollBottom();
+  }, [id, dispatch, scrollBottom]);
+
+  const handleMouseEnter = useCallback(() => {
+    handleListMouseEnter(id, () => {
+      scrollBottom();
+    });
+  }, [id, scrollBottom, handleListMouseEnter]);
 
   const handleHeaderClick = useCallback(() => {
     if (list.isPersisted && canEdit) {
@@ -122,6 +142,10 @@ const List = React.memo(({ id, index }) => {
     cardsWrapperRef.current.scrollTop =
       addCardPosition === AddCardPositions.TOP ? 0 : cardsWrapperRef.current.scrollHeight;
   }, [cardIds, addCardPosition]);
+
+  useDidUpdate(() => {
+    cardsWrapperRef.current.scrollTop = cardsWrapperRef.current.scrollHeight;
+  }, [scrollBottomState]);
 
   const ActionsPopup = usePopup(ActionsStep);
   const ArchiveCardsPopup = usePopup(ArchiveCardsStep);
@@ -169,6 +193,8 @@ const List = React.memo(({ id, index }) => {
           data-drag-scroller
           ref={innerRef}
           className={styles.innerWrapper}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleListMouseLeave}
         >
           <div
             ref={wrapperRef}
@@ -231,17 +257,29 @@ const List = React.memo(({ id, index }) => {
               <div className={styles.cardsOuterWrapper}>{cardsNode}</div>
             </div>
             {!addCardPosition && canAddCard && (
-              <button
-                type="button"
-                disabled={!list.isPersisted}
-                className={styles.addCardButton}
-                onClick={handleAddCardClick}
-              >
-                <PlusMathIcon className={styles.addCardButtonIcon} />
-                <span className={styles.addCardButtonText}>
-                  {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
-                </span>
-              </button>
+              <div className={styles.addCardButtonWrapper}>
+                <button
+                  type="button"
+                  disabled={!list.isPersisted}
+                  className={styles.addCardButton}
+                  onClick={handleAddCardClick}
+                >
+                  <PlusMathIcon className={styles.addCardButtonIcon} />
+                  <span className={styles.addCardButtonText}>
+                    {cardIds.length > 0 ? t('action.addAnotherCard') : t('action.addCard')}
+                  </span>
+                </button>
+                {clipboard && canPasteCard && (
+                  <button
+                    type="button"
+                    disabled={!list.isPersisted}
+                    className={classNames(styles.addCardButton, styles.paste)}
+                    onClick={handlePasteCardClick}
+                  >
+                    <Icon name="paste" />
+                  </button>
+                )}
+              </div>
             )}
           </div>
         </div>
