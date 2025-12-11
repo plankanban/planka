@@ -66,7 +66,7 @@ module.exports = {
     };
 
     if (!['image/svg+xml', 'application/pdf'].includes(mimeType)) {
-      let image = sharp(buffer || filePath, {
+      let image = sharp(buffer || filePath || inputs.file.fd, {
         animated: true,
       });
 
