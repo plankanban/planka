@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'PLANKA Hakkında',
+      aboutPlanka_title: 'PLANKA Hakkında',
       accessToken: 'Erişim jetonu',
       account: 'Hesap',
       actions: 'Eylemler',
@@ -317,7 +317,7 @@ export default {
       taskListActions_title: 'Görev listesi işlemleri',
       taskList_title: 'Görev listesi',
       team: 'Takım',
-      terms: 'Şartlar',
+      termsOfService_title: 'Hizmet şartları',
       testLog_title: 'Test günlüğü',
       thereIsNoPreviewAvailableForThisAttachment: 'Bu ek için önizleme mevcut değil.',
       time: 'zaman',

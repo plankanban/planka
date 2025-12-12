@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'PLANKA kohta',
+      aboutPlanka_title: 'PLANKA kohta',
       accessToken: 'Juurdepääsuluba',
       account: 'Konto',
       actions: 'Tegevused',
@@ -316,7 +316,7 @@ export default {
       taskListActions_title: 'Ülesannete nimekiri tegevused',
       taskList_title: 'Ülesanne nimekiri',
       team: 'Töögrupp',
-      terms: 'Tingimused',
+      termsOfService_title: 'Teenuse tingimused',
       testLog_title: 'Testilogi',
       thereIsNoPreviewAvailableForThisAttachment: 'Selle manusi eelvaadet pole saadaval.',
       time: 'Aeg',

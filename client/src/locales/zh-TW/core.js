@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: '關於 PLANKA',
+      aboutPlanka_title: '關於 PLANKA',
       accessToken: '存取權杖',
       account: '帳號',
       actions: '操作',
@@ -294,7 +294,7 @@ export default {
       taskListActions_title: '任務列表操作',
       taskList_title: '任務列表',
       team: '團隊',
-      terms: '條款',
+      termsOfService_title: '服務條款',
       testLog_title: '測試日誌',
       thereIsNoPreviewAvailableForThisAttachment: '此附件無法預覽。',
       time: '時間',

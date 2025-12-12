@@ -10,7 +10,7 @@ import { Loader, Tab } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import api from '../../../api';
-import Markdown from '../../common/Markdown';
+import Markdown from '../Markdown';
 
 import styles from './TermsPane.module.scss';
 

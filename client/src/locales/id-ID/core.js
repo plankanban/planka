@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Tentang PLANKA',
+      aboutPlanka_title: 'Tentang PLANKA',
       accessToken: 'Token akses',
       account: 'Akun',
       actions: 'Tindakan',
@@ -317,7 +317,7 @@ export default {
       taskListActions_title: 'Aksi daftar tugas',
       taskList_title: 'Daftar tugas',
       team: 'Tim',
-      terms: 'Ketentuan',
+      termsOfService_title: 'Ketentuan layanan',
       testLog_title: 'Log uji',
       thereIsNoPreviewAvailableForThisAttachment:
         'Tidak ada pratinjau yang tersedia untuk lampiran ini.',

@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: '关于 PLANKA',
+      aboutPlanka_title: '关于 PLANKA',
       accessToken: '访问令牌',
       account: '账号',
       actions: '操作',
@@ -294,7 +294,7 @@ export default {
       taskListActions_title: '任务列表操作',
       taskList_title: '任务列表',
       team: '团队',
-      terms: '条款',
+      termsOfService_title: '服务条款',
       testLog_title: '测试日志',
       thereIsNoPreviewAvailableForThisAttachment: '此附件无法预览。',
       time: '时间',

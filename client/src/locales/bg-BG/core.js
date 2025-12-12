@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'За PLANKA',
+      aboutPlanka_title: 'За PLANKA',
       accessToken: 'Токен за достъп',
       account: 'Акаунт',
       actions: 'Действия',
@@ -322,7 +322,7 @@ export default {
       taskListActions_title: 'Действия със списък задачи',
       taskList_title: 'Списък със задачи',
       team: 'Екип',
-      terms: 'Условия',
+      termsOfService_title: 'Условия за ползване',
       testLog_title: 'Тестов дневник',
       thereIsNoPreviewAvailableForThisAttachment: 'Няма наличен преглед за този прикачен файл.',
       time: 'Време',

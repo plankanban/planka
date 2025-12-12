@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'PLANKA haqida',
+      aboutPlanka_title: 'PLANKA haqida',
       accessToken: 'Kirish tokeni',
       account: 'Profil',
       actions: 'Amallar',
@@ -312,7 +312,7 @@ export default {
       taskListActions_title: "Vazifalar ro'yxati amallari",
       taskList_title: "Vazifalar ro'yxati",
       team: 'Jamoa',
-      terms: 'Shartlar',
+      termsOfService_title: 'Xizmat shartlari',
       testLog_title: 'Test jurnali',
       thereIsNoPreviewAvailableForThisAttachment: "Ushbu ilova uchun oldindan ko'rish mavjud emas.",
       time: 'Vaqt',

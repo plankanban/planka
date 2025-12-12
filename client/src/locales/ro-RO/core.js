@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Despre PLANKA',
+      aboutPlanka_title: 'Despre PLANKA',
       accessToken: 'Token de acces',
       account: 'Cont',
       actions: 'Acțiuni',
@@ -315,7 +315,7 @@ export default {
       taskListActions_title: 'Acțiuni listă de sarcini',
       taskList_title: 'Listă de sarcini',
       team: 'Echipă',
-      terms: 'Termeni',
+      termsOfService_title: 'Termeni de serviciu',
       testLog_title: 'Jurnal de test',
       thereIsNoPreviewAvailableForThisAttachment:
         'Nu există nicio previzualizare disponibilă pentru acest atașament.',

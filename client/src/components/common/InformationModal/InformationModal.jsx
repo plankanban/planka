@@ -10,11 +10,10 @@ import { Tab } from 'semantic-ui-react';
 
 import entryActions from '../../../entry-actions';
 import { useClosableModal } from '../../../hooks';
-import AccountPane from './AccountPane';
-import PreferencesPane from './PreferencesPane';
-import NotificationsPane from './NotificationsPane';
+import TermsPane from './TermsPane';
+import AboutPane from './AboutPane';
 
-const UserSettingsModal = React.memo(() => {
+const InformationModal = React.memo(() => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
@@ -26,22 +25,16 @@ const UserSettingsModal = React.memo(() => {
 
   const panes = [
     {
-      menuItem: t('common.account', {
+      menuItem: t('common.aboutPlanka', {
         context: 'title',
       }),
-      render: () => <AccountPane />,
+      render: () => <AboutPane />,
     },
     {
-      menuItem: t('common.preferences', {
+      menuItem: t('common.termsOfService', {
         context: 'title',
       }),
-      render: () => <PreferencesPane />,
-    },
-    {
-      menuItem: t('common.notifications', {
-        context: 'title',
-      }),
-      render: () => <NotificationsPane />,
+      render: () => <TermsPane />,
     },
   ];
 
@@ -60,4 +53,4 @@ const UserSettingsModal = React.memo(() => {
   );
 });
 
-export default UserSettingsModal;
+export default InformationModal;

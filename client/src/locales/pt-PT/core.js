@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Sobre o PLANKA',
+      aboutPlanka_title: 'Sobre o PLANKA',
       accessToken: 'Token de acesso',
       account: 'Conta',
       actions: 'Ações',
@@ -322,7 +322,7 @@ export default {
       taskListActions_title: 'Ações da lista de tarefas',
       taskList_title: 'Lista de tarefas',
       team: 'Equipa',
-      terms: 'Termos',
+      termsOfService_title: 'Termos de serviço',
       testLog_title: 'Registo de teste',
       thereIsNoPreviewAvailableForThisAttachment:
         'Não há pré-visualização disponível para este anexo.',

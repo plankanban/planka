@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'درباره PLANKA',
+      aboutPlanka_title: 'درباره PLANKA',
       accessToken: 'رمز دسترسی',
       account: 'حساب کاربری',
       actions: 'اقدامات',
@@ -319,7 +319,7 @@ export default {
       taskListActions_title: 'اقدامات لیست وظایف',
       taskList_title: 'لیست وظایف',
       team: 'تیم',
-      terms: 'شرایط',
+      termsOfService_title: 'شرایط خدمات',
       testLog_title: 'گزارش تست',
       thereIsNoPreviewAvailableForThisAttachment: 'پیش نمایشی برای این پیوست موجود نیست.',
       time: 'زمان',

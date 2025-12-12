@@ -14,9 +14,9 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { UserRoles } from '../../../constants/Enums';
 
-import styles from './UserStep.module.scss';
+import styles from './UserActionsStep.module.scss';
 
-const UserStep = React.memo(({ onClose }) => {
+const UserActionsStep = React.memo(({ onClose }) => {
   const isLogouting = useSelector(selectors.selectIsLogouting);
 
   const customerPanelUrl = useSelector(
@@ -37,6 +37,11 @@ const UserStep = React.memo(({ onClose }) => {
 
   const handleAdministrationClick = useCallback(() => {
     dispatch(entryActions.openAdministrationModal());
+    onClose();
+  }, [onClose, dispatch]);
+
+  const handleInformationClick = useCallback(() => {
+    dispatch(entryActions.openInformationModal());
     onClose();
   }, [onClose, dispatch]);
 
@@ -65,7 +70,7 @@ const UserStep = React.memo(({ onClose }) => {
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
           <Menu.Item className={styles.menuItem} onClick={handleSettingsClick}>
-            <Icon name="user circle outline" className={styles.menuItemIcon} />
+            <Icon name="user circle" className={styles.menuItemIcon} />
             {t('common.settings', {
               context: 'title',
             })}
@@ -93,6 +98,12 @@ const UserStep = React.memo(({ onClose }) => {
               )}
             </>
           )}
+          <Menu.Item className={styles.menuItem} onClick={handleInformationClick}>
+            <Icon name="info circle" className={styles.menuItemIcon} />
+            {t('common.information', {
+              context: 'title',
+            })}
+          </Menu.Item>
           <hr className={styles.divider} />
           <Menu.Item
             {...logoutMenuItemProps} // eslint-disable-line react/jsx-props-no-spreading
@@ -110,8 +121,8 @@ const UserStep = React.memo(({ onClose }) => {
   );
 });
 
-UserStep.propTypes = {
+UserActionsStep.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default UserStep;
+export default UserActionsStep;

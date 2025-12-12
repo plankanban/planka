@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Om PLANKA',
+      aboutPlanka_title: 'Om PLANKA',
       accessToken: 'Åtkomsttoken',
       account: 'Konto',
       actions: 'Åtgärder',
@@ -323,7 +323,7 @@ export default {
       taskListActions_title: 'Uppgiftslistsåtgärder',
       taskList_title: 'Uppgiftslista',
       team: 'Team',
-      terms: 'Villkor',
+      termsOfService_title: 'Användarvillkor',
       testLog_title: 'Testlogg',
       thereIsNoPreviewAvailableForThisAttachment:
         'Det finns ingen förhandsvisning tillgänglig för denna bilaga.',

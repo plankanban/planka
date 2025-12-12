@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'About PLANKA',
+      aboutPlanka_title: 'About PLANKA',
       accessToken: 'Access token',
       account: 'Account',
       actions: 'Actions',
@@ -315,7 +315,7 @@ export default {
       taskListActions_title: 'Task List Actions',
       taskList_title: 'Task List',
       team: 'Team',
-      terms: 'Terms',
+      termsOfService_title: 'Terms of Service',
       testLog_title: 'Test Log',
       thereIsNoPreviewAvailableForThisAttachment:
         'There is no preview available for this attachment.',

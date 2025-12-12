@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'О проекте PLANKA',
+      aboutPlanka_title: 'О PLANKA',
       accessToken: 'Токен доступа',
       account: 'Учетная запись',
       actions: 'Действия',
@@ -319,7 +319,7 @@ export default {
       taskListActions_title: 'Действия с списком задач',
       taskList_title: 'Список задач',
       team: 'Командные',
-      terms: 'Условия',
+      termsOfService_title: 'Условия использования',
       testLog_title: 'Журнал тестирования',
       thereIsNoPreviewAvailableForThisAttachment: 'Предпросмотр для этого вложения недоступен.',
       time: 'Время',

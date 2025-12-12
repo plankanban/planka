@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'PLANKAについて',
+      aboutPlanka_title: 'PLANKAについて',
       accessToken: 'アクセストークン',
       account: 'アカウント',
       actions: 'アクション',
@@ -313,7 +313,7 @@ export default {
       taskListActions_title: 'タスクリストアクション',
       taskList_title: 'タスクリスト',
       team: 'チーム',
-      terms: '利用規約',
+      termsOfService_title: 'サービス利用規約',
       testLog_title: 'テストログ',
       thereIsNoPreviewAvailableForThisAttachment: 'この添付ファイルにはプレビューがありません。',
       time: '時間',

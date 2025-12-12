@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Tietoa PLANKAsta',
+      aboutPlanka_title: 'Tietoa PLANKAsta',
       accessToken: 'Käyttöoikeustunnus',
       account: 'Tili',
       actions: 'Toiminnot',
@@ -314,7 +314,7 @@ export default {
       taskListActions_title: 'Tehtävälistan toiminnot',
       taskList_title: 'Tehtävälista',
       team: 'Tiimi',
-      terms: 'Ehdot',
+      termsOfService_title: 'Käyttöehdot',
       testLog_title: 'Testiloki',
       thereIsNoPreviewAvailableForThisAttachment: 'Tälle liitteelle ei ole esikatselua saatavilla.',
       time: 'Aika',

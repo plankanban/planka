@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Σχετικά με το PLANKA',
+      aboutPlanka_title: 'Σχετικά με το PLANKA',
       accessToken: 'Διακριτικό πρόσβασης',
       account: 'Λογαριασμός',
       actions: 'Ενέργειες',
@@ -331,7 +331,7 @@ export default {
       taskListActions_title: 'Ενέργειες λίστας εργασιών',
       taskList_title: 'Λίστα εργασιών',
       team: 'Ομάδα',
-      terms: 'Όροι',
+      termsOfService_title: 'Όροι χρήσης',
       testLog_title: 'Αρχείο καταγραφής δοκιμών',
       thereIsNoPreviewAvailableForThisAttachment:
         'Δεν υπάρχει διαθέσιμη προεπισκόπηση για αυτό το συνημμένο.',

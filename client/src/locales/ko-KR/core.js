@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'PLANKA 소개',
+      aboutPlanka_title: 'PLANKA 소개',
       accessToken: '액세스 토큰',
       account: '계정',
       actions: '작업',
@@ -307,7 +307,7 @@ export default {
       taskListActions_title: '작업 목록 작업',
       taskList_title: '작업 목록',
       team: '팀',
-      terms: '약관',
+      termsOfService_title: '서비스 약관',
       testLog_title: '테스트 로그',
       thereIsNoPreviewAvailableForThisAttachment:
         '이 첨부 파일에 대한 미리보기를 사용할 수 없습니다.',

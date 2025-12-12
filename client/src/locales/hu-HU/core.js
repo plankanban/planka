@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'PLANKA-ról',
+      aboutPlanka_title: 'PLANKA-ról',
       accessToken: 'Hozzáférési token',
       account: 'Fiók',
       actions: 'Műveletek',
@@ -310,7 +310,7 @@ export default {
       taskListActions_title: 'Feladatlista műveletek',
       taskList_title: 'Feladatlista',
       team: 'Csapat',
-      terms: 'Felhasználási feltételek',
+      termsOfService_title: 'Szolgáltatási feltételek',
       testLog_title: 'Teszt napló',
       thereIsNoPreviewAvailableForThisAttachment: 'Nincs elérhető előnézet ehhez a melléklethez.',
       time: 'Idő',

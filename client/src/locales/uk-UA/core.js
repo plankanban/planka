@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Про PLANKA',
+      aboutPlanka_title: 'Про PLANKA',
       accessToken: 'Токен доступу',
       account: 'Обліковий запис',
       actions: 'Дії',
@@ -316,7 +316,7 @@ export default {
       taskListActions_title: 'Дії для списку завдань',
       taskList_title: 'Список завдань',
       team: 'Команда',
-      terms: 'Умови',
+      termsOfService_title: 'Умови використання',
       testLog_title: 'Журнал тестування',
       thereIsNoPreviewAvailableForThisAttachment: 'Для цього вкладення немає доступного перегляду.',
       time: 'Час',

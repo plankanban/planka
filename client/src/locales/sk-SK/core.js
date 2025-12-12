@@ -20,7 +20,7 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'O Planke',
+      aboutPlanka_title: 'O Planke',
       accessToken: 'Prístupový token',
       account: 'Účet',
       actions: 'Akcia',
@@ -311,7 +311,7 @@ export default {
       taskListActions_title: 'Akcie zoznamu úloh',
       taskList_title: 'Zoznam úloh',
       team: 'Tím',
-      terms: 'Podmienky',
+      termsOfService_title: 'Podmienky služby',
       testLog_title: 'Testovací denník',
       thereIsNoPreviewAvailableForThisAttachment: 'Pre túto prílohu nie je k dispozícii náhľad.',
       time: 'Čas',
