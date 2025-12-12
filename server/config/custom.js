@@ -40,7 +40,7 @@ module.exports.custom = {
   version,
 
   baseUrl,
-  baseUrlPath: parsedBasedUrl.pathname,
+  baseUrlPath: parsedBasedUrl.pathname.replace(/\/$/, ''), // remove trailing slash
   baseUrlSecure: parsedBasedUrl.protocol === 'https:',
 
   maxUploadFileSize: envToBytes(process.env.MAX_UPLOAD_FILE_SIZE),

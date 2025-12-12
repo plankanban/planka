@@ -14,18 +14,20 @@ export const setAccessToken = (accessToken) => {
 
   Cookies.set(Config.ACCESS_TOKEN_KEY, accessToken, {
     expires,
+    path: Config.BASE_PATH || '/',
     secure: window.location.protocol === 'https:',
     sameSite: 'strict',
   });
 
   Cookies.set(Config.ACCESS_TOKEN_VERSION_KEY, Config.ACCESS_TOKEN_VERSION, {
     expires,
+    path: Config.BASE_PATH || '/',
   });
 };
 
 export const removeAccessToken = () => {
-  Cookies.remove(Config.ACCESS_TOKEN_KEY);
-  Cookies.remove(Config.ACCESS_TOKEN_VERSION_KEY);
+  Cookies.remove(Config.ACCESS_TOKEN_KEY, { path: Config.BASE_PATH || '/' });
+  Cookies.remove(Config.ACCESS_TOKEN_VERSION_KEY, { path: Config.BASE_PATH || '/' });
 };
 
 export const getAccessToken = () => {
