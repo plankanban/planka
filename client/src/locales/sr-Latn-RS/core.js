@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: 'O aplikaciji',
       aboutPlanka_title: 'O PLANKA',
       accessToken: 'Token za pristup',
       account: 'Nalog',

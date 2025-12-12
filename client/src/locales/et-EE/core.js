@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: 'Rakenduse kohta',
       aboutPlanka_title: 'PLANKA kohta',
       accessToken: 'Juurdepääsuluba',
       account: 'Konto',

@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: 'Az alkalmazásról',
       aboutPlanka_title: 'PLANKA-ról',
       accessToken: 'Hozzáférési token',
       account: 'Fiók',

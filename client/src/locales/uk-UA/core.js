@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: 'Про додаток',
       aboutPlanka_title: 'Про PLANKA',
       accessToken: 'Токен доступу',
       account: 'Обліковий запис',

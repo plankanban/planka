@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: 'Uygulama hakkında',
       aboutPlanka_title: 'PLANKA Hakkında',
       accessToken: 'Erişim jetonu',
       account: 'Hesap',

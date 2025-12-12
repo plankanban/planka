@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: 'Ilova haqida',
       aboutPlanka_title: 'PLANKA haqida',
       accessToken: 'Kirish tokeni',
       account: 'Profil',

@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: 'درباره برنامه',
       aboutPlanka_title: 'درباره PLANKA',
       accessToken: 'رمز دسترسی',
       account: 'حساب کاربری',

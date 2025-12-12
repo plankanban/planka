@@ -100,7 +100,7 @@ const UserActionsStep = React.memo(({ onClose }) => {
           )}
           <Menu.Item className={styles.menuItem} onClick={handleInformationClick}>
             <Icon name="info circle" className={styles.menuItemIcon} />
-            {t('common.information', {
+            {t('common.aboutApp', {
               context: 'title',
             })}
           </Menu.Item>

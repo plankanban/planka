@@ -20,6 +20,7 @@ export default {
 
   translation: {
     common: {
+      aboutApp_title: "À propos de l'application",
       aboutPlanka_title: 'À propos de PLANKA',
       accessToken: "Jeton d'accès",
       account: 'Compte',
