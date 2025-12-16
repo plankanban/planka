@@ -22,6 +22,11 @@ const StepTypes = {
   IMPORT: 'IMPORT',
 };
 
+const IMPORT_TYPE_ICONS = {
+  trello: 'trello',
+  focalboard: 'file',
+};
+
 const AddBoardStep = React.memo(({ onClose }) => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -84,6 +89,8 @@ const AddBoardStep = React.memo(({ onClose }) => {
     return <ImportStep onSelect={handleImportSelect} onBack={handleImportBack} />;
   }
 
+  const importIconName = data.import ? (IMPORT_TYPE_ICONS[data.import.type] || 'file') : 'arrow down';
+
   return (
     <>
       <Popup.Header>
@@ -111,7 +118,7 @@ const AddBoardStep = React.memo(({ onClose }) => {
               onClick={handleImportClick}
             >
               <Icon
-                name={data.import ? data.import.type : 'arrow down'}
+                name={importIconName}
                 className={styles.importButtonIcon}
               />
               {data.import ? data.import.file.name : t('action.import')}

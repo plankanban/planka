@@ -199,6 +199,7 @@ export default {
       forPersonalProjects: 'For personal projects.',
       forTeamBasedProjects: 'For team-based projects.',
       fromComputer_title: 'From Computer',
+      fromFocalboard: 'From Focalboard',
       fromTrello: 'From Trello',
       fullKeyIsHiddenForSecurityReasons:
         'The full key is hidden for security reasons. Regenerate it to create a new one.',
