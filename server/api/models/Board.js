@@ -96,6 +96,7 @@ const Views = {
 
 const ImportTypes = {
   TRELLO: 'trello',
+  FOCALBOARD: 'focalboard',
 };
 
 module.exports = {

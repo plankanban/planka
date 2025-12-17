@@ -200,6 +200,15 @@ module.exports = {
           type: inputs.importType,
           board: trelloBoard,
         };
+      } else if (inputs.importType === Board.ImportTypes.FOCALBOARD) {
+        const focalboardData = await sails.helpers.boards
+          .processUploadedFocalboardImportFile(file)
+          .intercept('invalidFile', () => Errors.INVALID_IMPORT_FILE);
+
+        boardImport = {
+          type: inputs.importType,
+          data: focalboardData,
+        };
       }
     }
 
