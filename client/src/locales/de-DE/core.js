@@ -384,6 +384,7 @@ export default {
       viewers: 'Betrachter',
       visualTaskManagementWithLists: 'Visuelle Aufgabenverwaltung mit Listen.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Was ist neu',
       withoutBaseGroup: 'Ohne Basisgruppe',
       writeComment: 'Kommentar verfassen...',
     },

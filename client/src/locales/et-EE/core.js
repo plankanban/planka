@@ -366,6 +366,7 @@ export default {
       viewers: 'Vaatajad',
       visualTaskManagementWithLists: 'Visual tööülesande haldamine nimekirjade abil.',
       webhooks: 'Webhookid',
+      whatsNew_title: 'Mis on uut',
       withoutBaseGroup: 'Ilma põhiklassita',
       writeComment: 'Kirjuta kommentaar...',
     },

@@ -365,6 +365,7 @@ export default {
       viewers: 'Переглядачі',
       visualTaskManagementWithLists: 'Візуальне управління завданнями за допомогою списків.',
       webhooks: 'Вебхуки',
+      whatsNew_title: 'Що нового',
       withoutBaseGroup: 'Без базової групи',
       writeComment: 'Написати коментар...',
     },

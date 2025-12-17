@@ -42,6 +42,7 @@
         "error",
         {
           "ignore": [
+            "\\?url$",
             "\\.svg\\?react$"
           ]
         }

@@ -367,6 +367,7 @@ export default {
       viewers: 'Vizualizatori',
       visualTaskManagementWithLists: 'Gestionarea vizuală a sarcinilor cu liste.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Ce este nou',
       withoutBaseGroup: 'Fără grup de bază',
       writeComment: 'Scrie un comentariu...',
     },

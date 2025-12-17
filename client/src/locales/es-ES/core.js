@@ -374,6 +374,7 @@ export default {
       viewers: 'Observadores',
       visualTaskManagementWithLists: 'Gestión visual de tareas con listas.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Novedades',
       withoutBaseGroup: 'Sin grupo base',
       writeComment: 'Escribe un comentario...',
     },

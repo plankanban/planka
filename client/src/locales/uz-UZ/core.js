@@ -363,6 +363,7 @@ export default {
       viewers: "Ko'ruvchilar",
       visualTaskManagementWithLists: "Ro'yxatlar bilan vizual vazifa boshqaruvi.",
       webhooks: 'Webhooks',
+      whatsNew_title: 'Nima yangi',
       withoutBaseGroup: 'Asosiy guruhsiz',
       writeComment: 'Izoh yozish...',
     },

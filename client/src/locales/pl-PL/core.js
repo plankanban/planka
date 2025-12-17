@@ -367,6 +367,7 @@ export default {
       viewers: 'Wyświetlający',
       visualTaskManagementWithLists: 'Wizualne zarządzanie zadaniami z listami.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Co nowego',
       withoutBaseGroup: 'Bez grupy bazowej',
       writeComment: 'Napisz komentarz...',
     },

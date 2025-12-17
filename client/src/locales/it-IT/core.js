@@ -370,6 +370,7 @@ export default {
       viewers: 'Visualizzatori',
       visualTaskManagementWithLists: 'Gestione visiva dei task con liste.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Novità',
       withoutBaseGroup: 'Senza gruppo base',
       writeComment: 'Scrivi un commento...',
     },

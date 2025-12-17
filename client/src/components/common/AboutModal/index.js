@@ -3,14 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-:global(#app) {
-  .version {
-    font-weight: bold;
-    text-align: center;
-  }
+import AboutModal from './AboutModal';
 
-  .wrapper {
-    border: none;
-    box-shadow: none;
-  }
-}
+export default AboutModal;

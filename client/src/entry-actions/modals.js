@@ -13,10 +13,10 @@ const openAdministrationModal = () => ({
   },
 });
 
-const openInformationModal = () => ({
+const openAboutModal = () => ({
   type: EntryActionTypes.MODAL_OPEN,
   payload: {
-    type: ModalTypes.INFORMATION,
+    type: ModalTypes.ABOUT,
   },
 });
 
@@ -68,7 +68,7 @@ const closeModal = () => ({
 
 export default {
   openAdministrationModal,
-  openInformationModal,
+  openAboutModal,
   openUserSettingsModal,
   openAddProjectModal,
   openProjectSettingsModal,

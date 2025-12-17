@@ -357,6 +357,7 @@ export default {
       viewers: 'المشاهدون',
       visualTaskManagementWithLists: 'إدارة المهام البصرية بالقوائم.',
       webhooks: 'الويب هوكس',
+      whatsNew_title: 'ما الجديد',
       withoutBaseGroup: 'بدون مجموعة أساسية',
       writeComment: 'اكتب تعليقاً...',
     },

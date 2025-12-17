@@ -372,6 +372,7 @@ export default {
       viewers: 'Зрители',
       visualTaskManagementWithLists: 'Визуално управление на задачи със списъци.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Какво еново',
       withoutBaseGroup: 'Без основна група',
       writeComment: 'Напишете коментар...',
     },

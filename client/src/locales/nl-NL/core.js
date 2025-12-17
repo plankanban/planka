@@ -370,6 +370,7 @@ export default {
       viewers: 'Kijkers',
       visualTaskManagementWithLists: 'Visueel takenbeheer met lijsten.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Wat is er nieuw',
       withoutBaseGroup: 'Zonder basisgroep',
       writeComment: 'Schrijf een opmerking...',
     },

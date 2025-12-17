@@ -340,6 +340,7 @@ export default {
       viewers: '查看者',
       visualTaskManagementWithLists: '使用列表进行可视化任务管理。',
       webhooks: 'Webhooks',
+      whatsNew_title: '新功能',
       withoutBaseGroup: '无基础组',
       writeComment: '编写评论...',
     },

@@ -362,6 +362,7 @@ export default {
       viewers: 'Diváci',
       visualTaskManagementWithLists: 'Vizuální správa úkolů pomocí seznamů.',
       webhooks: 'Webhooky',
+      whatsNew_title: 'Co je nového',
       withoutBaseGroup: 'Bez základní skupiny',
       writeComment: 'Napsat komentář...',
     },

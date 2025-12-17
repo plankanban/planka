@@ -366,6 +366,7 @@ export default {
       viewers: 'Megtekintők',
       visualTaskManagementWithLists: 'Vizuális feladatkezelés listákkal.',
       webhooks: 'Webhook-ok',
+      whatsNew_title: 'Újdonságok',
       withoutBaseGroup: 'Alapcsoport nélkül',
       writeComment: 'Írjon egy megjegyzést...',
     },

@@ -13,7 +13,9 @@ import { useClosableModal } from '../../../hooks';
 import TermsPane from './TermsPane';
 import AboutPane from './AboutPane';
 
-const InformationModal = React.memo(() => {
+import styles from './AboutModal.module.scss';
+
+const AboutModal = React.memo(() => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
@@ -39,7 +41,14 @@ const InformationModal = React.memo(() => {
   ];
 
   return (
-    <ClosableModal open closeIcon size="small" centered={false} onClose={handleClose}>
+    <ClosableModal
+      open
+      closeIcon
+      size="small"
+      centered={false}
+      className={styles.wrapper}
+      onClose={handleClose}
+    >
       <ClosableModal.Content>
         <Tab
           menu={{
@@ -53,4 +62,4 @@ const InformationModal = React.memo(() => {
   );
 });
 
-export default InformationModal;
+export default AboutModal;

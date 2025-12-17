@@ -367,6 +367,7 @@ export default {
       viewers: 'Katselijat',
       visualTaskManagementWithLists: 'Visuaalinen tehtävien hallinta listoilla.',
       webhooks: 'Webhookit',
+      whatsNew_title: 'Mitä uutta',
       withoutBaseGroup: 'Ilman perusryhmää',
       writeComment: 'Kirjoita kommentti...',
     },

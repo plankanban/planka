@@ -364,6 +364,7 @@ export default {
       viewers: 'ビューア',
       visualTaskManagementWithLists: 'リストによる視覚的タスク管理。',
       webhooks: 'Webhook',
+      whatsNew_title: '新機能',
       withoutBaseGroup: 'ベースグループなし',
       writeComment: 'コメントを書く…',
     },

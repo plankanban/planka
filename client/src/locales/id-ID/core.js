@@ -367,6 +367,7 @@ export default {
       viewers: 'Penglihat',
       visualTaskManagementWithLists: 'Manajemen tugas visual dengan daftar.',
       webhooks: 'Webhook',
+      whatsNew_title: 'Apa yang baru',
       withoutBaseGroup: 'Tanpa grup dasar',
       writeComment: 'Tuliskan komentar...',
     },

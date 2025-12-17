@@ -368,6 +368,7 @@ export default {
       viewers: 'Læsere',
       visualTaskManagementWithLists: 'Visuel opgavestyring med lister.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Hvad er nyt',
       withoutBaseGroup: 'Uden standardgruppe',
       writeComment: 'Skriv en kommentar...',
     },

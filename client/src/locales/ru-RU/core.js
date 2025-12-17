@@ -369,6 +369,7 @@ export default {
       viewers: 'Читатели',
       visualTaskManagementWithLists: 'Визуальное управление задачами с помощью списков.',
       webhooks: 'Веб-хуки',
+      whatsNew_title: 'Что нового',
       withoutBaseGroup: 'Без основной группы',
       writeComment: 'Напишите комментарий...',
     },

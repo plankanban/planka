@@ -374,6 +374,7 @@ export default {
       viewers: 'Visare',
       visualTaskManagementWithLists: 'Visuell uppgiftshantering med listor.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Vad är nytt',
       withoutBaseGroup: 'Utan basgrupp',
       writeComment: 'Skriv en kommentar...',
     },

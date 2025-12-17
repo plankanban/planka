@@ -340,6 +340,7 @@ export default {
       viewers: '檢視者',
       visualTaskManagementWithLists: '使用列表進行視覺化任務管理。',
       webhooks: 'Webhook',
+      whatsNew_title: '最新消息',
       withoutBaseGroup: '無基礎群組',
       writeComment: '編寫評論...',
     },

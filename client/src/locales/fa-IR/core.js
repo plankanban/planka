@@ -368,6 +368,7 @@ export default {
       viewers: 'بینندگان',
       visualTaskManagementWithLists: 'مدیریت بصری وظایف با لیست‌ها.',
       webhooks: 'وب‌هوک‌ها',
+      whatsNew_title: 'چه چیز جدیدی',
       withoutBaseGroup: 'بدون گروه پایه',
       writeComment: 'نظر بنویسید...',
     },

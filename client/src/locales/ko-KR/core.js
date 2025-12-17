@@ -361,6 +361,7 @@ export default {
       viewers: '뷰어들',
       visualTaskManagementWithLists: '목록을 통한 시각적 작업 관리.',
       webhooks: '웹훅',
+      whatsNew_title: '새로운 소식',
       withoutBaseGroup: '기본 그룹 없음',
       writeComment: '댓글 작성...',
     },

@@ -363,6 +363,7 @@ export default {
       viewers: 'Прегледачи',
       visualTaskManagementWithLists: 'Визуелно управљање задацима са списковима.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Шта је ново',
       withoutBaseGroup: 'Без основне групе',
       writeComment: 'Напиши коментар...',
     },

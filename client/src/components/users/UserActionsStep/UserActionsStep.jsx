@@ -40,8 +40,8 @@ const UserActionsStep = React.memo(({ onClose }) => {
     onClose();
   }, [onClose, dispatch]);
 
-  const handleInformationClick = useCallback(() => {
-    dispatch(entryActions.openInformationModal());
+  const handleAboutClick = useCallback(() => {
+    dispatch(entryActions.openAboutModal());
     onClose();
   }, [onClose, dispatch]);
 
@@ -98,7 +98,7 @@ const UserActionsStep = React.memo(({ onClose }) => {
               )}
             </>
           )}
-          <Menu.Item className={styles.menuItem} onClick={handleInformationClick}>
+          <Menu.Item className={styles.menuItem} onClick={handleAboutClick}>
             <Icon name="info circle" className={styles.menuItemIcon} />
             {t('common.aboutApp', {
               context: 'title',

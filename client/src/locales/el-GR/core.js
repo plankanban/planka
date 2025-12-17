@@ -388,6 +388,7 @@ export default {
       viewers: 'Θεατές',
       visualTaskManagementWithLists: 'Οπτική διαχείριση εργασιών με λίστες.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Τι νέο υπάρχει',
       withoutBaseGroup: 'Χωρίς βασική ομάδα',
       writeComment: 'Γράψτε ένα σχόλιο...',
     },

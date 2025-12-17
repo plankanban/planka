@@ -360,6 +360,7 @@ export default {
       viewers: 'Prehliadače',
       visualTaskManagementWithLists: 'Vizuálne riadenie úloh so zoznamami.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Čo je nové',
       withoutBaseGroup: 'Bez základnej skupiny',
       writeComment: 'Napísať komentár...',
     },

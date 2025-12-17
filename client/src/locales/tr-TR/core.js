@@ -370,6 +370,7 @@ export default {
       viewers: 'Görüntüleyiciler',
       visualTaskManagementWithLists: 'Listelerle görsel görev yönetimi.',
       webhooks: "Webhook'lar",
+      whatsNew_title: 'Yenilikler',
       withoutBaseGroup: 'Temel grup olmadan',
       writeComment: 'Yorum yazın...',
     },

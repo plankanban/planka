@@ -359,6 +359,7 @@ export default {
       viewers: 'Viewers',
       visualTaskManagementWithLists: 'Visual task management with lists.',
       webhooks: 'Webhooks',
+      whatsNew_title: "What's New",
       withoutBaseGroup: 'Without base group',
       writeComment: 'Write a comment...',
     },
