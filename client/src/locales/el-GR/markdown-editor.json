@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Αφαίρεση",
-    "empty_option": "Δεν βρέθηκαν αποτελέσματα"
+    "empty_option": "Δεν βρέθηκαν αποτελέσματα",
+    "show_line_numbers": "Αρίθμηση γραμμών"
   },
   "common": {
     "delete": "Διαγραφή",

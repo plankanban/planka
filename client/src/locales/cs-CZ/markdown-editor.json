@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Odstranit",
-    "empty_option": "Nebyly nalezeny žádné shody"
+    "empty_option": "Nebyly nalezeny žádné shody",
+    "show_line_numbers": "Číslování řádků"
   },
   "common": {
     "delete": "Smazat",

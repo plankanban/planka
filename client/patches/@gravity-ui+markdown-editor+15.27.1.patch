@@ -1,8 +1,8 @@
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
-index 84c7781..3b2f51c 100644
+index 288d462..8851e98 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
 +++ b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
-@@ -101,7 +101,6 @@ export const BundlePreset = (builder, opts) => {
+@@ -102,7 +102,6 @@ export const BundlePreset = (builder, opts) => {
              enableNewImageSizeCalculation: opts.enableNewImageSizeCalculation,
              ...opts.imgSize,
          },
@@ -10,7 +10,7 @@ index 84c7781..3b2f51c 100644
          deflist: {
              deflistTermPlaceholder: () => i18nPlaceholder('deflist_term'),
              deflistDescPlaceholder: () => i18nPlaceholder('deflist_desc'),
-@@ -122,11 +121,6 @@ export const BundlePreset = (builder, opts) => {
+@@ -123,11 +122,6 @@ export const BundlePreset = (builder, opts) => {
              ...opts.yfmTable,
              controls: opts.mobile ? false : opts.yfmTable?.controls,
          },

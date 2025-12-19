@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Премахни",
-    "empty_option": "Няма намерени съвпадения"
+    "empty_option": "Няма намерени съвпадения",
+    "show_line_numbers": "Номериране на редове"
   },
   "common": {
     "delete": "Изтрий",

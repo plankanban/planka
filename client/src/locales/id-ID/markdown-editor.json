@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Hapus",
-    "empty_option": "Tidak ada hasil ditemukan"
+    "empty_option": "Tidak ada hasil ditemukan",
+    "show_line_numbers": "Penomoran baris"
   },
   "common": {
     "delete": "Hapus",

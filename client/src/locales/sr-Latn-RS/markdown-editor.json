@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Ukloni",
-    "empty_option": "Nema pronađenih poklapanja"
+    "empty_option": "Nema pronađenih poklapanja",
+    "show_line_numbers": "Numeracija redova"
   },
   "common": {
     "delete": "Obriši",

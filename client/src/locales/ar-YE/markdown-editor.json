@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "إزالة",
-    "empty_option": "لم يتم العثور على تطابقات"
+    "empty_option": "لم يتم العثور على تطابقات",
+    "show_line_numbers": "ترقيم الأسطر"
   },
   "common": {
     "delete": "حذف",

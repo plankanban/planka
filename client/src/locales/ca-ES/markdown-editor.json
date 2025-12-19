@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Eliminar",
-    "empty_option": "No s'han trobat coincidències"
+    "empty_option": "No s'han trobat coincidències",
+    "show_line_numbers": "Numeració de línies"
   },
   "common": {
     "delete": "Eliminar",

@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Eltávolítás",
-    "empty_option": "Nincs találat"
+    "empty_option": "Nincs találat",
+    "show_line_numbers": "Sorszámozás"
   },
   "common": {
     "delete": "Törlés",

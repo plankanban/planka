@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Удалить",
-    "empty_option": "Совпадений не найдено"
+    "empty_option": "Совпадений не найдено",
+    "show_line_numbers": "Нумерация строк"
   },
   "common": {
     "delete": "Удалить",

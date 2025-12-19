@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Eemalda",
-    "empty_option": "Vastavusi ei leitud"
+    "empty_option": "Vastavusi ei leitud",
+    "show_line_numbers": "Ridade nummerdamine"
   },
   "common": {
     "delete": "Kustuta",

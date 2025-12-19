@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Remover",
-    "empty_option": "Nenhuma correspondência encontrada"
+    "empty_option": "Nenhuma correspondência encontrada",
+    "show_line_numbers": "Numeração de linhas"
   },
   "common": {
     "delete": "Excluir",

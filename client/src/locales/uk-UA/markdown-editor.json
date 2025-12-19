@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Видалити",
-    "empty_option": "Збігів не знайдено"
+    "empty_option": "Збігів не знайдено",
+    "show_line_numbers": "Нумерація рядків"
   },
   "common": {
     "delete": "Видалити",

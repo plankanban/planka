@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "제거",
-    "empty_option": "일치하는 항목이 없습니다"
+    "empty_option": "일치하는 항목이 없습니다",
+    "show_line_numbers": "줄 번호"
   },
   "common": {
     "delete": "삭제",

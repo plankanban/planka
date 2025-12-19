@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Уклони",
-    "empty_option": "Нема пронађених подударања"
+    "empty_option": "Нема пронађених подударања",
+    "show_line_numbers": "Нумерација редова"
   },
   "common": {
     "delete": "Уклони",

@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Odstrániť",
-    "empty_option": "Nenašli sa žiadne zhody"
+    "empty_option": "Nenašli sa žiadne zhody",
+    "show_line_numbers": "Číslovanie riadkov"
   },
   "common": {
     "delete": "Odstrániť",

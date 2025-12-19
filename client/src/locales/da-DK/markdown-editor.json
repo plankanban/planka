@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Fjern",
-    "empty_option": "Ingen resultater fundet"
+    "empty_option": "Ingen resultater fundet",
+    "show_line_numbers": "Linjenummerering"
   },
   "common": {
     "delete": "Slet",

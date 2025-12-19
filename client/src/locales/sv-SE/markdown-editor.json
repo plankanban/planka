@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Ta bort",
-    "empty_option": "Inga träffar hittades"
+    "empty_option": "Inga träffar hittades",
+    "show_line_numbers": "Radnumrering"
   },
   "common": {
     "delete": "Radera",

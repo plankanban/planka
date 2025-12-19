@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Usuń",
-    "empty_option": "Nie znaleziono dopasowań"
+    "empty_option": "Nie znaleziono dopasowań",
+    "show_line_numbers": "Numerowanie wierszy"
   },
   "common": {
     "delete": "Usuń",

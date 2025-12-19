@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "削除",
-    "empty_option": "一致するものがありません"
+    "empty_option": "一致するものがありません",
+    "show_line_numbers": "行番号"
   },
   "common": {
     "delete": "削除",

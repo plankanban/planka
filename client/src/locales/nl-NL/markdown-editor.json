@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Verwijderen",
-    "empty_option": "Geen overeenkomsten gevonden"
+    "empty_option": "Geen overeenkomsten gevonden",
+    "show_line_numbers": "Regelnummering"
   },
   "common": {
     "delete": "Verwijderen",

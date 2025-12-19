@@ -90,6 +90,11 @@ const MarkdownEditor = React.forwardRef(
             actions: commandMenuActions,
           },
         },
+        searchPanel: false, // TODO: cancel event does not fire when enabled
+      },
+      // TODO: remove once both search panels are enabled and locales are synced
+      markupConfig: {
+        searchPanel: false,
       },
       initial: {
         markup: defaultValue,

@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Kaldır",
-    "empty_option": "Eşleşme bulunamadı"
+    "empty_option": "Eşleşme bulunamadı",
+    "show_line_numbers": "Satır numaralandırma"
   },
   "common": {
     "delete": "Sil",

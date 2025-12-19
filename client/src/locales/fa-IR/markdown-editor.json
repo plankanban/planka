@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "حذف",
-    "empty_option": "هیچ تطبیقی یافت نشد"
+    "empty_option": "هیچ تطبیقی یافت نشد",
+    "show_line_numbers": "شماره‌گذاری خطوط"
   },
   "common": {
     "delete": "حذف",

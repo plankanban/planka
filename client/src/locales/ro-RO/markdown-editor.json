@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Șterge",
-    "empty_option": "Nicio potrivire găsită"
+    "empty_option": "Nicio potrivire găsită",
+    "show_line_numbers": "Numerotare rânduri"
   },
   "common": {
     "delete": "Șterge",

@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "O'chirish",
-    "empty_option": "Hech qanday mos kelish topilmadi"
+    "empty_option": "Hech qanday mos kelish topilmadi",
+    "show_line_numbers": "Qator raqamlash"
   },
   "common": {
     "delete": "O'chirish",

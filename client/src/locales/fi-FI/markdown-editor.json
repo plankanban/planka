@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Poista",
-    "empty_option": "Ei tuloksia löytynyt"
+    "empty_option": "Ei tuloksia löytynyt",
+    "show_line_numbers": "Rivinumerointi"
   },
   "common": {
     "delete": "Poista",
