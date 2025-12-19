@@ -37,6 +37,7 @@ import svSE from './sv-SE';
 import trTR from './tr-TR';
 import ukUA from './uk-UA';
 import uzUZ from './uz-UZ';
+import viVN from './vi-VN';
 import zhCN from './zh-CN';
 import zhTW from './zh-TW';
 
@@ -73,6 +74,7 @@ const locales = [
   trTR,
   ukUA,
   uzUZ,
+  viVN,
   zhCN,
   zhTW,
 ];

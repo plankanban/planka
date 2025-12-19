@@ -1,0 +1,34 @@
+export default {
+  translation: {
+    common: {
+      activeUsersLimitReached: 'Đã đạt giới hạn người dùng hoạt động',
+      adminLoginRequiredToInitializeInstance: 'Cần đăng nhập quản trị để khởi tạo phiên bản',
+      emailAlreadyInUse: 'E-mail đã được sử dụng',
+      emailOrUsername: 'E-mail hoặc tên đăng nhập',
+      iHaveReadAndAgreeToTheseTerms: 'Tôi đã đọc và đồng ý với các điều khoản này',
+      invalidCredentials: 'Thông tin đăng nhập không hợp lệ',
+      invalidEmailOrUsername: 'E-mail hoặc tên đăng nhập không hợp lệ',
+      invalidPassword: 'Mật khẩu không hợp lệ',
+      logIn_title: 'Đăng nhập',
+      noInternetConnection: 'Không có kết nối Internet',
+      or: 'Hoặc',
+      pageNotFound_title: 'Không tìm thấy trang',
+      password: 'Mật khẩu',
+      poweredByPlanka: 'Được phát triển bởi <1>PLANKA</1>',
+      serverConnectionFailed: 'Không kết nối được tới máy chủ',
+      unknownError: 'Lỗi không xác định, thử lại sau',
+      useSingleSignOn: 'Sử dụng đăng nhập một lần (SSO)',
+      usernameAlreadyInUse: 'Tên đăng nhập đã được sử dụng',
+      whoops_title: 'Ôi thôi chếcccc!',
+    },
+
+    action: {
+      cancelAndClose: 'Hủy và đóng',
+      continue: 'Tiếp tục',
+      goBack: 'Quay lại',
+      goHome: 'Về trang chủ',
+      logIn: 'Đăng nhập',
+      logInWithSso: 'Đăng nhập bằng SSO',
+    },
+  },
+};
