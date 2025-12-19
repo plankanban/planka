@@ -162,23 +162,22 @@ module.exports = {
     const fileManager = sails.hooks['file-manager'].getInstance();
     const { width, height } = metadata;
 
-    try {
-      const buffer = await image
-        .resize(
-          32,
-          32,
-          width < 32 || height < 32
-            ? {
-                kernel: sharp.kernel.nearest,
-              }
-            : undefined,
-        )
-        .png()
-        .toBuffer();
+    image = image
+      .resize(
+        32,
+        32,
+        width < 32 || height < 32
+          ? {
+              kernel: sharp.kernel.nearest,
+            }
+          : undefined,
+      )
+      .png();
 
+    try {
       await fileManager.save(
         `${sails.config.custom.faviconsPathSegment}/${hostname}.png`,
-        buffer,
+        image,
         'image/png',
       );
     } catch (error) {

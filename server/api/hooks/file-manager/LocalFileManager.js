@@ -6,6 +6,7 @@
 const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
+const { pipeline } = require('stream/promises');
 const { rimraf } = require('rimraf');
 
 const PATH_SEGMENT_TO_URL_REPLACE_REGEX = /(public|private)\//;
@@ -27,8 +28,12 @@ class LocalFileManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async save(filePathSegment, buffer) {
-    await fse.outputFile(buildPath(filePathSegment), buffer);
+  async save(filePathSegment, stream) {
+    const filePath = buildPath(filePathSegment);
+    const { dir: dirPath } = path.parse(filePath);
+
+    await fs.promises.mkdir(dirPath, { recursive: true });
+    await pipeline(stream, fs.createWriteStream(filePath));
   }
 
   // eslint-disable-next-line class-methods-use-this

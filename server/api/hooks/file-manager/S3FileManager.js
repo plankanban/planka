@@ -13,6 +13,7 @@ const {
   ListObjectsV2Command,
   PutObjectCommand,
 } = require('@aws-sdk/client-s3');
+const { Upload } = require('@aws-sdk/lib-storage');
 
 class S3FileManager {
   constructor(client) {
@@ -31,15 +32,18 @@ class S3FileManager {
     return null;
   }
 
-  async save(filePathSegment, buffer, contentType) {
-    const command = new PutObjectCommand({
-      Bucket: sails.config.custom.s3Bucket,
-      Key: filePathSegment,
-      Body: buffer,
-      ContentType: contentType,
+  async save(filePathSegment, stream, contentType) {
+    const upload = new Upload({
+      client: this.client,
+      params: {
+        Bucket: sails.config.custom.s3Bucket,
+        Key: filePathSegment,
+        Body: stream,
+        ContentType: contentType,
+      },
     });
 
-    await this.client.send(command);
+    await upload.done();
   }
 
   async read(filePathSegment) {

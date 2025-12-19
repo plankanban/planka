@@ -87,40 +87,41 @@ module.exports = {
         const thumbnailsPathSegment = `${dirPathSegment}/thumbnails`;
         const thumbnailsExtension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
+        const outside360 = image
+          .clone()
+          .resize(360, 360, {
+            fit: 'outside',
+            withoutEnlargement: true,
+          })
+          .png({
+            quality: 75,
+            force: false,
+          });
+
+        const outside720 = image
+          .clone()
+          .resize(720, 720, {
+            fit: 'outside',
+            withoutEnlargement: true,
+          })
+          .png({
+            quality: 75,
+            force: false,
+          });
+
         try {
-          const outside360Buffer = await image
-            .resize(360, 360, {
-              fit: 'outside',
-              withoutEnlargement: true,
-            })
-            .png({
-              quality: 75,
-              force: false,
-            })
-            .toBuffer();
-
-          await fileManager.save(
-            `${thumbnailsPathSegment}/outside-360.${thumbnailsExtension}`,
-            outside360Buffer,
-            inputs.file.type,
-          );
-
-          const outside720Buffer = await image
-            .resize(720, 720, {
-              fit: 'outside',
-              withoutEnlargement: true,
-            })
-            .png({
-              quality: 75,
-              force: false,
-            })
-            .toBuffer();
-
-          await fileManager.save(
-            `${thumbnailsPathSegment}/outside-720.${thumbnailsExtension}`,
-            outside720Buffer,
-            inputs.file.type,
-          );
+          await Promise.all([
+            fileManager.save(
+              `${thumbnailsPathSegment}/outside-360.${thumbnailsExtension}`,
+              outside360,
+              inputs.file.type,
+            ),
+            fileManager.save(
+              `${thumbnailsPathSegment}/outside-720.${thumbnailsExtension}`,
+              outside720,
+              inputs.file.type,
+            ),
+          ]);
 
           data.image = {
             width,

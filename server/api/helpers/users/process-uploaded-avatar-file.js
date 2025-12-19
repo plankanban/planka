@@ -39,19 +39,15 @@ module.exports = {
     });
 
     let metadata;
-    let originalBuffer;
-
     try {
       metadata = await image.metadata();
-
-      if (metadata.orientation && metadata.orientation > 4) {
-        image = image.rotate();
-      }
-
-      originalBuffer = await image.toBuffer();
     } catch (error) {
       await rimraf(inputs.file.fd);
       throw 'fileIsNotImage';
+    }
+
+    if (metadata.orientation && metadata.orientation > 4) {
+      image = image.rotate();
     }
 
     const { id: uploadedFileId } = await UploadedFile.qm.createOne({
@@ -64,28 +60,21 @@ module.exports = {
     const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${uploadedFileId}`;
     const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
+    const cover180 = image
+      .clone()
+      .resize(180, 180, {
+        withoutEnlargement: true,
+      })
+      .png({
+        quality: 75,
+        force: false,
+      });
+
     try {
-      await fileManager.save(
-        `${dirPathSegment}/original.${extension}`,
-        originalBuffer,
-        inputs.file.type,
-      );
-
-      const cover180Buffer = await image
-        .resize(180, 180, {
-          withoutEnlargement: true,
-        })
-        .png({
-          quality: 75,
-          force: false,
-        })
-        .toBuffer();
-
-      await fileManager.save(
-        `${dirPathSegment}/cover-180.${extension}`,
-        cover180Buffer,
-        inputs.file.type,
-      );
+      await Promise.all([
+        fileManager.save(`${dirPathSegment}/original.${extension}`, image, inputs.file.type),
+        fileManager.save(`${dirPathSegment}/cover-180.${extension}`, cover180, inputs.file.type),
+      ]);
     } catch (error) {
       sails.log.warn(error.stack);
 
