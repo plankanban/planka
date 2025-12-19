@@ -5,8 +5,10 @@
 
 const { v4: uuid } = require('uuid');
 const { rimraf } = require('rimraf');
-const mime = require('mime');
+const { fileTypeFromFile } = require('file-type');
 const sharp = require('sharp');
+
+const { MAX_SIZE_TO_PROCESS_AS_IMAGE } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -21,8 +23,13 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const mimeType = mime.getType(inputs.file.filename);
-    if (['image/svg+xml', 'application/pdf'].includes(mimeType)) {
+    const fileManager = sails.hooks['file-manager'].getInstance();
+
+    const fileType = await fileTypeFromFile(inputs.file.fd);
+    const { mime: mimeType = null } = fileType || {};
+    const { size } = inputs.file;
+
+    if (!mimeType || !mimeType.startsWith('image/') || size > MAX_SIZE_TO_PROCESS_AS_IMAGE) {
       await rimraf(inputs.file.fd);
       throw 'fileIsNotImage';
     }
@@ -47,11 +54,6 @@ module.exports = {
       throw 'fileIsNotImage';
     }
 
-    const fileManager = sails.hooks['file-manager'].getInstance();
-
-    const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
-    const size = originalBuffer.length;
-
     const { id: uploadedFileId } = await UploadedFile.qm.createOne({
       mimeType,
       size,
@@ -60,6 +62,7 @@ module.exports = {
     });
 
     const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${uploadedFileId}`;
+    const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
 
     try {
       await fileManager.save(
