@@ -1,0 +1,19 @@
+{
+  "Archive": "Lưu trữ",
+  "Card Created": "Thẻ đã được tạo",
+  "Card Moved": "Thẻ đã được di chuyển",
+  "copy": "bản sao",
+  "New Comment": "Bình luận mới",
+  "Test Title": "Tiêu đề thử nghiệm",
+  "This is a test text message!": "Đây là tin nhắn văn bản thử nghiệm!",
+  "This is a *test* **markdown** `message`!": "Đây là *tin nhắn* **markdown** `thử nghiệm`!",
+  "This is a <i>test</i> <b>html</b> <code>message</code>!": "Đây là <i>tin nhắn</i> <b>html</b> <code>thử nghiệm</code>!",
+  "Trash": "Thùng rác",
+  "You Were Added to Card": "Bạn đã được thêm vào thẻ",
+  "You Were Mentioned in Comment": "Bạn đã được nhắc đến trong bình luận",
+  "%s added you to %s on %s": "%s đã thêm bạn vào %s vào %s",
+  "%s created %s in %s on %s": "%s đã tạo %s trong %s vào %s",
+  "%s left a new comment to %s on %s": "%s đã để lại bình luận mới cho %s vào %s",
+  "%s mentioned you in %s on %s": "%s đã nhắc đến bạn trong %s vào %s",
+  "%s moved %s from %s to %s on %s": "%s đã di chuyển %s từ %s đến %s vào %s"
+}

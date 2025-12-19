@@ -52,6 +52,7 @@ module.exports.i18n = {
     'tr-TR',
     'uk-UA',
     'uz-UZ',
+    'vi-VN',
     'zh-CN',
     'zh-TW',
   ],

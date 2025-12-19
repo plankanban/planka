@@ -35,7 +35,7 @@
  *                 example: 940226c4c41f51afe3980ceb63704e752636526f4c52a4ea579e85b247493d94
  *               initialLanguage:
  *                 type: string
- *                 enum: [ar-YE, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *                 enum: [ar-YE, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, vi-VN, zh-CN, zh-TW]
  *                 nullable: true
  *                 description: Preferred language for user interface and notifications (used only if user language is not set)
  *                 example: en-US
