@@ -1,7 +1,7 @@
 import dateFns from 'date-fns/locale/vi';
 import timeAgo from 'javascript-time-ago/locale/vi';
-import markdownEditor from './markdown-editor.json';
 
+import markdownEditor from './markdown-editor.json';
 
 export default {
   dateFns,
@@ -51,11 +51,11 @@ export default {
       areYouSureYouWantToArchiveThisCard: 'Bạn có chắc chắn muốn lưu trữ thẻ này không?',
       areYouSureYouWantToAssignThisProjectManagerAsOwner:
         'Bạn có chắc chắn muốn chỉ định quản lý dự án này làm chủ sở hữu không?',
-      areYouSureYouWantToDeactivateThisUser: 'Bạn có chắc chắn muốn hủy kích hoạt người dùng này không?',
+      areYouSureYouWantToDeactivateThisUser:
+        'Bạn có chắc chắn muốn hủy kích hoạt người dùng này không?',
       areYouSureYouWantToDeleteThisApiKey: 'Bạn có chắc chắn muốn xóa API Key này không?',
       areYouSureYouWantToDeleteThisAttachment: 'Bạn có chắc chắn muốn xóa tệp đính kèm này không?',
-      areYouSureYouWantToDeleteThisBackgroundImage:
-        'Bạn có chắc chắn muốn xóa ảnh nền này không?',
+      areYouSureYouWantToDeleteThisBackgroundImage: 'Bạn có chắc chắn muốn xóa ảnh nền này không?',
       areYouSureYouWantToDeleteThisBoard: 'Bạn có chắc chắn muốn xóa bảng này không?',
       areYouSureYouWantToDeleteThisCard: 'Bạn có chắc chắn muốn xóa thẻ này không?',
       areYouSureYouWantToDeleteThisCardForever:
@@ -72,7 +72,8 @@ export default {
         'Bạn có chắc chắn muốn xóa dịch vụ thông báo này không?',
       areYouSureYouWantToDeleteThisProject: 'Bạn có chắc chắn muốn xóa dự án này không?',
       areYouSureYouWantToDeleteThisTask: 'Bạn có chắc chắn muốn xóa nhiệm vụ này không?',
-      areYouSureYouWantToDeleteThisTaskList: 'Bạn có chắc chắn muốn xóa danh sách công việc này không?',
+      areYouSureYouWantToDeleteThisTaskList:
+        'Bạn có chắc chắn muốn xóa danh sách công việc này không?',
       areYouSureYouWantToDeleteThisUser: 'Bạn có chắc chắn muốn xóa người dùng này không?',
       areYouSureYouWantToDeleteThisWebhook: 'Bạn có chắc chắn muốn xóa webhook này không?',
       areYouSureYouWantToEmptyTrash: 'Bạn có chắc chắn muốn dọn sạch thùng rác không?',
@@ -126,7 +127,8 @@ export default {
       color: 'Màu sắc',
       comments: 'Bình luận',
       contentExceedsLimit: 'Nội dung vượt quá giới hạn {{limit}}',
-      contentOfThisAttachmentIsTooBigToDisplay: 'Nội dung của tệp đính kèm này quá lớn để hiển thị.',
+      contentOfThisAttachmentIsTooBigToDisplay:
+        'Nội dung của tệp đính kèm này quá lớn để hiển thị.',
       copy_inline: 'sao chép',
       createBoard_title: 'Tạo bảng',
       createCustomFieldGroup_title: 'Tạo nhóm trường tùy chỉnh',
@@ -148,8 +150,7 @@ export default {
       defaultCardType_title: 'Loại thẻ mặc định',
       defaultFrom: 'Người gửi mặc định ("from")',
       defaultView_title: 'Chế độ xem mặc định',
-      deleteAllBoardsToBeAbleToDeleteThisProject:
-        'Xóa tất cả các bảng để có thể xóa dự án này',
+      deleteAllBoardsToBeAbleToDeleteThisProject: 'Xóa tất cả các bảng để có thể xóa dự án này',
       deleteApiKey_title: 'Xóa API Key',
       deleteAttachment_title: 'Xóa tệp đính kèm',
       deleteBackgroundImage_title: 'Xóa ảnh nền',
@@ -318,8 +319,7 @@ export default {
       team: 'Nhóm',
       termsOfService_title: 'Điều khoản dịch vụ',
       testLog_title: 'Test log',
-      thereIsNoPreviewAvailableForThisAttachment:
-        'Không có bản xem trước cho tệp đính kèm này.',
+      thereIsNoPreviewAvailableForThisAttachment: 'Không có bản xem trước cho tệp đính kèm này.',
       time: 'Thời gian',
       title: 'Tiêu đề',
       trash: 'Thùng rác',
@@ -349,7 +349,8 @@ export default {
       userLeftThisCard: '<0>{{user}}</0> đã rời khỏi thẻ này',
       userMarkedTaskIncompleteOnCard:
         '<0>{{user}}</0> đã đánh dấu {{task}} chưa hoàn thành trên <4>{{card}}</4>',
-      userMarkedTaskIncompleteOnThisCard: '<0>{{user}}</0> đã đánh dấu {{task}} chưa hoàn thành trên thẻ này',
+      userMarkedTaskIncompleteOnThisCard:
+        '<0>{{user}}</0> đã đánh dấu {{task}} chưa hoàn thành trên thẻ này',
       userMentionedYouInCommentOnCard:
         '<0>{{user}}</0> đã nhắc đến bạn trong một bình luận «{{comment}}» tại <2>{{card}}</2>',
       userMovedCardFromListToList:
@@ -364,7 +365,7 @@ export default {
       viewers: 'Người xem',
       visualTaskManagementWithLists: 'Quản lý nhiệm vụ trực quan bằng danh sách.',
       webhooks: 'Webhooks',
-      whatsNew_title: "Có gì mới",
+      whatsNew_title: 'Có gì mới',
       withoutBaseGroup: 'Không kèm nhóm cơ sở',
       writeComment: 'Viết bình luận...',
     },
