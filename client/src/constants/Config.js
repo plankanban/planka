@@ -3,8 +3,11 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const SERVER_BASE_URL =
-  import.meta.env.VITE_SERVER_BASE_URL || (import.meta.env.DEV ? 'http://localhost:1337' : '');
+// Read from server-injected config at runtime, fallback to empty string
+const BASE_PATH =
+  typeof window !== 'undefined' && window.PLANKA_CONFIG?.baseUrlPath
+    ? window.PLANKA_CONFIG.baseUrlPath
+    : '';
 
 const ACCESS_TOKEN_KEY = 'accessToken';
 const ACCESS_TOKEN_VERSION_KEY = 'accessTokenVersion';
@@ -20,7 +23,7 @@ const MAX_SIZE_TO_DISPLAY_CONTENT = 256 * 1024;
 const IS_MAC = navigator.platform.startsWith('Mac');
 
 export default {
-  SERVER_BASE_URL,
+  BASE_PATH,
   ACCESS_TOKEN_KEY,
   ACCESS_TOKEN_VERSION_KEY,
   ACCESS_TOKEN_VERSION,

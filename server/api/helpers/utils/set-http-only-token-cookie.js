@@ -24,7 +24,7 @@ module.exports = {
   fn(inputs) {
     inputs.response.cookie('httpOnlyToken', inputs.value, {
       expires: new Date(inputs.accessTokenPayload.exp * 1000),
-      path: sails.config.custom.baseUrlPath,
+      path: sails.config.custom.baseUrlPath || '/',
       secure: sails.config.custom.baseUrlSecure,
       httpOnly: true,
       sameSite: 'strict',
