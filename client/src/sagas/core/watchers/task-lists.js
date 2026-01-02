@@ -25,6 +25,9 @@ export default function* taskListsWatchers() {
     takeEvery(EntryActionTypes.TASK_LIST_MOVE, ({ payload: { id, index } }) =>
       services.moveTaskList(id, index),
     ),
+    takeEvery(EntryActionTypes.TASK_LIST_DUPLICATE, ({ payload: { id, data } }) =>
+      services.duplicateTaskList(id, data),
+    ),
     takeEvery(EntryActionTypes.TASK_LIST_DELETE, ({ payload: { id } }) =>
       services.deleteTaskList(id),
     ),
