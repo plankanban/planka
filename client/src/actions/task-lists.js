@@ -94,6 +94,32 @@ const handleTaskListDelete = (taskList) => ({
   },
 });
 
+const duplicateTaskList = (id, localId, data) => ({
+  type: ActionTypes.TASK_LIST_DUPLICATE,
+  payload: {
+    id,
+    localId,
+    data,
+  },
+});
+
+duplicateTaskList.success = (localId, taskList, tasks) => ({
+  type: ActionTypes.TASK_LIST_DUPLICATE__SUCCESS,
+  payload: {
+    localId,
+    taskList,
+    tasks,
+  },
+});
+
+duplicateTaskList.failure = (localId, error) => ({
+  type: ActionTypes.TASK_LIST_DUPLICATE__FAILURE,
+  payload: {
+    localId,
+    error,
+  },
+});
+
 export default {
   createTaskList,
   handleTaskListCreate,
@@ -101,4 +127,5 @@ export default {
   handleTaskListUpdate,
   deleteTaskList,
   handleTaskListDelete,
+  duplicateTaskList,
 };

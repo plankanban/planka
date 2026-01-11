@@ -42,6 +42,14 @@ const moveTaskList = (id, index) => ({
   },
 });
 
+const duplicateTaskList = (id, data = {}) => ({
+  type: EntryActionTypes.TASK_LIST_DUPLICATE,
+  payload: {
+    id,
+    data,
+  },
+});
+
 const deleteTaskList = (id) => ({
   type: EntryActionTypes.TASK_LIST_DELETE,
   payload: {
@@ -62,6 +70,7 @@ export default {
   updateTaskList,
   handleTaskListUpdate,
   moveTaskList,
+  duplicateTaskList,
   deleteTaskList,
   handleTaskListDelete,
 };

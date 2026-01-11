@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
 import { Popup } from '../../../../lib/custom-ui';
+import { BoardMembershipRoles } from '../../../../constants/Enums';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
@@ -53,6 +54,11 @@ const EditStep = React.memo(({ taskListId, onClose }) => {
 
   const taskListEditorRef = useRef(null);
 
+  const canEdit = useSelector((state) => {
+    const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+    return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+  });
+
   const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
@@ -79,6 +85,11 @@ const EditStep = React.memo(({ taskListId, onClose }) => {
     openStep(StepTypes.DELETE);
   }, [openStep]);
 
+  const handleDuplicateClick = useCallback(() => {
+    dispatch(entryActions.duplicateTaskList(taskListId));
+    onClose();
+  }, [dispatch, taskListId, onClose]);
+
   if (step && step.type === StepTypes.DELETE) {
     return (
       <ConfirmationStep
@@ -103,6 +114,13 @@ const EditStep = React.memo(({ taskListId, onClose }) => {
           <TaskListEditor ref={taskListEditorRef} data={data} onFieldChange={handleFieldChange} />
           <Button positive content={t('action.save')} />
         </Form>
+        {canEdit && (
+          <Button
+            content={t('action.copy')}
+            onClick={handleDuplicateClick}
+            className={styles.duplicateButton}
+          />
+        )}
         <Button
           content={t('action.delete')}
           className={styles.deleteButton}
