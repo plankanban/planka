@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: 'Aktív felhasználók korlátja elérve',
+      activeUserLimitReached: 'Aktív felhasználók korlátja elérve',
       adminLoginRequiredToInitializeInstance:
         'Rendszergazdai bejelentkezés szükséges a példány inicializálásához',
       emailAlreadyInUse: 'Az e-mail cím már használatban van',

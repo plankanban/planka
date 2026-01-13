@@ -22,7 +22,7 @@ module.exports = {
     };
     if (inputs.user && inputs.user.role === User.Roles.ADMIN) {
       Object.assign(data, {
-        activeUsersLimit: sails.config.custom.activeUsersLimit,
+        activeUserLimit: sails.config.custom.activeUserLimit,
         customerPanelUrl: sails.config.custom.customerPanelUrl,
       });
     }

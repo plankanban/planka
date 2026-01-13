@@ -47,7 +47,7 @@
  *                       type: boolean
  *                       description: Whether OIDC authentication is enforced (users must use OIDC to login)
  *                       example: false
- *                 activeUsersLimit:
+ *                 activeUserLimit:
  *                   type: number
  *                   nullable: true
  *                   description: Maximum number of active users allowed (conditionally added for admins if configured)

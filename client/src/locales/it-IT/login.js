@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: 'Limite utenti attivi raggiunto',
+      activeUserLimitReached: 'Limite utenti attivi raggiunto',
       adminLoginRequiredToInitializeInstance:
         "Login amministratore richiesto per inizializzare l'istanza",
       emailAlreadyInUse: 'E-mail già in uso',

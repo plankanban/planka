@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: "S'ha assolit el límit d'usuaris actius",
+      activeUserLimitReached: "S'ha assolit el límit d'usuaris actius",
       adminLoginRequiredToInitializeInstance:
         "Es requereix inici de sessió d'administrador per inicialitzar la instància",
       emailAlreadyInUse: 'Correu electrònic ja en ús',

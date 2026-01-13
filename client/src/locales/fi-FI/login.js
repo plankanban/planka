@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: 'Aktiivisten käyttäjien raja saavutettu',
+      activeUserLimitReached: 'Aktiivisten käyttäjien raja saavutettu',
       adminLoginRequiredToInitializeInstance:
         'Järjestelmänvalvojan kirjautuminen vaaditaan instanssin alustamiseksi',
       emailAlreadyInUse: 'Sähköposti on jo käytössä',

@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: 'Đã đạt giới hạn người dùng hoạt động',
+      activeUserLimitReached: 'Đã đạt giới hạn người dùng hoạt động',
       adminLoginRequiredToInitializeInstance: 'Cần đăng nhập quản trị để khởi tạo phiên bản',
       emailAlreadyInUse: 'E-mail đã được sử dụng',
       emailOrUsername: 'E-mail hoặc tên đăng nhập',

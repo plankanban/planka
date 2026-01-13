@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: 'Достигнут је лимит активних корисника',
+      activeUserLimitReached: 'Достигнут је лимит активних корисника',
       adminLoginRequiredToInitializeInstance:
         'Потребна је администраторска пријава за иницијализацију инстанце',
       emailAlreadyInUse: 'Е-пошта је већ у употреби',

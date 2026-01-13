@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: 'Aktiivsete kasutajate limiit on täis',
+      activeUserLimitReached: 'Aktiivsete kasutajate limiit on täis',
       adminLoginRequiredToInitializeInstance:
         'Administraatori sisselogimine on vajalik rakenduse käivitamiseks',
       emailAlreadyInUse: 'E-post on juba kasutusel',

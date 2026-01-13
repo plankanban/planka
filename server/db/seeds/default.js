@@ -57,9 +57,9 @@ exports.seed = async (knex) => {
     }
   }
 
-  const activeUsersLimit = parseInt(process.env.ACTIVE_USERS_LIMIT, 10);
+  const activeUserLimit = parseInt(process.env.ACTIVE_USER_LIMIT, 10);
 
-  if (!Number.isNaN(activeUsersLimit)) {
+  if (!Number.isNaN(activeUserLimit)) {
     let orderByQuery;
     let orderByQueryValues;
 
@@ -76,7 +76,7 @@ exports.seed = async (knex) => {
       .where('is_deactivated', false)
       .orderByRaw(orderByQuery, orderByQueryValues)
       .orderBy('id')
-      .offset(activeUsersLimit);
+      .offset(activeUserLimit);
 
     if (users.length > 0) {
       const userIds = users.map(({ id }) => id);

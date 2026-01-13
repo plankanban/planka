@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUsersLimitReached: 'アクティブユーザーの上限に達しました',
+      activeUserLimitReached: 'アクティブユーザーの上限に達しました',
       adminLoginRequiredToInitializeInstance:
         'インスタンスを初期化するには管理者ログインが必要です',
       emailAlreadyInUse: 'Eメールは既に使われています',
