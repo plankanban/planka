@@ -53,7 +53,9 @@ module.exports = {
         const isDefaultAdmin = inputs.record.email === sails.config.custom.defaultAdminEmail;
 
         const lockedFieldNames = [];
-        if (isDefaultAdmin || inputs.record.isSsoUser) {
+        if (sails.config.custom.demoMode) {
+          lockedFieldNames.push('email', 'password', 'role', 'name', 'username');
+        } else if (isDefaultAdmin || inputs.record.isSsoUser) {
           lockedFieldNames.push('email', 'password', 'name');
 
           if (isDefaultAdmin) {

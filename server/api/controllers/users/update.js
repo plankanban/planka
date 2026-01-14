@@ -244,7 +244,7 @@ module.exports = {
     }
 
     // TODO: refactor
-    if (user.email === sails.config.custom.defaultAdminEmail) {
+    if (user.email === sails.config.custom.defaultAdminEmail || sails.config.custom.demoMode) {
       if (inputs.role || inputs.name) {
         throw Errors.NOT_ENOUGH_RIGHTS;
       }

@@ -63,6 +63,7 @@ module.exports.custom = {
   storageLimit: envToBytes(process.env.STORAGE_LIMIT),
   activeUserLimit: envToNumber(process.env.ACTIVE_USER_LIMIT),
   customerPanelUrl: process.env.CUSTOMER_PANEL_URL,
+  demoMode: process.env.DEMO_MODE === 'true',
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
 
