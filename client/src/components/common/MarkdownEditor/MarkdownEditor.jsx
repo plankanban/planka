@@ -80,6 +80,7 @@ const MarkdownEditor = React.forwardRef(
       md: {
         breaks: true,
         linkify: true,
+        linkifyTlds: null,
       },
       handlers: {
         uploadFile: fileUploadHandler,

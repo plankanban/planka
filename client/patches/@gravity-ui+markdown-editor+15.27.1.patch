@@ -22,6 +22,20 @@ index 288d462..8851e98 100644
          yfmHeading: {
              h1Key: f.toPM(A.Heading1),
              h2Key: f.toPM(A.Heading2),
+diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/core/ExtensionsManager.js b/node_modules/@gravity-ui/markdown-editor/build/esm/core/ExtensionsManager.js
+index 8aefe20..99e59e3 100644
+--- a/node_modules/@gravity-ui/markdown-editor/build/esm/core/ExtensionsManager.js
++++ b/node_modules/@gravity-ui/markdown-editor/build/esm/core/ExtensionsManager.js
+@@ -42,6 +42,9 @@ export class ExtensionsManager {
+         if (options.linkifyTlds) {
+             this.#mdForMarkup.linkify.tlds(options.linkifyTlds, true);
+             this.#mdForText.linkify.tlds(options.linkifyTlds, true);
++        } else if (options.linkifyTlds === null) {
++            this.#mdForMarkup.linkify.set({ fuzzyLink: false });
++            this.#mdForText.linkify.set({ fuzzyLink: false });
+         }
+         if (options.pmTransformers) {
+             this.#pmTransformers = options.pmTransformers;
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
 index 212c583..b709383 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
