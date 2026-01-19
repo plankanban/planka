@@ -24,7 +24,7 @@
  *             properties:
  *               type:
  *                 type: string
- *                 enum: [shared, private]
+ *                 enum: [private, shared]
  *                 description: Type of the project
  *                 example: private
  *               name:
