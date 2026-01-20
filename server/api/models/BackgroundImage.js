@@ -33,7 +33,7 @@
  *           type: string
  *           description: ID of the project the background image belongs to
  *           example: "1357158568008091265"
- *         sizeinBytes:
+ *         size:
  *           type: string
  *           description: File size of the background image in bytes
  *           example: 1024576
