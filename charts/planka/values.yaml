@@ -286,3 +286,23 @@ extraMounts: []
 ## extraEnv:
 ##   - name: NODE_EXTRA_CA_CERTS
 ##     value: "/etc/ssl/certs/keycloak-ca.crt"
+
+extraContainers: []
+## Extra sidecar containers
+## Add additional containers to the PLANKA pod
+##
+## Example extraContainers:
+## extraContainers:
+##   - name: nginx-sidecar
+##     image: nginx:latest
+##     ports:
+##       - containerPort: 8085
+##         name: nginx-http
+##   - name: log-collector
+##     image: busybox:latest
+##     command: ['sh', '-c', 'tail -f /var/log/app.log']
+##     volumeMounts:
+##       - name: planka
+##         mountPath: /var/log
+##         subPath: app-logs
+##
