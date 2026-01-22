@@ -56,7 +56,7 @@ services:
 
       # - INTERNAL_ACCESS_TOKEN=
       # - STORAGE_LIMIT=
-      # - ACTIVE_USER_LIMIT=
+      # - ACTIVE_USERS_LIMIT=
       # - CUSTOMER_PANEL_URL=
       # - DEMO_MODE=true
 

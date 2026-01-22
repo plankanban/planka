@@ -16,6 +16,17 @@ import mergeRecords from '../../../utils/merge-records';
 import { isUserAdminOrProjectOwner } from '../../../utils/record-helpers';
 import { UserRoles } from '../../../constants/Enums';
 
+export function* handleUsersReset() {
+  let users;
+  try {
+    ({ items: users } = yield call(request, api.getUsers));
+  } catch {
+    return;
+  }
+
+  yield put(actions.handleUsersReset(users));
+}
+
 export function* createUser(data) {
   yield put(actions.createUser(data));
 
@@ -491,6 +502,7 @@ export function* removeUserFromFilterInCurrentBoard(id) {
 }
 
 export default {
+  handleUsersReset,
   createUser,
   handleUserCreate,
   clearUserCreateError,

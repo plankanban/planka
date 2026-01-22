@@ -51,7 +51,7 @@ export const selectActiveUsers = createSelector(orm, ({ User }) =>
   User.getActiveQuerySet().toRefArray(),
 );
 
-export const selectActiveUserTotal = createSelector(orm, ({ User }) =>
+export const selectActiveUsersTotal = createSelector(orm, ({ User }) =>
   User.getActiveQuerySet().count(),
 );
 
@@ -347,7 +347,7 @@ export default {
   selectCurrentUserId,
   selectUsers,
   selectActiveUsers,
-  selectActiveUserTotal,
+  selectActiveUsersTotal,
   selectActiveAdminOrProjectOwnerUsers,
   selectCurrentUser,
   selectProjectIdsForCurrentUser,

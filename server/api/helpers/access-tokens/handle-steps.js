@@ -42,12 +42,12 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const config = await Config.qm.getOneMain();
+    const internalConfig = await InternalConfig.qm.getOneMain();
 
-    if (!config.isInitialized) {
+    if (!internalConfig.isInitialized) {
       if (inputs.user.role === User.Roles.ADMIN) {
         if (inputs.user.termsSignature) {
-          await Config.qm.updateOneMain({
+          await InternalConfig.qm.updateOneMain({
             isInitialized: true,
           });
         }

@@ -11,7 +11,7 @@ export const selectBootstrap = ({ common: { bootstrap } }) => bootstrap;
 
 export const selectOidcBootstrap = (state) => selectBootstrap(state).oidc;
 
-export const selectActiveUserLimit = (state) => selectBootstrap(state).activeUserLimit;
+export const selectActiveUsersLimit = (state) => selectBootstrap(state).activeUsersLimit;
 
 export const selectAccessToken = ({ auth: { accessToken } }) => accessToken;
 
@@ -28,7 +28,7 @@ export default {
   selectIsInitializing,
   selectBootstrap,
   selectOidcBootstrap,
-  selectActiveUserLimit,
+  selectActiveUsersLimit,
   selectAccessToken,
   selectAuthenticateForm,
   selectUserCreateForm,

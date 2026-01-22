@@ -5,6 +5,13 @@
 
 import ActionTypes from '../constants/ActionTypes';
 
+const handleUsersReset = (users) => ({
+  type: ActionTypes.USERS_RESET_HANDLE,
+  payload: {
+    users,
+  },
+});
+
 const createUser = (data) => ({
   type: ActionTypes.USER_CREATE,
   payload: {
@@ -399,6 +406,7 @@ const removeUserFromBoardFilter = (id, boardId, currentListId) => ({
 });
 
 export default {
+  handleUsersReset,
   createUser,
   handleUserCreate,
   clearUserCreateError,

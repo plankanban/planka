@@ -61,7 +61,7 @@ module.exports.custom = {
 
   internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,
   storageLimit: envToBytes(process.env.STORAGE_LIMIT),
-  activeUserLimit: envToNumber(process.env.ACTIVE_USER_LIMIT),
+  activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
   customerPanelUrl: process.env.CUSTOMER_PANEL_URL,
   demoMode: process.env.DEMO_MODE === 'true',
 

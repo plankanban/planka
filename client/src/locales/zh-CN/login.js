@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: '活跃用户数已达上限',
+      activeUsersLimitReached: '活跃用户数已达上限',
       adminLoginRequiredToInitializeInstance: '需要管理员登录以初始化实例',
       emailAlreadyInUse: '邮箱已使用',
       emailOrUsername: '邮箱或用户名',

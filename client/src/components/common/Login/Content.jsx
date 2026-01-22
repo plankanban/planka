@@ -64,10 +64,10 @@ const createMessage = (error) => {
         type: 'error',
         content: 'common.usernameAlreadyInUse',
       };
-    case 'Active user limit reached':
+    case 'Active users limit reached':
       return {
         type: 'error',
-        content: 'common.activeUserLimitReached',
+        content: 'common.activeUsersLimitReached',
       };
     case 'Failed to fetch':
       return {

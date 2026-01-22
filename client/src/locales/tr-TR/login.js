@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Aktif kullanıcı sınırına ulaşıldı',
+      activeUsersLimitReached: 'Aktif kullanıcı sınırına ulaşıldı',
       adminLoginRequiredToInitializeInstance: 'Örneği başlatmak için yönetici girişi gerekli',
       emailAlreadyInUse: 'E-posta adresi zaten kullanımda',
       emailOrUsername: 'E-posta adresi veya kullanıcı adı',

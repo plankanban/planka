@@ -42,6 +42,8 @@ module.exports.policies = {
 
   'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],
 
+  '_internal/update-config': ['is-authenticated', 'is-internal'],
+
   'bootstrap/show': true,
   'terms/show': true,
   'access-tokens/create': true,

@@ -10,6 +10,7 @@ import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 export default function* usersWatchers() {
   yield all([
+    takeEvery(EntryActionTypes.USERS_RESET_HANDLE, () => services.handleUsersReset()),
     takeEvery(EntryActionTypes.USER_CREATE, ({ payload: { data } }) => services.createUser(data)),
     takeEvery(EntryActionTypes.USER_CREATE_HANDLE, ({ payload: { user } }) =>
       services.handleUserCreate(user),

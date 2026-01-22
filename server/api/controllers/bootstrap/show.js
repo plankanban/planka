@@ -47,7 +47,7 @@
  *                       type: boolean
  *                       description: Whether OIDC authentication is enforced (users must use OIDC to login)
  *                       example: false
- *                 activeUserLimit:
+ *                 activeUsersLimit:
  *                   type: number
  *                   nullable: true
  *                   description: Maximum number of active users allowed (conditionally added for admins if configured)
@@ -68,10 +68,11 @@ module.exports = {
   async fn() {
     const { currentUser } = this.req;
 
+    const internalConfig = await InternalConfig.qm.getOneMain();
     const oidc = await sails.hooks.oidc.getBootstrap();
 
     return {
-      item: sails.helpers.bootstrap.presentOne(oidc, currentUser),
+      item: sails.helpers.bootstrap.presentOne(internalConfig, oidc, currentUser),
     };
   },
 };

@@ -7,6 +7,10 @@ module.exports = {
   sync: true,
 
   inputs: {
+    internalConfig: {
+      type: 'ref',
+      required: true,
+    },
     oidc: {
       type: 'ref',
     },
@@ -22,7 +26,7 @@ module.exports = {
     };
     if (inputs.user && inputs.user.role === User.Roles.ADMIN) {
       Object.assign(data, {
-        activeUserLimit: sails.config.custom.activeUserLimit,
+        activeUsersLimit: inputs.internalConfig.activeUsersLimit,
         customerPanelUrl: sails.config.custom.customerPanelUrl,
       });
     }

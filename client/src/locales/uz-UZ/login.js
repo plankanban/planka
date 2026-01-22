@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Faol foydalanuvchilar chegarasiga yetildi',
+      activeUsersLimitReached: 'Faol foydalanuvchilar chegarasiga yetildi',
       adminLoginRequiredToInitializeInstance:
         'Tizimni ishga tushirish uchun admin kirishi talab qilinadi',
       emailAlreadyInUse: 'E-mail allaqachon mavjud',

@@ -24,8 +24,10 @@ const defaultFind = (criteria) => User.find(criteria).sort('id');
 
 /* Query methods */
 
-const createOne = (values) => {
-  if (sails.config.custom.activeUserLimit !== null) {
+const createOne = async (values) => {
+  const { activeUsersLimit } = await InternalConfig.qm.getOneMain();
+
+  if (activeUsersLimit !== null) {
     return sails.getDatastore().transaction(async (db) => {
       const queryResult = await sails
         .sendNativeQuery('SELECT NULL FROM user_account WHERE is_deactivated = $1 FOR UPDATE', [
@@ -33,7 +35,7 @@ const createOne = (values) => {
         ])
         .usingConnection(db);
 
-      if (queryResult.rowCount >= sails.config.custom.activeUserLimit) {
+      if (queryResult.rowCount >= activeUsersLimit) {
         throw 'activeLimitReached';
       }
 
@@ -86,8 +88,8 @@ const getOneActiveByApiKeyHash = (apiKeyHash) =>
   });
 
 const updateOne = async (criteria, values) => {
-  const enforceActiveLimit =
-    values.isDeactivated === false && sails.config.custom.activeUserLimit !== null;
+  const { activeUsersLimit } = await InternalConfig.qm.getOneMain();
+  const enforceActiveLimit = values.isDeactivated === false && activeUsersLimit !== null;
 
   if (!_.isUndefined(values.avatar) || enforceActiveLimit) {
     return sails.getDatastore().transaction(async (db) => {
@@ -98,7 +100,7 @@ const updateOne = async (criteria, values) => {
           ])
           .usingConnection(db);
 
-        if (queryResult.rowCount >= sails.config.custom.activeUserLimit) {
+        if (queryResult.rowCount >= activeUsersLimit) {
           throw 'activeLimitReached';
         }
       }

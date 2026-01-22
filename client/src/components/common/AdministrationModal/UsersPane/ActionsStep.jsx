@@ -38,8 +38,8 @@ const StepTypes = {
 const ActionsStep = React.memo(({ userId, onClose }) => {
   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
 
-  const activeUserLimit = useSelector(selectors.selectActiveUserLimit);
-  const activeUserTotal = useSelector(selectors.selectActiveUserTotal);
+  const activeUsersLimit = useSelector(selectors.selectActiveUsersLimit);
+  const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
   const user = useSelector((state) => selectUserById(state, userId));
   const isCurrentUser = useSelector((state) => user.id === selectors.selectCurrentUserId(state));
 
@@ -237,8 +237,8 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               <Menu.Item
                 disabled={
                   user.isDeactivated &&
-                  activeUserLimit !== null &&
-                  activeUserTotal >= activeUserLimit
+                  activeUsersLimit !== null &&
+                  activeUsersTotal >= activeUsersLimit
                 }
                 className={styles.menuItem}
                 onClick={user.isDeactivated ? handleActivateClick : handleDeactivateClick}

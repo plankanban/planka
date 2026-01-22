@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Gränsen för aktiva användare har nåtts',
+      activeUsersLimitReached: 'Gränsen för aktiva användare har nåtts',
       adminLoginRequiredToInitializeInstance:
         'Administratörsinloggning krävs för att initiera instansen',
       emailAlreadyInUse: 'E-mail används redan',

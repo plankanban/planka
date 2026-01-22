@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Limit aktívnych používateľov bol dosiahnutý',
+      activeUsersLimitReached: 'Limit aktívnych používateľov bol dosiahnutý',
       adminLoginRequiredToInitializeInstance:
         'Na inicializáciu inštancie je potrebné prihlásenie správcu',
       emailAlreadyInUse: 'E-mail je už použitý',

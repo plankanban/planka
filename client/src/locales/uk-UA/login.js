@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Досягнуто ліміту активних користувачів',
+      activeUsersLimitReached: 'Досягнуто ліміту активних користувачів',
       adminLoginRequiredToInitializeInstance:
         'Потрібен вхід адміністратора для ініціалізації екземпляра',
       emailAlreadyInUse: 'Електронна пошта вже використовується',

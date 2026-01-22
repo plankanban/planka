@@ -17,8 +17,8 @@ import AddStep from './AddStep';
 import styles from './UsersPane.module.scss';
 
 const UsersPane = React.memo(() => {
-  const activeUserTotal = useSelector(selectors.selectActiveUserTotal);
-  const activeUserLimit = useSelector(selectors.selectActiveUserLimit);
+  const activeUsersLimit = useSelector(selectors.selectActiveUsersLimit);
+  const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
   const users = useSelector(selectors.selectUsers);
 
   const canAdd = useSelector((state) => {
@@ -106,13 +106,13 @@ const UsersPane = React.memo(() => {
           <AddPopup>
             <Button
               positive
-              disabled={activeUserLimit !== null && activeUserTotal >= activeUserLimit}
+              disabled={activeUsersLimit !== null && activeUsersTotal >= activeUsersLimit}
               className={styles.addButton}
             >
               {t('action.addUser')}
-              {activeUserLimit !== null && (
+              {activeUsersLimit !== null && (
                 <span className={styles.addButtonCounter}>
-                  {activeUserTotal}/{activeUserLimit}
+                  {activeUsersTotal}/{activeUsersLimit}
                 </span>
               )}
             </Button>

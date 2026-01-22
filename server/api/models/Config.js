@@ -18,7 +18,6 @@
  *       type: object
  *       required:
  *         - id
- *         - isInitialized
  *       properties:
  *         id:
  *           type: string
@@ -62,10 +61,6 @@
  *           nullable: true
  *           description: Default "from" used for outgoing SMTP emails
  *           example: no-reply@example.com
- *         isInitialized:
- *           type: boolean
- *           description: Whether the PLANKA instance has been initialized
- *           example: true
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -141,11 +136,6 @@ module.exports = {
       type: 'string',
       allowNull: true,
       columnName: 'smtp_from',
-    },
-    isInitialized: {
-      type: 'boolean',
-      required: true,
-      columnName: 'is_initialized',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

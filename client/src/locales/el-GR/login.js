@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Έχει επιτευχθεί το όριο ενεργών χρηστών',
+      activeUsersLimitReached: 'Έχει επιτευχθεί το όριο ενεργών χρηστών',
       adminLoginRequiredToInitializeInstance:
         'Απαιτείται σύνδεση διαχειριστή για την αρχικοποίηση της εφαρμογής',
       emailAlreadyInUse: 'Το e-mail χρησιμοποιείται ήδη',

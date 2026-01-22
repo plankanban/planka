@@ -119,7 +119,7 @@
  *                   enum:
  *                     - Email already in use
  *                     - Username already in use
- *                     - Active user limit reached
+ *                     - Active users limit reached
  *                   description: Specific error message
  *                   example: Email already in use
  *       422:
@@ -182,8 +182,8 @@ const Errors = {
   USERNAME_ALREADY_IN_USE: {
     usernameAlreadyInUse: 'Username already in use',
   },
-  ACTIVE_USER_LIMIT_REACHED: {
-    activeUserLimitReached: 'Active user limit reached',
+  ACTIVE_USERS_LIMIT_REACHED: {
+    activeUsersLimitReached: 'Active users limit reached',
   },
   MISSING_VALUES: {
     missingValues: 'Unable to retrieve required values (email, name)',
@@ -229,7 +229,7 @@ module.exports = {
     usernameAlreadyInUse: {
       responseType: 'conflict',
     },
-    activeUserLimitReached: {
+    activeUsersLimitReached: {
       responseType: 'conflict',
     },
     missingValues: {
@@ -250,7 +250,7 @@ module.exports = {
       .intercept('invalidUserinfoConfiguration', () => Errors.INVALID_USERINFO_CONFIGURATION)
       .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
       .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)
-      .intercept('activeLimitReached', () => Errors.ACTIVE_USER_LIMIT_REACHED)
+      .intercept('activeLimitReached', () => Errors.ACTIVE_USERS_LIMIT_REACHED)
       .intercept('missingValues', () => Errors.MISSING_VALUES);
 
     return sails.helpers.accessTokens.handleSteps

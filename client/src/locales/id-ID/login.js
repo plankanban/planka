@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Batas pengguna aktif tercapai',
+      activeUsersLimitReached: 'Batas pengguna aktif tercapai',
       adminLoginRequiredToInitializeInstance:
         'Login admin diperlukan untuk menginisialisasi instance',
       emailAlreadyInUse: 'E-mail telah digunakan',

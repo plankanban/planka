@@ -1,7 +1,7 @@
 export default {
   translation: {
     common: {
-      activeUserLimitReached: 'Grænsen for aktive brugere er nået',
+      activeUsersLimitReached: 'Grænsen for aktive brugere er nået',
       adminLoginRequiredToInitializeInstance:
         'Administrator login påkrævet for at initialisere instans',
       emailAlreadyInUse: 'E-mail allerede i brug',

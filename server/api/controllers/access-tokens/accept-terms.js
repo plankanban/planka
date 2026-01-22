@@ -202,11 +202,11 @@ module.exports = {
       ({ user } = await User.qm.updateOne(user.id, values));
     }
 
-    const config = await Config.qm.getOneMain();
+    const internalConfig = await InternalConfig.qm.getOneMain();
 
-    if (!config.isInitialized) {
+    if (!internalConfig.isInitialized) {
       if (user.role === User.Roles.ADMIN) {
-        await Config.qm.updateOneMain({
+        await InternalConfig.qm.updateOneMain({
           isInitialized: true,
         });
       } else {
