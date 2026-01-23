@@ -70,7 +70,7 @@ exports.seed = async (knex) => {
     }
 
     if (!userId) {
-      await knex('user_account').update(data).where('email', defaultAdminEmail);
+      await knex('user_account').update(userData).where('email', defaultAdminEmail);
     }
   }
 
