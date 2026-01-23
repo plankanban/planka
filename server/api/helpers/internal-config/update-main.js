@@ -29,6 +29,7 @@ module.exports = {
       if (deactivatedUserIds && deactivatedUserIds.length > 0) {
         const users = await User.qm.getAll({
           roleOrRoles: [User.Roles.ADMIN, User.Roles.PROJECT_OWNER],
+          isDeactivated: false,
         });
 
         adminUserIds = users.flatMap((user) => {
@@ -37,7 +38,7 @@ module.exports = {
           return user.role === User.Roles.ADMIN ? user.id : [];
         });
       } else {
-        adminUserIds = await sails.helpers.users.getAllIds(User.Roles.ADMIN);
+        adminUserIds = await sails.helpers.users.getAllActiveIds(User.Roles.ADMIN);
       }
 
       adminUserIds.forEach((userId) => {

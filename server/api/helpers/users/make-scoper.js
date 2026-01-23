@@ -28,6 +28,7 @@ class Scoper {
     if (!this.separatedUserIds) {
       const users = await User.qm.getAll({
         roleOrRoles: [User.Roles.ADMIN, User.Roles.PROJECT_OWNER],
+        isDeactivated: false,
       });
 
       const adminUserIds = [];

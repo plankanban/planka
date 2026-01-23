@@ -60,8 +60,9 @@ const getByIds = (ids, { withDeactivated = true } = {}) => {
   return defaultFind(criteria);
 };
 
-const getAll = ({ roleOrRoles } = {}) =>
+const getAll = ({ roleOrRoles, isDeactivated } = {}) =>
   defaultFind({
+    isDeactivated,
     role: roleOrRoles,
   });
 
