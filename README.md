@@ -25,6 +25,16 @@ PLANKA is easy to install using multiple methods - learn more in the [installati
 
 For configuration and environment settings, see the [configuration section](https://docs.planka.cloud/docs/category/configuration/).
 
+## Notes App Testing
+
+The Notes app testing version is available across multiple platforms.
+
+If you have an iOS device, you can join the TestFlight to try the app: [TestFlight](https://testflight.apple.com/join/5eJqTaJW).
+
+For Windows and Android, you can find the app here: [PLANKA Notes](https://planka-notes.hillerdaniel.de).
+
+> ⚠️ The Notes app has currently been tested only with PLANKA v2.
+
 ## Contact
 
 Interested in a hosted version of PLANKA? Email us at [github@planka.group](mailto:github@planka.group).
