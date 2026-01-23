@@ -30,10 +30,30 @@
  *         $ref: '#/components/responses/ValidationError'
  *       401:
  *         $ref: '#/components/responses/Unauthorized'
+ *       403:
+ *         $ref: '#/components/responses/Forbidden'
  */
 
+const Errors = {
+  NOT_ENOUGH_RIGHTS: {
+    notEnoughRights: 'Not enough rights',
+  },
+};
+
 module.exports = {
+  exits: {
+    notEnoughRights: {
+      responseType: 'forbidden',
+    },
+  },
+
   async fn() {
+    const { currentUser } = this.req;
+
+    if (!sails.helpers.users.isAdminOrProjectOwner(currentUser)) {
+      throw Errors.NOT_ENOUGH_RIGHTS;
+    }
+
     const webhooks = await Webhook.qm.getAll();
 
     return {
