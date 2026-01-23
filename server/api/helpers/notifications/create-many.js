@@ -296,57 +296,60 @@ module.exports = {
     });
 
     const notificationsByUserId = _.groupBy(notifications, 'userId');
-    const userIds = Object.keys(notificationsByUserId);
 
-    const notificationServices = await NotificationService.qm.getByUserIds(userIds);
-    const { transporter } = await sails.helpers.utils.makeSmtpTransporter();
+    const notifiableUsers = await User.qm.getByIds(Object.keys(notificationsByUserId), {
+      withDeactivated: false,
+    });
 
-    if (notificationServices.length > 0 || transporter) {
-      const users = await User.qm.getByIds(userIds);
-      const userById = _.keyBy(users, 'id');
+    if (notifiableUsers.length > 0) {
+      const notifiableUserIds = sails.helpers.utils.mapRecords(notifiableUsers);
 
-      const notificationServicesByUserId = _.groupBy(notificationServices, 'userId');
+      const notificationServices = await NotificationService.qm.getByUserIds(notifiableUserIds);
+      const { transporter } = await sails.helpers.utils.makeSmtpTransporter();
 
-      Object.keys(notificationsByUserId).forEach(async (userId) => {
-        const notifiableUser = userById[userId];
-        const t = sails.helpers.utils.makeTranslator(notifiableUser.language);
+      if (notificationServices.length > 0 || transporter) {
+        const notificationServicesByUserId = _.groupBy(notificationServices, 'userId');
 
-        const emails = notificationsByUserId[userId].flatMap((notification) => {
-          const values = valuesById[notification.id];
+        notifiableUsers.forEach(async (notifiableUser) => {
+          const t = sails.helpers.utils.makeTranslator(notifiableUser.language);
 
-          if (notificationServicesByUserId[userId]) {
-            const services = notificationServicesByUserId[userId].map((notificationService) =>
-              _.pick(notificationService, ['url', 'format']),
-            );
+          const emails = notificationsByUserId[notifiableUser.id].flatMap((notification) => {
+            const values = valuesById[notification.id];
 
-            buildAndSendNotifications(
-              services,
-              inputs.board,
-              values.card,
-              notification,
-              values.creatorUser,
-              t,
-            );
+            if (notificationServicesByUserId[notifiableUser.id]) {
+              const services = notificationServicesByUserId[notifiableUser.id].map(
+                (notificationService) => _.pick(notificationService, ['url', 'format']),
+              );
+
+              buildAndSendNotifications(
+                services,
+                inputs.board,
+                values.card,
+                notification,
+                values.creatorUser,
+                t,
+              );
+            }
+
+            if (transporter) {
+              return buildEmail(
+                inputs.board,
+                values.card,
+                notification,
+                values.creatorUser,
+                notifiableUser,
+                t,
+              );
+            }
+
+            return [];
+          });
+
+          if (emails.length > 0) {
+            sendEmails(transporter, emails);
           }
-
-          if (transporter) {
-            return buildEmail(
-              inputs.board,
-              values.card,
-              notification,
-              values.creatorUser,
-              notifiableUser,
-              t,
-            );
-          }
-
-          return [];
         });
-
-        if (emails.length > 0) {
-          sendEmails(transporter, emails);
-        }
-      });
+      }
     }
 
     return notifications;
