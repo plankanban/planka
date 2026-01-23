@@ -4,7 +4,8 @@
  */
 
 import { dequal } from 'dequal';
-import React, { useCallback, useMemo } from 'react';
+import omit from 'lodash/omit';
+import React, { useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +27,7 @@ const SmtpPane = React.memo(() => {
   const [t] = useTranslation();
 
   const [passwordFieldRef, handlePasswordFieldRef] = useNestedRef('inputRef');
+  const isPasswordTouchedRef = useRef(false);
 
   const defaultData = useMemo(
     () => ({
@@ -68,7 +70,15 @@ const SmtpPane = React.memo(() => {
     [data, isPasswordSet],
   );
 
+  const isModified = useMemo(() => {
+    const cleanDataToCheck = omit(cleanData, 'smtpPassword');
+    const defaultDataToCheck = omit(defaultData, 'smtpPassword');
+
+    return !dequal(cleanDataToCheck, defaultDataToCheck) || isPasswordTouchedRef.current;
+  }, [defaultData, cleanData]);
+
   const handleSubmit = useCallback(() => {
+    isPasswordTouchedRef.current = false;
     dispatch(entryActions.updateConfig(cleanData));
   }, [dispatch, cleanData]);
 
@@ -86,7 +96,13 @@ const SmtpPane = React.memo(() => {
     dispatch(entryActions.testSmtpConfig());
   }, [dispatch]);
 
-  const isModified = !dequal(cleanData, defaultData);
+  const handlePasswordChange = useCallback(
+    (event, { value, ...props }) => {
+      isPasswordTouchedRef.current = value !== '';
+      handleFieldChange(event, { value, ...props });
+    },
+    [handleFieldChange],
+  );
 
   return (
     <Tab.Pane attached={false} className={styles.wrapper}>
@@ -173,7 +189,7 @@ const SmtpPane = React.memo(() => {
           maxLength={256}
           className={styles.field}
           onClear={!data.smtpPassword && isPasswordSet ? handlePasswordClear : undefined}
-          onChange={handleFieldChange}
+          onChange={handlePasswordChange}
         />
         <div className={styles.text}>
           {t('common.defaultFrom')} (
