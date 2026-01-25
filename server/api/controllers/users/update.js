@@ -79,7 +79,7 @@
  *               enableFavoritesByDefault:
  *                 type: boolean
  *                 description: Whether favorites are enabled by default
- *                 example: false
+ *                 example: true
  *               defaultEditorMode:
  *                 type: string
  *                 enum: [wysiwyg, markup]
