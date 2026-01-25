@@ -102,11 +102,27 @@ const Content = React.memo(() => {
   const [t] = useTranslation();
   const wasSubmitting = usePrevious(isSubmitting);
 
-  const [data, handleFieldChange, setData] = useForm(() => ({
-    emailOrUsername: '',
-    password: '',
-    ...defaultData,
-  }));
+  const [data, handleFieldChange, setData] = useForm(() => {
+    const initialData = {
+      emailOrUsername: '',
+      password: '',
+      ...defaultData,
+    };
+
+    if (bootstrap.isDemoMode) {
+      const params = new URLSearchParams(window.location.hash.slice(1));
+
+      Object.keys(initialData).forEach((fieldName) => {
+        const value = params.get(fieldName);
+
+        if (value !== null) {
+          initialData[fieldName] = value;
+        }
+      });
+    }
+
+    return initialData;
+  });
 
   const message = useMemo(() => createMessage(error), [error]);
   const [focusPasswordFieldState, focusPasswordField] = useToggle();

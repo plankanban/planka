@@ -24,11 +24,16 @@ module.exports = {
       oidc: inputs.oidc,
       version: sails.config.custom.version,
     };
+
     if (inputs.user && inputs.user.role === User.Roles.ADMIN) {
       Object.assign(data, {
         activeUsersLimit: inputs.internalConfig.activeUsersLimit,
         customerPanelUrl: sails.config.custom.customerPanelUrl,
       });
+    }
+
+    if (sails.config.custom.demoMode) {
+      data.isDemoMode = true;
     }
 
     return data;
