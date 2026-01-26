@@ -257,7 +257,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               context: 'title',
             })}
           </Menu.Item>
-          {user.isSsoUser && !isCurrentUser && (
+          {user.isSsoUser && !user.lockedFieldNames.includes('isSsoUser') && !isCurrentUser && (
             <Menu.Item className={styles.menuItem} onClick={handleUnlinkSsoClick}>
               <Icon name="unlink" className={styles.menuItemIcon} />
               {t('action.unlinkSso', {
