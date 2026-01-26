@@ -162,7 +162,6 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
           <ConfirmationStep
             title="common.unlinkSso"
             content="common.areYouSureYouWantToUnlinkSsoFromThisUser"
-            buttonType="negative"
             buttonContent="action.unlinkSso"
             onConfirm={handleUnlinkSsoConfirm}
             onBack={handleBack}

@@ -95,6 +95,10 @@
  *                 enum: [byDefault, alphabetically, byCreationTime]
  *                 description: Default sort order for projects display
  *                 example: byDefault
+ *               isSsoUser:
+ *                 type: boolean
+ *                 description: Whether the user is SSO user (only false value to unlink SSO, for admins)
+ *                 example: false
  *               isDeactivated:
  *                 type: boolean
  *                 description: Whether the user account is deactivated and cannot log in (for admins)
