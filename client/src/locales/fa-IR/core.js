@@ -91,6 +91,8 @@ export default {
         'آیا مطمئن هستید که می‌خواهید این مدیر را از پروژه حذف کنید؟',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'آیا مطمئن هستید که می‌خواهید این عضو را از برد حذف کنید؟',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'آیا مطمئن هستید که می‌خواهید پیوند SSO را از این کاربر لغو کنید؟ این به کاربر اجازه می‌دهد با رمز عبور وارد شود.',
       assignAsOwner_title: 'تعیین به عنوان مالک',
       atLeastOneListMustBePresent: 'حداقل یک لیست باید وجود داشته باشد',
       attachment: 'پیوست',
@@ -330,6 +332,7 @@ export default {
       turnOffRecentCardHighlighting: 'خاموش کردن برجسته‌سازی کارت‌های اخیر',
       typeNameToConfirm: 'نام را برای تأیید تایپ کنید.',
       typeTitleToConfirm: 'عنوان را برای تأیید تایپ کنید.',
+      unlinkSso_title: 'لغو پیوند SSO',
       unsavedChanges: 'تغییرات ذخیره نشده',
       uploadFailedFileIsTooBig: 'آپلود ناموفق: فایل خیلی بزرگ است.',
       uploadFailedNotEnoughStorageSpace: 'آپلود ناموفق: فضای ذخیره‌سازی کافی نیست.',
@@ -496,6 +499,8 @@ export default {
       start: 'شروع',
       stop: 'توقف',
       subscribe: 'مشترک شدن',
+      unlinkSso: 'لغو پیوند SSO',
+      unlinkSso_title: 'لغو پیوند SSO',
       unsubscribe: 'لغو اشتراک',
       uploadNewAvatar: 'آپلود آواتار جدید',
       uploadNewImage: 'آپلود تصویر جدید',

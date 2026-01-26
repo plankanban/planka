@@ -88,6 +88,8 @@ export default {
         'Apakah anda ingin menghapus manajer ini dari papan ini?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Apakah anda ingin menghapus anggota ini dari papan ini?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Apakah Anda yakin ingin memutuskan tautan SSO dari pengguna ini? Ini akan memungkinkan pengguna untuk masuk dengan kata sandi.',
       assignAsOwner_title: 'Tetapkan sebagai pemilik',
       atLeastOneListMustBePresent: 'Setidaknya satu daftar harus ada',
       attachment: 'Lampiran',
@@ -329,6 +331,7 @@ export default {
       turnOffRecentCardHighlighting: 'Matikan penyorotan kartu terbaru',
       typeNameToConfirm: 'Ketik nama untuk mengonfirmasi.',
       typeTitleToConfirm: 'Ketik judul untuk mengonfirmasi.',
+      unlinkSso_title: 'Pemutusan tautan SSO',
       unsavedChanges: 'Perubahan yang belum disimpan',
       uploadFailedFileIsTooBig: 'Unggahan gagal - file terlalu besar.',
       uploadFailedNotEnoughStorageSpace: 'Unggahan gagal - ruang penyimpanan tidak cukup.',
@@ -495,6 +498,8 @@ export default {
       start: 'Mulai',
       stop: 'Berhenti',
       subscribe: 'Berlanggan',
+      unlinkSso: 'Putuskan tautan SSO',
+      unlinkSso_title: 'Putuskan tautan SSO',
       unsubscribe: 'Berhenti berlangganan',
       uploadNewAvatar: 'Unggah avatar baru',
       uploadNewImage: 'Unggah gambar baru',

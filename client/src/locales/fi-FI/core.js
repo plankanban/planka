@@ -85,6 +85,8 @@ export default {
         'Haluatko varmasti poistaa tämän ylläpitäjän projektista?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Haluatko varmasti poistaa tämän jäsenen taululta?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Haluatko varmasti poistaa SSO-yhteyden tältä käyttäjältä? Tämä sallii käyttäjän kirjautua sisään salasanalla.',
       assignAsOwner_title: 'Aseta omistajaksi',
       atLeastOneListMustBePresent: 'Vähintään yksi lista vaaditaan',
       attachment: 'Liite',
@@ -325,6 +327,7 @@ export default {
       turnOffRecentCardHighlighting: 'Poista uusien korttien korostus',
       typeNameToConfirm: 'Kirjoita nimi vahvistaaksesi.',
       typeTitleToConfirm: 'Kirjoita otsikko vahvistaaksesi.',
+      unlinkSso_title: 'SSO-yhteyden poistaminen',
       unsavedChanges: 'Tallentamattomat muutokset',
       uploadFailedFileIsTooBig: 'Lataus epäonnistui: tiedosto on liian suuri.',
       uploadFailedNotEnoughStorageSpace: 'Lataus epäonnistui: tallennustilaa ei ole tarpeeksi.',
@@ -495,6 +498,8 @@ export default {
       start: 'Aloita',
       stop: 'Lopeta',
       subscribe: 'Tilaa',
+      unlinkSso: 'Poista SSO-yhteys',
+      unlinkSso_title: 'Poista SSO-yhteys',
       unsubscribe: 'Peru tilaus',
       uploadNewAvatar: 'Lataa uusi avatar',
       uploadNewImage: 'Lataa uusi kuva',

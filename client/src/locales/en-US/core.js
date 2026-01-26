@@ -83,6 +83,8 @@ export default {
         'Are you sure you want to remove this manager from the project?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Are you sure you want to remove this member from the board?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Are you sure you want to unlink SSO from this user? This will allow the user to log in with a password.',
       assignAsOwner_title: 'Assign As Owner',
       atLeastOneListMustBePresent: 'At least one list must be present',
       attachment: 'Attachment',
@@ -322,6 +324,7 @@ export default {
       turnOffRecentCardHighlighting: 'Turn off recent card highlighting',
       typeNameToConfirm: 'Type the name to confirm.',
       typeTitleToConfirm: 'Type the title to confirm.',
+      unlinkSso_title: 'Inlink SSO',
       unsavedChanges: 'Unsaved changes',
       uploadFailedFileIsTooBig: 'Upload failed: File is too big.',
       uploadFailedNotEnoughStorageSpace: 'Upload failed: Not enough storage space.',
@@ -487,6 +490,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Subscribe',
+      unlinkSso: 'Unlink SSO',
+      unlinkSso_title: 'Unlink SSO',
       unsubscribe: 'Unsubscribe',
       uploadNewAvatar: 'Upload new avatar',
       uploadNewImage: 'Upload new image',

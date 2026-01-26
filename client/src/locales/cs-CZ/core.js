@@ -85,6 +85,8 @@ export default {
         'Opravdu chcete tohoto správce z projektu odebrat?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Opravdu chcete tohoto člena odebrat z nástěnky?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Opravdu chcete odpojit SSO od tohoto uživatele? Tím umožníte uživateli přihlásit se pomocí hesla.',
       assignAsOwner_title: 'Přiřadit jako vlastníka',
       atLeastOneListMustBePresent: 'Musí být k dispozici alespoň jeden seznam',
       attachment: 'Příloha',
@@ -324,6 +326,7 @@ export default {
       turnOffRecentCardHighlighting: 'Vypnout zvýraznění posledních karet',
       typeNameToConfirm: 'Zadejte název pro potvrzení.',
       typeTitleToConfirm: 'Zadejte titulek pro potvrzení.',
+      unlinkSso_title: 'Odpojení SSO',
       unsavedChanges: 'Neuložené změny',
       uploadFailedFileIsTooBig: 'Nahrávání se nezdařilo: Soubor je příliš velký.',
       uploadFailedNotEnoughStorageSpace: 'Nahrávání se nezdařilo: Nedostatek úložného prostoru.',
@@ -490,6 +493,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Odebírat',
+      unlinkSso: 'Odpojit SSO',
+      unlinkSso_title: 'Odpojit SSO',
       unsubscribe: 'Neodebírat',
       uploadNewAvatar: 'Nahrát nový avatar',
       uploadNewImage: 'Nahrát nový obrázek',

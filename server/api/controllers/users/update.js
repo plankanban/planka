@@ -123,6 +123,7 @@
  *         $ref: '#/components/responses/Conflict'
  */
 
+const { is } = require('../../../utils/validators');
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
@@ -200,6 +201,10 @@ module.exports = {
       type: 'string',
       isIn: Object.values(User.ProjectOrders),
     },
+    isSsoUser: {
+      type: 'boolean',
+      custom: is(false),
+    },
     isDeactivated: {
       type: 'boolean',
     },
@@ -224,7 +229,7 @@ module.exports = {
     if (inputs.id === currentUser.id) {
       availableInputKeys.push(...User.PERSONAL_FIELD_NAMES);
     } else if (currentUser.role === User.Roles.ADMIN) {
-      availableInputKeys.push('role', 'isDeactivated');
+      availableInputKeys.push('role', 'isSsoUser', 'isDeactivated');
     } else {
       throw Errors.USER_NOT_FOUND; // Forbidden
     }
@@ -274,6 +279,7 @@ module.exports = {
         'defaultEditorMode',
         'defaultHomeView',
         'defaultProjectsOrder',
+        'isSsoUser',
         'isDeactivated',
       ]),
     };

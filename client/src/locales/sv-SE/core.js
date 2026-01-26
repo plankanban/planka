@@ -93,6 +93,8 @@ export default {
         'Är du säker på att du vill ta bort den här projektledaren från projektet?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Är du säker på att du vill ta bort den här medlemmen från tavlan?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Är du säker på att du vill avlänka SSO från den här användaren? Detta kommer att tillåta användaren att logga in med ett lösenord.',
       assignAsOwner_title: 'Tilldela som ägare',
       atLeastOneListMustBePresent: 'Minst en lista måste finnas',
       attachment: 'Bilaga',
@@ -335,6 +337,7 @@ export default {
       turnOffRecentCardHighlighting: 'Stäng av markering av senaste kort',
       typeNameToConfirm: 'Skriv namn för att bekräfta.',
       typeTitleToConfirm: 'Skriv titel för att bekräfta.',
+      unlinkSso_title: 'Avlänkning av SSO',
       unsavedChanges: 'Osparade ändringar',
       uploadFailedFileIsTooBig: 'Uppladdning misslyckades: filen är för stor.',
       uploadFailedNotEnoughStorageSpace:
@@ -502,6 +505,8 @@ export default {
       start: 'Starta',
       stop: 'Stoppa',
       subscribe: 'Prenumerera',
+      unlinkSso: 'Avlänka SSO',
+      unlinkSso_title: 'Avlänka SSO',
       unsubscribe: 'Avprenumerera',
       uploadNewAvatar: 'Ladda upp ny avatar',
       uploadNewImage: 'Ladda upp ny bild',

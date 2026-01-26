@@ -91,6 +91,8 @@ export default {
         'Êtes-vous sûr de vouloir supprimer ce responsable du projet ?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Êtes-vous sûr de vouloir supprimer ce membre du tableau ?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        "Êtes-vous sûr de vouloir dissocier le SSO de cet utilisateur ? Cela permettra à l'utilisateur de se connecter avec un mot de passe.",
       assignAsOwner_title: 'Assigner comme propriétaire',
       atLeastOneListMustBePresent: 'Au moins une liste doit être présente',
       attachment: 'Pièce jointe',
@@ -334,6 +336,7 @@ export default {
       turnOffRecentCardHighlighting: 'Désactiver la mise en évidence des cartes récentes',
       typeNameToConfirm: 'Saissir le nom pour confirmer.',
       typeTitleToConfirm: 'Saisir le titre pour confirmer.',
+      unlinkSso_title: 'Dissociation du SSO',
       unsavedChanges: 'Modifications non enregistrées',
       uploadFailedFileIsTooBig: 'Échec du téléchargement : fichier trop volumineux.',
       uploadFailedNotEnoughStorageSpace:
@@ -500,6 +503,8 @@ export default {
       start: 'Commencer',
       stop: 'Arrêter',
       subscribe: "S'abonner",
+      unlinkSso: 'Dissocier le SSO',
+      unlinkSso_title: 'Dissocier le SSO',
       unsubscribe: 'Se désabonner',
       uploadNewAvatar: 'Télécharger un nouvel avatar',
       uploadNewImage: 'Télécharger une nouvelle image',

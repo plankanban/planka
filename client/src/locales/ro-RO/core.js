@@ -85,6 +85,8 @@ export default {
         'Sigur doriți să eliminați acest manager din proiect?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Sigur doriți să eliminați acest membru din consiliu?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Sigur doriți să deconectați SSO de la acest utilizator? Acest lucru va permite utilizatorului să se conecteze cu o parolă.',
       assignAsOwner_title: 'Atribuie ca proprietar',
       atLeastOneListMustBePresent: 'Cel puțin o listă trebuie să fie prezentă',
       attachment: 'Atașament',
@@ -327,6 +329,7 @@ export default {
       turnOffRecentCardHighlighting: 'Oprește evidențierea cardurilor recente',
       typeNameToConfirm: 'Tastează numele pentru confirmare.',
       typeTitleToConfirm: 'Tastează titlul pentru confirmare.',
+      unlinkSso_title: 'Deconectarea SSO',
       unsavedChanges: 'Modificări nesalvate',
       uploadFailedFileIsTooBig: 'Încărcarea a eșuat: fișierul este prea mare.',
       uploadFailedNotEnoughStorageSpace: 'Încărcarea a eșuat: spațiu de stocare insuficient.',
@@ -495,6 +498,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Abonati-va',
+      unlinkSso: 'Deconectează SSO',
+      unlinkSso_title: 'Deconectează SSO',
       unsubscribe: 'Dezabonați-vă',
       uploadNewAvatar: 'Încărcați un avatar nou',
       uploadNewImage: 'Încărcați o nouă imagine',

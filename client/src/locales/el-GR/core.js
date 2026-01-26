@@ -100,6 +100,8 @@ export default {
         'Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτόν τον διαχειριστή από το έργο;',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτό το μέλος από τον πίνακα;',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Είστε σίγουροι ότι θέλετε να αποσυνδέσετε το SSO από αυτόν τον χρήστη; Αυτό θα επιτρέψει στον χρήστη να συνδεθεί με κωδικό πρόσβασης.',
       assignAsOwner_title: 'Ορισμός ως ιδιοκτήτης',
       atLeastOneListMustBePresent: 'Πρέπει να υπάρχει τουλάχιστον μία λίστα',
       attachment: 'Συνημμένο',
@@ -343,6 +345,7 @@ export default {
       turnOffRecentCardHighlighting: 'Απενεργοποίηση επισήμανσης πρόσφατων καρτών',
       typeNameToConfirm: 'Πληκτρολογήστε το όνομα για επιβεβαίωση.',
       typeTitleToConfirm: 'Πληκτρολογήστε τον τίτλο για επιβεβαίωση.',
+      unlinkSso_title: 'Αποσύνδεση SSO',
       unsavedChanges: 'Μη αποθηκευμένες αλλαγές',
       uploadFailedFileIsTooBig: 'Η μεταφόρτωση απέτυχε: το αρχείο είναι πολύ μεγάλο.',
       uploadFailedNotEnoughStorageSpace:
@@ -516,6 +519,8 @@ export default {
       start: 'Έναρξη',
       stop: 'Διακοπή',
       subscribe: 'Εγγραφή',
+      unlinkSso: 'Αποσύνδεση SSO',
+      unlinkSso_title: 'Αποσύνδεση SSO',
       unsubscribe: 'Απεγγραφή',
       uploadNewAvatar: 'Μεταφόρτωση νέου avatar',
       uploadNewImage: 'Μεταφόρτωση νέας εικόνας',
