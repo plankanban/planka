@@ -1,0 +1,87 @@
+diff --git a/node_modules/sails.io.js/sails.io.js b/node_modules/sails.io.js/sails.io.js
+index 11694b5..bb5e594 100644
+--- a/node_modules/sails.io.js/sails.io.js
++++ b/node_modules/sails.io.js/sails.io.js
+@@ -138,6 +138,15 @@
+     CONNECTION_METADATA_PARAMS.platform + '=' + SDK_INFO.platform + '&' +
+     CONNECTION_METADATA_PARAMS.language + '=' + SDK_INFO.language;
+ 
++  var MANAGER_EVENT_NAMES = new Set([
++    'error',
++    'reconnect',
++    'reconnect_attempt',
++    'reconnect_error',
++    'reconnect_failed',
++    'ping'
++  ]);
++
+ 
+ 
+ 
+@@ -668,6 +677,7 @@
+         // Okay to change global headers while socket is connected
+         if (option == 'headers') {return;}
+         Object.defineProperty(self, option, {
++          enumerable: true,
+           get: function() {
+             if (option == 'url') {
+               return _opts[option] || (self._raw && self._raw.io && self._raw.io.uri);
+@@ -986,7 +996,7 @@
+           consolog('====================================');
+         });
+ 
+-        self.on('reconnecting', function(numAttempts) {
++        self.on('reconnect_attempt', function(numAttempts) {
+           consolog(
+             '\n'+
+             '        Socket is trying to reconnect to '+(self.url ? self.url : 'Sails')+'...\n'+
+@@ -1124,7 +1134,7 @@
+       // off to the self._raw for consumption
+       for (var evName in self.eventQueue) {
+         for (var i in self.eventQueue[evName]) {
+-          self._raw.on(evName, self.eventQueue[evName][i]);
++          self._getEventTarget(evName).on(evName, self.eventQueue[evName][i]);
+         }
+       }
+ 
+@@ -1150,10 +1160,11 @@
+      * @return {SailsSocket}
+      */
+     SailsSocket.prototype.on = function (evName, fn){
++      var target = this._getEventTarget(evName);
+ 
+       // Bind the event to the raw underlying socket if possible.
+-      if (this._raw) {
+-        this._raw.on(evName, fn);
++      if (target) {
++        target.on(evName, fn);
+         return this;
+       }
+ 
+@@ -1176,10 +1187,11 @@
+      * @return {SailsSocket}
+      */
+     SailsSocket.prototype.off = function (evName, fn){
++      var target = this._getEventTarget(evName);
+ 
+       // Bind the event to the raw underlying socket if possible.
+-      if (this._raw) {
+-        this._raw.off(evName, fn);
++      if (target) {
++        target.off(evName, fn);
+         return this;
+       }
+ 
+@@ -1491,6 +1503,12 @@
+       throw new Error('`_request()` was a private API deprecated as of v0.11 of the sails.io.js client. Use `.request()` instead.');
+     };
+ 
++    SailsSocket.prototype._getEventTarget = function (evName) {
++      if (!this._raw) return null;
++
++      return MANAGER_EVENT_NAMES.has(evName) ? this._raw.io : this._raw;
++    };
++
+ 
+ 
+ 

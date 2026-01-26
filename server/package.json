@@ -43,6 +43,17 @@
       "sails": true
     }
   },
+  "overrides": {
+    "body-parser": {
+      "qs": "^6.14.1"
+    },
+    "express": {
+      "qs": "^6.14.1"
+    },
+    "waterline-utils": {
+      "qs": "^6.14.1"
+    }
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "3.726.1",
     "@aws-sdk/lib-storage": "3.726.1",
@@ -66,7 +77,7 @@
     "nodemailer": "^7.0.12",
     "openid-client": "^5.7.1",
     "patch-package": "^8.0.1",
-    "pg": "^8.16.3",
+    "pg": "^8.17.2",
     "read": "^4.1.0",
     "rimraf": "^5.0.10",
     "sails": "^1.5.15",
