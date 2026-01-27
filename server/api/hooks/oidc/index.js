@@ -89,11 +89,16 @@ module.exports = function defineOidcHook(sails) {
         authorizationUrlParams.response_mode = sails.config.custom.oidcResponseMode;
       }
 
-      return {
+      const bootstrap = {
         authorizationUrl: instance.authorizationUrl(authorizationUrlParams),
         endSessionUrl: instance.issuer.end_session_endpoint ? instance.endSessionUrl({}) : null,
         isEnforced: sails.config.custom.oidcEnforced,
       };
+      if (sails.config.custom.oidcDebug) {
+        bootstrap.debug = true;
+      }
+
+      return bootstrap;
     },
 
     isEnabled() {

@@ -106,6 +106,20 @@ export function* authenticateWithOidcCallback() {
     return;
   }
 
+  const oidcBootstrap = yield select(selectors.selectOidcBootstrap);
+
+  if (oidcBootstrap?.debug) {
+    const {
+      included: { logs },
+    } = yield call(api.debugOidc, {
+      code,
+      nonce,
+    });
+
+    yield put(actions.authenticateWithOidc.debug(logs));
+    return;
+  }
+
   let accessToken;
   try {
     ({ item: accessToken } = yield call(api.exchangeForAccessTokenWithOidc, {

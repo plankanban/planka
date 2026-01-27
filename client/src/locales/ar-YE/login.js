@@ -25,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'إلغاء وإغلاق',
       continue: 'متابعة',
+      debugSso: 'تصحيح أخطاء تسجيل الدخول الموحد',
       goBack: 'العودة',
       goHome: 'الذهاب للرئيسية',
       logIn: 'تسجيل الدخول',

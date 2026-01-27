@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Tühista ja sulge',
       continue: 'Jätka',
+      debugSso: 'Siluda SSO',
       goBack: 'Tagasi',
       goHome: 'Koju',
       logIn: 'Logi sisse',

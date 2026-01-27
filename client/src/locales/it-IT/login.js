@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Annulla e chiudi',
       continue: 'Continua',
+      debugSso: 'Debug SSO',
       goBack: 'Torna indietro',
       goHome: 'Vai alla home',
       logIn: 'Accedi',

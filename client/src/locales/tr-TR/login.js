@@ -25,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'İptal et ve kapat',
       continue: 'Devam et',
+      debugSso: 'SSO hatalarını ayıkla',
       goBack: 'Geri dön',
       goHome: 'Ana sayfaya git',
       logIn: 'Giriş yap',

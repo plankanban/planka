@@ -25,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'لغو و بستن',
       continue: 'ادامه',
+      debugSso: 'اشکال‌زدایی SSO',
       goBack: 'بازگشت',
       goHome: 'رفتن به خانه',
       logIn: 'ورود',

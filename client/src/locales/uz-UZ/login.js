@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Bekor qilish va yopish',
       continue: 'Davom etish',
+      debugSso: 'SSO ni tuzatish',
       goBack: 'Orqaga',
       goHome: 'Bosh sahifaga',
       logIn: 'Kirish',

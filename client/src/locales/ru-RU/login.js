@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Отменить и закрыть',
       continue: 'Продолжить',
+      debugSso: 'Отладить SSO',
       goBack: 'Назад',
       goHome: 'На главную',
       logIn: 'Войти',

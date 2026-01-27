@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Откажи и затвори',
       continue: 'Настави',
+      debugSso: 'Дебагуј SSO',
       goBack: 'Назад',
       goHome: 'Иди кући',
       logIn: 'Пријава',
