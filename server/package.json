@@ -44,11 +44,17 @@
     }
   },
   "overrides": {
+    "@sailshq/socket.io-redis": {
+      "redis": "^3.1.2"
+    },
     "body-parser": {
       "qs": "^6.14.1"
     },
     "express": {
       "qs": "^6.14.1"
+    },
+    "machinepack-redis": {
+      "redis": "^3.1.2"
     },
     "waterline-utils": {
       "qs": "^6.14.1"
