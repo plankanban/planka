@@ -70,21 +70,38 @@ module.exports = {
     const fileManager = sails.hooks['file-manager'].getInstance();
 
     let readStream;
+    let headers;
+
     try {
-      readStream = await fileManager.read(
+      [readStream, headers] = await fileManager.read(
         `${sails.config.custom.attachmentsPathSegment}/${attachment.data.uploadedFileId}/${attachment.data.filename}`,
+        {
+          withHeaders: true,
+        },
       );
     } catch (error) {
       throw Errors.FILE_ATTACHMENT_NOT_FOUND;
     }
 
     if (attachment.data.mimeType) {
-      this.res.type(attachment.data.mimeType);
+      headers['Content-Type'] = attachment.data.mimeType;
     }
     if (!INLINE_MIME_TYPES_SET.has(attachment.data.mimeType) && !attachment.data.image) {
-      this.res.set('Content-Disposition', 'attachment');
+      headers['Content-Disposition'] = 'attachment';
     }
-    this.res.set('Cache-Control', 'private, max-age=86400, no-transform'); // TODO: move to config
+
+    this.res.set({
+      ...headers,
+      'Cache-Control': 'private, max-age=86400, no-transform', // TODO: move to config
+    });
+
+    readStream.on('error', () => {
+      if (this.res.headersSent) {
+        this.res.destroy();
+      } else {
+        throw Errors.FILE_ATTACHMENT_NOT_FOUND;
+      }
+    });
 
     return exits.success(readStream);
   },
