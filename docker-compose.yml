@@ -47,8 +47,8 @@ services:
       # - DEFAULT_LANGUAGE=en-US
 
       # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo
-      # - DEFAULT_ADMIN_PASSWORD=demo
+      - DEFAULT_ADMIN_EMAIL=demo@demo.demo
+      - DEFAULT_ADMIN_PASSWORD=demo
       # Optionally store in secrets - then DEFAULT_ADMIN_PASSWORD should not be set
       # - DEFAULT_ADMIN_PASSWORD__FILE=/run/secrets/default_admin_password
       # - DEFAULT_ADMIN_NAME=Demo Demo
