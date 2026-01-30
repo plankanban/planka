@@ -1,7 +1,0 @@
-FROM node:22-alpine
-
-RUN apk -U upgrade \
-  && apk add bash build-base python3 xdg-utils --no-cache \
-  && npm install npm --global
-
-WORKDIR /app

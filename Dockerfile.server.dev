@@ -1,0 +1,16 @@
+FROM node:22-alpine
+
+RUN apk -U upgrade \
+  && apk add --no-cache bash build-base python3 xdg-utils \
+  && npm install -g npm
+
+WORKDIR /app
+
+COPY server/package*.json ./
+COPY server/requirements.txt ./
+
+RUN npm install
+
+COPY server .
+
+CMD ["npm", "start"]

@@ -2,19 +2,22 @@ services:
   planka-server:
     build:
       context: .
-      dockerfile: Dockerfile.dev
-    image: planka-dev
-    pull_policy: never
-    command: ["bash", "-c", "npm install && npm run db:init && npm start"]
+      dockerfile: Dockerfile.server.dev
+    image: planka-server-dev
+    command: ["bash", "-c", "npm run db:init && npm start"]
     restart: on-failure
     volumes:
       - ./server:/app
+      - /app/node_modules
     ports:
       - 1337:1337
     environment:
       - BASE_URL=http://localhost:1337
       - DATABASE_URL=postgresql://postgres@postgres/planka
       - SECRET_KEY=notsecretkey
+      # Если проблемы с отслеживанием файлов в контейнере при их изменении
+      - CHOKIDAR_USEPOLLING=true
+      - CHOKIDAR_INTERVAL=2000
 
       # - LOG_LEVEL=warn
 
@@ -35,10 +38,10 @@ services:
       # - DEFAULT_LANGUAGE=en-US
 
       # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_EMAIL=demo@demo.demo
+      - DEFAULT_ADMIN_PASSWORD=demo
+      - DEFAULT_ADMIN_NAME=Demo Demo
+      - DEFAULT_ADMIN_USERNAME=demo
 
       # - INTERNAL_ACCESS_TOKEN=
       # - STORAGE_LIMIT=
@@ -95,16 +98,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
-  planka-client:
-    image: planka-dev
-    pull_policy: never
-    command: ["bash", "-c", "npm install && npx vite --host"]
-    restart: on-failure
-    volumes:
-      - ./client:/app
-    ports:
-      - 3000:3000
 
   postgres:
     image: postgres:16-alpine
