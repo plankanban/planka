@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Mégse és bezárás',
       continue: 'Folytatás',
+      debugSso: 'SSO hibakeresése',
       goBack: 'Vissza',
       goHome: 'Kezdőlapra',
       logIn: 'Belépés',

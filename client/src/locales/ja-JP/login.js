@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'キャンセルして閉じる',
       continue: '続行',
+      debugSso: 'SSOをデバッグ',
       goBack: '戻る',
       goHome: 'ホームへ',
       logIn: 'ログイン',

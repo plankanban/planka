@@ -25,6 +25,7 @@ export default {
     action: {
       cancelAndClose: '취소 후 닫기',
       continue: '계속',
+      debugSso: 'SSO 디버그',
       goBack: '뒤로 가기',
       goHome: '홈으로 가기',
       logIn: '로그인',

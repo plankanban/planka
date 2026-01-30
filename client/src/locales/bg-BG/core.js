@@ -92,6 +92,8 @@ export default {
         'Сигурни ли сте, че искате да премахнете този мениджър от проекта?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Сигурни ли сте, че искате да премахнете този член от таблото?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Сигурни ли сте, че искате да премахнете SSO връзката от този потребител? Това ще позволи на потребителя да влиза с парола.',
       assignAsOwner_title: 'Назначаване като собственик',
       atLeastOneListMustBePresent: 'Трябва да присъства поне един списък',
       attachment: 'Прикачен файл',
@@ -333,6 +335,7 @@ export default {
       turnOffRecentCardHighlighting: 'Изключване на подчертаването на скорошни карти',
       typeNameToConfirm: 'Въведете име за потвърждение.',
       typeTitleToConfirm: 'Въведете заглавие за потвърждение.',
+      unlinkSso_title: 'Премахване на SSO връзка',
       unsavedChanges: 'Незапазени промени',
       uploadFailedFileIsTooBig: 'Качването неуспешно: файлът е твърде голям.',
       uploadFailedNotEnoughStorageSpace:
@@ -500,6 +503,8 @@ export default {
       start: 'Старт',
       stop: 'Стоп',
       subscribe: 'Абонирайте се',
+      unlinkSso: 'Премахни SSO връзка',
+      unlinkSso_title: 'Премахни SSO връзка',
       unsubscribe: 'Отписване',
       uploadNewAvatar: 'Качване на нов аватар',
       uploadNewImage: 'Качване на ново изображение',

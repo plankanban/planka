@@ -90,6 +90,8 @@ export default {
         'Estàs segur que vols eliminar aquest gestor del projecte?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Estàs segur que vols eliminar aquest membre del tauler?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        "Estàs segur que vols desvincular SSO d'aquest usuari? Això permetrà que l'usuari iniciï sessió amb una contrasenya.",
       assignAsOwner_title: 'Assignar com a propietari',
       atLeastOneListMustBePresent: "Hi ha d'haver com a mínim una llista",
       attachment: 'Fitxer adjunt',
@@ -334,6 +336,7 @@ export default {
       turnOffRecentCardHighlighting: 'Desactivar ressaltat de targetes recents',
       typeNameToConfirm: 'Escriu el nom per confirmar.',
       typeTitleToConfirm: 'Escriu el títol per confirmar.',
+      unlinkSso_title: 'Desvinculació de SSO',
       unsavedChanges: 'Canvis sense desar',
       uploadFailedFileIsTooBig: 'Error en pujar: El fitxer és massa gran.',
       uploadFailedNotEnoughStorageSpace: "Error en pujar: No hi ha prou espai d'emmagatzematge.",
@@ -502,6 +505,8 @@ export default {
       start: 'Iniciar',
       stop: 'Aturar',
       subscribe: "Subscriure's",
+      unlinkSso: 'Desvincular SSO',
+      unlinkSso_title: 'Desvincular SSO',
       unsubscribe: 'Cancel·lar subscripció',
       uploadNewAvatar: 'Pujar nou avatar',
       uploadNewImage: 'Pujar nova imatge',

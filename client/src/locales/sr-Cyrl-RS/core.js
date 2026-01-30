@@ -87,6 +87,8 @@ export default {
         'Да ли заиста желите да уклоните овог руководиоца из овог пројекта?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Да ли заиста желите да уклоните овог члана из ове табле?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Да ли сте сигурни да желите да одвојите SSO са овог корисника? Ово ће омогућити кориснику да се пријави помоћу лозинке.',
       assignAsOwner_title: 'Додели као власника',
       atLeastOneListMustBePresent: 'Мора постојати најмање једна листа',
       attachment: 'Прилог',
@@ -325,6 +327,7 @@ export default {
       turnOffRecentCardHighlighting: 'Искључи истицање скорашњих картица',
       typeNameToConfirm: 'Укуцај име за потврду.',
       typeTitleToConfirm: 'Укуцај наслов за потврду.',
+      unlinkSso_title: 'Одвајање SSO',
       unsavedChanges: 'Несачуване промене',
       uploadFailedFileIsTooBig: 'Слање неуспешно: датотека је превелика.',
       uploadFailedNotEnoughStorageSpace: 'Слање неуспешно: нема довољно простора за складиштење.',
@@ -491,6 +494,8 @@ export default {
       start: 'Почни',
       stop: 'Заустави',
       subscribe: 'Претплати се',
+      unlinkSso: 'Одвоји SSO',
+      unlinkSso_title: 'Одвоји SSO',
       unsubscribe: 'Укини претплату',
       uploadNewAvatar: 'Постави нови аватар',
       uploadNewImage: 'Постави нову слику',

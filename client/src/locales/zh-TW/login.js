@@ -25,6 +25,7 @@ export default {
     action: {
       cancelAndClose: '取消並關閉',
       continue: '繼續',
+      debugSso: '偵錯SSO',
       goBack: '返回',
       goHome: '回到首頁',
       logIn: '登入',

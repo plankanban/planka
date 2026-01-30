@@ -17,6 +17,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Update version with build number
+        run: |
+          npm version "$(node -p "require('./package.json').version")-nightly.$(git rev-list --count HEAD)" --no-git-tag-version
+          npx --yes genversion --source . --template server/version-template.ejs server/version.js
+          npx --yes genversion --source . --template client/version-template.ejs client/src/version.js
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2

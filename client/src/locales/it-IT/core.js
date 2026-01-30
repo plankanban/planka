@@ -88,6 +88,8 @@ export default {
         'Sei sicuro di voler rimuovere questo amministratore dal progetto?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Sei sicuro di voler rimuovere questo membro dalla bacheca?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        "Sei sicuro di voler scollegare SSO da questo utente? Questo permetterà all'utente di accedere con una password.",
       assignAsOwner_title: 'Assegna come proprietario',
       atLeastOneListMustBePresent: 'Deve essere presente almeno una lista',
       attachment: 'Allegato',
@@ -331,6 +333,7 @@ export default {
       turnOffRecentCardHighlighting: "Disattiva l'evidenziazione delle scheda recenti",
       typeNameToConfirm: 'Digita il nome per confermare.',
       typeTitleToConfirm: 'Digita il titolo per confermare.',
+      unlinkSso_title: 'Scollegamento SSO',
       unsavedChanges: 'Modifiche non salvate',
       uploadFailedFileIsTooBig: 'Caricamento fallito: il file è troppo grande.',
       uploadFailedNotEnoughStorageSpace:
@@ -498,6 +501,8 @@ export default {
       start: 'Inizio',
       stop: 'Interrompi',
       subscribe: 'Iscriviti',
+      unlinkSso: 'Scollega SSO',
+      unlinkSso_title: 'Scollega SSO',
       unsubscribe: 'Annulla iscrizione',
       uploadNewAvatar: 'Carica nuovo avatar',
       uploadNewImage: 'Carica nuova immagine',

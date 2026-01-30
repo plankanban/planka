@@ -88,6 +88,8 @@ export default {
         'Er du sikker på at du vil fjerne denne projektleder fra projektet?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Er du sikker på at du vil fjerne dette medlem fra tavlen?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Er du sikker på, at du vil fjerne SSO-forbindelsen fra denne bruger? Dette vil tillade brugeren at logge ind med en adgangskode.',
       assignAsOwner_title: 'Sæt som ejer',
       atLeastOneListMustBePresent: 'Mindst én liste skal være til stede',
       attachment: 'Vedhæft fil',
@@ -330,6 +332,7 @@ export default {
       turnOffRecentCardHighlighting: 'Slå fremhævelse af nylige kort fra',
       typeNameToConfirm: 'Skriv navnet for at bekræfte.',
       typeTitleToConfirm: 'Skriv overskriften for at bekræfte.',
+      unlinkSso_title: 'Fjernelse af SSO-forbindelse',
       unsavedChanges: 'Ikke-gemte ændringer',
       uploadFailedFileIsTooBig: 'Upload mislykkedes: Filen er for stor.',
       uploadFailedNotEnoughStorageSpace: 'Upload mislykkedes: Ikke nok lagerplads.',
@@ -496,6 +499,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Abonnér',
+      unlinkSso: 'Fjern SSO-forbindelse',
+      unlinkSso_title: 'Fjern SSO-forbindelse',
       unsubscribe: 'Opsig abonnement',
       uploadNewAvatar: 'Tilføj nyt profilbillede',
       uploadNewImage: 'Tilføj nyt billede',

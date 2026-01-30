@@ -44,6 +44,7 @@ COPY --from=client --chown=node:node /app/dist public
 COPY --from=client --chown=node:node /app/dist/index.html views
 
 RUN python3 -m venv .venv \
+  && .venv/bin/pip3 install --upgrade pip \
   && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
   && mv .env.sample .env \
   && npm config set update-notifier false

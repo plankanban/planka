@@ -81,6 +81,8 @@ export default {
       areYouSureYouWantToRemoveThisManagerFromProject:
         'Biztosan eltávolítja ezt a menedzsert a projektből?',
       areYouSureYouWantToRemoveThisMemberFromBoard: 'Biztosan eltávolítja ezt a tagot a tábláról?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Biztosan le szeretné választani az SSO-t ettől a felhasználótól? Ez lehetővé teszi a felhasználó számára, hogy jelszóval jelentkezzen be.',
       assignAsOwner_title: 'Hozzárendelés tulajdonosnak',
       atLeastOneListMustBePresent: 'Legalább egy lista szükséges.',
       attachment: 'Melléklet',
@@ -321,6 +323,7 @@ export default {
       turnOffRecentCardHighlighting: 'Legutóbb módosítótt kártyák kiemelésének kikapcsolása',
       typeNameToConfirm: 'Írja be a nevet a megerősítéshez.',
       typeTitleToConfirm: 'Írja be a címet a megerősítéshez.',
+      unlinkSso_title: 'SSO leválasztása',
       unsavedChanges: 'Mentetlen változtatások',
       uploadFailedFileIsTooBig: 'Feltöltési hiba: a fájl túl nagy.',
       uploadFailedNotEnoughStorageSpace: 'Feltöltési hiba: nincs elég szabad tárhely.',
@@ -494,6 +497,8 @@ export default {
       start: 'Indítás',
       stop: 'Megállítás',
       subscribe: 'Feliratkozás',
+      unlinkSso: 'SSO leválasztása',
+      unlinkSso_title: 'SSO leválasztása',
       unsubscribe: 'Leiratkozás',
       uploadNewAvatar: 'Új avatar feltöltése',
       uploadNewImage: 'Új kép feltöltése',

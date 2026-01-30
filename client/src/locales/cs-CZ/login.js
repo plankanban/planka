@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Zrušit a zavřít',
       continue: 'Pokračovat',
+      debugSso: 'Ladit SSO',
       goBack: 'Zpět',
       goHome: 'Domů',
       logIn: 'Přihlásit se',

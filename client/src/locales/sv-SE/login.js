@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Avbryt och stäng',
       continue: 'Fortsätt',
+      debugSso: 'Felsök SSO',
       goBack: 'Gå tillbaka',
       goHome: 'Gå hem',
       logIn: 'Logga in',

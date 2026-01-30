@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Zrušiť a zavrieť',
       continue: 'Pokračovať',
+      debugSso: 'Ladiť SSO',
       goBack: 'Ísť späť',
       goHome: 'Ísť domov',
       logIn: 'Prihlásiť sa',

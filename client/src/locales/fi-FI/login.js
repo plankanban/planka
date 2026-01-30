@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Peruuta ja sulje',
       continue: 'Jatka',
+      debugSso: 'Korjaa SSO-virheitä',
       goBack: 'Takaisin',
       goHome: 'Kotiin',
       logIn: 'Kirjaudu sisään',
