@@ -7,9 +7,10 @@ const fs = require('fs');
 const fse = require('fs-extra');
 const path = require('path');
 const { pipeline } = require('stream/promises');
+const mime = require('mime-types');
 const { rimraf } = require('rimraf');
 
-const PATH_SEGMENT_TO_URL_REPLACE_REGEX = /(public|private)\//;
+// const PATH_SEGMENT_TO_URL_REPLACE_REGEX = /(public|private)\//;
 
 const buildPath = (pathSegment) => path.join(sails.config.custom.uploadsBasePath, pathSegment);
 
@@ -37,27 +38,46 @@ class LocalFileManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async read(filePathSegment) {
+  async read(filePathSegment, { withHeaders = false } = {}) {
     const filePath = buildPath(filePathSegment);
-    const isFileExists = await fse.pathExists(filePath);
 
-    if (!isFileExists) {
+    let stat;
+    try {
+      stat = await fs.promises.stat(filePath);
+    } catch (error) {
       throw new Error('File does not exist');
     }
 
-    return fs.createReadStream(filePath);
+    const readStream = fs.createReadStream(filePath);
+
+    if (withHeaders) {
+      const weakEtag = `W/"${stat.size.toString(16)}-${stat.mtime.getTime().toString(16)}"`;
+
+      return [
+        readStream,
+        {
+          'Content-Type': mime.lookup(filePathSegment) || 'application/octet-stream',
+          'Content-Length': stat.size,
+          'Last-Modified': stat.mtime.toUTCString(),
+          ETag: weakEtag,
+          'Accept-Ranges': 'bytes',
+        },
+      ];
+    }
+
+    return readStream;
   }
 
   // eslint-disable-next-line class-methods-use-this
   async getSize(filePathSegment) {
-    let result;
+    let stat;
     try {
-      result = await fs.promises.stat(buildPath(filePathSegment));
+      stat = await fs.promises.stat(buildPath(filePathSegment));
     } catch (error) {
       return null;
     }
 
-    return result.size;
+    return stat.size;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -111,10 +131,10 @@ class LocalFileManager {
     return fse.pathExists(buildPath(pathSegment));
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  /* // eslint-disable-next-line class-methods-use-this
   buildUrl(filePathSegment) {
     return `${sails.config.custom.baseUrl}/${filePathSegment.replace(PATH_SEGMENT_TO_URL_REPLACE_REGEX, '')}`;
-  }
+  } */
 }
 
 module.exports = LocalFileManager;

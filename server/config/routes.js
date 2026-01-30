@@ -9,7 +9,6 @@
  */
 
 const path = require('path');
-const serveStatic = require('serve-static');
 const sails = require('sails');
 
 // Remove prefix from urlPath, assuming completely matches a subpath of
@@ -20,9 +19,10 @@ const sails = require('sails');
 // '/foo', '/foo'         -> '/'
 // '/foo', '/foo?baz=bux' -> '/?baz=bux'
 // '/foo', '/foobar'      -> '/foobar'
-function removeRoutePrefix(prefix, urlPath) {
+const removeRoutePrefix = (prefix, urlPath) => {
   if (urlPath.startsWith(prefix)) {
     const subpath = urlPath.substring(prefix.length);
+
     if (subpath.startsWith('/')) {
       // Prefix matched a complete set of path segments, with a valid path
       // remaining.
@@ -40,30 +40,67 @@ function removeRoutePrefix(prefix, urlPath) {
   // (e.g. we don't want to treat '/foo' as a prefix of '/foobar'). Leave the
   // path as-is.
   return urlPath;
-}
+};
 
-function staticDirServer(prefix, dirFn) {
-  return function handleReq(req, res, next) {
-    // Custom config properties are not available when the routes config is
-    // loaded, so resolve the target value just before serving the request.
-    const dir = dirFn();
-    const staticServer = serveStatic(dir, {
-      index: false,
-      maxAge: sails.config.http.cache,
-      immutable: true,
+const serveStatic = async (prefix, getPathSegment, req, res) => {
+  // Custom config properties are not available when the routes config is
+  // loaded, so resolve the target value just before serving the request.
+  const pathSegment = getPathSegment();
+  // Remove the leading route prefix, since it's already included in path
+  // segment.
+  const normalizedUrlPath = removeRoutePrefix(prefix, req.url);
+
+  const fileManager = sails.hooks['file-manager'].getInstance();
+  const filePathSegment = path.join(pathSegment, normalizedUrlPath);
+
+  let readStream;
+  let headers;
+
+  try {
+    [readStream, headers] = await fileManager.read(filePathSegment, {
+      withHeaders: true,
     });
+  } catch (err) {
+    return res.sendStatus(404);
+  }
 
-    const reqPath = req.url;
-    if (reqPath.startsWith(prefix)) {
-      // serve-static treats the request url as a sub-path of
-      // static root; remove the leading route prefix so the static root
-      // doesn't have to include the prefix as a subdirectory.
-      req.url = removeRoutePrefix(prefix, req.url);
-      return staticServer(req, res, next);
+  res.set({
+    ...headers,
+    'Cache-Control': `private, max-age=${sails.config.http.cache}, immutable`,
+  });
+
+  readStream.on('error', () => {
+    if (res.headersSent) {
+      res.destroy();
+    } else {
+      res.sendStatus(404);
     }
+  });
+
+  return readStream.pipe(res);
+};
+
+const publicStaticDirServer = (prefix, getPathSegment) => (req, res, next) => {
+  if (!req.url.startsWith(prefix)) {
     return next();
-  };
-}
+  }
+
+  return serveStatic(prefix, getPathSegment, req, res);
+};
+
+const protectedStaticDirServer = (prefix, getPathSegment) => (req, res, next) => {
+  if (!req.url.startsWith(prefix)) {
+    return next();
+  }
+
+  try {
+    sails.helpers.utils.verifyJwtToken(req.cookies.accessToken);
+  } catch (error) {
+    return res.sendStatus(401);
+  }
+
+  return serveStatic(prefix, getPathSegment, req, res);
+};
 
 module.exports.routes = {
   'GET /api/bootstrap': 'bootstrap/show',
@@ -199,41 +236,27 @@ module.exports.routes = {
   'PATCH /api/_internal/config': '_internal/update-config',
 
   'GET /preloaded-favicons/*': {
-    fn: staticDirServer('/preloaded-favicons', () =>
-      path.join(
-        path.resolve(sails.config.custom.uploadsBasePath),
-        sails.config.custom.preloadedFaviconsPathSegment,
-      ),
+    fn: publicStaticDirServer(
+      '/preloaded-favicons',
+      () => sails.config.custom.preloadedFaviconsPathSegment,
     ),
     skipAssets: false,
   },
 
   'GET /favicons/*': {
-    fn: staticDirServer('/favicons', () =>
-      path.join(
-        path.resolve(sails.config.custom.uploadsBasePath),
-        sails.config.custom.faviconsPathSegment,
-      ),
-    ),
+    fn: protectedStaticDirServer('/favicons', () => sails.config.custom.faviconsPathSegment),
     skipAssets: false,
   },
 
   'GET /user-avatars/*': {
-    fn: staticDirServer('/user-avatars', () =>
-      path.join(
-        path.resolve(sails.config.custom.uploadsBasePath),
-        sails.config.custom.userAvatarsPathSegment,
-      ),
-    ),
+    fn: protectedStaticDirServer('/user-avatars', () => sails.config.custom.userAvatarsPathSegment),
     skipAssets: false,
   },
 
   'GET /background-images/*': {
-    fn: staticDirServer('/background-images', () =>
-      path.join(
-        path.resolve(sails.config.custom.uploadsBasePath),
-        sails.config.custom.backgroundImagesPathSegment,
-      ),
+    fn: protectedStaticDirServer(
+      '/background-images',
+      () => sails.config.custom.backgroundImagesPathSegment,
     ),
     skipAssets: false,
   },
