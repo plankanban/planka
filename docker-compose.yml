@@ -51,8 +51,8 @@ services:
       - DEFAULT_ADMIN_PASSWORD=demo
       # Optionally store in secrets - then DEFAULT_ADMIN_PASSWORD should not be set
       # - DEFAULT_ADMIN_PASSWORD__FILE=/run/secrets/default_admin_password
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_ADMIN_NAME=Demo Demo
+      - DEFAULT_ADMIN_USERNAME=demo
 
       # - INTERNAL_ACCESS_TOKEN=
       # - STORAGE_LIMIT=

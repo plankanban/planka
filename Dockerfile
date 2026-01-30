@@ -14,7 +14,7 @@ RUN npm install npm --global \
   && npm prune --production
 
 # Stage 2: Client build
-FROM node:20 AS client
+FROM node:22 AS client
 
 WORKDIR /app
 
