@@ -1,6 +1,9 @@
 services:
   planka:
-    image: ghcr.io/plankanban/planka:2.0.0-rc.4
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: planka-prod
     restart: on-failure
     volumes:
       - favicons:/app/public/favicons
