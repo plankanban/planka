@@ -15,7 +15,6 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useForm, useNestedRef } from '../../../hooks';
 import { focusEnd } from '../../../utils/element-helpers';
-import { isModifierKeyPressed } from '../../../utils/event-helpers';
 
 import styles from './AddTask.module.scss';
 
@@ -39,47 +38,44 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
   const [submitButtonRef, handleSubmitButtonRef] = useNestedRef();
   const [toggleLinkingButtonRef, handleToggleLinkingButtonRef] = useNestedRef();
 
-  const submit = useCallback(
-    (isMultiple = false) => {
-      const cleanData = {
-        ...data,
-        name: data.name.trim(),
-      };
+  const submit = useCallback(() => {
+    const cleanData = {
+      ...data,
+      name: data.name.trim(),
+    };
 
-      if (isLinkingToCard) {
-        if (!cleanData.linkedCardId) {
-          fieldRef.current.querySelector('.search').focus();
-          return;
-        }
-
-        delete cleanData.name;
-      } else {
-        if (!cleanData.name) {
-          fieldRef.current.select();
-          return;
-        }
-
-        delete cleanData.linkedCardId;
+    if (isLinkingToCard) {
+      if (!cleanData.linkedCardId) {
+        fieldRef.current.querySelector('.search').focus();
+        return;
       }
 
-      if (!isLinkingToCard && isMultiple) {
-        cleanData.name.split(MULTIPLE_REGEX).forEach((name) => {
-          dispatch(
-            entryActions.createTask(taskListId, {
-              ...cleanData,
-              name,
-            }),
-          );
-        });
-      } else {
-        dispatch(entryActions.createTask(taskListId, cleanData));
+      delete cleanData.name;
+    } else {
+      if (!cleanData.name) {
+        fieldRef.current.select();
+        return;
       }
 
-      setData(DEFAULT_DATA);
-      focusField();
-    },
-    [taskListId, dispatch, data, setData, isLinkingToCard, focusField, fieldRef],
-  );
+      delete cleanData.linkedCardId;
+    }
+
+    if (!isLinkingToCard) {
+      cleanData.name.split(MULTIPLE_REGEX).forEach((name) => {
+        dispatch(
+          entryActions.createTask(taskListId, {
+            ...cleanData,
+            name,
+          }),
+        );
+      });
+    } else {
+      dispatch(entryActions.createTask(taskListId, cleanData));
+    }
+
+    setData(DEFAULT_DATA);
+    focusField();
+  }, [taskListId, dispatch, data, setData, isLinkingToCard, focusField, fieldRef]);
 
   const handleSubmit = useCallback(() => {
     submit();
@@ -90,7 +86,7 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
       if (event.key === 'Enter') {
         if (!isLinkingToCard) {
           event.preventDefault();
-          submit(isModifierKeyPressed(event));
+          submit();
         }
       } else if (event.key === 'Escape') {
         onClose();
