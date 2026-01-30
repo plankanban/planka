@@ -122,9 +122,9 @@
  *           example: false
  *         enableFavoritesByDefault:
  *           type: boolean
- *           default: false
+ *           default: true
  *           description: Whether favorites are enabled by default (personal field)
- *           example: false
+ *           example: true
  *         defaultEditorMode:
  *           type: string
  *           enum: [wysiwyg, markup]
@@ -356,7 +356,7 @@ module.exports = {
     },
     enableFavoritesByDefault: {
       type: 'boolean',
-      defaultsTo: false,
+      defaultsTo: true,
       columnName: 'enable_favorites_by_default',
     },
     defaultEditorMode: {

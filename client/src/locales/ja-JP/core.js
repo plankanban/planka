@@ -85,6 +85,8 @@ export default {
         'このマネージャーをプロジェクトから外してもよろしいですか？',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'このメンバーをボードから外してもよろしいですか？',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'このユーザーからSSOのリンクを解除してもよろしいですか？これにより、ユーザーはパスワードでログインできるようになります。',
       assignAsOwner_title: 'オーナーとして割り当て',
       atLeastOneListMustBePresent: '少なくとも1つのリストが必要です',
       attachment: '添付ファイル',
@@ -324,6 +326,7 @@ export default {
       turnOffRecentCardHighlighting: '最近のカードのハイライトをオフにする',
       typeNameToConfirm: '確認のため名前を入力してください。',
       typeTitleToConfirm: '確認のためタイトルを入力してください。',
+      unlinkSso_title: 'SSOのリンク解除',
       unsavedChanges: '未保存の変更',
       uploadFailedFileIsTooBig: 'アップロード失敗 - ファイルが大きすぎます。',
       uploadFailedNotEnoughStorageSpace: 'アップロード失敗 - ストレージ容量が不足しています。',
@@ -492,6 +495,8 @@ export default {
       start: 'スタート',
       stop: 'ストップ',
       subscribe: '購読',
+      unlinkSso: 'SSOのリンクを解除',
+      unlinkSso_title: 'SSOのリンクを解除',
       unsubscribe: '購読解除',
       uploadNewAvatar: '新しいアバターをアップロード',
       uploadNewImage: '新しい画像をアップロード',

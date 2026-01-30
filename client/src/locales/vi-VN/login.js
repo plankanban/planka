@@ -25,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Hủy và đóng',
       continue: 'Tiếp tục',
+      debugSso: 'Gỡ lỗi SSO',
       goBack: 'Quay lại',
       goHome: 'Về trang chủ',
       logIn: 'Đăng nhập',

@@ -136,7 +136,7 @@ const upgradeDatabase = async () => {
             },
             subscribe_to_card_when_commenting: true,
             turn_off_recent_card_highlighting: false,
-            enable_favorites_by_default: false,
+            enable_favorites_by_default: true,
             default_editor_mode: User.EditorModes.WYSIWYG,
             default_home_view: User.HomeViews.GROUPED_PROJECTS,
             default_projects_order: User.ProjectOrders.BY_DEFAULT,

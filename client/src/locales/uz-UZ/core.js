@@ -83,6 +83,8 @@ export default {
       areYouSureYouWantToRemoveThisManagerFromProject:
         "Ushbu boshqaruvchini loyihadan o'chirmoqchimisiz?",
       areYouSureYouWantToRemoveThisMemberFromBoard: "Ushbu a'zoni doskadan o'chirmoqchimisiz?",
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        "Haqiqatan ham bu foydalanuvchidan SSO bog'lanishini uzishni xohlaysizmi? Bu foydalanuvchiga parol bilan kirishga imkon beradi.",
       assignAsOwner_title: 'Egasi sifatida tayinlash',
       atLeastOneListMustBePresent: "Kamida bitta ro'yxat bo'lishi kerak",
       attachment: 'Ilova',
@@ -323,6 +325,7 @@ export default {
       turnOffRecentCardHighlighting: "So'nggi kartalarni ajratib ko'rsatishni o'chirish",
       typeNameToConfirm: 'Tasdiqlash uchun nomni kiriting.',
       typeTitleToConfirm: 'Tasdiqlash uchun sarlavhani kiriting.',
+      unlinkSso_title: "SSO bog'lanishini uzish",
       unsavedChanges: "Saqlanmagan o'zgarishlar",
       uploadFailedFileIsTooBig: 'Yuklash muvaffaqiyatsiz: fayl juda katta.',
       uploadFailedNotEnoughStorageSpace: 'Yuklash muvaffaqiyatsiz: saqlash joyi yetarli emas.',
@@ -491,6 +494,8 @@ export default {
       start: 'Boshlash',
       stop: "To'xtatish",
       subscribe: "Obuna bo'lish",
+      unlinkSso: "SSO bog'lanishini uzish",
+      unlinkSso_title: "SSO bog'lanishini uzish",
       unsubscribe: 'Obunani bekor qilish',
       uploadNewAvatar: 'Yangi avatar yuklash',
       uploadNewImage: 'Yangi rasm yuklash',

@@ -8,7 +8,8 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { Button, Divider, Form, Grid, Header, Message } from 'semantic-ui-react';
+import TextareaAutosize from 'react-textarea-autosize';
+import { Button, Divider, Form, Grid, Header, Message, TextArea } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious, useToggle } from '../../../lib/hooks';
 import { Input } from '../../../lib/custom-ui';
 
@@ -23,7 +24,7 @@ import logo from '../../../assets/images/logo.png';
 
 import styles from './Content.module.scss';
 
-const createMessage = (error) => {
+const createMessage = (error, isDebug) => {
   if (!error) {
     return error;
   }
@@ -82,7 +83,7 @@ const createMessage = (error) => {
     default:
       return {
         type: 'warning',
-        content: 'common.unknownError',
+        content: isDebug ? error.message : 'common.unknownError',
       };
   }
 };
@@ -95,6 +96,7 @@ const Content = React.memo(() => {
     isSubmitting,
     isSubmittingWithOidc,
     error,
+    debugLogs,
     step,
   } = useSelector(selectors.selectAuthenticateForm);
 
@@ -102,13 +104,33 @@ const Content = React.memo(() => {
   const [t] = useTranslation();
   const wasSubmitting = usePrevious(isSubmitting);
 
-  const [data, handleFieldChange, setData] = useForm(() => ({
-    emailOrUsername: '',
-    password: '',
-    ...defaultData,
-  }));
+  const [data, handleFieldChange, setData] = useForm(() => {
+    const initialData = {
+      emailOrUsername: '',
+      password: '',
+      ...defaultData,
+    };
 
-  const message = useMemo(() => createMessage(error), [error]);
+    if (bootstrap.isDemoMode) {
+      const params = new URLSearchParams(window.location.hash.slice(1));
+
+      Object.keys(initialData).forEach((fieldName) => {
+        const value = params.get(fieldName);
+
+        if (value !== null) {
+          initialData[fieldName] = value;
+        }
+      });
+    }
+
+    return initialData;
+  });
+
+  const withOidc = !!bootstrap.oidc;
+  const isOidcEnforced = withOidc && bootstrap.oidc.isEnforced;
+  const isOidcDebug = withOidc && bootstrap.oidc.debug;
+
+  const message = useMemo(() => createMessage(error, isOidcDebug), [error, isOidcDebug]);
   const [focusPasswordFieldState, focusPasswordField] = useToggle();
 
   const [emailOrUsernameFieldRef, handleEmailOrUsernameFieldRef] = useNestedRef('inputRef');
@@ -141,14 +163,11 @@ const Content = React.memo(() => {
     dispatch(entryActions.clearAuthenticateError());
   }, [dispatch]);
 
-  const withOidc = !!bootstrap.oidc;
-  const isOidcEnforced = withOidc && bootstrap.oidc.isEnforced;
-
   useEffect(() => {
     if (!isOidcEnforced) {
       emailOrUsernameFieldRef.current.focus();
     }
-  }, [emailOrUsernameFieldRef, isOidcEnforced]);
+  }, [isOidcEnforced, emailOrUsernameFieldRef]);
 
   useDidUpdate(() => {
     if (wasSubmitting && !isSubmitting && error) {
@@ -253,16 +272,27 @@ const Content = React.memo(() => {
                 </>
               )}
               {withOidc && (
-                <Button
-                  fluid
-                  primary={isOidcEnforced}
-                  icon={isOidcEnforced ? 'right arrow' : undefined}
-                  labelPosition={isOidcEnforced ? 'right' : undefined}
-                  content={t('action.logInWithSso')}
-                  loading={isSubmittingWithOidc}
-                  disabled={isSubmitting || isSubmittingWithOidc}
-                  onClick={handleAuthenticateWithOidcClick}
-                />
+                <>
+                  <Button
+                    fluid
+                    primary={isOidcDebug ? undefined : isOidcEnforced}
+                    color={isOidcDebug ? 'orange' : undefined}
+                    icon={isOidcEnforced ? 'right arrow' : undefined}
+                    labelPosition={isOidcEnforced ? 'right' : undefined}
+                    content={isOidcDebug ? t('action.debugSso') : t('action.logInWithSso')}
+                    loading={isSubmittingWithOidc}
+                    disabled={isSubmitting || isSubmittingWithOidc}
+                    onClick={handleAuthenticateWithOidcClick}
+                  />
+                  {debugLogs && (
+                    <TextArea
+                      readOnly
+                      as={TextareaAutosize}
+                      value={debugLogs.join('\n')}
+                      className={styles.debugLog}
+                    />
+                  )}
+                </>
               )}
             </div>
             <div className={styles.poweredBy}>

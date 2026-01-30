@@ -70,6 +70,10 @@ module.exports = {
           }
         }
 
+        if (sails.config.custom.oidcEnforced) {
+          lockedFieldNames.push('isSsoUser');
+        }
+
         Object.assign(data, {
           isDefaultAdmin,
           lockedFieldNames,

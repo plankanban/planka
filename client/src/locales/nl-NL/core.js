@@ -88,6 +88,8 @@ export default {
         'Weet u zeker dat u deze manager uit het project wilt verwijderen?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Weet u zeker dat u dit lid uit het bord wilt verwijderen?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Weet je zeker dat je SSO wilt ontkoppelen van deze gebruiker? Dit stelt de gebruiker in staat om in te loggen met een wachtwoord.',
       assignAsOwner_title: 'Toewijzen als eigenaar',
       atLeastOneListMustBePresent: 'Er moet ten minste één lijst aanwezig zijn',
       attachment: 'Bijlage',
@@ -329,6 +331,7 @@ export default {
       turnOffRecentCardHighlighting: 'Recente kaartmarkering uitschakelen',
       typeNameToConfirm: 'Typ naam om te bevestigen.',
       typeTitleToConfirm: 'Typ titel om te bevestigen.',
+      unlinkSso_title: 'SSO ontkoppelen',
       unsavedChanges: 'Niet-opgeslagen wijzigingen',
       uploadFailedFileIsTooBig: 'Upload mislukt: bestand is te groot.',
       uploadFailedNotEnoughStorageSpace: 'Upload mislukt: niet genoeg opslagruimte.',
@@ -498,6 +501,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Abonneren',
+      unlinkSso: 'SSO ontkoppelen',
+      unlinkSso_title: 'SSO ontkoppelen',
       unsubscribe: 'Afmelden',
       uploadNewAvatar: 'Nieuwe avatar uploaden',
       uploadNewImage: 'Nieuwe afbeelding uploaden',

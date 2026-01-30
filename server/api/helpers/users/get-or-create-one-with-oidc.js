@@ -106,6 +106,7 @@ module.exports = {
             if (configRoles.includes('*')) {
               return true;
             }
+
             return configRoles.some((configRole) => claimsRolesSet.has(configRole));
           },
         );

@@ -48,6 +48,7 @@ module.exports.policies = {
   'terms/show': true,
   'access-tokens/create': true,
   'access-tokens/exchange-with-oidc': true,
+  'access-tokens/debug-oidc': true,
   'access-tokens/accept-terms': true,
   'access-tokens/revoke-pending-token': true,
 };

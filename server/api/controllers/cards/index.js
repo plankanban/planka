@@ -20,13 +20,21 @@
  *         schema:
  *           type: string
  *           example: "1357158568008091264"
- *       - name: before
+ *       - name: before[listChangedAt]
  *         in: query
  *         required: false
- *         description: Pagination cursor (JSON object with listChangedAt and id)
+ *         description: Pagination cursor field `listChangedAt` (use together with `before[id]`)
  *         schema:
  *           type: string
- *           example: '{"listChangedAt": "2024-01-01T00:00:00.000Z", "id": "1357158568008091269"}'
+ *           format: date-time
+ *           example: 2024-01-01T00:00:00.000Z
+ *       - name: before[id]
+ *         in: query
+ *         required: false
+ *         description: Pagination cursor field `id` (use together with `before[listChangedAt]`)
+ *         schema:
+ *           type: string
+ *           example: "1357158568008091265"
  *       - name: search
  *         in: query
  *         required: false
@@ -41,14 +49,14 @@
  *         description: Comma-separated user IDs to filter by members or task assignees
  *         schema:
  *           type: string
- *           example: 1357158568008091265,1357158568008091266
+ *           example: 1357158568008091266,1357158568008091267
  *       - name: labelIds
  *         in: query
  *         required: false
  *         description: Comma-separated label IDs to filter by labels
  *         schema:
  *           type: string
- *           example: 1357158568008091267,1357158568008091268
+ *           example: 1357158568008091268,1357158568008091269
  *     responses:
  *       200:
  *         description: Cards retrieved successfully

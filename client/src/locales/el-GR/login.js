@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Ακύρωση και κλείσιμο',
       continue: 'Συνέχεια',
+      debugSso: 'Αποσφαλμάτωση SSO',
       goBack: 'Επιστροφή',
       goHome: 'Αρχική σελίδα',
       logIn: 'Σύνδεση',

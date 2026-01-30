@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Annuller og luk',
       continue: 'Fortsæt',
+      debugSso: 'Fejlfind SSO',
       goBack: 'Gå tilbage',
       goHome: 'Gå hjem',
       logIn: 'Log på',

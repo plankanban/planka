@@ -89,6 +89,8 @@ export default {
         'Oled kindel, et soovid seda haldurit projektist eemaldada?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Oled kindel, et soovid seda liiget tahvlilt eemaldada?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Kas olete kindel, et soovite selle kasutaja SSO sidet eemaldada? See võimaldab kasutajal sisse logida parooliga.',
       assignAsOwner_title: 'Määra omanikuks',
       atLeastOneListMustBePresent: 'Vähemalt üks nimekiri peab olemas olema',
       attachment: 'Manus',
@@ -327,6 +329,7 @@ export default {
       turnOffRecentCardHighlighting: 'Lülita välja hiljuti kuvatud kaardi üleminek',
       typeNameToConfirm: 'Sisestage nimi, et kinnitada.',
       typeTitleToConfirm: 'Sisestage pealkiri, et kinnitada.',
+      unlinkSso_title: 'SSO sidemete eemaldamine',
       unsavedChanges: 'Muudetud andmed',
       uploadFailedFileIsTooBig: 'Üleslaadimine ebaõnnestus: fail on liiga suur.',
       uploadFailedNotEnoughStorageSpace:
@@ -494,6 +497,8 @@ export default {
       start: 'Alusta',
       stop: 'Peata',
       subscribe: 'Telli',
+      unlinkSso: 'Eemalda SSO side',
+      unlinkSso_title: 'Eemalda SSO side',
       unsubscribe: 'Tühista tellimus',
       uploadNewAvatar: 'Laadi üles uus avatar',
       uploadNewImage: 'Laadi üles uus pilt',

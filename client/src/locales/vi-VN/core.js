@@ -89,6 +89,8 @@ export default {
         'Bạn có chắc chắn muốn xóa quản lý này khỏi dự án không?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Bạn có chắc chắn muốn xóa thành viên này khỏi bảng không?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Bạn có chắc chắn muốn hủy liên kết SSO khỏi người dùng này không? Điều này sẽ cho phép người dùng đăng nhập bằng mật khẩu.',
       assignAsOwner_title: 'Chỉ định làm chủ sở hữu',
       atLeastOneListMustBePresent: 'Phải có ít nhất một danh sách',
       attachment: 'Tệp đính kèm',
@@ -327,6 +329,7 @@ export default {
       turnOffRecentCardHighlighting: 'Tắt làm nổi bật thẻ gần đây',
       typeNameToConfirm: 'Nhập tên để xác nhận.',
       typeTitleToConfirm: 'Nhập tiêu đề để xác nhận.',
+      unlinkSso_title: 'Hủy liên kết SSO',
       unsavedChanges: 'Thay đổi chưa được lưu',
       uploadFailedFileIsTooBig: 'Tải lên thất bại: Tệp quá lớn.',
       uploadFailedNotEnoughStorageSpace: 'Tải lên thất bại: Không đủ không gian lưu trữ.',
@@ -493,6 +496,8 @@ export default {
       start: 'Bắt đầu',
       stop: 'Dừng',
       subscribe: 'Đăng ký theo dõi',
+      unlinkSso: 'Hủy liên kết SSO',
+      unlinkSso_title: 'Hủy liên kết SSO',
       unsubscribe: 'Hủy đăng ký theo dõi',
       uploadNewAvatar: 'Tải lên ảnh đại diện mới',
       uploadNewImage: 'Tải lên ảnh mới',

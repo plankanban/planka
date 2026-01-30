@@ -26,6 +26,7 @@ export default {
     action: {
       cancelAndClose: 'Batal dan tutup',
       continue: 'Lanjutkan',
+      debugSso: 'Debug SSO',
       goBack: 'Kembali',
       goHome: 'Ke beranda',
       logIn: 'Masuk',
