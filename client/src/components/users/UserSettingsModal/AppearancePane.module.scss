@@ -1,0 +1,77 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .wrapper {
+    border: none;
+    box-shadow: none;
+  }
+
+  .fieldRow {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+
+    &:last-of-type {
+      margin-bottom: 16px;
+    }
+  }
+
+  .fieldLabel {
+    flex: 0 0 140px;
+    font-size: 14px;
+  }
+
+  .colorInput {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    height: 32px;
+    padding: 0;
+    width: 48px;
+  }
+
+  .textInput {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    flex: 1;
+    font-size: 14px;
+    min-width: 0;
+    padding: 6px 8px;
+  }
+
+  .previewSection {
+    margin-bottom: 16px;
+  }
+
+  .previewLabel {
+    font-size: 12px;
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+
+  .previewCard {
+    border-radius: 3px;
+    overflow: hidden;
+    padding: 12px;
+    max-width: 200px;
+
+    &.hover {
+      padding: 14px 12px;
+    }
+  }
+
+  .previewCardTitle {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+}

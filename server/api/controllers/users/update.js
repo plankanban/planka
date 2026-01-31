@@ -212,6 +212,9 @@ module.exports = {
     isDeactivated: {
       type: 'boolean',
     },
+    themeSettings: {
+      type: 'json',
+    },
   },
 
   exits: {
@@ -283,6 +286,7 @@ module.exports = {
         'defaultEditorMode',
         'defaultHomeView',
         'defaultProjectsOrder',
+        'themeSettings',
         'isSsoUser',
         'isDeactivated',
       ]),

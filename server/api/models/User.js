@@ -254,6 +254,7 @@ const PERSONAL_FIELD_NAMES = [
   'defaultEditorMode',
   'defaultHomeView',
   'defaultProjectsOrder',
+  'themeSettings',
 ];
 
 const INTERNAL = {
@@ -376,6 +377,10 @@ module.exports = {
       isIn: Object.values(ProjectOrders),
       defaultsTo: ProjectOrders.BY_DEFAULT,
       columnName: 'default_projects_order',
+    },
+    themeSettings: {
+      type: 'json',
+      columnName: 'theme_settings',
     },
     termsSignature: {
       type: 'string',

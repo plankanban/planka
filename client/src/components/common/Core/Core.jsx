@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import { Loader } from 'semantic-ui-react';
 
+import Config from '../../../constants/Config';
 import selectors from '../../../selectors';
 import version from '../../../version';
 import ModalTypes from '../../../constants/ModalTypes';
@@ -28,6 +29,7 @@ const Core = React.memo(() => {
   const project = useSelector(selectors.selectCurrentProject);
   const board = useSelector(selectors.selectCurrentBoard);
   const currentUserId = useSelector(selectors.selectCurrentUserId);
+  const accessToken = useSelector(selectors.selectAccessToken);
 
   // TODO: move to selector?
   const isNewVersionAvailable = useSelector((state) => {
@@ -55,6 +57,38 @@ const Core = React.memo(() => {
 
     document.title = titleParts.length === 0 ? defaultTitleRef.current : titleParts.join(' | ');
   }, [project, board]);
+
+  // Load user theme CSS when authenticated (Bearer token required; cookies not used for API auth)
+  useEffect(() => {
+    if (!currentUserId || !accessToken) {
+      const el = document.getElementById('planka-theme-css');
+      if (el) el.remove();
+      return;
+    }
+    const url = Config.SERVER_BASE_URL
+      ? `${Config.SERVER_BASE_URL.replace(/\/$/, '')}/api/users/me/theme.css`
+      : '/api/users/me/theme.css';
+    let cancelled = false;
+    fetch(url, {
+      credentials: 'include',
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then((res) => (res.ok ? res.text() : null))
+      .then((css) => {
+        if (cancelled || !css) return;
+        let el = document.getElementById('planka-theme-css');
+        if (!el) {
+          el = document.createElement('style');
+          el.id = 'planka-theme-css';
+          document.head.appendChild(el);
+        }
+        el.textContent = css;
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [currentUserId, accessToken]);
 
   let modalNode = null;
   if (modal) {

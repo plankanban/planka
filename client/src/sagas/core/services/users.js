@@ -10,6 +10,8 @@ import request from '../request';
 import requests from '../requests';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
+import entryActions from '../../../entry-actions';
+import Config from '../../../constants/Config';
 import api from '../../../api';
 import { setAccessToken } from '../../../utils/access-token-storage';
 import mergeRecords from '../../../utils/merge-records';
@@ -349,6 +351,42 @@ export function* updateCurrentUserAvatar(data) {
   yield call(updateUserAvatar, currentUserId, data);
 }
 
+function refetchThemeCss(accessToken) {
+  const base = Config.SERVER_BASE_URL
+    ? `${Config.SERVER_BASE_URL.replace(/\/$/, '')}/api/users/me/theme.css`
+    : '/api/users/me/theme.css';
+  const url = `${base}?t=${Date.now()}`;
+  const headers = accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
+  return fetch(url, { credentials: 'include', cache: 'no-store', headers })
+    .then((res) => (res.ok ? res.text() : null))
+    .then((css) => {
+      if (!css) return;
+      const existing = document.getElementById('planka-theme-css');
+      if (existing) existing.remove();
+      const el = document.createElement('style');
+      el.id = 'planka-theme-css';
+      el.textContent = css;
+      document.head.appendChild(el);
+    });
+}
+
+export function* updateCurrentUserTheme(data) {
+  let themeSettings;
+  try {
+    ({ item: themeSettings } = yield call(request, api.updateTheme, data));
+  } catch {
+    // PUT may have failed; still refetch CSS so UI matches server
+  }
+  if (themeSettings !== undefined) {
+    const currentUser = yield select(selectors.selectCurrentUser);
+    if (currentUser) {
+      yield put(entryActions.handleUserUpdate({ ...currentUser, themeSettings }));
+    }
+  }
+  const accessToken = yield select(selectors.selectAccessToken);
+  yield call(refetchThemeCss, accessToken);
+}
+
 export function* createUserApiKey(id) {
   yield put(actions.createUserApiKey(id));
 
@@ -525,6 +563,7 @@ export default {
   clearCurrentUserUsernameUpdateError,
   updateUserAvatar,
   updateCurrentUserAvatar,
+  updateCurrentUserTheme,
   createUserApiKey,
   deleteUserApiKey,
   clearUserApiKeyValue,

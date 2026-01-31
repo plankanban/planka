@@ -11,6 +11,7 @@ import { Tab } from 'semantic-ui-react';
 import entryActions from '../../../entry-actions';
 import { useClosableModal } from '../../../hooks';
 import AccountPane from './AccountPane';
+import AppearancePane from './AppearancePane';
 import PreferencesPane from './PreferencesPane';
 import NotificationsPane from './NotificationsPane';
 
@@ -36,6 +37,12 @@ const UserSettingsModal = React.memo(() => {
         context: 'title',
       }),
       render: () => <PreferencesPane />,
+    },
+    {
+      menuItem: t('common.appearance', {
+        context: 'title',
+      }),
+      render: () => <AppearancePane />,
     },
     {
       menuItem: t('common.notifications', {

@@ -146,6 +146,13 @@ const updateCurrentUserAvatar = (data) => ({
   },
 });
 
+const updateCurrentUserTheme = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_THEME_UPDATE,
+  payload: {
+    data,
+  },
+});
+
 const createUserApiKey = (id) => ({
   type: EntryActionTypes.USER_API_KEY_CREATE,
   payload: {
@@ -272,6 +279,7 @@ export default {
   clearUserUsernameUpdateError,
   clearCurrentUserUsernameUpdateError,
   updateCurrentUserAvatar,
+  updateCurrentUserTheme,
   createUserApiKey,
   deleteUserApiKey,
   clearUserApiKeyValue,

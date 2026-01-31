@@ -38,6 +38,10 @@ const createUserApiKey = (userId, headers) =>
 
 const deleteUser = (id, headers) => socket.delete(`/users/${id}`, undefined, headers);
 
+const getTheme = (headers) => socket.get('/users/me/theme', undefined, headers);
+
+const updateTheme = (data, headers) => socket.put('/users/me/theme', data, headers);
+
 export default {
   getUsers,
   createUser,
@@ -50,4 +54,6 @@ export default {
   updateUserAvatar,
   createUserApiKey,
   deleteUser,
+  getTheme,
+  updateTheme,
 };

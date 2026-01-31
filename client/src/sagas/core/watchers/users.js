@@ -67,6 +67,9 @@ export default function* usersWatchers() {
     takeEvery(EntryActionTypes.CURRENT_USER_AVATAR_UPDATE, ({ payload: { data } }) =>
       services.updateCurrentUserAvatar(data),
     ),
+    takeEvery(EntryActionTypes.CURRENT_USER_THEME_UPDATE, ({ payload: { data } }) =>
+      services.updateCurrentUserTheme(data),
+    ),
     takeEvery(EntryActionTypes.USER_API_KEY_CREATE, ({ payload: { id } }) =>
       services.createUserApiKey(id),
     ),

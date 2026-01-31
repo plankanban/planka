@@ -81,6 +81,7 @@ export default class extends BaseModel {
     isSsoUser: attr(),
     isDeactivated: attr(),
     lockedFieldNames: attr(),
+    themeSettings: attr(),
     isAvatarUpdating: attr({
       getDefault: () => false,
     }),

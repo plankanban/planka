@@ -54,14 +54,16 @@
   }
 
   .wrapper {
-    background: #fff;
+    background: var(--planka-card-background, #fff);
+    border: 1px solid var(--planka-card-border, transparent);
     border-radius: 3px;
-    box-shadow: 0 1px 0 #ccc;
+    box-shadow: var(--planka-card-shadow, 0 1px 0 #ccc);
     overflow: hidden;
     position: relative;
 
     &:hover {
-      background: #f5f6f7;
+      background: var(--planka-card-hover-background, #f5f6f7);
+      box-shadow: var(--planka-card-hover-shadow, 0 1px 0 #ccc);
       border-bottom-color: rgba(9, 30, 66, 0.25);
 
       .actionsButton {
