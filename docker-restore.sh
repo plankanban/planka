@@ -19,18 +19,9 @@ echo -n "Importing postgres database ... "
 cat "$PLANKA_BACKUP_ARCHIVE/postgres.sql" | docker exec -i "$PLANKA_DOCKER_CONTAINER_POSTGRES" psql -U postgres
 echo "Success!"
 
-# Restore Docker Volumes
-echo -n "Importing favicons ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$PLANKA_BACKUP_ARCHIVE:/backup" ubuntu cp -rf /backup/favicons /app/public/
-echo "Success!"
-echo -n "Importing user-avatars ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$PLANKA_BACKUP_ARCHIVE:/backup" ubuntu cp -rf /backup/user-avatars /app/public/
-echo "Success!"
-echo -n "Importing background-images ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$PLANKA_BACKUP_ARCHIVE:/backup" ubuntu cp -rf /backup/background-images /app/public/
-echo "Success!"
-echo -n "Importing attachments ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$PLANKA_BACKUP_ARCHIVE:/backup" ubuntu cp -rf /backup/attachments /app/private/
+# Restore Docker Volume
+echo -n "Importing data volume ... "
+docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$PLANKA_BACKUP_ARCHIVE:/backup" ubuntu cp -rf /backup/data/. /app/public/data
 echo "Success!"
 
 echo -n "Cleaning up temporary files and folders ... "

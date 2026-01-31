@@ -20,17 +20,6 @@ test
 .tmp
 .venv
 
-views/*
+views/index.ejs
 
-public/*
-!public/preloaded-favicons
-!public/favicons
-public/favicons/*
-!public/user-avatars
-public/user-avatars/*
-!public/background-images
-public/background-images/*
-
-private/*
-!private/attachments
-private/attachments/*
+data/*

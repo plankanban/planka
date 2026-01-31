@@ -80,13 +80,13 @@ const serveStatic = async (prefix, getPathSegment, req, res) => {
   return readStream.pipe(res);
 };
 
-const publicStaticDirServer = (prefix, getPathSegment) => (req, res, next) => {
+/* const publicStaticDirServer = (prefix, getPathSegment) => (req, res, next) => {
   if (!req.url.startsWith(prefix)) {
     return next();
   }
 
   return serveStatic(prefix, getPathSegment, req, res);
-};
+}; */
 
 const protectedStaticDirServer = (prefix, getPathSegment) => (req, res, next) => {
   if (!req.url.startsWith(prefix)) {
@@ -234,14 +234,6 @@ module.exports.routes = {
   'DELETE /api/notification-services/:id': 'notification-services/delete',
 
   'PATCH /api/_internal/config': '_internal/update-config',
-
-  'GET /preloaded-favicons/*': {
-    fn: publicStaticDirServer(
-      '/preloaded-favicons',
-      () => sails.config.custom.preloadedFaviconsPathSegment,
-    ),
-    skipAssets: false,
-  },
 
   'GET /favicons/*': {
     fn: protectedStaticDirServer('/favicons', () => sails.config.custom.faviconsPathSegment),

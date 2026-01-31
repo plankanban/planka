@@ -24,7 +24,14 @@ const PrevActionTypes = {
   COMMENT_CARD: 'commentCard',
 };
 
-const PROJECT_BACKGROUND_IMAGES_PATH_SEGMENT = 'public/project-background-images';
+const PrevPathSegments = {
+  PROJECT_BACKGROUND_IMAGES: 'public/project-background-images',
+
+  FAVICONS: 'public/favicons',
+  USER_AVATARS: 'public/user-avatars',
+  BACKGROUND_IMAGES: 'public/background-images',
+  ATTACHMENTS: 'private/attachments',
+};
 
 const readStreamToBuffer = (readStream) =>
   new Promise((resolve, reject) => {
@@ -600,7 +607,7 @@ const upgradeDatabase = async () => {
 const upgradeUserAvatars = async () => {
   const fileManager = sails.hooks['file-manager'].getInstance();
 
-  const dirnames = await fileManager.listDir(sails.config.custom.userAvatarsPathSegment);
+  const dirnames = await fileManager.listDir(PrevPathSegments.USER_AVATARS);
   const users = await knex('user_account').whereNotNull('avatar');
 
   if (dirnames) {
@@ -608,21 +615,23 @@ const upgradeUserAvatars = async () => {
 
     for (const dirname of dirnames) {
       const user = userByDirname[dirname];
-      const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${dirname}`;
+      const dirPathSegment = `${PrevPathSegments.USER_AVATARS}/${dirname}`;
 
       if (user) {
         const size = await fileManager.getSize(
           `${dirPathSegment}/original.${user.avatar.extension}`,
         );
 
-        await knex('user_account')
-          .update({
-            avatar: knex.raw("?? || jsonb_build_object('sizeInBytes', ?::bigint)", [
-              'avatar',
-              size,
-            ]),
-          })
-          .where('id', user.id);
+        if (size) {
+          await knex('user_account')
+            .update({
+              avatar: knex.raw("?? || jsonb_build_object('sizeInBytes', ?::bigint)", [
+                'avatar',
+                size,
+              ]),
+            })
+            .where('id', user.id);
+        }
       } else {
         await fileManager.deleteDir(dirPathSegment);
       }
@@ -630,7 +639,7 @@ const upgradeUserAvatars = async () => {
   }
 
   for (const { avatar } of users) {
-    const dirPathSegment = `${sails.config.custom.userAvatarsPathSegment}/${avatar.dirname}`;
+    const dirPathSegment = `${PrevPathSegments.USER_AVATARS}/${avatar.dirname}`;
 
     const isExists = await fileManager.isExists(`${dirPathSegment}/cover-180.${avatar.extension}`);
 
@@ -675,11 +684,11 @@ const upgradeBackgroundImages = async () => {
   const fileManager = sails.hooks['file-manager'].getInstance();
 
   await fileManager.renameDir(
-    PROJECT_BACKGROUND_IMAGES_PATH_SEGMENT,
-    sails.config.custom.backgroundImagesPathSegment,
+    PrevPathSegments.PROJECT_BACKGROUND_IMAGES,
+    PrevPathSegments.BACKGROUND_IMAGES,
   );
 
-  const dirnames = await fileManager.listDir(sails.config.custom.backgroundImagesPathSegment);
+  const dirnames = await fileManager.listDir(PrevPathSegments.BACKGROUND_IMAGES);
   const backgroundImages = await knex('background_image');
 
   if (dirnames) {
@@ -687,18 +696,20 @@ const upgradeBackgroundImages = async () => {
 
     for (const dirname of dirnames) {
       const backgroundImage = backgroundImageByDirname[dirname];
-      const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${dirname}`;
+      const dirPathSegment = `${PrevPathSegments.BACKGROUND_IMAGES}/${dirname}`;
 
       if (backgroundImage) {
         const size = await fileManager.getSize(
           `${dirPathSegment}/original.${backgroundImage.extension}`,
         );
 
-        await knex('background_image')
-          .update({
-            size_in_bytes: size,
-          })
-          .where('id', backgroundImage.id);
+        if (size) {
+          await knex('background_image')
+            .update({
+              size_in_bytes: size,
+            })
+            .where('id', backgroundImage.id);
+        }
       } else {
         await fileManager.deleteDir(dirPathSegment);
       }
@@ -706,7 +717,7 @@ const upgradeBackgroundImages = async () => {
   }
 
   for (const backgroundImage of backgroundImages) {
-    const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${backgroundImage.dirname}`;
+    const dirPathSegment = `${PrevPathSegments.BACKGROUND_IMAGES}/${backgroundImage.dirname}`;
 
     const isExists = await fileManager.isExists(
       `${dirPathSegment}/outside-360.${backgroundImage.extension}`,
@@ -755,7 +766,7 @@ const upgradeBackgroundImages = async () => {
 const upgradeFileAttachments = async () => {
   const fileManager = sails.hooks['file-manager'].getInstance();
 
-  const dirnames = await fileManager.listDir(sails.config.custom.attachmentsPathSegment);
+  const dirnames = await fileManager.listDir(PrevPathSegments.ATTACHMENTS);
   const attachments = await knex('attachment').where('type', Attachment.Types.FILE);
 
   const fileReferenceIds = [];
@@ -764,7 +775,7 @@ const upgradeFileAttachments = async () => {
 
     for (const dirname of dirnames) {
       const attachment = attachmentByDirname[dirname];
-      const dirPathSegment = `${sails.config.custom.attachmentsPathSegment}/${dirname}`;
+      const dirPathSegment = `${PrevPathSegments.ATTACHMENTS}/${dirname}`;
 
       if (attachment) {
         if (uuid.validate(dirname)) {
@@ -800,7 +811,7 @@ const upgradeFileAttachments = async () => {
 
             await fileManager.renameDir(
               `${dirPathSegment}`,
-              `${sails.config.custom.attachmentsPathSegment}/${id}`,
+              `${PrevPathSegments.ATTACHMENTS}/${id}`,
             );
 
             return id;
@@ -833,7 +844,7 @@ const upgradeFileAttachments = async () => {
     .whereRaw("??->>'image' IS NOT NULL", 'data');
 
   for (const { data } of imageAttachments) {
-    const dirPathSegment = `${sails.config.custom.attachmentsPathSegment}/${data.fileReferenceId}`;
+    const dirPathSegment = `${PrevPathSegments.ATTACHMENTS}/${data.fileReferenceId}`;
     const thumbnailsPathSegment = `${dirPathSegment}/thumbnails`;
 
     const isExists = await fileManager.isExists(
@@ -895,6 +906,22 @@ const upgradeFileAttachments = async () => {
   }
 };
 
+const upgradeDataStructure = async () => {
+  const fileManager = sails.hooks['file-manager'].getInstance();
+
+  await fileManager.renameDir(PrevPathSegments.FAVICONS, sails.config.custom.faviconsPathSegment);
+
+  await fileManager.renameDir(
+    PrevPathSegments.USER_AVATARS,
+    sails.config.custom.userAvatarsPathSegment,
+  );
+
+  await fileManager.renameDir(
+    PrevPathSegments.BACKGROUND_IMAGES,
+    sails.config.custom.backgroundImagesPathSegment,
+  );
+};
+
 (async () => {
   try {
     let migrations;
@@ -908,6 +935,7 @@ const upgradeFileAttachments = async () => {
 
     const isV1 = migrationNames[0] === '20180721020022_create_next_id_function.js';
     const isLatestV1 = migrationNames.at(-1) === '20250131202710_add_list_color.js';
+    const isInitialV2 = migrationNames.at(-1) === '20250228000022_version_2.js';
 
     if (isV1 && !isLatestV1) {
       throw new Error('Update to latest v1 first');
@@ -919,9 +947,13 @@ const upgradeFileAttachments = async () => {
       await runStep('Upgrading database', upgradeDatabase);
     }
 
-    await runStep('Upgrading user avatars', upgradeUserAvatars);
-    await runStep('Upgrading background images', upgradeBackgroundImages);
-    await runStep('Upgrading file attachments', upgradeFileAttachments);
+    if (isV1 || isInitialV2) {
+      await runStep('Upgrading user avatars', upgradeUserAvatars);
+      await runStep('Upgrading background images', upgradeBackgroundImages);
+      await runStep('Upgrading file attachments', upgradeFileAttachments);
+    }
+
+    await runStep('Upgrading data structure', upgradeDataStructure);
   } catch (error) {
     console.error(error);
     process.exitCode = 1;

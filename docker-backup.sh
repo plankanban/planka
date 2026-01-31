@@ -22,28 +22,16 @@ echo -n "Exporting postgres database ... "
 docker exec -t "$PLANKA_DOCKER_CONTAINER_POSTGRES" pg_dumpall -c -U postgres > "$BACKUP_DATETIME-backup/postgres.sql"
 echo "Success!"
 
-# Export Docker Voumes
-echo -n "Exporting favicons ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/public/favicons /backup/favicons
-echo "Success!"
-echo -n "Exporting user-avatars ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/public/user-avatars /backup/user-avatars
-echo "Success!"
-echo -n "Exporting background-images ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/public/background-images /backup/background-images
-echo "Success!"
-echo -n "Exporting attachments ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/private/attachments /backup/attachments
+# Export Docker Volume
+echo -n "Exporting data volume ... "
+docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$BACKUP_DATETIME-backup:/backup" ubuntu cp -r /app/data /backup/data
 echo "Success!"
 
 # Create tgz
 echo -n "Creating final tarball $BACKUP_DATETIME-backup.tgz ... "
 tar -czf "$BACKUP_DATETIME-backup.tgz" \
     "$BACKUP_DATETIME-backup/postgres.sql" \
-    "$BACKUP_DATETIME-backup/favicons" \
-    "$BACKUP_DATETIME-backup/user-avatars" \
-    "$BACKUP_DATETIME-backup/background-images" \
-    "$BACKUP_DATETIME-backup/attachments"
+    "$BACKUP_DATETIME-backup/data"
 echo "Success!"
 
 # Remove source files

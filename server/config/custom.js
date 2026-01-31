@@ -8,6 +8,7 @@
  * https://sailsjs.com/config/custom
  */
 
+const path = require('path');
 const { URL } = require('url');
 const bytes = require('bytes');
 const sails = require('sails');
@@ -48,12 +49,11 @@ module.exports.custom = {
 
   // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
   uploadsTempPath: null,
-  uploadsBasePath: sails.config.appPath,
+  uploadsBasePath: path.join(sails.config.appPath, 'data'),
 
-  preloadedFaviconsPathSegment: 'public/preloaded-favicons',
-  faviconsPathSegment: 'public/favicons',
-  userAvatarsPathSegment: 'public/user-avatars',
-  backgroundImagesPathSegment: 'public/background-images',
+  faviconsPathSegment: 'protected/favicons',
+  userAvatarsPathSegment: 'protected/user-avatars',
+  backgroundImagesPathSegment: 'protected/background-images',
   attachmentsPathSegment: 'private/attachments',
 
   defaultAdminEmail:

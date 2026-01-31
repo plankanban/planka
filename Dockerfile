@@ -49,11 +49,7 @@ RUN python3 -m venv .venv \
   && mv .env.sample .env \
   && npm config set update-notifier false
 
-VOLUME /app/public/favicons
-VOLUME /app/public/user-avatars
-VOLUME /app/public/background-images
-VOLUME /app/private/attachments
-
+VOLUME /app/data
 EXPOSE 1337
 
 HEALTHCHECK --interval=10s --timeout=2s --start-period=15s \

@@ -54,17 +54,8 @@ spec:
               path: /
               port: http
           volumeMounts:
-            - mountPath: /app/public/favicons
-              subPath: favicons
-              name: planka
-            - mountPath: /app/public/user-avatars
-              subPath: user-avatars
-              name: planka
-            - mountPath: /app/public/background-images
-              subPath: background-images
-              name: planka
-            - mountPath: /app/private/attachments
-              subPath: attachments
+            - mountPath: /app/data
+              subPath: data
               name: planka
           {{- if .Values.securityContext.readOnlyRootFilesystem }}
             - mountPath: /app/logs

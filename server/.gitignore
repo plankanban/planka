@@ -134,22 +134,7 @@ swagger.json
 dist
 logs
 
-views/*
-!views/.gitkeep
+views/index.ejs
 
-public/*
-!public/preloaded-favicons
-!public/favicons
-public/favicons/*
-!public/favicons/.gitkeep
-!public/user-avatars
-public/user-avatars/*
-!public/user-avatars/.gitkeep
-!public/background-images
-public/background-images/*
-!public/background-images/.gitkeep
-
-private/*
-!private/attachments
-private/attachments/*
-!private/attachments/.gitkeep
+data/*
+!data/.gitkeep
