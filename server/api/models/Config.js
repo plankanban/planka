@@ -23,7 +23,7 @@
  *         id:
  *           type: string
  *           description: Unique identifier for the config (always set to '1')
- *           example: 1
+ *           example: "1"
  *         smtpHost:
  *           type: string
  *           nullable: true

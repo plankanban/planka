@@ -36,7 +36,7 @@
  *         size:
  *           type: string
  *           description: File size of the background image in bytes
- *           example: 1024576
+ *           example: "1024576"
  *         url:
  *           type: string
  *           format: uri

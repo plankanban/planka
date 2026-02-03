@@ -88,7 +88,7 @@
  *           type: string
  *           nullable: true
  *           description: Contact phone number
- *           example: +1234567890
+ *           example: "+1234567890"
  *         organization:
  *           type: string
  *           nullable: true
