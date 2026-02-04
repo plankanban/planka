@@ -9,7 +9,7 @@
 /* eslint-disable no-restricted-syntax */
 
 const { getEncoding } = require('istextorbinary');
-const mime = require('mime');
+const mime = require('mime-types');
 const uuid = require('uuid');
 const sharp = require('sharp');
 const initKnex = require('knex');
@@ -458,7 +458,7 @@ const upgradeDatabase = async () => {
             data: {
               fileReferenceId: attachment.dirname,
               filename: attachment.filename,
-              mimeType: mime.getType(attachment.filename),
+              mimeType: mime.lookup(attachment.filename) || null,
               sizeInBytes: 0,
               encoding: null,
               image: attachment.image,
@@ -675,7 +675,7 @@ const upgradeUserAvatars = async () => {
     await fileManager.save(
       `${dirPathSegment}/cover-180.${avatar.extension}`,
       cover180Buffer,
-      mime.getType(avatar.extension),
+      mime.lookup(avatar.extension) || null,
     );
   }
 };
@@ -758,7 +758,7 @@ const upgradeBackgroundImages = async () => {
     await fileManager.save(
       `${dirPathSegment}/outside-360.${backgroundImage.extension}`,
       outside360Buffer,
-      mime.getType(backgroundImage.extension),
+      mime.lookup(backgroundImage.extension) || null,
     );
   }
 };

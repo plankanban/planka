@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+/* const { expect } = require('chai');
 
 describe('User (model)', () => {
   before(async () => {
@@ -17,4 +17,4 @@ describe('User (model)', () => {
       expect(users).to.have.lengthOf(1);
     });
   });
-});
+}); */

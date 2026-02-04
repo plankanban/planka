@@ -7,7 +7,7 @@ process.env.NODE_ENV = 'test';
 before(function beforeCallback(done) {
   this.timeout(5000);
 
-  dotenv.config();
+  dotenv.config({ quiet: true });
 
   sails.lift(rc('sails'), (error) => {
     if (error) {
