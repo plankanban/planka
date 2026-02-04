@@ -6,7 +6,7 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Button, Icon, Menu } from 'semantic-ui-react';
 import { usePopup } from '../../../lib/popup';
 

@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import { ThemeProvider, ToasterProvider } from '@gravity-ui/uikit';
 // eslint-disable-next-line import/no-unresolved
 import { toaster } from '@gravity-ui/uikit/toaster-singleton';

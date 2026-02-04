@@ -43,13 +43,7 @@
       color: #444444;
       font-size: 14px;
       font-family: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif;
-      // font-weight: normal;
-      width: 100%;
       padding-bottom: 8px;
-    }
-
-    .react-datepicker__month-container {
-      width: 100%;
     }
 
     .react-datepicker__current-month,
@@ -72,11 +66,7 @@
     .react-datepicker__day,
     .react-datepicker__time-name {
       color: #444;
-      display: inline-block;
       width: 40px;
-      font-weight: normal;
-      line-height: 28px;
-      text-align: center;
       margin: 0;
       border-style: solid;
       border-width: 0 0 1px 1px;
@@ -87,7 +77,6 @@
     .react-datepicker__day--in-selecting-range,
     .react-datepicker__day--in-range {
       border-radius: 0;
-      background: #216ba5;
       color: #fff;
     }
 
@@ -102,12 +91,11 @@
     }
 
     .react-datepicker__day--outside-month {
-      color: transparent;
-      background: #f5f6f7;
+      color: rgba(68, 68, 68, 0.3);
     }
 
     .react-datepicker__month {
-      margin: 0.4rem 0 0;
+      margin: 8px 0 0;
     }
 
     .react-datepicker__navigation--previous,
@@ -117,16 +105,13 @@
 
     .react-datepicker__navigation--previous {
       left: 0;
-      border-right-color: #999;
     }
 
     .react-datepicker__navigation--next {
       right: 0;
-      border-left-color: #999;
     }
 
     .react-datepicker__navigation {
-      border-width: 7px 9px;
       top: 0;
     }
 
