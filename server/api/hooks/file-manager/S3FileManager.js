@@ -56,17 +56,29 @@ class S3FileManager {
     const result = await this.client.send(command);
 
     if (withHeaders) {
-      return [
-        result.Body,
-        {
-          'Content-Type':
-            result.ContentType || mime.lookup(filePathSegment) || 'application/octet-stream',
-          'Content-Length': result.ContentLength,
-          'Last-Modified': result.LastModified && result.LastModified.toUTCString(),
-          ETag: result.ETag,
-          'Accept-Ranges': result.AcceptRanges || 'bytes',
-        },
-      ];
+      const headers = {
+        'Content-Type':
+          result.ContentType || mime.lookup(filePathSegment) || 'application/octet-stream',
+        'Accept-Ranges': result.AcceptRanges || 'bytes',
+      };
+
+      if (!_.isUndefined(result.ContentLength)) {
+        headers['Content-Length'] = result.ContentLength;
+      }
+
+      if (!_.isUndefined(result.LastModified)) {
+        headers['Last-Modified'] = result.LastModified.toUTCString();
+      }
+
+      if (_.isUndefined(result.ETag)) {
+        if (!_.isUndefined(result.ContentLength) && !_.isUndefined(result.LastModified)) {
+          headers.ETag = `W/"${result.ContentLength.toString(16)}-${result.LastModified.getTime().toString(16)}"`;
+        }
+      } else {
+        headers.ETag = result.ETag;
+      }
+
+      return [result.Body, headers];
     }
 
     return result.Body;

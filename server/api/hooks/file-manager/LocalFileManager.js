@@ -51,15 +51,13 @@ class LocalFileManager {
     const readStream = fs.createReadStream(filePath);
 
     if (withHeaders) {
-      const weakEtag = `W/"${stat.size.toString(16)}-${stat.mtime.getTime().toString(16)}"`;
-
       return [
         readStream,
         {
           'Content-Type': mime.lookup(filePathSegment) || 'application/octet-stream',
           'Content-Length': stat.size,
           'Last-Modified': stat.mtime.toUTCString(),
-          ETag: weakEtag,
+          ETag: `W/"${stat.size.toString(16)}-${stat.mtime.getTime().toString(16)}"`,
           'Accept-Ranges': 'bytes',
         },
       ];
