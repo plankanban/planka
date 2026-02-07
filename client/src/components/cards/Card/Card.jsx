@@ -3,8 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import upperFirst from 'lodash/upperFirst';
-import camelCase from 'lodash/camelCase';
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -25,15 +23,12 @@ import EditName from './EditName';
 import CardActionsStep from '../CardActionsStep';
 
 import styles from './Card.module.scss';
-import globalStyles from '../../../styles.module.scss';
 
 const Card = React.memo(({ id, isInline }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
   const selectIsCardWithIdRecent = useMemo(() => selectors.makeSelectIsCardWithIdRecent(), []);
-  const selectListById = useMemo(() => selectors.makeSelectListById(), []);
 
   const card = useSelector((state) => selectCardById(state, id));
-  const list = useSelector((state) => selectListById(state, card.listId));
 
   const isHighlightedAsRecent = useSelector((state) => {
     const { turnOffRecentCardHighlighting } = selectors.selectCurrentUser(state);
@@ -133,15 +128,6 @@ const Card = React.memo(({ id, isInline }) => {
     }
   }
 
-  const colorLineNode = list.color && (
-    <div
-      className={classNames(
-        styles.colorLine,
-        globalStyles[`background${upperFirst(camelCase(list.color))}`],
-      )}
-    />
-  );
-
   return (
     <div
       className={classNames(styles.wrapper, isHighlightedAsRecent && styles.wrapperRecent, 'card')}
@@ -162,7 +148,6 @@ const Card = React.memo(({ id, isInline }) => {
             onContextMenu={handleContextMenu}
           >
             <Content cardId={id} />
-            {colorLineNode}
           </div>
           {canUseActions && (
             <CardActionsPopup ref={actionsPopupRef} cardId={id} onNameEdit={handleNameEdit}>
@@ -175,7 +160,6 @@ const Card = React.memo(({ id, isInline }) => {
       ) : (
         <span className={classNames(styles.content, card.isClosed && styles.contentDisabled)}>
           <Content cardId={id} />
-          {colorLineNode}
         </span>
       )}
     </div>

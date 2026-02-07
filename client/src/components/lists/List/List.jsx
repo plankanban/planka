@@ -201,6 +201,7 @@ const List = React.memo(({ id, index }) => {
             className={classNames(
               styles.outerWrapper,
               isFavoritesActive && styles.outerWrapperWithFavorites,
+              list.color && globalStyles[`background${upperFirst(camelCase(list.color))}Soft`],
             )}
             onTransitionEnd={handleWrapperTransitionEnd}
           >
@@ -261,7 +262,11 @@ const List = React.memo(({ id, index }) => {
                 <button
                   type="button"
                   disabled={!list.isPersisted}
-                  className={styles.addCardButton}
+                  className={classNames(
+                    styles.addCardButton,
+                    list.color &&
+                      globalStyles[`background${upperFirst(camelCase(list.color))}Soft`],
+                  )}
                   onClick={handleAddCardClick}
                 >
                   <PlusMathIcon className={styles.addCardButtonIcon} />
