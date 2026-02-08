@@ -47,7 +47,7 @@
  *                 maxLength: 128
  *                 nullable: true
  *                 description: Contact phone number
- *                 example: +1234567890
+ *                 example: "+1234567890"
  *               organization:
  *                 type: string
  *                 maxLength: 128

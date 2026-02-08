@@ -88,7 +88,7 @@
  *           type: string
  *           nullable: true
  *           description: Contact phone number
- *           example: +1234567890
+ *           example: "+1234567890"
  *         organization:
  *           type: string
  *           nullable: true
@@ -145,6 +145,7 @@
  *           example: byDefault
  *         termsType:
  *           type: string
+ *           enum: [general, extended]
  *           description: Type of terms applicable to the user based on role
  *           example: general
  *         isSsoUser:

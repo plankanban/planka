@@ -51,7 +51,7 @@
  *                       type: string
  *                       enum: [general, extended]
  *                       description: Type of terms
- *                       example: en-US
+ *                       example: general
  *                     language:
  *                       type: string
  *                       enum: [de-DE, en-US]
