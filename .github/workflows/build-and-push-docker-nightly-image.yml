@@ -32,6 +32,23 @@ jobs:
           npx --yes genversion --source . --template server/version-template.ejs server/version.js
           npx --yes genversion --source . --template client/version-template.ejs client/src/version.js
 
+      - name: Install client dependencies
+        run: npm install --omit=dev
+        working-directory: ./client
+
+      - name: Build client
+        run: |
+          DISABLE_ESLINT_PLUGIN=true npm run build
+          mv dist build
+        working-directory: ./client
+
+      - name: Update Dockerfile to use prebuilt client
+        run: |
+          sed -i '/^FROM node:22 AS client/,/^RUN npm install npm --global.*npm run build$/c\
+          FROM node:22 AS client\n\n\
+          WORKDIR /app\n\n\
+          COPY client/build /app/dist' Dockerfile
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -53,6 +70,9 @@ jobs:
             name=ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=nightly
+          labels: |
+            org.opencontainers.image.licenses=Fair Use License
+            org.opencontainers.image.url=https://planka.app
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
