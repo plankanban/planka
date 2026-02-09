@@ -42,7 +42,7 @@ module.exports = {
         },
       );
     } catch (error) {
-      sails.log.error(`Error sending notifications: ${error.stderr || error.message}`);
+      sails.log.error(`Error sending notifications:\n${error.stderr || error.message}`);
     }
   },
 };
