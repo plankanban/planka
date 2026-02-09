@@ -23,6 +23,11 @@ module.exports = {
 
       if (config.smtpHost) {
         sourceConfig = config;
+
+        // TODO: hack to make it work with proxy
+        if (sourceConfig.smtpPort === null) {
+          sourceConfig.smtpPort = sourceConfig.smtpSecure ? 465 : 587;
+        }
       }
     }
 
@@ -47,6 +52,10 @@ module.exports = {
         tls: {
           rejectUnauthorized: sourceConfig.smtpTlsRejectUnauthorized,
         },
+        proxy:
+          sails.config.custom.outgoingProxy && !sails.config.custom.smtpHost
+            ? sails.config.custom.outgoingProxy
+            : undefined,
       },
       {
         from: sourceConfig.smtpFrom,

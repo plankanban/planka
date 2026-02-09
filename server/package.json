@@ -83,6 +83,7 @@
     "sails-postgresql": "^5.0.1",
     "serve-static": "^2.2.1",
     "sharp": "^0.34.5",
+    "undici": "^7.21.0",
     "uuid": "^11.1.0",
     "validator": "^13.15.26",
     "winston": "^3.19.0",

@@ -66,6 +66,7 @@ module.exports.custom = {
   demoMode: process.env.DEMO_MODE === 'true',
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
+  outgoingProxy: process.env.OUTGOING_PROXY,
 
   s3Endpoint: process.env.S3_ENDPOINT,
   s3Region: process.env.S3_REGION,

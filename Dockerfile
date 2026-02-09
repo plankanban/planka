@@ -28,7 +28,7 @@ RUN npm install npm --global \
 FROM node:22-alpine
 
 RUN apk -U upgrade \
-  && apk add bash python3 --no-cache \
+  && apk add bash python3 squid --no-cache \
   && npm install npm --global
 
 USER node

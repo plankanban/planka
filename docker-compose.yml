@@ -61,6 +61,12 @@ services:
       # It should not be enabled without a rate limiter for security reasons.
       # - SHOW_DETAILED_AUTH_ERRORS=false
 
+      # All outgoing HTTP requests (SMTP, webhooks, Apprise notifications, favicon fetching, etc.)
+      # will be sent through this proxy if set.
+      # If commented out, an internal Squid proxy will be started inside the container,
+      # which you can control via OUTGOING_BLOCKED_* and OUTGOING_ALLOWED_* below.
+      # - OUTGOING_PROXY=http://proxy:3128
+
       # - S3_ENDPOINT=
       # - S3_REGION=
       # - S3_ACCESS_KEY_ID=
@@ -110,6 +116,18 @@ services:
       # Using Gravatar directly exposes user IPs and hashed emails to a third party (GDPR risk).
       # Use a proxy you control for privacy, or leave commented out or empty to disable.
       # - GRAVATAR_BASE_URL=https://www.gravatar.com/avatar/
+
+      # --------------------------------------------------------------------
+      # Outgoing traffic control (internal Squid proxy)
+      # --------------------------------------------------------------------
+
+      # These IPs/hostnames will always be blocked (highest priority)
+      # - OUTGOING_BLOCKED_IPS=
+      # - OUTGOING_BLOCKED_HOSTS=localhost,postgres,valkey
+
+      # Only these IPs/hostnames will be reachable
+      # - OUTGOING_ALLOWED_IPS=
+      # - OUTGOING_ALLOWED_HOSTS=
     depends_on:
       postgres:
         condition: service_healthy

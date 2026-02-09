@@ -4,6 +4,7 @@
  */
 
 const { URL } = require('url');
+const { ProxyAgent } = require('undici');
 const icoToPng = require('ico-to-png');
 const sharp = require('sharp');
 
@@ -20,6 +21,9 @@ const fetchWithTimeout = (url) => {
 
   return fetch(url, {
     signal: abortController.signal,
+    dispatcher: sails.config.custom.outgoingProxy
+      ? new ProxyAgent(sails.config.custom.outgoingProxy)
+      : undefined,
   });
 };
 

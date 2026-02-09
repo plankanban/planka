@@ -3,6 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const { ProxyAgent } = require('undici');
+
 const Webhook = require('../../models/Webhook');
 
 /**
@@ -61,6 +63,9 @@ async function sendWebhook(webhook, event, data, prevData, user) {
       headers,
       body,
       method: 'POST',
+      dispatcher: sails.config.custom.outgoingProxy
+        ? new ProxyAgent(sails.config.custom.outgoingProxy)
+        : undefined,
     });
 
     if (!response.ok) {
