@@ -18,7 +18,10 @@ const LANGUAGES = ['de-DE', 'en-US'];
 const DEFAULT_LANGUAGE = 'en-US';
 
 const getContent = (language = DEFAULT_LANGUAGE) =>
-  fsPromises.readFile(`${sails.config.appPath}/terms/${language}.md`, 'utf8');
+  fsPromises.readFile(
+    `${sails.config.appPath}/terms/${sails.config.custom.termsType}/${language}.md`,
+    'utf8',
+  );
 
 const hashContent = (content) => crypto.createHash('sha256').update(content).digest('hex');
 

@@ -22,6 +22,9 @@ services:
       # - MAX_UPLOAD_FILE_SIZE=
       # - TOKEN_EXPIRES_IN=365 # In days
 
+      # - STORAGE_LIMIT=
+      # - ACTIVE_USERS_LIMIT=
+
       # related: https://github.com/knex/knex/issues/2354
       # As knex does not pass query parameters from the connection string,
       # we have to use environment variables in order to pass the desired values, e.g.
@@ -39,12 +42,6 @@ services:
       # - DEFAULT_ADMIN_PASSWORD=demo
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
-
-      # - INTERNAL_ACCESS_TOKEN=
-      # - STORAGE_LIMIT=
-      # - ACTIVE_USERS_LIMIT=
-      # - CUSTOMER_PANEL_URL=
-      # - DEMO_MODE=true
 
       # Set to true to show more detailed authentication error messages.
       # It should not be enabled without a rate limiter for security reasons.

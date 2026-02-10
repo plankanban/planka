@@ -47,6 +47,9 @@ module.exports.custom = {
   maxUploadFileSize: envToBytes(process.env.MAX_UPLOAD_FILE_SIZE),
   tokenExpiresIn: (parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365) * 24 * 60 * 60,
 
+  storageLimit: envToBytes(process.env.STORAGE_LIMIT),
+  activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
+
   // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
   uploadsTempPath: null,
   uploadsBasePath: path.join(sails.config.appPath, 'data'),
@@ -58,12 +61,6 @@ module.exports.custom = {
 
   defaultAdminEmail:
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase(),
-
-  internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,
-  storageLimit: envToBytes(process.env.STORAGE_LIMIT),
-  activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
-  customerPanelUrl: process.env.CUSTOMER_PANEL_URL,
-  demoMode: process.env.DEMO_MODE === 'true',
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
   outgoingProxy: process.env.OUTGOING_PROXY,
@@ -112,4 +109,11 @@ module.exports.custom = {
   smtpFrom: process.env.SMTP_FROM,
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
+
+  /* Internal */
+
+  internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,
+  termsType: process.env.TERMS_TYPE || 'self-hosted',
+  customerPanelUrl: process.env.CUSTOMER_PANEL_URL,
+  demoMode: process.env.DEMO_MODE === 'true',
 };
