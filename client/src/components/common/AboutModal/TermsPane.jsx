@@ -4,19 +4,15 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Loader, Tab } from 'semantic-ui-react';
 
-import selectors from '../../../selectors';
 import api from '../../../api';
 import Markdown from '../Markdown';
 
 import styles from './TermsPane.module.scss';
 
 const TermsPane = React.memo(() => {
-  const type = useSelector((state) => selectors.selectCurrentUser(state).termsType);
-
   const { i18n } = useTranslation();
   const [content, setContent] = useState(null);
 
@@ -24,7 +20,7 @@ const TermsPane = React.memo(() => {
     async function fetchTerms() {
       let terms;
       try {
-        ({ item: terms } = await api.getTerms(type, i18n.resolvedLanguage));
+        ({ item: terms } = await api.getTerms(i18n.resolvedLanguage));
       } catch {
         return;
       }
@@ -33,7 +29,7 @@ const TermsPane = React.memo(() => {
     }
 
     fetchTerms();
-  }, [type, i18n.resolvedLanguage]);
+  }, [i18n.resolvedLanguage]);
 
   return (
     <Tab.Pane attached={false} className={styles.wrapper}>

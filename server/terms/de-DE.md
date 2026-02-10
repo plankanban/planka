@@ -1,4 +1,4 @@
-# Beispiel-Nutzungsbedingungen - Allgemeine Benutzer
+# Beispiel-Nutzungsbedingungen
 _Nicht rechtsverbindlich. Dies ist ein Platzhaltertext nur zu Testzwecken._
 
 _Letzte Aktualisierung: 14. August 2025_
@@ -33,4 +33,4 @@ Bei Fragen zu diesen Beispiel-Bedingungen wenden Sie sich bitte an `placeholder@
 
 ---
 
-**Ende des Beispiels - Allgemeine Bedingungen**
+**Ende des Beispiels**

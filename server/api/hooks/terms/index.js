@@ -14,22 +14,18 @@
 const fsPromises = require('fs').promises;
 const crypto = require('crypto');
 
-const Types = {
-  GENERAL: 'general',
-  EXTENDED: 'extended',
-};
-
 const LANGUAGES = ['de-DE', 'en-US'];
 const DEFAULT_LANGUAGE = 'en-US';
+
+const getContent = (language = DEFAULT_LANGUAGE) =>
+  fsPromises.readFile(`${sails.config.appPath}/terms/${language}.md`, 'utf8');
 
 const hashContent = (content) => crypto.createHash('sha256').update(content).digest('hex');
 
 module.exports = function defineTermsHook(sails) {
-  let signatureByType;
-  let signaturesSet;
+  let signature;
 
   return {
-    Types,
     LANGUAGES,
 
     /**
@@ -39,49 +35,26 @@ module.exports = function defineTermsHook(sails) {
     async initialize() {
       sails.log.info('Initializing custom hook (`terms`)');
 
-      signatureByType = {
-        [Types.GENERAL]: hashContent(await this.getContent(Types.GENERAL)),
-        [Types.EXTENDED]: hashContent(await this.getContent(Types.EXTENDED)),
-      };
-
-      signaturesSet = new Set(Object.values(signatureByType));
+      const content = await getContent();
+      signature = hashContent(content);
     },
 
-    async getPayload(type, language = DEFAULT_LANGUAGE) {
-      if (!Object.values(Types).includes(type)) {
-        throw new Error(`Unknown type: ${type}`);
-      }
-
+    async getPayload(language = DEFAULT_LANGUAGE) {
       if (!LANGUAGES.includes(language)) {
         language = DEFAULT_LANGUAGE; // eslint-disable-line no-param-reassign
       }
 
+      const content = await getContent(language);
+
       return {
-        type,
         language,
-        content: await this.getContent(type, language),
-        signature: this.getSignatureByType(type),
+        content,
+        signature,
       };
     },
 
-    getTypeByUserRole(userRole) {
-      return userRole === User.Roles.ADMIN ? Types.EXTENDED : Types.GENERAL;
-    },
-
-    getContent(type, language = DEFAULT_LANGUAGE) {
-      return fsPromises.readFile(`${sails.config.appPath}/terms/${language}/${type}.md`, 'utf8');
-    },
-
-    getSignatureByType(type) {
-      return signatureByType[type];
-    },
-
-    getSignatureByUserRole(userRole) {
-      return signatureByType[this.getTypeByUserRole(userRole)];
-    },
-
-    hasSignature(signature) {
-      return signaturesSet.has(signature);
+    isSignatureValid(value) {
+      return value === signature;
     },
   };
 };

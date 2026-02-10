@@ -31,7 +31,7 @@
  *                 type: string
  *                 minLength: 64
  *                 maxLength: 64
- *                 description: Terms signature hash based on user role
+ *                 description: Terms signature hash
  *                 example: 940226c4c41f51afe3980ceb63704e752636526f4c52a4ea579e85b247493d94
  *               initialLanguage:
  *                 type: string
@@ -184,14 +184,12 @@ module.exports = {
     }
 
     if (!user.termsSignature) {
-      const termsSignature = sails.hooks.terms.getSignatureByUserRole(user.role);
-
-      if (inputs.signature !== termsSignature) {
+      if (!sails.hooks.terms.isSignatureValid(inputs.signature)) {
         throw Errors.INVALID_SIGNATURE;
       }
 
       const values = {
-        termsSignature,
+        termsSignature: inputs.signature,
         termsAcceptedAt: new Date().toISOString(),
       };
 

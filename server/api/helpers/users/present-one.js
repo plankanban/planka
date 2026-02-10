@@ -34,7 +34,6 @@ module.exports = {
         },
       },
       language: inputs.record.language || sails.config.i18n.defaultLocale,
-      termsType: sails.hooks.terms.getTypeByUserRole(inputs.record.role),
     };
 
     const gravatarUrl = sails.helpers.users.buildGravatarUrl(inputs.record);

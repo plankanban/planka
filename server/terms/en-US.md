@@ -1,4 +1,4 @@
-# Example Terms of Service - General Users
+# Example Terms of Service
 _Not legally binding. This is placeholder text for testing purposes only._
 
 _Last updated: August 14, 2025_
@@ -33,4 +33,4 @@ For questions about these example Terms, please contact `placeholder@example.com
 
 ---
 
-**End of Example - General Terms**
+**End of Example**

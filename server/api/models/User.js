@@ -24,7 +24,6 @@
  *         - avatar
  *         - phone
  *         - organization
- *         - termsType
  *         - isDeactivated
  *         - createdAt
  *         - updatedAt
@@ -143,11 +142,6 @@
  *           default: byDefault
  *           description: Default sort order for projects display (personal field)
  *           example: byDefault
- *         termsType:
- *           type: string
- *           enum: [general, extended]
- *           description: Type of terms applicable to the user based on role
- *           example: general
  *         isSsoUser:
  *           type: boolean
  *           default: false

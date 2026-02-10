@@ -56,7 +56,7 @@ module.exports = {
       }
     }
 
-    if (!sails.hooks.terms.hasSignature(inputs.user.termsSignature)) {
+    if (!sails.hooks.terms.isSignatureValid(inputs.user.termsSignature)) {
       const { token: pendingToken, payload: pendingTokenPayload } =
         sails.helpers.utils.createJwtToken(
           AccessTokenSteps.ACCEPT_TERMS,
@@ -82,12 +82,9 @@ module.exports = {
         );
       }
 
-      const termsType = sails.hooks.terms.getTypeByUserRole(inputs.user.role);
-
       throw {
         termsAcceptanceRequired: {
           pendingToken,
-          termsType,
           message: 'Terms acceptance required',
           step: AccessTokenSteps.ACCEPT_TERMS,
         },

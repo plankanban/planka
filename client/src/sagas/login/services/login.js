@@ -30,7 +30,7 @@ export function* authenticate(data) {
   } catch (error) {
     let terms;
     if (error.step === AccessTokenSteps.ACCEPT_TERMS) {
-      ({ item: terms } = yield call(api.getTerms, error.termsType, i18n.resolvedLanguage));
+      ({ item: terms } = yield call(api.getTerms, i18n.resolvedLanguage));
     }
 
     yield put(actions.authenticate.failure(error, terms));
@@ -129,7 +129,7 @@ export function* authenticateWithOidcCallback() {
   } catch (error) {
     let terms;
     if (error.step === AccessTokenSteps.ACCEPT_TERMS) {
-      ({ item: terms } = yield call(api.getTerms, error.termsType, i18n.resolvedLanguage));
+      ({ item: terms } = yield call(api.getTerms, i18n.resolvedLanguage));
     }
 
     yield put(actions.authenticateWithOidc.failure(error, terms));
@@ -185,15 +185,9 @@ export function* cancelTerms() {
 export function* updateTermsLanguage(value) {
   yield put(actions.updateTermsLanguage(value));
 
-  const {
-    termsForm: {
-      payload: { type },
-    },
-  } = yield select(selectors.selectAuthenticateForm);
-
   let terms;
   try {
-    ({ item: terms } = yield call(api.getTerms, type, value));
+    ({ item: terms } = yield call(api.getTerms, value));
   } catch (error) {
     yield put(actions.updateTermsLanguage.failure(error));
     return;
