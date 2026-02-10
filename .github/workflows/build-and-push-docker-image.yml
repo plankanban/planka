@@ -63,6 +63,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=${{ steps.set-version.outputs.result }}
+            type=raw,value=latest
           labels: |
             org.opencontainers.image.licenses=Fair Use License
             org.opencontainers.image.url=https://planka.app
