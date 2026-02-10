@@ -175,6 +175,10 @@ module.exports = {
       throw Errors.INVALID_PENDING_TOKEN;
     }
 
+    if (!sails.hooks.terms.isSignatureValid(inputs.signature)) {
+      throw Errors.INVALID_SIGNATURE;
+    }
+
     let user = await User.qm.getOneById(session.userId, {
       withDeactivated: false,
     });
@@ -183,22 +187,16 @@ module.exports = {
       throw Errors.INVALID_PENDING_TOKEN; // TODO: introduce separate error?
     }
 
-    if (!user.termsSignature) {
-      if (!sails.hooks.terms.isSignatureValid(inputs.signature)) {
-        throw Errors.INVALID_SIGNATURE;
-      }
+    const values = {
+      termsSignature: inputs.signature,
+      termsAcceptedAt: new Date().toISOString(),
+    };
 
-      const values = {
-        termsSignature: inputs.signature,
-        termsAcceptedAt: new Date().toISOString(),
-      };
-
-      if (!user.language && inputs.initialLanguage) {
-        values.language = inputs.initialLanguage;
-      }
-
-      ({ user } = await User.qm.updateOne(user.id, values));
+    if (!user.language && inputs.initialLanguage) {
+      values.language = inputs.initialLanguage;
     }
+
+    ({ user } = await User.qm.updateOne(user.id, values));
 
     const internalConfig = await InternalConfig.qm.getOneMain();
 
