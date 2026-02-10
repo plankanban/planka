@@ -662,19 +662,19 @@ const upgradeUserAvatars = async () => {
       animated: true,
     });
 
-    const cover180Buffer = await image
+    const cover180 = image
+      .clone()
       .resize(180, 180, {
         withoutEnlargement: true,
       })
       .png({
         quality: 75,
         force: false,
-      })
-      .toBuffer();
+      });
 
     await fileManager.save(
       `${dirPathSegment}/cover-180.${avatar.extension}`,
-      cover180Buffer,
+      cover180,
       mime.lookup(avatar.extension) || null,
     );
   }
@@ -744,7 +744,8 @@ const upgradeBackgroundImages = async () => {
       animated: true,
     });
 
-    const outside360Buffer = await image
+    const outside360 = image
+      .clone()
       .resize(360, 360, {
         fit: 'outside',
         withoutEnlargement: true,
@@ -752,12 +753,11 @@ const upgradeBackgroundImages = async () => {
       .png({
         quality: 75,
         force: false,
-      })
-      .toBuffer();
+      });
 
     await fileManager.save(
       `${dirPathSegment}/outside-360.${backgroundImage.extension}`,
-      outside360Buffer,
+      outside360,
       mime.lookup(backgroundImage.extension) || null,
     );
   }
@@ -870,7 +870,8 @@ const upgradeFileAttachments = async () => {
       animated: true,
     });
 
-    const outside360Buffer = await image
+    const outside360 = image
+      .clone()
       .resize(360, 360, {
         fit: 'outside',
         withoutEnlargement: true,
@@ -878,16 +879,16 @@ const upgradeFileAttachments = async () => {
       .png({
         quality: 75,
         force: false,
-      })
-      .toBuffer();
+      });
 
     await fileManager.save(
       `${thumbnailsPathSegment}/outside-360.${data.image.thumbnailsExtension}`,
-      outside360Buffer,
+      outside360,
       data.mimeType,
     );
 
-    const outside720Buffer = await image
+    const outside720 = image
+      .clone()
       .resize(720, 720, {
         fit: 'outside',
         withoutEnlargement: true,
@@ -895,12 +896,11 @@ const upgradeFileAttachments = async () => {
       .png({
         quality: 75,
         force: false,
-      })
-      .toBuffer();
+      });
 
     await fileManager.save(
       `${thumbnailsPathSegment}/outside-720.${data.image.thumbnailsExtension}`,
-      outside720Buffer,
+      outside720,
       data.mimeType,
     );
   }
@@ -942,6 +942,7 @@ const upgradeDataStructure = async () => {
     }
 
     await loadSails();
+    sails.config.custom.uploadsBasePath = sails.config.appPath;
 
     if (isV1) {
       await runStep('Upgrading database', upgradeDatabase);
