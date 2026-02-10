@@ -123,7 +123,7 @@ services:
 
       # These IPs/hostnames will always be blocked (highest priority)
       # - OUTGOING_BLOCKED_IPS=
-      # - OUTGOING_BLOCKED_HOSTS=localhost,postgres,valkey
+      # - OUTGOING_BLOCKED_HOSTS=localhost,postgres
 
       # Only these IPs/hostnames will be reachable
       # - OUTGOING_ALLOWED_IPS=
