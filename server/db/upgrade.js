@@ -907,6 +907,10 @@ const upgradeFileAttachments = async () => {
 };
 
 const upgradeDataStructure = async () => {
+  if (!sails.hooks.s3.isEnabled()) {
+    return;
+  }
+
   const fileManager = sails.hooks['file-manager'].getInstance();
 
   await fileManager.renameDir(PrevPathSegments.FAVICONS, sails.config.custom.faviconsPathSegment);
