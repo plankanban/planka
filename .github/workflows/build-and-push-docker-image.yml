@@ -30,10 +30,11 @@ jobs:
 
       - name: Update Dockerfile to use prebuilt client
         run: |
-          sed -i '/^FROM node:22 AS client/,/^RUN npm install npm --global.*npm run build$/c\
-          FROM node:22 AS client\n\n\
-          WORKDIR /app\n\n\
+          sed -i '/^FROM node:22 AS client/,/^  && DISABLE_ESLINT_PLUGIN=true npm run build$/c\
+          FROM node:22 AS client\n\
+          WORKDIR /app\n\
           COPY client/build /app/dist' Dockerfile
+          cat Dockerfile
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
