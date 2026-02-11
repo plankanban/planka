@@ -5,7 +5,6 @@ export default {
       adminLoginRequiredToInitializeInstance: 'Admin login required to initialize instance',
       emailAlreadyInUse: 'E-mail already in use',
       emailOrUsername: 'E-mail or username',
-      iHaveReadAndAgreeToTheseTerms: 'I have read and agree to these Terms',
       invalidCredentials: 'Invalid credentials',
       invalidEmailOrUsername: 'Invalid e-mail or username',
       invalidPassword: 'Invalid password',

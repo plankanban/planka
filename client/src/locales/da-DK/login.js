@@ -6,7 +6,6 @@ export default {
         'Administrator login påkrævet for at initialisere instans',
       emailAlreadyInUse: 'E-mail allerede i brug',
       emailOrUsername: 'E-mail eller brugernavn',
-      iHaveReadAndAgreeToTheseTerms: 'Jeg har læst og accepterer disse vilkår',
       invalidCredentials: 'Forkerte loginoplysninger',
       invalidEmailOrUsername: 'Ugyldig e-mail eller brugernavn',
       invalidPassword: 'Ugyldig adgangskode',

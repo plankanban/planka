@@ -5,7 +5,6 @@ export default {
       adminLoginRequiredToInitializeInstance: '需要管理員登入以初始化實例',
       emailAlreadyInUse: '郵箱已被使用',
       emailOrUsername: '郵箱或使用者名稱',
-      iHaveReadAndAgreeToTheseTerms: '我已閱讀並同意這些條款',
       invalidCredentials: '無效憑證',
       invalidEmailOrUsername: '無效的郵箱或使用者名稱',
       invalidPassword: '密碼錯誤',

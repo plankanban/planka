@@ -6,7 +6,6 @@ export default {
         'Potrebna je administratorska prijava za inicijalizaciju instance',
       emailAlreadyInUse: 'E-pošta je već u upotrebi',
       emailOrUsername: 'E-pošta ili korisničko ime',
-      iHaveReadAndAgreeToTheseTerms: 'Pročitao sam i slažem se sa ovim uslovima',
       invalidCredentials: 'Neispravni akreditivi',
       invalidEmailOrUsername: 'Neispravna e-pošta ili korisničko ime',
       invalidPassword: 'Neispravna lozinka',

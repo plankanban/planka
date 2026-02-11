@@ -6,7 +6,6 @@ export default {
         'Se requiere inicio de sesión de administrador para inicializar la instancia',
       emailAlreadyInUse: 'Correo electrónico ya en uso',
       emailOrUsername: 'Correo electrónico o nombre de usuario',
-      iHaveReadAndAgreeToTheseTerms: 'He leído y acepto estos términos',
       invalidCredentials: 'Credenciales no válidas',
       invalidEmailOrUsername: 'Correo electrónico o nombre de usuario no válido',
       invalidPassword: 'Contraseña no válida',

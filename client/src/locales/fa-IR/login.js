@@ -5,7 +5,6 @@ export default {
       adminLoginRequiredToInitializeInstance: 'ورود مدیر برای راه‌اندازی نمونه مورد نیاز است',
       emailAlreadyInUse: 'ایمیل قبلا استفاده شده است',
       emailOrUsername: 'ایمیل یا نام کاربری',
-      iHaveReadAndAgreeToTheseTerms: 'این شرایط را خوانده‌ام و با آن موافقم',
       invalidCredentials: 'اطلاعات ورود نامعتبر',
       invalidEmailOrUsername: 'ایمیل یا نام کاربری نامعتبر است',
       invalidPassword: 'رمز عبور نامعتبر است',

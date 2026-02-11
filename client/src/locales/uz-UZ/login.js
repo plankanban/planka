@@ -6,7 +6,6 @@ export default {
         'Tizimni ishga tushirish uchun admin kirishi talab qilinadi',
       emailAlreadyInUse: 'E-mail allaqachon mavjud',
       emailOrUsername: 'E-mail yoki foydalanuvchi nomi',
-      iHaveReadAndAgreeToTheseTerms: "Men ushbu shartlarni o'qidim va roziman",
       invalidCredentials: "Noto'g'ri kirish ma'lumotlari",
       invalidEmailOrUsername: "Noto'g'ri e-mail yoki foydalanuvchi nomi",
       invalidPassword: "Noto'g'ri parol",

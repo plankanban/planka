@@ -6,7 +6,6 @@ export default {
         "Login amministratore richiesto per inizializzare l'istanza",
       emailAlreadyInUse: 'E-mail già in uso',
       emailOrUsername: 'E-mail o username',
-      iHaveReadAndAgreeToTheseTerms: 'Ho letto e accetto questi termini',
       invalidCredentials: 'Credenziali non valide',
       invalidEmailOrUsername: 'E-mail o username non valido',
       invalidPassword: 'Password non valida',

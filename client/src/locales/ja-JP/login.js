@@ -6,7 +6,6 @@ export default {
         'インスタンスを初期化するには管理者ログインが必要です',
       emailAlreadyInUse: 'Eメールは既に使われています',
       emailOrUsername: 'Eメールまたはユーザー名',
-      iHaveReadAndAgreeToTheseTerms: 'これらの利用規約を読み、同意します',
       invalidCredentials: '認証情報が無効です',
       invalidEmailOrUsername: 'Eメールまたはユーザー名が無効',
       invalidPassword: 'パスワードが無効',

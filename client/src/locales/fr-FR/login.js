@@ -6,7 +6,6 @@ export default {
         "Connexion administrateur requise pour initialiser l'instance",
       emailAlreadyInUse: 'E-mail déjà utilisé',
       emailOrUsername: "E-mail ou nom d'utilisateur",
-      iHaveReadAndAgreeToTheseTerms: "J'ai lu et j'accepte ces conditions",
       invalidCredentials: 'Identifiants invalides',
       invalidEmailOrUsername: "E-mail ou nom d'utilisateur invalide",
       invalidPassword: 'Mot de passe invalide',

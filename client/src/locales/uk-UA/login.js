@@ -6,7 +6,6 @@ export default {
         'Потрібен вхід адміністратора для ініціалізації екземпляра',
       emailAlreadyInUse: 'Електронна пошта вже використовується',
       emailOrUsername: "Електронна пошта або ім'я користувача",
-      iHaveReadAndAgreeToTheseTerms: 'Я прочитав і погоджуюся з цими умовами',
       invalidCredentials: 'Неправильні облікові дані',
       invalidEmailOrUsername: "Неправильна електронна пошта або ім'я користувача",
       invalidPassword: 'Неправильний пароль',

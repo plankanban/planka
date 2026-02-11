@@ -6,7 +6,6 @@ export default {
         'Beheerder login vereist om instantie te initialiseren',
       emailAlreadyInUse: 'E-mail is al in gebruik',
       emailOrUsername: 'E-mail of gebruikersnaam',
-      iHaveReadAndAgreeToTheseTerms: 'Ik heb deze voorwaarden gelezen en ga ermee akkoord',
       invalidCredentials: 'Ongeldige inloggegevens',
       invalidEmailOrUsername: 'Ongeldig e-mailadres of gebruikersnaam',
       invalidPassword: 'Ongeldig wachtwoord',

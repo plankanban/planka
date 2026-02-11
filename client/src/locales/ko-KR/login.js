@@ -5,7 +5,6 @@ export default {
       adminLoginRequiredToInitializeInstance: '인스턴스 초기화를 위해 관리자 로그인이 필요합니다',
       emailAlreadyInUse: '이미 사용 중인 이메일',
       emailOrUsername: '이메일 또는 사용자 이름',
-      iHaveReadAndAgreeToTheseTerms: '이 약관을 읽고 동의합니다',
       invalidCredentials: '잘못된 자격 증명',
       invalidEmailOrUsername: '잘못된 이메일 또는 사용자 이름',
       invalidPassword: '잘못된 비밀번호',

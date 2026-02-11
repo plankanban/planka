@@ -6,7 +6,6 @@ export default {
         'Потребна је администраторска пријава за иницијализацију инстанце',
       emailAlreadyInUse: 'Е-пошта је већ у употреби',
       emailOrUsername: 'Е-пошта или корисничко име',
-      iHaveReadAndAgreeToTheseTerms: 'Прочитао сам и слажем се са овим условима',
       invalidCredentials: 'Неисправни акредитиви',
       invalidEmailOrUsername: 'Неисправна е-пошта или корисничко име',
       invalidPassword: 'Неисправна лозинка',

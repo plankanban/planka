@@ -6,7 +6,6 @@ export default {
         'Необходимо е влизане на администратор за инициализиране на инстанцията',
       emailAlreadyInUse: 'Имейлът вече се използва',
       emailOrUsername: 'Имейл или потребителско име',
-      iHaveReadAndAgreeToTheseTerms: 'Прочетох и се съгласявам с тези условия',
       invalidCredentials: 'Невалидни данни за вход',
       invalidEmailOrUsername: 'Невалиден имейл или потребителско име',
       invalidPassword: 'Невалидна парола',

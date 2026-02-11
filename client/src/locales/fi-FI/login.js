@@ -6,7 +6,6 @@ export default {
         'Järjestelmänvalvojan kirjautuminen vaaditaan instanssin alustamiseksi',
       emailAlreadyInUse: 'Sähköposti on jo käytössä',
       emailOrUsername: 'Sähköposti tai käyttäjänimi',
-      iHaveReadAndAgreeToTheseTerms: 'Olen lukenut ja hyväksyn nämä ehdot',
       invalidCredentials: 'Virheelliset tunnistetiedot',
       invalidEmailOrUsername: 'Virheellinen sähköposti tai käyttäjänimi',
       invalidPassword: 'Virheellinen salasana',

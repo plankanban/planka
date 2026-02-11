@@ -6,7 +6,6 @@ export default {
         'Na inicializáciu inštancie je potrebné prihlásenie správcu',
       emailAlreadyInUse: 'E-mail je už použitý',
       emailOrUsername: 'E-mail alebo používateľské meno',
-      iHaveReadAndAgreeToTheseTerms: 'Prečítal som si a súhlasím s týmito podmienkami',
       invalidCredentials: 'Neplatné prihlasovacie údaje',
       invalidEmailOrUsername: 'Nesprávny e-mail alebo používateľské meno',
       invalidPassword: 'Nesprávne heslo',

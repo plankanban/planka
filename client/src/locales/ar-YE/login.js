@@ -5,7 +5,6 @@ export default {
       adminLoginRequiredToInitializeInstance: 'مطلوب تسجيل دخول المدير لتهيئة المثيل',
       emailAlreadyInUse: 'البريد الإلكتروني مستخدم بالفعل',
       emailOrUsername: 'البريد الإلكتروني أو اسم المستخدم',
-      iHaveReadAndAgreeToTheseTerms: 'لقد قرأت ووافقت على هذه الشروط',
       invalidCredentials: 'بيانات الاعتماد غير صالحة',
       invalidEmailOrUsername: 'البريد الإلكتروني أو اسم المستخدم غير صالح',
       invalidPassword: 'كلمة المرور غير صالحة',

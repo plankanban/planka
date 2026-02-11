@@ -6,7 +6,6 @@ export default {
         'Rendszergazdai bejelentkezés szükséges a példány inicializálásához',
       emailAlreadyInUse: 'Az e-mail cím már használatban van',
       emailOrUsername: 'E-mail vagy felhasználó',
-      iHaveReadAndAgreeToTheseTerms: 'Elolvastam és elfogadom ezeket a feltételeket',
       invalidCredentials: 'Érvénytelen hitelesítő adatok',
       invalidEmailOrUsername: 'Érvénytelen e-mail vagy felhasználó',
       invalidPassword: 'Érvénytelen jelszó',

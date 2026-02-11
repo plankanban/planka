@@ -6,7 +6,6 @@ export default {
         'Требуется вход администратора для инициализации экземпляра',
       emailAlreadyInUse: 'E-mail уже занят',
       emailOrUsername: 'E-mail или имя пользователя',
-      iHaveReadAndAgreeToTheseTerms: 'Я прочитал и согласен с этими условиями',
       invalidCredentials: 'Недействительные учетные данные',
       invalidEmailOrUsername: 'Неверный e-mail или имя пользователя',
       invalidPassword: 'Неверный пароль',
