@@ -20,6 +20,6 @@ test
 .tmp
 .venv
 
-views/index.ejs
+views/index.html
 
 data/*

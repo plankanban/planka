@@ -11,7 +11,7 @@ server/test
 server/.tmp
 server/.venv
 
-server/views/index.ejs
+server/views/index.html
 
 server/data/*
 !server/data/.gitkeep
