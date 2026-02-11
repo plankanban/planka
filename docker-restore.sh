@@ -21,7 +21,7 @@ echo "Success!"
 
 # Restore Docker Volume
 echo -n "Importing data volume ... "
-docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$PLANKA_BACKUP_ARCHIVE:/backup" ubuntu cp -rf /backup/data/. /app/public/data
+docker run --rm --volumes-from "$PLANKA_DOCKER_CONTAINER_PLANKA" -v "$(pwd)/$PLANKA_BACKUP_ARCHIVE:/backup" ubuntu cp -rf /backup/data/. /app/data
 echo "Success!"
 
 echo -n "Cleaning up temporary files and folders ... "
