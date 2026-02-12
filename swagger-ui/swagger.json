@@ -21,6 +21,11 @@
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
+      },
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Api-Key"
       }
     },
     "schemas": {
@@ -199,12 +204,12 @@
           "size": {
             "type": "string",
             "description": "File size of the background image in bytes",
-            "example": 1024576
+            "example": "1024576"
           },
           "url": {
             "type": "string",
             "format": "uri",
-            "description": "URL to access the full-size background image",
+            "description": "URL to the full-size background image",
             "example": "https://storage.example.com/background-images/1357158568008091264/original.jpg"
           },
           "thumbnailUrls": {
@@ -719,50 +724,73 @@
       "Config": {
         "type": "object",
         "required": [
-          "version",
-          "oidc"
+          "id"
         ],
         "properties": {
-          "version": {
+          "id": {
             "type": "string",
-            "description": "Current version of the PLANKA application",
-            "example": "2.0.0"
+            "description": "Unique identifier for the config (always set to '1')",
+            "example": "1"
           },
-          "activeUsersLimit": {
+          "smtpHost": {
+            "type": "string",
+            "nullable": true,
+            "description": "Hostname or IP address of the SMTP server",
+            "example": "smtp.example.com"
+          },
+          "smtpPort": {
             "type": "number",
             "nullable": true,
-            "description": "Maximum number of active users allowed (conditionally added for admins if configured)",
-            "example": 100
+            "description": "Port number of the SMTP server",
+            "example": 587
           },
-          "oidc": {
-            "type": "object",
-            "required": [
-              "authorizationUrl",
-              "endSessionUrl",
-              "isEnforced"
-            ],
+          "smtpName": {
+            "type": "string",
             "nullable": true,
-            "description": "OpenID Connect configuration (null if not configured)",
-            "properties": {
-              "authorizationUrl": {
-                "type": "string",
-                "format": "uri",
-                "description": "OIDC authorization URL for initiating authentication",
-                "example": "https://oidc.example.com/auth"
-              },
-              "endSessionUrl": {
-                "type": "string",
-                "format": "uri",
-                "nullable": true,
-                "description": "OIDC end session URL for logout (null if not supported by provider)",
-                "example": "https://oidc.example.com/logout"
-              },
-              "isEnforced": {
-                "type": "boolean",
-                "description": "Whether OIDC authentication is enforced (users must use OIDC to login)",
-                "example": false
-              }
-            }
+            "description": "Client hostname used in the EHLO command for SMTP",
+            "example": "localhost"
+          },
+          "smtpSecure": {
+            "type": "boolean",
+            "description": "Whether to use a secure connection for SMTP",
+            "example": false
+          },
+          "smtpTlsRejectUnauthorized": {
+            "type": "boolean",
+            "description": "Whether to reject unauthorized or self-signed TLS certificates for SMTP connections",
+            "example": true
+          },
+          "smtpUser": {
+            "type": "string",
+            "nullable": true,
+            "description": "Username for authenticating with the SMTP server",
+            "example": "no-reply@example.com"
+          },
+          "smtpPassword": {
+            "type": "string",
+            "nullable": true,
+            "description": "Password for authenticating with the SMTP server",
+            "example": "SecurePassword123!"
+          },
+          "smtpFrom": {
+            "type": "string",
+            "nullable": true,
+            "description": "Default \"from\" used for outgoing SMTP emails",
+            "example": "no-reply@example.com"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the config was created",
+            "example": "2024-01-01T00:00:00.000Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "When the config was last updated",
+            "example": "2024-01-01T00:00:00.000Z"
           }
         }
       },
@@ -808,8 +836,9 @@
           },
           "showOnFrontOfCard": {
             "type": "boolean",
+            "default": false,
             "description": "Whether to show the field on the front of cards",
-            "example": true
+            "example": false
           },
           "createdAt": {
             "type": "string",
@@ -1567,7 +1596,6 @@
           "avatar",
           "phone",
           "organization",
-          "termsType",
           "isDeactivated",
           "createdAt",
           "updatedAt"
@@ -1602,8 +1630,8 @@
           "username": {
             "type": "string",
             "minLength": 3,
-            "maxLength": 32,
-            "pattern": "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$",
+            "maxLength": 64,
+            "pattern": "^[a-z0-9._-]*$",
             "nullable": true,
             "description": "Unique username for user identification",
             "example": "john_doe"
@@ -1633,7 +1661,7 @@
                   "cover180": {
                     "type": "string",
                     "format": "uri",
-                    "description": "URL for 180px cover thumbnail",
+                    "description": "URL for 180px thumbnail version",
                     "example": "https://storage.example.com/user-avatars/1357158568008091264/cover-180.jpg"
                   }
                 }
@@ -1650,7 +1678,7 @@
             "type": "string",
             "nullable": true,
             "description": "Contact phone number",
-            "example": 1234567890
+            "example": "+1234567890"
           },
           "organization": {
             "type": "string",
@@ -1663,6 +1691,7 @@
             "enum": [
               "ar-YE",
               "bg-BG",
+              "ca-ES",
               "cs-CZ",
               "da-DK",
               "de-DE",
@@ -1692,12 +1721,19 @@
               "tr-TR",
               "uk-UA",
               "uz-UZ",
+              "vi-VN",
               "zh-CN",
               "zh-TW"
             ],
             "nullable": true,
             "description": "Preferred language for user interface and notifications (personal field)",
             "example": "en-US"
+          },
+          "apiKeyPrefix": {
+            "type": "string",
+            "nullable": true,
+            "description": "Prefix of the API key for display purposes (private field)",
+            "example": "D89VszVs"
           },
           "subscribeToOwnCards": {
             "type": "boolean",
@@ -1719,9 +1755,9 @@
           },
           "enableFavoritesByDefault": {
             "type": "boolean",
-            "default": false,
+            "default": true,
             "description": "Whether favorites are enabled by default (personal field)",
-            "example": false
+            "example": true
           },
           "defaultEditorMode": {
             "type": "string",
@@ -1753,11 +1789,6 @@
             "default": "byDefault",
             "description": "Default sort order for projects display (personal field)",
             "example": "byDefault"
-          },
-          "termsType": {
-            "type": "string",
-            "description": "Type of terms applicable to the user based on role",
-            "example": "general"
           },
           "isSsoUser": {
             "type": "boolean",
@@ -2055,6 +2086,9 @@
   "security": [
     {
       "bearerAuth": []
+    },
+    {
+      "apiKeyAuth": []
     }
   ],
   "paths": {
@@ -2087,8 +2121,51 @@
                     "type": "string",
                     "minLength": 64,
                     "maxLength": 64,
-                    "description": "Terms signature hash based on user role",
+                    "description": "Terms signature hash",
                     "example": "940226c4c41f51afe3980ceb63704e752636526f4c52a4ea579e85b247493d94"
+                  },
+                  "initialLanguage": {
+                    "type": "string",
+                    "enum": [
+                      "ar-YE",
+                      "bg-BG",
+                      "ca-ES",
+                      "cs-CZ",
+                      "da-DK",
+                      "de-DE",
+                      "el-GR",
+                      "en-GB",
+                      "en-US",
+                      "es-ES",
+                      "et-EE",
+                      "fa-IR",
+                      "fi-FI",
+                      "fr-FR",
+                      "hu-HU",
+                      "id-ID",
+                      "it-IT",
+                      "ja-JP",
+                      "ko-KR",
+                      "nl-NL",
+                      "pl-PL",
+                      "pt-BR",
+                      "pt-PT",
+                      "ro-RO",
+                      "ru-RU",
+                      "sk-SK",
+                      "sr-Cyrl-RS",
+                      "sr-Latn-RS",
+                      "sv-SE",
+                      "tr-TR",
+                      "uk-UA",
+                      "uz-UZ",
+                      "vi-VN",
+                      "zh-CN",
+                      "zh-TW"
+                    ],
+                    "nullable": true,
+                    "description": "Preferred language for user interface and notifications (used only if user language is not set)",
+                    "example": "en-US"
                   }
                 }
               }
@@ -2351,7 +2428,12 @@
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/access-tokens/exchange-with-oidc": {
@@ -4146,6 +4228,82 @@
         }
       }
     },
+    "/bootstrap": {
+      "get": {
+        "summary": "Get application bootstrap",
+        "description": "Retrieves the application bootstrap.",
+        "tags": [
+          "Bootstrap"
+        ],
+        "operationId": "getBootstrap",
+        "responses": {
+          "200": {
+            "description": "Bootstrap retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "oidc",
+                    "version"
+                  ],
+                  "properties": {
+                    "oidc": {
+                      "type": "object",
+                      "required": [
+                        "authorizationUrl",
+                        "endSessionUrl",
+                        "isEnforced"
+                      ],
+                      "nullable": true,
+                      "description": "OpenID Connect configuration (null if not configured)",
+                      "properties": {
+                        "authorizationUrl": {
+                          "type": "string",
+                          "format": "uri",
+                          "description": "OIDC authorization URL for initiating authentication",
+                          "example": "https://oidc.example.com/auth"
+                        },
+                        "endSessionUrl": {
+                          "type": "string",
+                          "format": "uri",
+                          "nullable": true,
+                          "description": "OIDC end session URL for logout (null if not supported by provider)",
+                          "example": "https://oidc.example.com/logout"
+                        },
+                        "isEnforced": {
+                          "type": "boolean",
+                          "description": "Whether OIDC authentication is enforced (users must use OIDC to login)",
+                          "example": false
+                        }
+                      }
+                    },
+                    "activeUsersLimit": {
+                      "type": "number",
+                      "nullable": true,
+                      "description": "Maximum number of active users allowed (conditionally added for admins if configured)",
+                      "example": 100
+                    },
+                    "customerPanelUrl": {
+                      "type": "string",
+                      "format": "uri",
+                      "description": "URL to the customer management panel (conditionally added for admins if configured)",
+                      "example": "https://panel.example.com"
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "Current version of the PLANKA application",
+                      "example": "2.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
     "/cards/{cardId}/card-labels": {
       "post": {
         "summary": "Add label to card",
@@ -4582,13 +4740,24 @@
             }
           },
           {
-            "name": "before",
+            "name": "before[listChangedAt]",
             "in": "query",
             "required": false,
-            "description": "Pagination cursor (JSON object with id and listChangedAt)",
+            "description": "Pagination cursor field `listChangedAt` (use together with `before[id]`)",
             "schema": {
               "type": "string",
-              "example": "{\"id\": \"1357158568008091269\", \"listChangedAt\": \"2024-01-01T00:00:00.000Z\"}"
+              "format": "date-time",
+              "example": "2024-01-01T00:00:00.000Z"
+            }
+          },
+          {
+            "name": "before[id]",
+            "in": "query",
+            "required": false,
+            "description": "Pagination cursor field `id` (use together with `before[listChangedAt]`)",
+            "schema": {
+              "type": "string",
+              "example": "1357158568008091265"
             }
           },
           {
@@ -4603,23 +4772,23 @@
             }
           },
           {
-            "name": "filterUserIds",
+            "name": "userIds",
             "in": "query",
             "required": false,
-            "description": "Comma-separated user IDs to filter by members",
+            "description": "Comma-separated user IDs to filter by members or task assignees",
             "schema": {
               "type": "string",
-              "example": "1357158568008091265,1357158568008091266"
+              "example": "1357158568008091266,1357158568008091267"
             }
           },
           {
-            "name": "filterLabelIds",
+            "name": "labelIds",
             "in": "query",
             "required": false,
             "description": "Comma-separated label IDs to filter by labels",
             "schema": {
               "type": "string",
-              "example": "1357158568008091267,1357158568008091268"
+              "example": "1357158568008091268,1357158568008091269"
             }
           }
         ],
@@ -5002,7 +5171,7 @@
                     "type": "number",
                     "minimum": 0,
                     "nullable": true,
-                    "description": "Position of the card within the list",
+                    "description": "Position of the card within the list (required when moving card to new list)",
                     "example": 65536
                   },
                   "name": {
@@ -5125,20 +5294,28 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "position",
-                  "name"
-                ],
                 "properties": {
+                  "boardId": {
+                    "type": "string",
+                    "description": "ID of the board to duplicate the card to",
+                    "example": "1357158568008091265"
+                  },
+                  "listId": {
+                    "type": "string",
+                    "description": "ID of the list to duplicate the card to",
+                    "example": "1357158568008091266"
+                  },
                   "position": {
                     "type": "number",
                     "minimum": 0,
+                    "nullable": true,
                     "description": "Position for the duplicated card within the list",
                     "example": 65536
                   },
                   "name": {
                     "type": "string",
                     "maxLength": 1024,
+                    "nullable": true,
                     "description": "Name/title for the duplicated card",
                     "example": "Implement user authentication (copy)"
                   }
@@ -5249,6 +5426,9 @@
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
+          },
+          "422": {
+            "$ref": "#/components/responses/UnprocessableEntity"
           }
         }
       }
@@ -5600,7 +5780,7 @@
     "/config": {
       "get": {
         "summary": "Get application configuration",
-        "description": "Retrieves the application configuration.",
+        "description": "Retrieves the application configuration. Requires admin privileges.",
         "tags": [
           "Config"
         ],
@@ -5624,8 +5804,136 @@
               }
             }
           }
+        }
+      },
+      "patch": {
+        "summary": "Update application configuration",
+        "description": "Updates the application configuration. Requires admin privileges.",
+        "tags": [
+          "Config"
+        ],
+        "operationId": "updateConfig",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "smtpHost": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "nullable": true,
+                    "description": "Hostname or IP address of the SMTP server",
+                    "example": "smtp.example.com"
+                  },
+                  "smtpPort": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 65535,
+                    "nullable": true,
+                    "description": "Port number of the SMTP server",
+                    "example": 587
+                  },
+                  "smtpName": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "nullable": true,
+                    "description": "Client hostname used in the EHLO command for SMTP",
+                    "example": "localhost"
+                  },
+                  "smtpSecure": {
+                    "type": "boolean",
+                    "description": "Whether to use a secure connection for SMTP",
+                    "example": false
+                  },
+                  "smtpTlsRejectUnauthorized": {
+                    "type": "boolean",
+                    "description": "Whether to reject unauthorized or self-signed TLS certificates for SMTP connections",
+                    "example": true
+                  },
+                  "smtpUser": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "nullable": true,
+                    "description": "Username for authenticating with the SMTP server",
+                    "example": "no-reply@example.com"
+                  },
+                  "smtpPassword": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "nullable": true,
+                    "description": "Password for authenticating with the SMTP server",
+                    "example": "SecurePassword123!"
+                  },
+                  "smtpFrom": {
+                    "type": "string",
+                    "maxLength": 256,
+                    "nullable": true,
+                    "description": "Default \"from\" used for outgoing SMTP emails",
+                    "example": "no-reply@example.com"
+                  }
+                }
+              }
+            }
+          }
         },
-        "security": []
+        "responses": {
+          "200": {
+            "description": "Configuration updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "item"
+                  ],
+                  "properties": {
+                    "item": {
+                      "$ref": "#/components/schemas/Config"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/config/test-smtp": {
+      "post": {
+        "summary": "Test SMTP configuration",
+        "description": "Sends a test email to verify the SMTP is configured correctly. Only available when SMTP is configured via the UI.",
+        "tags": [
+          "Config"
+        ],
+        "operationId": "testSmtpConfig",
+        "responses": {
+          "200": {
+            "description": "Test email sent successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "item"
+                  ],
+                  "properties": {
+                    "item": {
+                      "$ref": "#/components/schemas/Config"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
       }
     },
     "/boards/{boardId}/custom-field-groups": {
@@ -6230,7 +6538,7 @@
                   "showOnFrontOfCard": {
                     "type": "boolean",
                     "description": "Whether to show the field on the front of cards",
-                    "example": true
+                    "example": false
                   }
                 }
               }
@@ -6314,7 +6622,7 @@
                   "showOnFrontOfCard": {
                     "type": "boolean",
                     "description": "Whether to show the field on the front of cards",
-                    "example": true
+                    "example": false
                   }
                 }
               }
@@ -8215,8 +8523,8 @@
                   "type": {
                     "type": "string",
                     "enum": [
-                      "public",
-                      "private"
+                      "private",
+                      "shared"
                     ],
                     "description": "Type of the project",
                     "example": "private"
@@ -9281,7 +9589,7 @@
         }
       }
     },
-    "/terms/{type}": {
+    "/terms": {
       "get": {
         "summary": "Get terms and conditions",
         "description": "Retrieves terms and conditions in the specified language.",
@@ -9290,20 +9598,6 @@
         ],
         "operationId": "getTerms",
         "parameters": [
-          {
-            "name": "type",
-            "in": "path",
-            "required": true,
-            "description": "Type of terms to retrieve",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "general",
-                "extended"
-              ],
-              "example": "general"
-            }
-          },
           {
             "name": "language",
             "in": "query",
@@ -9339,15 +9633,6 @@
                         "signature"
                       ],
                       "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "general",
-                            "extended"
-                          ],
-                          "description": "Type of terms",
-                          "example": "en-US"
-                        },
                         "language": {
                           "type": "string",
                           "enum": [
@@ -9385,6 +9670,71 @@
           }
         },
         "security": []
+      }
+    },
+    "/users/{id}/api-key": {
+      "post": {
+        "summary": "Create user API key",
+        "description": "Generates a user's API key. The full API key is returned only once and cannot be retrieved again.",
+        "tags": [
+          "Users"
+        ],
+        "operationId": "createUserApiKey",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the user to create API key for",
+            "schema": {
+              "type": "string",
+              "example": "1357158568008091264"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "API key created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "item",
+                    "included"
+                  ],
+                  "properties": {
+                    "item": {
+                      "$ref": "#/components/schemas/User"
+                    },
+                    "included": {
+                      "type": "object",
+                      "required": [
+                        "apiKey"
+                      ],
+                      "properties": {
+                        "apiKey": {
+                          "type": "string",
+                          "description": "API key of the user (returned only once)",
+                          "example": "D89VszVs_oSS6TdDtYmi0j1LhugOioY40dDVssESO"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ValidationError"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
       }
     },
     "/users": {
@@ -9440,7 +9790,7 @@
                   "username": {
                     "type": "string",
                     "minLength": 3,
-                    "maxLength": 16,
+                    "maxLength": 32,
                     "pattern": "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$",
                     "nullable": true,
                     "description": "Unique username for user identification",
@@ -9451,7 +9801,7 @@
                     "maxLength": 128,
                     "nullable": true,
                     "description": "Contact phone number",
-                    "example": 1234567890
+                    "example": "+1234567890"
                   },
                   "organization": {
                     "type": "string",
@@ -9465,6 +9815,7 @@
                     "enum": [
                       "ar-YE",
                       "bg-BG",
+                      "ca-ES",
                       "cs-CZ",
                       "da-DK",
                       "de-DE",
@@ -9494,11 +9845,12 @@
                       "tr-TR",
                       "uk-UA",
                       "uz-UZ",
+                      "vi-VN",
                       "zh-CN",
                       "zh-TW"
                     ],
                     "nullable": true,
-                    "description": "Preferred language for user interface and notifications",
+                    "description": "Preferred language for user interface and notifications (if null - will be set automatically on the first login)",
                     "example": "en-US"
                   },
                   "subscribeToOwnCards": {
@@ -9563,7 +9915,7 @@
         "operationId": "getUsers",
         "responses": {
           "200": {
-            "description": "List of users retrieved successfully",
+            "description": "Users retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -9776,7 +10128,7 @@
                     "maxLength": 128,
                     "nullable": true,
                     "description": "Contact phone number",
-                    "example": 1234567890
+                    "example": "+1234567890"
                   },
                   "organization": {
                     "type": "string",
@@ -9790,6 +10142,7 @@
                     "enum": [
                       "ar-YE",
                       "bg-BG",
+                      "ca-ES",
                       "cs-CZ",
                       "da-DK",
                       "de-DE",
@@ -9819,12 +10172,18 @@
                       "tr-TR",
                       "uk-UA",
                       "uz-UZ",
+                      "vi-VN",
                       "zh-CN",
                       "zh-TW"
                     ],
-                    "nullable": true,
                     "description": "Preferred language for user interface and notifications",
                     "example": "en-US"
+                  },
+                  "apiKey": {
+                    "type": "object",
+                    "nullable": true,
+                    "description": "API key of the user (only null value to remove API key)",
+                    "example": null
                   },
                   "subscribeToOwnCards": {
                     "type": "boolean",
@@ -9844,7 +10203,7 @@
                   "enableFavoritesByDefault": {
                     "type": "boolean",
                     "description": "Whether favorites are enabled by default",
-                    "example": false
+                    "example": true
                   },
                   "defaultEditorMode": {
                     "type": "string",
@@ -9873,6 +10232,11 @@
                     ],
                     "description": "Default sort order for projects display",
                     "example": "byDefault"
+                  },
+                  "isSsoUser": {
+                    "type": "boolean",
+                    "description": "Whether the user is SSO user (only false value to unlink SSO, for admins)",
+                    "example": false
                   },
                   "isDeactivated": {
                     "type": "boolean",
@@ -10144,16 +10508,13 @@
                     "included": {
                       "type": "object",
                       "required": [
-                        "accessTokens"
+                        "accessToken"
                       ],
                       "properties": {
-                        "accessTokens": {
-                          "type": "array",
+                        "accessToken": {
+                          "type": "string",
                           "description": "New acces tokens (when updating own password)",
-                          "items": {
-                            "type": "string",
-                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4..."
-                          }
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4..."
                         }
                       }
                     }
@@ -10207,7 +10568,7 @@
                   "username": {
                     "type": "string",
                     "minLength": 3,
-                    "maxLength": 16,
+                    "maxLength": 32,
                     "pattern": "^[a-zA-Z0-9]+((_|\\.)?[a-zA-Z0-9])*$",
                     "nullable": true,
                     "description": "Unique username for user identification",
@@ -10358,7 +10719,7 @@
         "operationId": "getWebhooks",
         "responses": {
           "200": {
-            "description": "List of webhooks retrieved successfully",
+            "description": "Webhooks retrieved successfully",
             "content": {
               "application/json": {
                 "schema": {
