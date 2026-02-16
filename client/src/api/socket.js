@@ -30,8 +30,8 @@ socket.connect = socket._connect; // eslint-disable-line no-underscore-dangle
           headers,
           url: `/api${url}`,
         },
-        (_, { body, error }) => {
-          if (error) {
+        (body, { error }) => {
+          if (body instanceof Error || error) {
             reject(body);
           } else {
             resolve(body);
