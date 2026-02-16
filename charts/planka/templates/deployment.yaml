@@ -39,7 +39,16 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- $imageTag := .Values.image.tag | default .Chart.AppVersion }}
+          {{- if .Values.image.digest }}
+            {{- if $imageTag }}
+          image: "{{ .Values.image.repository }}:{{ $imageTag }}@sha256:{{ .Values.image.digest }}"
+            {{- else }}
+          image: "{{ .Values.image.repository }}@sha256:{{ .Values.image.digest }}"
+            {{- end }}
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ $imageTag }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
