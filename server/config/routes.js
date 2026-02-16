@@ -151,6 +151,7 @@ module.exports.routes = {
   'DELETE /api/base-custom-field-groups/:id': 'base-custom-field-groups/delete',
 
   'POST /api/projects/:projectId/boards': 'boards/create',
+  'GET /api/public-boards/:publicId': 'boards/public-show',
   'GET /api/boards/:id': 'boards/show',
   'PATCH /api/boards/:id': 'boards/update',
   'DELETE /api/boards/:id': 'boards/delete',
