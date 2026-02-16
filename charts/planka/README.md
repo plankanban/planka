@@ -68,7 +68,7 @@ helm install planka . --set secretkey=$SECRETKEY \
 
 or create a values.yaml file like:
 
-```yaml
+````yaml
 secretkey: "<InsertSecretKey>"
 # The admin section needs to be present for new instances of PLANKA, after the first start you can remove the lines starting with admin_. If you want the admin user to be unchangeable admin_email: has to stay
 # After changing the config you have to run ```helm upgrade  planka . -f values.yaml```
@@ -89,11 +89,11 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
 
-# Needed for HTTPS
+  # Needed for HTTPS
   tls:
-   - secretName: planka-tls # existing TLS secret in k8s
-     hosts:
-       - planka.example.dev
+    - secretName: planka-tls # existing TLS secret in k8s
+      hosts:
+        - planka.example.dev
 ```
 
 ```bash
@@ -135,14 +135,14 @@ extraMounts:
     subPath: ca.crt
     readOnly: true
     configMap:
-      name: ca-certificates  # Must exist
+      name: ca-certificates # Must exist
 
   # Mount TLS certificates from existing Secret
   - name: tls-certs
     mountPath: /etc/ssl/private
     readOnly: true
     secret:
-      secretName: planka-tls-secret  # Must exist
+      secretName: planka-tls-secret # Must exist
       items:
         - key: tls.crt
           path: server.crt
@@ -178,11 +178,13 @@ extraMounts:
 A common use case is configuring OIDC with a self-hosted Keycloak instance that uses custom CA certificates.
 
 First, create the CA certificate ConfigMap:
+
 ```bash
 kubectl create configmap ca-certificates --from-file=ca.crt=/path/to/your/ca.crt
 ```
 
 Then configure the chart:
+
 ```yaml
 # Mount custom CA certificate from existing ConfigMap
 extraMounts:
@@ -224,6 +226,67 @@ extraEnv:
       secretName: api-credentials
       key: api-key
 ```
+
+### Image Digest Pinning
+
+For enhanced security and reproducibility, you can pin the container image using its SHA256 digest instead of relying solely on tags. This ensures you always deploy the exact same image, preventing tag mutations or accidental updates.
+
+#### Finding the Image Digest
+
+You can find the digest of a specific image tag using:
+
+```bash
+docker inspect ghcr.io/plankanban/planka:latest --format='{{index .RepoDigests 0}}'
+# Output: ghcr.io/plankanban/planka@sha256:abc123def456...
+
+# Or with skopeo
+skopeo inspect docker://ghcr.io/plankanban/planka:latest
+```
+
+#### Usage
+
+You can use digest pinning in several ways:
+
+**Option 1: Digest with tag (recommended)**
+
+Includes the tag for reference while using the digest for verification:
+
+```bash
+helm install planka . --set secretkey=$SECRETKEY \
+  --set image.tag=latest \
+  --set image.digest=abc123def456... \
+  --set admin_email="demo@demo.demo" \
+  --set admin_password="demo" \
+  --set admin_name="Demo Demo" \
+  --set admin_username="demo"
+```
+
+Or in values.yaml:
+
+```yaml
+image:
+  repository: ghcr.io/plankanban/planka
+  tag: latest
+  digest: "abc123def456ab89cd12ef34ab56cd78ef90ab12cd34ef56ab78cd90ef12ab34"
+```
+
+**Option 2: Digest only**
+
+If you prefer to pin only by digest without specifying a tag:
+
+```yaml
+image:
+  repository: ghcr.io/plankanban/planka
+  tag: "" # Empty - digest alone identifies the image
+  digest: "abc123def456ab89cd12ef34ab56cd78ef90ab12cd34ef56ab78cd90ef12ab34"
+```
+
+#### Security Benefits
+
+- **Immutability**: Ensures you always deploy the exact same image
+- **Supply Chain Security**: Protects against tag mutations or registry compromise
+- **Reproducibility**: Makes deployments fully reproducible across environments
+- **Audit Trail**: Provides clear image identity in deployment manifests
 
 ### Complete Example
 

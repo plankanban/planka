@@ -9,6 +9,10 @@ image:
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
+  # Optional: specify the image digest for pinning by SHA256
+  # When set, the image reference will include the digest for enhanced security
+  # Example: "abc123def456..." (without sha256: prefix)
+  digest: ""
 
 imagePullSecrets: []
 nameOverride: ""
