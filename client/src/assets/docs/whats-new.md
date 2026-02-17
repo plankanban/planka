@@ -1,3 +1,10 @@
+# [2.0.1] - 2026-02-17
+
+### Fixed
+
+* Improve connection reliability after the app is idle
+* Allow loading custom End User Terms of Service
+
 ## [2.0.0] - 2026-02-11
 
 ### Added
