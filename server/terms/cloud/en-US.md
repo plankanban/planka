@@ -124,6 +124,7 @@ The full Privacy Policy with complete details on sub-processors, technical measu
 
 *PLANKA Software GmbH · Lindauer Str. 4 · 87439 Kempten · Germany*
 
+[confirmations]::
 ---
 
 ✔️ **I have read and accept the Terms of Service (Part I)**

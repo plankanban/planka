@@ -1,3 +1,11 @@
+# ⚠️ DIES IST NUR EINE BEISPIEL-VORLAGE
+
+Wenn Sie Administrator dieser Instanz sind, können Sie diese Bedingungen an Ihre eigenen Bedürfnisse und rechtlichen Anforderungen anpassen.
+
+Eine Anleitung zum Anpassen dieser Vorlage finden Sie in diesem [Guide](https://docs.planka.cloud/docs/configuration/customizing-end-user-terms/).
+
+---
+
 # Nutzungsbedingungen für Endbenutzer – On-Premise-Version
 
 **Stand: 11. Februar 2026 – v1.0**
@@ -76,6 +84,7 @@ Der Anbieter kann diese Nutzungsbedingungen mit Wirkung für die Zukunft ändern
 
 *PLANKA Software GmbH · Lindauer Str. 4 · 87439 Kempten · Deutschland*
 
+[confirmations]::
 ---
 
 ✔️ **Ich habe diese Nutzungsbedingungen gelesen und akzeptiere sie**

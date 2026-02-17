@@ -11,15 +11,12 @@ import { Button, Checkbox, Dropdown, Modal, Segment } from 'semantic-ui-react';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { localeByLanguage } from '../../../locales';
-import TERMS_LANGUAGES from '../../../constants/TermsLanguages';
 import Markdown from '../Markdown';
 
 import styles from './TermsModal.module.scss';
 
-const LOCALES = TERMS_LANGUAGES.map((language) => localeByLanguage[language]);
-
 const splitTermsAndConfirmations = (content) => {
-  const separator = '\n---\n';
+  const separator = '\n[confirmations]::\n---\n';
   const index = content.lastIndexOf(separator);
 
   if (index === -1) {
@@ -38,6 +35,8 @@ const splitTermsAndConfirmations = (content) => {
 };
 
 const TermsModal = React.memo(() => {
+  const { termsLanguages } = useSelector(selectors.selectBootstrap);
+
   const {
     termsForm: { payload: terms, isSubmitting, isCancelling, isLanguageUpdating },
   } = useSelector(selectors.selectAuthenticateForm);
@@ -45,6 +44,19 @@ const TermsModal = React.memo(() => {
   const dispatch = useDispatch();
   const [t] = useTranslation();
   const [acceptedConfirmationsSet, setAcceptedConfirmationsSet] = useState(new Set());
+
+  const locales = useMemo(
+    () =>
+      termsLanguages.map(
+        (language) =>
+          localeByLanguage[language] || {
+            language,
+            country: language.split('-')[1]?.toLowerCase(),
+            name: language,
+          },
+      ),
+    [termsLanguages],
+  );
 
   const [content, confirmations] = useMemo(
     () => splitTermsAndConfirmations(terms.content),
@@ -88,7 +100,7 @@ const TermsModal = React.memo(() => {
         <Dropdown
           fluid
           selection
-          options={LOCALES.map((locale) => ({
+          options={locales.map((locale) => ({
             value: locale.language,
             flag: locale.country,
             text: locale.name,

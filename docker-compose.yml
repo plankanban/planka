@@ -4,6 +4,7 @@ services:
     restart: on-failure
     volumes:
       - data:/app/data
+      # - ./terms:/app/terms/custom
     # Optionally override this to your user/group
     # user: 1000:1000
     # tmpfs:

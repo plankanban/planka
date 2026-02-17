@@ -1,3 +1,11 @@
+# ⚠️ THIS IS ONLY A TEMPLATE
+
+If you are the admin of this instance, you can customize these Terms to suit your own needs and legal requirements.
+
+For guidance on updating this template, see this [guide](https://docs.planka.cloud/docs/configuration/customizing-end-user-terms/).
+
+---
+
 # End User Terms of Service – On-Premise Version
 
 **Effective: February 11, 2026 – v1.0**
@@ -76,6 +84,7 @@ The Provider may amend these End User Terms of Service with effect for the futur
 
 *PLANKA Software GmbH · Lindauer Str. 4 · 87439 Kempten · Germany*
 
+[confirmations]::
 ---
 
 ✔️ **I have read and accept these End User Terms of Service**

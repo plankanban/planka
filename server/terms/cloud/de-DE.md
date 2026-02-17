@@ -124,6 +124,7 @@ Die vollständige Datenschutzerklärung mit allen Details zu Sub-Auftragsverarbe
 
 *PLANKA Software GmbH · Lindauer Str. 4 · 87439 Kempten · Deutschland*
 
+[confirmations]::
 ---
 
 ✔️ **Ich habe die Nutzungsbedingungen (Teil I) gelesen und akzeptiere sie**

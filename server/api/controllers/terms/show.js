@@ -19,7 +19,6 @@
  *         description: Language code for terms localization
  *         schema:
  *           type: string
- *           enum: [de-DE, en-US]
  *           example: en-US
  *     responses:
  *       200:
@@ -41,7 +40,6 @@
  *                   properties:
  *                     language:
  *                       type: string
- *                       enum: [de-DE, en-US]
  *                       description: Language code used
  *                       example: en-US
  *                     content:
@@ -65,7 +63,6 @@ module.exports = {
   inputs: {
     language: {
       type: 'string',
-      isIn: User.LANGUAGES,
     },
   },
 

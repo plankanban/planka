@@ -23,3 +23,7 @@ test
 views/index.html
 
 data/*
+
+terms/*
+!terms/_template
+!terms/cloud

@@ -22,6 +22,7 @@ module.exports = {
   fn(inputs) {
     const data = {
       oidc: inputs.oidc,
+      termsLanguages: sails.hooks.terms.getLanguages(),
       version: sails.config.custom.version,
     };
 
