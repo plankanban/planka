@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "2.0.0",
+    "version": "2.0.1",
     "title": "PLANKA API",
     "description": "API documentation for PLANKA - Real-Time Collaborative Kanban Board Application",
     "license": {
@@ -4289,6 +4289,17 @@
                       "format": "uri",
                       "description": "URL to the customer management panel (conditionally added for admins if configured)",
                       "example": "https://panel.example.com"
+                    },
+                    "termsLanguages": {
+                      "type": "array",
+                      "description": "List of available language codes for terms localization",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "de-DE",
+                        "en-US"
+                      ]
                     },
                     "version": {
                       "type": "string",
@@ -9605,10 +9616,6 @@
             "description": "Language code for terms localization",
             "schema": {
               "type": "string",
-              "enum": [
-                "de-DE",
-                "en-US"
-              ],
               "example": "en-US"
             }
           }
@@ -9635,10 +9642,6 @@
                       "properties": {
                         "language": {
                           "type": "string",
-                          "enum": [
-                            "de-DE",
-                            "en-US"
-                          ],
                           "description": "Language code used",
                           "example": "en-US"
                         },
