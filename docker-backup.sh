@@ -3,6 +3,13 @@
 # Stop on Error
 set -e
 
+# Use provided directory or default to current folder
+BACKUP_DIR=${1:-.}
+if [ -z "$1" ]; then
+  echo "No backup directory specified, using current folder: $(pwd)"
+fi
+echo "Backing up to: $BACKUP_DIR"
+
 # Configure those to match your PLANKA Docker container names
 PLANKA_DOCKER_CONTAINER_POSTGRES="planka-postgres-1"
 PLANKA_DOCKER_CONTAINER_PLANKA="planka-planka-1"
