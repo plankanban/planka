@@ -9,6 +9,12 @@ PLANKA_DOCKER_CONTAINER_PLANKA="planka-planka-1"
 
 # Extract tgz archive
 PLANKA_BACKUP_ARCHIVE_TGZ=$1
+
+if [ -z "$PLANKA_BACKUP_ARCHIVE_TGZ" ]; then
+    echo "Usage: $0 <backup-file.tgz>"
+    exit 1
+fi
+
 PLANKA_BACKUP_ARCHIVE=$(basename "$PLANKA_BACKUP_ARCHIVE_TGZ" .tgz)
 echo -n "Extracting tarball $PLANKA_BACKUP_ARCHIVE_TGZ ... "
 tar -xzf "$PLANKA_BACKUP_ARCHIVE_TGZ"
