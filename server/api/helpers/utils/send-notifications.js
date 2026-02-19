@@ -4,7 +4,13 @@
  */
 
 const { execFile } = require('child_process');
+const path = require('path');
 const util = require('util');
+
+const PYTHON_PATH =
+  process.platform === 'win32'
+    ? path.join(sails.config.appPath, '.venv', 'Scripts', 'python.exe')
+    : path.join(sails.config.appPath, '.venv', 'bin', 'python');
 
 const promisifyExecFile = util.promisify(execFile);
 
@@ -27,9 +33,9 @@ module.exports = {
   async fn(inputs) {
     try {
       await promisifyExecFile(
-        `${sails.config.appPath}/.venv/bin/python3`,
+        PYTHON_PATH,
         [
-          `${sails.config.appPath}/utils/send_notifications.py`,
+          path.join(sails.config.appPath, 'utils', 'send_notifications.py'),
           JSON.stringify(inputs.services),
           inputs.title,
           JSON.stringify(inputs.bodyByFormat),

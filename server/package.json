@@ -12,7 +12,7 @@
     "db:upgrade": "node db/upgrade.js",
     "postinstall": "patch-package && npm run setup-python",
     "lint": "eslint . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "setup-python": "python3 -m venv .venv && .venv/bin/pip3 install -r requirements.txt",
+    "setup-python": "node setup-python.js",
     "start": "nodemon",
     "start:prod": "cross-env NODE_ENV=production node app.js --prod",
     "swagger:generate": "node generate-swagger.js",
