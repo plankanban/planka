@@ -70,6 +70,12 @@ spec:
             - mountPath: /app/logs
               subPath: app-logs
               name: emptydir
+            - mountPath: /app/.tmp
+              subPath: app-tmp
+              name: emptydir
+            - mountPath: /tmp
+              subPath: tmp
+              name: emptydir
           {{- end }}
           {{- /* Extra volume mounts */}}
           {{- range .Values.extraMounts }}
