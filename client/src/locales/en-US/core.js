@@ -248,6 +248,7 @@ export default {
       noCardsFound: 'No cards found.',
       noConnectionToServer: 'No connection to server',
       noLists: 'No lists',
+      noMember: 'No member',
       noProjects: 'No projects',
       noUnreadNotifications: 'No unread notifications.',
       notifications: 'Notifications',
