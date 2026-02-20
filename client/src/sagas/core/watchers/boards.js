@@ -44,5 +44,10 @@ export default function* boardsWatchers() {
     takeEvery(EntryActionTypes.BOARD_DELETE_HANDLE, ({ payload: { board } }) =>
       services.handleBoardDelete(board),
     ),
+    takeEvery(
+      EntryActionTypes.BOARD_MOVE_TO_PROJECT_REQUEST,
+      ({ payload: { boardId, targetProjectId } }) =>
+        services.moveBoardToProjectSaga({ payload: { boardId, targetProjectId } }),
+    ),
   ]);
 }

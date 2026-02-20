@@ -58,6 +58,14 @@ const moveBoard = (id, index) => ({
   },
 });
 
+const moveBoardToProjectRequest = (boardId, targetProjectId) => ({
+  type: EntryActionTypes.BOARD_MOVE_TO_PROJECT_REQUEST,
+  payload: {
+    boardId,
+    targetProjectId,
+  },
+});
+
 const updateContextInCurrentBoard = (value) => ({
   type: EntryActionTypes.CONTEXT_IN_CURRENT_BOARD_UPDATE,
   payload: {
@@ -101,6 +109,7 @@ export default {
   updateCurrentBoard,
   handleBoardUpdate,
   moveBoard,
+  moveBoardToProjectRequest,
   updateContextInCurrentBoard,
   updateViewInCurrentBoard,
   searchInCurrentBoard,
