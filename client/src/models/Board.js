@@ -11,14 +11,21 @@ import { isListKanban } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { BoardContexts, BoardViews } from '../constants/Enums';
+import { getBoardFiltersFromStorage, clearBoardFilters } from '../utils/localStorage';
 
-const prepareFetchedBoard = (board) => ({
-  ...board,
-  isFetching: false,
-  context: BoardContexts.BOARD,
-  view: board.defaultView,
-  search: '',
-});
+const prepareFetchedBoard = (board) => {
+  const storedFilters = getBoardFiltersFromStorage(board.id);
+
+  return {
+    ...board,
+    isFetching: false,
+    context: BoardContexts.BOARD,
+    view: board.defaultView,
+    search: '',
+    filterLabels: storedFilters.labels,
+    filterUsers: storedFilters.users,
+  };
+};
 
 export default class extends BaseModel {
   static modelName = 'Board';
@@ -155,6 +162,7 @@ export default class extends BaseModel {
 
         if (payload.replace) {
           boardModel.filterUsers.clear();
+          clearBoardFilters(payload.boardId);
         }
 
         boardModel.filterUsers.add(payload.id);
@@ -443,6 +451,7 @@ export default class extends BaseModel {
   deleteClearable() {
     this.filterUsers.clear();
     this.filterLabels.clear();
+    clearBoardFilters(this.id);
   }
 
   deleteRelated(exceptMemberUserId, soft) {
