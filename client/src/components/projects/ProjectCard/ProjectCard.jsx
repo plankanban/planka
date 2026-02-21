@@ -17,6 +17,8 @@ import entryActions from '../../../entry-actions';
 import Paths from '../../../constants/Paths';
 import { ProjectBackgroundTypes } from '../../../constants/Enums';
 import UserAvatar from '../../users/UserAvatar';
+import { usePopup } from '../../../lib/popup';
+import ProjectCardMenu from './ProjectCardMenu';
 
 import styles from './ProjectCard.module.scss';
 import globalStyles from '../../../styles.module.scss';
@@ -42,6 +44,10 @@ const ProjectCard = React.memo(
 
     const selectProjectManagerById = useMemo(() => selectors.makeSelectProjectManagerById(), []);
     const selectBackgroundImageById = useMemo(() => selectors.makeSelectBackgroundImageById(), []);
+    const selectCanDeleteProjectById = useMemo(
+      () => selectors.makeSelectCanDeleteProjectById(),
+      [],
+    );
 
     const project = useSelector((state) => selectProjectById(state, id));
     const firstBoardId = useSelector((state) => selectFirstBoardIdByProjectId(state, id));
@@ -52,12 +58,17 @@ const ProjectCard = React.memo(
 
     const ownerProjectManager = useSelector(
       (state) =>
+        project &&
         project.ownerProjectManagerId &&
         selectProjectManagerById(state, project.ownerProjectManagerId),
     );
 
     const backgroundImageUrl = useSelector((state) => {
-      if (!project.backgroundType || project.backgroundType !== ProjectBackgroundTypes.IMAGE) {
+      if (
+        !project ||
+        !project.backgroundType ||
+        project.backgroundType !== ProjectBackgroundTypes.IMAGE
+      ) {
         return null;
       }
 
@@ -70,15 +81,32 @@ const ProjectCard = React.memo(
       return backgroundImage.thumbnailUrls.outside360;
     });
 
+    const canDelete = useSelector((state) => selectCanDeleteProjectById(state, id));
+
     const dispatch = useDispatch();
 
     const handleToggleFavoriteClick = useCallback(() => {
+      if (!project) {
+        return;
+      }
       dispatch(
         entryActions.updateProject(project.id, {
           isFavorite: !project.isFavorite,
         }),
       );
     }, [project, dispatch]);
+
+    const handleDeleteConfirm = useCallback(() => {
+      dispatch(entryActions.deleteProject(id));
+    }, [id, dispatch]);
+
+    const ProjectCardMenuPopup = usePopup(ProjectCardMenu, {
+      position: 'bottom left',
+    });
+
+    if (!project) {
+      return null;
+    }
 
     const withSidebar = withTypeIndicator || (withFavoriteButton && !project.isHidden);
 
@@ -161,6 +189,13 @@ const ProjectCard = React.memo(
               className={classNames(styles.icon, styles.favoriteButtonIcon)}
             />
           </Button>
+        )}
+        {canDelete && (
+          <ProjectCardMenuPopup projectId={id} onDeleteConfirm={handleDeleteConfirm}>
+            <Button className={styles.menuButton}>
+              <Icon fitted name="ellipsis vertical" className={styles.menuButtonIcon} />
+            </Button>
+          </ProjectCardMenuPopup>
         )}
       </div>
     );
