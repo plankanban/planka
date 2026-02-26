@@ -15,6 +15,7 @@ import { setAccessToken } from '../../../utils/access-token-storage';
 import mergeRecords from '../../../utils/merge-records';
 import { isUserAdminOrProjectOwner } from '../../../utils/record-helpers';
 import { UserRoles } from '../../../constants/Enums';
+import { addUserToBoardFilters, removeUserFromBoardFilters } from '../../../utils/localStorage';
 
 export function* handleUsersReset() {
   let users;
@@ -480,6 +481,8 @@ export function* handleUserFromCardRemove(cardMembership) {
 export function* addUserToBoardFilter(id, boardId, replace) {
   const currentListId = yield select(selectors.selectCurrentListId);
 
+  addUserToBoardFilters(boardId, id);
+
   yield put(actions.addUserToBoardFilter(id, boardId, replace, currentListId));
 }
 
@@ -491,6 +494,8 @@ export function* addUserToFilterInCurrentBoard(id, replace) {
 
 export function* removeUserFromBoardFilter(id, boardId) {
   const currentListId = yield select(selectors.selectCurrentListId);
+
+  removeUserFromBoardFilters(boardId, id);
 
   yield put(actions.removeUserFromBoardFilter(id, boardId, currentListId));
 }
