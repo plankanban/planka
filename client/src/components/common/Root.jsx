@@ -14,9 +14,8 @@ import { ReduxRouter } from '../../lib/redux-router';
 
 import Paths from '../../constants/Paths';
 import Login from './Login';
-import Core from './Core';
+import Core from './Core/Core';
 import GhostError from './GhostError';
-import PublicBoard from './PublicBoard';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'photoswipe/dist/photoswipe.css';
@@ -34,7 +33,7 @@ function Root({ store, history }) {
             <Routes>
               <Route path={Paths.LOGIN} element={<Login />} />
               <Route path={Paths.OIDC_CALLBACK} element={<Login />} />
-              <Route path={Paths.PUBLIC_BOARDS} element={<PublicBoard />} />
+              <Route path={Paths.PUBLIC_BOARDS} element={<Core />} />
               <Route path={Paths.ROOT} element={<Core />} />
               <Route path={Paths.PROJECTS} element={<Core />} />
               <Route path={Paths.BOARDS} element={<Core />} />

@@ -46,7 +46,7 @@ module.exports.policies = {
 
   'bootstrap/show': true,
   'terms/show': true,
-  'boards/public-show': true,
+  'boards/show': true,
   'access-tokens/create': true,
   'access-tokens/exchange-with-oidc': true,
   'access-tokens/debug-oidc': true,
