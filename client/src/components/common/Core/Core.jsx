@@ -3,11 +3,13 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
 import { useTranslation, Trans } from 'react-i18next';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Message as UIMessage } from 'semantic-ui-react';
 
+import Config from '../../../constants/Config';
 import selectors from '../../../selectors';
 import version from '../../../version';
 import ModalTypes from '../../../constants/ModalTypes';
@@ -20,8 +22,89 @@ import AboutModal from '../AboutModal';
 import UserSettingsModal from '../../users/UserSettingsModal';
 import ProjectBackground from '../../projects/ProjectBackground';
 import AddProjectModal from '../../projects/AddProjectModal';
+import KanbanBoard from '../KanbanBoard';
+import styles from './PublicBoard.module.scss';
 
 const Core = React.memo(() => {
+  const location = useLocation();
+  const { publicId } = useParams();
+
+  // Check if current route is for a public board
+  const isPublicBoardRoute = useMemo(() => {
+    const publicBoardPattern = /^\/public-boards\/[^/]+$/;
+    return publicBoardPattern.test(location.pathname);
+  }, [location.pathname]);
+
+  // Public board state
+  const [publicBoardData, setPublicBoardData] = useState(null);
+  const [isPublicBoardLoading, setIsPublicBoardLoading] = useState(false);
+  const [publicBoardError, setPublicBoardError] = useState(null);
+
+  // Fetch public board data
+  useEffect(() => {
+    if (!isPublicBoardRoute || !publicId) return;
+
+    const fetchPublicBoard = async () => {
+      setIsPublicBoardLoading(true);
+      setPublicBoardError(null);
+      try {
+        const response = await fetch(`${Config.SERVER_BASE_URL}/api/public-boards/${publicId}`);
+        if (!response.ok) {
+          throw new Error('Board not found or not public');
+        }
+        const data = await response.json();
+        setPublicBoardData(data);
+      } catch (err) {
+        setPublicBoardError(err.message);
+      } finally {
+        setIsPublicBoardLoading(false);
+      }
+    };
+
+    fetchPublicBoard();
+  }, [publicId, isPublicBoardRoute]);
+
+  // Render public board
+  if (isPublicBoardRoute) {
+    if (isPublicBoardLoading) {
+      return (
+        <div className={styles.wrapper}>
+          <Loader active size="massive" />
+        </div>
+      );
+    }
+
+    if (publicBoardError) {
+      return (
+        <div className={styles.wrapper}>
+          <UIMessage error>
+            <UIMessage.Header>Board Not Available</UIMessage.Header>
+            <p>{publicBoardError}</p>
+          </UIMessage>
+        </div>
+      );
+    }
+
+    if (!publicBoardData) {
+      return null;
+    }
+
+    const { item: board, included } = publicBoardData;
+
+    return (
+      <div className={styles.wrapper}>
+        <div className={styles.header}>
+          <h1 className={styles.boardName}>{board.name}</h1>
+          <div className={styles.badge}>Read Only - Public View</div>
+        </div>
+        <div className={styles.content}>
+          <KanbanBoard board={board} included={included} isPublic />
+        </div>
+      </div>
+    );
+  }
+
+  // Authenticated user section
   const isInitializing = useSelector(selectors.selectIsInitializing);
   const isSocketDisconnected = useSelector(selectors.selectIsSocketDisconnected);
   const modal = useSelector(selectors.selectCurrentModal);

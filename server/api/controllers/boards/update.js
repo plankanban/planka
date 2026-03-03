@@ -123,6 +123,9 @@ module.exports = {
     expandTaskListsByDefault: {
       type: 'boolean',
     },
+    isPublic: {
+      type: 'boolean',
+    },
     isSubscribed: {
       type: 'boolean',
     },
@@ -161,6 +164,7 @@ module.exports = {
         'limitCardTypesToDefaultOne',
         'alwaysDisplayCardCreator',
         'expandTaskListsByDefault',
+        'isPublic',
       );
     }
     if (isBoardMember) {
@@ -179,8 +183,20 @@ module.exports = {
       'limitCardTypesToDefaultOne',
       'alwaysDisplayCardCreator',
       'expandTaskListsByDefault',
+      'isPublic',
       'isSubscribed',
     ]);
+
+    // Generate or clear publicId when isPublic changes
+    if (!_.isUndefined(values.isPublic)) {
+      if (values.isPublic && !board.publicId) {
+        // Generate a random 24-character URL-safe token
+        values.publicId = sails.helpers.utils.generateRandomString(24);
+      } else if (!values.isPublic) {
+        // Clear publicId when making board private
+        values.publicId = null;
+      }
+    }
 
     board = await sails.helpers.boards.updateOne.with({
       values,
