@@ -41,7 +41,7 @@
 
   .itemHoverable:hover {
     cursor: pointer;
-    background: rgba(0, 0, 0, 0.32);
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .itemIconEnabled {
@@ -103,8 +103,18 @@
   }
 
   .wrapper {
-    background: rgba(0, 0, 0, 0.24);
+    background: rgba(15, 23, 42, 0.85);
+    border-bottom: 1px solid var(--glass-header-border);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
     display: flex;
     flex: 0 0 auto;
+    position: relative;
+    z-index: 100;
+
+    @supports (backdrop-filter: blur(1px)) {
+      background: var(--glass-header-bg);
+      backdrop-filter: blur(var(--glass-header-blur));
+      -webkit-backdrop-filter: blur(var(--glass-header-blur));
+    }
   }
 }

@@ -4,6 +4,41 @@
  */
 
 :global {
+  :root {
+    /* Glassmorphism Theme Variables */
+    --glass-tint-rgb: 15, 23, 42;
+    --glass-tint-light-rgb: 255, 255, 255;
+
+    /* Column Glass */
+    --glass-column-bg: rgba(var(--glass-tint-rgb), 0.35);
+    --glass-column-blur: 16px;
+    --glass-column-border: rgba(var(--glass-tint-light-rgb), 0.15);
+    --glass-column-shadow: 0 8px 32px rgba(0, 0, 0, 0.20);
+    --glass-column-radius: 12px;
+
+    /* Card Glass */
+    --glass-card-bg: rgba(var(--glass-tint-light-rgb), 0.08);
+    --glass-card-blur: 8px;
+    --glass-card-border: rgba(var(--glass-tint-light-rgb), 0.10);
+    --glass-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --glass-card-radius: 8px;
+
+    /* Header Glass */
+    --glass-header-bg: rgba(var(--glass-tint-rgb), 0.50);
+    --glass-header-blur: 12px;
+    --glass-header-border: rgba(var(--glass-tint-light-rgb), 0.12);
+
+    /* Modal Glass */
+    --glass-modal-bg: rgba(var(--glass-tint-rgb), 0.55);
+    --glass-modal-blur: 24px;
+    --glass-modal-border: rgba(var(--glass-tint-light-rgb), 0.15);
+
+    /* Text Colors */
+    --glass-text-primary: rgba(255, 255, 255, 0.95);
+    --glass-text-secondary: rgba(255, 255, 255, 0.65);
+    --glass-text-muted: rgba(255, 255, 255, 0.45);
+  }
+
   #app {
     background: #22252a;
     overflow-x: auto;

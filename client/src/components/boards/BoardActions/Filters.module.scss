@@ -31,16 +31,19 @@
   }
 
   .filterLabel {
-    background: rgba(0, 0, 0, 0.24);
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 6px;
     color: #fff;
     display: inline-block;
     font-size: 12px;
     line-height: 20px;
     padding: 2px 8px;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.32);
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.20);
     }
   }
 
@@ -78,13 +81,14 @@
     width: 220px;
 
     input {
-      background: rgba(0, 0, 0, 0.24);
-      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 6px;
       color: #fff !important;
       font-size: 12px;
 
       &::placeholder {
-        color: #fff;
+        color: rgba(255, 255, 255, 0.5);
       }
     }
   }

@@ -32,7 +32,7 @@
   .selectTypeButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     font-weight: normal;
     margin-left: auto;
     margin-right: 0;
@@ -43,8 +43,8 @@
     transition: none;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
     }
   }
 
@@ -53,10 +53,18 @@
   }
 
   .wrapper {
-    background: #e2e4e6;
-    border-radius: 3px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid var(--glass-column-border);
+    border-radius: var(--glass-column-radius);
+    box-shadow: var(--glass-column-shadow);
     padding: 4px;
     transition: opacity 40ms ease-in;
     width: 272px;
+
+    @supports (backdrop-filter: blur(1px)) {
+      background: var(--glass-column-bg);
+      backdrop-filter: blur(var(--glass-column-blur));
+      -webkit-backdrop-filter: blur(var(--glass-column-blur));
+    }
   }
 }
