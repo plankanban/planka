@@ -93,6 +93,7 @@ module.exports.custom = {
   oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
   oidcEnforced: process.env.OIDC_ENFORCED === 'true',
   oidcDebug: process.env.OIDC_DEBUG === 'true',
+  oidcTimeout: envToNumber(process.env.OIDC_TIMEOUT),
 
   // TODO: move client base url to environment variable?
   oidcRedirectUri: `${
