@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Icon, Menu } from 'semantic-ui-react';
-import { Popup } from '../../../../lib/custom-ui';
+import { FilePicker, Popup } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
@@ -88,6 +88,17 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
 
     onClose();
   }, [userId, onClose, dispatch]);
+
+  const handleAvatarFileSelect = useCallback(
+    (file) => {
+      dispatch(
+        entryActions.updateUserAvatar(userId, {
+          file,
+        }),
+      );
+    },
+    [userId, dispatch],
+  );
 
   const handleDeleteConfirm = useCallback(() => {
     dispatch(entryActions.deleteUser(userId));
@@ -219,6 +230,14 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               context: 'title',
             })}
           </Menu.Item>
+          <FilePicker accept="image/*" onSelect={handleAvatarFileSelect}>
+            <Menu.Item className={styles.menuItem}>
+              <Icon name="camera" className={styles.menuItemIcon} />
+              {t('common.editAvatar', {
+                context: 'title',
+              })}
+            </Menu.Item>
+          </FilePicker>
           {!user.lockedFieldNames.includes('username') && (
             <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
               <Icon name="at" className={styles.menuItemIcon} />
