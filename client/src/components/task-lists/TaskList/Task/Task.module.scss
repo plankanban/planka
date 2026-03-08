@@ -23,6 +23,7 @@
   .button {
     background: transparent;
     box-shadow: none;
+    color: var(--glass-text-secondary);
     line-height: 28px;
     margin: 0;
     min-height: auto;
@@ -31,7 +32,8 @@
     width: 28px;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
+      background: rgba(255, 255, 255, 0.10);
+      color: var(--glass-text-primary);
     }
   }
 
@@ -49,7 +51,7 @@
   }
 
   .contentHoverable:hover {
-    background: rgba(9, 30, 66, 0.04);
+    background: rgba(255, 255, 255, 0.06);
 
     .button {
       opacity: 1;
@@ -57,7 +59,7 @@
   }
 
   .icon {
-    color: rgba(9, 30, 66, 0.24);
+    color: var(--glass-text-muted);
     margin-right: 8px;
   }
 
@@ -68,7 +70,7 @@
   }
 
   .nameCompleted {
-    color: #aaa;
+    color: var(--glass-text-muted);
     text-decoration: line-through;
   }
 
@@ -85,7 +87,7 @@
   .text {
     background: transparent;
     border-radius: 3px;
-    color: #17394d;
+    color: var(--glass-text-primary);
     display: inline-block;
     font-size: 15px;
     line-height: 1.5;
@@ -120,6 +122,6 @@
   }
 
   .wrapperDragging {
-    background: rgba(247, 246, 247, 0.8);
+    background: rgba(255, 255, 255, 0.08);
   }
 }

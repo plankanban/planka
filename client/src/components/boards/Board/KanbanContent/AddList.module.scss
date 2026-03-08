@@ -15,17 +15,17 @@
   }
 
   .field {
-    border: none;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 #ccc;
-    color: #333;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: var(--glass-text-primary);
     outline: none;
     overflow: hidden;
     width: 100%;
 
     &:focus {
-      border-color: #298fca;
-      box-shadow: 0 0 2px #298fca;
+      border-color: rgba(91, 164, 207, 0.6);
+      box-shadow: 0 0 4px rgba(91, 164, 207, 0.4);
     }
   }
 
