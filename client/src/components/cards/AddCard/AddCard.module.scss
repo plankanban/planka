@@ -23,9 +23,10 @@
   }
 
   .fieldWrapper {
-    background: #fff;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 #ccc;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--glass-card-radius);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     margin-bottom: 8px;
     min-height: 20px;
     padding: 6px 8px 2px;
@@ -34,7 +35,7 @@
   .selectTypeButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     font-weight: normal;
     margin-left: auto;
     margin-right: 0;
@@ -45,8 +46,8 @@
     transition: none;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
     }
   }
 

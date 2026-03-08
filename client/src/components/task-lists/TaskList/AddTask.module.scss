@@ -10,10 +10,10 @@
   }
 
   .field {
-    background: #fff;
-    border: 1px solid rgba(9, 30, 66, 0.08);
-    border-radius: 3px;
-    color: #17394d;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: var(--glass-text-primary);
     display: block;
     line-height: 1.5;
     font-size: 14px;
@@ -23,7 +23,7 @@
 
     :global {
       .menu {
-        border: 1px solid rgba(9, 30, 66, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
       .search {
@@ -35,7 +35,7 @@
   .toggleLinkingButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     font-weight: normal;
     margin-left: auto;
     margin-right: 0;
@@ -46,8 +46,8 @@
     transition: none;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
     }
   }
 

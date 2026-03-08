@@ -11,12 +11,13 @@
 
       .g-md-markup-editor__editor,
       .g-md-wysiwyg-editor__editor {
-        background: #fff;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--glass-text-primary);
       }
 
       .g-md-markup-editor__toolbar,
       .g-md-wysiwyg-editor__toolbar {
-        background: #f5f6f7;
+        background: rgba(255, 255, 255, 0.08);
         z-index: 2000;
       }
 
@@ -31,8 +32,8 @@
     --g-md-toolbar-padding: 6px 12px;
     --g-md-toolbar-sticky-offset: -21px;
 
-    border: 1px solid rgba(9, 30, 66, 0.13);
-    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
   }
 
   .wrapperError {

@@ -16,12 +16,24 @@
 }
 
 .wrapper {
-  border-radius: 3px !important;
-  border-width: 0 !important;
-  box-shadow: 0 8px 16px -4px rgba(9, 45, 66, 0.25),
-    0 0 0 1px rgba(9, 45, 66, 0.08) !important;
+  background: var(--glass-popup-bg, rgba(15, 23, 42, 0.75)) !important;
+  backdrop-filter: blur(var(--glass-popup-blur, 20px)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-popup-blur, 20px)) !important;
+  border: 1px solid var(--glass-popup-border, rgba(255, 255, 255, 0.12)) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+  color: var(--glass-text-primary, rgba(255, 255, 255, 0.95)) !important;
   margin-top: 6px !important;
   max-height: calc(100% - 70px);
   padding: 0 12px 12px !important;
   width: 304px;
+}
+
+.wrapper::before {
+  background: var(--glass-popup-bg, rgba(15, 23, 42, 0.75)) !important;
+  backdrop-filter: blur(var(--glass-popup-blur, 20px)) !important;
+  -webkit-backdrop-filter: blur(var(--glass-popup-blur, 20px)) !important;
+  border: 1px solid var(--glass-popup-border, rgba(255, 255, 255, 0.12)) !important;
+  box-shadow: none !important;
 }

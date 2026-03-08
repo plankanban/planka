@@ -14,12 +14,13 @@
   }
 
   .wrapper {
-    background: #dce0e4;
-    border-radius: 3px;
-    color: #6a808b;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    color: var(--glass-text-secondary);
     display: inline-block;
     font-variant-numeric: tabular-nums;
-    transition: background 0.3s ease;
+    transition: all 0.2s ease;
   }
 
   .wrapperActive {
@@ -33,8 +34,8 @@
   }
 
   .wrapperHoverable:hover {
-    background: #d2d8dc;
-    color: #17394d;
+    background: rgba(255, 255, 255, 0.18);
+    color: var(--glass-text-primary);
   }
 
   /* Sizes */

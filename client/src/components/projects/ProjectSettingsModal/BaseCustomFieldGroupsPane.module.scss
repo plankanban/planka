@@ -5,10 +5,10 @@
 
 :global(#app) {
   .addAttachmentButton {
-    background: rgba(9, 30, 66, 0.04);
+    background: rgba(255, 255, 255, 0.06);
     border: none;
     border-radius: 3px;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     cursor: pointer;
     line-height: 20px;
     padding: 6px 14px;
@@ -16,8 +16,8 @@
     vertical-align: top;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #17394d;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
     }
   }
 

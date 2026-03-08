@@ -10,7 +10,7 @@
   }
 
   .icon {
-    color: #888888;
+    color: var(--glass-text-secondary);
     margin: 0 0.35714286em 0 0;
   }
 
@@ -31,7 +31,7 @@
   }
 
   .note {
-    color: #888888;
+    color: var(--glass-text-secondary);
   }
 
   .roleCell {
@@ -45,7 +45,7 @@
   }
 
   .wrapper {
-    color: #212121;
+    color: var(--glass-text-primary);
   }
 
   .wrapperDeactivated {

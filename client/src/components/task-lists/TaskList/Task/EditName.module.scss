@@ -10,11 +10,11 @@
   }
 
   .field {
-    background: #fff;
-    border: 1px solid rgba(9, 30, 66, 0.13);
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
     box-sizing: border-box;
-    color: #17394d;
+    color: var(--glass-text-primary);
     display: block;
     font-size: 14px;
     line-height: 1.5;
