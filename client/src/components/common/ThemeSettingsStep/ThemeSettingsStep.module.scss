@@ -1,0 +1,269 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .wrapper {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 4px 0;
+
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+      scrollbar-width: thin;
+    }
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+    }
+  }
+
+  .section {
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .sectionTitle {
+    color: var(--glass-text-secondary);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .field {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .fieldLabel {
+    color: var(--glass-text-primary);
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .fieldControl {
+    flex: 0 0 auto;
+    margin-left: 12px;
+  }
+
+  .textInput {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    color: var(--glass-text-primary);
+    font-size: 13px;
+    outline: none;
+    padding: 6px 10px;
+    width: 140px;
+    transition: all 0.15s ease;
+
+    &:focus {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    &::placeholder {
+      color: var(--glass-text-muted);
+    }
+  }
+
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 4px;
+    height: 4px;
+    outline: none;
+    width: 120px;
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 50%;
+      cursor: pointer;
+      height: 14px;
+      width: 14px;
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: #fff;
+      }
+    }
+
+    &::-moz-range-thumb {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      height: 14px;
+      width: 14px;
+    }
+  }
+
+  .sliderValue {
+    color: var(--glass-text-muted);
+    font-size: 11px;
+    margin-left: 8px;
+    min-width: 32px;
+    text-align: right;
+  }
+
+  .toggle {
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    height: 24px;
+    outline: none;
+    padding: 2px;
+    position: relative;
+    transition: background 0.2s ease;
+    width: 44px;
+
+    &::after {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 20px;
+      left: 2px;
+      position: absolute;
+      top: 2px;
+      transition: transform 0.2s ease;
+      width: 20px;
+    }
+  }
+
+  .toggleActive {
+    background: rgba(33, 186, 69, 0.7);
+
+    &::after {
+      transform: translateX(20px);
+    }
+  }
+
+  .modeButtons {
+    display: flex;
+    gap: 4px;
+  }
+
+  .modeButton {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 6px;
+    color: var(--glass-text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+    outline: none;
+    padding: 5px 12px;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.10);
+      color: var(--glass-text-primary);
+    }
+  }
+
+  .modeButtonActive {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: var(--glass-text-primary);
+    font-weight: bold;
+  }
+
+  .bgGrid {
+    display: grid;
+    gap: 6px;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .bgSwatch {
+    border: 2px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 32px;
+    outline: none;
+    transition: all 0.15s ease;
+    width: 100%;
+
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: scale(1.05);
+    }
+  }
+
+  .bgSwatchActive {
+    border-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+  }
+
+  .resetButton {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 6px;
+    color: var(--glass-text-secondary);
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 8px;
+    outline: none;
+    padding: 6px 0;
+    text-align: center;
+    transition: all 0.15s ease;
+    width: 100%;
+
+    &:hover {
+      background: rgba(255, 77, 77, 0.15);
+      border-color: rgba(255, 77, 77, 0.3);
+      color: #ff6b6b;
+    }
+  }
+
+  .divider {
+    background: rgba(255, 255, 255, 0.08);
+    border: 0;
+    height: 1px;
+    margin: 12px 0;
+  }
+
+  .colorInput {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    cursor: pointer;
+    height: 28px;
+    outline: none;
+    padding: 0;
+    width: 36px;
+
+    &::-webkit-color-swatch-wrapper {
+      padding: 2px;
+    }
+
+    &::-webkit-color-swatch {
+      border: none;
+      border-radius: 3px;
+    }
+  }
+}

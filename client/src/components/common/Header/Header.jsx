@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
@@ -14,9 +14,11 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, BoardViews, UserRoles } from '../../../constants/Enums';
+import { ThemeContext } from '../../../contexts';
 import UserAvatar from '../../users/UserAvatar';
 import UserActionsStep from '../../users/UserActionsStep';
 import NotificationsStep from '../../notifications/NotificationsStep';
+import ThemeSettingsStep from '../ThemeSettingsStep';
 
 import styles from './Header.module.scss';
 
@@ -89,14 +91,18 @@ const Header = React.memo(() => {
     dispatch(entryActions.openProjectSettingsModal());
   }, [canEditProject, dispatch]);
 
+  const themeContext = useContext(ThemeContext);
+  const appName = themeContext ? themeContext.settings.appName : 'PLANKA';
+
   const NotificationsPopup = usePopup(NotificationsStep, POPUP_PROPS);
   const UserActionsPopup = usePopup(UserActionsStep, POPUP_PROPS);
+  const ThemeSettingsPopup = usePopup(ThemeSettingsStep, POPUP_PROPS);
 
   return (
     <div className={styles.wrapper}>
       {!project && (
         <Link to={Paths.ROOT} className={classNames(styles.logo, styles.title)}>
-          PLANKA
+          {appName}
         </Link>
       )}
       <Menu inverted size="large" className={styles.menu}>
@@ -144,6 +150,11 @@ const Header = React.memo(() => {
               />
             </Menu.Item>
           )}
+          <ThemeSettingsPopup>
+            <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
+              <Icon fitted name="paint brush" />
+            </Menu.Item>
+          </ThemeSettingsPopup>
           <NotificationsPopup>
             <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
               <Icon fitted name="bell" />
