@@ -44,6 +44,7 @@ module.exports.policies = {
 
   '_internal/update-config': ['is-authenticated', 'is-internal'],
 
+  'swagger/show': true,
   'bootstrap/show': true,
   'terms/show': true,
   'access-tokens/create': true,

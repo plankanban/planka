@@ -110,6 +110,8 @@ module.exports.custom = {
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
 
+  swaggerEnabled: process.env.SWAGGER_ENABLED === 'true',
+
   /* Internal */
 
   internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,

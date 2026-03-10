@@ -103,6 +103,8 @@ const protectedStaticDirServer = (prefix, getPathSegment) => (req, res, next) =>
 };
 
 module.exports.routes = {
+  'GET /api/swagger.json': 'swagger/show',
+
   'GET /api/bootstrap': 'bootstrap/show',
 
   'GET /api/terms': 'terms/show',
