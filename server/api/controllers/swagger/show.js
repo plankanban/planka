@@ -6,28 +6,23 @@
 const fs = require('fs');
 const path = require('path');
 
-let cachedSpecification;
+const SWAGGER_PATH = path.join(sails.config.appPath, 'swagger.json');
 
 module.exports = {
   async fn() {
-    if (!sails.config.custom.swaggerEnabled) {
+    if (!sails.config.custom.swaggerExposed) {
       return this.res.notFound();
     }
 
-    if (!cachedSpecification) {
-      const swaggerPath = path.join(sails.config.appPath, 'swagger.json');
-
-      try {
-        const content = fs.readFileSync(swaggerPath, 'utf8');
-        cachedSpecification = JSON.parse(content);
-      } catch (error) {
-        sails.log.warn(
-          'swagger.json not found, run "npm run swagger:generate" or "npm run build" to create it',
-        );
-        return this.res.notFound();
-      }
+    let specification;
+    try {
+      const content = fs.readFileSync(SWAGGER_PATH, 'utf8');
+      specification = JSON.parse(content);
+    } catch (error) {
+      sails.log.warn('swagger.json not found, run "npm run swagger:generate" to create it');
+      return this.res.notFound();
     }
 
-    return this.res.json(cachedSpecification);
+    return specification;
   },
 };

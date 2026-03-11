@@ -64,6 +64,7 @@ module.exports.custom = {
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
   outgoingProxy: process.env.OUTGOING_PROXY,
+  swaggerExposed: process.env.SWAGGER_EXPOSED === 'true',
 
   s3Endpoint: process.env.S3_ENDPOINT,
   s3Region: process.env.S3_REGION,
@@ -109,8 +110,6 @@ module.exports.custom = {
   smtpFrom: process.env.SMTP_FROM,
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
-
-  swaggerEnabled: process.env.SWAGGER_ENABLED === 'true',
 
   /* Internal */
 

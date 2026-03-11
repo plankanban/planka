@@ -4,6 +4,7 @@ const path = require('path');
 const ignore = require('ignore');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const swaggerJsdoc = require('swagger-jsdoc');
+
 const swaggerConfig = require('./config/swagger');
 
 const OUT_DIR = 'dist';
@@ -40,9 +41,9 @@ const build = (src, dest) => {
       fs.copyFileSync(srcPath, destPath);
     }
   }
+
+  const specification = swaggerJsdoc(swaggerConfig);
+  fs.writeFileSync(path.join(dest, 'swagger.json'), JSON.stringify(specification, null, 2));
 };
 
 build('./', OUT_DIR);
-
-const specification = swaggerJsdoc(swaggerConfig);
-fs.writeFileSync(path.join(OUT_DIR, 'swagger.json'), JSON.stringify(specification, null, 2));

@@ -103,8 +103,6 @@ const protectedStaticDirServer = (prefix, getPathSegment) => (req, res, next) =>
 };
 
 module.exports.routes = {
-  'GET /api/swagger.json': 'swagger/show',
-
   'GET /api/bootstrap': 'bootstrap/show',
 
   'GET /api/terms': 'terms/show',
@@ -236,6 +234,8 @@ module.exports.routes = {
   'DELETE /api/notification-services/:id': 'notification-services/delete',
 
   'PATCH /api/_internal/config': '_internal/update-config',
+
+  'GET /swagger.json': 'swagger/show',
 
   'GET /favicons/*': {
     fn: protectedStaticDirServer('/favicons', () => sails.config.custom.faviconsPathSegment),
