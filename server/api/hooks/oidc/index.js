@@ -45,7 +45,7 @@ module.exports = function defineOidcHook(sails) {
       clientInitPromise = (async () => {
         sails.log.info('Initializing OIDC client');
 
-        if (sails.config.custom.oidcTimeout) {
+        if (sails.config.custom.oidcTimeout !== null) {
           openidClient.custom.setHttpOptionsDefaults({
             timeout: sails.config.custom.oidcTimeout,
           });
