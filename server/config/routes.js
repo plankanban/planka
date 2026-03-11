@@ -235,6 +235,8 @@ module.exports.routes = {
 
   'PATCH /api/_internal/config': '_internal/update-config',
 
+  'GET /swagger.json': 'swagger/show',
+
   'GET /favicons/*': {
     fn: protectedStaticDirServer('/favicons', () => sails.config.custom.faviconsPathSegment),
     skipAssets: false,

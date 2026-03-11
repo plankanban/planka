@@ -64,6 +64,7 @@ module.exports.custom = {
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
   outgoingProxy: process.env.OUTGOING_PROXY,
+  swaggerExposed: process.env.SWAGGER_EXPOSED === 'true',
 
   s3Endpoint: process.env.S3_ENDPOINT,
   s3Region: process.env.S3_REGION,
