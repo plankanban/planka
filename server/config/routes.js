@@ -266,7 +266,7 @@ module.exports.routes = {
   },
 
   'GET /*': {
-    action: 'index/show',
+    action: 'index',
     skipAssets: true,
   },
 };

@@ -34,7 +34,7 @@ jobs:
         working-directory: ./client
 
       - name: Build client
-        run: DISABLE_ESLINT_PLUGIN=true npm run build
+        run: INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build
         working-directory: ./client
 
       - name: Include licenses into dist
@@ -45,7 +45,7 @@ jobs:
       - name: Include built client into dist
         run: |
           mv ../../client/dist/* public
-          cp public/index.html views
+          mv public/index.ejs views
         working-directory: ./server/dist
 
       - name: Create release package

@@ -3,11 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-// Read from server-injected config at runtime, fallback to empty string
-const BASE_PATH =
-  typeof window !== 'undefined' && window.PLANKA_CONFIG?.baseUrlPath
-    ? window.PLANKA_CONFIG.baseUrlPath
-    : '';
+const BASE_PATH = window.BASE_PATH || '';
 
 const ACCESS_TOKEN_KEY = 'accessToken';
 const ACCESS_TOKEN_VERSION_KEY = 'accessTokenVersion';

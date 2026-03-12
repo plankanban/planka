@@ -12,8 +12,8 @@ module.exports = {
   },
 
   fn() {
-    return this.res.view('index', {
-      baseUrlPath: sails.config.custom.baseUrlPath,
-    });
+    return {
+      basePath: sails.config.custom.baseUrlPath,
+    };
   },
 };

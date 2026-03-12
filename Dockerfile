@@ -22,7 +22,7 @@ COPY client .
 
 RUN npm install npm --global \
   && npm install --omit=dev \
-  && DISABLE_ESLINT_PLUGIN=true npm run build
+  && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build
 
 # Stage 3: Final image
 FROM node:22-alpine
@@ -42,15 +42,11 @@ COPY --from=server --chown=node:node /app/dist .
 
 COPY --from=client --chown=node:node /app/dist public
 
-# Convert index.html to EJS template with injected config
-RUN chmod +x inject-config-template.sh \
-  && ./inject-config-template.sh public/index.html views/index.ejs \
-  && rm public/index.html
-
 RUN python3 -m venv .venv \
   && .venv/bin/pip3 install --upgrade pip \
   && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
   && mv .env.sample .env \
+  && mv public/index.ejs views \
   && npm config set update-notifier false
 
 VOLUME /app/data

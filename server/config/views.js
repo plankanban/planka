@@ -24,7 +24,7 @@ module.exports.views = {
    *
    */
 
-  extension: 'ejs',
+  // extension: 'ejs',
 
   /**
    *

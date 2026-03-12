@@ -24,13 +24,13 @@ jobs:
 
       - name: Build client
         run: |
-          DISABLE_ESLINT_PLUGIN=true npm run build
+          INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build
           mv dist build
         working-directory: ./client
 
       - name: Update Dockerfile to use prebuilt client
         run: |
-          sed -i '/^FROM node:22 AS client/,/^  && DISABLE_ESLINT_PLUGIN=true npm run build$/c\
+          sed -i '/^FROM node:22 AS client/,/^  && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build$/c\
           FROM node:22 AS client\n\
           WORKDIR /app\n\
           COPY client/build /app/dist' Dockerfile

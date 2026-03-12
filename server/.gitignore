@@ -134,7 +134,7 @@ swagger.json
 dist
 logs
 
-views/index.html
+views/index.ejs
 
 data/*
 !data/.gitkeep

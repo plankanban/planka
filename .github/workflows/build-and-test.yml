@@ -46,7 +46,7 @@ jobs:
         run: |
           npm install
           cd client
-          npm run build
+          INDEX_FORMAT=ejs npm run build
 
       - name: Set up and start server for testing
         env:
