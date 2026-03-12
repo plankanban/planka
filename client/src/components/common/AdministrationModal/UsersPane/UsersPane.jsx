@@ -17,8 +17,8 @@ import AddStep from './AddStep';
 import styles from './UsersPane.module.scss';
 
 const UsersPane = React.memo(() => {
-  const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
   const activeUsersLimit = useSelector(selectors.selectActiveUsersLimit);
+  const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
   const users = useSelector(selectors.selectUsers);
 
   const canAdd = useSelector((state) => {

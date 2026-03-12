@@ -5,7 +5,6 @@ export default {
       adminLoginRequiredToInitializeInstance: '需要管理員登入以初始化實例',
       emailAlreadyInUse: '郵箱已被使用',
       emailOrUsername: '郵箱或使用者名稱',
-      iHaveReadAndAgreeToTheseTerms: '我已閱讀並同意這些條款',
       invalidCredentials: '無效憑證',
       invalidEmailOrUsername: '無效的郵箱或使用者名稱',
       invalidPassword: '密碼錯誤',
@@ -25,6 +24,7 @@ export default {
     action: {
       cancelAndClose: '取消並關閉',
       continue: '繼續',
+      debugSso: '偵錯SSO',
       goBack: '返回',
       goHome: '回到首頁',
       logIn: '登入',

@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'À propos de PLANKA',
+      aboutApp_title: "À propos de l'application",
+      aboutPlanka_title: 'À propos de PLANKA',
       accessToken: "Jeton d'accès",
       account: 'Compte',
       actions: 'Actions',
@@ -90,6 +91,8 @@ export default {
         'Êtes-vous sûr de vouloir supprimer ce responsable du projet ?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Êtes-vous sûr de vouloir supprimer ce membre du tableau ?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        "Êtes-vous sûr de vouloir dissocier le SSO de cet utilisateur ? Cela permettra à l'utilisateur de se connecter avec un mot de passe.",
       assignAsOwner_title: 'Assigner comme propriétaire',
       atLeastOneListMustBePresent: 'Au moins une liste doit être présente',
       attachment: 'Pièce jointe',
@@ -145,6 +148,7 @@ export default {
       customFieldGroups_title: 'Groupes de champs personnalisés',
       customField_title: 'Champ personnalisé',
       customFields_title: 'Champs personnalisés',
+      customerPanel_title: 'Panneau client',
       dangerZone_title: 'Zone dangereuse',
       date: 'Date',
       deactivateUser_title: 'Désactiver l’utilisateur',
@@ -308,6 +312,10 @@ export default {
       showOnFrontOfCard: 'Afficher sur le devant de la carte',
       smtp: 'SMTP',
       sortList_title: 'Trier la liste',
+      sourceCardIsNoLongerAvailableForCopying:
+        "La carte source n'est plus disponible pour la copie.",
+      sourceCardIsNoLongerAvailableForMoving:
+        "La carte source n'est plus disponible pour le déplacement.",
       stopwatch: 'Minuteur',
       story: 'Story',
       subscribeToCardWhenCommenting: 'S’abonner à la carte lors de la rédaction d’un commentaire',
@@ -317,7 +325,7 @@ export default {
       taskListActions_title: 'Actions de la liste de tâches',
       taskList_title: 'Liste de tâches',
       team: "Mes projets d'équipe",
-      terms: 'Conditions',
+      termsOfService_title: 'Conditions de service',
       testLog_title: 'Journal de test',
       thereIsNoPreviewAvailableForThisAttachment:
         "Il n'y a pas d'aperçu disponible pour cette pièce jointe.",
@@ -328,6 +336,7 @@ export default {
       turnOffRecentCardHighlighting: 'Désactiver la mise en évidence des cartes récentes',
       typeNameToConfirm: 'Saissir le nom pour confirmer.',
       typeTitleToConfirm: 'Saisir le titre pour confirmer.',
+      unlinkSso_title: 'Dissociation du SSO',
       unsavedChanges: 'Modifications non enregistrées',
       uploadFailedFileIsTooBig: 'Échec du téléchargement : fichier trop volumineux.',
       uploadFailedNotEnoughStorageSpace:
@@ -367,6 +376,7 @@ export default {
       viewers: 'Spectateurs',
       visualTaskManagementWithLists: 'Management visuel des tâches avec des listes.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Quoi de neuf',
       withoutBaseGroup: 'Sans groupe de base',
       writeComment: 'Écrire un commentaire...',
     },
@@ -396,6 +406,8 @@ export default {
       archiveCards_title: 'Archiver les cartes',
       assignAsOwner: 'Assigner comme propriétaire',
       cancel: 'Annuler',
+      copy: 'Copier',
+      copyCard_title: 'Copier la carte',
       createApiKey: 'Créer une clé API',
       createBoard: 'Créer un tableau',
       createCustomFieldGroup: 'Créer un groupe de champs personnalisés',
@@ -403,6 +415,8 @@ export default {
       createLabel: 'Créer une étiquette',
       createNewLabel: 'Créer une nouvelle étiquette',
       createProject: 'Créer un projet',
+      cut: 'Couper',
+      cutCard_title: 'Couper la carte',
       deactivateUser: 'Désactiver l’utilisateur',
       deactivateUser_title: 'Désactiver l’utilisateur',
       delete: 'Supprimer',
@@ -489,6 +503,8 @@ export default {
       start: 'Commencer',
       stop: 'Arrêter',
       subscribe: "S'abonner",
+      unlinkSso: 'Dissocier le SSO',
+      unlinkSso_title: 'Dissocier le SSO',
       unsubscribe: 'Se désabonner',
       uploadNewAvatar: 'Télécharger un nouvel avatar',
       uploadNewImage: 'Télécharger une nouvelle image',

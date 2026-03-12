@@ -15,6 +15,7 @@ const openidClient = require('openid-client');
 
 module.exports = function defineOidcHook(sails) {
   let client = null;
+  let clientInitPromise = null;
 
   return {
     /**
@@ -28,16 +29,35 @@ module.exports = function defineOidcHook(sails) {
       sails.log.info('Initializing custom hook (`oidc`)');
     },
 
-    // TODO: wait for initialization if called more than once
     async getClient() {
-      if (this.isEnabled() && !this.isActive()) {
+      if (!this.isEnabled()) {
+        return null;
+      }
+
+      if (client) {
+        return client;
+      }
+
+      if (clientInitPromise) {
+        return clientInitPromise;
+      }
+
+      clientInitPromise = (async () => {
         sails.log.info('Initializing OIDC client');
+
+        if (sails.config.custom.oidcTimeout !== null) {
+          openidClient.custom.setHttpOptionsDefaults({
+            timeout: sails.config.custom.oidcTimeout,
+          });
+        }
 
         let issuer;
         try {
           issuer = await openidClient.Issuer.discover(sails.config.custom.oidcIssuer);
         } catch (error) {
           sails.log.warn(`Error while initializing OIDC client: ${error}`);
+
+          clientInitPromise = null;
           return null;
         }
 
@@ -54,9 +74,10 @@ module.exports = function defineOidcHook(sails) {
         }
 
         client = new issuer.Client(metadata);
-      }
+        return client;
+      })();
 
-      return client;
+      return clientInitPromise;
     },
 
     async getBootstrap() {
@@ -74,19 +95,20 @@ module.exports = function defineOidcHook(sails) {
         authorizationUrlParams.response_mode = sails.config.custom.oidcResponseMode;
       }
 
-      return {
+      const bootstrap = {
         authorizationUrl: instance.authorizationUrl(authorizationUrlParams),
         endSessionUrl: instance.issuer.end_session_endpoint ? instance.endSessionUrl({}) : null,
         isEnforced: sails.config.custom.oidcEnforced,
       };
+      if (sails.config.custom.oidcDebug) {
+        bootstrap.debug = true;
+      }
+
+      return bootstrap;
     },
 
     isEnabled() {
       return !!sails.config.custom.oidcIssuer;
-    },
-
-    isActive() {
-      return client !== null;
     },
   };
 };

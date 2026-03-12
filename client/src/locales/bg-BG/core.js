@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'За PLANKA',
+      aboutApp_title: 'За приложението',
+      aboutPlanka_title: 'За PLANKA',
       accessToken: 'Токен за достъп',
       account: 'Акаунт',
       actions: 'Действия',
@@ -91,6 +92,8 @@ export default {
         'Сигурни ли сте, че искате да премахнете този мениджър от проекта?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Сигурни ли сте, че искате да премахнете този член от таблото?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Сигурни ли сте, че искате да премахнете SSO връзката от този потребител? Това ще позволи на потребителя да влиза с парола.',
       assignAsOwner_title: 'Назначаване като собственик',
       atLeastOneListMustBePresent: 'Трябва да присъства поне един списък',
       attachment: 'Прикачен файл',
@@ -146,6 +149,7 @@ export default {
       customFieldGroups_title: 'Групи персонализирани полета',
       customField_title: 'Персонализирано поле',
       customFields_title: 'Персонализирани полета',
+      customerPanel_title: 'Панел на клиента',
       dangerZone_title: 'Опасна зона',
       date: 'Дата',
       deactivateUser_title: 'Деактивиране на потребител',
@@ -309,6 +313,9 @@ export default {
       showOnFrontOfCard: 'Показване отпред на картата',
       smtp: 'SMTP',
       sortList_title: 'Сортиране на списък',
+      sourceCardIsNoLongerAvailableForCopying: 'Оригиналната карта вече не е налична за копиране.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Оригиналната карта вече не е налична за преместване.',
       stopwatch: 'Хронометър',
       story: 'История',
       subscribeToCardWhenCommenting: 'Абониране за карта при коментиране',
@@ -318,7 +325,7 @@ export default {
       taskListActions_title: 'Действия със списък задачи',
       taskList_title: 'Списък със задачи',
       team: 'Екип',
-      terms: 'Условия',
+      termsOfService_title: 'Условия за ползване',
       testLog_title: 'Тестов дневник',
       thereIsNoPreviewAvailableForThisAttachment: 'Няма наличен преглед за този прикачен файл.',
       time: 'Време',
@@ -328,6 +335,7 @@ export default {
       turnOffRecentCardHighlighting: 'Изключване на подчертаването на скорошни карти',
       typeNameToConfirm: 'Въведете име за потвърждение.',
       typeTitleToConfirm: 'Въведете заглавие за потвърждение.',
+      unlinkSso_title: 'Премахване на SSO връзка',
       unsavedChanges: 'Незапазени промени',
       uploadFailedFileIsTooBig: 'Качването неуспешно: файлът е твърде голям.',
       uploadFailedNotEnoughStorageSpace:
@@ -367,6 +375,7 @@ export default {
       viewers: 'Зрители',
       visualTaskManagementWithLists: 'Визуално управление на задачи със списъци.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Какво еново',
       withoutBaseGroup: 'Без основна група',
       writeComment: 'Напишете коментар...',
     },
@@ -397,6 +406,8 @@ export default {
       archiveCards_title: 'Архивиране на карти',
       assignAsOwner: 'Назначаване като собственик',
       cancel: 'Отказ',
+      copy: 'Копиране',
+      copyCard_title: 'Копиране на карта',
       createApiKey: 'Създаване на API ключ',
       createBoard: 'Създаване на табло',
       createCustomFieldGroup: 'Създаване на група персонализирани полета',
@@ -404,6 +415,8 @@ export default {
       createLabel: 'Създаване на етикет',
       createNewLabel: 'Създаване на нов етикет',
       createProject: 'Създаване на проект',
+      cut: 'Изрязване',
+      cutCard_title: 'Изрязване на карта',
       deactivateUser: 'Деактивиране на потребител',
       deactivateUser_title: 'Деактивиране на потребител',
       delete: 'Изтриване',
@@ -490,6 +503,8 @@ export default {
       start: 'Старт',
       stop: 'Стоп',
       subscribe: 'Абонирайте се',
+      unlinkSso: 'Премахни SSO връзка',
+      unlinkSso_title: 'Премахни SSO връзка',
       unsubscribe: 'Отписване',
       uploadNewAvatar: 'Качване на нов аватар',
       uploadNewImage: 'Качване на ново изображение',

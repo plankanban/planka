@@ -7,12 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const PRELOADED_FAVICON_FILENAMES = fs
-  .readdirSync(
-    path.join(
-      sails.config.custom.uploadsBasePath,
-      sails.config.custom.preloadedFaviconsPathSegment,
-    ),
-  )
+  .readdirSync(path.join(sails.config.paths.public, 'preloaded-favicons'))
   .filter((filename) => filename.endsWith('.png'));
 
 const PRELOADED_FAVICON_HOSTNAMES_SET = new Set(

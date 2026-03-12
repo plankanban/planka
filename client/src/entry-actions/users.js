@@ -5,6 +5,11 @@
 
 import EntryActionTypes from '../constants/EntryActionTypes';
 
+const handleUsersReset = () => ({
+  type: EntryActionTypes.USERS_RESET_HANDLE,
+  payload: {},
+});
+
 const createUser = (data) => ({
   type: EntryActionTypes.USER_CREATE,
   payload: {
@@ -246,6 +251,7 @@ const removeUserFromFilterInCurrentBoard = (id) => ({
 });
 
 export default {
+  handleUsersReset,
   createUser,
   handleUserCreate,
   clearUserCreateError,

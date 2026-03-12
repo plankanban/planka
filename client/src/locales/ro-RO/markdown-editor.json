@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Șterge",
-    "empty_option": "Nicio potrivire găsită"
+    "empty_option": "Nicio potrivire găsită",
+    "show_line_numbers": "Numerotare rânduri"
   },
   "common": {
     "delete": "Șterge",
@@ -148,9 +149,12 @@
     "column.add.before": "Adaugă coloană înainte",
     "column.add.after": "Adaugă coloană după",
     "column.remove": "Șterge coloana",
+    "column.remove.multiple": "Șterge coloanele",
     "row.add.before": "Adaugă rând înainte",
     "row.add.after": "Adaugă rând după",
     "row.remove": "Șterge rândul",
+    "row.remove.multiple": "Șterge rândurile",
+    "cells.clear": "Golește celulele",
     "table.remove": "Șterge tabelul",
     "table.menu.cell.align.left": "Aliniază conținutul la stânga",
     "table.menu.cell.align.right": "Aliniază conținutul la dreapta",

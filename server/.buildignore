@@ -20,17 +20,10 @@ test
 .tmp
 .venv
 
-views/*
+views/index.html
 
-public/*
-!public/preloaded-favicons
-!public/favicons
-public/favicons/*
-!public/user-avatars
-public/user-avatars/*
-!public/background-images
-public/background-images/*
+data/*
 
-private/*
-!private/attachments
-private/attachments/*
+terms/*
+!terms/_template
+!terms/cloud

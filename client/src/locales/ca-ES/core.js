@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Quant a PLANKA',
+      aboutApp_title: "Quant a l'aplicació",
+      aboutPlanka_title: 'Quant a PLANKA',
       accessToken: "Token d'accés",
       account: 'Compte',
       actions: 'Accions',
@@ -89,6 +90,8 @@ export default {
         'Estàs segur que vols eliminar aquest gestor del projecte?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Estàs segur que vols eliminar aquest membre del tauler?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        "Estàs segur que vols desvincular SSO d'aquest usuari? Això permetrà que l'usuari iniciï sessió amb una contrasenya.",
       assignAsOwner_title: 'Assignar com a propietari',
       atLeastOneListMustBePresent: "Hi ha d'haver com a mínim una llista",
       attachment: 'Fitxer adjunt',
@@ -145,6 +148,7 @@ export default {
       customFieldGroups_title: 'Grups de camps personalitzats',
       customField_title: 'Camp personalitzat',
       customFields_title: 'Camps personalitzats',
+      customerPanel_title: 'Panell del client',
       dangerZone_title: 'Zona de perill',
       date: 'Data',
       deactivateUser_title: 'Desactivar usuari',
@@ -308,6 +312,10 @@ export default {
       showOnFrontOfCard: 'Mostrar a la part frontal de la targeta',
       smtp: 'SMTP',
       sortList_title: 'Ordenar llista',
+      sourceCardIsNoLongerAvailableForCopying:
+        "La targeta d'origen ja no està disponible per copiar.",
+      sourceCardIsNoLongerAvailableForMoving:
+        "La targeta d'origen ja no està disponible per moure.",
       stopwatch: 'Cronòmetre',
       story: 'Història',
       subscribeToCardWhenCommenting: "Subscriure's a la targeta en comentar",
@@ -317,7 +325,7 @@ export default {
       taskListActions_title: 'Accions de la llista de tasques',
       taskList_title: 'Llista de tasques',
       team: 'Equip',
-      terms: 'Termes',
+      termsOfService_title: 'Termes del servei',
       testLog_title: 'Registre de prova',
       thereIsNoPreviewAvailableForThisAttachment:
         'No hi ha vista prèvia disponible per a aquest fitxer adjunt.',
@@ -328,6 +336,7 @@ export default {
       turnOffRecentCardHighlighting: 'Desactivar ressaltat de targetes recents',
       typeNameToConfirm: 'Escriu el nom per confirmar.',
       typeTitleToConfirm: 'Escriu el títol per confirmar.',
+      unlinkSso_title: 'Desvinculació de SSO',
       unsavedChanges: 'Canvis sense desar',
       uploadFailedFileIsTooBig: 'Error en pujar: El fitxer és massa gran.',
       uploadFailedNotEnoughStorageSpace: "Error en pujar: No hi ha prou espai d'emmagatzematge.",
@@ -368,6 +377,7 @@ export default {
       viewers: 'Observadors',
       visualTaskManagementWithLists: 'Gestió visual de tasques amb llistes.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Què hi ha de nou',
       withoutBaseGroup: 'Sense grup base',
       writeComment: 'Escriu un comentari...',
     },
@@ -398,6 +408,8 @@ export default {
       archiveCards_title: 'Arxivar targetes',
       assignAsOwner: 'Assignar com a propietari',
       cancel: 'Cancel·lar',
+      copy: 'Copiar',
+      copyCard_title: 'Copiar targeta',
       createApiKey: 'Crear clau API',
       createBoard: 'Crear tauler',
       createCustomFieldGroup: 'Crear grup de camps personalitzats',
@@ -405,6 +417,8 @@ export default {
       createLabel: 'Crear etiqueta',
       createNewLabel: 'Crear nova etiqueta',
       createProject: 'Crear projecte',
+      cut: 'Tallar',
+      cutCard_title: 'Tallar targeta',
       deactivateUser: 'Desactivar usuari',
       deactivateUser_title: 'Desactivar usuari',
       delete: 'Eliminar',
@@ -491,6 +505,8 @@ export default {
       start: 'Iniciar',
       stop: 'Aturar',
       subscribe: "Subscriure's",
+      unlinkSso: 'Desvincular SSO',
+      unlinkSso_title: 'Desvincular SSO',
       unsubscribe: 'Cancel·lar subscripció',
       uploadNewAvatar: 'Pujar nou avatar',
       uploadNewImage: 'Pujar nova imatge',

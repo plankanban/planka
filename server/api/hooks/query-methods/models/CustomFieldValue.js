@@ -7,7 +7,7 @@ const { makeRowToModelTransformer } = require('../helpers');
 
 const transformRowToModel = makeRowToModelTransformer(CustomFieldValue);
 
-const defaultFind = (criteria, { customFieldGroupIdOrIds }) => {
+const defaultFind = (criteria, { customFieldGroupIdOrIds } = {}) => {
   if (customFieldGroupIdOrIds) {
     criteria.customFieldGroupId = customFieldGroupIdOrIds; // eslint-disable-line no-param-reassign
   }

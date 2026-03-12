@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Despre PLANKA',
+      aboutApp_title: 'Despre aplicație',
+      aboutPlanka_title: 'Despre PLANKA',
       accessToken: 'Token de acces',
       account: 'Cont',
       actions: 'Acțiuni',
@@ -84,6 +85,8 @@ export default {
         'Sigur doriți să eliminați acest manager din proiect?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Sigur doriți să eliminați acest membru din consiliu?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Sigur doriți să deconectați SSO de la acest utilizator? Acest lucru va permite utilizatorului să se conecteze cu o parolă.',
       assignAsOwner_title: 'Atribuie ca proprietar',
       atLeastOneListMustBePresent: 'Cel puțin o listă trebuie să fie prezentă',
       attachment: 'Atașament',
@@ -139,6 +142,7 @@ export default {
       customFieldGroups_title: 'Grupuri de câmpuri personalizate',
       customField_title: 'Câmp personalizat',
       customFields_title: 'Câmpuri personalizate',
+      customerPanel_title: 'Panoul clientului',
       dangerZone_title: 'Zona periculoasă',
       date: 'Data',
       deactivateUser_title: 'Dezactivează utilizatorul',
@@ -302,6 +306,9 @@ export default {
       showOnFrontOfCard: 'Afișează pe fața cardului',
       smtp: 'SMTP',
       sortList_title: 'Sortează lista',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Cardul sursă nu mai este disponibil pentru copiere.',
+      sourceCardIsNoLongerAvailableForMoving: 'Cardul sursă nu mai este disponibil pentru mutare.',
       stopwatch: 'Cronometru',
       story: 'Poveste',
       subscribeToCardWhenCommenting: 'Abonează-te la card când comentezi',
@@ -311,7 +318,7 @@ export default {
       taskListActions_title: 'Acțiuni listă de sarcini',
       taskList_title: 'Listă de sarcini',
       team: 'Echipă',
-      terms: 'Termeni',
+      termsOfService_title: 'Termeni de serviciu',
       testLog_title: 'Jurnal de test',
       thereIsNoPreviewAvailableForThisAttachment:
         'Nu există nicio previzualizare disponibilă pentru acest atașament.',
@@ -322,6 +329,7 @@ export default {
       turnOffRecentCardHighlighting: 'Oprește evidențierea cardurilor recente',
       typeNameToConfirm: 'Tastează numele pentru confirmare.',
       typeTitleToConfirm: 'Tastează titlul pentru confirmare.',
+      unlinkSso_title: 'Deconectarea SSO',
       unsavedChanges: 'Modificări nesalvate',
       uploadFailedFileIsTooBig: 'Încărcarea a eșuat: fișierul este prea mare.',
       uploadFailedNotEnoughStorageSpace: 'Încărcarea a eșuat: spațiu de stocare insuficient.',
@@ -362,6 +370,7 @@ export default {
       viewers: 'Vizualizatori',
       visualTaskManagementWithLists: 'Gestionarea vizuală a sarcinilor cu liste.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Ce este nou',
       withoutBaseGroup: 'Fără grup de bază',
       writeComment: 'Scrie un comentariu...',
     },
@@ -392,6 +401,8 @@ export default {
       archiveCards_title: 'Arhivează cardurile',
       assignAsOwner: 'Atribuie ca proprietar',
       cancel: 'Anulează',
+      copy: 'Copiază',
+      copyCard_title: 'Copiază cardul',
       createApiKey: 'Creează cheie API',
       createBoard: 'Creați tablă',
       createCustomFieldGroup: 'Creați grup de câmpuri personalizate',
@@ -399,6 +410,8 @@ export default {
       createLabel: 'Creați eticheta',
       createNewLabel: 'Creați o nouă etichetă',
       createProject: 'Creați proiect',
+      cut: 'Taie',
+      cutCard_title: 'Taie cardul',
       deactivateUser: 'Dezactivați utilizatorul',
       deactivateUser_title: 'Dezactivați utilizatorul',
       delete: 'Ștergeți',
@@ -485,6 +498,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Abonati-va',
+      unlinkSso: 'Deconectează SSO',
+      unlinkSso_title: 'Deconectează SSO',
       unsubscribe: 'Dezabonați-vă',
       uploadNewAvatar: 'Încărcați un avatar nou',
       uploadNewImage: 'Încărcați o nouă imagine',

@@ -9,6 +9,7 @@ const _ = require('lodash');
 
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
+  quiet: true,
 });
 
 function buildSSLConfig() {

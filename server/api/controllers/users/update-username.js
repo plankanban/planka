@@ -132,7 +132,7 @@ module.exports = {
       throw Errors.USER_NOT_FOUND;
     }
 
-    if (user.email === sails.config.custom.defaultAdminEmail) {
+    if (user.email === sails.config.custom.defaultAdminEmail || sails.config.custom.demoMode) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 

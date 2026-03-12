@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Sobre o PLANKA',
+      aboutApp_title: 'Sobre a aplicação',
+      aboutPlanka_title: 'Sobre o PLANKA',
       accessToken: 'Token de acesso',
       account: 'Conta',
       actions: 'Ações',
@@ -90,6 +91,8 @@ export default {
         'Tem a certeza de que pretende remover este gestor do projeto?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Tem a certeza de que pretende remover este membro do quadro?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Tem a certeza de que pretende desvincular o SSO deste utilizador? Isto permitirá que o utilizador inicie sessão com uma palavra-passe.',
       assignAsOwner_title: 'Atribuir como proprietário',
       atLeastOneListMustBePresent: 'Pelo menos uma lista deve estar presente',
       attachment: 'Anexo',
@@ -145,6 +148,7 @@ export default {
       customFieldGroups_title: 'Grupos de campos personalizados',
       customField_title: 'Campo personalizado',
       customFields_title: 'Campos personalizados',
+      customerPanel_title: 'Painel do cliente',
       dangerZone_title: 'Zona perigosa',
       date: 'Data',
       deactivateUser_title: 'Desativar utilizador',
@@ -308,6 +312,10 @@ export default {
       showOnFrontOfCard: 'Mostrar na frente do cartão',
       smtp: 'SMTP',
       sortList_title: 'Ordenar lista',
+      sourceCardIsNoLongerAvailableForCopying:
+        'O cartão de origem já não está disponível para cópia.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'O cartão de origem já não está disponível para mover.',
       stopwatch: 'Cronómetro',
       story: 'História',
       subscribeToCardWhenCommenting: 'Subscrever cartão ao comentar',
@@ -317,7 +325,7 @@ export default {
       taskListActions_title: 'Ações da lista de tarefas',
       taskList_title: 'Lista de tarefas',
       team: 'Equipa',
-      terms: 'Termos',
+      termsOfService_title: 'Termos de serviço',
       testLog_title: 'Registo de teste',
       thereIsNoPreviewAvailableForThisAttachment:
         'Não há pré-visualização disponível para este anexo.',
@@ -328,6 +336,7 @@ export default {
       turnOffRecentCardHighlighting: 'Desativar destaque de cartões recentes',
       typeNameToConfirm: 'Digite o nome para confirmar.',
       typeTitleToConfirm: 'Digite o título para confirmar.',
+      unlinkSso_title: 'Desvinculação de SSO',
       unsavedChanges: 'Alterações não guardadas',
       uploadFailedFileIsTooBig: 'Carregamento falhado - ficheiro demasiado grande.',
       uploadFailedNotEnoughStorageSpace:
@@ -367,6 +376,7 @@ export default {
       viewers: 'Visualizadores',
       visualTaskManagementWithLists: 'Gestão visual de tarefas com listas.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Novidades',
       withoutBaseGroup: 'Sem grupo base',
       writeComment: 'Escreva um comentário...',
     },
@@ -397,6 +407,8 @@ export default {
       archiveCards_title: 'Arquivar cartões',
       assignAsOwner: 'Atribuir como proprietário',
       cancel: 'Cancelar',
+      copy: 'Copiar',
+      copyCard_title: 'Copiar cartão',
       createApiKey: 'Criar chave API',
       createBoard: 'Criar quadro',
       createCustomFieldGroup: 'Criar grupo de campos personalizados',
@@ -404,6 +416,8 @@ export default {
       createLabel: 'Criar etiqueta',
       createNewLabel: 'Criar nova etiqueta',
       createProject: 'Criar projeto',
+      cut: 'Cortar',
+      cutCard_title: 'Cortar cartão',
       deactivateUser: 'Desativar utilizador',
       deactivateUser_title: 'Desativar utilizador',
       delete: 'Eliminar',
@@ -490,6 +504,8 @@ export default {
       start: 'Iniciar',
       stop: 'Parar',
       subscribe: 'Subscrever',
+      unlinkSso: 'Desvincular SSO',
+      unlinkSso_title: 'Desvincular SSO',
       unsubscribe: 'Cancelar subscrição',
       uploadNewAvatar: 'Carregar novo avatar',
       uploadNewImage: 'Carregar nova imagem',

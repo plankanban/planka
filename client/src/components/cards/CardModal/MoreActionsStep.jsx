@@ -34,16 +34,16 @@ const MoreActionsStep = React.memo(({ onClose }) => {
   const { canEditType, canDuplicate, canMove } = useSelector((state) => {
     const list = selectListById(state, card.listId);
 
+    const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+    const isEditor = !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+
     if (isListArchiveOrTrash(list)) {
       return {
         canEditType: false,
         canDuplicate: false,
-        canMove: false,
+        canMove: isEditor,
       };
     }
-
-    const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
-    const isEditor = !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 
     return {
       canEditType: isEditor,
@@ -68,14 +68,8 @@ const MoreActionsStep = React.memo(({ onClose }) => {
   );
 
   const handleDuplicateClick = useCallback(() => {
-    dispatch(
-      entryActions.duplicateCurrentCard({
-        name: `${card.name} (${t('common.copy', {
-          context: 'inline',
-        })})`,
-      }),
-    );
-  }, [card.name, dispatch, t]);
+    dispatch(entryActions.duplicateCurrentCard());
+  }, [dispatch]);
 
   const handleEditTypeClick = useCallback(() => {
     openStep(StepTypes.EDIT_TYPE);

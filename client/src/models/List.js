@@ -136,7 +136,7 @@ export default class extends BaseModel {
         const listModel = List.withId(payload.id);
 
         if (payload.data.boardId && payload.data.boardId !== listModel.boardId) {
-          listModel.deleteWithRelated();
+          listModel.deleteWithRelated(true);
         } else {
           let isClosed;
           if (payload.data.type) {
@@ -171,7 +171,7 @@ export default class extends BaseModel {
 
         if (listModel) {
           if (payload.list.boardId === null || payload.isFetched) {
-            listModel.deleteWithRelated();
+            listModel.deleteWithRelated(true);
           }
 
           if (payload.list.boardId !== null) {
@@ -435,14 +435,14 @@ export default class extends BaseModel {
     });
   }
 
-  deleteRelated() {
+  deleteRelated(soft) {
     this.cards.toModelArray().forEach((cardModel) => {
-      cardModel.deleteWithRelated();
+      cardModel.deleteWithRelated(soft);
     });
   }
 
-  deleteWithRelated() {
-    this.deleteRelated();
+  deleteWithRelated(soft) {
+    this.deleteRelated(soft);
     this.delete();
   }
 }

@@ -30,6 +30,7 @@ const StepTypes = {
   EDIT_PASSWORD: 'EDIT_PASSWORD',
   EDIT_ROLE: 'EDIT_ROLE',
   API_KEY: 'API_KEY',
+  UNLINK_SSO: 'UNLINK_SSO',
   ACTIVATE: 'ACTIVATE',
   DEACTIVATE: 'DEACTIVATE',
   DELETE: 'DELETE',
@@ -57,6 +58,16 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     },
     [userId, dispatch],
   );
+
+  const handleUnlinkSsoConfirm = useCallback(() => {
+    dispatch(
+      entryActions.updateUser(userId, {
+        isSsoUser: false,
+      }),
+    );
+
+    onClose();
+  }, [userId, onClose, dispatch]);
 
   const handleActivateConfirm = useCallback(() => {
     dispatch(
@@ -106,6 +117,10 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     openStep(StepTypes.API_KEY);
   }, [openStep]);
 
+  const handleUnlinkSsoClick = useCallback(() => {
+    openStep(StepTypes.UNLINK_SSO);
+  }, [openStep]);
+
   const handleActivateClick = useCallback(() => {
     openStep(StepTypes.ACTIVATE);
   }, [openStep]);
@@ -142,6 +157,16 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
         );
       case StepTypes.API_KEY:
         return <ApiKeyStep userId={userId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.UNLINK_SSO:
+        return (
+          <ConfirmationStep
+            title="common.unlinkSso"
+            content="common.areYouSureYouWantToUnlinkSsoFromThisUser"
+            buttonContent="action.unlinkSso"
+            onConfirm={handleUnlinkSsoConfirm}
+            onBack={handleBack}
+          />
+        );
       case StepTypes.ACTIVATE:
         return (
           <ConfirmationStep
@@ -232,6 +257,14 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               context: 'title',
             })}
           </Menu.Item>
+          {user.isSsoUser && !user.lockedFieldNames.includes('isSsoUser') && !isCurrentUser && (
+            <Menu.Item className={styles.menuItem} onClick={handleUnlinkSsoClick}>
+              <Icon name="unlink" className={styles.menuItemIcon} />
+              {t('action.unlinkSso', {
+                context: 'title',
+              })}
+            </Menu.Item>
+          )}
           {!isCurrentUser && (
             <>
               <Menu.Item

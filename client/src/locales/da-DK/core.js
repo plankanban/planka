@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Om PLANKA',
+      aboutApp_title: 'Om appen',
+      aboutPlanka_title: 'Om PLANKA',
       accessToken: 'Adgangstoken',
       account: 'Konto',
       actions: 'Handlinger',
@@ -87,6 +88,8 @@ export default {
         'Er du sikker på at du vil fjerne denne projektleder fra projektet?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Er du sikker på at du vil fjerne dette medlem fra tavlen?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Er du sikker på, at du vil fjerne SSO-forbindelsen fra denne bruger? Dette vil tillade brugeren at logge ind med en adgangskode.',
       assignAsOwner_title: 'Sæt som ejer',
       atLeastOneListMustBePresent: 'Mindst én liste skal være til stede',
       attachment: 'Vedhæft fil',
@@ -141,6 +144,7 @@ export default {
       customFieldGroups_title: 'Brugerdefinerede feltgrupper',
       customField_title: 'Brugerdefineret felt',
       customFields_title: 'Brugerdefinerede felter',
+      customerPanel_title: 'Kundepanel',
       dangerZone_title: 'Farezone',
       date: 'Dato',
       deactivateUser_title: 'Deaktiver bruger',
@@ -304,6 +308,10 @@ export default {
       showOnFrontOfCard: 'Vis på forsiden af kortet',
       smtp: 'SMTP',
       sortList_title: 'Sortér liste',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Kildekortet er ikke længere tilgængeligt til kopiering.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Kildekortet er ikke længere tilgængeligt til flytning.',
       stopwatch: 'Stopur',
       story: 'Story',
       subscribeToCardWhenCommenting: 'Abonnér på kort ved kommentering',
@@ -313,7 +321,7 @@ export default {
       taskListActions_title: 'Opgaveliste handlinger',
       taskList_title: 'Opgaveliste',
       team: 'Team',
-      terms: 'Vilkår',
+      termsOfService_title: 'Servicevilkår',
       testLog_title: 'Test log',
       thereIsNoPreviewAvailableForThisAttachment:
         'Der er ingen forhåndsvisning tilgængelig for denne vedhæftning.',
@@ -324,6 +332,7 @@ export default {
       turnOffRecentCardHighlighting: 'Slå fremhævelse af nylige kort fra',
       typeNameToConfirm: 'Skriv navnet for at bekræfte.',
       typeTitleToConfirm: 'Skriv overskriften for at bekræfte.',
+      unlinkSso_title: 'Fjernelse af SSO-forbindelse',
       unsavedChanges: 'Ikke-gemte ændringer',
       uploadFailedFileIsTooBig: 'Upload mislykkedes: Filen er for stor.',
       uploadFailedNotEnoughStorageSpace: 'Upload mislykkedes: Ikke nok lagerplads.',
@@ -362,6 +371,7 @@ export default {
       viewers: 'Læsere',
       visualTaskManagementWithLists: 'Visuel opgavestyring med lister.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Hvad er nyt',
       withoutBaseGroup: 'Uden standardgruppe',
       writeComment: 'Skriv en kommentar...',
     },
@@ -392,6 +402,8 @@ export default {
       archiveCards_title: 'Arkivér kort',
       assignAsOwner: 'Sæt som ejer',
       cancel: 'Annuller',
+      copy: 'Kopiér',
+      copyCard_title: 'Kopiér kort',
       createApiKey: 'Opret API-nøgle',
       createBoard: 'Opret tavle',
       createCustomFieldGroup: 'Opret brugerdefineret feltgruppe',
@@ -399,6 +411,8 @@ export default {
       createLabel: 'Opret label',
       createNewLabel: 'Opret ny label',
       createProject: 'Opret projekt',
+      cut: 'Klip',
+      cutCard_title: 'Klip kort',
       deactivateUser: 'Deaktivér bruger',
       deactivateUser_title: 'Deaktivér bruger',
       delete: 'Slet',
@@ -485,6 +499,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Abonnér',
+      unlinkSso: 'Fjern SSO-forbindelse',
+      unlinkSso_title: 'Fjern SSO-forbindelse',
       unsubscribe: 'Opsig abonnement',
       uploadNewAvatar: 'Tilføj nyt profilbillede',
       uploadNewImage: 'Tilføj nyt billede',

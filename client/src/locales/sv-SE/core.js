@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Om PLANKA',
+      aboutApp_title: 'Om appen',
+      aboutPlanka_title: 'Om PLANKA',
       accessToken: 'Åtkomsttoken',
       account: 'Konto',
       actions: 'Åtgärder',
@@ -92,6 +93,8 @@ export default {
         'Är du säker på att du vill ta bort den här projektledaren från projektet?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Är du säker på att du vill ta bort den här medlemmen från tavlan?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Är du säker på att du vill avlänka SSO från den här användaren? Detta kommer att tillåta användaren att logga in med ett lösenord.',
       assignAsOwner_title: 'Tilldela som ägare',
       atLeastOneListMustBePresent: 'Minst en lista måste finnas',
       attachment: 'Bilaga',
@@ -146,6 +149,7 @@ export default {
       customFieldGroups_title: 'Anpassade fältgrupper',
       customField_title: 'Anpassat fält',
       customFields_title: 'Anpassade fält',
+      customerPanel_title: 'Kundpanel',
       dangerZone_title: 'Farozon',
       date: 'Datum',
       deactivateUser_title: 'Inaktivera användare',
@@ -309,6 +313,10 @@ export default {
       showOnFrontOfCard: 'Visa på framsidan av kort',
       smtp: 'SMTP',
       sortList_title: 'Sortera lista',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Källkortet är inte längre tillgängligt för kopiering.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Källkortet är inte längre tillgängligt för flyttning.',
       stopwatch: 'Timer',
       story: 'Berättelse',
       subscribeToCardWhenCommenting: 'Prenumerera på kort vid kommentering',
@@ -318,7 +326,7 @@ export default {
       taskListActions_title: 'Uppgiftslistsåtgärder',
       taskList_title: 'Uppgiftslista',
       team: 'Team',
-      terms: 'Villkor',
+      termsOfService_title: 'Användarvillkor',
       testLog_title: 'Testlogg',
       thereIsNoPreviewAvailableForThisAttachment:
         'Det finns ingen förhandsvisning tillgänglig för denna bilaga.',
@@ -329,6 +337,7 @@ export default {
       turnOffRecentCardHighlighting: 'Stäng av markering av senaste kort',
       typeNameToConfirm: 'Skriv namn för att bekräfta.',
       typeTitleToConfirm: 'Skriv titel för att bekräfta.',
+      unlinkSso_title: 'Avlänkning av SSO',
       unsavedChanges: 'Osparade ändringar',
       uploadFailedFileIsTooBig: 'Uppladdning misslyckades: filen är för stor.',
       uploadFailedNotEnoughStorageSpace:
@@ -368,6 +377,7 @@ export default {
       viewers: 'Visare',
       visualTaskManagementWithLists: 'Visuell uppgiftshantering med listor.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Vad är nytt',
       withoutBaseGroup: 'Utan basgrupp',
       writeComment: 'Skriv en kommentar...',
     },
@@ -398,6 +408,8 @@ export default {
       archiveCards_title: 'Arkivera kort',
       assignAsOwner: 'Tilldela som ägare',
       cancel: 'Avbryt',
+      copy: 'Kopiera',
+      copyCard_title: 'Kopiera kort',
       createApiKey: 'Skapa API-nyckel',
       createBoard: 'Skapa tavla',
       createCustomFieldGroup: 'Skapa anpassad fältgrupp',
@@ -405,6 +417,8 @@ export default {
       createLabel: 'Skapa etikett',
       createNewLabel: 'Skapa ny etikett',
       createProject: 'Skapa projekt',
+      cut: 'Klipp ut',
+      cutCard_title: 'Klipp ut kort',
       deactivateUser: 'Inaktivera användare',
       deactivateUser_title: 'Inaktivera användare',
       delete: 'Ta bort',
@@ -491,6 +505,8 @@ export default {
       start: 'Starta',
       stop: 'Stoppa',
       subscribe: 'Prenumerera',
+      unlinkSso: 'Avlänka SSO',
+      unlinkSso_title: 'Avlänka SSO',
       unsubscribe: 'Avprenumerera',
       uploadNewAvatar: 'Ladda upp ny avatar',
       uploadNewImage: 'Ladda upp ny bild',

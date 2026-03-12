@@ -16,6 +16,7 @@ const initialState = {
   isSubmitting: false,
   isSubmittingWithOidc: false,
   error: null,
+  debugLogs: null,
   pendingToken: null,
   step: null,
   termsForm: {
@@ -90,6 +91,12 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         isSubmittingWithOidc: false,
         error: payload.error,
+      };
+    case ActionTypes.WITH_OIDC_AUTHENTICATE__DEBUG:
+      return {
+        ...state,
+        isSubmittingWithOidc: false,
+        debugLogs: payload.logs,
       };
     case ActionTypes.AUTHENTICATE_ERROR_CLEAR:
       return {

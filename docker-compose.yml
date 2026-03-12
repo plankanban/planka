@@ -1,12 +1,10 @@
 services:
   planka:
-    image: ghcr.io/plankanban/planka:2.0.0-rc.4
+    image: ghcr.io/plankanban/planka:latest
     restart: on-failure
     volumes:
-      - favicons:/app/public/favicons
-      - user-avatars:/app/public/user-avatars
-      - background-images:/app/public/background-images
-      - attachments:/app/private/attachments
+      - data:/app/data
+      # - ./terms:/app/terms/custom
     # Optionally override this to your user/group
     # user: 1000:1000
     # tmpfs:
@@ -34,6 +32,9 @@ services:
       # - MAX_UPLOAD_FILE_SIZE=
       # - TOKEN_EXPIRES_IN=365 # In days
 
+      # - STORAGE_LIMIT=
+      # - ACTIVE_USERS_LIMIT=
+
       # related: https://github.com/knex/knex/issues/2354
       # As knex does not pass query parameters from the connection string,
       # we have to use environment variables in order to pass the desired values, e.g.
@@ -54,13 +55,18 @@ services:
       # - DEFAULT_ADMIN_NAME=Demo Demo
       # - DEFAULT_ADMIN_USERNAME=demo
 
-      # - INTERNAL_ACCESS_TOKEN=
-      # - STORAGE_LIMIT=
-      # - ACTIVE_USERS_LIMIT=
-
       # Set to true to show more detailed authentication error messages.
       # It should not be enabled without a rate limiter for security reasons.
       # - SHOW_DETAILED_AUTH_ERRORS=false
+
+      # All outgoing HTTP requests (SMTP, webhooks, Apprise notifications, favicon fetching, etc.)
+      # will be sent through this proxy if set.
+      # If commented out, an internal Squid proxy will be started inside the container,
+      # which you can control via OUTGOING_BLOCKED_* and OUTGOING_ALLOWED_* below.
+      # - OUTGOING_PROXY=http://proxy:3128
+
+      # Set to true to expose the Swagger specification at /swagger.json
+      # - SWAGGER_EXPOSED=false
 
       # - S3_ENDPOINT=
       # - S3_REGION=
@@ -93,6 +99,8 @@ services:
       # - OIDC_IGNORE_USERNAME=true
       # - OIDC_IGNORE_ROLES=true
       # - OIDC_ENFORCED=true
+      # - OIDC_TIMEOUT=3500
+      # - OIDC_DEBUG=true
 
       # Email Notifications (https://nodemailer.com/smtp/)
       # These values override and disable configuration in the UI if set.
@@ -110,6 +118,18 @@ services:
       # Using Gravatar directly exposes user IPs and hashed emails to a third party (GDPR risk).
       # Use a proxy you control for privacy, or leave commented out or empty to disable.
       # - GRAVATAR_BASE_URL=https://www.gravatar.com/avatar/
+
+      # --------------------------------------------------------------------
+      # Outgoing traffic control (internal Squid proxy)
+      # --------------------------------------------------------------------
+
+      # These IPs/hostnames will always be blocked (highest priority)
+      # - OUTGOING_BLOCKED_IPS=
+      # - OUTGOING_BLOCKED_HOSTS=localhost,postgres
+
+      # Only these IPs/hostnames will be reachable
+      # - OUTGOING_ALLOWED_IPS=
+      # - OUTGOING_ALLOWED_HOSTS=
     depends_on:
       postgres:
         condition: service_healthy
@@ -129,8 +149,5 @@ services:
       retries: 5
 
 volumes:
-  favicons:
-  user-avatars:
-  background-images:
-  attachments:
+  data:
   db-data:

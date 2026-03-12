@@ -6,7 +6,6 @@ export default {
         "Connexion administrateur requise pour initialiser l'instance",
       emailAlreadyInUse: 'E-mail déjà utilisé',
       emailOrUsername: "E-mail ou nom d'utilisateur",
-      iHaveReadAndAgreeToTheseTerms: "J'ai lu et j'accepte ces conditions",
       invalidCredentials: 'Identifiants invalides',
       invalidEmailOrUsername: "E-mail ou nom d'utilisateur invalide",
       invalidPassword: 'Mot de passe invalide',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Annuler et fermer',
       continue: 'Continuer',
+      debugSso: 'Déboguer le SSO',
       goBack: 'Retour',
       goHome: "Aller à l'accueil",
       logIn: 'Se connecter',

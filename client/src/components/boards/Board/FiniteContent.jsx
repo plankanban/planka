@@ -26,6 +26,10 @@ const FiniteContent = React.memo(() => {
     [dispatch],
   );
 
+  const handleCardPaste = useCallback(() => {
+    dispatch(entryActions.pasteCardInCurrentContext());
+  }, [dispatch]);
+
   let View;
   switch (board.view) {
     case BoardViews.GRID:
@@ -39,7 +43,13 @@ const FiniteContent = React.memo(() => {
     default:
   }
 
-  return <View cardIds={cardIds} onCardCreate={canAddCard ? handleCardCreate : undefined} />;
+  return (
+    <View
+      cardIds={cardIds}
+      onCardCreate={canAddCard ? handleCardCreate : undefined}
+      onCardPaste={canAddCard ? handleCardPaste : undefined}
+    />
+  );
 });
 
 export default FiniteContent;

@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Over PLANKA',
+      aboutApp_title: 'Over de app',
+      aboutPlanka_title: 'Over PLANKA',
       accessToken: 'Toegangstoken',
       account: 'Account',
       actions: 'Acties',
@@ -87,6 +88,8 @@ export default {
         'Weet u zeker dat u deze manager uit het project wilt verwijderen?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Weet u zeker dat u dit lid uit het bord wilt verwijderen?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Weet je zeker dat je SSO wilt ontkoppelen van deze gebruiker? Dit stelt de gebruiker in staat om in te loggen met een wachtwoord.',
       assignAsOwner_title: 'Toewijzen als eigenaar',
       atLeastOneListMustBePresent: 'Er moet ten minste één lijst aanwezig zijn',
       attachment: 'Bijlage',
@@ -141,6 +144,7 @@ export default {
       customFieldGroups_title: 'Aangepaste veldgroepen',
       customField_title: 'Aangepast veld',
       customFields_title: 'Aangepaste velden',
+      customerPanel_title: 'Klantenpaneel',
       dangerZone_title: 'Gevaarlijke zone',
       date: 'Datum',
       deactivateUser_title: 'Gebruiker deactiveren',
@@ -304,6 +308,9 @@ export default {
       showOnFrontOfCard: 'Tonen op voorkant van kaart',
       smtp: 'SMTP',
       sortList_title: 'Lijst sorteren',
+      sourceCardIsNoLongerAvailableForCopying: 'Bronkaart is niet meer beschikbaar voor kopiëren.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Bronkaart is niet meer beschikbaar voor verplaatsen.',
       stopwatch: 'Stopwatch',
       story: 'Verhaal',
       subscribeToCardWhenCommenting: 'Abonneren op kaart bij het plaatsen van commentaar',
@@ -313,7 +320,7 @@ export default {
       taskListActions_title: 'Takenlijstacties',
       taskList_title: 'Takenlijst',
       team: 'Team',
-      terms: 'Voorwaarden',
+      termsOfService_title: 'Servicevoorwaarden',
       testLog_title: 'Testlog',
       thereIsNoPreviewAvailableForThisAttachment:
         'Er is geen voorbeeld beschikbaar voor deze bijlage.',
@@ -324,6 +331,7 @@ export default {
       turnOffRecentCardHighlighting: 'Recente kaartmarkering uitschakelen',
       typeNameToConfirm: 'Typ naam om te bevestigen.',
       typeTitleToConfirm: 'Typ titel om te bevestigen.',
+      unlinkSso_title: 'SSO ontkoppelen',
       unsavedChanges: 'Niet-opgeslagen wijzigingen',
       uploadFailedFileIsTooBig: 'Upload mislukt: bestand is te groot.',
       uploadFailedNotEnoughStorageSpace: 'Upload mislukt: niet genoeg opslagruimte.',
@@ -365,6 +373,7 @@ export default {
       viewers: 'Kijkers',
       visualTaskManagementWithLists: 'Visueel takenbeheer met lijsten.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Wat is er nieuw',
       withoutBaseGroup: 'Zonder basisgroep',
       writeComment: 'Schrijf een opmerking...',
     },
@@ -395,6 +404,8 @@ export default {
       archiveCards_title: 'Kaarten archiveren',
       assignAsOwner: 'Toewijzen als eigenaar',
       cancel: 'Annuleren',
+      copy: 'Kopiëren',
+      copyCard_title: 'Kaart kopiëren',
       createApiKey: 'API-sleutel aanmaken',
       createBoard: 'Bord aanmaken',
       createCustomFieldGroup: 'Aangepaste veldgroep aanmaken',
@@ -402,6 +413,8 @@ export default {
       createLabel: 'Label aanmaken',
       createNewLabel: 'Nieuw label aanmaken',
       createProject: 'Project aanmaken',
+      cut: 'Knippen',
+      cutCard_title: 'Kaart knippen',
       deactivateUser: 'Gebruiker deactiveren',
       deactivateUser_title: 'Gebruiker deactiveren',
       delete: 'Verwijderen',
@@ -488,6 +501,8 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Abonneren',
+      unlinkSso: 'SSO ontkoppelen',
+      unlinkSso_title: 'SSO ontkoppelen',
       unsubscribe: 'Afmelden',
       uploadNewAvatar: 'Nieuwe avatar uploaden',
       uploadNewImage: 'Nieuwe afbeelding uploaden',

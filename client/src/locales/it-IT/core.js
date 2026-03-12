@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Informazioni su PLANKA',
+      aboutApp_title: "Informazioni sull'app",
+      aboutPlanka_title: 'Informazioni su PLANKA',
       accessToken: 'Token di accesso',
       account: 'Account',
       actions: 'Azioni',
@@ -87,6 +88,8 @@ export default {
         'Sei sicuro di voler rimuovere questo amministratore dal progetto?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Sei sicuro di voler rimuovere questo membro dalla bacheca?',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        "Sei sicuro di voler scollegare SSO da questo utente? Questo permetterà all'utente di accedere con una password.",
       assignAsOwner_title: 'Assegna come proprietario',
       atLeastOneListMustBePresent: 'Deve essere presente almeno una lista',
       attachment: 'Allegato',
@@ -142,6 +145,7 @@ export default {
       customFieldGroups_title: 'Campi personalizzati',
       customField_title: 'Campo personalizzato',
       customFields_title: 'Campi personalizzati',
+      customerPanel_title: 'Pannello cliente',
       dangerZone_title: 'Zona pericolosa',
       date: 'Data',
       deactivateUser_title: 'Disattiva utente',
@@ -305,6 +309,10 @@ export default {
       showOnFrontOfCard: 'Mostra davanti alla scheda',
       smtp: 'SMTP',
       sortList_title: 'Ordina',
+      sourceCardIsNoLongerAvailableForCopying:
+        'La scheda sorgente non è più disponibile per la copia.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'La scheda sorgente non è più disponibile per lo spostamento.',
       stopwatch: 'Timer',
       story: 'Storia',
       subscribeToCardWhenCommenting: 'Iscrivimi alla scheda quando commento',
@@ -314,7 +322,7 @@ export default {
       taskListActions_title: 'Azioni lista di task',
       taskList_title: 'Lista di task',
       team: 'Team',
-      terms: 'Ho letto e accetto i termini e condizioni.',
+      termsOfService_title: 'Termini di servizio',
       testLog_title: 'Log di test',
       thereIsNoPreviewAvailableForThisAttachment:
         'Non è disponibile alcuna anteprima per questo allegato.',
@@ -325,6 +333,7 @@ export default {
       turnOffRecentCardHighlighting: "Disattiva l'evidenziazione delle scheda recenti",
       typeNameToConfirm: 'Digita il nome per confermare.',
       typeTitleToConfirm: 'Digita il titolo per confermare.',
+      unlinkSso_title: 'Scollegamento SSO',
       unsavedChanges: 'Modifiche non salvate',
       uploadFailedFileIsTooBig: 'Caricamento fallito: il file è troppo grande.',
       uploadFailedNotEnoughStorageSpace:
@@ -364,6 +373,7 @@ export default {
       viewers: 'Visualizzatori',
       visualTaskManagementWithLists: 'Gestione visiva dei task con liste.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Novità',
       withoutBaseGroup: 'Senza gruppo base',
       writeComment: 'Scrivi un commento...',
     },
@@ -394,6 +404,8 @@ export default {
       archiveCards_title: 'Archivia schede',
       assignAsOwner: 'Assegna come proprietario',
       cancel: 'Annulla',
+      copy: 'Copia',
+      copyCard_title: 'Copia scheda',
       createApiKey: 'Crea chiave API',
       createBoard: 'Crea bacheca',
       createCustomFieldGroup: 'Crea campi personalizzati',
@@ -401,6 +413,8 @@ export default {
       createLabel: 'Crea etichetta',
       createNewLabel: 'Crea nuova etichetta',
       createProject: 'Crea progetto',
+      cut: 'Taglia',
+      cutCard_title: 'Taglia scheda',
       deactivateUser: 'Disattiva utente',
       deactivateUser_title: 'Disattiva utente',
       delete: 'Elimina',
@@ -487,6 +501,8 @@ export default {
       start: 'Inizio',
       stop: 'Interrompi',
       subscribe: 'Iscriviti',
+      unlinkSso: 'Scollega SSO',
+      unlinkSso_title: 'Scollega SSO',
       unsubscribe: 'Annulla iscrizione',
       uploadNewAvatar: 'Carica nuovo avatar',
       uploadNewImage: 'Carica nuova immagine',

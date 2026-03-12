@@ -5,10 +5,11 @@
 
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import classNames from 'classnames';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
-import { Button, Loader } from 'semantic-ui-react';
+import { Button, Icon, Loader } from 'semantic-ui-react';
 import { useWindowWidth } from '../../../lib/hooks';
 import { Masonry } from '../../../lib/custom-ui';
 
@@ -21,11 +22,18 @@ import PlusMathIcon from '../../../assets/images/plus-math-icon.svg?react';
 import styles from './GridView.module.scss';
 
 const GridView = React.memo(
-  ({ cardIds, isCardsFetching, isAllCardsFetched, onCardsFetch, onCardCreate }) => {
-    const canAddCard = useSelector((state) => {
+  ({ cardIds, isCardsFetching, isAllCardsFetched, onCardsFetch, onCardCreate, onCardPaste }) => {
+    const clipboard = useSelector(selectors.selectClipboard);
+
+    const { canAddCard, canPasteCard } = useSelector((state) => {
       const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
-      return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
-    });
+      const isEditor = !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+
+      return {
+        canAddCard: isEditor,
+        canPasteCard: isEditor,
+      };
+    }, shallowEqual);
 
     const [t] = useTranslation();
     const [isAddCardOpened, setIsAddCardOpened] = useState(false);
@@ -59,17 +67,31 @@ const GridView = React.memo(
                 <AddCard onCreate={onCardCreate} onClose={handleAddCardClose} />
               </div>
             ) : (
-              <Button
-                type="button"
-                disabled={!onCardCreate}
-                className={styles.addCardButton}
-                onClick={handleAddCardClick}
-              >
-                <PlusMathIcon className={styles.addCardButtonIcon} />
-                <span className={styles.addCardButtonText}>
-                  {onCardCreate ? t('action.addCard') : t('common.atLeastOneListMustBePresent')}
-                </span>
-              </Button>
+              <div>
+                <div className={styles.addCardButtonWrapper}>
+                  <Button
+                    type="button"
+                    disabled={!onCardCreate}
+                    className={styles.addCardButton}
+                    onClick={handleAddCardClick}
+                  >
+                    <PlusMathIcon className={styles.addCardButtonIcon} />
+                    <span className={styles.addCardButtonText}>
+                      {onCardCreate ? t('action.addCard') : t('common.atLeastOneListMustBePresent')}
+                    </span>
+                  </Button>
+                  {onCardPaste && clipboard && canPasteCard && (
+                    <Button
+                      type="button"
+                      disabled={!onCardCreate}
+                      className={classNames(styles.addCardButton, styles.paste)}
+                      onClick={onCardPaste}
+                    >
+                      <Icon fitted name="paste" />
+                    </Button>
+                  )}
+                </div>
+              </div>
             ))}
           {cardIds.map((cardId) => (
             <div key={cardId} className={styles.card}>
@@ -97,6 +119,7 @@ GridView.propTypes = {
   isAllCardsFetched: PropTypes.bool,
   onCardsFetch: PropTypes.func,
   onCardCreate: PropTypes.func,
+  onCardPaste: PropTypes.func,
 };
 
 GridView.defaultProps = {
@@ -104,6 +127,7 @@ GridView.defaultProps = {
   isAllCardsFetched: undefined,
   onCardsFetch: undefined,
   onCardCreate: undefined,
+  onCardPaste: undefined,
 };
 
 export default GridView;

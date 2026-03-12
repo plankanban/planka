@@ -25,10 +25,6 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    join: {
-      type: 'boolean',
-      defaultsTo: false,
-    },
     request: {
       type: 'ref',
     },
@@ -36,24 +32,57 @@ module.exports = {
 
   exits: {
     positionMustBeInValues: {},
+    boardInValuesMustBelongToProject: {},
+    listMustBeInValues: {},
+    listInValuesMustBelongToBoard: {},
   },
 
   async fn(inputs) {
     const { values } = inputs;
 
-    if (values.list) {
-      const typeState = List.TYPE_STATE_BY_TYPE[values.list.type];
+    if (values.project && values.project.id === inputs.project.id) {
+      delete values.project;
+    }
 
-      if (inputs.record.isClosed) {
-        if (typeState === List.TypeStates.OPENED) {
-          values.isClosed = false;
-        }
-      } else if (typeState === List.TypeStates.CLOSED) {
-        values.isClosed = true;
+    const project = values.project || inputs.project;
+
+    if (values.board) {
+      if (values.board.projectId !== project.id) {
+        throw 'boardInValuesMustBelongToProject';
+      }
+
+      if (values.board.id === inputs.board.id) {
+        delete values.board;
+      } else {
+        values.boardId = values.board.id;
       }
     }
 
+    const board = values.board || inputs.board;
+
+    if (values.list) {
+      if (values.list.boardId !== board.id) {
+        throw 'listInValuesMustBelongToBoard';
+      }
+
+      if (values.list.id === inputs.list.id) {
+        delete values.list;
+      } else {
+        values.listId = values.list.id;
+      }
+    } else if (values.board) {
+      throw 'listMustBeInValues';
+    }
+
     const list = values.list || inputs.list;
+
+    if (sails.helpers.lists.isFinite(list)) {
+      if (values.list && _.isUndefined(values.position)) {
+        throw 'positionMustBeInValues';
+      }
+    } else {
+      values.position = null;
+    }
 
     if (sails.helpers.lists.isFinite(list)) {
       if (_.isUndefined(values.position)) {
@@ -95,9 +124,54 @@ module.exports = {
       }
     }
 
+    let labelIds;
+    if (values.board) {
+      const prevLabels = await sails.helpers.cards.getLabels(inputs.record.id);
+
+      const labels = await Label.qm.getByBoardId(values.board.id);
+      const labelByName = _.keyBy(labels, 'name');
+
+      labelIds = await Promise.all(
+        prevLabels.map(async (label) => {
+          if (labelByName[label.name]) {
+            return labelByName[label.name].id;
+          }
+
+          const { id } = await sails.helpers.labels.createOne.with({
+            project,
+            values: {
+              ..._.omit(label, ['id', 'boardId', 'createdAt', 'updatedAt']),
+              board,
+            },
+            actorUser: values.creatorUser,
+          });
+
+          return id;
+        }),
+      );
+    }
+
+    if (values.list) {
+      const typeState = List.TYPE_STATE_BY_TYPE[values.list.type];
+
+      if (inputs.record.isClosed) {
+        if (typeState === List.TypeStates.OPENED) {
+          values.isClosed = false;
+        }
+      } else if (typeState === List.TypeStates.CLOSED) {
+        values.isClosed = true;
+      }
+    }
+
+    if (!values.name) {
+      const t = sails.helpers.utils.makeTranslator(values.creatorUser.language);
+      values.name = `${inputs.record.name} (${t('copy')})`;
+    }
+
     let card = await Card.qm.createOne({
       ..._.pick(inputs.record, [
         'boardId',
+        'listId',
         'prevListId',
         'type',
         'name',
@@ -108,12 +182,16 @@ module.exports = {
         'isClosed',
       ]),
       ...values,
-      listId: list.id,
       creatorUserId: values.creatorUser.id,
       listChangedAt: new Date().toISOString(),
     });
 
-    const cardMemberships = await CardMembership.qm.getByCardId(inputs.record.id);
+    const boardMemberUserIds = await sails.helpers.boards.getMemberUserIds(card.boardId);
+    const boardMemberUserIdsSet = new Set(boardMemberUserIds);
+
+    const cardMemberships = await CardMembership.qm.getByCardId(inputs.record.id, {
+      userIdOrIds: boardMemberUserIds,
+    });
 
     const cardMembershipsValues = cardMemberships.map((cardMembership) => ({
       ..._.pick(cardMembership, ['userId']),
@@ -122,10 +200,13 @@ module.exports = {
 
     const nextCardMemberships = await CardMembership.qm.create(cardMembershipsValues);
 
-    const cardLabels = await CardLabel.qm.getByCardId(inputs.record.id);
+    if (!values.board) {
+      const cardLabels = await CardLabel.qm.getByCardId(inputs.record.id);
+      labelIds = sails.helpers.utils.mapRecords(cardLabels, 'labelId');
+    }
 
-    const cardLabelsValues = cardLabels.map((cardLabel) => ({
-      ..._.pick(cardLabel, ['labelId']),
+    const cardLabelsValues = labelIds.map((labelId) => ({
+      labelId,
       cardId: card.id,
     }));
 
@@ -137,15 +218,7 @@ module.exports = {
     const tasks = await Task.qm.getByTaskListIds(taskListIds);
     const attachments = await Attachment.qm.getByCardId(inputs.record.id);
 
-    const customFieldGroups = await CustomFieldGroup.qm.getByCardId(inputs.record.id);
-    const customFieldGroupIds = sails.helpers.utils.mapRecords(customFieldGroups);
-
-    const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
-    const customFieldValues = await CustomFieldValue.qm.getByCardId(inputs.record.id);
-
-    const ids = await sails.helpers.utils.generateIds(
-      taskLists.length + attachments.length + customFieldGroups.length + customFields.length,
-    );
+    const ids = await sails.helpers.utils.generateIds(taskLists.length + attachments.length);
 
     const nextTaskListIdByTaskListId = {};
     const nextTaskListsValues = await taskLists.map((taskList) => {
@@ -162,8 +235,9 @@ module.exports = {
     const nextTaskLists = await TaskList.qm.create(nextTaskListsValues);
 
     const nextTasksValues = tasks.map((task) => ({
-      ..._.pick(task, ['linkedCardId', 'assigneeUserId', 'position', 'name', 'isCompleted']),
+      ..._.pick(task, ['linkedCardId', 'position', 'name', 'isCompleted']),
       taskListId: nextTaskListIdByTaskListId[task.taskListId],
+      assigneeUserId: boardMemberUserIdsSet.has(task.assigneeUserId) ? task.assigneeUserId : null,
     }));
 
     const nextTasks = await Task.qm.create(nextTasksValues);
@@ -193,47 +267,16 @@ module.exports = {
       }
     }
 
-    const nextCustomFieldGroupIdByCustomFieldGroupId = {};
-    const nextCustomFieldGroupsValues = customFieldGroups.map((customFieldGroup) => {
-      const id = ids.shift();
-      nextCustomFieldGroupIdByCustomFieldGroupId[customFieldGroup.id] = id;
-
-      return {
-        ..._.pick(customFieldGroup, ['baseCustomFieldGroupId', 'position', 'name']),
-        id,
-        cardId: card.id,
-      };
-    });
-
-    const nextCustomFieldGroups = await CustomFieldGroup.qm.create(nextCustomFieldGroupsValues);
-
-    const nextCustomFieldIdByCustomFieldId = {};
-    const nextCustomFieldsValues = customFields.map((customField) => {
-      const id = ids.shift();
-      nextCustomFieldIdByCustomFieldId[customField.id] = id;
-
-      return {
-        ..._.pick(customField, ['position', 'name', 'showOnFrontOfCard']),
-        id,
-        customFieldGroupId:
-          nextCustomFieldGroupIdByCustomFieldGroupId[customField.customFieldGroupId],
-      };
-    });
-
-    const nextCustomFields = await CustomField.qm.create(nextCustomFieldsValues);
-
-    const nextCustomFieldValuesValues = customFieldValues.map((customFieldValue) => ({
-      ..._.pick(customFieldValue, ['content']),
-      cardId: card.id,
-      customFieldGroupId:
-        nextCustomFieldGroupIdByCustomFieldGroupId[customFieldValue.customFieldGroupId] ||
-        customFieldValue.customFieldGroupId,
-      customFieldId:
-        nextCustomFieldIdByCustomFieldId[customFieldValue.customFieldId] ||
-        customFieldValue.customFieldId,
-    }));
-
-    const nextCustomFieldValues = await CustomFieldValue.qm.create(nextCustomFieldValuesValues);
+    const {
+      customFieldGroups: nextCustomFieldGroups,
+      customFields: nextCustomFields,
+      customFieldValues: nextCustomFieldValues,
+    } = await sails.helpers.cards.copyCustomFields(
+      inputs.record,
+      card,
+      !!values.board,
+      !!values.project,
+    );
 
     sails.sockets.broadcast(
       `board:${card.boardId}`,
@@ -252,8 +295,8 @@ module.exports = {
       buildData: () => ({
         item: card,
         included: {
-          projects: [inputs.project],
-          boards: [inputs.board],
+          projects: [project],
+          boards: [board],
           lists: [list],
           cardMemberships: nextCardMemberships,
           cardLabels: nextCardLabels,
@@ -291,6 +334,8 @@ module.exports = {
     }
 
     await sails.helpers.actions.createOne.with({
+      project,
+      board,
       list,
       webhooks,
       values: {
@@ -302,8 +347,6 @@ module.exports = {
         },
         user: values.creatorUser,
       },
-      project: inputs.project,
-      board: inputs.board,
     });
 
     return {

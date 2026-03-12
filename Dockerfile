@@ -28,7 +28,7 @@ RUN npm install npm --global \
 FROM node:22-alpine
 
 RUN apk -U upgrade \
-  && apk add bash python3 --no-cache \
+  && apk add bash python3 squid --no-cache \
   && npm install npm --global
 
 USER node
@@ -48,15 +48,12 @@ RUN chmod +x inject-config-template.sh \
   && rm public/index.html
 
 RUN python3 -m venv .venv \
+  && .venv/bin/pip3 install --upgrade pip \
   && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
   && mv .env.sample .env \
   && npm config set update-notifier false
 
-VOLUME /app/public/favicons
-VOLUME /app/public/user-avatars
-VOLUME /app/public/background-images
-VOLUME /app/private/attachments
-
+VOLUME /app/data
 EXPOSE 1337
 
 HEALTHCHECK --interval=10s --timeout=2s --start-period=15s \
