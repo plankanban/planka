@@ -41,9 +41,9 @@ const build = (src, dest) => {
       fs.copyFileSync(srcPath, destPath);
     }
   }
-
-  const specification = swaggerJsdoc(swaggerConfig);
-  fs.writeFileSync(path.join(dest, 'swagger.json'), JSON.stringify(specification, null, 2));
 };
 
 build('./', OUT_DIR);
+
+const specification = swaggerJsdoc(swaggerConfig);
+fs.writeFileSync(path.join(OUT_DIR, 'swagger.json'), JSON.stringify(specification, null, 2));
