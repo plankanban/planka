@@ -22,7 +22,7 @@ COPY client .
 
 RUN npm install npm --global \
   && npm install --omit=dev \
-  && DISABLE_ESLINT_PLUGIN=true npm run build
+  && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build
 
 # Stage 3: Final image
 FROM node:22-alpine
@@ -41,12 +41,12 @@ COPY --from=server --chown=node:node /app/node_modules node_modules
 COPY --from=server --chown=node:node /app/dist .
 
 COPY --from=client --chown=node:node /app/dist public
-COPY --from=client --chown=node:node /app/dist/index.html views
 
 RUN python3 -m venv .venv \
   && .venv/bin/pip3 install --upgrade pip \
   && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
   && mv .env.sample .env \
+  && mv public/index.ejs views \
   && npm config set update-notifier false
 
 VOLUME /app/data

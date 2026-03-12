@@ -17,6 +17,6 @@ ln -s ${CLIENT_PATH}/logo512.png ${SERVER_PUBLIC_PATH}/logo512.png && echo "Link
 ln -s ${CLIENT_PATH}/manifest.json ${SERVER_PUBLIC_PATH}/manifest.json && echo "Linked manifest.json successfully"
 ln -s ${CLIENT_PATH}/robots.txt ${SERVER_PUBLIC_PATH}/robots.txt && echo "Linked robots.txt successfully"
 ln -s ${CLIENT_PATH}/assets ${SERVER_PUBLIC_PATH}/assets && echo "Linked assets folder successfully"
-ln -s ${CLIENT_PATH}/index.html ${SERVER_VIEWS_PATH}/index.html && echo "Linked index.html successfully"
+ln -s ${CLIENT_PATH}/index.ejs ${SERVER_VIEWS_PATH}/index.ejs && echo "Linked index.ejs successfully"
 
 echo "Setup symbolic links completed successfully."

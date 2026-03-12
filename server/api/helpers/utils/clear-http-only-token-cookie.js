@@ -15,7 +15,7 @@ module.exports = {
 
   fn(inputs) {
     inputs.response.clearCookie('httpOnlyToken', {
-      path: sails.config.custom.baseUrlPath,
+      path: sails.config.custom.baseUrlPath || '/',
     });
   },
 };
