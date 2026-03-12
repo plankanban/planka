@@ -162,7 +162,11 @@ module.exports = {
   inputs: {
     id: {
       ...idInput,
-      required: true,
+      required: false,
+    },
+    publicId: {
+      type: 'string',
+      required: false,
     },
     subscribe: {
       type: 'boolean',
@@ -178,31 +182,60 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const { board, project } = await sails.helpers.boards
-      .getPathToProjectById(inputs.id)
-      .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
+    // Determine if this is a public board request
+    const isPublicRequest = inputs.publicId && !inputs.id;
+    let board;
+    let project;
 
-    if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
-      const isProjectManager = await sails.helpers.users.isProjectManager(
-        currentUser.id,
-        project.id,
-      );
+    if (isPublicRequest) {
+      // Public board access - no auth required
+      board = await Board.qm.getOneByPublicId(inputs.publicId);
 
-      if (!isProjectManager) {
-        const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
-          board.id,
+      if (!board || !board.isPublic) {
+        throw Errors.BOARD_NOT_FOUND;
+      }
+
+      project = await Project.qm.getOneById(board.projectId);
+      if (!project) {
+        throw Errors.BOARD_NOT_FOUND;
+      }
+    } else {
+      // Authenticated board access
+      if (!inputs.id) {
+        throw Errors.BOARD_NOT_FOUND;
+      }
+
+      const pathToProject = await sails.helpers.boards
+        .getPathToProjectById(inputs.id)
+        .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
+
+      board = pathToProject.board;
+      project = pathToProject.project;
+
+      if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
+        const isProjectManager = await sails.helpers.users.isProjectManager(
           currentUser.id,
+          project.id,
         );
 
-        if (!boardMembership) {
-          throw Errors.BOARD_NOT_FOUND; // Forbidden
+        if (!isProjectManager) {
+          const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
+            board.id,
+            currentUser.id,
+          );
+
+          if (!boardMembership) {
+            throw Errors.BOARD_NOT_FOUND; // Forbidden
+          }
         }
       }
     }
 
-    board.isSubscribed = await sails.helpers.users.isBoardSubscriber(currentUser.id, board.id);
+    board.isSubscribed = isPublicRequest
+      ? false
+      : await sails.helpers.users.isBoardSubscriber(currentUser.id, board.id);
 
-    const boardMemberships = await BoardMembership.qm.getByBoardId(board.id);
+    const boardMemberships = isPublicRequest ? [] : await BoardMembership.qm.getByBoardId(board.id);
     const labels = await Label.qm.getByBoardId(board.id);
     const lists = await List.qm.getByBoardId(board.id);
 
@@ -212,13 +245,40 @@ module.exports = {
     const cards = await Card.qm.getByListIds(finiteListIds);
     const cardIds = sails.helpers.utils.mapRecords(cards);
 
-    const userIds = _.union(
-      sails.helpers.utils.mapRecords(boardMemberships, 'userId'),
-      sails.helpers.utils.mapRecords(cards, 'creatorUserId', true, true),
-    );
+    // Sanitize cards for public boards: strip user-identifying fields but keep content
+    let processedCards = cards;
+    if (isPublicRequest) {
+      processedCards = cards.map((card) => ({
+        id: card.id,
+        boardId: card.boardId,
+        listId: card.listId,
+        creatorUserId: null, // Strip creator
+        prevListId: card.prevListId,
+        coverAttachmentId: card.coverAttachmentId,
+        type: card.type,
+        position: card.position,
+        name: card.name,
+        description: card.description, // Keep descriptions
+        dueDate: card.dueDate,
+        isDueCompleted: card.isDueCompleted,
+        stopwatch: card.stopwatch,
+        commentsTotal: card.commentsTotal,
+        isClosed: card.isClosed,
+        listChangedAt: card.listChangedAt,
+        createdAt: card.createdAt,
+        updatedAt: card.updatedAt,
+      }));
+    }
+
+    const userIds = isPublicRequest
+      ? []
+      : _.union(
+          sails.helpers.utils.mapRecords(boardMemberships, 'userId'),
+          sails.helpers.utils.mapRecords(cards, 'creatorUserId', true, true),
+        );
 
     const users = await User.qm.getByIds(userIds);
-    const cardMemberships = await CardMembership.qm.getByCardIds(cardIds);
+    const cardMemberships = isPublicRequest ? [] : await CardMembership.qm.getByCardIds(cardIds);
     const cardLabels = await CardLabel.qm.getByCardIds(cardIds);
 
     const taskLists = await TaskList.qm.getByCardIds(cardIds);
@@ -236,27 +296,51 @@ module.exports = {
     const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
     const customFieldValues = await CustomFieldValue.qm.getByCardIds(cardIds);
 
-    const cardSubscriptions = await CardSubscription.qm.getByCardIdsAndUserId(
-      cardIds,
-      currentUser.id,
-    );
+    let cardSubscriptionsData = [];
+    let isSubscribedByCardId = {};
 
-    const isSubscribedByCardId = cardSubscriptions.reduce(
-      (result, cardSubscription) => ({
-        ...result,
-        [cardSubscription.cardId]: true,
-      }),
-      {},
-    );
+    if (!isPublicRequest) {
+      const cardSubscriptions = await CardSubscription.qm.getByCardIdsAndUserId(
+        cardIds,
+        currentUser.id,
+      );
 
-    cards.forEach((card) => {
-      // eslint-disable-next-line no-param-reassign
-      card.isSubscribed = isSubscribedByCardId[card.id] || false;
-    });
+      isSubscribedByCardId = cardSubscriptions.reduce(
+        (result, cardSubscription) => ({
+          ...result,
+          [cardSubscription.cardId]: true,
+        }),
+        {},
+      );
+
+      processedCards.forEach((card) => {
+        // eslint-disable-next-line no-param-reassign
+        card.isSubscribed = isSubscribedByCardId[card.id] || false;
+      });
+    }
+
+    // Fetch and sanitize comments
+    const comments = await Comment.qm.getByCardIds(cardIds);
+    let processedComments = comments;
+    if (isPublicRequest) {
+      // Anonymize comment authors for public boards
+      processedComments = comments.map((comment) => ({
+        id: comment.id,
+        cardId: comment.cardId,
+        userId: null, // Strip comment author
+        text: comment.text,
+        createdAt: comment.createdAt,
+        updatedAt: comment.updatedAt,
+      }));
+    }
 
     if (inputs.subscribe && this.req.isSocket) {
       sails.sockets.join(this.req, `board:${board.id}`);
     }
+
+    const presentedUsers = isPublicRequest
+      ? []
+      : sails.helpers.users.presentMany(users, currentUser);
 
     return {
       item: board,
@@ -264,7 +348,7 @@ module.exports = {
         boardMemberships,
         labels,
         lists,
-        cards,
+        cards: processedCards,
         cardMemberships,
         cardLabels,
         taskLists,
@@ -272,7 +356,8 @@ module.exports = {
         customFieldGroups,
         customFields,
         customFieldValues,
-        users: sails.helpers.users.presentMany(users, currentUser),
+        comments: processedComments,
+        users: presentedUsers,
         projects: [project],
         attachments: sails.helpers.attachments.presentMany(attachments),
       },

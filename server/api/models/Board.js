@@ -142,6 +142,16 @@ module.exports = {
       defaultsTo: false,
       columnName: 'expand_task_lists_by_default',
     },
+    isPublic: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'is_public',
+    },
+    publicId: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'public_id',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
