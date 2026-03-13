@@ -3,8 +3,9 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import keyBy from 'lodash/keyBy';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Form } from 'semantic-ui-react';
@@ -13,6 +14,7 @@ import { useClickAwayListener } from '../../../lib/hooks';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useNestedRef } from '../../../hooks';
+import { mentionMarkupToText, mentionTextToMarkup } from '../../../utils/mentions';
 import MarkdownEditor from '../MarkdownEditor';
 
 import styles from './EditMarkdown.module.scss';
@@ -21,10 +23,20 @@ const MAX_LENGTH = 1048576;
 
 const EditMarkdown = React.memo(({ defaultValue, draftValue, onUpdate, onClose }) => {
   const defaultMode = useSelector((state) => selectors.selectCurrentUser(state).defaultEditorMode);
+  const boardMemberships = useSelector(selectors.selectMembershipsForCurrentBoard);
+
+  const userByUsername = useMemo(
+    () =>
+      keyBy(
+        boardMemberships.map(({ user }) => user),
+        (user) => user.username.toLowerCase(),
+      ),
+    [boardMemberships],
+  );
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
-  const [value, setValue] = useState(() => draftValue || defaultValue || '');
+  const [value, setValue] = useState(() => mentionMarkupToText(draftValue || defaultValue || ''));
 
   const fieldRef = useRef(null);
   const [submitButtonRef, handleSubmitButtonRef] = useNestedRef();
@@ -44,14 +56,15 @@ const EditMarkdown = React.memo(({ defaultValue, draftValue, onUpdate, onClose }
   const isExceeded = value.length > MAX_LENGTH;
 
   const submit = useCallback(() => {
-    const cleanValue = value.trim() || null;
+    const valueWithMarkup = mentionTextToMarkup(value, userByUsername);
+    const cleanValue = valueWithMarkup.trim() || null;
 
     if (!isExceeded && cleanValue !== defaultValue) {
       onUpdate(cleanValue);
     }
 
     onClose(isExceeded ? cleanValue : null);
-  }, [onUpdate, onClose, defaultValue, value, isExceeded]);
+  }, [onUpdate, onClose, defaultValue, value, isExceeded, userByUsername]);
 
   const handleChange = useCallback((nextValue) => {
     setValue(nextValue);
