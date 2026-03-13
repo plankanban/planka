@@ -68,6 +68,30 @@
     opacity: 0;
   }
 
+  .menuButton {
+    background: none;
+    box-shadow: none;
+    height: 36px;
+    line-height: 1;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    width: 36px;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .menuButtonIcon {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+  }
+
   .icon {
     color: rgba(255, 255, 255, 0.8);
     font-size: 18px;
@@ -141,6 +165,10 @@
       }
 
       .favoriteButtonAppearable {
+        opacity: 1;
+      }
+
+      .menuButton {
         opacity: 1;
       }
 
