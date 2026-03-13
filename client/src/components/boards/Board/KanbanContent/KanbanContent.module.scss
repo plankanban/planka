@@ -5,27 +5,39 @@
 
 :global(#app) {
   .addListButton {
-    background: rgba(0, 0, 0, 0.24);
-    border: none;
-    border-radius: 3px;
-    color: rgba(255, 255, 255, 0.72);
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid var(--glass-column-border);
+    border-radius: var(--glass-column-radius);
+    color: var(--glass-text-secondary);
     cursor: pointer;
     display: block;
-    fill: rgba(255, 255, 255, 0.72);
+    fill: var(--glass-text-secondary);
     font-weight: normal;
     height: 42px;
     padding: 11px;
     text-align: left;
-    transition: background 85ms ease-in, opacity 40ms ease-in,
-      border-color 85ms ease-in;
+    transition: all 0.2s ease;
     width: 100%;
+
+    @supports (backdrop-filter: blur(1px)) {
+      background: rgba(var(--glass-tint-rgb), 0.25);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
 
     &:active {
       outline: none;
     }
 
     &:hover {
-      background: rgba(0, 0, 0, 0.32);
+      background: rgba(15, 23, 42, 0.90);
+      color: var(--glass-text-primary);
+      fill: var(--glass-text-primary);
+      border-color: rgba(255, 255, 255, 0.25);
+
+      @supports (backdrop-filter: blur(1px)) {
+        background: rgba(var(--glass-tint-rgb), 0.35);
+      }
     }
   }
 

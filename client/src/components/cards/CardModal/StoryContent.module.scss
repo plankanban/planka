@@ -5,23 +5,26 @@
 
 :global(#app) {
   .actionButton {
-    background: #ebeef0;
-    box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.13);
-    color: #444;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    box-shadow: none;
+    color: var(--glass-text-secondary);
     margin-top: 8px;
     padding: 6px 8px 6px 18px;
     text-align: left;
-    transition: background 85ms ease;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: #dfe3e6;
-      box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.25);
-      color: #4c4c4c;
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: none;
+      color: var(--glass-text-primary);
     }
   }
 
   .actionIcon {
-    color: #17394d;
+    color: var(--glass-text-secondary);
     margin-right: 8px;
   }
 
@@ -38,7 +41,7 @@
   }
 
   .actionsTitle {
-    color: #8c8c8c;
+    color: var(--glass-text-muted);
     font-size: 12px;
     font-weight: normal;
     letter-spacing: 0.04em;
@@ -107,10 +110,10 @@
   }
 
   .dueDate {
-    background: rgba(9, 30, 66, 0.04);
-    border: none;
-    border-radius: 3px;
-    color: #6b808c;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    color: var(--glass-text-secondary);
     cursor: pointer;
     font-size: 12px;
     line-height: 20px;
@@ -118,21 +121,21 @@
     padding: 2px 11px;
     text-align: left;
     text-decoration: underline;
-    transition: background 0.3s ease;
+    transition: all 0.2s ease;
     vertical-align: top;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #17394d;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--glass-text-primary);
     }
   }
 
   .descriptionButton {
-    background: rgba(9, 30, 66, 0.04);
-    border: none;
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
     display: block;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     cursor: pointer;
     min-height: 54px;
     outline: none;
@@ -143,8 +146,8 @@
     width: 100%;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      background: rgba(255, 255, 255, 0.12);
+      color: var(--glass-text-primary);
     }
   }
 
@@ -158,9 +161,10 @@
   }
 
   .draftChip {
-    background: #f1eee2;
-    border-radius: 3px;
-    color: rgba(0, 0, 0, 0.87);
+    background: rgba(255, 200, 50, 0.15);
+    border: 1px solid rgba(255, 200, 50, 0.25);
+    border-radius: 6px;
+    color: rgba(255, 220, 100, 0.9);
     display: inline-block;
     line-height: 1.5;
     margin-bottom: 8px;
@@ -170,6 +174,7 @@
   .editButton {
     background: transparent;
     box-shadow: none;
+    color: var(--glass-text-secondary);
     line-height: 28px;
     margin: 0;
     min-height: auto;
@@ -182,7 +187,8 @@
     z-index: 1;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
+      background: rgba(255, 255, 255, 0.10);
+      color: var(--glass-text-primary);
     }
   }
 
@@ -191,10 +197,11 @@
   }
 
   .headerTitle {
-    color: #17394d;
+    color: var(--glass-text-primary);
     font-size: 28px;
     font-weight: bold;
     line-height: 34px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     word-wrap: break-word;
   }
 
@@ -216,15 +223,15 @@
 
   .list {
     align-items: center;
-    background: rgba(9, 30, 66, 0.04);
-    border: none;
-    border-radius: 3px;
-    color: #6b808c;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    color: var(--glass-text-secondary);
     display: flex;
     line-height: 20px;
     outline: none;
     padding: 6px 12px;
-    transition: background 0.3s ease;
+    transition: all 0.2s ease;
   }
 
   .listButton {
@@ -239,8 +246,8 @@
   }
 
   .listHoverable:hover {
-    background: rgba(9, 30, 66, 0.08);
-    color: #17394d;
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--glass-text-primary);
   }
 
   .listIcon {
@@ -252,7 +259,7 @@
   }
 
   .moduleHeader {
-    color: #17394d;
+    color: var(--glass-text-primary);
     font-size: 16px;
     font-weight: bold;
     line-height: 1.5;
@@ -262,7 +269,7 @@
   }
 
   .moduleIcon {
-    color: #17394d;
+    color: var(--glass-text-secondary);
     font-size: 17px;
     height: 32px;
     left: -40px;
@@ -289,17 +296,17 @@
   .moreActionsButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 8px 6px 18px;
     text-align: left;
     text-decoration: underline;
-    transition: none;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
     }
   }
 
@@ -329,7 +336,7 @@
   }
 
   .text {
-    color: #6b808c;
+    color: var(--glass-text-muted);
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 0.3px;
@@ -355,8 +362,16 @@
   }
 
   .wrapper {
-    background: #f5f6f7;
-    border-radius: 4px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid var(--glass-modal-border);
+    border-radius: 16px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
     margin: 0;
+
+    @supports (backdrop-filter: blur(1px)) {
+      background: var(--glass-modal-bg);
+      backdrop-filter: blur(var(--glass-modal-blur));
+      -webkit-backdrop-filter: blur(var(--glass-modal-blur));
+    }
   }
 }

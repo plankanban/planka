@@ -107,6 +107,57 @@
     text-align: center;
   }
 
+  .forgotPassword {
+    margin-top: 6px;
+  }
+
+  .forgotPasswordLink {
+    background: none;
+    border: none;
+    color: #6b808c;
+    cursor: pointer;
+    font-size: 13px;
+    outline: none;
+    padding: 0;
+    text-decoration: none;
+
+    &:hover {
+      color: #2185d0;
+      text-decoration: underline;
+    }
+  }
+
+  .forgotPasswordMessage {
+    background: #f8f8f9;
+    border: 1px solid rgba(9, 30, 66, 0.13);
+    border-radius: 4px;
+    color: #6b808c;
+    font-size: 13px;
+    line-height: 1.4;
+    margin-top: 6px;
+    padding: 8px 12px;
+  }
+
+  .registerLink {
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .registerButton {
+    background: none;
+    border: none;
+    color: #2185d0;
+    cursor: pointer;
+    font-size: 14px;
+    outline: none;
+    padding: 4px;
+    text-decoration: underline;
+
+    &:hover {
+      color: #1a6fb5;
+    }
+  }
+
   .wrapper {
     background: #fff;
   }

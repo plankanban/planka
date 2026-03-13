@@ -98,9 +98,14 @@ const ImportTypes = {
   TRELLO: 'trello',
 };
 
+const BackgroundTypes = {
+  GRADIENT: 'gradient',
+};
+
 module.exports = {
   Views,
   ImportTypes,
+  BackgroundTypes,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -141,6 +146,17 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'expand_task_lists_by_default',
+    },
+    backgroundType: {
+      type: 'string',
+      isIn: Object.values(BackgroundTypes),
+      allowNull: true,
+      columnName: 'background_type',
+    },
+    backgroundGradient: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'background_gradient',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

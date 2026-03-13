@@ -5,7 +5,7 @@
 
 :global(#app) {
   .count {
-    color: #8c8c8c;
+    color: var(--glass-text-secondary);
     font-size: 14px;
     line-height: 14px;
   }
@@ -32,9 +32,9 @@
 
   .taskButton {
     background: transparent;
-    border: none;
-    border-radius: 3px;
-    color: #6b808c;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: var(--glass-text-secondary);
     cursor: pointer;
     display: block;
     margin-top: 6px;
@@ -47,8 +47,8 @@
     width: 100%;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.04);
-      color: #092d42;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--glass-text-primary);
     }
   }
 

@@ -4,6 +4,54 @@
  */
 
 :global {
+  :root {
+    /* Glassmorphism Theme Variables */
+    --glass-tint-rgb: 15, 23, 42;
+    --glass-tint-light-rgb: 255, 255, 255;
+
+    /* Column Glass */
+    --glass-column-bg: rgba(var(--glass-tint-rgb), 0.35);
+    --glass-column-blur: 16px;
+    --glass-column-border: rgba(var(--glass-tint-light-rgb), 0.15);
+    --glass-column-shadow: 0 8px 32px rgba(0, 0, 0, 0.20);
+    --glass-column-radius: 12px;
+
+    /* Card Glass */
+    --glass-card-bg: rgba(var(--glass-tint-light-rgb), 0.08);
+    --glass-card-blur: 8px;
+    --glass-card-border: rgba(var(--glass-tint-light-rgb), 0.10);
+    --glass-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --glass-card-radius: 8px;
+
+    /* Header Glass */
+    --glass-header-bg: rgba(var(--glass-tint-rgb), 0.50);
+    --glass-header-blur: 12px;
+    --glass-header-border: rgba(var(--glass-tint-light-rgb), 0.12);
+
+    /* Modal Glass */
+    --glass-modal-bg: rgba(var(--glass-tint-rgb), 0.55);
+    --glass-modal-blur: 24px;
+    --glass-modal-border: rgba(var(--glass-tint-light-rgb), 0.15);
+
+    /* Popup Glass */
+    --glass-popup-bg: rgba(var(--glass-tint-rgb), 0.75);
+    --glass-popup-blur: 20px;
+    --glass-popup-border: rgba(var(--glass-tint-light-rgb), 0.12);
+
+    /* Toolbar Glass */
+    --glass-toolbar-bg: rgba(0, 0, 0, 0.30);
+    --glass-toolbar-blur: 8px;
+
+    /* Tab Glass */
+    --glass-tab-active-bg: rgba(var(--glass-tint-light-rgb), 0.12);
+    --glass-tab-hover-bg: rgba(var(--glass-tint-light-rgb), 0.08);
+
+    /* Text Colors */
+    --glass-text-primary: rgba(255, 255, 255, 0.95);
+    --glass-text-secondary: rgba(255, 255, 255, 0.65);
+    --glass-text-muted: rgba(255, 255, 255, 0.45);
+  }
+
   #app {
     background: #22252a;
     overflow-x: auto;
@@ -138,6 +186,170 @@
     .ui.page.dimmer {
       -webkit-perspective: none;
       perspective: none;
+    }
+
+    /* Glassmorphism Modal Overrides */
+    .ui.modal {
+      background: rgba(15, 23, 42, 0.70) !important;
+      backdrop-filter: blur(24px) !important;
+      -webkit-backdrop-filter: blur(24px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 16px !important;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35) !important;
+      color: var(--glass-text-primary) !important;
+
+      > .header {
+        background: transparent !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+        color: var(--glass-text-primary) !important;
+        padding: 1.25rem 1.5rem !important;
+      }
+
+      > .content {
+        background: transparent !important;
+        color: var(--glass-text-primary) !important;
+      }
+
+      > .actions {
+        background: transparent !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+      }
+
+      > .close {
+        color: rgba(255, 255, 255, 0.7) !important;
+        top: 1rem !important;
+        right: 1rem !important;
+
+        &:hover {
+          color: #fff !important;
+        }
+      }
+    }
+
+    /* Tab menu inside modals */
+    .ui.secondary.pointing.menu {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+
+      .item {
+        color: var(--glass-text-secondary) !important;
+        border-color: transparent !important;
+        transition: all 0.15s ease;
+
+        &:hover {
+          color: var(--glass-text-primary) !important;
+          background: rgba(255, 255, 255, 0.05) !important;
+        }
+
+        &.active {
+          color: var(--glass-text-primary) !important;
+          border-color: rgba(255, 255, 255, 0.9) !important;
+          font-weight: bold;
+        }
+      }
+    }
+
+    /* Form inputs inside glass modals */
+    .ui.modal .ui.input > input,
+    .ui.modal .ui.form input,
+    .ui.modal .ui.form textarea,
+    .ui.modal .ui.search .prompt {
+      background: rgba(255, 255, 255, 0.06) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      color: var(--glass-text-primary) !important;
+      border-radius: 8px !important;
+
+      &::placeholder {
+        color: var(--glass-text-muted) !important;
+      }
+
+      &:focus {
+        background: rgba(255, 255, 255, 0.10) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+      }
+    }
+
+    /* Table inside glass modals */
+    .ui.modal .ui.table {
+      background: transparent !important;
+      color: var(--glass-text-primary) !important;
+      border: none !important;
+
+      th {
+        background: rgba(255, 255, 255, 0.04) !important;
+        color: var(--glass-text-secondary) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      }
+
+      td {
+        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+        color: var(--glass-text-primary) !important;
+      }
+
+      tr:hover td {
+        background: rgba(255, 255, 255, 0.04) !important;
+      }
+    }
+
+    /* Buttons inside glass modals */
+    .ui.modal .ui.button {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      transition: all 0.15s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.18);
+      }
+
+      &.primary,
+      &.positive,
+      &.green {
+        background: rgba(33, 186, 69, 0.85) !important;
+        border-color: rgba(33, 186, 69, 0.5) !important;
+        color: #fff !important;
+
+        &:hover {
+          background: rgba(33, 186, 69, 1) !important;
+        }
+      }
+
+      &.negative,
+      &.red {
+        background: rgba(219, 40, 40, 0.85) !important;
+        border-color: rgba(219, 40, 40, 0.5) !important;
+        color: #fff !important;
+
+        &:hover {
+          background: rgba(219, 40, 40, 1) !important;
+        }
+      }
+    }
+
+    /* Dimmer backdrop for glass modals */
+    .ui.dimmer {
+      background: rgba(0, 0, 0, 0.6) !important;
+      backdrop-filter: blur(4px) !important;
+      -webkit-backdrop-filter: blur(4px) !important;
+    }
+
+    /* Popup arrow override */
+    .ui.popup::before {
+      background: rgba(15, 23, 42, 0.75) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      box-shadow: none !important;
+    }
+
+    .ui.popup {
+      background: rgba(15, 23, 42, 0.75) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+      color: var(--glass-text-primary) !important;
     }
   }
 
@@ -738,5 +950,116 @@
 
   .colorTurquoiseSea {
     color: #00858a !important;
+  }
+}
+
+/* Light Theme Mode */
+:global(#app.theme-light) {
+  background: #f0f2f5 !important;
+
+  /* Override glass variables for light mode */
+  --glass-tint-rgb: 255, 255, 255;
+  --glass-tint-light-rgb: 0, 0, 0;
+  --glass-text-primary: rgba(0, 0, 0, 0.87);
+  --glass-text-secondary: rgba(0, 0, 0, 0.55);
+  --glass-text-muted: rgba(0, 0, 0, 0.38);
+  --glass-column-bg: rgba(255, 255, 255, 0.55);
+  --glass-column-border: rgba(0, 0, 0, 0.08);
+  --glass-card-bg: rgba(255, 255, 255, 0.70);
+  --glass-card-border: rgba(0, 0, 0, 0.06);
+  --glass-header-bg: rgba(255, 255, 255, 0.70);
+  --glass-header-border: rgba(0, 0, 0, 0.08);
+  --glass-modal-bg: rgba(255, 255, 255, 0.80);
+  --glass-modal-border: rgba(0, 0, 0, 0.10);
+  --glass-popup-bg: rgba(255, 255, 255, 0.85);
+  --glass-popup-border: rgba(0, 0, 0, 0.10);
+}
+
+:global(#app.theme-light) {
+  :global(.ui.modal) {
+    background: rgba(255, 255, 255, 0.85) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+
+    > :global(.header) {
+      color: rgba(0, 0, 0, 0.87) !important;
+      border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+    }
+
+    > :global(.content) {
+      color: rgba(0, 0, 0, 0.87) !important;
+    }
+
+    > :global(.close) {
+      color: rgba(0, 0, 0, 0.5) !important;
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.87) !important;
+      }
+    }
+  }
+
+  :global(.ui.secondary.pointing.menu) {
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+
+    :global(.item) {
+      color: rgba(0, 0, 0, 0.55) !important;
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.87) !important;
+        background: rgba(0, 0, 0, 0.03) !important;
+      }
+
+      &:global(.active) {
+        color: rgba(0, 0, 0, 0.87) !important;
+        border-color: rgba(0, 0, 0, 0.7) !important;
+      }
+    }
+  }
+
+  :global(.ui.modal .ui.input > input),
+  :global(.ui.modal .ui.form input),
+  :global(.ui.modal .ui.form textarea),
+  :global(.ui.modal .ui.search .prompt) {
+    background: rgba(0, 0, 0, 0.03) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.38) !important;
+    }
+
+    &:focus {
+      background: rgba(0, 0, 0, 0.05) !important;
+      border-color: rgba(0, 0, 0, 0.25) !important;
+    }
+  }
+
+  :global(.ui.modal .ui.table) {
+    th {
+      background: rgba(0, 0, 0, 0.02) !important;
+      color: rgba(0, 0, 0, 0.55) !important;
+      border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+    }
+
+    td {
+      border-top-color: rgba(0, 0, 0, 0.06) !important;
+      color: rgba(0, 0, 0, 0.87) !important;
+    }
+  }
+
+  :global(.ui.popup) {
+    background: rgba(255, 255, 255, 0.90) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    color: rgba(0, 0, 0, 0.87) !important;
+
+    &::before {
+      background: rgba(255, 255, 255, 0.90) !important;
+      border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+  }
+
+  :global(.ui.dimmer) {
+    background: rgba(0, 0, 0, 0.3) !important;
   }
 }

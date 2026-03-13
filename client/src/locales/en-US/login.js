@@ -5,6 +5,8 @@ export default {
       adminLoginRequiredToInitializeInstance: 'Admin login required to initialize instance',
       emailAlreadyInUse: 'E-mail already in use',
       emailOrUsername: 'E-mail or username',
+      forgotPassword: 'Forgot password?',
+      forgotPasswordMessage: 'Please contact your administrator to reset your password.',
       invalidCredentials: 'Invalid credentials',
       invalidEmailOrUsername: 'Invalid e-mail or username',
       invalidPassword: 'Invalid password',

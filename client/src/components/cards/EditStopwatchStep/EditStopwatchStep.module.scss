@@ -28,12 +28,12 @@
     width: 36px;
 
     &:hover {
-      background: #e9e9e9;
+      background: rgba(255, 255, 255, 0.08);
     }
   }
 
   .text {
-    color: #444444;
+    color: var(--glass-text-primary);
     font-size: 12px;
     font-weight: bold;
     padding-bottom: 4px;

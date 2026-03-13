@@ -88,9 +88,18 @@ const SMTP_FIELD_NAMES = [
   'smtpFrom',
 ];
 
+const APPEARANCE_FIELD_NAMES = [
+  'loginLogoUrl',
+  'loginAppName',
+  'hidePoweredBy',
+  'loginBackgroundUrl',
+  'registrationEnabled',
+];
+
 module.exports = {
   MAIN_ID,
   SMTP_FIELD_NAMES,
+  APPEARANCE_FIELD_NAMES,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -136,6 +145,31 @@ module.exports = {
       type: 'string',
       allowNull: true,
       columnName: 'smtp_from',
+    },
+    loginLogoUrl: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'login_logo_url',
+    },
+    loginAppName: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'login_app_name',
+    },
+    hidePoweredBy: {
+      type: 'boolean',
+      required: true,
+      columnName: 'hide_powered_by',
+    },
+    loginBackgroundUrl: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'login_background_url',
+    },
+    registrationEnabled: {
+      type: 'boolean',
+      required: true,
+      columnName: 'registration_enabled',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

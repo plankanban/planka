@@ -123,6 +123,15 @@ module.exports = {
     expandTaskListsByDefault: {
       type: 'boolean',
     },
+    backgroundType: {
+      type: 'string',
+      isIn: Object.values(Board.BackgroundTypes),
+      allowNull: true,
+    },
+    backgroundGradient: {
+      type: 'string',
+      allowNull: true,
+    },
     isSubscribed: {
       type: 'boolean',
     },
@@ -161,6 +170,8 @@ module.exports = {
         'limitCardTypesToDefaultOne',
         'alwaysDisplayCardCreator',
         'expandTaskListsByDefault',
+        'backgroundType',
+        'backgroundGradient',
       );
     }
     if (isBoardMember) {
@@ -179,6 +190,8 @@ module.exports = {
       'limitCardTypesToDefaultOne',
       'alwaysDisplayCardCreator',
       'expandTaskListsByDefault',
+      'backgroundType',
+      'backgroundGradient',
       'isSubscribed',
     ]);
 

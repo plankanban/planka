@@ -7,7 +7,7 @@
   .button {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 11px;
@@ -16,8 +16,8 @@
     transition: none;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
     }
   }
 
@@ -27,7 +27,7 @@
   }
 
   .name {
-    color: #212121;
+    color: var(--glass-text-primary);
     font-size: 16px;
     font-weight: bold;
     line-height: 1.2;
@@ -42,7 +42,7 @@
   }
 
   .username {
-    color: #888888;
+    color: var(--glass-text-secondary);
     font-size: 14px;
     line-height: 1.2;
     padding: 2px 0 2px 2px;

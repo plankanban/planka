@@ -5,14 +5,15 @@
 
 :global(#app) {
   .field input {
-    background: rgba(9, 30, 66, 0.04);
-    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--glass-text-primary);
     overflow: hidden;
     text-overflow: ellipsis;
 
     &:focus {
-      background: #fff;
-      border-color: #5ba4cf;
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(91, 164, 207, 0.6);
     }
   }
 }

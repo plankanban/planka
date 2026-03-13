@@ -9,44 +9,59 @@
   }
 
   .button {
-    background: rgba(0, 0, 0, 0.24);
-    border: none;
-    border-radius: 3px;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.9);
     cursor: pointer;
     display: inline-block;
     font-size: 13px;
     line-height: 20px;
     outline: none;
     padding: 5px 12px;
+    transition: all 0.15s ease;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.32);
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.18);
     }
   }
 
   .buttonGroup {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
     .button {
+      border: none;
       border-radius: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
 
       &:enabled {
-        background: rgba(0, 0, 0, 0.08);
-        color: rgba(255, 255, 255, 0.72);
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.65);
 
         &:hover {
-          background: rgba(0, 0, 0, 0.12);
+          background: rgba(255, 255, 255, 0.12);
           color: #fff;
         }
       }
 
+      &:not(:last-child) {
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
       &:first-child {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
       }
 
       &:last-child {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
       }
     }
   }
