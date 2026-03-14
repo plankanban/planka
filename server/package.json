@@ -58,7 +58,7 @@
     "dotenv-cli": "^11.0.0",
     "escape-html": "^1.0.3",
     "escape-markdown": "^1.0.4",
-    "file-type": "^21.3.0",
+    "file-type": "^21.3.2",
     "fs-extra": "^11.3.3",
     "i18n-2": "^0.7.3",
     "ico-to-png": "^0.2.2",
