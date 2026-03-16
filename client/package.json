@@ -79,9 +79,6 @@
     }
   },
   "overrides": {
-    "@diplodoc/transform": {
-      "lodash": "^4.17.23"
-    },
     "react-mentions": {
       "@babel/runtime": "^7.28.6"
     }
@@ -89,12 +86,12 @@
   "dependencies": {
     "@ballerina/highlightjs-ballerina": "^1.0.1",
     "@diplodoc/cut-extension": "^1.1.1",
-    "@diplodoc/transform": "^4.70.0",
+    "@diplodoc/transform": "^4.70.2",
     "@gravity-ui/components": "^4.18.0",
-    "@gravity-ui/markdown-editor": "^15.34.4",
-    "@gravity-ui/uikit": "^7.32.0",
+    "@gravity-ui/markdown-editor": "^15.35.1",
+    "@gravity-ui/uikit": "^7.34.0",
     "@juggle/resize-observer": "^3.4.0",
-    "@vitejs/plugin-react": "^5.1.4",
+    "@vitejs/plugin-react": "^5.2.0",
     "browserslist-to-esbuild": "^2.1.1",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
@@ -123,7 +120,7 @@
     "highlightjs-zenscript": "^2.0.0",
     "hightlightjs-papyrus": "^0.0.4",
     "history": "^5.3.0",
-    "i18next": "^25.8.13",
+    "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
     "initials": "^3.1.2",
     "javascript-time-ago": "^2.6.4",
@@ -134,7 +131,7 @@
     "lodash": "^4.17.23",
     "lowlight": "^3.3.0",
     "markdown-it": "^13.0.2",
-    "nanoid": "^5.1.6",
+    "nanoid": "^5.1.7",
     "papaparse": "^5.5.3",
     "patch-package": "^8.0.1",
     "photoswipe": "^5.4.4",
@@ -146,7 +143,7 @@
     "react-dropzone": "^15.0.0",
     "react-frame-component": "^5.2.7",
     "react-hot-toast": "^2.6.0",
-    "react-i18next": "^16.5.4",
+    "react-i18next": "^16.5.8",
     "react-input-mask": "^2.0.4",
     "react-intersection-observer": "^10.0.3",
     "react-mentions": "^4.4.10",
@@ -161,7 +158,7 @@
     "redux-saga": "^1.4.2",
     "reselect": "^5.1.1",
     "sails.io.js": "^1.2.1",
-    "sass-embedded": "^1.97.3",
+    "sass-embedded": "^1.98.0",
     "semantic-ui-react": "^2.1.5",
     "socket.io-client": "^4.8.3",
     "validator": "^13.15.26",
@@ -177,7 +174,7 @@
     "@cucumber/cucumber": "^12.7.0",
     "@cucumber/pretty-formatter": "^3.2.0",
     "@playwright/test": "^1.58.2",
-    "babel-jest": "^30.2.0",
+    "babel-jest": "^30.3.0",
     "babel-preset-airbnb": "^5.0.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
@@ -187,7 +184,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "jest": "^30.2.0",
+    "jest": "^30.3.0",
     "playwright": "^1.58.2",
     "prettier": "3.8.1"
   }
