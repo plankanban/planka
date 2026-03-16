@@ -248,6 +248,22 @@ extraEnv: []
 ##   - name: SMTP_FROM
 ##     value: "your_email@example.com"
 
+## End User Terms of Service configuration
+## Mount custom terms of service markdown files into the Planka deployment
+##
+terms:
+  enabled: false
+  # Provide individual language files as key-value pairs
+  # e.g.,
+  # customFiles:
+  #   en-US.md: |
+  #     # End User Terms of Service
+  #     ...
+  #   de-DE.md: |
+  #     # Nutzungsbedingungen
+  #     ...
+  customFiles: {}
+
 ## Extra volume mounts configuration
 ## Mount ConfigMaps, Secrets, and arbitrary volumes to the PLANKA container
 ## This allows mounting any pre-existing ConfigMaps, Secrets, or other volume types
