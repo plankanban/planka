@@ -77,6 +77,10 @@ spec:
               subPath: tmp
               name: emptydir
           {{- end }}
+          {{- if .Values.terms.enabled }}
+            - mountPath: /app/terms/custom
+              name: planka-terms
+          {{- end }}
           {{- /* Extra volume mounts */}}
           {{- range .Values.extraMounts }}
             - name: {{ .name }}
@@ -222,6 +226,11 @@ spec:
     {{- if .Values.securityContext.readOnlyRootFilesystem }}
         - name: emptydir
           emptyDir: {}
+    {{- end }}
+    {{- if .Values.terms.enabled }}
+        - name: planka-terms
+          configMap:
+            name: {{ include "planka.fullname" . }}-terms
     {{- end }}
         {{- /* Extra volumes */}}
         {{- range .Values.extraMounts }}

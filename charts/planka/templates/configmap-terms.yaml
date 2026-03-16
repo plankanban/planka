@@ -1,0 +1,13 @@
+{{- if .Values.terms.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "planka.fullname" . }}-terms
+  labels:
+    {{- include "planka.labels" . | nindent 4 }}
+data:
+  {{- range $key, $value := .Values.terms.customFiles }}
+  {{ $key }}: |
+    {{- $value | nindent 4 }}
+  {{- end }}
+{{- end }}

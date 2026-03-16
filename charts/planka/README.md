@@ -227,6 +227,28 @@ extraEnv:
       key: api-key
 ```
 
+### Custom Terms of Service
+
+You can provide your own End User Terms of Service by passing the markdown files directly via `values.yaml` in the `terms` configuration block. This automates the creation of a corresponding ConfigMap and volume mount.
+
+```yaml
+terms:
+  enabled: true
+  customFiles:
+    en-US.md: |
+      # End User Terms of Service
+      ...
+      [confirmations]::
+      ---
+      ✔️ **I have read and accept these End User Terms of Service**
+    de-DE.md: |
+      # Nutzungsbedingungen
+      ...
+      [confirmations]::
+      ---
+      ✔️ **Ich habe diese Nutzungsbedingungen gelesen und akzeptiere sie**
+```
+
 ### Image Digest Pinning
 
 For enhanced security and reproducibility, you can pin the container image using its SHA256 digest instead of relying solely on tags. This ensures you always deploy the exact same image, preventing tag mutations or accidental updates.
@@ -291,3 +313,4 @@ image:
 ### Complete Example
 
 See `values-example.yaml` for a comprehensive example that demonstrates all the advanced features including OIDC configuration with custom CA certificates.
+````
