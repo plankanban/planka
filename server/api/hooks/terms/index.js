@@ -32,7 +32,9 @@ module.exports = function defineTermsHook(sails) {
     });
 
     return entries
-      .filter((entry) => (entry.isFile() || entry.isSymbolicLink()) && path.extname(entry.name) === '.md')
+      .filter(
+        (entry) => (entry.isFile() || entry.isSymbolicLink()) && path.extname(entry.name) === '.md',
+      )
       .map((entry) => path.basename(entry.name, '.md'))
       .sort();
   };
