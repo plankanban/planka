@@ -174,6 +174,7 @@ export default {
       deletedUser_title: 'Silinmiş kullanıcı',
       description: 'açıklama',
       display: 'Görüntüle',
+      displayCardAges: 'Kart yaşlarını göster',
       dropFileToUpload: 'Yüklenecek dosyayı buraya bırakın',
       dueDate_title: 'Termin tarihi',
       dynamicAndUnevenlySpacedLayout: 'Dinamik ve düzensiz aralıklı düzen.',

@@ -186,6 +186,7 @@ export default {
       deletedUser_title: 'Διαγραμμένος χρήστης',
       description: 'Περιγραφή',
       display: 'Εμφάνιση',
+      displayCardAges: 'Εμφάνιση ηλικίας καρτών',
       dropFileToUpload: 'Σύρετε το αρχείο για μεταφόρτωση',
       dueDate_title: 'Ημερομηνία λήξης',
       dynamicAndUnevenlySpacedLayout: 'Δυναμική και άνισα κατανεμημένη διάταξη.',

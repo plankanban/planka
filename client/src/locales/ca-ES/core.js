@@ -177,6 +177,7 @@ export default {
       deletedUser_title: 'Usuari eliminat',
       description: 'Descripció',
       display: 'Mostrar',
+      displayCardAges: "Mostrar l'antiguitat de les targetes",
       dropFileToUpload: 'Arrossega fitxer per pujar-lo',
       dueDate_title: 'Data de venciment',
       dynamicAndUnevenlySpacedLayout: 'Disseny dinàmic i amb espaiat irregular.',

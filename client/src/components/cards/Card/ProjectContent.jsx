@@ -17,6 +17,7 @@ import { BoardMembershipRoles, BoardViews } from '../../../constants/Enums';
 import TaskList from './TaskList';
 import DueDateChip from '../DueDateChip';
 import StopwatchChip from '../StopwatchChip';
+import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
 import LabelChip from '../../labels/LabelChip';
 import CustomFieldValueChip from '../../custom-field-values/CustomFieldValueChip';
@@ -75,12 +76,13 @@ const ProjectContent = React.memo(({ cardId }) => {
     return attachment && attachment.data.thumbnailUrls.outside360;
   });
 
-  const { listName, withCreator } = useSelector((state) => {
+  const { listName, withCreator, withAge } = useSelector((state) => {
     const board = selectors.selectCurrentBoard(state);
 
     return {
       listName: list.name && (board.view === BoardViews.KANBAN ? null : list.name),
       withCreator: board.alwaysDisplayCardCreator,
+      withAge: board.displayCardAges,
     };
   }, shallowEqual);
 
@@ -115,6 +117,7 @@ const ProjectContent = React.memo(({ cardId }) => {
     card.dueDate ||
     card.stopwatch ||
     card.commentsTotal > 0 ||
+    withAge ||
     attachmentsTotal > 0 ||
     notificationsTotal > 0 ||
     listName;
@@ -233,6 +236,14 @@ const ProjectContent = React.memo(({ cardId }) => {
               <span className={styles.attachmentContent}>
                 <Icon name="comment outline" />
                 {card.commentsTotal}
+              </span>
+            </span>
+          )}
+          {withAge && card.createdAt && (
+            <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+              <span className={styles.attachmentContent}>
+                <Icon name="history" />
+                <TimeAgo date={card.createdAt} />
               </span>
             </span>
           )}

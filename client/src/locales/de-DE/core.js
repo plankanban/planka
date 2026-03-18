@@ -188,6 +188,7 @@ export default {
       deletedUser_title: 'Gelöschter Benutzer',
       description: 'Beschreibung',
       display: 'Anzeige',
+      displayCardAges: 'Kartenalter anzeigen',
       dropFileToUpload: 'Datei für Upload ablegen',
       dueDate_title: 'Fälligkeitsdatum',
       dynamicAndUnevenlySpacedLayout: 'Dynamisches und ungleichmäßig verteiltes Layout.',

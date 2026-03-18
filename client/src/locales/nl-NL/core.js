@@ -173,6 +173,7 @@ export default {
       deletedUser_title: 'Verwijderde gebruiker',
       description: 'Beschrijving',
       display: 'Weergave',
+      displayCardAges: 'Kaartleeftijd weergeven',
       dropFileToUpload: 'Sleep bestand om te uploaden',
       dueDate_title: 'Vervaldatum',
       dynamicAndUnevenlySpacedLayout: 'Dynamische en ongelijk verdeelde indeling.',

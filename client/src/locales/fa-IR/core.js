@@ -176,6 +176,7 @@ export default {
       deletedUser_title: 'کاربر حذف شده',
       description: 'توضیحات',
       display: 'نمایش',
+      displayCardAges: 'نمایش سن کارت‌ها',
       dropFileToUpload: 'فایل را برای آپلود بکشید',
       dueDate_title: 'تاریخ سررسید',
       dynamicAndUnevenlySpacedLayout: 'طرح‌بندی پویا و نامتقارن.',

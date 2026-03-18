@@ -173,6 +173,7 @@ export default {
       deletedUser_title: 'Slettet bruger',
       description: 'Beskrivelse',
       display: 'Vis',
+      displayCardAges: 'Vis kortalder',
       dropFileToUpload: 'Slip fil for at uploade',
       dueDate_title: 'Frist',
       dynamicAndUnevenlySpacedLayout: 'Dynamisk og ujævnt fordelt layout.',

@@ -173,6 +173,7 @@ export default {
       deletedUser_title: 'Видалений користувач',
       description: 'Опис',
       display: 'Дисплей',
+      displayCardAges: 'Відображати вік карток',
       dropFileToUpload: 'Перетягніть файл для завантаження',
       dueDate_title: 'Крайній термін',
       dynamicAndUnevenlySpacedLayout: 'Динамічна та нерівномірна верстка.',

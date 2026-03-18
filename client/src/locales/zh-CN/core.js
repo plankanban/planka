@@ -153,6 +153,7 @@ export default {
       deletedUser_title: '已删除用户',
       description: '描述',
       display: '显示',
+      displayCardAges: '显示卡片创建时间',
       dropFileToUpload: '拖放文件以上传',
       dueDate_title: '截止日期',
       dynamicAndUnevenlySpacedLayout: '动态非均匀间隔布局。',

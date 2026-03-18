@@ -170,6 +170,7 @@ export default {
       deletedUser_title: '削除されたユーザー',
       description: '説明',
       display: '表示',
+      displayCardAges: 'カードの経過時間を表示',
       dropFileToUpload: 'ファイルをドロップしてアップロード',
       dueDate_title: '期限',
       dynamicAndUnevenlySpacedLayout: '動的で不均等な間隔のレイアウト。',

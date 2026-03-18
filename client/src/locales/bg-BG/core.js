@@ -178,6 +178,7 @@ export default {
       deletedUser_title: 'Изтрит потребител',
       description: 'Описание',
       display: 'Показване',
+      displayCardAges: 'Показвай възрастта на картите',
       dropFileToUpload: 'Пуснете файл за качване',
       dueDate_title: 'Краен срок',
       dynamicAndUnevenlySpacedLayout: 'Динамично и неравномерно разположение.',

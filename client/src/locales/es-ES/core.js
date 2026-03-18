@@ -178,6 +178,7 @@ export default {
       deletedUser_title: 'Usuario eliminado',
       description: 'Descripción',
       display: 'Mostrar',
+      displayCardAges: 'Mostrar antigüedad de las tarjetas',
       dropFileToUpload: 'Arrastra archivo para subir',
       dueDate_title: 'Fecha de vencimiento',
       dynamicAndUnevenlySpacedLayout: 'Diseño dinámico y con espaciado irregular.',

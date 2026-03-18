@@ -169,6 +169,7 @@ export default {
       deletedUser_title: 'Smazaný uživatel',
       description: 'Popis',
       display: 'Zobrazit',
+      displayCardAges: 'Zobrazit stáří karet',
       dropFileToUpload: 'Přetažením nahrát soubor',
       dueDate_title: 'Termín',
       dynamicAndUnevenlySpacedLayout: 'Dynamické a nerovnoměrné rozložení.',

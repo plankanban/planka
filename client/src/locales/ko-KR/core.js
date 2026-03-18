@@ -164,6 +164,7 @@ export default {
       deletedUser_title: '삭제된 사용자',
       description: '설명',
       display: '표시',
+      displayCardAges: '카드 경과 시간 표시',
       dropFileToUpload: '업로드할 파일을 드롭하세요',
       dueDate_title: '마감일',
       dynamicAndUnevenlySpacedLayout: '동적이고 불균등한 간격의 레이아웃.',
