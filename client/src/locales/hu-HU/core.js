@@ -167,6 +167,7 @@ export default {
       deletedUser_title: 'Törölt felhasználó',
       description: 'Leírás',
       display: 'Megjelenítés',
+      displayCardAges: 'Kártyák korának megjelenítése',
       dropFileToUpload: 'Dobja ide a fájlt a feltöltéshez',
       dueDate_title: 'Esedékesség dátuma',
       dynamicAndUnevenlySpacedLayout: 'Dinamikus és asszimetrikus kiosztás.',

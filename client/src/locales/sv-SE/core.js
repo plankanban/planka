@@ -178,6 +178,7 @@ export default {
       deletedUser_title: 'Borttagen användare',
       description: 'Beskrivning',
       display: 'Visa',
+      displayCardAges: 'Visa kortålder',
       dropFileToUpload: 'Släpp en fil för att ladda upp',
       dueDate_title: 'Förfallodatum',
       dynamicAndUnevenlySpacedLayout: 'Dynamisk och ojämnt fördelad layout.',

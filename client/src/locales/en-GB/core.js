@@ -172,6 +172,7 @@ export default {
       deletedUser_title: 'Deleted User',
       description: 'Description',
       display: 'Display',
+      displayCardAges: 'Display card ages',
       dropFileToUpload: 'Drop file to upload',
       dueDate_title: 'Due Date',
       dynamicAndUnevenlySpacedLayout: 'Dynamic and unevenly spaced layout.',

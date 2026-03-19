@@ -171,6 +171,7 @@ export default {
       deletedUser_title: 'Utilizator șters',
       description: 'Descriere',
       display: 'Afișare',
+      displayCardAges: 'Afișează vârsta cardurilor',
       dropFileToUpload: 'Aruncă fișierul pentru a încărca',
       dueDate_title: 'Data scadentă',
       dynamicAndUnevenlySpacedLayout: 'Aspect dinamic și spațiat neuniform.',

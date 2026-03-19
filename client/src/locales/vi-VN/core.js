@@ -173,6 +173,7 @@ export default {
       deletedUser_title: 'Người dùng đã bị xóa',
       description: 'Mô tả',
       display: 'Hiển thị',
+      displayCardAges: 'Hiển thị tuổi thẻ',
       dropFileToUpload: 'Thả tệp vào đây để tải lên',
       dueDate_title: 'Hạn chót',
       dynamicAndUnevenlySpacedLayout: 'Bố cục động và khoảng cách không đều.',

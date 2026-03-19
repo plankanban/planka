@@ -42,6 +42,7 @@ start_outgoing_proxy_if_needed() {
   # Basic settings
   echo "pid_filename $SQUID_PID" >> "$SQUID_CONF"
   echo "http_port 127.0.0.1:3128" >> "$SQUID_CONF"
+  echo "max_filedescriptors 4096" >> "$SQUID_CONF"
   echo "acl all src all" >> "$SQUID_CONF"
 
   # Disable caching

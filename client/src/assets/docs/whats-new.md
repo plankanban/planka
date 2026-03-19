@@ -1,4 +1,13 @@
-# [2.0.3] - 2026-03-01
+# [2.1.0] - 2026-03-19
+
+### Added
+
+* Support running under subpath
+* Add ability to display card ages
+* Allow exposing Swagger specification
+* Configurable HTTP timeout for OIDC
+
+## [2.0.3] - 2026-03-01
 
 ### Fixed
 

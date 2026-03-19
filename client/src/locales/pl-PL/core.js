@@ -172,6 +172,7 @@ export default {
       deletedUser_title: 'Usunięty użytkownik',
       description: 'Opis',
       display: 'Wyświetlanie',
+      displayCardAges: 'Pokazuj wiek kart',
       dropFileToUpload: 'Upuść plik aby wgrać',
       dueDate_title: 'Termin',
       dynamicAndUnevenlySpacedLayout: 'Dynamiczny i nierówny układ.',

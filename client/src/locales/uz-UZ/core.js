@@ -169,6 +169,7 @@ export default {
       deletedUser_title: "O'chirilgan foydalanuvchi",
       description: 'Tavsif',
       display: "Ko'rsatish",
+      displayCardAges: "Kartalar yoshini ko'rsatish",
       dropFileToUpload: 'Faylni yuklash uchun qoldiring',
       dueDate_title: 'Muddati',
       dynamicAndUnevenlySpacedLayout: 'Dinamik va notekis joylashtirilgan tartib.',

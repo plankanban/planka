@@ -172,6 +172,7 @@ export default {
       deletedUser_title: 'Obrisan korisnik',
       description: 'Opis',
       display: 'Prikaz',
+      displayCardAges: 'Prikaži starost kartica',
       dropFileToUpload: 'Prevuci datoteku za slanje',
       dueDate_title: 'Rok',
       dynamicAndUnevenlySpacedLayout: 'Dinamički i neravnomerno raspoređen izgled.',

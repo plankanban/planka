@@ -177,6 +177,7 @@ export default {
       deletedUser_title: 'Utilisateur supprimé',
       description: 'Description',
       display: 'Affichage',
+      displayCardAges: "Afficher l'âge des cartes",
       dropFileToUpload: 'Déposer le fichier à télécharger',
       dueDate_title: "Date d'échéance",
       dynamicAndUnevenlySpacedLayout: 'Mise en page dynamique et inégalement espacée.',

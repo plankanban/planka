@@ -173,6 +173,7 @@ export default {
       deletedUser_title: 'Kustutatud kasutaja',
       description: 'Kirjeldus',
       display: 'Kuva',
+      displayCardAges: 'Näita kaartide vanust',
       dropFileToUpload: 'Lase faili üleslaadida',
       dueDate_title: 'Tähtaeg',
       dynamicAndUnevenlySpacedLayout: 'Dünaamiline ja eirastega kujundus.',

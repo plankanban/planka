@@ -166,6 +166,7 @@ export default {
       deletedUser_title: 'مستخدم محذوف',
       description: 'الوصف',
       display: 'عرض',
+      displayCardAges: 'عرض أعمار البطاقات',
       dropFileToUpload: 'أفلت الملف لرفعه',
       dueDate_title: 'تاريخ الاستحقاق',
       dynamicAndUnevenlySpacedLayout: 'تخطيط ديناميكي وغير متساوي المسافات.',

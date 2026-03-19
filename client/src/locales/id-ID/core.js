@@ -174,6 +174,7 @@ export default {
       deletedUser_title: 'Pengguna yang dihapus',
       description: 'Deskripsi',
       display: 'Tampilan',
+      displayCardAges: 'Tampilkan usia kartu',
       dropFileToUpload: 'Tarik berkas untuk menggungah',
       dueDate_title: 'Tenggat waktu',
       dynamicAndUnevenlySpacedLayout: 'Tata letak dinamis dan tidak merata.',

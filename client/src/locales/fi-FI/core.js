@@ -169,6 +169,7 @@ export default {
       deletedUser_title: 'Poistettu käyttäjä',
       description: 'Kuvaus',
       display: 'Näyttö',
+      displayCardAges: 'Näytä korttien ikä',
       dropFileToUpload: 'Pudota tiedosto ladattavaksi',
       dueDate_title: 'Määräpäivä',
       dynamicAndUnevenlySpacedLayout: 'Dynaaminen ja epätasaisesti jaettu asettelu.',

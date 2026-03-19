@@ -174,6 +174,7 @@ export default {
       deletedUser_title: 'Utente eliminato',
       description: 'Descrizione',
       display: 'Mostra',
+      displayCardAges: 'Mostra età delle schede',
       dropFileToUpload: 'Trascina il file da caricare',
       dueDate_title: 'Data di scadenza',
       dynamicAndUnevenlySpacedLayout: 'Layout dinamico e irregolarmente distribuito.',

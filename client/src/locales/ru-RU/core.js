@@ -174,6 +174,7 @@ export default {
       deletedUser_title: 'Удалённый пользователь',
       description: 'Описание',
       display: 'Отображение',
+      displayCardAges: 'Отображать возраст карточек',
       dropFileToUpload: 'Перетяните файл, чтобы загрузить',
       dueDate_title: 'Срок исполнения',
       dynamicAndUnevenlySpacedLayout: 'Динамичное и неравномерно распределённое расположение.',
