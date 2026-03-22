@@ -10,18 +10,7 @@ const mime = require('mime');
 const sharp = require('sharp');
 
 const filenamify = require('../../../utils/filenamify');
-const { MAX_SIZE_TO_GET_ENCODING } = require('../../../constants');
-
-const SUPPORTED_IMAGE_MIME_TYPES = [
-  'image/jpeg',
-  'image/png',
-  'image/gif',
-  'image/webp',
-  'image/tiff',
-  'image/avif',
-  'image/heif',
-  'image/heic',
-];
+const { MAX_SIZE_TO_GET_ENCODING, SUPPORTED_IMAGE_MIME_TYPES } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -35,7 +24,7 @@ module.exports = {
     const fileManager = sails.hooks['file-manager'].getInstance();
 
     const filename = filenamify(inputs.file.filename);
-    const mimeType = mime.getType(filename);
+    const mimeType = inputs.file.type || mime.getType(filename);
     const { size } = inputs.file;
 
     const { id: uploadedFileId } = await UploadedFile.qm.createOne({

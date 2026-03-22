@@ -7,17 +7,7 @@ const { v4: uuid } = require('uuid');
 const { rimraf } = require('rimraf');
 const mime = require('mime');
 const sharp = require('sharp');
-
-const SUPPORTED_IMAGE_MIME_TYPES = [
-  'image/jpeg',
-  'image/png',
-  'image/gif',
-  'image/webp',
-  'image/tiff',
-  'image/avif',
-  'image/heif',
-  'image/heic',
-];
+const { SUPPORTED_IMAGE_MIME_TYPES } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -32,7 +22,7 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const mimeType = mime.getType(inputs.file.filename);
+    const mimeType = inputs.file.type || mime.getType(inputs.file.filename);
 
     if (!SUPPORTED_IMAGE_MIME_TYPES.includes(mimeType)) {
       await rimraf(inputs.file.fd);
