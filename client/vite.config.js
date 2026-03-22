@@ -10,6 +10,8 @@ import svgr from 'vite-plugin-svgr';
 // eslint-disable-next-line import/no-unresolved
 import browserslistToEsbuild from 'browserslist-to-esbuild';
 
+const PROXY_TARGET = process.env.PROXY_TARGET || 'http://localhost:1337';
+
 // eslint-disable-next-line no-underscore-dangle
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -55,8 +57,8 @@ export default defineConfig({
     port: 3000,
     open: true,
     proxy: {
-      '/api': 'http://localhost:1337',
-      '/socket.io': { target: 'http://localhost:1337', ws: true },
+      '/api': PROXY_TARGET,
+      '/socket.io': { target: PROXY_TARGET, ws: true },
     },
   },
   build: {
