@@ -12,6 +12,17 @@ const sharp = require('sharp');
 const filenamify = require('../../../utils/filenamify');
 const { MAX_SIZE_TO_GET_ENCODING } = require('../../../constants');
 
+const SUPPORTED_IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/tiff',
+  'image/avif',
+  'image/heif',
+  'image/heic',
+];
+
 module.exports = {
   inputs: {
     file: {
@@ -65,7 +76,7 @@ module.exports = {
       image: null,
     };
 
-    if (!['image/svg+xml', 'application/pdf'].includes(mimeType)) {
+    if (SUPPORTED_IMAGE_MIME_TYPES.includes(mimeType)) {
       let image = sharp(buffer || filePath || inputs.file.fd, {
         animated: true,
       });

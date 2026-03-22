@@ -8,6 +8,17 @@ const { rimraf } = require('rimraf');
 const mime = require('mime');
 const sharp = require('sharp');
 
+const SUPPORTED_IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/webp',
+  'image/tiff',
+  'image/avif',
+  'image/heif',
+  'image/heic',
+];
+
 module.exports = {
   inputs: {
     file: {
@@ -22,7 +33,8 @@ module.exports = {
 
   async fn(inputs) {
     const mimeType = mime.getType(inputs.file.filename);
-    if (['image/svg+xml', 'application/pdf'].includes(mimeType)) {
+
+    if (!SUPPORTED_IMAGE_MIME_TYPES.includes(mimeType)) {
       await rimraf(inputs.file.fd);
       throw 'fileIsNotImage';
     }
