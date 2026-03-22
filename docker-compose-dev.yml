@@ -111,6 +111,8 @@ services:
       - ./client:/app
     ports:
       - 3000:3000
+    environment:
+      - PROXY_TARGET=http://planka-server:1337
 
   postgres:
     image: postgres:16-alpine
