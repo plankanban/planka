@@ -76,9 +76,10 @@ module.exports = {
 
     const internalConfig = await InternalConfig.qm.getOneMain();
     const oidc = await sails.hooks.oidc.getBootstrap();
+    const config = await Config.qm.getOneMain();
 
     return {
-      item: sails.helpers.bootstrap.presentOne(internalConfig, oidc, currentUser),
+      item: sails.helpers.bootstrap.presentOne(internalConfig, oidc, currentUser, config),
     };
   },
 };

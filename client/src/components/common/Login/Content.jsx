@@ -4,7 +4,7 @@
  */
 
 import isEmail from 'validator/lib/isEmail';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
@@ -104,10 +104,19 @@ const Content = React.memo(() => {
   const [t] = useTranslation();
   const wasSubmitting = usePrevious(isSubmitting);
 
+  const [showRegister, setShowRegister] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [registerMessage, setRegisterMessage] = useState(null);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
   const [data, handleFieldChange, setData] = useForm(() => {
     const initialData = {
       emailOrUsername: '',
       password: '',
+      registerEmail: '',
+      registerPassword: '',
+      registerName: '',
+      registerUsername: '',
       ...defaultData,
     };
 
@@ -163,6 +172,42 @@ const Content = React.memo(() => {
     dispatch(entryActions.clearAuthenticateError());
   }, [dispatch]);
 
+  const handleRegisterSubmit = useCallback(async () => {
+    if (!data.registerName.trim() || !data.registerEmail.trim() || !data.registerPassword) {
+      setRegisterMessage({ type: 'error', content: 'Please fill in all required fields.' });
+      return;
+    }
+
+    setIsRegistering(true);
+    setRegisterMessage(null);
+
+    try {
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: data.registerEmail.trim(),
+          password: data.registerPassword,
+          name: data.registerName.trim(),
+          username: data.registerUsername.trim() || undefined,
+        }),
+      });
+
+      if (response.ok) {
+        setRegisterMessage({ type: 'success', content: 'Account created! You can now log in.' });
+        setShowRegister(false);
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMsg = errorData.message || 'Registration failed. Please try again.';
+        setRegisterMessage({ type: 'error', content: errorMsg });
+      }
+    } catch {
+      setRegisterMessage({ type: 'error', content: 'Connection failed. Please try again.' });
+    } finally {
+      setIsRegistering(false);
+    }
+  }, [data]);
+
   useEffect(() => {
     if (!isOidcEnforced) {
       emailOrUsernameFieldRef.current.focus();
@@ -201,20 +246,18 @@ const Content = React.memo(() => {
           <div className={styles.login}>
             <div className={styles.form}>
               <div className={styles.logoWrapper}>
-                <img src={logo} alt="" className={styles.logo} />
+                <img src={bootstrap.loginLogoUrl || logo} alt="" className={styles.logo} />
               </div>
               <Header
                 as="h1"
                 textAlign="center"
-                content={bootstrap.instanceName || 'PLANKA'}
+                content={bootstrap.loginAppName || bootstrap.instanceName || 'PLANKA'}
                 className={styles.formTitle}
               />
               <Header
                 as="h2"
                 textAlign="center"
-                content={t('common.logIn', {
-                  context: 'title',
-                })}
+                content={showRegister ? 'Register' : t('common.logIn', { context: 'title' })}
                 className={styles.formSubtitle}
               />
               {message && (
@@ -227,45 +270,139 @@ const Content = React.memo(() => {
                   onDismiss={handleMessageDismiss}
                 />
               )}
+              {registerMessage && (
+                <Message
+                  {...{ [registerMessage.type]: true }}
+                  visible
+                  content={registerMessage.content}
+                  onDismiss={() => setRegisterMessage(null)}
+                />
+              )}
               {!isOidcEnforced && (
                 <>
-                  <Form size="large" onSubmit={handleSubmit}>
-                    <div className={styles.inputWrapper}>
-                      <div className={styles.inputLabel}>{t('common.emailOrUsername')}</div>
-                      <Input
-                        fluid
-                        ref={handleEmailOrUsernameFieldRef}
-                        name="emailOrUsername"
-                        value={data.emailOrUsername}
-                        maxLength={256}
-                        readOnly={isSubmitting}
-                        className={styles.input}
-                        onChange={handleFieldChange}
-                      />
-                    </div>
-                    <div className={styles.inputWrapper}>
-                      <div className={styles.inputLabel}>{t('common.password')}</div>
-                      <Input.Password
-                        fluid
-                        ref={handlePasswordFieldRef}
-                        name="password"
-                        value={data.password}
-                        maxLength={256}
-                        readOnly={isSubmitting}
-                        className={styles.input}
-                        onChange={handleFieldChange}
-                      />
-                    </div>
-                    <Form.Button
-                      fluid
-                      primary
-                      icon="right arrow"
-                      labelPosition="right"
-                      content={t('action.logIn')}
-                      loading={isSubmitting}
-                      disabled={isSubmitting || isSubmittingWithOidc}
-                    />
-                  </Form>
+                  {!showRegister ? (
+                    <>
+                      <Form size="large" onSubmit={handleSubmit}>
+                        <div className={styles.inputWrapper}>
+                          <div className={styles.inputLabel}>{t('common.emailOrUsername')}</div>
+                          <Input
+                            fluid
+                            ref={handleEmailOrUsernameFieldRef}
+                            name="emailOrUsername"
+                            value={data.emailOrUsername}
+                            maxLength={256}
+                            readOnly={isSubmitting}
+                            className={styles.input}
+                            onChange={handleFieldChange}
+                          />
+                        </div>
+                        <div className={styles.inputWrapper}>
+                          <div className={styles.inputLabel}>{t('common.password')}</div>
+                          <Input.Password
+                            fluid
+                            ref={handlePasswordFieldRef}
+                            name="password"
+                            value={data.password}
+                            maxLength={256}
+                            readOnly={isSubmitting}
+                            className={styles.input}
+                            onChange={handleFieldChange}
+                          />
+                          <div className={styles.forgotPassword}>
+                            <button
+                              type="button"
+                              className={styles.forgotPasswordLink}
+                              onClick={() => setShowForgotPassword((prev) => !prev)}
+                            >
+                              {t('common.forgotPassword')}
+                            </button>
+                            {showForgotPassword && (
+                              <div className={styles.forgotPasswordMessage}>
+                                {t('common.forgotPasswordMessage')}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <Form.Button
+                          fluid
+                          primary
+                          icon="right arrow"
+                          labelPosition="right"
+                          content={t('action.logIn')}
+                          loading={isSubmitting}
+                          disabled={isSubmitting || isSubmittingWithOidc}
+                        />
+                      </Form>
+                      {bootstrap.registrationEnabled && (
+                        <div className={styles.registerLink}>
+                          <button type="button" className={styles.registerButton} onClick={() => setShowRegister(true)}>
+                            Don&apos;t have an account? Register
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <Form size="large" onSubmit={handleRegisterSubmit}>
+                        <div className={styles.inputWrapper}>
+                          <div className={styles.inputLabel}>Name</div>
+                          <Input
+                            fluid
+                            name="registerName"
+                            value={data.registerName}
+                            maxLength={128}
+                            className={styles.input}
+                            onChange={handleFieldChange}
+                          />
+                        </div>
+                        <div className={styles.inputWrapper}>
+                          <div className={styles.inputLabel}>E-mail</div>
+                          <Input
+                            fluid
+                            name="registerEmail"
+                            value={data.registerEmail}
+                            maxLength={256}
+                            className={styles.input}
+                            onChange={handleFieldChange}
+                          />
+                        </div>
+                        <div className={styles.inputWrapper}>
+                          <div className={styles.inputLabel}>Username (optional)</div>
+                          <Input
+                            fluid
+                            name="registerUsername"
+                            value={data.registerUsername}
+                            maxLength={64}
+                            className={styles.input}
+                            onChange={handleFieldChange}
+                          />
+                        </div>
+                        <div className={styles.inputWrapper}>
+                          <div className={styles.inputLabel}>Password</div>
+                          <Input.Password
+                            fluid
+                            name="registerPassword"
+                            value={data.registerPassword}
+                            maxLength={256}
+                            className={styles.input}
+                            onChange={handleFieldChange}
+                          />
+                        </div>
+                        <Form.Button
+                          fluid
+                          positive
+                          content="Register"
+                          loading={isRegistering}
+                          disabled={isRegistering}
+                        />
+                      </Form>
+                      <div className={styles.registerLink}>
+                        <button type="button" className={styles.registerButton} onClick={() => setShowRegister(false)}>
+                          Already have an account? Log in
+                        </button>
+                      </div>
+                    </>
+                  )}
                   {withOidc && (
                     <Divider horizontal content={t('common.or')} className={styles.divider} />
                   )}
@@ -295,22 +432,25 @@ const Content = React.memo(() => {
                 </>
               )}
             </div>
-            <div className={styles.poweredBy}>
-              <p className={styles.poweredByText}>
-                <Trans i18nKey="common.poweredByPlanka">
-                  {'Powered by '}
-                  <a href="https://github.com/plankanban/planka" target="_blank" rel="noreferrer">
-                    PLANKA
-                  </a>
-                </Trans>
-              </p>
-            </div>
+            {!bootstrap.hidePoweredBy && (
+              <div className={styles.poweredBy}>
+                <p className={styles.poweredByText}>
+                  <Trans i18nKey="common.poweredByPlanka">
+                    {'Powered by '}
+                    <a href="https://github.com/plankanban/planka" target="_blank" rel="noreferrer">
+                      PLANKA
+                    </a>
+                  </Trans>
+                </p>
+              </div>
+            )}
           </div>
         </Grid.Column>
         <Grid.Column
           computer={10}
           only="computer"
           className={classNames(styles.gridItem, styles.cover)}
+          style={bootstrap.loginBackgroundUrl ? { background: `url("${bootstrap.loginBackgroundUrl}") center / cover` } : undefined}
         >
           <div className={styles.coverOverlay} />
         </Grid.Column>

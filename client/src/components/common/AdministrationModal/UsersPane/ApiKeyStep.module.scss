@@ -7,7 +7,7 @@
   .actionButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--glass-text-secondary);
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 11px;
@@ -16,7 +16,7 @@
     transition: background 0.3s ease;
 
     &:hover {
-      background: #e9e9e9;
+      background: rgba(255, 255, 255, 0.08);
     }
   }
 
@@ -25,11 +25,11 @@
   }
 
   .copyButton {
-    background: #ebeef0;
+    background: rgba(255, 255, 255, 0.08);
     box-shadow: none;
     border-radius: 3px;
     box-sizing: content-box;
-    color: #516b7a;
+    color: var(--glass-text-secondary);
     display: none;
     height: 30px;
     margin: 0;
@@ -43,8 +43,8 @@
     width: 20px;
 
     &:hover {
-      background: #dfe3e6;
-      color: #4c4c4c;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--glass-text-primary);
     }
   }
 

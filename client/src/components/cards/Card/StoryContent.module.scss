@@ -13,7 +13,7 @@
   }
 
   .attachmentContent {
-    color: #6a808b;
+    color: var(--glass-text-secondary);
     font-size: 12px;
     line-height: 20px;
     max-width: 176px;
@@ -48,7 +48,7 @@
   }
 
   .descriptionText {
-    color: #17394d;
+    color: var(--glass-text-secondary);
     font-size: 10px;
     margin-bottom: 8px;
     mask-image: linear-gradient(180deg, #000 60%, transparent);
@@ -65,11 +65,12 @@
   }
 
   .name {
-    color: #17394d;
+    color: var(--glass-text-primary);
     font-size: 16px;
     font-weight: bold;
     line-height: 20px;
     margin: 0 0 8px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     text-transform: uppercase;
     word-wrap: break-word;
   }

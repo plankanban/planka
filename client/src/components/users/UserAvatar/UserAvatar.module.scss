@@ -15,10 +15,10 @@
 
   // TODO: provide for different sizes
   .creatorIndicator {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.10);
     border-radius: 50%;
     bottom: 0;
-    color: #6a808b;
+    color: var(--glass-text-secondary);
     font-size: 12px;
     height: 10px;
     line-height: 10px;

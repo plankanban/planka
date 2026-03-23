@@ -32,8 +32,9 @@
   }
 
   .contextTitle {
-    background: rgba(0, 0, 0, 0.08);
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 8px;
     color: #fff;
     line-height: 34px;
     padding: 2px 14px;
@@ -44,6 +45,10 @@
   }
 
   .wrapper {
+    background: var(--glass-toolbar-bg, rgba(0, 0, 0, 0.30));
+    backdrop-filter: blur(var(--glass-toolbar-blur, 8px));
+    -webkit-backdrop-filter: blur(var(--glass-toolbar-blur, 8px));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     overflow-x: auto;
     overflow-y: hidden;
     -ms-overflow-style: none;

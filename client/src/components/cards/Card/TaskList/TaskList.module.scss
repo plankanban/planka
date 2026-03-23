@@ -5,7 +5,7 @@
 
 :global(#app) {
   .count {
-    color: #888;
+    color: var(--glass-text-secondary);
     font-size: 12px;
     line-height: 12px;
 
@@ -53,7 +53,7 @@
   }
 
   .tasks {
-    color: #333;
+    color: var(--glass-text-primary);
     list-style: none;
     margin: -2px 0 0;
     padding-left: 0;

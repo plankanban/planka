@@ -5,7 +5,7 @@
 
 :global(#app) {
   .content {
-    color: #212121;
+    color: var(--glass-text-primary);
     padding-bottom: 6px;
   }
 

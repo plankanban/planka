@@ -10,7 +10,7 @@
   }
 
   .information {
-    color: #888888;
+    color: var(--glass-text-secondary);
     margin-bottom: 8px;
   }
 
@@ -20,7 +20,7 @@
   }
 
   .name {
-    color: #212121;
+    color: var(--glass-text-primary);
     font-size: 16px;
     font-weight: bold;
     line-height: 1.2;
@@ -39,7 +39,7 @@
   }
 
   .username {
-    color: #888888;
+    color: var(--glass-text-muted);
     font-size: 14px;
     line-height: 1.2;
     padding: 2px 0 2px 2px;
