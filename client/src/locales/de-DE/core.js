@@ -514,7 +514,7 @@ export default {
       showMore: 'Mehr anzeigen',
       sortList_title: 'Liste sortieren',
       start: 'Start',
-      stop: 'Stopp',
+      stop: 'Stop',
       subscribe: 'Abonnieren',
       unlinkSso: 'SSO-Verknüpfung aufheben',
       unlinkSso_title: 'SSO-Verknüpfung aufheben',
