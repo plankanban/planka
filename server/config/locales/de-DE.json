@@ -15,5 +15,5 @@
   "%s created %s in %s on %s": "%s hat %s in %s im %s erstellt",
   "%s left a new comment to %s on %s": "%s hat einen neuen Kommentar zu %s im %s hinterlassen",
   "%s mentioned you in %s on %s": "%s hat Sie in %s im %s erwähnt",
-  "%s moved %s from %s to %s on %s": "%s hat %s von %s nach %s ins %s verschoben"
+  "%s moved %s from %s to %s on %s": "%s hat %s von %s nach %s in %s verschoben"
 }
