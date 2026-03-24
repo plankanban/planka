@@ -64,6 +64,9 @@ export default function* usersWatchers() {
     takeEvery(EntryActionTypes.CURRENT_USER_USERNAME_UPDATE_ERROR_CLEAR, () =>
       services.clearCurrentUserUsernameUpdateError(),
     ),
+    takeEvery(EntryActionTypes.USER_AVATAR_UPDATE, ({ payload: { id, data } }) =>
+      services.updateUserAvatar(id, data),
+    ),
     takeEvery(EntryActionTypes.CURRENT_USER_AVATAR_UPDATE, ({ payload: { data } }) =>
       services.updateCurrentUserAvatar(data),
     ),

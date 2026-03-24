@@ -20,6 +20,7 @@ import EditUserInformationStep from '../../../users/EditUserInformationStep';
 import EditUserUsernameStep from '../../../users/EditUserUsernameStep';
 import EditUserEmailStep from '../../../users/EditUserEmailStep';
 import EditUserPasswordStep from '../../../users/EditUserPasswordStep';
+import EditUserAvatarStep from '../../../users/EditUserAvatarStep';
 
 import styles from './ActionsStep.module.scss';
 
@@ -28,6 +29,7 @@ const StepTypes = {
   EDIT_USERNAME: 'EDIT_USERNAME',
   EDIT_EMAIL: 'EDIT_EMAIL',
   EDIT_PASSWORD: 'EDIT_PASSWORD',
+  EDIT_AVATAR: 'EDIT_AVATAR',
   EDIT_ROLE: 'EDIT_ROLE',
   API_KEY: 'API_KEY',
   UNLINK_SSO: 'UNLINK_SSO',
@@ -109,6 +111,10 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     openStep(StepTypes.EDIT_PASSWORD);
   }, [openStep]);
 
+  const handleEditAvatarClick = useCallback(() => {
+    openStep(StepTypes.EDIT_AVATAR);
+  }, [openStep]);
+
   const handleEditRoleClick = useCallback(() => {
     openStep(StepTypes.EDIT_ROLE);
   }, [openStep]);
@@ -143,6 +149,8 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
         return <EditUserEmailStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_PASSWORD:
         return <EditUserPasswordStep id={userId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.EDIT_AVATAR:
+        return <EditUserAvatarStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_ROLE:
         return (
           <SelectRoleStep
@@ -243,6 +251,12 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               })}
             </Menu.Item>
           )}
+          <Menu.Item className={styles.menuItem} onClick={handleEditAvatarClick}>
+            <Icon name="image outline" className={styles.menuItemIcon} />
+            {t('common.editAvatar', {
+              context: 'title',
+            })}
+          </Menu.Item>
           {!user.lockedFieldNames.includes('role') && !isCurrentUser && (
             <Menu.Item className={styles.menuItem} onClick={handleEditRoleClick}>
               <Icon name="sun outline" className={styles.menuItemIcon} />
