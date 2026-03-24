@@ -71,12 +71,7 @@ const EditUserAvatarStep = React.memo(({ id, onBack, onClose }) => {
         </div>
 
         {user?.avatar && (
-          <Button
-            fluid
-            negative
-            content={t('action.deleteAvatar')}
-            onClick={handleDeleteClick}
-          />
+          <Button fluid negative content={t('action.deleteAvatar')} onClick={handleDeleteClick} />
         )}
       </Popup.Content>
     </>
