@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
-
 import { FilePicker, Popup } from '../../../lib/custom-ui';
+
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 
@@ -17,10 +17,12 @@ import styles from './EditUserAvatarStep.module.scss';
 
 const EditUserAvatarStep = React.memo(({ id, onBack, onClose }) => {
   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
-  const user = useSelector((state) => selectUserById(state, id));
+
+  const avatar = useSelector((state) => selectUserById(state, id).avatar);
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
+
   const fieldRef = useRef(null);
 
   const handleFileSelect = useCallback(
@@ -57,21 +59,18 @@ const EditUserAvatarStep = React.memo(({ id, onBack, onClose }) => {
           context: 'title',
         })}
       </Popup.Header>
-
       <Popup.Content>
         <div className={styles.action}>
           <FilePicker accept="image/*" onSelect={handleFileSelect}>
             <Button
               ref={fieldRef}
-              fluid
-              className={styles.actionButton}
               content={t('action.uploadNewAvatar')}
+              className={styles.actionButton}
             />
           </FilePicker>
         </div>
-
-        {user?.avatar && (
-          <Button fluid negative content={t('action.deleteAvatar')} onClick={handleDeleteClick} />
+        {avatar && (
+          <Button negative content={t('action.deleteAvatar')} onClick={handleDeleteClick} />
         )}
       </Popup.Content>
     </>

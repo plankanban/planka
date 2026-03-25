@@ -449,6 +449,7 @@ export default {
       download: 'Scarica',
       duplicateCard_title: 'Duplica scheda',
       edit: 'Modifica',
+      editAvatar_title: 'Modifica avatar',
       editColor_title: 'Modifica colore',
       editDescription_title: 'Modifica descrizione',
       editDueDate_title: 'Modifica data di scadenza',

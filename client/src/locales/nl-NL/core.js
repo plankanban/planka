@@ -449,6 +449,7 @@ export default {
       download: 'Downloaden',
       duplicateCard_title: 'Kaart dupliceren',
       edit: 'Bewerken',
+      editAvatar_title: 'Avatar bewerken',
       editColor_title: 'Kleur bewerken',
       editDescription_title: 'Beschrijving bewerken',
       editDueDate_title: 'Vervaldatum bewerken',

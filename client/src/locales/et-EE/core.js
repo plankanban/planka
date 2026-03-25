@@ -445,6 +445,7 @@ export default {
       download: 'Laadi alla',
       duplicateCard_title: 'Duplikaardi loomine',
       edit: 'Muuda',
+      editAvatar_title: 'Muuda avatar',
       editColor_title: 'Muuda värvi',
       editDescription_title: 'Muuda kirjeldust',
       editDueDate_title: 'Muuda tähtaega',

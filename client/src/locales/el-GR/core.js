@@ -467,6 +467,7 @@ export default {
       download: 'Λήψη',
       duplicateCard_title: 'Διπλασιασμός κάρτας',
       edit: 'Επεξεργασία',
+      editAvatar_title: 'Επεξεργασία avatar',
       editColor_title: 'Επεξεργασία χρώματος',
       editDescription_title: 'Επεξεργασία περιγραφής',
       editDueDate_title: 'Επεξεργασία ημερομηνίας λήξης',

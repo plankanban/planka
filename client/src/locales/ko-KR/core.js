@@ -440,6 +440,7 @@ export default {
       download: '다운로드',
       duplicateCard_title: '카드 복제',
       edit: '편집',
+      editAvatar_title: '아바타 편집',
       editColor_title: '색상 편집',
       editDescription_title: '설명 편집',
       editDueDate_title: '마감일 편집',

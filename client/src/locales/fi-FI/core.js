@@ -446,6 +446,7 @@ export default {
       download: 'Lataa',
       duplicateCard_title: 'Monista kortti',
       edit: 'Muokkaa',
+      editAvatar_title: 'Muokkaa avatar',
       editColor_title: 'Muokkaa väriä',
       editDescription_title: 'Muokkaa kuvausta',
       editDueDate_title: 'Muokkaa määräpäivää',

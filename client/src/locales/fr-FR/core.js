@@ -451,6 +451,7 @@ export default {
       download: 'Télécharger',
       duplicateCard_title: 'Dupliquer la carte',
       edit: 'Modifier',
+      editAvatar_title: "Modifier l'avatar",
       editColor_title: 'Modifier la couleur',
       editDescription_title: 'Modifier la description',
       editDueDate_title: "Modifier la date d'échéance",

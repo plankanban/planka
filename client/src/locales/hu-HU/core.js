@@ -445,6 +445,7 @@ export default {
       download: 'Letöltés',
       duplicateCard_title: 'Kártya másolása',
       edit: 'Szerkesztés',
+      editAvatar_title: 'Avatar szerkesztése',
       editColor_title: 'Szín szerkesztése',
       editDescription_title: 'Leírás szerkesztése',
       editDueDate_title: 'Esedékesség dátumának szerkesztése',

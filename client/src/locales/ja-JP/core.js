@@ -443,6 +443,7 @@ export default {
       download: 'ダウンロード',
       duplicateCard_title: 'カードを複製',
       edit: '編集',
+      editAvatar_title: 'アバターを編集',
       editColor_title: '色を編集',
       editDescription_title: '説明を編集',
       editDueDate_title: '期限を編集',

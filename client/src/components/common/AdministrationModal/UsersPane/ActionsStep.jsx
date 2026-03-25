@@ -17,19 +17,19 @@ import SelectRoleStep from './SelectRoleStep';
 import ApiKeyStep from './ApiKeyStep';
 import ConfirmationStep from '../../ConfirmationStep';
 import EditUserInformationStep from '../../../users/EditUserInformationStep';
+import EditUserAvatarStep from '../../../users/EditUserAvatarStep';
 import EditUserUsernameStep from '../../../users/EditUserUsernameStep';
 import EditUserEmailStep from '../../../users/EditUserEmailStep';
 import EditUserPasswordStep from '../../../users/EditUserPasswordStep';
-import EditUserAvatarStep from '../../../users/EditUserAvatarStep';
 
 import styles from './ActionsStep.module.scss';
 
 const StepTypes = {
   EDIT_INFORMATION: 'EDIT_INFORMATION',
+  EDIT_AVATAR: 'EDIT_AVATAR',
   EDIT_USERNAME: 'EDIT_USERNAME',
   EDIT_EMAIL: 'EDIT_EMAIL',
   EDIT_PASSWORD: 'EDIT_PASSWORD',
-  EDIT_AVATAR: 'EDIT_AVATAR',
   EDIT_ROLE: 'EDIT_ROLE',
   API_KEY: 'API_KEY',
   UNLINK_SSO: 'UNLINK_SSO',
@@ -99,6 +99,10 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     openStep(StepTypes.EDIT_INFORMATION);
   }, [openStep]);
 
+  const handleEditAvatarClick = useCallback(() => {
+    openStep(StepTypes.EDIT_AVATAR);
+  }, [openStep]);
+
   const handleEditUsernameClick = useCallback(() => {
     openStep(StepTypes.EDIT_USERNAME);
   }, [openStep]);
@@ -109,10 +113,6 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
 
   const handleEditPasswordClick = useCallback(() => {
     openStep(StepTypes.EDIT_PASSWORD);
-  }, [openStep]);
-
-  const handleEditAvatarClick = useCallback(() => {
-    openStep(StepTypes.EDIT_AVATAR);
   }, [openStep]);
 
   const handleEditRoleClick = useCallback(() => {
@@ -143,14 +143,14 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     switch (step.type) {
       case StepTypes.EDIT_INFORMATION:
         return <EditUserInformationStep id={userId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.EDIT_AVATAR:
+        return <EditUserAvatarStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_USERNAME:
         return <EditUserUsernameStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_EMAIL:
         return <EditUserEmailStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_PASSWORD:
         return <EditUserPasswordStep id={userId} onBack={handleBack} onClose={onClose} />;
-      case StepTypes.EDIT_AVATAR:
-        return <EditUserAvatarStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_ROLE:
         return (
           <SelectRoleStep
@@ -227,6 +227,12 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               context: 'title',
             })}
           </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleEditAvatarClick}>
+            <Icon name="image outline" className={styles.menuItemIcon} />
+            {t('action.editAvatar', {
+              context: 'title',
+            })}
+          </Menu.Item>
           {!user.lockedFieldNames.includes('username') && (
             <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
               <Icon name="at" className={styles.menuItemIcon} />
@@ -251,12 +257,6 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               })}
             </Menu.Item>
           )}
-          <Menu.Item className={styles.menuItem} onClick={handleEditAvatarClick}>
-            <Icon name="image outline" className={styles.menuItemIcon} />
-            {t('common.editAvatar', {
-              context: 'title',
-            })}
-          </Menu.Item>
           {!user.lockedFieldNames.includes('role') && !isCurrentUser && (
             <Menu.Item className={styles.menuItem} onClick={handleEditRoleClick}>
               <Icon name="sun outline" className={styles.menuItemIcon} />

@@ -446,6 +446,7 @@ export default {
       download: 'Unduh',
       duplicateCard_title: 'Duplikat kartu',
       edit: 'Ubah',
+      editAvatar_title: 'Ubah avatar',
       editColor_title: 'Ubah warna',
       editDescription_title: 'Ubah deskripsi',
       editDueDate_title: 'Ubah tenggat waktu',

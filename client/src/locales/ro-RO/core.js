@@ -446,6 +446,7 @@ export default {
       download: 'Descărcați',
       duplicateCard_title: 'Duplicați cardul',
       edit: 'Editați',
+      editAvatar_title: 'Editați avatarul',
       editColor_title: 'Editați culoarea',
       editDescription_title: 'Editați descrierea',
       editDueDate_title: 'Editați data scadentă',

@@ -438,6 +438,7 @@ export default {
       download: 'Download',
       duplicateCard_title: 'Duplicate Card',
       edit: 'Edit',
+      editAvatar_title: 'Edit Avatar',
       editColor_title: 'Edit Color',
       editDescription_title: 'Edit Description',
       editDueDate_title: 'Edit Due Date',

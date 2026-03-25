@@ -463,6 +463,7 @@ export default {
       download: 'Herunterladen',
       duplicateCard_title: 'Karte duplizieren',
       edit: 'Bearbeiten',
+      editAvatar_title: 'Profilbild bearbeiten',
       editColor_title: 'Farbe bearbeiten',
       editDescription_title: 'Beschreibung ändern',
       editDueDate_title: 'Fälligkeitsdatum bearbeiten',

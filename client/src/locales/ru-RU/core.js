@@ -448,6 +448,7 @@ export default {
       download: 'Скачать',
       duplicateCard_title: 'Дублировать карточку',
       edit: 'Изменить',
+      editAvatar_title: 'Изменить аватар',
       editColor_title: 'Изменить цвет',
       editDescription_title: 'Изменить описание',
       editDueDate_title: 'Изменить срок',

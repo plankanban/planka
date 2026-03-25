@@ -442,6 +442,7 @@ export default {
       download: 'Yuklab olish',
       duplicateCard_title: 'Kartani nusxalash',
       edit: 'Tahrirlash',
+      editAvatar_title: 'Avatarni tahrirlash',
       editColor_title: 'Rangni tahrirlash',
       editDescription_title: 'Izohni tahrirlash',
       editDueDate_title: 'Muddatni tahrirlash',
