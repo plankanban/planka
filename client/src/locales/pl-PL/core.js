@@ -446,6 +446,7 @@ export default {
       download: 'Pobierz',
       duplicateCard_title: 'Duplikuj kartę',
       edit: 'Edytuj',
+      editAvatar_title: 'Edytuj awatar',
       editColor_title: 'Edytuj kolor',
       editDescription_title: 'Edytuj opis',
       editDueDate_title: 'Edytuj termin',

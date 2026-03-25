@@ -444,6 +444,7 @@ export default {
       download: 'Завантажити',
       duplicateCard_title: 'Дублювати картку',
       edit: 'Редагувати',
+      editAvatar_title: 'Редагувати аватар',
       editColor_title: 'Редагувати колір',
       editDescription_title: 'Редагувати опис',
       editDueDate_title: 'Редагувати термін виконання',

@@ -449,6 +449,7 @@ export default {
       download: 'Baixar',
       duplicateCard_title: 'Duplicar cartão',
       edit: 'Editar',
+      editAvatar_title: 'Editar avatar',
       editColor_title: 'Editar cor',
       editDescription_title: 'Editar descrição',
       editDueDate_title: 'Editar data de vencimento',

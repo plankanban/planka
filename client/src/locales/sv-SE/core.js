@@ -453,6 +453,7 @@ export default {
       download: 'Ladda ner',
       duplicateCard_title: 'Duplicera kort',
       edit: 'Redigera',
+      editAvatar_title: 'Redigera avatar',
       editColor_title: 'Redigera färg',
       editDescription_title: 'Redigera beskrivning',
       editDueDate_title: 'Redigera förfallodatum',

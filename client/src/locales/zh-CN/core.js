@@ -419,6 +419,7 @@ export default {
       download: '下载',
       duplicateCard_title: '复制卡片',
       edit: '编辑',
+      editAvatar_title: '编辑头像',
       editColor_title: '编辑颜色',
       editDescription_title: '编辑描述',
       editDueDate_title: '编辑到期时间',

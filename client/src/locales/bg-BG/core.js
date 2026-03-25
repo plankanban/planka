@@ -451,6 +451,7 @@ export default {
       download: 'Изтегляне',
       duplicateCard_title: 'Дублирана карта',
       edit: 'Редактиране',
+      editAvatar_title: 'Редактиране на аватар',
       editColor_title: 'Редактиране на цвят',
       editDescription_title: 'Редактиране на описание',
       editDueDate_title: 'Редактиране на краен срок',

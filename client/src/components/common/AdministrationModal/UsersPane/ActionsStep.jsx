@@ -17,6 +17,7 @@ import SelectRoleStep from './SelectRoleStep';
 import ApiKeyStep from './ApiKeyStep';
 import ConfirmationStep from '../../ConfirmationStep';
 import EditUserInformationStep from '../../../users/EditUserInformationStep';
+import EditUserAvatarStep from '../../../users/EditUserAvatarStep';
 import EditUserUsernameStep from '../../../users/EditUserUsernameStep';
 import EditUserEmailStep from '../../../users/EditUserEmailStep';
 import EditUserPasswordStep from '../../../users/EditUserPasswordStep';
@@ -25,6 +26,7 @@ import styles from './ActionsStep.module.scss';
 
 const StepTypes = {
   EDIT_INFORMATION: 'EDIT_INFORMATION',
+  EDIT_AVATAR: 'EDIT_AVATAR',
   EDIT_USERNAME: 'EDIT_USERNAME',
   EDIT_EMAIL: 'EDIT_EMAIL',
   EDIT_PASSWORD: 'EDIT_PASSWORD',
@@ -97,6 +99,10 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     openStep(StepTypes.EDIT_INFORMATION);
   }, [openStep]);
 
+  const handleEditAvatarClick = useCallback(() => {
+    openStep(StepTypes.EDIT_AVATAR);
+  }, [openStep]);
+
   const handleEditUsernameClick = useCallback(() => {
     openStep(StepTypes.EDIT_USERNAME);
   }, [openStep]);
@@ -137,6 +143,8 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     switch (step.type) {
       case StepTypes.EDIT_INFORMATION:
         return <EditUserInformationStep id={userId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.EDIT_AVATAR:
+        return <EditUserAvatarStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_USERNAME:
         return <EditUserUsernameStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_EMAIL:
@@ -216,6 +224,12 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
           <Menu.Item className={styles.menuItem} onClick={handleEditInformationClick}>
             <Icon name="info" className={styles.menuItemIcon} />
             {t('action.editInformation', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleEditAvatarClick}>
+            <Icon name="image outline" className={styles.menuItemIcon} />
+            {t('action.editAvatar', {
               context: 'title',
             })}
           </Menu.Item>

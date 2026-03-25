@@ -453,6 +453,7 @@ export default {
       download: 'Descarregar',
       duplicateCard_title: 'Duplicar targeta',
       edit: 'Editar',
+      editAvatar_title: 'Editar avatar',
       editColor_title: 'Editar color',
       editDescription_title: 'Editar descripció',
       editDueDate_title: 'Editar data de venciment',

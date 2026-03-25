@@ -447,6 +447,7 @@ export default {
       download: 'Download',
       duplicateCard_title: 'Duplikér kort',
       edit: 'Rediger',
+      editAvatar_title: 'Rediger profilbillede',
       editColor_title: 'Rediger farve',
       editDescription_title: 'Rediger beskrivelse',
       editDueDate_title: 'Rediger frist',

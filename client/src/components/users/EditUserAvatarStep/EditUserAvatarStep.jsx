@@ -3,20 +3,22 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
-import { FilePicker, Popup } from '../../../../lib/custom-ui';
+import { FilePicker, Popup } from '../../../lib/custom-ui';
 
-import selectors from '../../../../selectors';
-import entryActions from '../../../../entry-actions';
+import selectors from '../../../selectors';
+import entryActions from '../../../entry-actions';
 
-import styles from './EditAvatarStep.module.scss';
+import styles from './EditUserAvatarStep.module.scss';
 
-const EditAvatarStep = React.memo(({ onClose }) => {
-  const defaultValue = useSelector((state) => selectors.selectCurrentUser(state).avatar);
+const EditUserAvatarStep = React.memo(({ id, onBack, onClose }) => {
+  const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
+
+  const avatar = useSelector((state) => selectUserById(state, id).avatar);
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -26,33 +28,33 @@ const EditAvatarStep = React.memo(({ onClose }) => {
   const handleFileSelect = useCallback(
     (file) => {
       dispatch(
-        entryActions.updateCurrentUserAvatar({
+        entryActions.updateUserAvatar(id, {
           file,
         }),
       );
 
       onClose();
     },
-    [onClose, dispatch],
+    [dispatch, id, onClose],
   );
 
   const handleDeleteClick = useCallback(() => {
     dispatch(
-      entryActions.updateCurrentUser({
+      entryActions.updateUser(id, {
         avatar: null,
       }),
     );
 
     onClose();
-  }, [onClose, dispatch]);
+  }, [dispatch, id, onClose]);
 
   useEffect(() => {
-    fieldRef.current.focus();
+    fieldRef.current?.focus?.();
   }, []);
 
   return (
     <>
-      <Popup.Header>
+      <Popup.Header onBack={onBack}>
         {t('common.editAvatar', {
           context: 'title',
         })}
@@ -67,7 +69,7 @@ const EditAvatarStep = React.memo(({ onClose }) => {
             />
           </FilePicker>
         </div>
-        {defaultValue && (
+        {avatar && (
           <Button negative content={t('action.deleteAvatar')} onClick={handleDeleteClick} />
         )}
       </Popup.Content>
@@ -75,8 +77,14 @@ const EditAvatarStep = React.memo(({ onClose }) => {
   );
 });
 
-EditAvatarStep.propTypes = {
+EditUserAvatarStep.propTypes = {
+  id: PropTypes.string.isRequired,
+  onBack: PropTypes.func,
   onClose: PropTypes.func.isRequired,
 };
 
-export default EditAvatarStep;
+EditUserAvatarStep.defaultProps = {
+  onBack: undefined,
+};
+
+export default EditUserAvatarStep;

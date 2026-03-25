@@ -444,6 +444,7 @@ export default {
       download: 'Preuzmi',
       duplicateCard_title: 'Kloniraj karticu',
       edit: 'Izmeni',
+      editAvatar_title: 'Uredi avatara',
       editColor_title: 'Uredi boju',
       editDescription_title: 'Izmeni opis',
       editDueDate_title: 'Izmeni rok',

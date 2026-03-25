@@ -444,6 +444,7 @@ export default {
       download: 'Tải xuống',
       duplicateCard_title: 'Nhân bản Thẻ',
       edit: 'Chỉnh sửa',
+      editAvatar_title: 'Chỉnh sửa ảnh đại diện',
       editColor_title: 'Chỉnh sửa Màu sắc',
       editDescription_title: 'Chỉnh sửa Mô tả',
       editDueDate_title: 'Chỉnh sửa Hạn chót',

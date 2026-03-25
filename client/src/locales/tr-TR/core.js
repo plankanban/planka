@@ -449,6 +449,7 @@ export default {
       download: 'İndir',
       duplicateCard_title: 'Kartı kopyala',
       edit: 'Düzenle',
+      editAvatar_title: 'Avatarı düzenle',
       editColor_title: 'Rengi düzenle',
       editDescription_title: 'Açıklamayı düzenle',
       editDueDate_title: 'Son tarihi düzenle',

@@ -447,6 +447,7 @@ export default {
       download: 'دانلود',
       duplicateCard_title: 'تکرار کارت',
       edit: 'ویرایش',
+      editAvatar_title: 'ویرایش آواتار',
       editColor_title: 'ویرایش رنگ',
       editDescription_title: 'ویرایش توضیحات',
       editDueDate_title: 'ویرایش تاریخ سررسید',

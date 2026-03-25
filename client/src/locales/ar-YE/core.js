@@ -436,6 +436,7 @@ export default {
       download: 'تحميل',
       duplicateCard_title: 'تكرار البطاقة',
       edit: 'تعديل',
+      editAvatar_title: 'تعديل الصورة الرمزية',
       editColor_title: 'تعديل اللون',
       editDescription_title: 'تعديل الوصف',
       editDueDate_title: 'تعديل تاريخ الاستحقاق',

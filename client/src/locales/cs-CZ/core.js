@@ -441,6 +441,7 @@ export default {
       download: 'Stáhnout',
       duplicateCard_title: 'Duplikovat kartu',
       edit: 'Upravit',
+      editAvatar_title: 'Upravit avatar',
       editColor_title: 'Upravit barvu',
       editDescription_title: 'Upravit popis',
       editDueDate_title: 'Upravit termín',
