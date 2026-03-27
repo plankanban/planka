@@ -12,6 +12,7 @@
  */
 
 const openidClient = require('openid-client');
+const { HttpsProxyAgent } = require('https-proxy-agent');
 
 module.exports = function defineOidcHook(sails) {
   let client = null;
@@ -45,10 +46,22 @@ module.exports = function defineOidcHook(sails) {
       clientInitPromise = (async () => {
         sails.log.info('Initializing OIDC client');
 
+        const httpDefaults = {};
+
+        if (sails.config.custom.outgoingProxy) {
+          const agent = new HttpsProxyAgent(sails.config.custom.outgoingProxy);
+          httpDefaults.agent = {
+            https: agent,
+            http: agent,
+          };
+        }
+
         if (sails.config.custom.oidcTimeout !== null) {
-          openidClient.custom.setHttpOptionsDefaults({
-            timeout: sails.config.custom.oidcTimeout,
-          });
+          httpDefaults.timeout = sails.config.custom.oidcTimeout;
+        }
+
+        if (Object.keys(httpDefaults).length > 0) {
+          openidClient.custom.setHttpOptionsDefaults(httpDefaults);
         }
 
         let issuer;
