@@ -76,6 +76,7 @@ services:
       # - S3_SECRET_ACCESS_KEY__FILE=/run/secrets/s3_secret_access_key
       # - S3_BUCKET=
       # - S3_FORCE_PATH_STYLE=true
+      # - S3_REQUEST_CHECKSUM_CALCULATION=
 
       # - OIDC_ISSUER=
       # - OIDC_CLIENT_ID=
