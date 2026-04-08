@@ -128,7 +128,7 @@
     "jwt-decode": "^4.0.0",
     "linkify-react": "^4.3.2",
     "linkifyjs": "^4.3.2",
-    "lodash": "^4.17.23",
+    "lodash": "^4.18.1",
     "lowlight": "^3.3.0",
     "markdown-it": "^13.0.2",
     "nanoid": "^5.1.7",
