@@ -2,17 +2,32 @@
 
   ![Logo](https://raw.githubusercontent.com/plankanban/planka/master/assets/logo.png)
 
-  # PLANKA
+  # PLANKA (Suveris Fork)
 
-  _Project mastering driven by fun_
-
-  ![Version](https://img.shields.io/github/package-json/v/plankanban/planka?style=flat-square) [![Docker Pulls](https://img.shields.io/badge/docker_pulls-8M%2B-%23066da5?style=flat-square&color=red)](https://github.com/plankanban/planka/pkgs/container/planka) [![Contributors](https://img.shields.io/github/contributors/plankanban/planka?style=flat-square&color=blue)](https://github.com/plankanban/planka/graphs/contributors) [![Chat](https://img.shields.io/discord/1041440072953765979?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/WqqYNd7Jvt)
-
-  [Install](https://docs.planka.cloud/docs/installation/docker/production-version/) ·  [Demo](https://planka.app) · [Docs](https://docs.planka.cloud/docs/welcome/) · [API](https://plankanban.github.io/planka/swagger-ui/) · [Cloud](https://planka.app/pricing) · [Pro version](https://planka.app/pro)
+  _A fork of [PLANKA](https://github.com/plankanban/planka) with Trello-style keyboard shortcuts_
 
   ![Demo](https://raw.githubusercontent.com/plankanban/planka/master/assets/demo.gif)
 
 </div>
+
+> **This is a fork maintained by [Suveris IT](https://github.com/Suveris-IT).** The upstream project lives at [plankanban/planka](https://github.com/plankanban/planka). We track upstream and add keyboard-centric workflow enhancements on top.
+
+## What This Fork Adds
+
+### Trello-Style Keyboard Shortcuts
+
+Planka ships with a handful of shortcuts. This fork extends them to match the keyboard-driven workflow Trello users expect:
+
+| Key | Action |
+|-----|--------|
+| **N** | Add a new card to the hovered list |
+| **D** | Edit due date on hovered card |
+| **Space** | Assign/unassign yourself to hovered card |
+| **Q** | Toggle "My Cards" filter |
+| **S** | Open move card dialog |
+| **?** | Show keyboard shortcuts help overlay |
+
+These are in addition to the shortcuts already in upstream Planka (E/Enter to open, T to edit title, L for labels, M for members, V to archive, 1-9/0 for labels, Ctrl+C/X/V clipboard).
 
 ## Key Features
 
@@ -57,12 +72,17 @@ PLANKA is [fair-code](https://faircode.io) distributed under the [Fair Use Licen
 
 For more details, check the [License Guide](https://github.com/plankanban/planka/blob/master/LICENSES/PLANKA%20License%20Guide%20EN.md).
 
+## Syncing with Upstream
+
+To pull in new changes from the original Planka repository:
+
+```bash
+git fetch upstream
+git merge upstream/master
+```
+
 ## Contributing
 
-Found a bug or have a feature request? Check out our [Contributing Guide](https://github.com/plankanban/planka/blob/master/CONTRIBUTING.md) to get started.
+For issues specific to the keyboard shortcuts or this fork, please open an issue on [Suveris-IT/planka](https://github.com/Suveris-IT/planka/issues).
 
-For setting up the project locally, see the [development section](https://docs.planka.cloud/docs/category/development/).
-
-**Thanks to all our contributors!**
-
-[![Contributors](https://contrib.rocks/image?repo=plankanban/planka)](https://github.com/plankanban/planka/graphs/contributors)
+For general Planka bugs or features, contribute to the [upstream project](https://github.com/plankanban/planka). See their [Contributing Guide](https://github.com/plankanban/planka/blob/master/CONTRIBUTING.md) and [development docs](https://docs.planka.cloud/docs/category/development/).

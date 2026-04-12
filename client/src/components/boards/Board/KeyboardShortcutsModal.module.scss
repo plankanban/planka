@@ -1,0 +1,66 @@
+:global(#app) {
+  .wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .section {
+    margin-bottom: 8px;
+  }
+
+  .sectionTitle {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6b808c;
+  }
+
+  .shortcuts {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .shortcutRow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .keys {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    min-width: 100px;
+    justify-content: flex-end;
+  }
+
+  .key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 26px;
+    padding: 0 6px;
+    background: #f4f5f7;
+    border: 1px solid #d6dadc;
+    border-radius: 3px;
+    font-size: 12px;
+    font-family: inherit;
+    color: #172b4d;
+    box-shadow: 0 1px 0 #d6dadc;
+  }
+
+  .keySeparator {
+    font-size: 12px;
+    color: #6b808c;
+  }
+
+  .description {
+    font-size: 13px;
+    color: #172b4d;
+  }
+}

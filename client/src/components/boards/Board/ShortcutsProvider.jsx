@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { push } from '../../../lib/redux-router';
@@ -25,6 +25,7 @@ import {
   ListTypes,
 } from '../../../constants/Enums';
 import CardActionsStep from '../../cards/CardActionsStep';
+import KeyboardShortcutsModal from './KeyboardShortcutsModal';
 
 const canCopyCard = (isManager, boardMembership) => {
   if (isManager) {
@@ -72,18 +73,31 @@ const canUseCardLabels = (boardMembership, list) => {
   return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 };
 
+const canEditCardDueDate = (boardMembership, list) => {
+  if (isListArchiveOrTrash(list)) {
+    return false;
+  }
+
+  return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+};
+
+const canAddCardToList = (boardMembership) =>
+  !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+
 const ShortcutsProvider = React.memo(({ children }) => {
   const { cardId, boardId } = useSelector(selectors.selectPath);
+  const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
   const selectedListRef = useRef(null);
   const selectedCardRef = useRef(null);
 
-  const handleListMouseEnter = useCallback((id, onPaste) => {
+  const handleListMouseEnter = useCallback((id, onPaste, onAddCard) => {
     selectedListRef.current = {
       id,
       onPaste,
+      onAddCard,
     };
   }, []);
 
@@ -350,6 +364,115 @@ const ShortcutsProvider = React.memo(({ children }) => {
       }
     };
 
+    const handleCardDueDate = (event) => {
+      if (!selectedCardRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const card = selectors.selectCardById(state, selectedCardRef.current.id);
+
+      if (!card || !card.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+      const list = selectors.selectListById(state, card.listId);
+
+      if (!canEditCardDueDate(boardMembership, list)) {
+        return;
+      }
+
+      event.preventDefault();
+      selectedCardRef.current.openActions(CardActionsStep.StepTypes.EDIT_DUE_DATE);
+    };
+
+    const handleCardSelfAssign = (event) => {
+      if (!selectedCardRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const card = selectors.selectCardById(state, selectedCardRef.current.id);
+
+      if (!card || !card.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+      const list = selectors.selectListById(state, card.listId);
+
+      if (!canUseCardMembers(boardMembership, list)) {
+        return;
+      }
+
+      const currentUserId = state.auth.userId;
+      const userIds = selectors.selectUserIdsByCardId(state, card.id);
+
+      event.preventDefault();
+
+      if (userIds.includes(currentUserId)) {
+        dispatch(entryActions.removeUserFromCard(currentUserId, card.id));
+      } else {
+        dispatch(entryActions.addUserToCard(currentUserId, card.id));
+      }
+    };
+
+    const handleAddCard = (event) => {
+      if (!selectedListRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+
+      if (!canAddCardToList(boardMembership)) {
+        return;
+      }
+
+      event.preventDefault();
+
+      if (selectedListRef.current.onAddCard) {
+        selectedListRef.current.onAddCard();
+      }
+    };
+
+    const handleToggleMyCardsFilter = (event) => {
+      const state = store.getState();
+      const currentUserId = state.auth.userId;
+      const filterUserIds = selectors.selectFilterUserIdsForCurrentBoard(state);
+
+      event.preventDefault();
+
+      if (filterUserIds && filterUserIds.includes(currentUserId)) {
+        dispatch(entryActions.removeUserFromFilterInCurrentBoard(currentUserId));
+      } else {
+        dispatch(entryActions.addUserToFilterInCurrentBoard(currentUserId));
+      }
+    };
+
+    const handleCardMove = (event) => {
+      if (!selectedCardRef.current) {
+        return;
+      }
+
+      const state = store.getState();
+      const card = selectors.selectCardById(state, selectedCardRef.current.id);
+
+      if (!card || !card.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+
+      if (!boardMembership || boardMembership.role !== BoardMembershipRoles.EDITOR) {
+        return;
+      }
+
+      event.preventDefault();
+      selectedCardRef.current.openActions(CardActionsStep.StepTypes.MOVE);
+    };
+
     const handleKeyDown = (event) => {
       if (isActiveTextElement(event.target)) {
         return;
@@ -397,6 +520,26 @@ const ShortcutsProvider = React.memo(({ children }) => {
           handleCardArchive(event);
 
           break;
+        case 'KeyD':
+          handleCardDueDate(event);
+
+          break;
+        case 'KeyN':
+          handleAddCard(event);
+
+          break;
+        case 'KeyQ':
+          handleToggleMyCardsFilter(event);
+
+          break;
+        case 'Space':
+          handleCardSelfAssign(event);
+
+          break;
+        case 'KeyS':
+          handleCardMove(event);
+
+          break;
         case 'Digit1':
         case 'Digit2':
         case 'Digit3':
@@ -412,6 +555,11 @@ const ShortcutsProvider = React.memo(({ children }) => {
           break;
         default:
       }
+
+      if (event.key === '?') {
+        event.preventDefault();
+        setIsShortcutsModalOpen(true);
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -421,8 +569,18 @@ const ShortcutsProvider = React.memo(({ children }) => {
     };
   }, [dispatch]);
 
+  const handleShortcutsModalClose = useCallback(() => {
+    setIsShortcutsModalOpen(false);
+  }, []);
+
   return (
-    <BoardShortcutsContext.Provider value={contextValue}>{children}</BoardShortcutsContext.Provider>
+    <BoardShortcutsContext.Provider value={contextValue}>
+      {children}
+      <KeyboardShortcutsModal
+        isOpen={isShortcutsModalOpen}
+        onClose={handleShortcutsModalClose}
+      />
+    </BoardShortcutsContext.Provider>
   );
 });
 

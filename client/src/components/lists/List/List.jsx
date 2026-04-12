@@ -99,6 +99,8 @@ const List = React.memo(({ id, index }) => {
   const handleMouseEnter = useCallback(() => {
     handleListMouseEnter(id, () => {
       scrollBottom();
+    }, () => {
+      setAddCardPosition(AddCardPositions.BOTTOM);
     });
   }, [id, scrollBottom, handleListMouseEnter]);
 
