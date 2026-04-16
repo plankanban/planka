@@ -122,7 +122,6 @@
     "history": "^5.3.0",
     "i18next": "^25.8.18",
     "i18next-browser-languagedetector": "^8.2.1",
-    "initials": "^3.1.2",
     "javascript-time-ago": "^2.6.4",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
