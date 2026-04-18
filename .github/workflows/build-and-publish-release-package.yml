@@ -18,9 +18,6 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Update npm
-        run: npm install npm --global
-
       - name: Install server dependencies
         run: npm install --omit=prod --ignore-scripts
         working-directory: ./server
