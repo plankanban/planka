@@ -3,6 +3,11 @@
 ### Added
 
 * Allow admins to edit user avatars
+* Add Pro features discovery banner
+
+### Changed
+
+* Remove global npm installation from Dockerfiles
 
 ### Fixed
 
