@@ -1,4 +1,17 @@
-# [2.1.0] - 2026-03-19
+# [2.1.1] - 2026-04-18
+
+### Added
+
+* Allow admins to edit user avatars
+
+### Fixed
+
+* Fix Unicode and emoji characters in user avatar initials
+* Fix S3 request checksum calculation
+* Limit proxy file descriptors to prevent excessive memory allocation
+* Improve security by fixing multiple dependency vulnerabilities
+
+## [2.1.0] - 2026-03-19
 
 ### Added
 
