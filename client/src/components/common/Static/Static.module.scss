@@ -1,5 +1,5 @@
 /*!
- * Copyright (c) 2024 PLANKA Software GmbH
+ * Copyright (c) 2026 PLANKA Software GmbH
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
@@ -37,15 +37,15 @@
 
   .wrapper {
     height: 100%;
-    margin-top: 116px;
+    margin-top: calc(116px + var(--promo-banner-height, 0px));
   }
 
   .wrapperBoard {
-    margin-top: 174px;
+    margin-top: calc(174px + var(--promo-banner-height, 0px));
   }
 
   .wrapperBoardWithFavorites {
-    margin-top: 264px;
+    margin-top: calc(264px + var(--promo-banner-height, 0px));
   }
 
   .wrapperFlex {
@@ -57,11 +57,11 @@
   }
 
   .wrapperProject {
-    margin-top: 98px;
+    margin-top: calc(98px + var(--promo-banner-height, 0px));
   }
 
   .wrapperProjectWithFavorites {
-    margin-top: 188px;
+    margin-top: calc(188px + var(--promo-banner-height, 0px));
   }
 
   .wrapperTransitioning {
@@ -73,6 +73,6 @@
   }
 
   .wrapperWithFavorites {
-    margin-top: 206px;
+    margin-top: calc(206px + var(--promo-banner-height, 0px));
   }
 }
