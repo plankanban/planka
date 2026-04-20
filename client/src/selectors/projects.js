@@ -310,6 +310,33 @@ export const selectIsCurrentUserManagerForCurrentProject = createSelector(
   },
 );
 
+export const makeSelectCanDeleteProjectById = () => {
+  const selectBoardIdsByProjectIdMemoized = makeSelectBoardIdsByProjectId();
+
+  return createSelector(
+    orm,
+    (_, id) => id,
+    (state) => selectCurrentUserId(state),
+    (state, id) => selectBoardIdsByProjectIdMemoized(state, id),
+    ({ Project }, id, currentUserId, boardIds) => {
+      if (!id) {
+        return false;
+      }
+
+      const projectModel = Project.withId(id);
+
+      if (!projectModel) {
+        return false;
+      }
+
+      const isManager = projectModel.hasManagerWithUserId(currentUserId);
+      const hasBoards = (boardIds || []).length > 0;
+
+      return isManager && !hasBoards;
+    },
+  );
+};
+
 export default {
   makeSelectProjectById,
   selectProjectById,
@@ -331,4 +358,5 @@ export default {
   selectBaseCustomFieldGroupsForCurrentProject,
   selectBoardIdsForCurrentProject,
   selectIsCurrentUserManagerForCurrentProject,
+  makeSelectCanDeleteProjectById,
 };
