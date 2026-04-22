@@ -393,7 +393,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
           handleCardNameEdit(event);
 
           break;
-        case 'KeyV':
+        case 'KeyC':
           handleCardArchive(event);
 
           break;
