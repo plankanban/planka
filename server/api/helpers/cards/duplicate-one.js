@@ -29,6 +29,10 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
     },
+    includeComments: {
+      type: 'boolean',
+      defaultsTo: false,
+    },
     request: {
       type: 'ref',
     },
@@ -95,6 +99,12 @@ module.exports = {
       }
     }
 
+    const comments = inputs.includeComments
+      ? await Comment.qm.getAllByCardId(inputs.record.id, {
+          sort: 'id',
+        })
+      : [];
+
     let card = await Card.qm.createOne({
       ..._.pick(inputs.record, [
         'boardId',
@@ -110,6 +120,9 @@ module.exports = {
       ...values,
       listId: list.id,
       creatorUserId: values.creatorUser.id,
+      ...(inputs.includeComments && {
+        commentsTotal: comments.length,
+      }),
       listChangedAt: new Date().toISOString(),
     });
 
@@ -235,6 +248,14 @@ module.exports = {
 
     const nextCustomFieldValues = await CustomFieldValue.qm.create(nextCustomFieldValuesValues);
 
+    const nextCommentsValues = comments.map((comment) => ({
+      ..._.pick(comment, ['userId', 'text']),
+      cardId: card.id,
+    }));
+
+    const nextComments =
+      nextCommentsValues.length > 0 ? await Comment.qm.create(nextCommentsValues) : [];
+
     sails.sockets.broadcast(
       `board:${card.boardId}`,
       'cardCreate',
@@ -263,6 +284,7 @@ module.exports = {
           customFieldGroups: nextCustomFieldGroups,
           customFields: nextCustomFields,
           customFieldValues: nextCustomFieldValues,
+          comments: nextComments,
         },
       }),
       user: values.creatorUser,
@@ -299,6 +321,7 @@ module.exports = {
         data: {
           card: _.pick(card, ['name']),
           list: _.pick(list, ['id', 'type', 'name']),
+          sourceCard: _.pick(inputs.record, ['id', 'name']),
         },
         user: values.creatorUser,
       },
@@ -316,6 +339,7 @@ module.exports = {
       customFieldGroups: nextCustomFieldGroups,
       customFields: nextCustomFields,
       customFieldValues: nextCustomFieldValues,
+      comments: nextComments,
     };
   },
 };

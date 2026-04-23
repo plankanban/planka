@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
@@ -38,6 +39,7 @@ const StoryContent = React.memo(({ cardId }) => {
   );
 
   const selectAttachmentById = useMemo(() => selectors.makeSelectAttachmentById(), []);
+  const [t] = useTranslation();
 
   const card = useSelector((state) => selectCardById(state, cardId));
   const list = useSelector((state) => selectListById(state, card.listId));
@@ -109,7 +111,7 @@ const StoryContent = React.memo(({ cardId }) => {
           {card.name}
         </div>
         {card.description && <div className={styles.descriptionText}>{descriptionText}</div>}
-        {(attachmentsTotal > 0 || notificationsTotal > 0 || listName) && (
+        {(attachmentsTotal > 0 || notificationsTotal > 0 || card.repeatNextAt || listName) && (
           <span className={styles.attachments}>
             {notificationsTotal > 0 && (
               <span
@@ -127,6 +129,17 @@ const StoryContent = React.memo(({ cardId }) => {
                 <span className={styles.attachmentContent}>
                   <Icon name="columns" />
                   {listName}
+                </span>
+              </span>
+            )}
+            {card.repeatNextAt && (
+              <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                <span className={styles.attachmentContent}>
+                  <Icon name="repeat" />
+                  {t('format:longDate', {
+                    value: card.repeatNextAt,
+                    postProcess: 'formatDate',
+                  })}
                 </span>
               </span>
             )}

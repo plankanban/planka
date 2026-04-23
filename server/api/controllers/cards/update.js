@@ -90,6 +90,19 @@
  *                     type: number
  *                     description: Total time in seconds
  *                     example: 3600
+ *               repeatRule:
+ *                 type: object
+ *                 nullable: true
+ *                 description: Recurrence rule. Use null to cancel repeating.
+ *                 example:
+ *                   type: weekly
+ *                   weekdays: [1, 3, 5]
+ *                   startsAt: 2024-01-01T09:00:00.000Z
+ *                   timezoneOffset: 180
+ *               repeatListId:
+ *                 type: string
+ *                 description: ID of the list where repeated card copies should be created
+ *                 example: "1357158568008091266"
  *               isSubscribed:
  *                 type: boolean
  *                 description: Whether the current user is subscribed to the card
@@ -117,7 +130,7 @@
  *         $ref: '#/components/responses/UnprocessableEntity'
  */
 
-const { isDueDate, isStopwatch } = require('../../../utils/validators');
+const { isCardRepeatRule, isDueDate, isStopwatch } = require('../../../utils/validators');
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
@@ -133,11 +146,17 @@ const Errors = {
   LIST_NOT_FOUND: {
     listNotFound: 'List not found',
   },
+  REPEAT_LIST_NOT_FOUND: {
+    repeatListNotFound: 'Repeat list not found',
+  },
   COVER_ATTACHMENT_NOT_FOUND: {
     coverAttachmentNotFound: 'Cover attachment not found',
   },
   LIST_MUST_BE_PRESENT: {
     listMustBePresent: 'List must be present',
+  },
+  REPEAT_LIST_MUST_BE_PRESENT: {
+    repeatListMustBePresent: 'Repeat list must be present',
   },
   COVER_ATTACHMENT_MUST_CONTAIN_IMAGE: {
     coverAttachmentMustContainImage: 'Cover attachment must contain image',
@@ -192,6 +211,11 @@ module.exports = {
       type: 'json',
       custom: isStopwatch,
     },
+    repeatRule: {
+      type: 'json',
+      custom: isCardRepeatRule,
+    },
+    repeatListId: idInput,
     isSubscribed: {
       type: 'boolean',
     },
@@ -210,10 +234,16 @@ module.exports = {
     listNotFound: {
       responseType: 'notFound',
     },
+    repeatListNotFound: {
+      responseType: 'notFound',
+    },
     coverAttachmentNotFound: {
       responseType: 'notFound',
     },
     listMustBePresent: {
+      responseType: 'unprocessableEntity',
+    },
+    repeatListMustBePresent: {
       responseType: 'unprocessableEntity',
     },
     coverAttachmentMustContainImage: {
@@ -256,6 +286,8 @@ module.exports = {
         'dueDate',
         'isDueCompleted',
         'stopwatch',
+        'repeatRule',
+        'repeatListId',
       );
     }
 
@@ -307,6 +339,17 @@ module.exports = {
       }
     }
 
+    let repeatList;
+    if (inputs.repeatListId) {
+      repeatList = await List.qm.getOneById(inputs.repeatListId, {
+        boardId: board.id,
+      });
+
+      if (!repeatList || !sails.helpers.lists.isFinite(repeatList)) {
+        throw Errors.REPEAT_LIST_NOT_FOUND;
+      }
+    }
+
     const values = _.pick(inputs, [
       'coverAttachmentId',
       'type',
@@ -316,6 +359,8 @@ module.exports = {
       'dueDate',
       'isDueCompleted',
       'stopwatch',
+      'repeatRule',
+      'repeatListId',
       'isSubscribed',
     ]);
 
@@ -331,12 +376,14 @@ module.exports = {
           board: nextBoard,
           list: nextList,
           coverAttachment: nextCoverAttachment,
+          repeatList,
         },
         actorUser: currentUser,
         request: this.req,
       })
       .intercept('positionMustBeInValues', () => Errors.POSITION_MUST_BE_PRESENT)
       .intercept('listMustBeInValues', () => Errors.LIST_MUST_BE_PRESENT)
+      .intercept('repeatListMustBeInValues', () => Errors.REPEAT_LIST_MUST_BE_PRESENT)
       .intercept(
         'coverAttachmentInValuesMustContainImage',
         () => Errors.COVER_ATTACHMENT_MUST_CONTAIN_IMAGE,

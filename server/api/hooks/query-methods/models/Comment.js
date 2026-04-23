@@ -10,6 +10,8 @@ const defaultFind = (criteria, { limit } = {}) =>
 
 /* Query methods */
 
+const create = (arrayOfValues) => Comment.createEach(arrayOfValues).fetch();
+
 const createOne = (values) =>
   sails.getDatastore().transaction(async (db) => {
     const comment = await Comment.create({ ...values })
@@ -45,6 +47,11 @@ const getByCardId = (cardId, { beforeId } = {}) => {
 
   return defaultFind(criteria, { limit: LIMIT });
 };
+
+const getAllByCardId = (cardId, { sort = 'id' } = {}) =>
+  Comment.find({
+    cardId,
+  }).sort(sort);
 
 const getOneById = (id) => Comment.findOne(id);
 
@@ -114,9 +121,11 @@ const deleteOne = (criteria) =>
   });
 
 module.exports = {
+  create,
   createOne,
   getByIds,
   getByCardId,
+  getAllByCardId,
   getOneById,
   update,
   updateOne,

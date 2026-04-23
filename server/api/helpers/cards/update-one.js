@@ -42,6 +42,7 @@ module.exports = {
     boardInValuesMustBelongToProject: {},
     listMustBeInValues: {},
     listInValuesMustBelongToBoard: {},
+    repeatListMustBeInValues: {},
     coverAttachmentInValuesMustContainImage: {},
   },
 
@@ -100,6 +101,27 @@ module.exports = {
 
       values.coverAttachmentId = values.coverAttachment.id;
     }
+
+    if (values.board) {
+      values.repeatRule = null;
+      values.repeatListId = null;
+      values.repeatNextAt = null;
+    } else if (!_.isUndefined(values.repeatRule)) {
+      if (_.isNull(values.repeatRule)) {
+        values.repeatListId = null;
+        values.repeatNextAt = null;
+      } else {
+        if (!values.repeatList) {
+          throw 'repeatListMustBeInValues';
+        }
+
+        values.repeatRule = sails.helpers.cards.normalizeRepeatRule(values.repeatRule);
+        values.repeatListId = values.repeatList.id;
+        values.repeatNextAt = sails.helpers.cards.calculateNextRepeatAt(values.repeatRule);
+      }
+    }
+
+    delete values.repeatList;
 
     const dueDate = _.isUndefined(values.dueDate) ? inputs.record.dueDate : values.dueDate;
 

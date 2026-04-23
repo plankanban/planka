@@ -28,6 +28,7 @@ import DueDateChip from '../DueDateChip';
 import StopwatchChip from '../StopwatchChip';
 import EditDueDateStep from '../EditDueDateStep';
 import EditStopwatchStep from '../EditStopwatchStep';
+import RepeatCardStep from '../RepeatCardStep';
 import ExpandableMarkdown from '../../common/ExpandableMarkdown';
 import EditMarkdown from '../../common/EditMarkdown';
 import ConfirmationStep from '../../common/ConfirmationStep';
@@ -71,6 +72,7 @@ const ProjectContent = React.memo(() => {
     canEditDescription,
     canEditDueDate,
     canEditStopwatch,
+    canRepeat,
     canSubscribe,
     canJoin,
     canDuplicate,
@@ -102,6 +104,7 @@ const ProjectContent = React.memo(() => {
         canEditDescription: false,
         canEditDueDate: false,
         canEditStopwatch: false,
+        canRepeat: isEditor,
         canSubscribe: isMember,
         canJoin: false,
         canDuplicate: false,
@@ -124,6 +127,7 @@ const ProjectContent = React.memo(() => {
       canEditDescription: isEditor,
       canEditDueDate: isEditor,
       canEditStopwatch: isEditor,
+      canRepeat: isEditor,
       canSubscribe: isMember,
       canJoin: isEditor,
       canDuplicate: isEditor,
@@ -289,6 +293,7 @@ const ProjectContent = React.memo(() => {
   const ListsPopup = usePopupInClosableContext(ListsStep);
   const EditDueDatePopup = usePopupInClosableContext(EditDueDateStep);
   const EditStopwatchPopup = usePopupInClosableContext(EditStopwatchStep);
+  const RepeatCardPopup = usePopupInClosableContext(RepeatCardStep);
   const AddTaskListPopup = usePopupInClosableContext(AddTaskListStep);
   const AddAttachmentPopup = usePopupInClosableContext(AddAttachmentStep);
   const AddCustomFieldGroupPopup = usePopupInClosableContext(AddCustomFieldGroupStep);
@@ -315,6 +320,7 @@ const ProjectContent = React.memo(() => {
         <Grid.Column width={12} className={styles.contentPadding}>
           {(card.dueDate ||
             card.stopwatch ||
+            card.repeatNextAt ||
             board.alwaysDisplayCardCreator ||
             userIds.length > 0 ||
             labelIds.length > 0) && (
@@ -409,6 +415,32 @@ const ProjectContent = React.memo(() => {
                       </button>
                     </LabelsPopup>
                   )}
+                </div>
+              )}
+              {card.repeatNextAt && (
+                <div className={styles.attachments}>
+                  <div className={styles.text}>{t('common.nextRepeat')}</div>
+                  <span className={styles.attachment}>
+                    {canRepeat ? (
+                      <RepeatCardPopup cardId={card.id}>
+                        <button type="button" className={styles.dueDate}>
+                          <Icon name="repeat" size="small" className={styles.listIcon} />
+                          {t('format:longDateTime', {
+                            value: card.repeatNextAt,
+                            postProcess: 'formatDate',
+                          })}
+                        </button>
+                      </RepeatCardPopup>
+                    ) : (
+                      <span className={styles.list}>
+                        <Icon name="repeat" size="small" className={styles.listIcon} />
+                        {t('format:longDateTime', {
+                          value: card.repeatNextAt,
+                          postProcess: 'formatDate',
+                        })}
+                      </span>
+                    )}
+                  </span>
                 </div>
               )}
               {card.dueDate && (
@@ -656,6 +688,7 @@ const ProjectContent = React.memo(() => {
             {((!board.limitCardTypesToDefaultOne && canEditType) ||
               canSubscribe ||
               canJoin ||
+              canRepeat ||
               canDuplicate ||
               canMove ||
               (canRestore && (isInArchiveList || isInTrashList)) ||
@@ -698,6 +731,14 @@ const ProjectContent = React.memo(() => {
                       </>
                     )}
                   </Button>
+                )}
+                {canRepeat && (
+                  <RepeatCardPopup cardId={card.id}>
+                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
+                      <Icon name="repeat" className={styles.actionIcon} />
+                      {t('action.repeat')}
+                    </Button>
+                  </RepeatCardPopup>
                 )}
                 {canRestore && (isInArchiveList || isInTrashList) && (
                   <Button

@@ -12,6 +12,7 @@ const MAX_STRING_ID = '9223372036854775807';
 const ID_REGEX = /^[1-9][0-9]*$/;
 const IDS_WITH_COMMA_REGEX = /^[1-9][0-9]*(,[1-9][0-9]*)*$/;
 const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
+const CARD_REPEAT_TYPES = ['weekly', 'monthly', 'yearly'];
 
 const isUrl = (value) =>
   validator.isURL(value, {
@@ -54,6 +55,55 @@ const isStopwatch = (value) => {
   return true;
 };
 
+const isIntegerInRange = (value, min, max) =>
+  _.isInteger(value) && value >= min && value <= max;
+
+const isCardRepeatRule = (value) => {
+  if (_.isNull(value)) {
+    return true;
+  }
+
+  if (!_.isPlainObject(value) || !CARD_REPEAT_TYPES.includes(value.type)) {
+    return false;
+  }
+
+  const hasValidStartsAt =
+    _.isString(value.startsAt) && moment(value.startsAt, moment.ISO_8601, true).isValid();
+
+  if (!hasValidStartsAt) {
+    return false;
+  }
+
+  if (
+    !_.isUndefined(value.timezoneOffset) &&
+    (!_.isInteger(value.timezoneOffset) ||
+      value.timezoneOffset < -14 * 60 ||
+      value.timezoneOffset > 14 * 60)
+  ) {
+    return false;
+  }
+
+  switch (value.type) {
+    case 'weekly':
+      return (
+        _.isArray(value.weekdays) &&
+        value.weekdays.length > 0 &&
+        value.weekdays.length <= 7 &&
+        _.uniq(value.weekdays).length === value.weekdays.length &&
+        _.every(value.weekdays, (weekday) => isIntegerInRange(weekday, 0, 6))
+      );
+    case 'monthly':
+      return isIntegerInRange(value.dayOfMonth, 1, 31);
+    case 'yearly':
+      return (
+        isIntegerInRange(value.month, 0, 11) &&
+        isIntegerInRange(value.dayOfMonth, 1, 31)
+      );
+    default:
+      return false;
+  }
+};
+
 module.exports = {
   MAX_STRING_ID,
 
@@ -70,4 +120,5 @@ module.exports = {
   isEmailOrUsername,
   isDueDate,
   isStopwatch,
+  isCardRepeatRule,
 };

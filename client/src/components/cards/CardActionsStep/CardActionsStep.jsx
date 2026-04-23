@@ -18,6 +18,7 @@ import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/E
 import SelectCardTypeStep from '../SelectCardTypeStep';
 import EditDueDateStep from '../EditDueDateStep';
 import EditStopwatchStep from '../EditStopwatchStep';
+import RepeatCardStep from '../RepeatCardStep';
 import MoveCardStep from '../MoveCardStep';
 import ConfirmationStep from '../../common/ConfirmationStep';
 import BoardMembershipsStep from '../../board-memberships/BoardMembershipsStep';
@@ -31,6 +32,7 @@ const StepTypes = {
   EDIT_TYPE: 'EDIT_TYPE',
   EDIT_DUE_DATE: 'EDIT_DUE_DATE',
   EDIT_STOPWATCH: 'EDIT_STOPWATCH',
+  REPEAT: 'REPEAT',
   MOVE: 'MOVE',
   ARCHIVE: 'ARCHIVE',
   DELETE: 'DELETE',
@@ -60,6 +62,7 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
     canEditName,
     canEditDueDate,
     canEditStopwatch,
+    canRepeat,
     canDuplicate,
     canMove,
     canRestore,
@@ -77,6 +80,7 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
         canEditName: false,
         canEditDueDate: false,
         canEditStopwatch: false,
+        canRepeat: isEditor,
         canDuplicate: false,
         canMove: false,
         canRestore: isEditor,
@@ -92,6 +96,7 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
       canEditName: isEditor,
       canEditDueDate: isEditor,
       canEditStopwatch: isEditor,
+      canRepeat: isEditor,
       canDuplicate: isEditor,
       canMove: isEditor,
       canRestore: null,
@@ -200,6 +205,10 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
     openStep(StepTypes.EDIT_STOPWATCH);
   }, [openStep]);
 
+  const handleRepeatClick = useCallback(() => {
+    openStep(StepTypes.REPEAT);
+  }, [openStep]);
+
   const handleMoveClick = useCallback(() => {
     openStep(StepTypes.MOVE);
   }, [openStep]);
@@ -249,6 +258,8 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
         return <EditDueDateStep cardId={cardId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_STOPWATCH:
         return <EditStopwatchStep cardId={cardId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.REPEAT:
+        return <RepeatCardStep cardId={cardId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.MOVE:
         return <MoveCardStep id={cardId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.ARCHIVE:
@@ -340,6 +351,14 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
             <Menu.Item className={styles.menuItem} onClick={handleEditStopwatchClick}>
               <Icon name="clock outline" className={styles.menuItemIcon} />
               {t('action.editStopwatch', {
+                context: 'title',
+              })}
+            </Menu.Item>
+          )}
+          {canRepeat && (
+            <Menu.Item className={styles.menuItem} onClick={handleRepeatClick}>
+              <Icon name="repeat" className={styles.menuItemIcon} />
+              {t('action.repeat', {
                 context: 'title',
               })}
             </Menu.Item>

@@ -30,6 +30,9 @@
  *         - dueDate
  *         - isDueCompleted
  *         - stopwatch
+ *         - repeatRule
+ *         - repeatListId
+ *         - repeatNextAt
  *         - commentsTotal
  *         - isClosed
  *         - listChangedAt
@@ -110,6 +113,26 @@
  *               type: number
  *               description: Total time in seconds
  *               example: 3600
+ *         repeatRule:
+ *           type: object
+ *           nullable: true
+ *           description: Recurrence rule used to create future copies of the card
+ *           example:
+ *             type: weekly
+ *             weekdays: [1, 3, 5]
+ *             startsAt: 2024-01-01T09:00:00.000Z
+ *             timezoneOffset: 180
+ *         repeatListId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the list where repeated card copies are created
+ *           example: "1357158568008091270"
+ *         repeatNextAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: Next scheduled repeat date for the card
+ *           example: 2024-01-08T09:00:00.000Z
  *         commentsTotal:
  *           type: number
  *           default: 0
@@ -145,8 +168,15 @@ const Types = {
   STORY: 'story',
 };
 
+const RepeatTypes = {
+  WEEKLY: 'weekly',
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+};
+
 module.exports = {
   Types,
+  RepeatTypes,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -197,6 +227,14 @@ module.exports = {
       type: 'ref',
       columnName: 'list_changed_at',
     },
+    repeatRule: {
+      type: 'json',
+      columnName: 'repeat_rule',
+    },
+    repeatNextAt: {
+      type: 'ref',
+      columnName: 'repeat_next_at',
+    },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
@@ -224,6 +262,10 @@ module.exports = {
     prevListId: {
       model: 'List',
       columnName: 'prev_list_id',
+    },
+    repeatListId: {
+      model: 'List',
+      columnName: 'repeat_list_id',
     },
     coverAttachmentId: {
       model: 'Attachment',

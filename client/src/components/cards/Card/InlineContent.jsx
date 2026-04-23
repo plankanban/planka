@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
@@ -26,6 +27,7 @@ const InlineContent = React.memo(({ cardId }) => {
     () => selectors.makeSelectNotificationsTotalByCardId(),
     [],
   );
+  const [t] = useTranslation();
 
   const card = useSelector((state) => selectCardById(state, cardId));
   const list = useSelector((state) => selectListById(state, card.listId));
@@ -59,7 +61,7 @@ const InlineContent = React.memo(({ cardId }) => {
       <span className={styles.attachments}>
         <UserAvatar withCreatorIndicator id={card.creatorUserId} />
       </span>
-      {(notificationsTotal > 0 || listName) && (
+      {(notificationsTotal > 0 || card.repeatNextAt || listName) && (
         <span className={styles.attachments}>
           {notificationsTotal > 0 && (
             <span
@@ -73,6 +75,17 @@ const InlineContent = React.memo(({ cardId }) => {
               <span className={styles.attachmentContent}>
                 <Icon name="columns" />
                 {listName}
+              </span>
+            </span>
+          )}
+          {card.repeatNextAt && (
+            <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+              <span className={styles.attachmentContent}>
+                <Icon name="repeat" />
+                {t('format:longDate', {
+                  value: card.repeatNextAt,
+                  postProcess: 'formatDate',
+                })}
               </span>
             </span>
           )}

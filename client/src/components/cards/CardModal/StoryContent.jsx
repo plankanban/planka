@@ -24,6 +24,7 @@ import CustomFieldGroups from './CustomFieldGroups';
 import Communication from './Communication';
 import CreationDetailsStep from './CreationDetailsStep';
 import MoreActionsStep from './MoreActionsStep';
+import RepeatCardStep from '../RepeatCardStep';
 import Markdown from '../../common/Markdown';
 import EditMarkdown from '../../common/EditMarkdown';
 import ConfirmationStep from '../../common/ConfirmationStep';
@@ -73,6 +74,7 @@ const StoryContent = React.memo(() => {
     canEditType,
     canEditName,
     canEditDescription,
+    canRepeat,
     canSubscribe,
     canJoin,
     canDuplicate,
@@ -101,6 +103,7 @@ const StoryContent = React.memo(() => {
         canEditType: false,
         canEditName: false,
         canEditDescription: false,
+        canRepeat: isEditor,
         canSubscribe: isMember,
         canJoin: false,
         canDuplicate: false,
@@ -120,6 +123,7 @@ const StoryContent = React.memo(() => {
       canEditType: isEditor,
       canEditName: isEditor,
       canEditDescription: isEditor,
+      canRepeat: isEditor,
       canSubscribe: isMember,
       canJoin: isEditor,
       canDuplicate: isEditor,
@@ -275,6 +279,7 @@ const StoryContent = React.memo(() => {
   const BoardMembershipsPopup = usePopupInClosableContext(BoardMembershipsStep);
   const LabelsPopup = usePopupInClosableContext(LabelsStep);
   const ListsPopup = usePopupInClosableContext(ListsStep);
+  const RepeatCardPopup = usePopupInClosableContext(RepeatCardStep);
   const AddAttachmentPopup = usePopupInClosableContext(AddAttachmentStep);
   const AddCustomFieldGroupPopup = usePopupInClosableContext(AddCustomFieldGroupStep);
   const MoreActionsPopup = usePopupInClosableContext(MoreActionsStep);
@@ -326,7 +331,10 @@ const StoryContent = React.memo(() => {
             }}
             onBeforeOpen={handleBeforeGalleryOpen}
           >
-            {(board.alwaysDisplayCardCreator || labelIds.length > 0 || coverAttachment) && (
+            {(board.alwaysDisplayCardCreator ||
+              labelIds.length > 0 ||
+              card.repeatNextAt ||
+              coverAttachment) && (
               <div className={classNames(styles.moduleWrapper, styles.moduleWrapperAttachments)}>
                 {coverAttachment && (
                   <div className={styles.coverWrapper}>
@@ -391,6 +399,31 @@ const StoryContent = React.memo(() => {
                         </button>
                       </LabelsPopup>
                     )}
+                  </div>
+                )}
+                {card.repeatNextAt && (
+                  <div className={styles.attachments}>
+                    <span className={styles.attachment}>
+                      {canRepeat ? (
+                        <RepeatCardPopup cardId={card.id}>
+                          <button type="button" className={styles.dueDate}>
+                            <Icon name="repeat" size="small" className={styles.listIcon} />
+                            {t('format:longDateTime', {
+                              value: card.repeatNextAt,
+                              postProcess: 'formatDate',
+                            })}
+                          </button>
+                        </RepeatCardPopup>
+                      ) : (
+                        <span className={styles.list}>
+                          <Icon name="repeat" size="small" className={styles.listIcon} />
+                          {t('format:longDateTime', {
+                            value: card.repeatNextAt,
+                            postProcess: 'formatDate',
+                          })}
+                        </span>
+                      )}
+                    </span>
                   </div>
                 )}
               </div>
@@ -545,6 +578,7 @@ const StoryContent = React.memo(() => {
             {((!board.limitCardTypesToDefaultOne && canEditType) ||
               canSubscribe ||
               canJoin ||
+              canRepeat ||
               canDuplicate ||
               canMove ||
               (canRestore && (isInArchiveList || isInTrashList)) ||
@@ -587,6 +621,14 @@ const StoryContent = React.memo(() => {
                       </>
                     )}
                   </Button>
+                )}
+                {canRepeat && (
+                  <RepeatCardPopup cardId={card.id}>
+                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
+                      <Icon name="repeat" className={styles.actionIcon} />
+                      {t('action.repeat')}
+                    </Button>
+                  </RepeatCardPopup>
                 )}
                 {canRestore && (isInArchiveList || isInTrashList) && (
                   <Button

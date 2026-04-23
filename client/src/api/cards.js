@@ -31,6 +31,9 @@ export const transformCard = (card) => ({
   ...(card.listChangedAt && {
     listChangedAt: new Date(card.listChangedAt),
   }),
+  ...(card.repeatNextAt && {
+    repeatNextAt: new Date(card.repeatNextAt),
+  }),
 });
 
 export const transformCardData = (data) => ({
@@ -46,6 +49,13 @@ export const transformCardData = (data) => ({
       }),
     },
   }),
+  ...(data.repeatRule &&
+    data.repeatRule.startsAt && {
+      repeatRule: {
+        ...data.repeatRule,
+        startsAt: data.repeatRule.startsAt.toISOString(),
+      },
+    }),
 });
 
 /* Actions */

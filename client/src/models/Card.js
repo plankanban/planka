@@ -31,6 +31,8 @@ export default class extends BaseModel {
     listChangedAt: attr({
       getDefault: () => new Date(),
     }),
+    repeatRule: attr(),
+    repeatNextAt: attr(),
     isSubscribed: attr({
       getDefault: () => false,
     }),
@@ -71,6 +73,11 @@ export default class extends BaseModel {
       to: 'List',
       as: 'prevList',
       relatedName: 'prevCards',
+    }),
+    repeatListId: fk({
+      to: 'List',
+      as: 'repeatList',
+      relatedName: 'repeatCards',
     }),
     coverAttachmentId: oneToOne({
       to: 'Attachment',
@@ -338,6 +345,11 @@ export default class extends BaseModel {
             cardModel.linkedTasks.update({
               isCompleted: payload.data.isClosed,
             });
+          }
+
+          if (payload.data.repeatRule === null) {
+            payload.data.repeatListId = null; // eslint-disable-line no-param-reassign
+            payload.data.repeatNextAt = null; // eslint-disable-line no-param-reassign
           }
 
           cardModel.update(payload.data);

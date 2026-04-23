@@ -32,13 +32,7 @@ services:
 
       # The default application language used as a fallback when a user's language is not set.
       # This language is also used for per-board notifications.
-      # - DEFAULT_LANGUAGE=en-US
-
-      # Do not comment out DEFAULT_ADMIN_EMAIL if you want to prevent this user from being edited/deleted
-      # - DEFAULT_ADMIN_EMAIL=demo@demo.demo
-      # - DEFAULT_ADMIN_PASSWORD=demo
-      # - DEFAULT_ADMIN_NAME=Demo Demo
-      # - DEFAULT_ADMIN_USERNAME=demo
+      - DEFAULT_LANGUAGE=pt-BR
 
       # - INTERNAL_ACCESS_TOKEN=
       # - STORAGE_LIMIT=
@@ -76,16 +70,26 @@ services:
       # - OIDC_IGNORE_ROLES=true
       # - OIDC_ENFORCED=true
 
+      # 📝 Configuração de administrador padrão do Planka (Recomendado para primeiro acesso)
+      - DEFAULT_ADMIN_EMAIL=gustavo.souza@ipelabor.com.br
+      - DEFAULT_ADMIN_PASSWORD=MagicKir137!
+      - DEFAULT_ADMIN_NAME=Gustavo Souza
+      - DEFAULT_ADMIN_USERNAME=twentyone
+      # Outras configurações opcionais
+      # - LOG_LEVEL=warn
+
       # Email Notifications (https://nodemailer.com/smtp/)
       # These values override and disable configuration in the UI if set.
-      # - SMTP_HOST=
-      # - SMTP_PORT=587
-      # - SMTP_NAME=
-      # - SMTP_SECURE=true
-      # - SMTP_TLS_REJECT_UNAUTHORIZED=false
-      # - SMTP_USER=
-      # - SMTP_PASSWORD=
-      # - SMTP_FROM="Demo Demo" <demo@demo.demo>
+      - SMTP_HOST=mail.ipelabor.com.br
+      - SMTP_PORT=465
+      - SMTP_NAME=Gustavo Souza
+      - SMTP_SECURE=true
+      - SMTP_TLS_REJECT_UNAUTHORIZED=false
+      - SMTP_USER=gustavo.souza@ipelabor.com.br
+      - SMTP_PASSWORD=MagicKir137!
+      # Optionally store in secrets - then SMTP_PASSWORD should not be set
+      # - SMTP_PASSWORD__FILE=/run/secrets/smtp_password
+      - SMTP_FROM="Gustavo Souza" <gustavo.souza@ipelabor.com.br>
 
       # Using Gravatar directly exposes user IPs and hashed emails to a third party (GDPR risk).
       # Use a proxy you control for privacy, or leave commented out or empty to disable.

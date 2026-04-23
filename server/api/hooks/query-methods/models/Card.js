@@ -163,6 +163,21 @@ const getByListIds = async (listIds, { sort = ['position', 'id'] } = {}) =>
     { sort },
   );
 
+const getDueToRepeat = async (now, { limit = 50 } = {}) => {
+  const queryResult = await sails.sendNativeQuery(
+    `SELECT *
+     FROM card
+     WHERE repeat_rule IS NOT NULL
+       AND repeat_list_id IS NOT NULL
+       AND repeat_next_at <= $1
+     ORDER BY repeat_next_at ASC
+     LIMIT $2`,
+    [now, limit],
+  );
+
+  return queryResult.rows.map((row) => transformRowToModel(row));
+};
+
 const getOneById = (id, { listId } = {}) => {
   const criteria = {
     id,
@@ -227,6 +242,22 @@ const updateOne = async (criteria, values) => {
   return { card };
 };
 
+const claimRepeater = async (id, repeatNextAt) => {
+  const queryResult = await sails.sendNativeQuery(
+    `UPDATE card
+     SET repeat_next_at = NULL, updated_at = $1
+     WHERE id = $2 AND repeat_next_at = $3
+     RETURNING *`,
+    [new Date().toISOString(), id, repeatNextAt],
+  );
+
+  if (queryResult.rowCount === 0) {
+    return null;
+  }
+
+  return transformRowToModel(queryResult.rows[0]);
+};
+
 // eslint-disable-next-line no-underscore-dangle
 const delete_ = (criteria) => Card.destroy(criteria).fetch();
 
@@ -239,9 +270,11 @@ module.exports = {
   getByListId,
   getByEndlessListId,
   getByListIds,
+  getDueToRepeat,
   getOneById,
   update,
   updateOne,
+  claimRepeater,
   deleteOne,
   delete: delete_,
 };

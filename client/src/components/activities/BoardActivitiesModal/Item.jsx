@@ -44,7 +44,27 @@ const Item = React.memo(({ id }) => {
       const { list } = activity.data;
       const listName = list.name || t(`common.${list.type}`);
 
-      contentNode = (
+      contentNode = activity.data.sourceCard ? (
+        <Trans
+          i18nKey="common.userCopiedCardFromCardToList"
+          values={{
+            user: userName,
+            card: cardName,
+            sourceCard: activity.data.sourceCard.name,
+            list: listName,
+          }}
+        >
+          <span className={styles.author}>{userName}</span>
+          {' copied '}
+          <Link to={Paths.CARDS.replace(':id', activity.cardId)}>{cardName}</Link>
+          {' from '}
+          <Link to={Paths.CARDS.replace(':id', activity.data.sourceCard.id)}>
+            {activity.data.sourceCard.name}
+          </Link>
+          {' to '}
+          {listName}
+        </Trans>
+      ) : (
         <Trans
           i18nKey="common.userAddedCardToList"
           values={{

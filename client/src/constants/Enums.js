@@ -87,6 +87,12 @@ export const CardTypes = {
   STORY: 'story',
 };
 
+export const CardRepeatTypes = {
+  WEEKLY: 'weekly',
+  MONTHLY: 'monthly',
+  YEARLY: 'yearly',
+};
+
 export const AttachmentTypes = {
   FILE: 'file',
   LINK: 'link',

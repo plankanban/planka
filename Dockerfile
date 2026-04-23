@@ -8,8 +8,7 @@ WORKDIR /app
 COPY server/package.json server/package-lock.json server/requirements.txt ./
 COPY server/patches ./patches
 
-RUN npm install npm --global \
-  && npm install --omit=dev
+RUN npm install --omit=dev
 
 FROM node:22 AS client
 
@@ -17,16 +16,14 @@ WORKDIR /app
 
 COPY client .
 
-RUN npm install npm --global \
-  && npm install --omit=dev
+RUN npm install --omit=dev
 
 RUN DISABLE_ESLINT_PLUGIN=true npm run build
 
 FROM node:22-alpine
 
 RUN apk -U upgrade \
-  && apk add bash python3 --no-cache \
-  && npm install npm --global
+  && apk add bash python3 --no-cache
 
 USER node
 WORKDIR /app
