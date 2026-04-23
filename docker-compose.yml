@@ -16,7 +16,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ipelabor/planka:2.1.1-recurring
+    image: ipelabor/planka:2.1.2
     restart: on-failure
 
     volumes:
