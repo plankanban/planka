@@ -79,7 +79,7 @@ module.exports = {
 
     if (!actorUser) {
       await Card.qm.updateOne(card.id, {
-        repeatNextAt,
+        repeatNextAt: nextRepeatAt,
       });
 
       return null;
@@ -97,20 +97,21 @@ module.exports = {
         values: {
           list: repeatList,
           position: (lastCard ? lastCard.position : 0) + POSITION_GAP,
+          name: card.name,
           creatorUser: actorUser,
         },
         includeComments: true,
       });
     } catch (error) {
       await Card.qm.updateOne(card.id, {
-        repeatNextAt,
+        repeatNextAt: nextRepeatAt,
       });
 
       throw error;
     }
 
     const { card: nextCard } = await Card.qm.updateOne(card.id, {
-      repeatNextAt,
+      repeatNextAt: nextRepeatAt,
     });
 
     if (nextCard) {

@@ -48,30 +48,21 @@ exports.seed = async (knex) => {
   if (defaultAdminEmail) {
     const userData = buildUserData();
 
-    let userId;
-    try {
-      [{ id: userId }] = await knex('user_account').insert(
-        {
-          ...userData,
-          email: defaultAdminEmail,
-          subscribeToOwnCards: false,
-          subscribeToCardWhenCommenting: true,
-          turnOffRecentCardHighlighting: false,
-          enableFavoritesByDefault: true,
-          defaultEditorMode: 'wysiwyg',
-          defaultHomeView: 'groupedProjects',
-          defaultProjectsOrder: 'byDefault',
-          createdAt: new Date().toISOString(),
-        },
-        'id',
-      );
-    } catch (error) {
-      /* empty */
-    }
-
-    if (!userId) {
-      await knex('user_account').update(userData).where('email', defaultAdminEmail);
-    }
+    await knex('user_account')
+      .insert({
+        ...userData,
+        email: defaultAdminEmail,
+        subscribeToOwnCards: false,
+        subscribeToCardWhenCommenting: true,
+        turnOffRecentCardHighlighting: false,
+        enableFavoritesByDefault: true,
+        defaultEditorMode: 'wysiwyg',
+        defaultHomeView: 'groupedProjects',
+        defaultProjectsOrder: 'byDefault',
+        createdAt: new Date().toISOString(),
+      })
+      .onConflict('email')
+      .merge(userData);
   }
 
   const internalConfigData = buildInternalConfigData();
