@@ -277,38 +277,43 @@ module.exports = {
       user: values.creatorUser,
     });
 
-    const notificationServices = await NotificationService.qm.getByUserId(notification.userId);
-    const { transporter } = await sails.helpers.utils.makeSmtpTransporter();
+    const notifiableUser = await User.qm.getOneById(notification.userId, {
+      withDeactivated: false,
+    });
 
-    if (notificationServices.length > 0 || transporter) {
-      const notifiableUser = await User.qm.getOneById(notification.userId);
-      const t = sails.helpers.utils.makeTranslator(notifiableUser.language);
+    if (notifiableUser) {
+      const notificationServices = await NotificationService.qm.getByUserId(notification.userId);
+      const { transporter } = await sails.helpers.utils.makeSmtpTransporter();
 
-      if (notificationServices.length > 0) {
-        const services = notificationServices.map((notificationService) =>
-          _.pick(notificationService, ['url', 'format']),
-        );
+      if (notificationServices.length > 0 || transporter) {
+        const t = sails.helpers.utils.makeTranslator(notifiableUser.language);
 
-        buildAndSendNotifications(
-          services,
-          inputs.board,
-          values.card,
-          notification,
-          values.creatorUser,
-          t,
-        );
-      }
+        if (notificationServices.length > 0) {
+          const services = notificationServices.map((notificationService) =>
+            _.pick(notificationService, ['url', 'format']),
+          );
 
-      if (transporter) {
-        buildAndSendEmail(
-          transporter,
-          inputs.board,
-          values.card,
-          notification,
-          values.creatorUser,
-          notifiableUser,
-          t,
-        );
+          buildAndSendNotifications(
+            services,
+            inputs.board,
+            values.card,
+            notification,
+            values.creatorUser,
+            t,
+          );
+        }
+
+        if (transporter) {
+          buildAndSendEmail(
+            transporter,
+            inputs.board,
+            values.card,
+            notification,
+            values.creatorUser,
+            notifiableUser,
+            t,
+          );
+        }
       }
     }
 

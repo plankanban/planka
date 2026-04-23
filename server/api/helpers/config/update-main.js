@@ -23,7 +23,7 @@ module.exports = {
 
     const config = await Config.qm.updateOneMain(values);
 
-    const configRelatedUserIds = await sails.helpers.users.getAllIds(User.Roles.ADMIN);
+    const configRelatedUserIds = await sails.helpers.users.getAllActiveIds(User.Roles.ADMIN);
 
     configRelatedUserIds.forEach((userId) => {
       sails.sockets.broadcast(

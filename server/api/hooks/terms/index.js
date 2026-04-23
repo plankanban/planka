@@ -12,26 +12,37 @@
  */
 
 const fsPromises = require('fs').promises;
+const path = require('path');
 const crypto = require('crypto');
 
-const Types = {
-  GENERAL: 'general',
-  EXTENDED: 'extended',
-};
-
-const LANGUAGES = ['de-DE', 'en-US'];
-const DEFAULT_LANGUAGE = 'en-US';
+const PATH = path.join(sails.config.appPath, 'terms');
+const TEMPLATE_TYPE = '_template';
 
 const hashContent = (content) => crypto.createHash('sha256').update(content).digest('hex');
 
 module.exports = function defineTermsHook(sails) {
-  let signatureByType;
-  let signaturesSet;
+  let type;
+  let languages;
+  let defaultLanguage;
+  let signature;
+
+  const getLanguages = async () => {
+    const entries = await fsPromises.readdir(path.join(PATH, type), {
+      withFileTypes: true,
+    });
+
+    return entries
+      .filter(
+        (entry) => (entry.isFile() || entry.isSymbolicLink()) && path.extname(entry.name) === '.md',
+      )
+      .map((entry) => path.basename(entry.name, '.md'))
+      .sort();
+  };
+
+  const getContent = (language) =>
+    fsPromises.readFile(path.join(PATH, type, `${language}.md`), 'utf8');
 
   return {
-    Types,
-    LANGUAGES,
-
     /**
      * Runs when this Sails app loads/lifts.
      */
@@ -39,49 +50,49 @@ module.exports = function defineTermsHook(sails) {
     async initialize() {
       sails.log.info('Initializing custom hook (`terms`)');
 
-      signatureByType = {
-        [Types.GENERAL]: hashContent(await this.getContent(Types.GENERAL)),
-        [Types.EXTENDED]: hashContent(await this.getContent(Types.EXTENDED)),
-      };
+      type = sails.config.custom.termsType;
 
-      signaturesSet = new Set(Object.values(signatureByType));
+      try {
+        languages = await getLanguages();
+      } catch (error) {
+        /* empty */
+      }
+
+      if (!languages || languages.length === 0) {
+        sails.log.warn('Custom terms not found, falling back to template');
+
+        type = TEMPLATE_TYPE;
+        languages = await getLanguages();
+      }
+
+      defaultLanguage = languages.includes(sails.config.i18n.defaultLocale)
+        ? sails.config.i18n.defaultLocale
+        : languages[0];
+
+      const content = await getContent(defaultLanguage);
+      signature = hashContent(content);
     },
 
-    async getPayload(type, language = DEFAULT_LANGUAGE) {
-      if (!Object.values(Types).includes(type)) {
-        throw new Error(`Unknown type: ${type}`);
+    async getPayload(language) {
+      if (!language || !languages.includes(language)) {
+        language = defaultLanguage; // eslint-disable-line no-param-reassign
       }
 
-      if (!LANGUAGES.includes(language)) {
-        language = DEFAULT_LANGUAGE; // eslint-disable-line no-param-reassign
-      }
+      const content = await getContent(language);
 
       return {
-        type,
         language,
-        content: await this.getContent(type, language),
-        signature: this.getSignatureByType(type),
+        content,
+        signature,
       };
     },
 
-    getTypeByUserRole(userRole) {
-      return userRole === User.Roles.ADMIN ? Types.EXTENDED : Types.GENERAL;
+    getLanguages() {
+      return languages;
     },
 
-    getContent(type, language = DEFAULT_LANGUAGE) {
-      return fsPromises.readFile(`${sails.config.appPath}/terms/${language}/${type}.md`, 'utf8');
-    },
-
-    getSignatureByType(type) {
-      return signatureByType[type];
-    },
-
-    getSignatureByUserRole(userRole) {
-      return signatureByType[this.getTypeByUserRole(userRole)];
-    },
-
-    hasSignature(signature) {
-      return signaturesSet.has(signature);
+    isSignatureValid(value) {
+      return value === signature;
     },
   };
 };

@@ -14,6 +14,8 @@ const IDS_WITH_COMMA_REGEX = /^[1-9][0-9]*(,[1-9][0-9]*)*$/;
 const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
 const CARD_REPEAT_TYPES = ['weekly', 'monthly', 'yearly'];
 
+const is = (defaultValue) => (value) => value === defaultValue;
+
 const isUrl = (value) =>
   validator.isURL(value, {
     protocols: ['http', 'https'],
@@ -111,6 +113,7 @@ module.exports = {
   IDS_WITH_COMMA_REGEX,
   USERNAME_REGEX,
 
+  is,
   isUrl,
   isIdInRange,
   isIdsWithCommaInRange,

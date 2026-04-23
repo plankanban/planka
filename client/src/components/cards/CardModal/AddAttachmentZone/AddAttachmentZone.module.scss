@@ -8,13 +8,18 @@
     background: white;
     font-size: 20px;
     font-weight: bold;
-    height: 100%;
+    inset: 0;
     line-height: 30px;
     opacity: 0.7;
-    padding: 200px 50px;
     position: absolute;
     text-align: center;
-    width: 100%;
     z-index: 2001;
+  }
+
+  .dropzoneText {
+    left: 50%;
+    position: absolute;
+    top: min(200px, 50%);
+    transform: translateX(-50%) translateY(-50%);
   }
 }

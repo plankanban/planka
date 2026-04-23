@@ -54,6 +54,13 @@ authenticateWithOidc.failure = (error, terms) => ({
   },
 });
 
+authenticateWithOidc.debug = (logs) => ({
+  type: ActionTypes.WITH_OIDC_AUTHENTICATE__DEBUG,
+  payload: {
+    logs,
+  },
+});
+
 const clearAuthenticateError = () => ({
   type: ActionTypes.AUTHENTICATE_ERROR_CLEAR,
   payload: {},

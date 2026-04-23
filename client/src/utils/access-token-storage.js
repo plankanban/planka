@@ -8,24 +8,28 @@ import { jwtDecode } from 'jwt-decode';
 
 import Config from '../constants/Config';
 
+const PATH = Config.BASE_PATH || '/';
+
 export const setAccessToken = (accessToken) => {
   const { exp } = jwtDecode(accessToken);
   const expires = new Date(exp * 1000);
 
   Cookies.set(Config.ACCESS_TOKEN_KEY, accessToken, {
     expires,
+    path: PATH,
     secure: window.location.protocol === 'https:',
     sameSite: 'strict',
   });
 
   Cookies.set(Config.ACCESS_TOKEN_VERSION_KEY, Config.ACCESS_TOKEN_VERSION, {
     expires,
+    path: PATH,
   });
 };
 
 export const removeAccessToken = () => {
-  Cookies.remove(Config.ACCESS_TOKEN_KEY);
-  Cookies.remove(Config.ACCESS_TOKEN_VERSION_KEY);
+  Cookies.remove(Config.ACCESS_TOKEN_KEY, { path: PATH });
+  Cookies.remove(Config.ACCESS_TOKEN_VERSION_KEY, { path: PATH });
 };
 
 export const getAccessToken = () => {

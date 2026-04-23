@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # 1. SERVIÇO DE TUNELAMENTO SSH DEDICADO (Mantido, assumindo que é necessário para outro serviço)
+  # 1. SERVICO DE TUNELAMENTO SSH DEDICADO (mantido para o ambiente Ipelabor)
   ssh_tunnel:
     build:
       context: .
@@ -13,14 +13,20 @@ services:
 
   planka:
     container_name: planka
-    image: ghcr.io/plankanban/planka:2.0.0-rc.4
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ipelabor/planka:2.1.1-recurring
     restart: on-failure
 
     volumes:
-      - favicons:/app/public/favicons
-      - user-avatars:/app/public/user-avatars
-      - background-images:/app/public/background-images
-      - attachments:/app/private/attachments
+      - data:/app/data
+      # Reuse the legacy volumes at the new PLANKA 2.1+ data paths.
+      - favicons:/app/data/protected/favicons
+      - user-avatars:/app/data/protected/user-avatars
+      - background-images:/app/data/protected/background-images
+      - attachments:/app/data/private/attachments
+      # - ./terms:/app/terms/custom
 
     ports:
       - 7002:1337
@@ -28,19 +34,17 @@ services:
     environment:
       - BASE_URL=http://ipelabor.sytes.net:7002
 
-      # 🚀 MUDANÇA CRÍTICA: DATABASE_URL APONTANDO PARA O SERVIDOR EXTERNO
-      # Formato: postgresql://user:password@host:port/database
-      # Usando 'root', 'q1w2e3', 'ipelabor.sytes.net', porta '7432' e 'planka' (BD padrão)
+      # DATABASE_URL apontando para o servidor externo
       - DATABASE_URL=postgresql://root:q1w2e3@ipelabor.sytes.net:7432/planka
 
       - SECRET_KEY=8A5kLzTq9oPj1fGyC4hR2sXbN7vM3uW6eD0iFaE5gB9cJxK7lY8mZ4pV6rS3tQ2wU1
 
-      # 📝 Configuração de administrador padrão do Planka (Recomendado para primeiro acesso)
+      # Configuracao de administrador padrao do Planka
       - DEFAULT_ADMIN_EMAIL=gustavo.souza@ipelabor.com.br
       - DEFAULT_ADMIN_PASSWORD=MagicKir137!
       - DEFAULT_ADMIN_NAME=Gustavo Souza
       - DEFAULT_ADMIN_USERNAME=twentyone
-      # Outras configurações opcionais
+      # Outras configuracoes opcionais
       # - LOG_LEVEL=warn
 
       # Email Notifications (https://nodemailer.com/smtp/)
@@ -59,11 +63,10 @@ services:
     depends_on:
       ssh_tunnel:
         condition: service_started
-      # 💥 DEPENDÊNCIA DO POSTGRES LOCAL REMOVIDA
 
-      # Definição dos volumes para persistência de arquivos do Planka
 volumes:
+  data:
   favicons:
   user-avatars:
   background-images:
-  attachments: # 💥 VOLUME 'db-data' REMOVIDO
+  attachments:

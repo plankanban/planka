@@ -75,7 +75,7 @@ const NotificationServices = React.memo(({ ids, onCreate }) => {
       <Message>
         <Trans i18nKey="common.plankaUsesAppriseToSendNotificationsToOver100PopularServices">
           {'PLANKA uses '}
-          <a href="https://github.com/caronc/apprise/wiki" target="_blank" rel="noreferrer">
+          <a href="https://appriseit.com/services/" target="_blank" rel="noreferrer">
             <b>Apprise</b>
           </a>
           {' to send notifications to over 100 popular services.'}

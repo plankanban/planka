@@ -6,7 +6,6 @@ export default {
         'Wymagane logowanie administratora do inicjalizacji instancji',
       emailAlreadyInUse: 'E-mail jest już używany',
       emailOrUsername: 'E-mail lub nazwa użytkownika',
-      iHaveReadAndAgreeToTheseTerms: 'Przeczytałem i zgadzam się z tymi warunkami',
       invalidCredentials: 'Błędne dane logowania',
       invalidEmailOrUsername: 'Błędny e-mail lub nazwa użytkownika',
       invalidPassword: 'Błędne hasło',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Anuluj i zamknij',
       continue: 'Kontynuuj',
+      debugSso: 'Debuguj SSO',
       goBack: 'Wróć',
       goHome: 'Idź do domu',
       logIn: 'Zaloguj',

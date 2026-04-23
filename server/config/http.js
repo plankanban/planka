@@ -9,6 +9,9 @@
  * https://sailsjs.com/config/http
  */
 
+const serveStatic = require('serve-static');
+const sails = require('sails');
+
 module.exports.http = {
   /**
    *
@@ -50,5 +53,14 @@ module.exports.http = {
     // })(),
 
     poweredBy: false,
+
+    www(req, res, next) {
+      const middleware = serveStatic(sails.config.paths.public, {
+        maxAge: sails.config.http.cache,
+        immutable: req.url.startsWith('/assets/'),
+      });
+
+      return middleware(req, res, next);
+    },
   },
 };

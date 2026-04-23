@@ -24,7 +24,6 @@
  *         - avatar
  *         - phone
  *         - organization
- *         - termsType
  *         - isDeactivated
  *         - createdAt
  *         - updatedAt
@@ -77,7 +76,7 @@
  *                 cover180:
  *                   type: string
  *                   format: uri
- *                   description: URL for 180px cover thumbnail
+ *                   description: URL for 180px thumbnail version
  *                   example: https://storage.example.com/user-avatars/1357158568008091264/cover-180.jpg
  *         gravatarUrl:
  *           type: string
@@ -88,7 +87,7 @@
  *           type: string
  *           nullable: true
  *           description: Contact phone number
- *           example: +1234567890
+ *           example: "+1234567890"
  *         organization:
  *           type: string
  *           nullable: true
@@ -96,7 +95,7 @@
  *           example: Acme Corporation
  *         language:
  *           type: string
- *           enum: [ar-YE, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *           enum: [ar-YE, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, vi-VN, zh-CN, zh-TW]
  *           nullable: true
  *           description: Preferred language for user interface and notifications (personal field)
  *           example: en-US
@@ -122,9 +121,9 @@
  *           example: false
  *         enableFavoritesByDefault:
  *           type: boolean
- *           default: false
+ *           default: true
  *           description: Whether favorites are enabled by default (personal field)
- *           example: false
+ *           example: true
  *         defaultEditorMode:
  *           type: string
  *           enum: [wysiwyg, markup]
@@ -143,10 +142,6 @@
  *           default: byDefault
  *           description: Default sort order for projects display (personal field)
  *           example: byDefault
- *         termsType:
- *           type: string
- *           description: Type of terms applicable to the user based on role
- *           example: general
  *         isSsoUser:
  *           type: boolean
  *           default: false
@@ -237,6 +232,7 @@ const LANGUAGES = [
   'tr-TR',
   'uk-UA',
   'uz-UZ',
+  'vi-VN',
   'zh-CN',
   'zh-TW',
 ];
@@ -355,7 +351,7 @@ module.exports = {
     },
     enableFavoritesByDefault: {
       type: 'boolean',
-      defaultsTo: false,
+      defaultsTo: true,
       columnName: 'enable_favorites_by_default',
     },
     defaultEditorMode: {

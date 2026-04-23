@@ -71,7 +71,7 @@ class Scoper {
 
   async getAdminUserIds() {
     if (!this.adminUserIds) {
-      this.adminUserIds = await sails.helpers.users.getAllIds(User.Roles.ADMIN);
+      this.adminUserIds = await sails.helpers.users.getAllActiveIds(User.Roles.ADMIN);
     }
 
     return this.adminUserIds;

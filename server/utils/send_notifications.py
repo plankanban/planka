@@ -7,6 +7,18 @@ import logging
 import apprise
 
 
+BLOCKED_SCHEMAS_SET = {
+    'syslog',
+    'dbus',
+    'kde',
+    'qt',
+    'glib',
+    'gnome',
+    'macosx',
+    'windows',
+}
+
+
 last_apprise_message = None
 class CaptureWarningHandler(logging.Handler):
     def emit(self, record):
@@ -34,8 +46,15 @@ if __name__ == '__main__':
     title = sys.argv[2]
     body_by_format = json.loads(sys.argv[3])
 
+    errors = []
     for service in services:
         url = service['url']
+        schema = url.split(':')[0]
+
+        if schema in BLOCKED_SCHEMAS_SET:
+            errors.append(f'[{schema}] Blocked service schema')
+            continue
+
         body_format = service['format']
         body = body_by_format[body_format]
 
@@ -43,10 +62,14 @@ if __name__ == '__main__':
         if not send_notification(url, title, body, body_format):
             if last_apprise_message:
                 if last_apprise_message == 'There are no service(s) to notify':
-                    sys.stderr.write('Unknown service URL')
+                    errors.append(f'[{schema}] Unknown service URL')
                 else:
-                    sys.stderr.write(last_apprise_message)
+                    errors.append(f'[{schema}] {last_apprise_message}')
             else:
-                sys.stderr.write('Unknown error')
+                errors.append(f'[{schema}] Unknown error')
 
-            sys.exit(1)
+    if errors:
+        for error in errors:
+            print(error, file=sys.stderr)
+
+        sys.exit(1)

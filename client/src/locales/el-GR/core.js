@@ -20,7 +20,8 @@ export default {
 
   translation: {
     common: {
-      aboutPlanka: 'Σχετικά με το PLANKA',
+      aboutApp_title: 'Σχετικά με την εφαρμογή',
+      aboutPlanka_title: 'Σχετικά με το PLANKA',
       accessToken: 'Διακριτικό πρόσβασης',
       account: 'Λογαριασμός',
       actions: 'Ενέργειες',
@@ -99,6 +100,8 @@ export default {
         'Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτόν τον διαχειριστή από το έργο;',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Είστε σίγουροι ότι θέλετε να αφαιρέσετε αυτό το μέλος από τον πίνακα;',
+      areYouSureYouWantToUnlinkSsoFromThisUser:
+        'Είστε σίγουροι ότι θέλετε να αποσυνδέσετε το SSO από αυτόν τον χρήστη; Αυτό θα επιτρέψει στον χρήστη να συνδεθεί με κωδικό πρόσβασης.',
       assignAsOwner_title: 'Ορισμός ως ιδιοκτήτης',
       atLeastOneListMustBePresent: 'Πρέπει να υπάρχει τουλάχιστον μία λίστα',
       attachment: 'Συνημμένο',
@@ -154,6 +157,15 @@ export default {
       customFieldGroups_title: 'Ομάδες προσαρμοσμένων πεδίων',
       customField_title: 'Προσαρμοσμένο πεδίο',
       customFields_title: 'Προσαρμοσμένα πεδία',
+      discoverPlankaPro:
+        '✨ Περισσότερες λειτουργίες για τους πίνακές σας: Ανακαλύψτε το PLANKA Pro',
+      discoverPlankaPro_title: 'Ανακαλύψτε το PLANKA Pro',
+      upgradeTeamToPro_title: 'Αναβαθμίστε την ομάδα σε Pro',
+      proFeatureCalendar: '✨ Προβολή ημερολογίου για τους πίνακές σας',
+      proFeatureRecurringCards: '✨ Επαναλαμβανόμενες κάρτες και αυτοματισμός',
+      proFeatureGuestRoles: '✨ Ρόλοι επισκεπτών και εξωτερική συνεργασία',
+      dismissProBannerFor30Days: 'Κλείσιμο για 30 ημέρες',
+      customerPanel_title: 'Πίνακας πελάτη',
       dangerZone_title: 'Επικίνδυνη ζώνη',
       date: 'Ημερομηνία',
       deactivateUser_title: 'Απενεργοποίηση χρήστη',
@@ -182,6 +194,7 @@ export default {
       deletedUser_title: 'Διαγραμμένος χρήστης',
       description: 'Περιγραφή',
       display: 'Εμφάνιση',
+      displayCardAges: 'Εμφάνιση ηλικίας καρτών',
       dropFileToUpload: 'Σύρετε το αρχείο για μεταφόρτωση',
       dueDate_title: 'Ημερομηνία λήξης',
       dynamicAndUnevenlySpacedLayout: 'Δυναμική και άνισα κατανεμημένη διάταξη.',
@@ -317,6 +330,10 @@ export default {
       showOnFrontOfCard: 'Εμφάνιση στο μπροστινό μέρος της κάρτας',
       smtp: 'SMTP',
       sortList_title: 'Ταξινόμηση λίστας',
+      sourceCardIsNoLongerAvailableForCopying:
+        'Η κάρτα πηγής δεν είναι πλέον διαθέσιμη για αντιγραφή.',
+      sourceCardIsNoLongerAvailableForMoving:
+        'Η κάρτα πηγής δεν είναι πλέον διαθέσιμη για μετακίνηση.',
       stopwatch: 'Χρονόμετρο',
       story: 'Ιστορία',
       subscribeToCardWhenCommenting: 'Εγγραφή στην κάρτα κατά τη σχολιασμό',
@@ -326,7 +343,7 @@ export default {
       taskListActions_title: 'Ενέργειες λίστας εργασιών',
       taskList_title: 'Λίστα εργασιών',
       team: 'Ομάδα',
-      terms: 'Όροι',
+      termsOfService_title: 'Όροι χρήσης',
       testLog_title: 'Αρχείο καταγραφής δοκιμών',
       thereIsNoPreviewAvailableForThisAttachment:
         'Δεν υπάρχει διαθέσιμη προεπισκόπηση για αυτό το συνημμένο.',
@@ -337,6 +354,7 @@ export default {
       turnOffRecentCardHighlighting: 'Απενεργοποίηση επισήμανσης πρόσφατων καρτών',
       typeNameToConfirm: 'Πληκτρολογήστε το όνομα για επιβεβαίωση.',
       typeTitleToConfirm: 'Πληκτρολογήστε τον τίτλο για επιβεβαίωση.',
+      unlinkSso_title: 'Αποσύνδεση SSO',
       unsavedChanges: 'Μη αποθηκευμένες αλλαγές',
       uploadFailedFileIsTooBig: 'Η μεταφόρτωση απέτυχε: το αρχείο είναι πολύ μεγάλο.',
       uploadFailedNotEnoughStorageSpace:
@@ -382,6 +400,7 @@ export default {
       viewers: 'Θεατές',
       visualTaskManagementWithLists: 'Οπτική διαχείριση εργασιών με λίστες.',
       webhooks: 'Webhooks',
+      whatsNew_title: 'Τι νέο υπάρχει',
       withoutBaseGroup: 'Χωρίς βασική ομάδα',
       writeComment: 'Γράψτε ένα σχόλιο...',
     },
@@ -412,6 +431,8 @@ export default {
       archiveCards_title: 'Αρχειοθέτηση καρτών',
       assignAsOwner: 'Ορισμός ως ιδιοκτήτης',
       cancel: 'Ακύρωση',
+      copy: 'Αντιγραφή',
+      copyCard_title: 'Αντιγραφή κάρτας',
       createApiKey: 'Δημιουργία κλειδιού API',
       createBoard: 'Δημιουργία πίνακα',
       createCustomFieldGroup: 'Δημιουργία ομάδας προσαρμοσμένων πεδίων',
@@ -419,6 +440,8 @@ export default {
       createLabel: 'Δημιουργία ετικέτας',
       createNewLabel: 'Δημιουργία νέας ετικέτας',
       createProject: 'Δημιουργία έργου',
+      cut: 'Αποκοπή',
+      cutCard_title: 'Αποκοπή κάρτας',
       deactivateUser: 'Απενεργοποίηση χρήστη',
       deactivateUser_title: 'Απενεργοποίηση χρήστη',
       delete: 'Διαγραφή',
@@ -452,6 +475,7 @@ export default {
       download: 'Λήψη',
       duplicateCard_title: 'Διπλασιασμός κάρτας',
       edit: 'Επεξεργασία',
+      editAvatar_title: 'Επεξεργασία avatar',
       editColor_title: 'Επεξεργασία χρώματος',
       editDescription_title: 'Επεξεργασία περιγραφής',
       editDueDate_title: 'Επεξεργασία ημερομηνίας λήξης',
@@ -505,6 +529,8 @@ export default {
       start: 'Έναρξη',
       stop: 'Διακοπή',
       subscribe: 'Εγγραφή',
+      unlinkSso: 'Αποσύνδεση SSO',
+      unlinkSso_title: 'Αποσύνδεση SSO',
       unsubscribe: 'Απεγγραφή',
       uploadNewAvatar: 'Μεταφόρτωση νέου avatar',
       uploadNewImage: 'Μεταφόρτωση νέας εικόνας',

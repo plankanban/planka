@@ -4,6 +4,7 @@
  */
 
 import history from '../../history';
+import Config from '../../constants/Config';
 
 const SAME_SITE_CLASS = 'same-site';
 
@@ -30,7 +31,9 @@ function process(token, nextToken) {
     return;
   }
 
-  const isSameSite = url.origin === window.location.origin;
+  const isSameSite =
+    url.origin === window.location.origin && url.pathname.startsWith(Config.BASE_PATH);
+
   const trimOrigin = isSameSite && nextToken.type === 'text' && nextToken.content === href;
 
   if (isSameSite) {

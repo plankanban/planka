@@ -131,24 +131,14 @@ lib-cov
 
 swagger.json
 
-public/*
-!public/preloaded-favicons
-!public/favicons
-public/favicons/*
-!public/favicons/.gitkeep
-!public/user-avatars
-public/user-avatars/*
-!public/user-avatars/.gitkeep
-!public/background-images
-public/background-images/*
-!public/background-images/.gitkeep
-
-private/*
-!private/attachments
-private/attachments/*
-!private/attachments/.gitkeep
-
-views/*
-!views/.gitkeep
-
+dist
 logs
+
+views/index.ejs
+
+data/*
+!data/.gitkeep
+
+terms/*
+!terms/_template
+!terms/cloud

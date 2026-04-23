@@ -69,7 +69,7 @@ export default class extends BaseModel {
           .toModelArray()
           .forEach((projectModel) => {
             if (!payload.projectIds.includes(projectModel.id)) {
-              projectModel.deleteWithRelated();
+              projectModel.deleteWithRelated(true);
             }
           });
 
@@ -97,11 +97,11 @@ export default class extends BaseModel {
           if (payload.isAvailable) {
             projectModel.boards.toModelArray().forEach((boardModel) => {
               if (!payload.boardIds.includes(boardModel.id)) {
-                boardModel.deleteWithRelated();
+                boardModel.deleteWithRelated(true);
               }
             });
           } else {
-            projectModel.deleteWithRelated();
+            projectModel.deleteWithRelated(true);
           }
         }
 
@@ -134,11 +134,11 @@ export default class extends BaseModel {
                   boardModel.notificationServices.delete();
                 }
               } else {
-                boardModel.deleteWithRelated();
+                boardModel.deleteWithRelated(true);
               }
             });
           } else {
-            projectModel.deleteWithRelated();
+            projectModel.deleteWithRelated(true);
           }
         }
 
@@ -153,7 +153,7 @@ export default class extends BaseModel {
           const projectModel = Project.withId(payload.boardMembership.projectId);
 
           if (projectModel) {
-            projectModel.deleteWithRelated();
+            projectModel.deleteWithRelated(true);
           }
         }
 
@@ -231,7 +231,7 @@ export default class extends BaseModel {
     );
   }
 
-  deleteRelated() {
+  deleteRelated(soft) {
     this.managers.delete();
 
     this.backgroundImages.toModelArray().forEach((backgroundImageModel) => {
@@ -243,12 +243,12 @@ export default class extends BaseModel {
     });
 
     this.boards.toModelArray().forEach((boardModel) => {
-      boardModel.deleteWithRelated();
+      boardModel.deleteWithRelated(soft);
     });
   }
 
-  deleteWithRelated() {
-    this.deleteRelated();
+  deleteWithRelated(soft) {
+    this.deleteRelated(soft);
     this.delete();
   }
 }

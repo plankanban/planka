@@ -80,6 +80,7 @@ const MarkdownEditor = React.forwardRef(
       md: {
         breaks: true,
         linkify: true,
+        linkifyTlds: null,
       },
       handlers: {
         uploadFile: fileUploadHandler,
@@ -90,6 +91,11 @@ const MarkdownEditor = React.forwardRef(
             actions: commandMenuActions,
           },
         },
+        searchPanel: false, // TODO: cancel event does not fire when enabled
+      },
+      // TODO: remove once both search panels are enabled and locales are synced
+      markupConfig: {
+        searchPanel: false,
       },
       initial: {
         markup: defaultValue,

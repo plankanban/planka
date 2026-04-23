@@ -6,7 +6,6 @@ export default {
         'Administratörsinloggning krävs för att initiera instansen',
       emailAlreadyInUse: 'E-mail används redan',
       emailOrUsername: 'E-mail eller användarnamn',
-      iHaveReadAndAgreeToTheseTerms: 'Jag har läst och godkänner dessa villkor',
       invalidCredentials: 'Ogiltiga inloggningsuppgifter',
       invalidEmailOrUsername: 'Ogiltig e-mail eller användarnamn',
       invalidPassword: 'Ogiltigt lösenord',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Avbryt och stäng',
       continue: 'Fortsätt',
+      debugSso: 'Felsök SSO',
       goBack: 'Gå tillbaka',
       goHome: 'Gå hem',
       logIn: 'Logga in',

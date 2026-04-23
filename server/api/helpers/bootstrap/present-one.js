@@ -7,6 +7,10 @@ module.exports = {
   sync: true,
 
   inputs: {
+    internalConfig: {
+      type: 'ref',
+      required: true,
+    },
     oidc: {
       type: 'ref',
     },
@@ -18,10 +22,19 @@ module.exports = {
   fn(inputs) {
     const data = {
       oidc: inputs.oidc,
+      termsLanguages: sails.hooks.terms.getLanguages(),
       version: sails.config.custom.version,
     };
+
     if (inputs.user && inputs.user.role === User.Roles.ADMIN) {
-      data.activeUsersLimit = sails.config.custom.activeUsersLimit;
+      Object.assign(data, {
+        activeUsersLimit: inputs.internalConfig.activeUsersLimit,
+        customerPanelUrl: sails.config.custom.customerPanelUrl,
+      });
+    }
+
+    if (sails.config.custom.demoMode) {
+      data.isDemoMode = true;
     }
 
     return data;

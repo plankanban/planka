@@ -4,6 +4,7 @@
  */
 
 const fs = require('fs');
+const mime = require('mime-types');
 const {
   CopyObjectCommand,
   DeleteObjectsCommand,
@@ -13,6 +14,7 @@ const {
   ListObjectsV2Command,
   PutObjectCommand,
 } = require('@aws-sdk/client-s3');
+const { Upload } = require('@aws-sdk/lib-storage');
 
 class S3FileManager {
   constructor(client) {
@@ -31,24 +33,54 @@ class S3FileManager {
     return null;
   }
 
-  async save(filePathSegment, buffer, contentType) {
-    const command = new PutObjectCommand({
-      Bucket: sails.config.custom.s3Bucket,
-      Key: filePathSegment,
-      Body: buffer,
-      ContentType: contentType,
+  async save(filePathSegment, stream, contentType) {
+    const upload = new Upload({
+      client: this.client,
+      params: {
+        Bucket: sails.config.custom.s3Bucket,
+        Key: filePathSegment,
+        Body: stream,
+        ContentType: contentType,
+      },
     });
 
-    await this.client.send(command);
+    await upload.done();
   }
 
-  async read(filePathSegment) {
+  async read(filePathSegment, { withHeaders = false } = {}) {
     const command = new GetObjectCommand({
       Bucket: sails.config.custom.s3Bucket,
       Key: filePathSegment,
     });
 
     const result = await this.client.send(command);
+
+    if (withHeaders) {
+      const headers = {
+        'Content-Type':
+          result.ContentType || mime.lookup(filePathSegment) || 'application/octet-stream',
+        'Accept-Ranges': result.AcceptRanges || 'bytes',
+      };
+
+      if (!_.isUndefined(result.ContentLength)) {
+        headers['Content-Length'] = result.ContentLength;
+      }
+
+      if (!_.isUndefined(result.LastModified)) {
+        headers['Last-Modified'] = result.LastModified.toUTCString();
+      }
+
+      if (_.isUndefined(result.ETag)) {
+        if (!_.isUndefined(result.ContentLength) && !_.isUndefined(result.LastModified)) {
+          headers.ETag = `W/"${result.ContentLength.toString(16)}-${result.LastModified.getTime().toString(16)}"`;
+        }
+      } else {
+        headers.ETag = result.ETag;
+      }
+
+      return [result.Body, headers];
+    }
+
     return result.Body;
   }
 
@@ -192,10 +224,10 @@ class S3FileManager {
     return !!result.Contents && result.Contents.length === 1;
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  /* // eslint-disable-next-line class-methods-use-this
   buildUrl(filePathSegment) {
     return `${sails.hooks.s3.getBaseUrl()}/${filePathSegment}`;
-  }
+  } */
 }
 
 module.exports = S3FileManager;

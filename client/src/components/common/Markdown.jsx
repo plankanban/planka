@@ -18,6 +18,7 @@ const Markdown = React.memo(({ children }) => {
         plugins,
         breaks: true,
         linkify: true,
+        linkifyTlds: null,
         sanitizeOptions: {
           ...defaultSanitizeOptions,
           allowedSchemesByTag: { img: ['http', 'https', 'data'] },

@@ -135,7 +135,7 @@ const transferCurrentCard = (boardId, listId, index = 0) => ({
   },
 });
 
-const duplicateCard = (id, data) => ({
+const duplicateCard = (id, data = {}) => ({
   type: EntryActionTypes.CARD_DUPLICATE,
   payload: {
     id,
@@ -143,11 +143,42 @@ const duplicateCard = (id, data) => ({
   },
 });
 
-const duplicateCurrentCard = (data) => ({
+const duplicateCurrentCard = (data = {}) => ({
   type: EntryActionTypes.CURRENT_CARD_DUPLICATE,
   payload: {
     data,
   },
+});
+
+const copyCard = (id) => ({
+  type: EntryActionTypes.CARD_COPY,
+  payload: {
+    id,
+  },
+});
+
+const cutCard = (id) => ({
+  type: EntryActionTypes.CARD_CUT,
+  payload: {
+    id,
+  },
+});
+
+const pasteCard = (listId) => ({
+  type: EntryActionTypes.CARD_PASTE,
+  payload: {
+    listId,
+  },
+});
+
+const pasteCardInCurrentContext = () => ({
+  type: EntryActionTypes.CARD_IN_CURRENT_CONTEXT_PASTE,
+  payload: {},
+});
+
+const pasteCardInCurrentList = () => ({
+  type: EntryActionTypes.CARD_IN_CURRENT_LIST_PASTE,
+  payload: {},
 });
 
 const goToAdjacentCard = (direction) => ({
@@ -196,6 +227,11 @@ export default {
   transferCurrentCard,
   duplicateCard,
   duplicateCurrentCard,
+  copyCard,
+  cutCard,
+  pasteCard,
+  pasteCardInCurrentContext,
+  pasteCardInCurrentList,
   goToAdjacentCard,
   deleteCard,
   deleteCurrentCard,

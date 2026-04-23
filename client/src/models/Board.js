@@ -31,6 +31,7 @@ export default class extends BaseModel {
     defaultCardType: attr(),
     limitCardTypesToDefaultOne: attr(),
     alwaysDisplayCardCreator: attr(),
+    displayCardAges: attr(),
     expandTaskListsByDefault: attr(),
     context: attr(),
     view: attr(),
@@ -115,7 +116,7 @@ export default class extends BaseModel {
                 isFetching: null,
               });
 
-              boardModel.deleteRelated(payload.currentUserId);
+              boardModel.deleteRelated(payload.currentUserId, true);
             }
           });
 
@@ -135,7 +136,7 @@ export default class extends BaseModel {
           .toModelArray()
           .forEach((boardModel) => {
             if (!payload.boardIds.includes(boardModel.id)) {
-              boardModel.deleteWithRelated();
+              boardModel.deleteWithRelated(true);
             }
           });
 
@@ -434,9 +435,9 @@ export default class extends BaseModel {
     );
   }
 
-  deleteListsWithRelated() {
+  deleteListsWithRelated(soft) {
     this.lists.toModelArray().forEach((listModel) => {
-      listModel.deleteWithRelated();
+      listModel.deleteWithRelated(soft);
     });
   }
 
@@ -445,7 +446,7 @@ export default class extends BaseModel {
     this.filterLabels.clear();
   }
 
-  deleteRelated(exceptMemberUserId) {
+  deleteRelated(exceptMemberUserId, soft) {
     this.deleteClearable();
 
     this.memberships.toModelArray().forEach((boardMembershipModel) => {
@@ -458,7 +459,7 @@ export default class extends BaseModel {
       labelModel.deleteWithRelated();
     });
 
-    this.deleteListsWithRelated();
+    this.deleteListsWithRelated(soft);
     this.notificationServices.delete();
   }
 
@@ -467,8 +468,8 @@ export default class extends BaseModel {
     this.delete();
   }
 
-  deleteWithRelated() {
-    this.deleteRelated();
+  deleteWithRelated(soft) {
+    this.deleteRelated(undefined, soft);
     this.delete();
   }
 }

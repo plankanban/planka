@@ -1,50 +1,52 @@
-FROM node:22-alpine AS server-dependencies
+# Stage 1: Server build
+FROM node:22-alpine AS server
 
 RUN apk -U upgrade \
   && apk add build-base python3 --no-cache
 
 WORKDIR /app
 
-COPY server/package.json server/package-lock.json server/requirements.txt ./
-COPY server/patches ./patches
+COPY server .
 
-RUN npm install --omit=dev
+RUN npm install \
+  && npm run build \
+  && npm prune --production
 
+# Stage 2: Client build
 FROM node:22 AS client
 
 WORKDIR /app
 
 COPY client .
 
-RUN npm install --omit=dev
+RUN npm install --omit=dev \
+  && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build
 
-RUN DISABLE_ESLINT_PLUGIN=true npm run build
-
+# Stage 3: Final image
 FROM node:22-alpine
 
 RUN apk -U upgrade \
-  && apk add bash python3 --no-cache
+  && apk add bash python3 squid --no-cache
 
 USER node
 WORKDIR /app
 
-COPY --chown=node:node server .
+COPY --chown=node:node LICENSE.md .
+COPY --chown=node:node ["LICENSES/PLANKA Community License DE.md", "LICENSE_DE.md"]
 
-RUN python3 -m venv .venv \
-  && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
-  && mv .env.sample .env \
-  && npm config set update-notifier false
-
-COPY --from=server-dependencies --chown=node:node /app/node_modules node_modules
+COPY --from=server --chown=node:node /app/node_modules node_modules
+COPY --from=server --chown=node:node /app/dist .
 
 COPY --from=client --chown=node:node /app/dist public
-COPY --from=client --chown=node:node /app/dist/index.html views
 
-VOLUME /app/public/favicons
-VOLUME /app/public/user-avatars
-VOLUME /app/public/background-images
-VOLUME /app/private/attachments
+RUN python3 -m venv .venv \
+  && .venv/bin/pip3 install --upgrade pip \
+  && .venv/bin/pip3 install -r requirements.txt --no-cache-dir \
+  && mv .env.sample .env \
+  && mv public/index.ejs views \
+  && npm config set update-notifier false
 
+VOLUME /app/data
 EXPOSE 1337
 
 HEALTHCHECK --interval=10s --timeout=2s --start-period=15s \

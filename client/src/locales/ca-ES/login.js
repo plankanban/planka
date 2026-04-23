@@ -6,7 +6,6 @@ export default {
         "Es requereix inici de sessió d'administrador per inicialitzar la instància",
       emailAlreadyInUse: 'Correu electrònic ja en ús',
       emailOrUsername: "Correu electrònic o nom d'usuari",
-      iHaveReadAndAgreeToTheseTerms: 'He llegit i accepto aquests termes',
       invalidCredentials: 'Credencials no vàlides',
       invalidEmailOrUsername: "Correu electrònic o nom d'usuari no vàlid",
       invalidPassword: 'Contrasenya no vàlida',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Cancel·lar i tancar',
       continue: 'Continuar',
+      debugSso: 'Depurar SSO',
       goBack: 'Tornar',
       goHome: "Anar a l'inici",
       logIn: 'Iniciar sessió',

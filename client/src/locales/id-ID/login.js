@@ -6,7 +6,6 @@ export default {
         'Login admin diperlukan untuk menginisialisasi instance',
       emailAlreadyInUse: 'E-mail telah digunakan',
       emailOrUsername: 'E-mail atau username',
-      iHaveReadAndAgreeToTheseTerms: 'Saya telah membaca dan menyetujui syarat-syarat ini',
       invalidCredentials: 'Kredensial tidak valid',
       invalidEmailOrUsername: 'E-mail atau username salah',
       invalidPassword: 'Kata sandi salah',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Batal dan tutup',
       continue: 'Lanjutkan',
+      debugSso: 'Debug SSO',
       goBack: 'Kembali',
       goHome: 'Ke beranda',
       logIn: 'Masuk',

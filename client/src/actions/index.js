@@ -5,6 +5,7 @@
 
 import router from './router';
 import socket from './socket';
+import bootstrap from './bootstrap';
 import login from './login';
 import core from './core';
 import modals from './modals';
@@ -34,6 +35,7 @@ import notificationServices from './notification-services';
 export default {
   ...router,
   ...socket,
+  ...bootstrap,
   ...login,
   ...core,
   ...modals,

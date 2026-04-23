@@ -12,6 +12,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install client dependencies
+        run: npm install --omit=dev
+        working-directory: ./client
+
+      - name: Build client
+        run: |
+          INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build
+          mv dist build
+        working-directory: ./client
+
+      - name: Update Dockerfile to use prebuilt client
+        run: |
+          sed -i '/^FROM node:22 AS client/,/^  && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build$/c\
+          FROM node:22 AS client\n\
+          WORKDIR /app\n\
+          COPY client/build /app/dist' Dockerfile
+          cat Dockerfile
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -40,6 +64,10 @@ jobs:
             name=ghcr.io/${{ github.repository }}
           tags: |
             type=raw,value=${{ steps.set-version.outputs.result }}
+            type=raw,value=latest
+          labels: |
+            org.opencontainers.image.licenses=Fair Use License
+            org.opencontainers.image.url=https://planka.app
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4

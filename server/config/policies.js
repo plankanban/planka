@@ -42,10 +42,15 @@ module.exports.policies = {
 
   'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],
 
+  '_internal/update-config': ['is-authenticated', 'is-internal'],
+
+  index: true,
+  'swagger/show': true,
   'bootstrap/show': true,
   'terms/show': true,
   'access-tokens/create': true,
   'access-tokens/exchange-with-oidc': true,
+  'access-tokens/debug-oidc': true,
   'access-tokens/accept-terms': true,
   'access-tokens/revoke-pending-token': true,
 };
