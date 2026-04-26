@@ -111,6 +111,10 @@ module.exports.custom = {
   smtpPassword: process.env.SMTP_PASSWORD,
   smtpFrom: process.env.SMTP_FROM,
 
+  appriseEnabled: process.env.APPRISE_ENABLED !== 'false',
+  appriseAllowedSchemas: envToArray(process.env.APPRISE_ALLOWED_SCHEMAS),
+  appriseBlockedSchemas: envToArray(process.env.APPRISE_BLOCKED_SCHEMAS),
+
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
 
   /* Internal */
