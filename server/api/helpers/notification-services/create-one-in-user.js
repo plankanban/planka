@@ -19,11 +19,28 @@ module.exports = {
   },
 
   exits: {
+    appriseDisabled: {},
+    schemaNotAllowed: {},
     limitReached: {},
   },
 
   async fn(inputs) {
     const { values } = inputs;
+    const { appriseEnabled, appriseAllowedSchemas, appriseBlockedSchemas } = sails.config.custom;
+
+    if (!appriseEnabled) {
+      throw 'appriseDisabled';
+    }
+
+    const schema = values.url.split(':')[0];
+
+    if (appriseAllowedSchemas.length > 0 && !appriseAllowedSchemas.includes(schema)) {
+      throw 'schemaNotAllowed';
+    }
+
+    if (appriseAllowedSchemas.length === 0 && appriseBlockedSchemas.includes(schema)) {
+      throw 'schemaNotAllowed';
+    }
 
     const notificationServicesTotal = await sails.helpers.users.getNotificationServicesTotal(
       values.user.id,

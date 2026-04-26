@@ -31,6 +31,17 @@ module.exports = {
   },
 
   async fn(inputs) {
+    const { appriseEnabled, appriseAllowedSchemas, appriseBlockedSchemas } = sails.config.custom;
+
+    if (!appriseEnabled) {
+      return;
+    }
+
+    const schemaConfig = JSON.stringify({
+      allowedSchemas: appriseAllowedSchemas,
+      blockedSchemas: appriseBlockedSchemas,
+    });
+
     try {
       await promisifyExecFile(
         PYTHON_PATH,
@@ -39,6 +50,7 @@ module.exports = {
           JSON.stringify(inputs.services),
           inputs.title,
           JSON.stringify(inputs.bodyByFormat),
+          schemaConfig,
         ],
         {
           env: {
