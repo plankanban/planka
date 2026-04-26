@@ -72,6 +72,8 @@
 
 const { idInput } = require('../../../utils/inputs');
 
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
     notEnoughRights: 'Not enough rights',
@@ -84,6 +86,9 @@ const Errors = {
   },
   CUSTOM_FIELD_NOT_FOUND: {
     customFieldNotFound: 'Custom field not found',
+  },
+  INVALID_FIELD_VALUE: {
+    invalidFieldValue: 'Invalid field value',
   },
 };
 
@@ -120,6 +125,9 @@ module.exports = {
     },
     customFieldNotFound: {
       responseType: 'notFound',
+    },
+    invalidFieldValue: {
+      responseType: 'badRequest',
     },
   },
 
@@ -171,6 +179,16 @@ module.exports = {
       }
     } else if (customField.customFieldGroupId !== customFieldGroup.id) {
       throw Errors.CUSTOM_FIELD_NOT_FOUND;
+    }
+
+    if (customField.type === 'number') {
+      if (!Number.isFinite(Number(inputs.content))) {
+        throw Errors.INVALID_FIELD_VALUE;
+      }
+    } else if (customField.type === 'date') {
+      if (!DATE_REGEX.test(inputs.content) || Number.isNaN(Date.parse(inputs.content))) {
+        throw Errors.INVALID_FIELD_VALUE;
+      }
     }
 
     const values = _.pick(inputs, ['content']);

@@ -87,6 +87,12 @@ export const CardTypes = {
   STORY: 'story',
 };
 
+export const CustomFieldTypes = {
+  TEXT: 'text',
+  NUMBER: 'number',
+  DATE: 'date',
+};
+
 export const AttachmentTypes = {
   FILE: 'file',
   LINK: 'link',

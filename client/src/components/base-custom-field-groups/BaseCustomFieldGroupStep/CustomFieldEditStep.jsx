@@ -34,13 +34,15 @@ const CustomFieldEditStep = React.memo(({ id, onBack }) => {
   const defaultData = useMemo(
     () => ({
       name: customField.name,
+      type: customField.type,
       showOnFrontOfCard: customField.showOnFrontOfCard,
     }),
-    [customField.name, customField.showOnFrontOfCard],
+    [customField.name, customField.type, customField.showOnFrontOfCard],
   );
 
   const [data, handleFieldChange] = useForm(() => ({
     name: '',
+    type: customField.type,
     showOnFrontOfCard: false,
     ...defaultData,
   }));
@@ -100,6 +102,7 @@ const CustomFieldEditStep = React.memo(({ id, onBack }) => {
           <CustomFieldEditor
             ref={customFieldEditorRef}
             data={data}
+            isTypeEditable={false}
             onFieldChange={handleFieldChange}
           />
           <Button positive content={t('action.save')} className={styles.submitButton} />
