@@ -7,6 +7,48 @@ const { ProxyAgent } = require('undici');
 
 const Webhook = require('../../models/Webhook');
 
+const BOARD_ITEM_EVENTS = new Set([
+  Webhook.Events.BOARD_CREATE,
+  Webhook.Events.BOARD_UPDATE,
+  Webhook.Events.BOARD_DELETE,
+]);
+
+const PROJECT_ITEM_EVENTS = new Set([
+  Webhook.Events.PROJECT_CREATE,
+  Webhook.Events.PROJECT_UPDATE,
+  Webhook.Events.PROJECT_DELETE,
+]);
+
+function resolveScope(event, data, override) {
+  const result = { projectId: null, boardId: null, ...(override || {}) };
+  if (!data) return result;
+
+  const { item } = data;
+  const included = data.included || {};
+
+  if (!result.projectId) {
+    if (included.projects && included.projects[0]) {
+      result.projectId = included.projects[0].id;
+    } else if (item && PROJECT_ITEM_EVENTS.has(event)) {
+      result.projectId = item.id;
+    } else if (item && item.projectId) {
+      result.projectId = item.projectId;
+    }
+  }
+
+  if (!result.boardId) {
+    if (included.boards && included.boards[0]) {
+      result.boardId = included.boards[0].id;
+    } else if (item && BOARD_ITEM_EVENTS.has(event)) {
+      result.boardId = item.id;
+    } else if (item && item.boardId) {
+      result.boardId = item.boardId;
+    }
+  }
+
+  return result;
+}
+
 /**
  * @typedef {Object} Included
  * @property {any[]} [users] - Array of users (optional).
@@ -104,10 +146,15 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    scope: {
+      type: 'ref',
+    },
   },
 
   fn(inputs) {
-    const webhooks = inputs.webhooks.filter((webhook) => {
+    const userId = inputs.user && inputs.user.id;
+
+    const eventFilteredWebhooks = inputs.webhooks.filter((webhook) => {
       if (!webhook.url) {
         return false;
       }
@@ -120,15 +167,37 @@ module.exports = {
         return false;
       }
 
+      if (webhook.userId && webhook.userId !== userId) {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (eventFilteredWebhooks.length === 0) {
+      return;
+    }
+
+    const data = inputs.buildData();
+    const prevData = inputs.buildPrevData && inputs.buildPrevData();
+
+    const scope = resolveScope(inputs.event, data, inputs.scope);
+
+    const webhooks = eventFilteredWebhooks.filter((webhook) => {
+      if (webhook.projectId && webhook.projectId !== scope.projectId) {
+        return false;
+      }
+
+      if (webhook.boardId && webhook.boardId !== scope.boardId) {
+        return false;
+      }
+
       return true;
     });
 
     if (webhooks.length === 0) {
       return;
     }
-
-    const data = inputs.buildData();
-    const prevData = inputs.buildPrevData && inputs.buildPrevData();
 
     webhooks.forEach((webhook) => {
       sendWebhook(
