@@ -18,9 +18,19 @@ export default class extends BaseModel {
     accessToken: attr(),
     events: attr(),
     excludedEvents: attr(),
+    projectId: fk({
+      to: 'Project',
+      as: 'project',
+      relatedName: 'webhooks',
+    }),
     boardId: fk({
       to: 'Board',
       as: 'board',
+      relatedName: 'webhooks',
+    }),
+    userId: fk({
+      to: 'User',
+      as: 'user',
       relatedName: 'webhooks',
     }),
   };

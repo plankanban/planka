@@ -15,6 +15,9 @@ import Item from './Item';
 import Editor from './Editor';
 
 const DEFAULT_DATA = {
+  projectId: null,
+  boardId: null,
+  userId: null,
   name: '',
   url: '',
   accessToken: '',
@@ -22,7 +25,7 @@ const DEFAULT_DATA = {
   excludedEvents: [],
 };
 
-const Webhooks = React.memo(({ ids, onCreate }) => {
+const Webhooks = React.memo(({ ids, projects, boards, users, onCreate }) => {
   const [t] = useTranslation();
 
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
@@ -38,6 +41,9 @@ const Webhooks = React.memo(({ ids, onCreate }) => {
       accessToken: data.accessToken.trim() || null,
       events: data.events.length === 0 ? null : data.events,
       excludedEvents: data.excludedEvents.length === 0 ? null : data.excludedEvents,
+      projectId: data.projectId || null,
+      boardId: data.boardId || null,
+      userId: data.userId || null,
     };
 
     if (!cleanData.name) {
@@ -72,14 +78,21 @@ const Webhooks = React.memo(({ ids, onCreate }) => {
       {ids.length > 0 && (
         <Accordion styled fluid>
           {ids.map((id) => (
-            <Item key={id} id={id} />
+            <Item key={id} id={id} projects={projects} boards={boards} users={users} />
           ))}
         </Accordion>
       )}
       {ids.length < 10 && (
         <Segment>
           <Form onSubmit={handleCreateSubmit}>
-            <Editor ref={editorRef} data={data} onFieldChange={handleFieldChange} />
+            <Editor
+              ref={editorRef}
+              data={data}
+              projects={projects}
+              boards={boards}
+              users={users}
+              onFieldChange={handleFieldChange}
+            />
             <Button positive>{t('action.addWebhook')}</Button>
           </Form>
         </Segment>
@@ -90,6 +103,9 @@ const Webhooks = React.memo(({ ids, onCreate }) => {
 
 Webhooks.propTypes = {
   ids: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  projects: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  boards: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  users: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   onCreate: PropTypes.func.isRequired,
 };
 

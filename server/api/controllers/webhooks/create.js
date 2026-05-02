@@ -22,6 +22,21 @@
  *               - name
  *               - url
  *             properties:
+ *               projectId:
+ *                 type: string
+ *                 nullable: true
+ *                 description: Optional project scope
+ *                 example: "1357158568008091264"
+ *               boardId:
+ *                 type: string
+ *                 nullable: true
+ *                 description: Optional board scope
+ *                 example: "1357158568008091264"
+ *               userId:
+ *                 type: string
+ *                 nullable: true
+ *                 description: Optional acting-user scope
+ *                 example: "1357158568008091264"
  *               name:
  *                 type: string
  *                 maxLength: 128
@@ -72,6 +87,7 @@
  */
 
 const { isUrl } = require('../../../utils/validators');
+const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
   LIMIT_REACHED: {
@@ -81,6 +97,18 @@ const Errors = {
 
 module.exports = {
   inputs: {
+    projectId: {
+      ...idInput,
+      allowNull: true,
+    },
+    boardId: {
+      ...idInput,
+      allowNull: true,
+    },
+    userId: {
+      ...idInput,
+      allowNull: true,
+    },
     name: {
       type: 'string',
       maxLength: 128,
@@ -121,7 +149,7 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const values = _.pick(inputs, ['name', 'url', 'accessToken']);
+    const values = _.pick(inputs, ['projectId', 'boardId', 'userId', 'name', 'url', 'accessToken']);
     const events = inputs.events && inputs.events.split(',');
     const excludedEvents = inputs.excludedEvents && inputs.excludedEvents.split(',');
 
