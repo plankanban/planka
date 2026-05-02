@@ -206,6 +206,7 @@ export default {
       excludedEvents: 'Excluded events',
       expandTaskListsByDefault: 'Expand task lists by default',
       filterByLabels_title: 'Filter By Labels',
+      filterByLists_title: 'Filter By Lists',
       filterByMembers_title: 'Filter By Members',
       forPersonalProjects: 'For personal projects.',
       forTeamBasedProjects: 'For team-based projects.',

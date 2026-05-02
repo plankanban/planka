@@ -5,6 +5,7 @@
 
 import debounce from 'lodash/debounce';
 import React, { useCallback, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -16,17 +17,45 @@ import { Input } from '../../../lib/custom-ui';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useNestedRef } from '../../../hooks';
+import { BoardViews } from '../../../constants/Enums';
 import UserAvatar from '../../users/UserAvatar';
 import BoardMembershipsStep from '../../board-memberships/BoardMembershipsStep';
 import LabelChip from '../../labels/LabelChip';
 import LabelsStep from '../../labels/LabelsStep';
+import ListsFilterStep from '../../lists/ListsFilterStep';
 
 import styles from './Filters.module.scss';
+
+const FilterListChip = React.memo(({ id, onClick }) => {
+  const selectListById = useMemo(() => selectors.makeSelectListById(), []);
+  const list = useSelector((state) => selectListById(state, id));
+  const [t] = useTranslation();
+
+  const handleClick = useCallback(() => {
+    onClick(id);
+  }, [id, onClick]);
+
+  if (!list) {
+    return null;
+  }
+
+  return (
+    <button type="button" className={styles.filterButton} onClick={handleClick}>
+      <span className={styles.filterLabel}>{list.name || t(`common.${list.type}`)}</span>
+    </button>
+  );
+});
+
+FilterListChip.propTypes = {
+  id: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
 
 const Filters = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
   const userIds = useSelector(selectors.selectFilterUserIdsForCurrentBoard);
   const labelIds = useSelector(selectors.selectFilterLabelIdsForCurrentBoard);
+  const listIds = useSelector(selectors.selectFilterListIdsForCurrentBoard);
   const currentUserId = useSelector(selectors.selectCurrentUserId);
 
   const withCurrentUserSelector = useSelector(
@@ -98,6 +127,20 @@ const Filters = React.memo(() => {
     [dispatch],
   );
 
+  const handleListSelect = useCallback(
+    (listId) => {
+      dispatch(entryActions.addListToFilterInCurrentBoard(listId));
+    },
+    [dispatch],
+  );
+
+  const handleListDeselect = useCallback(
+    (listId) => {
+      dispatch(entryActions.removeListFromFilterInCurrentBoard(listId));
+    },
+    [dispatch],
+  );
+
   const handleLabelClick = useCallback(
     ({
       currentTarget: {
@@ -144,8 +187,10 @@ const Filters = React.memo(() => {
 
   const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
   const LabelsPopup = usePopup(LabelsStep);
+  const ListsFilterPopup = usePopup(ListsFilterStep);
 
   const isSearchActive = search || isSearchFocused;
+  const isListView = board.view === BoardViews.LIST;
 
   return (
     <>
@@ -192,6 +237,26 @@ const Filters = React.memo(() => {
           </span>
         ))}
       </span>
+      {isListView && (
+        <span className={styles.filter}>
+          <ListsFilterPopup
+            currentIds={listIds}
+            title="common.filterByLists"
+            onSelect={handleListSelect}
+            onDeselect={handleListDeselect}
+          >
+            <button type="button" className={styles.filterButton}>
+              <span className={styles.filterTitle}>{`${t('common.lists')}:`}</span>
+              {listIds.length === 0 && (
+                <span className={styles.filterLabel}>{t('common.all')}</span>
+              )}
+            </button>
+          </ListsFilterPopup>
+          {listIds.map((listId) => (
+            <FilterListChip key={listId} id={listId} onClick={handleListDeselect} />
+          ))}
+        </span>
+      )}
       <span className={styles.filter}>
         <Input
           ref={handleSearchFieldRef}
