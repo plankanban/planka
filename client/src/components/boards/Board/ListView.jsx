@@ -6,21 +6,38 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { shallowEqual, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector, useStore } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
 import { Button, Icon, Loader } from 'semantic-ui-react';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 import selectors from '../../../selectors';
+import entryActions from '../../../entry-actions';
 import { BoardMembershipRoles } from '../../../constants/Enums';
+import DroppableTypes from '../../../constants/DroppableTypes';
+import parseDndId from '../../../utils/parse-dnd-id';
+import { closePopup } from '../../../lib/popup';
+import globalStyles from '../../../styles.module.scss';
 import Card from '../../cards/Card';
+import DraggableCard from '../../cards/DraggableCard';
 import AddCard from '../../cards/AddCard';
 import PlusMathIcon from '../../../assets/images/plus-math-icon.svg?react';
 
 import styles from './ListView.module.scss';
 
 const ListView = React.memo(
-  ({ cardIds, isCardsFetching, isAllCardsFetched, onCardsFetch, onCardCreate, onCardPaste }) => {
+  ({
+    cardIds,
+    isCardsFetching,
+    isAllCardsFetched,
+    isReorderingEnabled,
+    onCardsFetch,
+    onCardCreate,
+    onCardPaste,
+  }) => {
+    const store = useStore();
+    const dispatch = useDispatch();
     const clipboard = useSelector(selectors.selectClipboard);
 
     const { canAddCard, canPasteCard } = useSelector((state) => {
@@ -52,6 +69,94 @@ const ListView = React.memo(
     const handleAddCardClose = useCallback(() => {
       setIsAddCardOpened(false);
     }, []);
+
+    const handleDragStart = useCallback(() => {
+      document.body.classList.add(globalStyles.dragging);
+      closePopup();
+    }, []);
+
+    const handleDragEnd = useCallback(
+      ({ draggableId, type, source, destination }) => {
+        document.body.classList.remove(globalStyles.dragging);
+
+        if (!destination || type !== DroppableTypes.CARD) {
+          return;
+        }
+
+        if (source.index === destination.index) {
+          return;
+        }
+
+        const cardId = parseDndId(draggableId);
+        const state = store.getState();
+        const getListId = (id) => {
+          const card = id ? selectors.selectCardById(state, id) : null;
+          return card ? card.listId : null;
+        };
+
+        const newOrder = cardIds.filter((id) => id !== cardId);
+        const prevId = destination.index > 0 ? newOrder[destination.index - 1] : null;
+        const nextId = destination.index < newOrder.length ? newOrder[destination.index] : null;
+
+        const targetListId = getListId(prevId) || getListId(nextId);
+        if (!targetListId) {
+          return;
+        }
+
+        let localIndex = 0;
+        for (let i = 0; i < destination.index; i += 1) {
+          if (getListId(newOrder[i]) === targetListId) {
+            localIndex += 1;
+          }
+        }
+
+        dispatch(entryActions.moveCard(cardId, targetListId, localIndex));
+      },
+      [cardIds, dispatch, store],
+    );
+
+    const renderCardsContent = () => {
+      if (cardIds.length === 0) {
+        return null;
+      }
+
+      if (!isReorderingEnabled) {
+        return (
+          <div className={classNames(styles.segment, styles.cards)}>
+            {cardIds.map((cardId, cardIndex) => (
+              <div key={cardId} className={styles.card}>
+                <Card isInline id={cardId} index={cardIndex} />
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      return (
+        <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+          <Droppable droppableId="list-view" type={DroppableTypes.CARD}>
+            {({ innerRef, droppableProps, placeholder }) => (
+              <div
+                {...droppableProps} // eslint-disable-line react/jsx-props-no-spreading
+                ref={innerRef}
+                className={classNames(styles.segment, styles.cards)}
+              >
+                {cardIds.map((cardId, cardIndex) => (
+                  <DraggableCard
+                    key={cardId}
+                    isInline
+                    id={cardId}
+                    index={cardIndex}
+                    className={styles.card}
+                  />
+                ))}
+                {placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+      );
+    };
 
     return (
       <div className={styles.wrapper}>
@@ -85,15 +190,7 @@ const ListView = React.memo(
               )}
             </div>
           ))}
-        {cardIds.length > 0 && (
-          <div className={classNames(styles.segment, styles.cards)}>
-            {cardIds.map((cardId, cardIndex) => (
-              <div key={cardId} className={styles.card}>
-                <Card isInline id={cardId} index={cardIndex} />
-              </div>
-            ))}
-          </div>
-        )}
+        {renderCardsContent()}
         {isCardsFetching !== undefined && isAllCardsFetched !== undefined && (
           <div className={styles.loaderWrapper}>
             {isCardsFetching ? (
@@ -112,6 +209,7 @@ ListView.propTypes = {
   cardIds: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   isCardsFetching: PropTypes.bool,
   isAllCardsFetched: PropTypes.bool,
+  isReorderingEnabled: PropTypes.bool,
   onCardsFetch: PropTypes.func,
   onCardCreate: PropTypes.func,
   onCardPaste: PropTypes.func,
@@ -120,6 +218,7 @@ ListView.propTypes = {
 ListView.defaultProps = {
   isCardsFetching: undefined,
   isAllCardsFetched: undefined,
+  isReorderingEnabled: false,
   onCardsFetch: undefined,
   onCardCreate: undefined,
   onCardPaste: undefined,
