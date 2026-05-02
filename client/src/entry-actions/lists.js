@@ -95,6 +95,20 @@ const handleListDelete = (list, cards) => ({
   },
 });
 
+const addListToFilterInCurrentBoard = (id) => ({
+  type: EntryActionTypes.LIST_TO_FILTER_IN_CURRENT_BOARD_ADD,
+  payload: {
+    id,
+  },
+});
+
+const removeListFromFilterInCurrentBoard = (id) => ({
+  type: EntryActionTypes.LIST_FROM_FILTER_IN_CURRENT_BOARD_REMOVE,
+  payload: {
+    id,
+  },
+});
+
 export default {
   createListInCurrentBoard,
   handleListCreate,
@@ -108,4 +122,6 @@ export default {
   handleListClear,
   deleteList,
   handleListDelete,
+  addListToFilterInCurrentBoard,
+  removeListFromFilterInCurrentBoard,
 };
