@@ -45,10 +45,20 @@ module.exports = function defineOidcHook(sails) {
       clientInitPromise = (async () => {
         sails.log.info('Initializing OIDC client');
 
+        const httpOptions = {};
         if (sails.config.custom.oidcTimeout !== null) {
-          openidClient.custom.setHttpOptionsDefaults({
-            timeout: sails.config.custom.oidcTimeout,
-          });
+          httpOptions.timeout = sails.config.custom.oidcTimeout;
+        }
+        if (sails.config.custom.oidcProxy) {
+          // eslint-disable-next-line global-require
+          const { HttpProxyAgent, HttpsProxyAgent } = require('hpagent');
+          httpOptions.agent = {
+            http: new HttpProxyAgent({ proxy: sails.config.custom.oidcProxy }),
+            https: new HttpsProxyAgent({ proxy: sails.config.custom.oidcProxy }),
+          };
+        }
+        if (Object.keys(httpOptions).length > 0) {
+          openidClient.custom.setHttpOptionsDefaults(httpOptions);
         }
 
         let issuer;
