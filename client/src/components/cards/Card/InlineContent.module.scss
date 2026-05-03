@@ -44,6 +44,35 @@
     text-overflow: ellipsis;
   }
 
+  .labelsButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    text-align: left;
+    white-space: nowrap;
+
+    &:not(:last-child) {
+      margin-right: 20px;
+    }
+  }
+
+  .labelsPlaceholder {
+    background: rgba(9, 30, 66, 0.04);
+    border-radius: 3px;
+    display: inline-block;
+    height: 16px;
+    min-width: 40px;
+    transition: background 0.2s ease;
+    vertical-align: middle;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
+  }
+
   .name {
     color: #17394d;
     font-size: 14px;
