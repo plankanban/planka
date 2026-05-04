@@ -81,7 +81,7 @@
     "serve-static": "^2.2.1",
     "sharp": "^0.34.5",
     "undici": "^7.24.0",
-    "uuid": "^11.1.0",
+    "uuid": "^14.0.0",
     "validator": "^13.15.26",
     "winston": "^3.19.0",
     "zxcvbn": "^4.4.2"
