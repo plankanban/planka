@@ -1,6 +1,17 @@
 'use strict';
 
-const { PLANKA_URL, PLANKA_EMAIL, PLANKA_PASSWORD, PLANKA_LIST_ID } = require('./config');
+const config = require('./config');
+
+const {
+  PLANKA_URL,
+  PLANKA_EMAIL,
+  PLANKA_PASSWORD,
+  PLANKA_PROJECT_NAME,
+  PLANKA_DESIGN_BOARD_NAME,
+  PLANKA_DESIGN_LIST_NAME,
+  PLANKA_CHAMADOS_BOARD_NAME,
+  PLANKA_CHAMADOS_LIST_NAME,
+} = config;
 
 // Module-level token cache shared across all requests in this process.
 let tokenCache = { token: null, expiresAt: 0 };
@@ -40,6 +51,115 @@ async function getToken() {
   return token;
 }
 
+// In-memory cache of discovered IDs (project, boards, lists, labels).
+// First request resolves them via the API and they are reused afterwards.
+const idCache = {
+  designListId: config.PLANKA_LIST_ID,
+  chamadosListId: config.PLANKA_CHAMADOS_LIST_ID,
+  priorityLabels: { ...config.PRIORITY_LABELS },
+  chamadosBoardId: null,
+};
+
+async function apiGet(path) {
+  const token = await getToken();
+  const res = await fetch(`${PLANKA_URL}${path}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (res.status === 401) {
+    tokenCache = { token: null, expiresAt: 0 };
+    return apiGet(path);
+  }
+  if (!res.ok) {
+    throw new Error(`GET ${path} failed: ${res.status}`);
+  }
+  return res.json();
+}
+
+async function findProjectByName(name) {
+  const { items = [], included = {} } = await apiGet('/api/projects');
+  const project = items.find((p) => p.name === name);
+  return { project, boards: included.boards || [] };
+}
+
+async function findBoardId(projectName, boardName) {
+  const { project, boards } = await findProjectByName(projectName);
+  if (!project) return null;
+  const board = boards.find((b) => b.projectId === project.id && b.name === boardName);
+  return board ? board.id : null;
+}
+
+async function findListIdInBoard(boardId, listName) {
+  const { included = {} } = await apiGet(`/api/boards/${boardId}`);
+  const list = (included.lists || []).find((l) => l.name === listName && l.type === 'active');
+  return list ? list.id : null;
+}
+
+async function indexLabelsInBoard(boardId) {
+  const { included = {} } = await apiGet(`/api/boards/${boardId}`);
+  const map = {};
+  for (const label of included.labels || []) {
+    if (label.name) map[label.name] = label.id;
+  }
+  return map;
+}
+
+async function getDesignListId() {
+  if (idCache.designListId) return idCache.designListId;
+  const boardId = await findBoardId(PLANKA_PROJECT_NAME, PLANKA_DESIGN_BOARD_NAME);
+  if (!boardId) {
+    throw new Error(
+      `Could not find board "${PLANKA_DESIGN_BOARD_NAME}" inside project "${PLANKA_PROJECT_NAME}"`,
+    );
+  }
+  const listId = await findListIdInBoard(boardId, PLANKA_DESIGN_LIST_NAME);
+  if (!listId) {
+    throw new Error(
+      `Could not find list "${PLANKA_DESIGN_LIST_NAME}" on board "${PLANKA_DESIGN_BOARD_NAME}"`,
+    );
+  }
+  idCache.designListId = listId;
+  return listId;
+}
+
+async function getChamadosBoardId() {
+  if (idCache.chamadosBoardId) return idCache.chamadosBoardId;
+  const boardId = await findBoardId(PLANKA_PROJECT_NAME, PLANKA_CHAMADOS_BOARD_NAME);
+  if (!boardId) {
+    throw new Error(
+      `Could not find board "${PLANKA_CHAMADOS_BOARD_NAME}" inside project "${PLANKA_PROJECT_NAME}"`,
+    );
+  }
+  idCache.chamadosBoardId = boardId;
+  return boardId;
+}
+
+async function getChamadosListId() {
+  if (idCache.chamadosListId) return idCache.chamadosListId;
+  const boardId = await getChamadosBoardId();
+  const listId = await findListIdInBoard(boardId, PLANKA_CHAMADOS_LIST_NAME);
+  if (!listId) {
+    throw new Error(
+      `Could not find list "${PLANKA_CHAMADOS_LIST_NAME}" on board "${PLANKA_CHAMADOS_BOARD_NAME}"`,
+    );
+  }
+  idCache.chamadosListId = listId;
+  return listId;
+}
+
+async function getPriorityLabelId(priorityName) {
+  if (idCache.priorityLabels[priorityName]) {
+    return idCache.priorityLabels[priorityName];
+  }
+  const boardId = await getChamadosBoardId();
+  const labels = await indexLabelsInBoard(boardId);
+  // Merge in any labels we hadn't cached yet (rather than replace, so admin
+  // overrides via PRIORITY_LABELS env var keep precedence).
+  for (const [name, id] of Object.entries(labels)) {
+    if (!idCache.priorityLabels[name]) idCache.priorityLabels[name] = id;
+  }
+  return idCache.priorityLabels[priorityName] || null;
+}
+
 async function createCardInList(listId, name, descricao) {
   const token = await getToken();
 
@@ -71,7 +191,8 @@ async function createCardInList(listId, name, descricao) {
 
 // Backward-compatible wrapper for the existing Pedido de Artes flow.
 async function createCard(name, descricao) {
-  return createCardInList(PLANKA_LIST_ID, name, descricao);
+  const listId = await getDesignListId();
+  return createCardInList(listId, name, descricao);
 }
 
 async function attachLabel(cardId, labelId) {
@@ -165,9 +286,10 @@ async function createCardCustomFieldGroups(cardId, groups) {
 
 async function fetchBoardCards() {
   const token = await getToken();
+  const designListId = await getDesignListId();
 
   // 1. Get the list to find its boardId
-  const listRes = await fetch(`${PLANKA_URL}/api/lists/${PLANKA_LIST_ID}`, {
+  const listRes = await fetch(`${PLANKA_URL}/api/lists/${designListId}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   if (!listRes.ok) throw new Error(`Failed to fetch list: ${listRes.status}`);
@@ -220,4 +342,8 @@ module.exports = {
   createCardCustomFieldGroups,
   attachLabel,
   fetchBoardCards,
+  getDesignListId,
+  getChamadosListId,
+  getChamadosBoardId,
+  getPriorityLabelId,
 };
