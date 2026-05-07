@@ -52,6 +52,12 @@ const getOneTrashByBoardId = (boardId) =>
     type: List.Types.TRASH,
   });
 
+const getOneArchiveByBoardId = (boardId) =>
+  List.findOne({
+    boardId,
+    type: List.Types.ARCHIVE,
+  });
+
 const updateOne = async (criteria, values) => {
   if (values.boardId || values.type) {
     return sails.getDatastore().transaction(async (db) => {
@@ -138,6 +144,7 @@ module.exports = {
   getByBoardId,
   getOneById,
   getOneTrashByBoardId,
+  getOneArchiveByBoardId,
   updateOne,
   deleteOne,
   delete: delete_,

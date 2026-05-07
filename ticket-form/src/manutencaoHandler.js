@@ -4,8 +4,9 @@ const {
   createCardInList,
   createCardCustomFieldGroups,
   attachLabel,
+  getChamadosListId,
+  getPriorityLabelId,
 } = require('./planka');
-const { PLANKA_CHAMADOS_LIST_ID, PRIORITY_LABELS } = require('./config');
 
 function generateOsNumber() {
   const now = new Date();
@@ -48,12 +49,6 @@ function buildDescription(data, os, openedAt) {
 }
 
 async function manutencaoHandler(req, res) {
-  if (!PLANKA_CHAMADOS_LIST_ID) {
-    return res
-      .status(500)
-      .json({ error: 'Serviço não configurado (PLANKA_CHAMADOS_LIST_ID ausente).' });
-  }
-
   const data = req.body || {};
 
   // Validation
@@ -64,7 +59,18 @@ async function manutencaoHandler(req, res) {
     }
   }
 
-  const labelId = PRIORITY_LABELS[data.prioridade];
+  let chamadosListId;
+  let labelId;
+  try {
+    chamadosListId = await getChamadosListId();
+    labelId = await getPriorityLabelId(data.prioridade);
+  } catch (err) {
+    console.error('[ticket-form] failed to resolve Planka IDs:', err.message);
+    return res.status(500).json({
+      error:
+        'Não foi possível localizar o board "Chamados Técnicos". Verifique se ele existe no Planka.',
+    });
+  }
   if (!labelId) {
     return res.status(400).json({ error: `Prioridade inválida: ${data.prioridade}` });
   }
@@ -97,7 +103,7 @@ async function manutencaoHandler(req, res) {
   };
 
   try {
-    const { item: card } = await createCardInList(PLANKA_CHAMADOS_LIST_ID, cardName, '');
+    const { item: card } = await createCardInList(chamadosListId, cardName, '');
     await attachLabel(card.id, labelId);
     await createCardCustomFieldGroups(card.id, [customFieldGroup]);
     return res.json({ ok: true, os });

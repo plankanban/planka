@@ -19,14 +19,40 @@ RUN INDEX_FORMAT=ejs npm run build
 # Stage 2: official Planka image with our overlays
 FROM ghcr.io/plankanban/planka:latest
 
-# --- Backend overlays (logging + table view + custom field actions) ---
+# --- Backend overlays ---
+# Models (List adds CATEGORY/STATUS types + labelId FK; Action/Board carry
+# pre-existing customizations).
 COPY server/api/models/Action.js /app/api/models/Action.js
 COPY server/api/models/Board.js  /app/api/models/Board.js
-COPY server/api/helpers/cards/update-one.js                                /app/api/helpers/cards/update-one.js
-COPY server/api/helpers/card-labels/create-one.js                          /app/api/helpers/card-labels/create-one.js
-COPY server/api/helpers/card-labels/delete-one.js                          /app/api/helpers/card-labels/delete-one.js
-COPY server/api/helpers/custom-field-values/create-or-update-one.js        /app/api/helpers/custom-field-values/create-or-update-one.js
+COPY server/api/models/List.js   /app/api/models/List.js
 
-# --- Client overlays (table view, drag/drop, autocomplete, activity log) ---
+# Card helpers — auto-apply category/status labels on create/move.
+COPY server/api/helpers/cards/create-one.js /app/api/helpers/cards/create-one.js
+COPY server/api/helpers/cards/update-one.js /app/api/helpers/cards/update-one.js
+
+# List helpers — auto-create / rename / delete the list-linked label.
+COPY server/api/helpers/lists/create-one.js /app/api/helpers/lists/create-one.js
+COPY server/api/helpers/lists/update-one.js /app/api/helpers/lists/update-one.js
+COPY server/api/helpers/lists/delete-one.js /app/api/helpers/lists/delete-one.js
+
+# Card-label helpers (broadcast tweak for socket sync).
+COPY server/api/helpers/card-labels/create-one.js /app/api/helpers/card-labels/create-one.js
+COPY server/api/helpers/card-labels/delete-one.js /app/api/helpers/card-labels/delete-one.js
+
+# Custom field value helper (action logging on update).
+COPY server/api/helpers/custom-field-values/create-or-update-one.js /app/api/helpers/custom-field-values/create-or-update-one.js
+
+# Auto-archive hook — moves cards out of "Concluído" lists into Archive after
+# AUTO_ARCHIVE_CLOSED_AFTER_DAYS days (default 30, set 0 to disable).
+COPY server/api/hooks/auto-archive/index.js /app/api/hooks/auto-archive/index.js
+COPY server/api/hooks/query-methods/models/List.js /app/api/hooks/query-methods/models/List.js
+
+# Migrations & seeds — required for the new list.label_id column and the
+# default "Falar com o cliente" column on Design boards.
+COPY server/db/migrations/ /app/db/migrations/
+COPY server/db/seeds/      /app/db/seeds/
+
+# --- Client overlays (table view, drag/drop, autocomplete, activity log,
+#                      collapsed lists, hover-X label removal, list types) ---
 COPY --from=client-builder /build/dist/assets/   /app/public/assets/
 COPY --from=client-builder /build/dist/index.ejs /app/views/index.ejs
