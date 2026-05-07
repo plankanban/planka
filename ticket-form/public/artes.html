@@ -75,6 +75,16 @@
       gap: 16px;
     }
 
+    /* Bandeira (mais larga) | Cidade (mais larga) | Estado (estreito, só UF) */
+    .grid-bandeira {
+      display: grid;
+      grid-template-columns: 1.4fr 1.4fr 0.6fr;
+      gap: 16px;
+    }
+    @media (max-width: 560px) {
+      .grid-bandeira { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 560px) {
       .grid-2, .grid-3 { grid-template-columns: 1fr; }
       .section { padding: 20px 18px; }
@@ -94,6 +104,7 @@
     label .req { color: #e53e3e; margin-left: 2px; }
 
     input[type="text"],
+    input[type="tel"],
     input[type="date"],
     select,
     textarea {
@@ -107,6 +118,12 @@
       transition: border-color 0.15s;
       outline: none;
       width: 100%;
+      height: 40px;
+      line-height: 1.2;
+    }
+
+    textarea {
+      height: auto;
     }
 
     input:focus, select:focus, textarea:focus {
@@ -141,25 +158,71 @@
       cursor: pointer;
     }
 
-    /* Serviços grid */
-    .services-grid {
+    /* Combustíveis: cada linha = checkbox (se vende esse) + input do preço */
+    .fuels-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 12px 24px;
     }
 
     @media (max-width: 560px) {
-      .services-grid { grid-template-columns: 1fr 1fr; }
+      .fuels-grid { grid-template-columns: 1fr; }
     }
 
-    .service-item { display: flex; flex-direction: column; gap: 4px; }
+    .fuel-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1.5px solid #e2e6ee;
+      border-radius: 8px;
+      background: #fafbfd;
+      transition: border-color 0.15s, background 0.15s;
+    }
 
-    .service-item span {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-      color: #444;
+    .fuel-item.is-active {
+      border-color: #4f6bed;
+      background: #eef2ff;
+    }
+
+    .fuel-item .fuel-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      flex: 0 0 auto;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      text-transform: none;
+      letter-spacing: 0;
+      min-width: 130px;
+    }
+
+    .fuel-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #4f6bed;
+      cursor: pointer;
+    }
+
+    .fuel-item input[type="text"] {
+      flex: 1;
+      padding: 7px 10px;
+      font-size: 0.92rem;
+    }
+
+    .fuel-item input[type="text"]:disabled {
+      background: #f1f3f7;
+      color: #aaa;
+      cursor: not-allowed;
+    }
+
+    /* Telefone: ocupa a célula inteira do grid (igual aos outros inputs)
+       e usa números tabulares pra a máscara ficar mais legível. */
+    .phone-input {
+      letter-spacing: 0.5px;
+      font-variant-numeric: tabular-nums;
     }
 
     /* Submit area */
@@ -347,11 +410,14 @@
     <!-- IDENTIFICAÇÃO -->
     <div class="section">
       <div class="section-title">Identificação do Posto</div>
-      <div class="grid-2">
-        <div class="field full">
-          <label>Nome do Posto <span class="req">*</span></label>
-          <input type="text" name="NOME DO POSTO" required />
-        </div>
+
+      <div class="field" style="margin-bottom: 16px;">
+        <label>Nome do Posto <span class="req">*</span></label>
+        <input type="text" name="NOME DO POSTO" required />
+      </div>
+
+      <!-- Bandeira / Cidade / Estado em 3 colunas (Estado é só UF) -->
+      <div class="grid-bandeira" style="margin-bottom: 16px;">
         <div class="field">
           <label>Bandeira <span class="req">*</span></label>
           <select name="BANDEIRA" required>
@@ -371,15 +437,26 @@
         </div>
         <div class="field">
           <label>Estado <span class="req">*</span></label>
-          <input type="text" name="ESTADO" placeholder="Ex: SP" required />
+          <input type="text" name="ESTADO" placeholder="Ex: SP" maxlength="2" required />
         </div>
+      </div>
+
+      <!-- Nome do Responsável e Telefone lado a lado -->
+      <div class="grid-2">
         <div class="field">
           <label>Nome do Responsável</label>
           <input type="text" name="NOME RESPONSÁVEL" />
         </div>
         <div class="field">
           <label>Telefone do Responsável</label>
-          <input type="tel" name="TLEFONE RESPONSÁVEL" id="telefone" placeholder="(00) 00000-0000" maxlength="15" />
+          <input
+            type="tel"
+            name="TLEFONE RESPONSÁVEL"
+            id="telefone"
+            class="phone-input"
+            placeholder="(00) 00000-0000"
+            maxlength="15"
+          />
         </div>
       </div>
     </div>
@@ -425,91 +502,14 @@
       </div>
     </div>
 
-    <!-- SERVIÇOS -->
-    <div class="section">
-      <div class="section-title">Serviços do Posto</div>
-      <div class="services-grid">
-        <div class="service-item">
-          <span>Loja Conveniência</span>
-          <div class="radio-group">
-            <label><input type="radio" name="TEM LOJA CONVENIÊNCIA" value="Sim" /> Sim</label>
-            <label><input type="radio" name="TEM LOJA CONVENIÊNCIA" value="Não" /> Não</label>
-          </div>
-        </div>
-        <div class="service-item">
-          <span>Troca de Óleo</span>
-          <div class="radio-group">
-            <label><input type="radio" name="TROCA DE ÓLEO" value="Sim" /> Sim</label>
-            <label><input type="radio" name="TROCA DE ÓLEO" value="Não" /> Não</label>
-          </div>
-        </div>
-        <div class="service-item">
-          <span>Lava Jato</span>
-          <div class="radio-group">
-            <label><input type="radio" name="TEM LAVA JATO" value="Sim" /> Sim</label>
-            <label><input type="radio" name="TEM LAVA JATO" value="Não" /> Não</label>
-          </div>
-        </div>
-        <div class="service-item">
-          <span>Gelo Filtrado</span>
-          <div class="radio-group">
-            <label><input type="radio" name="TEM GELO FILTRADO" value="Sim" /> Sim</label>
-            <label><input type="radio" name="TEM GELO FILTRADO" value="Não" /> Não</label>
-          </div>
-        </div>
-        <div class="service-item">
-          <span>Padaria</span>
-          <div class="radio-group">
-            <label><input type="radio" name="TEM PADARIA" value="Sim" /> Sim</label>
-            <label><input type="radio" name="TEM PADARIA" value="Não" /> Não</label>
-          </div>
-        </div>
-        <div class="service-item">
-          <span>Carvão</span>
-          <div class="radio-group">
-            <label><input type="radio" name="TEM CARVÃO" value="Sim" /> Sim</label>
-            <label><input type="radio" name="TEM CARVÃO" value="Não" /> Não</label>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- COMBUSTÍVEIS -->
     <div class="section">
       <div class="section-title">Preços dos Combustíveis</div>
-      <div class="grid-3">
-        <div class="field">
-          <label>Gasolina Comum</label>
-          <input type="text" name="PREÇO GASOLINA COMUM" placeholder="R$ 0,00" />
-        </div>
-        <div class="field">
-          <label>Gasolina Aditivada</label>
-          <input type="text" name="PREÇO GASOLINA ADITIVADA" placeholder="R$ 0,00" />
-        </div>
-        <div class="field">
-          <label>Gasolina Pódium</label>
-          <input type="text" name="GASOINA PODIUM" placeholder="R$ 0,00" />
-        </div>
-        <div class="field">
-          <label>Etanol</label>
-          <input type="text" name="PREÇO ETANOL" placeholder="R$ 0,00" />
-        </div>
-        <div class="field">
-          <label>Diesel</label>
-          <input type="text" name="PREÇO DIESEL" placeholder="R$ 0,00" />
-        </div>
-        <div class="field">
-          <label>Diesel S10</label>
-          <input type="text" name="PREÇO DIESEL S 10" placeholder="R$ 0,00" />
-        </div>
-        <div class="field">
-          <label>ARLA</label>
-          <input type="text" name="ARLA" placeholder="R$ 0,00" />
-        </div>
-        <div class="field">
-          <label>GNV</label>
-          <input type="text" name="PREÇO GNV" placeholder="R$ 0,00" />
-        </div>
+      <p style="font-size: 0.85rem; color: #666; margin-bottom: 14px;">
+        Marque apenas os combustíveis que o posto vende e informe o preço de cada um.
+      </p>
+      <div class="fuels-grid" id="fuelsGrid">
+        <!-- gerado dinamicamente pelo JS abaixo -->
       </div>
     </div>
 
@@ -563,6 +563,48 @@
   </form>
 
   <script>
+    // Lista de combustíveis: { name: nome do field do form, label: rótulo na UI }
+    const FUELS = [
+      { name: 'PREÇO GASOLINA COMUM',     label: 'Gasolina Comum' },
+      { name: 'PREÇO GASOLINA ADITIVADA', label: 'Gasolina Aditivada' },
+      { name: 'GASOINA PODIUM',           label: 'Gasolina Pódium' },
+      { name: 'PREÇO ETANOL',             label: 'Etanol' },
+      { name: 'PREÇO DIESEL',             label: 'Diesel' },
+      { name: 'PREÇO DIESEL S 10',        label: 'Diesel S10' },
+      { name: 'ARLA',                     label: 'ARLA' },
+      { name: 'PREÇO GNV',                label: 'GNV' },
+    ];
+
+    // Renderiza dinamicamente os pares checkbox + input.
+    const fuelsGrid = document.getElementById('fuelsGrid');
+    for (const f of FUELS) {
+      const item = document.createElement('div');
+      item.className = 'fuel-item';
+      item.innerHTML = `
+        <label class="fuel-label">
+          <input type="checkbox" data-fuel="${f.name}" />
+          ${f.label}
+        </label>
+        <input type="text" name="${f.name}" placeholder="R$ 0,00" disabled />
+      `;
+      fuelsGrid.appendChild(item);
+
+      const checkbox = item.querySelector('input[type="checkbox"]');
+      const priceInput = item.querySelector('input[type="text"]');
+
+      checkbox.addEventListener('change', () => {
+        if (checkbox.checked) {
+          priceInput.disabled = false;
+          item.classList.add('is-active');
+          priceInput.focus();
+        } else {
+          priceInput.disabled = true;
+          priceInput.value = '';
+          item.classList.remove('is-active');
+        }
+      });
+    }
+
     // Pre-fill today's date
     const today = new Date().toISOString().split('T')[0];
     document.querySelector('[name="DATA"]').value = today;

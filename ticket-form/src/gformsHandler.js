@@ -27,17 +27,6 @@ const FIELD_SECTIONS = [
     ],
   },
   {
-    title: 'Serviços do Posto',
-    fields: [
-      'TEM LOJA CONVENIÊNCIA',
-      'TROCA DE ÓLEO',
-      'TEM LAVA JATO',
-      'TEM GELO FILTRADO',
-      'TEM PADARIA',
-      'TEM CARVÃO',
-    ],
-  },
-  {
     title: 'Preços dos Combustíveis',
     fields: [
       'PREÇO GASOLINA COMUM',
@@ -120,17 +109,6 @@ function buildCustomFieldGroups(data, openedAt) {
         { name: 'Medida do LED', value: get('MEDIDA DO LED') },
         { name: 'Tipo de LED', value: get('TIPO LED') },
         { name: 'Tipo de Negociação', value: get('TIPO DE NEGOCIAÇÃO') },
-      ],
-    },
-    {
-      name: 'Serviços do Posto',
-      fields: [
-        { name: 'Loja Conveniência', value: get('TEM LOJA CONVENIÊNCIA') },
-        { name: 'Troca de Óleo', value: get('TROCA DE ÓLEO') },
-        { name: 'Lava Jato', value: get('TEM LAVA JATO') },
-        { name: 'Gelo Filtrado', value: get('TEM GELO FILTRADO') },
-        { name: 'Padaria', value: get('TEM PADARIA') },
-        { name: 'Carvão', value: get('TEM CARVÃO') },
       ],
     },
     {
