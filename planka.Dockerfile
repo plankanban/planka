@@ -42,6 +42,11 @@ COPY server/api/helpers/card-labels/delete-one.js /app/api/helpers/card-labels/d
 # Custom field value helper (action logging on update).
 COPY server/api/helpers/custom-field-values/create-or-update-one.js /app/api/helpers/custom-field-values/create-or-update-one.js
 
+# Auto-archive hook — moves cards out of "Concluído" lists into Archive after
+# AUTO_ARCHIVE_CLOSED_AFTER_DAYS days (default 30, set 0 to disable).
+COPY server/api/hooks/auto-archive/index.js /app/api/hooks/auto-archive/index.js
+COPY server/api/hooks/query-methods/models/List.js /app/api/hooks/query-methods/models/List.js
+
 # Migrations & seeds — required for the new list.label_id column and the
 # default "Falar com o cliente" column on Design boards.
 COPY server/db/migrations/ /app/db/migrations/
