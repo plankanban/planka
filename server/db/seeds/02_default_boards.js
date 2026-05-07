@@ -14,9 +14,25 @@
 const PROJECT_NAME = 'PDView ERP';
 const POSITION_GAP = 65536;
 
-const DESIGN_LISTS = ['Demanda', 'Produção', 'Aprovação', 'Entregue', 'Falar com o cliente'];
+// `type: 'active'` is the default. `type: 'closed'` represents the
+// "Finalizado/Concluído" column — moving a card into it triggers the
+// auto "Chamado finalizado em" timestamp + 30-day auto-archive sweep.
+const DESIGN_LISTS = [
+  { name: 'Demanda' },
+  { name: 'Produção' },
+  { name: 'Aprovação' },
+  { name: 'Entregue' },
+  { name: 'Falar com o cliente' },
+  { name: 'Finalizado', type: 'closed' },
+];
 
-const CHAMADOS_LISTS = ['Em Espera', 'Em Execução', 'Executados', 'Falar com o cliente'];
+// "Executados" is the natural "concluded" column on the Chamados board, so
+// it doubles as the `closed`-typed list. No separate "Finalizado" list here.
+const CHAMADOS_LISTS = [
+  { name: 'Em Espera' },
+  { name: 'Em Execução' },
+  { name: 'Executados', type: 'closed' },
+];
 
 const PRIORITY_LABELS = [
   { name: 'BAIXA PRIORIDADE', color: 'bright-moss' },
@@ -107,15 +123,25 @@ async function ensureBoardMembership(knex, projectId, boardId, userId) {
   });
 }
 
-async function ensureList(knex, boardId, name, position) {
-  const existing = await knex('list').where({ board_id: boardId, name, type: 'active' }).first();
-  if (existing) return existing.id;
+async function ensureList(knex, boardId, name, position, type = 'active') {
+  // Reuse a list with the same name if it already exists. Promote it to the
+  // requested type when the seed asks for `closed` and the row is still
+  // active (idempotent — does nothing on subsequent runs).
+  const existing = await knex('list').where({ board_id: boardId, name }).first();
+  if (existing) {
+    if (type === 'closed' && existing.type === 'active') {
+      await knex('list').where({ id: existing.id }).update({ type: 'closed' });
+      // Reflect the closed state on cards that already live in the list.
+      await knex('card').where({ list_id: existing.id }).update({ is_closed: true });
+    }
+    return existing.id;
+  }
 
   const now = new Date().toISOString();
   const [{ id }] = await knex('list')
     .insert({
       board_id: boardId,
-      type: 'active',
+      type,
       position,
       name,
       created_at: now,
@@ -163,8 +189,9 @@ exports.seed = async (knex) => {
   await ensureBoardMembership(knex, designProjectId, designBoardId, admin.id);
 
   for (let i = 0; i < DESIGN_LISTS.length; i += 1) {
+    const { name, type } = DESIGN_LISTS[i];
     // eslint-disable-next-line no-await-in-loop
-    await ensureList(knex, designBoardId, DESIGN_LISTS[i], (i + 1) * POSITION_GAP);
+    await ensureList(knex, designBoardId, name, (i + 1) * POSITION_GAP, type);
   }
 
   // --- Chamados Técnicos board ---
@@ -178,8 +205,45 @@ exports.seed = async (knex) => {
   await ensureBoardMembership(knex, chamadosProjectId, chamadosBoardId, admin.id);
 
   for (let i = 0; i < CHAMADOS_LISTS.length; i += 1) {
+    const { name, type } = CHAMADOS_LISTS[i];
     // eslint-disable-next-line no-await-in-loop
-    await ensureList(knex, chamadosBoardId, CHAMADOS_LISTS[i], (i + 1) * POSITION_GAP);
+    await ensureList(knex, chamadosBoardId, name, (i + 1) * POSITION_GAP, type);
+  }
+
+  // Get Executados id for migrations below.
+  const executados = await knex('list')
+    .where({ board_id: chamadosBoardId, name: 'Executados' })
+    .first();
+
+  // Remove redundant lists from the Chamados board:
+  //   - "Falar com o cliente"        (kept only on Design)
+  //   - "Finalizado" / "Finalizados" (Executados already plays that role)
+  // Cards living on stray "Finalizado*" lists are migrated to Executados; the
+  // stale list is then deleted. "Falar com o cliente" is only deleted when
+  // empty (cards on it would be lost — not safe to migrate elsewhere).
+  const FINALIZED_DUPES = ['Finalizado', 'Finalizados'];
+  if (executados) {
+    const dupes = await knex('list')
+      .where({ board_id: chamadosBoardId })
+      .whereIn('name', FINALIZED_DUPES);
+    await Promise.all(
+      dupes.map(async (dupe) => {
+        await knex('card')
+          .where({ list_id: dupe.id })
+          .update({ list_id: executados.id, is_closed: true });
+        await knex('list').where({ id: dupe.id }).delete();
+      }),
+    );
+  }
+
+  const stray = await knex('list')
+    .where({ board_id: chamadosBoardId, name: 'Falar com o cliente' })
+    .first();
+  if (stray) {
+    const cardCount = await knex('card').where({ list_id: stray.id }).count('id as n').first();
+    if (Number(cardCount.n) === 0) {
+      await knex('list').where({ id: stray.id }).delete();
+    }
   }
 
   for (let i = 0; i < PRIORITY_LABELS.length; i += 1) {
