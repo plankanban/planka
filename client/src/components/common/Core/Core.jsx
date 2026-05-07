@@ -4,11 +4,12 @@
  */
 
 import React, { useCallback, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import { Loader } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
+import entryActions from '../../../entry-actions';
 import version from '../../../version';
 import ModalTypes from '../../../constants/ModalTypes';
 import Message from './Message';
@@ -36,12 +37,64 @@ const Core = React.memo(() => {
   });
 
   const [t] = useTranslation();
+  const dispatch = useDispatch();
 
   const defaultTitleRef = useRef(document.title);
+  const hiddenSinceRef = useRef(null);
+  const lastRefreshAtRef = useRef(0);
 
   const handleRefreshPageClick = useCallback(() => {
     window.location.reload(true);
   }, []);
+
+  // Sync silenciosamente quando o usuário volta pra aba/janela. Reusa o
+  // mesmo fluxo do socket reconnect (fetchCore) — ele é idempotente e
+  // garante que mudanças feitas por outros usuários enquanto a aba estava
+  // escondida apareçam sem precisar de F5.
+  useEffect(() => {
+    if (!currentUserId) return undefined;
+
+    const HIDDEN_THRESHOLD_MS = 10 * 1000; // só refresca se ficou >10s escondida
+    const REFRESH_THROTTLE_MS = 30 * 1000; // no máximo 1 refresh a cada 30s
+
+    const refresh = () => {
+      const now = Date.now();
+      if (now - lastRefreshAtRef.current < REFRESH_THROTTLE_MS) return;
+      lastRefreshAtRef.current = now;
+      dispatch(entryActions.handleSocketReconnect());
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        hiddenSinceRef.current = Date.now();
+        return;
+      }
+      const hiddenFor = hiddenSinceRef.current ? Date.now() - hiddenSinceRef.current : Infinity;
+      hiddenSinceRef.current = null;
+      if (hiddenFor >= HIDDEN_THRESHOLD_MS) {
+        refresh();
+      }
+    };
+
+    const handleWindowFocus = () => {
+      // window focus dispara mesmo quando outra app é alt-tab; não foca em
+      // visibilityState pra cobrir ambos os caminhos do navegador.
+      if (document.visibilityState === 'visible') {
+        const hiddenFor = hiddenSinceRef.current ? Date.now() - hiddenSinceRef.current : Infinity;
+        if (hiddenFor >= HIDDEN_THRESHOLD_MS) {
+          refresh();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleWindowFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleWindowFocus);
+    };
+  }, [dispatch, currentUserId]);
 
   useEffect(() => {
     const titleParts = [];
