@@ -165,6 +165,20 @@ module.exports = {
       }
     }
 
+    // If the card was created directly inside a `closed` list, stamp the
+    // "Chamado finalizado em" field right away.
+    if (values.list.type === List.Types.CLOSED) {
+      await sails.helpers.cards.syncFinalizedAt
+        .with({
+          card,
+          boardId: values.board.id,
+          fromType: null,
+          toType: values.list.type,
+          request: inputs.request,
+        })
+        .tolerate(() => undefined);
+    }
+
     return card;
   },
 };

@@ -26,9 +26,11 @@ COPY server/api/models/Action.js /app/api/models/Action.js
 COPY server/api/models/Board.js  /app/api/models/Board.js
 COPY server/api/models/List.js   /app/api/models/List.js
 
-# Card helpers — auto-apply category/status labels on create/move.
+# Card helpers — auto-apply category/status labels on create/move; keep the
+# "Chamado finalizado em" custom field in sync with closed-list transitions.
 COPY server/api/helpers/cards/create-one.js /app/api/helpers/cards/create-one.js
 COPY server/api/helpers/cards/update-one.js /app/api/helpers/cards/update-one.js
+COPY server/api/helpers/cards/sync-finalized-at.js /app/api/helpers/cards/sync-finalized-at.js
 
 # List helpers — auto-create / rename / delete the list-linked label.
 COPY server/api/helpers/lists/create-one.js /app/api/helpers/lists/create-one.js

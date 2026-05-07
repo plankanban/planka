@@ -332,6 +332,18 @@ module.exports = {
             board: inputs.board,
             list: values.list,
           });
+
+          // Keeps the per-card "Chamado finalizado em" field in sync with the
+          // card's list type when transitioning into/out of `closed`.
+          await sails.helpers.cards.syncFinalizedAt
+            .with({
+              card,
+              boardId: inputs.board.id,
+              fromType: inputs.list.type,
+              toType: values.list.type,
+              request: inputs.request,
+            })
+            .tolerate(() => undefined);
         }
 
         if (isListInRequest && list.labelId) {
