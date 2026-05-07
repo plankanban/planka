@@ -241,12 +241,14 @@ export function* handleCardCreate(card) {
 export function* updateCard(id, data) {
   let prevListId;
   let isClosed;
+  let prevListType;
 
   if (data.listId) {
     const list = yield select(selectors.selectListById, data.listId);
 
     const card = yield select(selectors.selectCardById, id);
     const prevList = yield select(selectors.selectListById, card.listId);
+    prevListType = prevList && prevList.type;
 
     if (prevList.type === ListTypes.TRASH) {
       prevListId = null;
@@ -292,7 +294,15 @@ export function* updateCard(id, data) {
   if (data.listId) {
     const list = yield select(selectors.selectListById, data.listId);
 
-    if (list && list.labelId) {
+    // Refetch the card after moving it into:
+    //   - a category/status list (auto-applied label)
+    //   - a closed list (auto-stamp the "Chamado finalizado em" field)
+    //   - any other list while the card came from a closed list (clear stamp)
+    const movedIntoClosed = list && list.type === 'closed';
+    const movedOutOfClosed = prevListType === 'closed' && list && list.type !== 'closed';
+    const needsRefetch = list && (list.labelId || movedIntoClosed || movedOutOfClosed);
+
+    if (needsRefetch) {
       try {
         const {
           item: refreshedCard,
