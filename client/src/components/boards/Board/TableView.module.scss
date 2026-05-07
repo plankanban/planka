@@ -228,16 +228,18 @@
     box-shadow: inset 0 -3px 0 0 #2684ff;
   }
 
-  /* Priority-based row colors (match the legend image exactly). */
+  /* Priority-based row colors. Values are kept in sync with the actual
+     Planka label palette (`backgroundXxx` rules in styles.module.scss),
+     so the row tint matches the chip rendered in the kanban view. */
   $priorities: (
-    priorityBaixa:        (#00ff00, #000),
-    priorityMedia:        (#ffff00, #000),
-    priorityUrgencia:     (#ff0000, #fff),
-    priorityTratamento:   (#00ffff, #000),
-    priorityAtualizacao:  (#0000ff, #fff),
-    priorityPendencias:   (#ff8c00, #fff),
-    priorityEspera:       (#ff1493, #fff),
-    priorityMaxima:       (#663399, #fff),
+    priorityBaixa:        (#96b352, #000),  // bright-moss
+    priorityMedia:        (#f9c423, #000),  // egg-yellow
+    priorityUrgencia:     (#e83855, #fff),  // berry-red
+    priorityTratamento:   (#00858a, #fff),  // turquoise-sea
+    priorityAtualizacao:  (#0a63a0, #fff),  // midnight-blue
+    priorityPendencias:   (#ed9223, #fff),  // pumpkin-orange
+    priorityEspera:       (#e34f7c, #fff),  // pink-tulip
+    priorityMaxima:       (#406cbd, #fff),  // lilac-eyes
   );
 
   @each $name, $colors in $priorities {
