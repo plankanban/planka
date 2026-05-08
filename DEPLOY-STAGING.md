@@ -106,3 +106,4 @@ Por enquanto: aplicação funciona sem regressão visível pro usuário final.
 ## Histórico
 
 - **2026-05-06**: Setup inicial via Op 01 deploy-planka-hostinger-redeploy. Deploy validado, ticket-form funcional, CI/CD configurada.
+- **2026-05-08**: Auto-deploy via push em `deploy/staging` validado independentemente no Card 377530 — commit cirúrgico só nesta linha do histórico, sem qualquer execução manual de `deploy.sh`, pra confirmar que GitHub Actions trigga e completa o ciclo sozinho (rsync + build + restart + healthcheck + smoke + rollback automático).
