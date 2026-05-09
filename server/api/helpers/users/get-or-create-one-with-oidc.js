@@ -195,6 +195,21 @@ module.exports = {
       }
     }
 
+    if (!sails.config.custom.oidcIgnoreGroupProjectAccess) {
+      const claimsGroups = _.get(claims, sails.config.custom.oidcRolesAttribute);
+      const groupNames = Array.isArray(claimsGroups) ? claimsGroups : [];
+
+      try {
+        await sails.helpers.users.syncOidcGroupProjectAccess.with({
+          user,
+          groupNames,
+          actorUser: User.OIDC,
+        });
+      } catch (error) {
+        sails.log.warn(`OIDC group project-access sync failed for user ${user.id}: ${error}`);
+      }
+    }
+
     return user;
   },
 };

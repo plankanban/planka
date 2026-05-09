@@ -4,9 +4,10 @@
  */
 
 /**
- * ProjectManager.js
+ * ProjectGroupMapping.js
  *
- * @description :: A model definition represents a database table/collection.
+ * @description :: Maps an OIDC group name to a project. Users belonging to the
+ *                 group are granted project-manager access on OIDC login.
  * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
  */
 
@@ -14,38 +15,36 @@
  * @swagger
  * components:
  *   schemas:
- *     ProjectManager:
+ *     ProjectGroupMapping:
  *       type: object
  *       required:
  *         - id
+ *         - groupName
  *         - projectId
- *         - userId
  *         - createdAt
  *         - updatedAt
  *       properties:
  *         id:
  *           type: string
- *           description: Unique identifier for the project manager
+ *           description: Unique identifier for the mapping
  *           example: "1357158568008091264"
+ *         groupName:
+ *           type: string
+ *           description: OIDC group name (as it appears in the configured roles claim)
+ *           example: "developers"
  *         projectId:
  *           type: string
- *           description: ID of the project the manager is associated with
+ *           description: ID of the project users in the group are granted access to
  *           example: "1357158568008091265"
- *         userId:
- *           type: string
- *           description: ID of the user who is assigned as project manager
- *           example: "1357158568008091266"
  *         createdAt:
  *           type: string
  *           format: date-time
  *           nullable: true
- *           description: When the project manager was created
  *           example: 2024-01-01T00:00:00.000Z
  *         updatedAt:
  *           type: string
  *           format: date-time
  *           nullable: true
- *           description: When the project manager was last updated
  *           example: 2024-01-01T00:00:00.000Z
  */
 
@@ -55,20 +54,15 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
+    groupName: {
+      type: 'string',
+      required: true,
+      columnName: 'group_name',
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝
-
-    isFromGroupSync: {
-      type: 'boolean',
-      defaultsTo: false,
-      columnName: 'is_from_group_sync',
-    },
-    sourceGroupName: {
-      type: 'string',
-      allowNull: true,
-      columnName: 'source_group_name',
-    },
 
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
@@ -79,12 +73,7 @@ module.exports = {
       required: true,
       columnName: 'project_id',
     },
-    userId: {
-      model: 'User',
-      required: true,
-      columnName: 'user_id',
-    },
   },
 
-  tableName: 'project_manager',
+  tableName: 'project_group_mapping',
 };

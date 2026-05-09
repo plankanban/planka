@@ -370,6 +370,13 @@ export default {
       viewers: 'Viewers',
       visualTaskManagementWithLists: 'Visual task management with lists.',
       webhooks: 'Webhooks',
+      oidcGroupProjectAccess: 'OIDC group access',
+      oidcGroupProjectAccess_title: 'OIDC group access',
+      oidcGroupProjectAccessHint:
+        'Map an OIDC group claim to a project. Users with that group are automatically granted project-manager access on their next OIDC login. Removing access from a group revokes it on the next login as well.',
+      groupName: 'Group name',
+      noMappingsConfigured: 'No mappings configured.',
+      loading: 'Loading',
       whatsNew_title: "What's New",
       withoutBaseGroup: 'Without base group',
       writeComment: 'Write a comment...',

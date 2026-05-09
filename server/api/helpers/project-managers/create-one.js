@@ -43,6 +43,8 @@ module.exports = {
       projectManager = await ProjectManager.qm.createOne({
         projectId: values.project.id,
         userId: values.user.id,
+        isFromGroupSync: values.isFromGroupSync === true,
+        sourceGroupName: values.sourceGroupName || null,
       });
     } catch (error) {
       if (error.code === 'E_UNIQUE') {

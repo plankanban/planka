@@ -143,6 +143,10 @@ module.exports.routes = {
   'POST /api/projects/:projectId/project-managers': 'project-managers/create',
   'DELETE /api/project-managers/:id': 'project-managers/delete',
 
+  'GET /api/project-group-mappings': 'project-group-mappings/index',
+  'POST /api/project-group-mappings': 'project-group-mappings/create',
+  'DELETE /api/project-group-mappings/:id': 'project-group-mappings/delete',
+
   'POST /api/projects/:projectId/background-images': 'background-images/create',
   'DELETE /api/background-images/:id': 'background-images/delete',
 

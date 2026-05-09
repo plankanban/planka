@@ -93,6 +93,7 @@ module.exports.custom = {
   oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
   oidcIgnoreUsername: process.env.OIDC_IGNORE_USERNAME === 'true',
   oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
+  oidcIgnoreGroupProjectAccess: process.env.OIDC_IGNORE_GROUP_PROJECT_ACCESS === 'true',
   oidcEnforced: process.env.OIDC_ENFORCED === 'true',
   oidcTimeout: envToNumber(process.env.OIDC_TIMEOUT),
   oidcDebug: process.env.OIDC_DEBUG === 'true',

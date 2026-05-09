@@ -15,11 +15,13 @@ import { useClosableModal } from '../../../hooks';
 import UsersPane from './UsersPane';
 import SmtpPane from './SmtpPane';
 import WebhooksPane from './WebhooksPane';
+import ProjectGroupMappingsPane from './ProjectGroupMappingsPane';
 
 import styles from './AdministrationModal.module.scss';
 
 const AdministrationModal = React.memo(() => {
   const config = useSelector(selectors.selectConfig);
+  const oidcBootstrap = useSelector(selectors.selectOidcBootstrap);
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -57,6 +59,14 @@ const AdministrationModal = React.memo(() => {
     }),
     render: () => <WebhooksPane />,
   });
+  if (oidcBootstrap) {
+    panes.push({
+      menuItem: t('common.oidcGroupProjectAccess', {
+        context: 'title',
+      }),
+      render: () => <ProjectGroupMappingsPane />,
+    });
+  }
 
   const isUsersPaneActive = activeTabIndex === 0;
 

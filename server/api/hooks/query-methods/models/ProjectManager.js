@@ -44,6 +44,12 @@ const getByUserId = (userId) =>
     userId,
   });
 
+const getByUserIdAndIsFromGroupSync = (userId, isFromGroupSync) =>
+  defaultFind({
+    userId,
+    isFromGroupSync,
+  });
+
 const getOneById = (id, { projectId } = {}) => {
   const criteria = {
     id,
@@ -73,6 +79,7 @@ module.exports = {
   getByProjectId,
   getByProjectIds,
   getByUserId,
+  getByUserIdAndIsFromGroupSync,
   getOneById,
   getOneByProjectIdAndUserId,
   deleteOne,

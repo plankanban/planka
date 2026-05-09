@@ -27,6 +27,12 @@ export const makeSelectProjectById = () =>
 
 export const selectProjectById = makeSelectProjectById();
 
+export const selectAllProjects = createSelector(orm, ({ Project }) =>
+  Project.all()
+    .toRefArray()
+    .filter(({ id }) => !isLocalId(id)),
+);
+
 export const makeSelectBoardIdsByProjectId = () =>
   createSelector(
     orm,
@@ -313,6 +319,7 @@ export const selectIsCurrentUserManagerForCurrentProject = createSelector(
 export default {
   makeSelectProjectById,
   selectProjectById,
+  selectAllProjects,
   makeSelectBoardIdsByProjectId,
   selectBoardIdsByProjectId,
   makeSelectFirstBoardIdByProjectId,
