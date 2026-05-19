@@ -7,6 +7,7 @@ const {
   getChamadosListId,
   getPriorityLabelId,
 } = require('./planka');
+const supabase = require('./supabase');
 
 function generateOsNumber() {
   const now = new Date();
@@ -106,9 +107,57 @@ async function manutencaoHandler(req, res) {
     const { item: card } = await createCardInList(chamadosListId, cardName, '');
     await attachLabel(card.id, labelId);
     await createCardCustomFieldGroups(card.id, [customFieldGroup]);
+
+    // Mirror to Supabase (best-effort).
+    Promise.all([
+      supabase.logFormSubmission({
+        formType: 'chamado',
+        payload: data,
+        plankaCardId: card.id,
+        osNumber: os,
+        status: 'created',
+      }),
+      supabase.upsertCard({
+        planka_id: String(card.id),
+        board_id: card.boardId ? String(card.boardId) : null,
+        list_id: card.listId ? String(card.listId) : null,
+        project_name: 'PDView ERP',
+        board_name: 'Chamados Técnicos',
+        list_name: 'Em Espera',
+        name: cardName,
+        description: card.description || null,
+        labels: [{ name: data.prioridade }],
+        custom_fields: {
+          'Dados do Chamado': customFieldGroup.fields.reduce((m, f) => {
+            m[f.name] = f.value;
+            return m;
+          }, {}),
+        },
+      }),
+      supabase.logCardEvent({
+        plankaCardId: card.id,
+        eventType: 'form_submit_chamado',
+        data: {
+          source: 'ticket-form',
+          os_number: os,
+          opened_at: openedAt,
+          prioridade: data.prioridade,
+        },
+      }),
+    ]).catch(() => undefined);
+
     return res.json({ ok: true, os });
   } catch (err) {
     console.error('[ticket-form] manutencao card creation failed:', err.message);
+    supabase
+      .logFormSubmission({
+        formType: 'chamado',
+        payload: data,
+        osNumber: os,
+        status: 'failed',
+        errorMessage: err.message,
+      })
+      .catch(() => undefined);
     return res.status(502).json({ error: 'Erro ao abrir o chamado. Tente novamente.' });
   }
 }

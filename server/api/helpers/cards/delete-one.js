@@ -3,6 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const supabase = require('../../../utils/supabase');
+
 module.exports = {
   inputs: {
     record: {
@@ -36,6 +38,17 @@ module.exports = {
     const card = await Card.qm.deleteOne(inputs.record.id);
 
     if (card) {
+      supabase.markCardDeleted(card.id).catch(() => undefined);
+      supabase
+        .logEvent({
+          cardId: card.id,
+          eventType: 'delete',
+          data: { name: card.name },
+          userEmail: inputs.actorUser && inputs.actorUser.email,
+          userId: inputs.actorUser && inputs.actorUser.id,
+        })
+        .catch(() => undefined);
+
       sails.sockets.broadcast(
         `board:${card.boardId}`,
         'cardDelete',

@@ -44,6 +44,15 @@ COPY server/api/helpers/card-labels/delete-one.js /app/api/helpers/card-labels/d
 # Custom field value helper (action logging on update).
 COPY server/api/helpers/custom-field-values/create-or-update-one.js /app/api/helpers/custom-field-values/create-or-update-one.js
 
+# Card delete (Supabase soft-delete mirror).
+COPY server/api/helpers/cards/delete-one.js /app/api/helpers/cards/delete-one.js
+
+# Supabase mirror — write-side helper + npm dep installed into the image.
+USER root
+RUN cd /app && npm install --no-save --no-audit --no-fund @supabase/supabase-js@^2 && chown -R node:node /app/node_modules
+USER node
+COPY --chown=node:node server/utils/supabase.js /app/utils/supabase.js
+
 # Auto-archive hook — moves cards out of "Concluído" lists into Archive after
 # AUTO_ARCHIVE_CLOSED_AFTER_DAYS days (default 30, set 0 to disable).
 COPY server/api/hooks/auto-archive/index.js /app/api/hooks/auto-archive/index.js
