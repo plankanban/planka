@@ -3,6 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const supabase = require('../../../utils/supabase');
+
 module.exports = {
   inputs: {
     record: {
@@ -240,6 +242,54 @@ module.exports = {
 
       if (!card) {
         return card;
+      }
+
+      // Mirror update to Supabase (fire-and-forget).
+      supabase
+        .patchCard(card.id, {
+          name: card.name,
+          description: card.description,
+          list_id: card.listId ? String(card.listId) : null,
+          list_name: values.list ? values.list.name : undefined,
+          list_type: values.list ? values.list.type : undefined,
+          position: typeof card.position === 'number' ? card.position : null,
+          is_closed: !!card.isClosed,
+          prev_list_id: card.prevListId ? String(card.prevListId) : null,
+        })
+        .catch(() => undefined);
+
+      if (values.list) {
+        supabase
+          .logEvent({
+            cardId: card.id,
+            eventType: 'move',
+            data: {
+              from_list: _.pick(inputs.list, ['id', 'type', 'name']),
+              to_list: _.pick(values.list, ['id', 'type', 'name']),
+            },
+            userEmail: inputs.actorUser && inputs.actorUser.email,
+            userId: inputs.actorUser && inputs.actorUser.id,
+          })
+          .catch(() => undefined);
+      } else {
+        const changed = _.pick(values, [
+          'name',
+          'description',
+          'dueDate',
+          'isDueCompleted',
+          'isClosed',
+        ]);
+        if (Object.keys(changed).length > 0) {
+          supabase
+            .logEvent({
+              cardId: card.id,
+              eventType: 'update',
+              data: { changed },
+              userEmail: inputs.actorUser && inputs.actorUser.email,
+              userId: inputs.actorUser && inputs.actorUser.id,
+            })
+            .catch(() => undefined);
+        }
       }
 
       if (values.board) {

@@ -3,6 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const supabase = require('../../../utils/supabase');
+
 module.exports = {
   inputs: {
     values: {
@@ -51,6 +53,16 @@ module.exports = {
 
       throw error;
     }
+
+    supabase
+      .logEvent({
+        cardId: values.card.id,
+        eventType: 'label_add',
+        data: { label: _.pick(values.label, ['id', 'name', 'color']) },
+        userEmail: inputs.actorUser && inputs.actorUser.email,
+        userId: inputs.actorUser && inputs.actorUser.id,
+      })
+      .catch(() => undefined);
 
     sails.sockets.broadcast(
       `board:${inputs.board.id}`,

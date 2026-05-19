@@ -3,6 +3,8 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const supabase = require('../../../utils/supabase');
+
 module.exports = {
   inputs: {
     values: {
@@ -86,6 +88,31 @@ module.exports = {
       creatorUserId: values.creatorUser.id,
       listChangedAt: new Date().toISOString(),
     });
+
+    // Mirror to Supabase (best-effort — never blocks).
+    supabase
+      .upsertCard(card, {
+        projectName: inputs.project && inputs.project.name,
+        boardName: values.board && values.board.name,
+        listName: values.list && values.list.name,
+        listType: values.list && values.list.type,
+        labels: [],
+        customFields: {},
+      })
+      .catch(() => undefined);
+    supabase
+      .logEvent({
+        cardId: card.id,
+        eventType: 'create',
+        data: {
+          list_id: values.list && String(values.list.id),
+          list_name: values.list && values.list.name,
+          list_type: values.list && values.list.type,
+        },
+        userEmail: values.creatorUser && values.creatorUser.email,
+        userId: values.creatorUser && values.creatorUser.id,
+      })
+      .catch(() => undefined);
 
     sails.sockets.broadcast(
       `board:${card.boardId}`,

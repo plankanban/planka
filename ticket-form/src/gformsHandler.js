@@ -1,6 +1,7 @@
 'use strict';
 
 const { createCard, createCardCustomFieldGroups } = require('./planka');
+const supabase = require('./supabase');
 const { WEBHOOK_SECRET } = require('./config');
 
 // Maps the raw Google Form field titles to what we display in the card description.
@@ -175,9 +176,51 @@ async function gformsHandler(req, res) {
     const { item: card } = await createCard(cardName, '');
     const groups = buildCustomFieldGroups(data, timestamp);
     await createCardCustomFieldGroups(card.id, groups);
+
+    // Mirror to Supabase (best-effort — never blocks the form response).
+    Promise.all([
+      supabase.logFormSubmission({
+        formType: 'design',
+        payload: data,
+        plankaCardId: card.id,
+        status: 'created',
+      }),
+      supabase.upsertCard({
+        planka_id: String(card.id),
+        board_id: card.boardId ? String(card.boardId) : null,
+        list_id: card.listId ? String(card.listId) : null,
+        project_name: 'PDView ERP',
+        board_name: 'Design',
+        list_name: 'Demanda',
+        name: cardName,
+        description: card.description || null,
+        labels: [],
+        custom_fields: groups.reduce((acc, g) => {
+          acc[g.name] = g.fields.reduce((m, f) => {
+            m[f.name] = f.value;
+            return m;
+          }, {});
+          return acc;
+        }, {}),
+      }),
+      supabase.logCardEvent({
+        plankaCardId: card.id,
+        eventType: 'form_submit_design',
+        data: { source: 'ticket-form', opened_at: timestamp },
+      }),
+    ]).catch(() => undefined);
+
     return res.json({ ok: true });
   } catch (err) {
     console.error('[ticket-form] gforms card creation failed:', err.message);
+    supabase
+      .logFormSubmission({
+        formType: 'design',
+        payload: data,
+        status: 'failed',
+        errorMessage: err.message,
+      })
+      .catch(() => undefined);
     return res.status(502).json({ error: 'Failed to create card' });
   }
 }
