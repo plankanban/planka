@@ -28,7 +28,8 @@
 
   .user {
     line-height: 1;
-    margin: 0 -4px 0 0;
+    margin-block: 0 0;
+    margin-inline: 0 -4px;
   }
 
   .wrapper {
@@ -37,10 +38,11 @@
     border-radius: 24px;
     display: flex;
     line-height: 34px;
-    padding: 5px 13px 5px 10px;
+    padding-block: 5px 5px;
+    padding-inline: 10px 13px;
 
     &:not(:last-child) {
-      margin-right: 10px;
+      margin-inline-end: 10px;
     }
   }
 }

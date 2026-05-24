@@ -9,8 +9,9 @@
     box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.13);
     color: #444;
     margin-top: 8px;
-    padding: 6px 8px 6px 18px;
-    text-align: left;
+    padding-block: 6px 6px;
+    padding-inline: 18px 8px;
+    text-align: start;
     transition: background 85ms ease;
 
     &:hover {
@@ -22,7 +23,7 @@
 
   .actionIcon {
     color: #17394d;
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 
   .actions {
@@ -55,7 +56,8 @@
 
   .attachment {
     display: inline-block;
-    margin: 0 4px 4px 0;
+    margin-block: 0 4px;
+    margin-inline: 0 4px;
     max-width: 100%;
     vertical-align: top;
   }
@@ -68,7 +70,8 @@
 
   .attachments {
     display: inline-block;
-    margin: 0 8px 8px 0;
+    margin-block: 0 8px;
+    margin-inline: 0 8px;
     max-width: 100%;
     vertical-align: top;
   }
@@ -88,10 +91,11 @@
   }
 
   .contentPadding {
-    padding: 8px 24px 0 16px;
+    padding-block: 8px 0;
+    padding-inline: 16px 24px;
 
     @media only screen and (width < 768px) {
-      padding-right: 16px;
+      padding-inline-end: 16px;
       width: 100% !important;
     }
   }
@@ -109,7 +113,7 @@
     line-height: 20px;
     outline: none;
     padding: 6px 14px;
-    text-align: left;
+    text-align: start;
     text-decoration: underline;
     transition: background 0.3s ease;
     vertical-align: top;
@@ -131,7 +135,7 @@
     outline: none;
     padding: 8px 12px;
     position: relative;
-    text-align: left;
+    text-align: start;
     text-decoration: none;
     width: 100%;
 
@@ -152,7 +156,7 @@
     color: rgba(0, 0, 0, 0.87);
     font-size: 14px;
     font-weight: normal;
-    margin-left: 8px;
+    margin-inline-start: 8px;
     padding: 2px 8px;
   }
 
@@ -165,7 +169,7 @@
     opacity: 0;
     padding: 0;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 4px;
     width: 28px;
 
@@ -192,7 +196,8 @@
   }
 
   .headerWrapper {
-    margin: 12px 48px 12px 56px;
+    margin-block: 12px 12px;
+    margin-inline: 56px 48px;
     position: relative;
   }
 
@@ -232,7 +237,8 @@
   }
 
   .listIcon {
-    margin: 0 8px 0 0;
+    margin-block: 0 0;
+    margin-inline: 0 8px;
   }
 
   .modalPadding {
@@ -253,16 +259,17 @@
     color: #17394d;
     font-size: 17px;
     height: 32px;
-    left: -40px;
+    inset-inline-start: -40px;
     line-height: 32px;
-    margin-right: 0;
+    margin-inline-end: 0;
     position: absolute;
     top: 2px;
     width: 32px;
   }
 
   .moduleWrapper {
-    margin: 0 0 0 40px;
+    margin-block: 0 0;
+    margin-inline: 40px 0;
     position: relative;
   }
 
@@ -272,8 +279,9 @@
     color: #6b808c;
     font-weight: normal;
     margin-top: 8px;
-    padding: 6px 8px 6px 18px;
-    text-align: left;
+    padding-block: 6px 6px;
+    padding-inline: 18px 8px;
+    text-align: start;
     text-decoration: underline;
     transition: none;
 
@@ -284,15 +292,16 @@
   }
 
   .moreActionsButtonIcon {
-    margin-right: 8px;
+    margin-inline-end: 8px;
     text-decoration: none;
   }
 
   .sidebarPadding {
-    padding: 8px 16px 8px 8px;
+    padding-block: 8px 8px;
+    padding-inline: 8px 16px;
 
     @media only screen and (width < 768px) {
-      padding-left: 16px;
+      padding-inline-start: 16px;
       width: 100% !important;
     }
   }
@@ -314,7 +323,8 @@
     font-weight: bold;
     letter-spacing: 0.3px;
     line-height: 20px;
-    margin: 0 8px 4px 0;
+    margin-block: 0 4px;
+    margin-inline: 0 8px;
     text-transform: uppercase;
   }
 

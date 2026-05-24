@@ -11,7 +11,7 @@
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 11px;
-    text-align: left;
+    text-align: start;
     text-decoration: underline;
     transition: background 0.3s ease;
 
@@ -42,7 +42,7 @@
 
     &::-webkit-scrollbar-thumb {
       background-clip: padding-box;
-      border-left: 0.25em transparent solid;
+      border-inline-start: 0.25em transparent solid;
       border-radius: 3px;
     }
   }

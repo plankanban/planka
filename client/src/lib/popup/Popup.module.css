@@ -9,7 +9,7 @@
   margin: 0 !important;
   padding: 10px 12px 10px 8px !important;
   position: absolute;
-  right: 0;
+  inset-inline-end: 0;
   top: 0;
   width: 40px;
   z-index: 2000;
@@ -22,6 +22,7 @@
     0 0 0 1px rgba(9, 45, 66, 0.08) !important;
   margin-top: 6px !important;
   max-height: calc(100% - 70px);
-  padding: 0 12px 12px !important;
+  padding-block: 0 12px;
+  padding-inline: !important 12px;
   width: 304px;
 }

@@ -26,7 +26,8 @@
 
   .user {
     display: inline-block;
-    padding: 4px 8px 0 0;
+    padding-block: 4px 0;
+    padding-inline: 0 8px;
     vertical-align: top;
   }
 }

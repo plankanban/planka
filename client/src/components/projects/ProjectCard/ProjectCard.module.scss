@@ -11,9 +11,9 @@
   .cover {
     background: #555;
     bottom: 0;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 0;
     transition: filter 0.2s ease;
 
@@ -21,20 +21,20 @@
       background: #000;
       bottom: 0;
       content: "";
-      left: 0;
+      inset-inline-start: 0;
       opacity: 0.3;
       position: absolute;
-      right: 0;
+      inset-inline-end: 0;
       top: 0;
     }
   }
 
   .description {
-    border-left: 1px solid;
+    border-inline-start: 1px solid;
     display: -webkit-box;
     font-weight: lighter;
     hyphens: auto;
-    left: 0;
+    inset-inline-start: 0;
     line-height: 1.2;
     opacity: 0;
     overflow: hidden;
@@ -55,7 +55,7 @@
     margin: 0;
     padding: 0;
     position: absolute;
-    right: 4px;
+    inset-inline-end: 4px;
     top: 4px;
     width: 36px;
 
@@ -92,7 +92,7 @@
     bottom: 0;
     display: -webkit-box;
     hyphens: auto;
-    left: 0;
+    inset-inline-start: 0;
     line-height: 1.1;
     overflow: hidden;
     position: absolute;
@@ -113,7 +113,7 @@
     bottom: 12px;
     margin-top: auto;
     position: absolute;
-    right: 12px;
+    inset-inline-end: 12px;
   }
 
   .typeIndicatorIcon {
@@ -122,7 +122,7 @@
 
   .typeIndicatorWithUser {
     bottom: 12px;
-    right: 8px;
+    inset-inline-end: 8px;
   }
 
   .wrapper {
@@ -165,7 +165,8 @@
     .title {
       line-clamp: 2;
       -webkit-line-clamp: 2;
-      margin: 0 12px 10px 12px;
+      margin-block: 0 10px;
+      margin-inline: 12px 12px;
     }
   }
 
@@ -173,12 +174,13 @@
     .description {
       line-clamp: 3;
       -webkit-line-clamp: 3;
-      margin: 24px 20px 0 20px;
-      padding-left: 10px;
+      margin-block: 24px 0;
+      margin-inline: 20px 20px;
+      padding-inline-start: 10px;
     }
 
     .informationWithSidebar {
-      margin-right: 20px;
+      margin-inline-end: 20px;
     }
 
     .notifications {
@@ -190,7 +192,8 @@
       font-size: 22px;
       line-clamp: 2;
       -webkit-line-clamp: 2;
-      margin: 0 20px 14px 20px;
+      margin-block: 0 14px;
+      margin-inline: 20px 20px;
     }
   }
 }

@@ -7,7 +7,7 @@
   .actions {
     border-top: 1px solid rgba(34, 36, 38, 0.15);
     padding-top: 1rem;
-    text-align: right;
+    text-align: end;
 
     &:after {
       clear: both;
@@ -17,24 +17,24 @@
   }
 
   .addButton {
-    margin-right: 0;
+    margin-inline-end: 0;
   }
 
   .addButtonCounter {
-    margin-left: 6px;
+    margin-inline-start: 6px;
     opacity: 0.5;
   }
 
   .tableWrapper {
-    margin-right: -2.5rem;
+    margin-inline-end: -2.5rem;
     max-height: calc(100vh - 338px);
     overflow: auto;
-    padding-right: 2.5rem;
+    padding-inline-end: 2.5rem;
 
     @media (width < 768px) {
-      margin-right: -2rem;
+      margin-inline-end: -2rem;
       max-height: calc(100vh - 296px);
-      padding-right: 2rem;
+      padding-inline-end: 2rem;
     }
 
     @media (768px <= width < 926px) {
@@ -58,12 +58,12 @@
     background: transparent;
     box-shadow: none;
     color: #6b808c;
-    float: left;
+    float: inline-start;
     font-weight: normal;
-    margin-left: auto;
-    margin-right: 0;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
     padding: 6px 11px;
-    text-align: left;
+    text-align: start;
     text-decoration: underline;
     transition: none;
     white-space: nowrap;

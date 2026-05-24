@@ -11,7 +11,7 @@
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 11px;
-    text-align: left;
+    text-align: start;
     text-decoration: underline;
     transition: background 0.3s ease;
 
@@ -21,7 +21,7 @@
   }
 
   .colorButton {
-    float: left;
+    float: inline-start;
     height: 40px;
     margin: 4px;
     padding: 0;
@@ -40,7 +40,7 @@
     font-size: 18px;
     line-height: 36px;
     position: absolute;
-    right: 6px;
+    inset-inline-end: 6px;
     text-align: center;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
     top: 0;

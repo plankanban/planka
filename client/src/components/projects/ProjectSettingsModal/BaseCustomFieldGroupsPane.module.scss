@@ -27,14 +27,16 @@
 
   .attachment {
     display: inline-block;
-    margin: 0 4px 4px 0;
+    margin-block: 0 4px;
+    margin-inline: 0 4px;
     max-width: 100%;
   }
 
   .attachments {
     display: inline-block;
     line-height: 1;
-    margin: 0 8px 8px 0;
+    margin-block: 0 8px;
+    margin-inline: 0 8px;
     max-width: 100%;
     vertical-align: top;
   }

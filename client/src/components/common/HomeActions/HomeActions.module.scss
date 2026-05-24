@@ -10,15 +10,15 @@
     flex: 0 0 auto;
 
     &:first-child {
-      padding-left: 20px;
+      padding-inline-start: 20px;
     }
 
     &:last-child {
-      padding-right: 20px;
+      padding-inline-end: 20px;
     }
 
     &:not(:last-child) {
-      margin-right: 20px;
+      margin-inline-end: 20px;
     }
   }
 
@@ -27,7 +27,7 @@
   }
 
   .actionRightSide {
-    margin-left: auto;
+    margin-inline-start: auto;
   }
 
   .actions {

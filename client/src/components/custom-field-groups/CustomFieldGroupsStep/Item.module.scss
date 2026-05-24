@@ -24,7 +24,8 @@
     flex: 1 1 auto;
     font-size: 14px;
     overflow: hidden;
-    padding: 8px 32px 8px 10px;
+    padding-block: 8px 8px;
+    padding-inline: 10px 32px;
     position: relative;
     text-overflow: ellipsis;
   }

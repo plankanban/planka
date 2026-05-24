@@ -5,7 +5,7 @@
 
 :global(#app) {
   .action:not(:last-child) {
-    margin-right: 10px;
+    margin-inline-end: 10px;
   }
 
   .button {
@@ -40,13 +40,13 @@
       }
 
       &:first-child {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+        border-start-start-radius: 3px;
+        border-end-start-radius: 3px;
       }
 
       &:last-child {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-start-end-radius: 3px;
+        border-end-end-radius: 3px;
       }
     }
   }

@@ -17,7 +17,7 @@
 
   .countOpenable {
     &:after {
-      margin-left: 2px;
+      margin-inline-start: 2px;
     }
 
     &:hover {
@@ -56,6 +56,6 @@
     color: #333;
     list-style: none;
     margin: -2px 0 0;
-    padding-left: 0;
+    padding-inline-start: 0;
   }
 }

@@ -8,12 +8,12 @@
     display: flex;
     gap: 2px;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 4px;
   }
 
   .actionsEditable {
-    right: 4px;
+    inset-inline-end: 4px;
   }
 
   .assigneeUserAvatar {
@@ -37,11 +37,12 @@
 
   .checkboxWrapper {
     display: inline-block;
-    padding: 10px 15px 0px 8px;
+    padding-block: 10px 0px;
+    padding-inline: 8px 15px;
     position: absolute;
     text-align: center;
     top: 0;
-    left: 0;
+    inset-inline-start: 0;
     vertical-align: top;
     z-index: 2000;
     line-height: 1;
@@ -58,7 +59,7 @@
 
   .icon {
     color: rgba(9, 30, 66, 0.24);
-    margin-right: 8px;
+    margin-inline-end: 8px;
   }
 
   .name {
@@ -90,19 +91,20 @@
     font-size: 15px;
     line-height: 1.5;
     min-height: 32px;
-    padding: 0 34px 0 40px;
+    padding-block: 0 0;
+    padding-inline: 40px 34px;
     width: 100%;
 
     &.textLinked {
-      padding-right: 0px;
+      padding-inline-end: 0px;
     }
   }
 
   .textEditable {
-    padding-right: 68px;
+    padding-inline-end: 68px;
 
     &.textLinked {
-      padding-right: 34px;
+      padding-inline-end: 34px;
     }
   }
 
@@ -113,7 +115,7 @@
   .wrapper {
     border-radius: 3px;
     cursor: auto;
-    margin-left: -40px;
+    margin-inline-start: -40px;
     min-height: 32px;
     position: relative;
     width: calc(100% + 40px);

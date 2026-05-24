@@ -23,14 +23,14 @@
   }
 
   .attachmentLeft {
-    margin-right: 4px;
+    margin-inline-end: 4px;
   }
 
   .attachments {
     white-space: nowrap;
 
     &:not(:last-child) {
-      margin-right: 20px;
+      margin-inline-end: 20px;
     }
   }
 

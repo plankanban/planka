@@ -11,7 +11,7 @@
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 11px;
-    text-align: left;
+    text-align: start;
     text-decoration: underline;
     transition: background 0.3s ease;
 
@@ -37,7 +37,7 @@
     outline: none;
     padding: 4px;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 0;
     transition: background 85ms ease;
     width: 20px;

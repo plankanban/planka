@@ -15,7 +15,7 @@
     font-weight: normal;
     height: 42px;
     padding: 11px;
-    text-align: left;
+    text-align: start;
     transition: background 85ms ease-in, opacity 40ms ease-in,
       border-color 85ms ease-in;
     width: 100%;
@@ -43,7 +43,7 @@
   }
 
   .list {
-    margin-right: 8px;
+    margin-inline-end: 8px;
     width: 272px;
   }
 
@@ -54,6 +54,7 @@
   }
 
   .wrapper {
-    padding: 0 12px 0 20px;
+    padding-block: 0 0;
+    padding-inline: 20px 12px;
   }
 }

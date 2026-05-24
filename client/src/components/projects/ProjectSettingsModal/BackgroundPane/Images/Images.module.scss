@@ -30,7 +30,7 @@
     height: 36px;
     line-height: 24px;
     padding: 6px 12px;
-    text-align: left;
+    text-align: start;
     text-decoration: underline;
     width: 100%;
   }
@@ -57,7 +57,7 @@
 
     &::-webkit-scrollbar-thumb {
       background-clip: padding-box;
-      border-left: 0.25em transparent solid;
+      border-inline-start: 0.25em transparent solid;
       border-radius: 3px;
     }
   }

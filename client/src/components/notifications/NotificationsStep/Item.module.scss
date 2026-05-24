@@ -12,7 +12,7 @@
   .button {
     background: transparent;
     box-shadow: none;
-    float: right;
+    float: inline-end;
     height: 20px;
     line-height: 20px;
     margin: 0;
@@ -32,7 +32,8 @@
     line-height: 20px;
     min-height: 36px;
     overflow: hidden;
-    padding: 0 4px 0 8px;
+    padding-block: 0 0;
+    padding-inline: 8px 4px;
     vertical-align: top;
     width: calc(100% - 56px);
     word-break: break-word;

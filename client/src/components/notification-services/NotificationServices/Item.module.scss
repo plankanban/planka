@@ -5,7 +5,8 @@
 
 :global(#app) {
   .button {
-    margin: 0 0 0 8px;
+    margin-block: 0 0;
+    margin-inline: 8px 0;
   }
 
   .field {

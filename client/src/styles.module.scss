@@ -82,7 +82,7 @@
 
     .react-datepicker__day-names,
     .react-datepicker__week {
-      border-right: 1px solid #c2ccd1;
+      border-inline-end: 1px solid #c2ccd1;
     }
 
     .react-datepicker__day-names {
@@ -104,11 +104,11 @@
     }
 
     .react-datepicker__navigation--previous {
-      left: 0;
+      inset-inline-start: 0;
     }
 
     .react-datepicker__navigation--next {
-      right: 0;
+      inset-inline-end: 0;
     }
 
     .react-datepicker__navigation {
