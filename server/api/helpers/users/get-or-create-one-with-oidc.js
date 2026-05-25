@@ -127,6 +127,11 @@ module.exports = {
       values.username = _.get(claims, sails.config.custom.oidcUsernameAttribute);
     }
 
+    let avatarUrl = null;
+    if (!sails.config.custom.oidcIgnoreAvatar) {
+      avatarUrl = _.get(claims, sails.config.custom.oidcAvatarAttribute);
+    }
+
     // This whole block technically needs to be executed in a transaction
     // with SERIALIZABLE isolation level (but Waterline does not support
     // that), so this will result in errors if for example users are deleted
@@ -156,6 +161,20 @@ module.exports = {
           .intercept('activeLimitReached', 'activeLimitReached');
 
         isCreated = true;
+
+        if (avatarUrl) {
+          const avatar = await sails.helpers.users.importAvatarFromUrl.with({
+            url: avatarUrl,
+          });
+
+          if (avatar) {
+            user = await sails.helpers.users.updateOne.with({
+              record: user,
+              values: { avatar },
+              actorUser: User.OIDC,
+            });
+          }
+        }
       }
 
       identityProviderUser = await IdentityProviderUser.qm.createOne({
