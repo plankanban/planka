@@ -34,6 +34,14 @@ const CHAMADOS_LISTS = [
   { name: 'Executados', type: 'closed' },
 ];
 
+// Board Comercial — mesma estrutura inicial do Chamados (3 listas, sendo
+// "Executados" o estado `closed`). O time pode renomear/extender depois.
+const COMERCIAL_LISTS = [
+  { name: 'Em Espera' },
+  { name: 'Em Execução' },
+  { name: 'Executados', type: 'closed' },
+];
+
 const PRIORITY_LABELS = [
   { name: 'BAIXA PRIORIDADE', color: 'bright-moss' },
   { name: 'MÉDIA GRAVIDADE', color: 'egg-yellow' },
@@ -250,5 +258,21 @@ exports.seed = async (knex) => {
     const { name, color } = PRIORITY_LABELS[i];
     // eslint-disable-next-line no-await-in-loop
     await ensureLabel(knex, chamadosBoardId, name, color, (i + 1) * POSITION_GAP);
+  }
+
+  // --- Comercial board ---
+  const { boardId: comercialBoardId, projectId: comercialProjectId } = await ensureBoard(
+    knex,
+    fallbackProjectId,
+    'Comercial',
+    'table',
+    POSITION_GAP * 3,
+  );
+  await ensureBoardMembership(knex, comercialProjectId, comercialBoardId, admin.id);
+
+  for (let i = 0; i < COMERCIAL_LISTS.length; i += 1) {
+    const { name, type } = COMERCIAL_LISTS[i];
+    // eslint-disable-next-line no-await-in-loop
+    await ensureList(knex, comercialBoardId, name, (i + 1) * POSITION_GAP, type);
   }
 };

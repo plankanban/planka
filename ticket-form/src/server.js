@@ -6,6 +6,7 @@ const { PORT, CONTACT_REASONS } = require('./config');
 const { submitHandler } = require('./handler');
 const { gformsHandler } = require('./gformsHandler');
 const { manutencaoHandler } = require('./manutencaoHandler');
+const { comercialHandler } = require('./comercialHandler');
 const { fetchBoardCards } = require('./planka');
 
 const app = express();
@@ -25,6 +26,9 @@ app.post('/api/gforms', gformsHandler);
 
 // Maintenance ticket form submission
 app.post('/api/manutencao', manutencaoHandler);
+
+// Atualização Comercial (Posto/Varejo/Igreja unificado)
+app.post('/api/comercial', comercialHandler);
 
 // Cards listing for table view
 app.get('/api/cards', async (_req, res) => {

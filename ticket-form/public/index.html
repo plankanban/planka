@@ -67,6 +67,7 @@
 
     .card-artes { border-top-color: #4f6bed; }
     .card-manutencao { border-top-color: #d32f2f; }
+    .card-comercial { border-top-color: #16a34a; }
 
     .card-icon {
       width: 72px;
@@ -87,6 +88,11 @@
     .card-manutencao .card-icon {
       background: #fef2f2;
       color: #d32f2f;
+    }
+
+    .card-comercial .card-icon {
+      background: #ecfdf5;
+      color: #16a34a;
     }
 
     .card h2 {
@@ -130,6 +136,14 @@
       background: #b71c1c;
     }
 
+    .card-comercial .card-button {
+      background: #16a34a;
+    }
+
+    .card-comercial:hover .card-button {
+      background: #15803d;
+    }
+
     .footer {
       margin-top: 64px;
       font-size: 0.78rem;
@@ -164,6 +178,13 @@
         <h2>Chamado Técnico</h2>
         <p>Registre um chamado de manutenção ou suporte técnico para análise pela equipe.</p>
         <div class="card-button">Abrir chamado técnico</div>
+      </a>
+
+      <a href="/comercial.html" class="card card-comercial">
+        <div class="card-icon">💼</div>
+        <h2>Atualização Comercial</h2>
+        <p>Registre uma atualização comercial de Posto, Varejo ou Igreja para o time de vendas.</p>
+        <div class="card-button">Abrir atualização comercial</div>
       </a>
 
     </div>

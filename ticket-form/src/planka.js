@@ -11,6 +11,8 @@ const {
   PLANKA_DESIGN_LIST_NAME,
   PLANKA_CHAMADOS_BOARD_NAME,
   PLANKA_CHAMADOS_LIST_NAME,
+  PLANKA_COMERCIAL_BOARD_NAME,
+  PLANKA_COMERCIAL_LIST_NAME,
 } = config;
 
 // Module-level token cache shared across all requests in this process.
@@ -58,6 +60,8 @@ const idCache = {
   chamadosListId: config.PLANKA_CHAMADOS_LIST_ID,
   priorityLabels: { ...config.PRIORITY_LABELS },
   chamadosBoardId: null,
+  comercialBoardId: null,
+  comercialListId: null,
 };
 
 async function apiGet(path) {
@@ -143,6 +147,31 @@ async function getChamadosListId() {
     );
   }
   idCache.chamadosListId = listId;
+  return listId;
+}
+
+async function getComercialBoardId() {
+  if (idCache.comercialBoardId) return idCache.comercialBoardId;
+  const boardId = await findBoardId(PLANKA_PROJECT_NAME, PLANKA_COMERCIAL_BOARD_NAME);
+  if (!boardId) {
+    throw new Error(
+      `Could not find board "${PLANKA_COMERCIAL_BOARD_NAME}" inside project "${PLANKA_PROJECT_NAME}"`,
+    );
+  }
+  idCache.comercialBoardId = boardId;
+  return boardId;
+}
+
+async function getComercialListId() {
+  if (idCache.comercialListId) return idCache.comercialListId;
+  const boardId = await getComercialBoardId();
+  const listId = await findListIdInBoard(boardId, PLANKA_COMERCIAL_LIST_NAME);
+  if (!listId) {
+    throw new Error(
+      `Could not find list "${PLANKA_COMERCIAL_LIST_NAME}" on board "${PLANKA_COMERCIAL_BOARD_NAME}"`,
+    );
+  }
+  idCache.comercialListId = listId;
   return listId;
 }
 
@@ -345,5 +374,7 @@ module.exports = {
   getDesignListId,
   getChamadosListId,
   getChamadosBoardId,
+  getComercialBoardId,
+  getComercialListId,
   getPriorityLabelId,
 };

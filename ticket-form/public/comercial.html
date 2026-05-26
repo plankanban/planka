@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Atualização Comercial</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      padding: 32px 16px 64px;
+      color: #222;
+    }
+
+    .page-header {
+      max-width: 680px;
+      margin: 0 auto 24px;
+    }
+
+    .page-header h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #1a1a2e;
+    }
+
+    .page-header p {
+      margin-top: 4px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+      color: #16a34a;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    .section {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+      padding: 28px 32px;
+      max-width: 680px;
+      margin: 0 auto 20px;
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #16a34a;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #d1fae5;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 560px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .section { padding: 20px 18px; }
+    }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    label .req { color: #e53e3e; margin-left: 2px; }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      padding: 9px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 7px;
+      font-size: 0.93rem;
+      font-family: inherit;
+      color: #222;
+      background: #fff;
+      transition: border-color 0.15s;
+      outline: none;
+      width: 100%;
+      height: 40px;
+      line-height: 1.2;
+    }
+
+    textarea {
+      height: auto;
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #16a34a;
+    }
+
+    /* Type chooser (3 cards) */
+    .type-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 560px) {
+      .type-grid { grid-template-columns: 1fr; }
+    }
+
+    .type-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 20px 12px;
+      border: 2px solid #e2e6ee;
+      border-radius: 12px;
+      background: #fafbfd;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s, transform 0.1s;
+      text-align: center;
+    }
+
+    .type-card:hover {
+      border-color: #16a34a;
+      transform: translateY(-2px);
+    }
+
+    .type-card.is-active {
+      border-color: #16a34a;
+      background: #ecfdf5;
+    }
+
+    .type-card .type-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .type-card .type-label {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .type-card .type-desc {
+      font-size: 0.78rem;
+      color: #666;
+      line-height: 1.3;
+    }
+
+    .type-card input[type="radio"] {
+      display: none;
+    }
+
+    /* The fluxo sections start hidden until a type is picked */
+    .fluxo {
+      display: none;
+    }
+
+    .fluxo.is-visible {
+      display: block;
+    }
+
+    /* Submit area */
+    .submit-section {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+    }
+
+    button[type="submit"]:hover:not(:disabled) { background: #15803d; }
+
+    button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    #message {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 9px;
+      font-size: 0.92rem;
+      display: none;
+    }
+
+    #message.error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+      display: block;
+      animation: shake .4s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-6px); }
+      80% { transform: translateX(6px); }
+    }
+
+    .btn-loading {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Success overlay (same look-and-feel as the other forms) */
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      background: #f0f2f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn .4s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .success-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      padding: 48px 40px;
+      text-align: center;
+      max-width: 460px;
+      width: 90%;
+    }
+    .success-icon {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      color: #fff;
+      font-size: 2rem;
+    }
+    .success-card h2 {
+      font-size: 1.4rem;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+    }
+    .success-card p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+    .btn-new {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-new:hover { background: #15803d; }
+  </style>
+</head>
+<body>
+
+  <div class="page-header">
+    <a href="/" class="back-link">← Voltar</a>
+    <h1>Atualização Comercial</h1>
+    <p>Registre uma atualização comercial. Escolha o tipo de estabelecimento abaixo.</p>
+  </div>
+
+  <form id="form">
+
+    <!-- Tipo de estabelecimento -->
+    <div class="section">
+      <div class="section-title">Tipo de Estabelecimento</div>
+      <div class="type-grid">
+        <label class="type-card" data-type="posto">
+          <input type="radio" name="TIPO" value="POSTO" required />
+          <span class="type-icon">⛽</span>
+          <span class="type-label">Posto</span>
+          <span class="type-desc">Posto de combustível</span>
+        </label>
+        <label class="type-card" data-type="varejo">
+          <input type="radio" name="TIPO" value="VAREJO" required />
+          <span class="type-icon">🛒</span>
+          <span class="type-label">Varejo</span>
+          <span class="type-desc">Outros estabelecimentos</span>
+        </label>
+        <label class="type-card" data-type="igreja">
+          <input type="radio" name="TIPO" value="IGREJA" required />
+          <span class="type-icon">⛪</span>
+          <span class="type-label">Igreja</span>
+          <span class="type-desc">Templos e igrejas</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Campos comuns (aparecem só depois de escolher o tipo) -->
+    <div class="section fluxo" id="fluxo-common">
+      <div class="section-title">Vendedor</div>
+      <div class="field">
+        <label>Vendedor <span class="req">*</span></label>
+        <select name="VENDEDOR" required>
+          <option value="" disabled selected>Selecione...</option>
+          <option>Marilyn</option>
+          <option>Priscila</option>
+          <option>Mary</option>
+          <option>Thiago</option>
+          <option>Eduardo</option>
+          <option>Mello</option>
+          <option>Márcio</option>
+          <option>Fabrício</option>
+          <option>Outro</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Fluxo POSTO -->
+    <div class="section fluxo" id="fluxo-posto">
+      <div class="section-title">Dados do Posto</div>
+      <div class="grid-2">
+        <div class="field full">
+          <label>Nome do Posto <span class="req">*</span></label>
+          <input type="text" name="POSTO_NOME" placeholder="Ex: Auto Posto Estrela" />
+        </div>
+        <div class="field">
+          <label>Bandeira</label>
+          <input type="text" name="POSTO_BANDEIRA" placeholder="Ex: Petrobras, Shell, Branca" />
+        </div>
+        <div class="field">
+          <label>CNPJ</label>
+          <input type="text" name="POSTO_CNPJ" placeholder="00.000.000/0000-00" />
+        </div>
+        <div class="field">
+          <label>Cidade <span class="req">*</span></label>
+          <input type="text" name="POSTO_CIDADE" />
+        </div>
+        <div class="field">
+          <label>Estado <span class="req">*</span></label>
+          <input type="text" name="POSTO_ESTADO" placeholder="UF" maxlength="2" />
+        </div>
+        <div class="field">
+          <label>Responsável / Contato</label>
+          <input type="text" name="POSTO_RESPONSAVEL" />
+        </div>
+        <div class="field">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" name="POSTO_TELEFONE" placeholder="(11) 99999-9999" />
+        </div>
+        <div class="field full">
+          <label>Status da Negociação</label>
+          <select name="POSTO_STATUS">
+            <option value="" disabled selected>Selecione...</option>
+            <option>Primeiro contato</option>
+            <option>Em negociação</option>
+            <option>Proposta enviada</option>
+            <option>Aguardando retorno</option>
+            <option>Fechado / Ganho</option>
+            <option>Perdido</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Observações</label>
+          <textarea name="POSTO_OBSERVACOES" placeholder="Detalhes da atualização comercial..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fluxo VAREJO -->
+    <div class="section fluxo" id="fluxo-varejo">
+      <div class="section-title">Dados do Varejo</div>
+      <div class="grid-2">
+        <div class="field full">
+          <label>Nome do Estabelecimento <span class="req">*</span></label>
+          <input type="text" name="VAREJO_NOME" placeholder="Ex: Supermercado Central" />
+        </div>
+        <div class="field">
+          <label>Segmento</label>
+          <select name="VAREJO_SEGMENTO">
+            <option value="" disabled selected>Selecione...</option>
+            <option>Supermercado</option>
+            <option>Padaria</option>
+            <option>Conveniência</option>
+            <option>Farmácia</option>
+            <option>Loja de departamento</option>
+            <option>Restaurante</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>CNPJ</label>
+          <input type="text" name="VAREJO_CNPJ" placeholder="00.000.000/0000-00" />
+        </div>
+        <div class="field">
+          <label>Cidade <span class="req">*</span></label>
+          <input type="text" name="VAREJO_CIDADE" />
+        </div>
+        <div class="field">
+          <label>Estado <span class="req">*</span></label>
+          <input type="text" name="VAREJO_ESTADO" placeholder="UF" maxlength="2" />
+        </div>
+        <div class="field">
+          <label>Responsável / Contato</label>
+          <input type="text" name="VAREJO_RESPONSAVEL" />
+        </div>
+        <div class="field">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" name="VAREJO_TELEFONE" placeholder="(11) 99999-9999" />
+        </div>
+        <div class="field full">
+          <label>Status da Negociação</label>
+          <select name="VAREJO_STATUS">
+            <option value="" disabled selected>Selecione...</option>
+            <option>Primeiro contato</option>
+            <option>Em negociação</option>
+            <option>Proposta enviada</option>
+            <option>Aguardando retorno</option>
+            <option>Fechado / Ganho</option>
+            <option>Perdido</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Observações</label>
+          <textarea name="VAREJO_OBSERVACOES" placeholder="Detalhes da atualização comercial..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fluxo IGREJA -->
+    <div class="section fluxo" id="fluxo-igreja">
+      <div class="section-title">Dados da Igreja</div>
+      <div class="grid-2">
+        <div class="field full">
+          <label>Nome da Igreja <span class="req">*</span></label>
+          <input type="text" name="IGREJA_NOME" placeholder="Ex: Igreja Batista Central" />
+        </div>
+        <div class="field">
+          <label>Denominação</label>
+          <input type="text" name="IGREJA_DENOMINACAO" placeholder="Ex: Batista, Assembleia, Católica" />
+        </div>
+        <div class="field">
+          <label>CNPJ</label>
+          <input type="text" name="IGREJA_CNPJ" placeholder="00.000.000/0000-00" />
+        </div>
+        <div class="field">
+          <label>Cidade <span class="req">*</span></label>
+          <input type="text" name="IGREJA_CIDADE" />
+        </div>
+        <div class="field">
+          <label>Estado <span class="req">*</span></label>
+          <input type="text" name="IGREJA_ESTADO" placeholder="UF" maxlength="2" />
+        </div>
+        <div class="field">
+          <label>Pastor / Responsável</label>
+          <input type="text" name="IGREJA_RESPONSAVEL" />
+        </div>
+        <div class="field">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" name="IGREJA_TELEFONE" placeholder="(11) 99999-9999" />
+        </div>
+        <div class="field">
+          <label>Quantidade de Membros</label>
+          <input type="number" name="IGREJA_MEMBROS" min="0" />
+        </div>
+        <div class="field full">
+          <label>Status da Negociação</label>
+          <select name="IGREJA_STATUS">
+            <option value="" disabled selected>Selecione...</option>
+            <option>Primeiro contato</option>
+            <option>Em negociação</option>
+            <option>Proposta enviada</option>
+            <option>Aguardando retorno</option>
+            <option>Fechado / Ganho</option>
+            <option>Perdido</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label>Observações</label>
+          <textarea name="IGREJA_OBSERVACOES" placeholder="Detalhes da atualização comercial..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-section">
+      <button type="submit" id="submitBtn" disabled>Selecione o tipo</button>
+      <div id="message" role="alert" aria-live="polite"></div>
+    </div>
+
+  </form>
+
+  <script>
+    const form = document.getElementById('form');
+    const submitBtn = document.getElementById('submitBtn');
+    const messageEl = document.getElementById('message');
+    const typeCards = document.querySelectorAll('.type-card');
+    const fluxos = {
+      posto:  document.getElementById('fluxo-posto'),
+      varejo: document.getElementById('fluxo-varejo'),
+      igreja: document.getElementById('fluxo-igreja'),
+    };
+    const fluxoCommon = document.getElementById('fluxo-common');
+
+    function selectType(type) {
+      // marca o card escolhido
+      typeCards.forEach((card) => {
+        card.classList.toggle('is-active', card.dataset.type === type);
+      });
+
+      // mostra campos comuns + o fluxo escolhido, esconde os outros
+      fluxoCommon.classList.add('is-visible');
+      Object.entries(fluxos).forEach(([key, el]) => {
+        el.classList.toggle('is-visible', key === type);
+      });
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar atualização';
+    }
+
+    typeCards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const type = card.dataset.type;
+        const radio = card.querySelector('input[type="radio"]');
+        radio.checked = true;
+        selectType(type);
+      });
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearMessage();
+
+      const data = {};
+      const elements = form.elements;
+      for (const el of elements) {
+        if (!el.name || el.disabled) continue;
+        if ((el.type === 'radio' || el.type === 'checkbox') && !el.checked) continue;
+        if (el.value !== '') data[el.name] = el.value;
+      }
+
+      // Filtra os campos pra mandar só os do fluxo escolhido + comuns
+      const type = (data.TIPO || '').toLowerCase();
+      const prefix = type.toUpperCase() + '_';
+      const filtered = {};
+      for (const [k, v] of Object.entries(data)) {
+        // mantém TIPO, VENDEDOR, e os campos do fluxo escolhido (prefixados)
+        if (k === 'TIPO' || k === 'VENDEDOR' || k.startsWith(prefix)) {
+          filtered[k] = v;
+        }
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="btn-loading"><span class="spinner"></span> Enviando...</span>';
+
+      try {
+        const res = await fetch('/api/comercial', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(filtered),
+        });
+        const body = await res.json();
+        if (res.ok && body.ok) {
+          showSuccess();
+        } else {
+          showError(body.error || 'Erro inesperado. Tente novamente.');
+        }
+      } catch {
+        showError('Falha na conexão. Verifique sua internet e tente novamente.');
+      }
+    });
+
+    function showSuccess() {
+      const overlay = document.createElement('div');
+      overlay.className = 'success-overlay';
+      overlay.innerHTML = `
+        <div class="success-card">
+          <div class="success-icon">✓</div>
+          <h2>Atualização registrada!</h2>
+          <p>O card foi criado no board Comercial e o time já pode visualizar.</p>
+          <button class="btn-new" onclick="location.reload()">Enviar outra atualização</button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+
+    function showError(msg) {
+      messageEl.className = 'error';
+      messageEl.innerHTML = '<strong>Erro:</strong> ' + msg;
+      messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Enviar atualização';
+    }
+
+    function clearMessage() {
+      messageEl.className = '';
+      messageEl.innerHTML = '';
+    }
+  </script>
+</body>
+</html>
