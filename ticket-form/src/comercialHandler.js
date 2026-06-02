@@ -176,7 +176,7 @@ async function comercialHandler(req, res) {
         errorMessage: err.message,
       })
       .catch(() => undefined);
-    return res.status(502).json({ error: 'Erro ao registrar a atualização. Tente novamente.' });
+    return res.status(502).json({ error: 'Erro ao registrar o pedido. Tente novamente.' });
   }
 }
 

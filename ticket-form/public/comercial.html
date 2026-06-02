@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Atualização Comercial</title>
+  <title>Pedido de Venda</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -309,8 +309,8 @@
 
   <div class="page-header">
     <a href="/" class="back-link">← Voltar</a>
-    <h1>Atualização Comercial</h1>
-    <p>Registre uma atualização comercial. Escolha o tipo de estabelecimento abaixo.</p>
+    <h1>Pedido de Venda</h1>
+    <p>Abrir um novo pedido de venda para Posto, Varejo ou Igreja.</p>
   </div>
 
   <form id="form">
@@ -406,7 +406,7 @@
         </div>
         <div class="field full">
           <label>Observações</label>
-          <textarea name="POSTO_OBSERVACOES" placeholder="Detalhes da atualização comercial..."></textarea>
+          <textarea name="POSTO_OBSERVACOES" placeholder="Detalhes do pedido de venda..."></textarea>
         </div>
       </div>
     </div>
@@ -466,7 +466,7 @@
         </div>
         <div class="field full">
           <label>Observações</label>
-          <textarea name="VAREJO_OBSERVACOES" placeholder="Detalhes da atualização comercial..."></textarea>
+          <textarea name="VAREJO_OBSERVACOES" placeholder="Detalhes do pedido de venda..."></textarea>
         </div>
       </div>
     </div>
@@ -521,7 +521,7 @@
         </div>
         <div class="field full">
           <label>Observações</label>
-          <textarea name="IGREJA_OBSERVACOES" placeholder="Detalhes da atualização comercial..."></textarea>
+          <textarea name="IGREJA_OBSERVACOES" placeholder="Detalhes do pedido de venda..."></textarea>
         </div>
       </div>
     </div>
@@ -559,7 +559,7 @@
       });
 
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Enviar atualização';
+      submitBtn.textContent = 'Enviar pedido';
     }
 
     typeCards.forEach((card) => {
@@ -620,9 +620,9 @@
       overlay.innerHTML = `
         <div class="success-card">
           <div class="success-icon">✓</div>
-          <h2>Atualização registrada!</h2>
+          <h2>Pedido registrado!</h2>
           <p>O card foi criado no board Comercial e o time já pode visualizar.</p>
-          <button class="btn-new" onclick="location.reload()">Enviar outra atualização</button>
+          <button class="btn-new" onclick="location.reload()">Enviar outro pedido</button>
         </div>
       `;
       document.body.appendChild(overlay);
@@ -633,7 +633,7 @@
       messageEl.innerHTML = '<strong>Erro:</strong> ' + msg;
       messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       submitBtn.disabled = false;
-      submitBtn.textContent = 'Enviar atualização';
+      submitBtn.textContent = 'Enviar pedido';
     }
 
     function clearMessage() {
