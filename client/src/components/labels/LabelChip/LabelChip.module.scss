@@ -34,6 +34,11 @@
     opacity: 0.75;
   }
 
+  .wrapperExcluded {
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.75);
+    text-decoration: line-through;
+  }
+
   /* Sizes */
 
   .wrapperTiny {

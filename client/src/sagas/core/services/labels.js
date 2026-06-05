@@ -205,6 +205,18 @@ export function* removeLabelFromFilterInCurrentBoard(id) {
   yield call(removeLabelFromBoardFilter, id, boardId);
 }
 
+export function* updateLabelFilterInBoard(id, boardId, mode) {
+  const currentListId = yield select(selectors.selectCurrentListId);
+
+  yield put(actions.updateLabelFilterInBoard(id, boardId, mode, currentListId));
+}
+
+export function* updateLabelFilterInCurrentBoard(id, mode) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(updateLabelFilterInBoard, id, boardId, mode);
+}
+
 export default {
   createLabel,
   createLabelInCurrentBoard,
@@ -225,4 +237,6 @@ export default {
   addLabelToFilterInCurrentBoard,
   removeLabelFromBoardFilter,
   removeLabelFromFilterInCurrentBoard,
+  updateLabelFilterInBoard,
+  updateLabelFilterInCurrentBoard,
 };

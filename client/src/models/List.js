@@ -7,6 +7,7 @@ import { attr, fk } from 'redux-orm';
 
 import BaseModel from './BaseModel';
 import buildSearchParts from '../utils/build-search-parts';
+import filterCardLabels from '../utils/filter-card-labels';
 import { isListFinite } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
@@ -99,6 +100,7 @@ export default class extends BaseModel {
       case ActionTypes.IN_BOARD_SEARCH:
       case ActionTypes.LABEL_TO_BOARD_FILTER_ADD:
       case ActionTypes.LABEL_FROM_BOARD_FILTER_REMOVE:
+      case ActionTypes.LABEL_FILTER_IN_BOARD_UPDATE:
         if (payload.currentListId) {
           List.withId(payload.currentListId).update({
             lastCard: null,
@@ -379,12 +381,12 @@ export default class extends BaseModel {
     }
 
     const filterLabelIds = this.board.filterLabels.toRefArray().map((label) => label.id);
+    const filterExcludedLabelIds = this.board.filterExcludedLabels
+      .toRefArray()
+      .map((label) => label.id);
 
-    if (filterLabelIds.length > 0) {
-      cardModels = cardModels.filter((cardModel) => {
-        const labels = cardModel.labels.toRefArray();
-        return labels.some((label) => filterLabelIds.includes(label.id));
-      });
+    if (filterLabelIds.length > 0 || filterExcludedLabelIds.length > 0) {
+      cardModels = filterCardLabels(cardModels, filterLabelIds, filterExcludedLabelIds);
     }
 
     return cardModels;

@@ -20,6 +20,7 @@ import UserAvatar from '../../users/UserAvatar';
 import BoardMembershipsStep from '../../board-memberships/BoardMembershipsStep';
 import LabelChip from '../../labels/LabelChip';
 import LabelsStep from '../../labels/LabelsStep';
+import { LabelFilterModes } from '../../../constants/Enums';
 
 import styles from './Filters.module.scss';
 
@@ -27,6 +28,7 @@ const Filters = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
   const userIds = useSelector(selectors.selectFilterUserIdsForCurrentBoard);
   const labelIds = useSelector(selectors.selectFilterLabelIdsForCurrentBoard);
+  const excludedLabelIds = useSelector(selectors.selectFilterExcludedLabelIdsForCurrentBoard);
   const currentUserId = useSelector(selectors.selectCurrentUserId);
 
   const withCurrentUserSelector = useSelector(
@@ -47,6 +49,26 @@ const Filters = React.memo(() => {
   );
 
   const [searchFieldRef, handleSearchFieldRef] = useNestedRef('inputRef');
+
+  const labelModes = useMemo(
+    () => ({
+      ...labelIds.reduce(
+        (result, labelId) => ({
+          ...result,
+          [labelId]: LabelFilterModes.INCLUDE,
+        }),
+        {},
+      ),
+      ...excludedLabelIds.reduce(
+        (result, labelId) => ({
+          ...result,
+          [labelId]: LabelFilterModes.EXCLUDE,
+        }),
+        {},
+      ),
+    }),
+    [labelIds, excludedLabelIds],
+  );
 
   const cancelSearch = useCallback(() => {
     debouncedSearch.cancel();
@@ -84,27 +106,20 @@ const Filters = React.memo(() => {
     [dispatch],
   );
 
-  const handleLabelSelect = useCallback(
-    (labelId) => {
-      dispatch(entryActions.addLabelToFilterInCurrentBoard(labelId));
-    },
-    [dispatch],
-  );
-
-  const handleLabelDeselect = useCallback(
-    (labelId) => {
-      dispatch(entryActions.removeLabelFromFilterInCurrentBoard(labelId));
-    },
-    [dispatch],
-  );
-
   const handleLabelClick = useCallback(
     ({
       currentTarget: {
         dataset: { id: labelId },
       },
     }) => {
-      dispatch(entryActions.removeLabelFromFilterInCurrentBoard(labelId));
+      dispatch(entryActions.updateLabelFilterInCurrentBoard(labelId, LabelFilterModes.NONE));
+    },
+    [dispatch],
+  );
+
+  const handleLabelModeChange = useCallback(
+    (labelId, mode) => {
+      dispatch(entryActions.updateLabelFilterInCurrentBoard(labelId, mode));
     },
     [dispatch],
   );
@@ -176,19 +191,27 @@ const Filters = React.memo(() => {
       </span>
       <span className={styles.filter}>
         <LabelsPopup
-          currentIds={labelIds}
+          currentIds={[]}
+          currentModes={labelModes}
+          isFilterModeEnabled
           title="common.filterByLabels"
-          onSelect={handleLabelSelect}
-          onDeselect={handleLabelDeselect}
+          onModeChange={handleLabelModeChange}
         >
           <button type="button" className={styles.filterButton}>
             <span className={styles.filterTitle}>{`${t('common.labels')}:`}</span>
-            {labelIds.length === 0 && <span className={styles.filterLabel}>{t('common.all')}</span>}
+            {labelIds.length === 0 && excludedLabelIds.length === 0 && (
+              <span className={styles.filterLabel}>{t('common.all')}</span>
+            )}
           </button>
         </LabelsPopup>
         {labelIds.map((labelId) => (
           <span key={labelId} className={styles.filterItem}>
             <LabelChip id={labelId} size="small" onClick={handleLabelClick} />
+          </span>
+        ))}
+        {excludedLabelIds.map((labelId) => (
+          <span key={labelId} className={styles.filterItem}>
+            <LabelChip id={labelId} size="small" isExcluded onClick={handleLabelClick} />
           </span>
         ))}
       </span>

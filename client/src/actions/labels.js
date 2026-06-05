@@ -200,6 +200,16 @@ const removeLabelFromBoardFilter = (id, boardId, currentListId) => ({
   },
 });
 
+const updateLabelFilterInBoard = (id, boardId, mode, currentListId) => ({
+  type: ActionTypes.LABEL_FILTER_IN_BOARD_UPDATE,
+  payload: {
+    id,
+    boardId,
+    mode,
+    currentListId,
+  },
+});
+
 export default {
   createLabel,
   createLabelFromCard,
@@ -214,4 +224,5 @@ export default {
   handleLabelFromCardRemove,
   addLabelToBoardFilter,
   removeLabelFromBoardFilter,
+  updateLabelFilterInBoard,
 };

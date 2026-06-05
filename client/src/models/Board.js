@@ -7,10 +7,11 @@ import { attr, fk, many } from 'redux-orm';
 
 import BaseModel from './BaseModel';
 import buildSearchParts from '../utils/build-search-parts';
+import filterCardLabels from '../utils/filter-card-labels';
 import { isListKanban } from '../utils/record-helpers';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
-import { BoardContexts, BoardViews } from '../constants/Enums';
+import { BoardContexts, BoardViews, LabelFilterModes } from '../constants/Enums';
 
 const prepareFetchedBoard = (board) => ({
   ...board,
@@ -63,6 +64,7 @@ export default class extends BaseModel {
     }),
     filterUsers: many('User', 'filterBoards'),
     filterLabels: many('Label', 'filterBoards'),
+    filterExcludedLabels: many('Label', 'filterExcludedBoards'),
   };
 
   static reducer({ type, payload }, Board) {
@@ -254,6 +256,29 @@ export default class extends BaseModel {
         Board.withId(payload.boardId).filterLabels.remove(payload.id);
 
         break;
+      case ActionTypes.LABEL_FILTER_IN_BOARD_UPDATE: {
+        const boardModel = Board.withId(payload.boardId);
+
+        try {
+          boardModel.filterLabels.remove(payload.id);
+        } catch {
+          /* empty */
+        }
+
+        try {
+          boardModel.filterExcludedLabels.remove(payload.id);
+        } catch {
+          /* empty */
+        }
+
+        if (payload.mode === LabelFilterModes.INCLUDE) {
+          boardModel.filterLabels.add(payload.id);
+        } else if (payload.mode === LabelFilterModes.EXCLUDE) {
+          boardModel.filterExcludedLabels.add(payload.id);
+        }
+
+        break;
+      }
       case ActionTypes.ACTIVITIES_IN_BOARD_FETCH:
         Board.withId(payload.boardId).update({
           isActivitiesFetching: true,
@@ -381,12 +406,10 @@ export default class extends BaseModel {
     }
 
     const filterLabelIds = this.filterLabels.toRefArray().map((label) => label.id);
+    const filterExcludedLabelIds = this.filterExcludedLabels.toRefArray().map((label) => label.id);
 
-    if (filterLabelIds.length > 0) {
-      cardModels = cardModels.filter((cardModel) => {
-        const labels = cardModel.labels.toRefArray();
-        return labels.some((label) => filterLabelIds.includes(label.id));
-      });
+    if (filterLabelIds.length > 0 || filterExcludedLabelIds.length > 0) {
+      cardModels = filterCardLabels(cardModels, filterLabelIds, filterExcludedLabelIds);
     }
 
     return cardModels;
@@ -444,6 +467,7 @@ export default class extends BaseModel {
   deleteClearable() {
     this.filterUsers.clear();
     this.filterLabels.clear();
+    this.filterExcludedLabels.clear();
   }
 
   deleteRelated(exceptMemberUserId, soft) {

@@ -38,8 +38,13 @@ const getByListId = async (listId, { exceptIdOrIds, sort = ['position', 'id'] } 
   return defaultFind(criteria, { sort });
 };
 
-const getByEndlessListId = async (listId, { before, search, userIds, labelIds }) => {
-  if (search || userIds || labelIds) {
+const getByEndlessListId = async (
+  listId,
+  { before, search, userIds, labelIds, excludedLabelIds },
+) => {
+  const hasExcludedLabelIds = excludedLabelIds && excludedLabelIds.length > 0;
+
+  if (search || userIds || labelIds || hasExcludedLabelIds) {
     if (userIds && userIds.length === 0) {
       return [];
     }
@@ -106,6 +111,20 @@ const getByEndlessListId = async (listId, { before, search, userIds, labelIds })
       });
 
       query += ` AND card_label.label_id IN (${inValues.join(', ')})`;
+    }
+
+    if (hasExcludedLabelIds) {
+      const inValues = excludedLabelIds.map((labelId) => {
+        queryValues.push(labelId);
+        return `$${queryValues.length}`;
+      });
+
+      query += ` AND NOT EXISTS (
+        SELECT 1
+        FROM card_label AS excluded_card_label
+        WHERE excluded_card_label.card_id = card.id
+          AND excluded_card_label.label_id IN (${inValues.join(', ')})
+      )`;
     }
 
     query += ` LIMIT ${LIMIT}`;

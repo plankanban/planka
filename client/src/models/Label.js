@@ -109,6 +109,12 @@ export default class extends BaseModel {
     } catch {
       /* empty */
     }
+
+    try {
+      this.board.filterExcludedLabels.remove(this.id);
+    } catch {
+      /* empty */
+    }
   }
 
   deleteWithRelated() {

@@ -21,7 +21,7 @@ const Sizes = {
   MEDIUM: 'medium',
 };
 
-const LabelChip = React.memo(({ id, size, onClick }) => {
+const LabelChip = React.memo(({ id, size, isExcluded, onClick }) => {
   const selectLabelById = useMemo(() => selectors.makeSelectLabelById(), []);
 
   const label = useSelector((state) => selectLabelById(state, id));
@@ -33,6 +33,7 @@ const LabelChip = React.memo(({ id, size, onClick }) => {
         styles.wrapper,
         !label.name && styles.wrapperNameless,
         styles[`wrapper${upperFirst(size)}`],
+        isExcluded && styles.wrapperExcluded,
         onClick && styles.wrapperHoverable,
         globalStyles[`background${upperFirst(camelCase(label.color))}`],
       )}
@@ -59,11 +60,13 @@ const LabelChip = React.memo(({ id, size, onClick }) => {
 LabelChip.propTypes = {
   id: PropTypes.string.isRequired,
   size: PropTypes.oneOf(Object.values(Sizes)),
+  isExcluded: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
 LabelChip.defaultProps = {
   size: Sizes.MEDIUM,
+  isExcluded: false,
   onClick: undefined,
 };
 

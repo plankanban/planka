@@ -64,6 +64,12 @@ export const BoardMembershipRoles = {
   VIEWER: 'viewer',
 };
 
+export const LabelFilterModes = {
+  NONE: 'none',
+  INCLUDE: 'include',
+  EXCLUDE: 'exclude',
+};
+
 export const ListTypes = {
   ACTIVE: 'active',
   CLOSED: 'closed',
