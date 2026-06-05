@@ -46,6 +46,12 @@
  *                 maxLength: 128
  *                 description: Name/title of the list
  *                 example: To Do
+ *               description:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 nullable: true
+ *                 description: Detailed description of the list
+ *                 example: Cards that are ready to be picked up
  *     responses:
  *       200:
  *         description: List created successfully
@@ -100,6 +106,12 @@ module.exports = {
       maxLength: 128,
       required: true,
     },
+    description: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 1024,
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -131,7 +143,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['type', 'position', 'name']);
+    const values = _.pick(inputs, ['type', 'position', 'name', 'description']);
 
     const list = await sails.helpers.lists.createOne.with({
       project,

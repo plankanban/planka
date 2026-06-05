@@ -15,11 +15,13 @@ import { BoardContextIcons } from '../../../constants/Icons';
 import Filters from './Filters';
 import RightSide from './RightSide';
 import BoardMemberships from '../../board-memberships/BoardMemberships';
+import DescriptionPreview from '../../common/DescriptionPreview';
 
 import styles from './BoardActions.module.scss';
 
 const BoardActions = React.memo(() => {
-  const boardContext = useSelector((state) => selectors.selectCurrentBoard(state).context);
+  const board = useSelector(selectors.selectCurrentBoard);
+  const boardContext = board.context;
 
   const withContextTitle = boardContext !== BoardContexts.BOARD;
 
@@ -41,6 +43,11 @@ const BoardActions = React.memo(() => {
 
   return (
     <div className={styles.wrapper}>
+      {board.description && (
+        <DescriptionPreview maxLines={2} className={styles.description}>
+          {board.description}
+        </DescriptionPreview>
+      )}
       <div className={styles.actions}>
         {withContextTitle && (
           <div className={styles.action}>

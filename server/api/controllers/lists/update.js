@@ -46,6 +46,12 @@
  *                 maxLength: 128
  *                 description: Name/title of the list
  *                 example: To Do
+ *               description:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 nullable: true
+ *                 description: Detailed description of the list
+ *                 example: Cards that are ready to be picked up
  *               color:
  *                 type: string
  *                 enum: [berry-red, pumpkin-orange, lagoon-blue, pink-tulip, light-mud, orange-peel, bright-moss, antique-blue, dark-granite, turquoise-sea]
@@ -107,6 +113,12 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
       maxLength: 128,
+    },
+    description: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 1024,
+      allowNull: true,
     },
     color: {
       type: 'string',
@@ -176,7 +188,7 @@ module.exports = {
       }
     }
 
-    const values = _.pick(inputs, ['type', 'position', 'name', 'color']);
+    const values = _.pick(inputs, ['type', 'position', 'name', 'description', 'color']);
 
     list = await sails.helpers.lists.updateOne.with({
       project,

@@ -37,6 +37,12 @@
  *                 maxLength: 128
  *                 description: Name/title of the board
  *                 example: Development Board
+ *               description:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 nullable: true
+ *                 description: Detailed description of the board
+ *                 example: Development workflow for the product team
  *               defaultView:
  *                 type: string
  *                 enum: [kanban, grid, list]
@@ -110,6 +116,12 @@ module.exports = {
       isNotEmptyString: true,
       maxLength: 128,
     },
+    description: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 1024,
+      allowNull: true,
+    },
     defaultView: {
       type: 'string',
       isIn: Object.values(Board.Views),
@@ -163,6 +175,7 @@ module.exports = {
       availableInputKeys.push(
         'position',
         'name',
+        'description',
         'defaultView',
         'defaultCardType',
         'limitCardTypesToDefaultOne',
@@ -182,6 +195,7 @@ module.exports = {
     const values = _.pick(inputs, [
       'position',
       'name',
+      'description',
       'defaultView',
       'defaultCardType',
       'limitCardTypesToDefaultOne',

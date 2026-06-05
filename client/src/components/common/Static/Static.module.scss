@@ -44,8 +44,16 @@
     margin-top: calc(174px + var(--promo-banner-height, 0px));
   }
 
+  .wrapperBoardWithDescription {
+    margin-top: calc(216px + var(--promo-banner-height, 0px));
+  }
+
   .wrapperBoardWithFavorites {
     margin-top: calc(264px + var(--promo-banner-height, 0px));
+  }
+
+  .wrapperBoardWithFavorites.wrapperBoardWithDescription {
+    margin-top: calc(306px + var(--promo-banner-height, 0px));
   }
 
   .wrapperFlex {
