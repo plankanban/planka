@@ -30,6 +30,11 @@ export const ProjectOrders = {
   BY_CREATION_TIME: 'byCreationTime',
 };
 
+export const DueDateColorSchemes = {
+  DEFAULT: 'default',
+  BLUE_ORANGE: 'blueOrange',
+};
+
 export const ProjectGroups = {
   MY_OWN: 'myOwn',
   TEAM: 'team',

@@ -7,11 +7,17 @@ import upperFirst from 'lodash/upperFirst';
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Icon } from 'semantic-ui-react';
 import { useForceUpdate } from '../../../lib/hooks';
 
+import selectors from '../../../selectors';
 import getDateFormat from '../../../utils/get-date-format';
+import {
+  getDueDateStatusIconColor,
+  getDueDateStatusStyle,
+} from '../../../utils/due-date-color-schemes';
 
 import styles from './DueDateChip.module.scss';
 
@@ -39,18 +45,15 @@ const FULL_DATE_FORMAT_BY_SIZE = {
   [Sizes.MEDIUM]: 'fullDateTime',
 };
 
-const STATUS_ICON_PROPS_BY_STATUS = {
+const STATUS_ICON_NAME_BY_STATUS = {
   [Statuses.DUE_SOON]: {
     name: 'hourglass half',
-    color: 'orange',
   },
   [Statuses.OVERDUE]: {
     name: 'hourglass end',
-    color: 'red',
   },
   [Statuses.COMPLETED]: {
     name: 'checkmark',
-    color: 'green',
   },
 };
 
@@ -74,11 +77,19 @@ const getStatus = (date, isCompleted) => {
 
 const DueDateChip = React.memo(
   ({ value, size, isCompleted, isDisabled, withStatus, withStatusIcon, onClick }) => {
+    const user = useSelector(selectors.selectCurrentUser);
+
     const [t] = useTranslation();
     const forceUpdate = useForceUpdate();
 
     const statusRef = useRef(null);
     statusRef.current = withStatus ? getStatus(value, isCompleted) : null;
+    const statusStyle = statusRef.current
+      ? getDueDateStatusStyle(statusRef.current, user.dueDateColorScheme)
+      : null;
+    const statusIconColor = statusRef.current
+      ? getDueDateStatusIconColor(statusRef.current, user.dueDateColorScheme)
+      : null;
 
     const intervalRef = useRef(null);
 
@@ -119,7 +130,7 @@ const DueDateChip = React.memo(
         className={classNames(
           styles.wrapper,
           styles[`wrapper${upperFirst(size)}`],
-          !withStatusIcon && statusRef.current && styles[`wrapper${upperFirst(statusRef.current)}`],
+          !withStatusIcon && statusStyle && styles[`wrapper${upperFirst(statusStyle)}`],
           onClick && styles.wrapperHoverable,
         )}
       >
@@ -128,8 +139,11 @@ const DueDateChip = React.memo(
           postProcess: 'formatDate',
         })}
         {withStatusIcon && statusRef.current && (
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          <Icon {...STATUS_ICON_PROPS_BY_STATUS[statusRef.current]} className={styles.statusIcon} />
+          <Icon
+            name={STATUS_ICON_NAME_BY_STATUS[statusRef.current].name}
+            color={statusIconColor}
+            className={styles.statusIcon}
+          />
         )}
       </span>
     );

@@ -4,6 +4,17 @@
  */
 
 :global(#app) {
+  .field {
+    margin-top: 4px;
+  }
+
+  .label {
+    color: #6b808c;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+
   .radio {
     margin-bottom: 16px;
     width: 100%;

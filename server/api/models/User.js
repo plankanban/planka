@@ -119,6 +119,12 @@
  *           default: false
  *           description: Whether recent card highlighting is disabled (personal field)
  *           example: false
+ *         dueDateColorScheme:
+ *           type: string
+ *           enum: [default, blueOrange]
+ *           default: default
+ *           description: Color scheme used for due date statuses (personal field)
+ *           example: default
  *         enableFavoritesByDefault:
  *           type: boolean
  *           default: true
@@ -199,6 +205,11 @@ const ProjectOrders = {
   BY_CREATION_TIME: 'byCreationTime',
 };
 
+const DueDateColorSchemes = {
+  DEFAULT: 'default',
+  BLUE_ORANGE: 'blueOrange',
+};
+
 const LANGUAGES = [
   'ar-YE',
   'bg-BG',
@@ -245,6 +256,7 @@ const PERSONAL_FIELD_NAMES = [
   'subscribeToOwnCards',
   'subscribeToCardWhenCommenting',
   'turnOffRecentCardHighlighting',
+  'dueDateColorScheme',
   'enableFavoritesByDefault',
   'defaultEditorMode',
   'defaultHomeView',
@@ -266,6 +278,7 @@ module.exports = {
   EditorModes,
   HomeViews,
   ProjectOrders,
+  DueDateColorSchemes,
   LANGUAGES,
   PRIVATE_FIELD_NAMES,
   PERSONAL_FIELD_NAMES,
@@ -348,6 +361,12 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'turn_off_recent_card_highlighting',
+    },
+    dueDateColorScheme: {
+      type: 'string',
+      isIn: Object.values(DueDateColorSchemes),
+      defaultsTo: DueDateColorSchemes.DEFAULT,
+      columnName: 'due_date_color_scheme',
     },
     enableFavoritesByDefault: {
       type: 'boolean',

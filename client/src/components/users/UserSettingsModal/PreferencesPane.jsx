@@ -6,12 +6,18 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Radio, Tab } from 'semantic-ui-react';
+import { Dropdown, Radio, Tab } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
+import { DueDateColorSchemes } from '../../../constants/Enums';
 
 import styles from './PreferencesPane.module.scss';
+
+const DUE_DATE_COLOR_SCHEME_OPTIONS = [
+  DueDateColorSchemes.DEFAULT,
+  DueDateColorSchemes.BLUE_ORANGE,
+];
 
 const PreferencesPane = React.memo(() => {
   const user = useSelector(selectors.selectCurrentUser);
@@ -24,6 +30,17 @@ const PreferencesPane = React.memo(() => {
       dispatch(
         entryActions.updateCurrentUser({
           [fieldName]: checked,
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  const handleDueDateColorSchemeChange = useCallback(
+    (_, { value }) => {
+      dispatch(
+        entryActions.updateCurrentUser({
+          dueDateColorScheme: value,
         }),
       );
     },
@@ -56,6 +73,19 @@ const PreferencesPane = React.memo(() => {
         className={styles.radio}
         onChange={handleChange}
       />
+      <div className={styles.field}>
+        <div className={styles.label}>{t('common.dueDateColorScheme')}</div>
+        <Dropdown
+          fluid
+          selection
+          options={DUE_DATE_COLOR_SCHEME_OPTIONS.map((value) => ({
+            value,
+            text: t(`common.dueDateColorScheme_${value}`),
+          }))}
+          value={user.dueDateColorScheme}
+          onChange={handleDueDateColorSchemeChange}
+        />
+      </div>
     </Tab.Pane>
   );
 });

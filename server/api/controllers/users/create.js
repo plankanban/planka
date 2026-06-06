@@ -83,6 +83,11 @@
  *                 type: boolean
  *                 description: Whether recent card highlighting is disabled
  *                 example: false
+ *               dueDateColorScheme:
+ *                 type: string
+ *                 enum: [default, blueOrange]
+ *                 description: Color scheme used for due date statuses
+ *                 example: default
  *     responses:
  *       200:
  *         description: User created successfully
@@ -180,6 +185,10 @@ module.exports = {
     turnOffRecentCardHighlighting: {
       type: 'boolean',
     },
+    dueDateColorScheme: {
+      type: 'string',
+      isIn: Object.values(User.DueDateColorSchemes),
+    },
   },
 
   exits: {
@@ -216,6 +225,7 @@ module.exports = {
       'subscribeToOwnCards',
       'subscribeToCardWhenCommenting',
       'turnOffRecentCardHighlighting',
+      'dueDateColorScheme',
     ]);
 
     const user = await sails.helpers.users.createOne
