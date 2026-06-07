@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Icon, Input, Message } from 'semantic-ui-react';
-import { Popup } from '../../../../lib/custom-ui';
+import { Popup, Tooltip } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
@@ -115,9 +115,11 @@ const ApiKeyStep = React.memo(({ userId, onBack, onClose }) => {
                   />
                   <div className={styles.valueWrapper}>
                     <Input fluid readOnly value={user.apiKeyState.value} className={styles.value} />
-                    <Button className={styles.copyButton} onClick={handleCopyClick}>
-                      <Icon fitted name={isCopied ? 'check' : 'copy'} />
-                    </Button>
+                    <Tooltip content={t('action.copy')}>
+                      <Button className={styles.copyButton} onClick={handleCopyClick}>
+                        <Icon fitted name={isCopied ? 'check' : 'copy'} />
+                      </Button>
+                    </Tooltip>
                   </div>
                 </>
               ) : (

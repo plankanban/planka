@@ -6,8 +6,10 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button, Dropdown, Form, Icon, Input } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious, useToggle } from '../../../lib/hooks';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -31,6 +33,7 @@ const Item = React.memo(({ id }) => {
   const notificationService = useSelector((state) => selectNotificationServiceById(state, id));
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
 
   const defaultData = useMemo(
     () => ({
@@ -183,24 +186,32 @@ const Item = React.memo(({ id }) => {
         onChange={handleFieldChange}
         onBlur={handleUrlBlur}
       />
-      <Button
-        type="button"
-        loading={notificationService.isTesting}
-        disabled={!notificationService.isPersisted || notificationService.isTesting}
-        className={styles.button}
-        onClick={handleTestClick}
-      >
-        <Icon fitted name="paper plane outline" />
-      </Button>
+      <Tooltip content={t('action.sendTestEmail')}>
+        <Button
+          type="button"
+          loading={notificationService.isTesting}
+          disabled={!notificationService.isPersisted || notificationService.isTesting}
+          className={styles.button}
+          onClick={handleTestClick}
+        >
+          <Icon fitted name="paper plane outline" />
+        </Button>
+      </Tooltip>
       <ConfirmationPopup
         title="common.deleteNotificationService"
         content="common.areYouSureYouWantToDeleteThisNotificationService"
         buttonContent="action.deleteNotificationService"
         onConfirm={handleDeleteConfirm}
       >
-        <Button type="button" disabled={!notificationService.isPersisted} className={styles.button}>
-          <Icon fitted name="trash alternate outline" />
-        </Button>
+        <Tooltip content={t('action.deleteNotificationService')}>
+          <Button
+            type="button"
+            disabled={!notificationService.isPersisted}
+            className={styles.button}
+          >
+            <Icon fitted name="trash alternate outline" />
+          </Button>
+        </Tooltip>
       </ConfirmationPopup>
     </Form>
   );

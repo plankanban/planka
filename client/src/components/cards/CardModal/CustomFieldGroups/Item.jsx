@@ -7,7 +7,9 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon } from 'semantic-ui-react';
+import { Tooltip } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
 import { usePopupInClosableContext } from '../../../../hooks';
@@ -23,6 +25,7 @@ const Item = React.memo(({ id, dragHandleProps }) => {
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
 
   const customFieldGroup = useSelector((state) => selectCustomFieldGroupById(state, id));
+  const [t] = useTranslation();
 
   const canEdit = useSelector((state) => {
     if (customFieldGroup.boardId) {
@@ -51,9 +54,11 @@ const Item = React.memo(({ id, dragHandleProps }) => {
           <div className={classNames(styles.moduleHeader, canEdit && styles.moduleHeaderEditable)}>
             {customFieldGroup.isPersisted && canEdit && (
               <CustomFieldGroupPopup id={customFieldGroup.id}>
-                <Button className={styles.editButton}>
-                  <Icon fitted name="pencil" size="small" />
-                </Button>
+                <Tooltip content={t('action.editGroup')}>
+                  <Button className={styles.editButton}>
+                    <Icon fitted name="pencil" size="small" />
+                  </Button>
+                </Tooltip>
               </CustomFieldGroupPopup>
             )}
             <span className={styles.moduleHeaderTitle}>{customFieldGroup.name}</span>

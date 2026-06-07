@@ -5,7 +5,9 @@
 
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Icon } from 'semantic-ui-react';
+import { Tooltip } from '../../../../lib/custom-ui';
 import { usePopup } from '../../../../lib/popup';
 
 import selectors from '../../../../selectors';
@@ -20,6 +22,7 @@ const RightSide = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
 
   const handleSelectViewClick = useCallback(
     ({ currentTarget: { value: view } }) => {
@@ -40,24 +43,33 @@ const RightSide = React.memo(() => {
       <div className={styles.action}>
         <div className={styles.buttonGroup}>
           {views.map((view) => (
-            <button
+            <Tooltip
               key={view}
-              type="button"
-              value={view}
+              content={t('action.switchToView', {
+                view: t(`common.${view}`).toLowerCase(),
+              })}
               disabled={view === board.view}
-              className={styles.button}
-              onClick={handleSelectViewClick}
             >
-              <Icon fitted name={BoardViewIcons[view]} />
-            </button>
+              <button
+                type="button"
+                value={view}
+                disabled={view === board.view}
+                className={styles.button}
+                onClick={handleSelectViewClick}
+              >
+                <Icon fitted name={BoardViewIcons[view]} />
+              </button>
+            </Tooltip>
           ))}
         </div>
       </div>
       <div className={styles.action}>
         <ActionsPopup>
-          <button type="button" className={styles.button}>
-            <Icon fitted name="ellipsis vertical" />
-          </button>
+          <Tooltip content={t('common.openBoardActions')}>
+            <button type="button" className={styles.button}>
+              <Icon fitted name="ellipsis vertical" />
+            </button>
+          </Tooltip>
         </ActionsPopup>
       </div>
     </>
