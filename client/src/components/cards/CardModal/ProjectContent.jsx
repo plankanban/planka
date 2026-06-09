@@ -6,6 +6,7 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, Grid, Icon } from 'semantic-ui-react';
 import { useDidUpdate } from '../../../lib/hooks';
@@ -15,8 +16,14 @@ import entryActions from '../../../entry-actions';
 import { usePopupInClosableContext } from '../../../hooks';
 import { startStopwatch, stopStopwatch } from '../../../utils/stopwatch';
 import { isUsableMarkdownElement } from '../../../utils/element-helpers';
-import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/Enums';
+import {
+  BoardMembershipRoles,
+  CardRelationKinds,
+  CardTypes,
+  ListTypes,
+} from '../../../constants/Enums';
 import { CardTypeIcons } from '../../../constants/Icons';
+import Paths from '../../../constants/Paths';
 import { ClosableContext } from '../../../contexts';
 import NameField from './NameField';
 import TaskLists from './TaskLists';
@@ -24,6 +31,7 @@ import CustomFieldGroups from './CustomFieldGroups';
 import Communication from './Communication';
 import CreationDetailsStep from './CreationDetailsStep';
 import MoreActionsStep from './MoreActionsStep';
+import LinkCardStep from '../LinkCardStep/LinkCardStep';
 import DueDateChip from '../DueDateChip';
 import StopwatchChip from '../StopwatchChip';
 import EditDueDateStep from '../EditDueDateStep';
@@ -81,6 +89,7 @@ const ProjectContent = React.memo(() => {
     canUseLists,
     canUseMembers,
     canUseLabels,
+    canUseCardRelations,
     canAddTaskList,
     canAddAttachment,
     canAddCustomFieldGroup,
@@ -112,6 +121,7 @@ const ProjectContent = React.memo(() => {
         canUseLists: isEditor,
         canUseMembers: false,
         canUseLabels: false,
+        canUseCardRelations: false,
         canAddTaskList: false,
         canAddAttachment: false,
         canAddCustomFieldGroup: false,
@@ -134,6 +144,7 @@ const ProjectContent = React.memo(() => {
       canUseLists: isEditor,
       canUseMembers: isEditor,
       canUseLabels: isEditor,
+      canUseCardRelations: isEditor,
       canAddTaskList: isEditor,
       canAddAttachment: isEditor,
       canAddCustomFieldGroup: isEditor,
@@ -237,6 +248,25 @@ const ProjectContent = React.memo(() => {
     [dispatch],
   );
 
+  const handleCardRelationCreate = useCallback(
+    (relatedCardId, kind) => {
+      dispatch(
+        entryActions.createCardRelationInCurrentCard({
+          relatedCardId,
+          kind,
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  const handleCardRelationDelete = useCallback(
+    (id) => {
+      dispatch(entryActions.deleteCurrentCardRelation(id));
+    },
+    [dispatch],
+  );
+
   const handleCustomFieldGroupCreate = useCallback(
     (data) => {
       dispatch(entryActions.createCustomFieldGroupInCurrentCard(data));
@@ -292,8 +322,42 @@ const ProjectContent = React.memo(() => {
   const AddTaskListPopup = usePopupInClosableContext(AddTaskListStep);
   const AddAttachmentPopup = usePopupInClosableContext(AddAttachmentStep);
   const AddCustomFieldGroupPopup = usePopupInClosableContext(AddCustomFieldGroupStep);
+  const LinkCardPopup = usePopupInClosableContext(LinkCardStep);
   const MoreActionsPopup = usePopupInClosableContext(MoreActionsStep);
   const ConfirmationPopup = usePopupInClosableContext(ConfirmationStep);
+
+  const cardRelations = useMemo(
+    () =>
+      (card.cardRelations || []).map((cardRelation) => {
+        if (cardRelation.cardId === card.id) {
+          return cardRelation;
+        }
+
+        const { kind: relationKind } = cardRelation;
+        let kind = relationKind;
+        if (kind === CardRelationKinds.PARENT) {
+          kind = CardRelationKinds.CHILD;
+        } else if (kind === CardRelationKinds.CHILD) {
+          kind = CardRelationKinds.PARENT;
+        }
+
+        return {
+          ...cardRelation,
+          cardId: card.id,
+          relatedCardId: cardRelation.cardId,
+          kind,
+        };
+      }),
+    [card.cardRelations, card.id],
+  );
+
+  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
+  const relatedCards = useSelector((state) =>
+    cardRelations.map((cardRelation) => ({
+      cardRelation,
+      card: selectCardById(state, cardRelation.relatedCardId),
+    })),
+  );
 
   return (
     <Grid className={styles.wrapper}>
@@ -317,6 +381,7 @@ const ProjectContent = React.memo(() => {
             card.stopwatch ||
             board.alwaysDisplayCardCreator ||
             userIds.length > 0 ||
+            relatedCards.length > 0 ||
             labelIds.length > 0) && (
             <div className={styles.moduleWrapper}>
               {board.alwaysDisplayCardCreator && (
@@ -409,6 +474,42 @@ const ProjectContent = React.memo(() => {
                       </button>
                     </LabelsPopup>
                   )}
+                </div>
+              )}
+              {relatedCards.length > 0 && (
+                <div className={styles.attachments}>
+                  <div className={styles.text}>
+                    {t('common.linkToCard', {
+                      context: 'title',
+                    })}
+                  </div>
+                  {relatedCards.map(({ cardRelation, card: relatedCard }) => (
+                    <span key={cardRelation.id} className={styles.attachment}>
+                      <span className={styles.cardRelation}>
+                        <Link
+                          to={Paths.CARDS.replace(':id', cardRelation.relatedCardId)}
+                          className={styles.cardRelationLink}
+                        >
+                          {relatedCard ? relatedCard.name : `#${cardRelation.relatedCardId}`}
+                        </Link>
+                        <span className={styles.cardRelationKind}>
+                          {t(`common.${cardRelation.kind}`, {
+                            defaultValue:
+                              cardRelation.kind[0].toUpperCase() + cardRelation.kind.slice(1),
+                          })}
+                        </span>
+                        {canUseCardRelations && (
+                          <button
+                            type="button"
+                            className={styles.cardRelationDelete}
+                            onClick={() => handleCardRelationDelete(cardRelation.id)}
+                          >
+                            <Icon name="close" size="small" />
+                          </button>
+                        )}
+                      </span>
+                    </span>
+                  ))}
                 </div>
               )}
               {card.dueDate && (
@@ -575,6 +676,7 @@ const ProjectContent = React.memo(() => {
               canEditStopwatch ||
               canUseMembers ||
               canUseLabels ||
+              canUseCardRelations ||
               canAddTaskList ||
               canAddAttachment ||
               canAddCustomFieldGroup) && (
@@ -604,6 +706,14 @@ const ProjectContent = React.memo(() => {
                       {t('common.labels')}
                     </Button>
                   </LabelsPopup>
+                )}
+                {canUseCardRelations && (
+                  <LinkCardPopup onSelect={handleCardRelationCreate}>
+                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
+                      <Icon name="linkify" className={styles.actionIcon} />
+                      {t('common.linkToCard')}
+                    </Button>
+                  </LinkCardPopup>
                 )}
                 {canEditDueDate && (
                   <EditDueDatePopup cardId={card.id}>

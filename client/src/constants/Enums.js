@@ -87,6 +87,12 @@ export const CardTypes = {
   STORY: 'story',
 };
 
+export const CardRelationKinds = {
+  PARENT: 'parent',
+  CHILD: 'child',
+  RELATED: 'related',
+};
+
 export const AttachmentTypes = {
   FILE: 'file',
   LINK: 'link',

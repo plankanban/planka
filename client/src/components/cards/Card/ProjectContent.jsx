@@ -67,6 +67,12 @@ const ProjectContent = React.memo(({ cardId }) => {
     selectShownOnFrontOfCardCustomFieldValueIdsByCardId(state, cardId),
   );
 
+  const cardRelationValues = useSelector((state) =>
+    selectors.selectCardRelationsByCardId(state, cardId),
+  );
+
+  // debugger;
+
   const notificationsTotal = useSelector((state) =>
     selectNotificationsTotalByCardId(state, cardId),
   );
@@ -171,6 +177,19 @@ const ProjectContent = React.memo(({ cardId }) => {
               className={classNames(styles.attachment, styles.attachmentLeft)}
             >
               <CustomFieldValueChip id={customFieldValueId} size="tiny" />
+            </span>
+          ))}
+        </span>
+      )}
+      {cardRelationValues.length > 0 && (
+        <span className={classNames(styles.labels, !isCompact && styles.labelsFull)}>
+          {cardRelationValues.map((cardRelation) => (
+            <span
+              key={cardRelation.id}
+              className={classNames(styles.attachment, styles.attachmentLeft)}
+            >
+              asd
+              {/* <CustomFieldValueChip id={customFieldValueId} size="tiny" /> */}
             </span>
           ))}
         </span>

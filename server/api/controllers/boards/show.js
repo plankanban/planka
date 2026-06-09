@@ -249,9 +249,16 @@ module.exports = {
       {},
     );
 
+    const allCardRelations = await CardRelation.qm.getByCardIdsOrRelatedCardIds(cardIds);
+
     cards.forEach((card) => {
       // eslint-disable-next-line no-param-reassign
       card.isSubscribed = isSubscribedByCardId[card.id] || false;
+
+      // eslint-disable-next-line no-param-reassign
+      card.cardRelations = allCardRelations.filter(
+        (cardRelation) => cardRelation.cardId === card.id || cardRelation.relatedCardId === card.id,
+      );
     });
 
     if (inputs.subscribe && this.req.isSocket) {

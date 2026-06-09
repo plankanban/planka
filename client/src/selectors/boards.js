@@ -336,6 +336,40 @@ export const selectCardsExceptCurrentForCurrentBoard = createSelector(
   },
 );
 
+export const selectCardsExceptCurrentAndRelatedForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  (state) => selectPath(state).cardId,
+  (_state, relationshipKind) => relationshipKind,
+  ({ Board }, id, cardId, relationshipKind) => {
+    if (!id) {
+      return id;
+    }
+
+    if (!relationshipKind) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel
+      .getCardsModelArray()
+      .filter(
+        (cardModel) =>
+          cardModel.cardRelations.filter(
+            (cr) =>
+              cr.kind === relationshipKind && (cr.relatedCardId === cardId || cr.cardId === cardId),
+          ).length === 0,
+      )
+      .filter((cardModel) => cardModel.id !== cardId)
+      .map((cardModel) => cardModel.ref);
+  },
+);
+
 export const selectFilteredCardIdsForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -485,6 +519,7 @@ export default {
   selectKanbanListIdsForCurrentBoard,
   selectAvailableListsForCurrentBoard,
   selectCardsExceptCurrentForCurrentBoard,
+  selectCardsExceptCurrentAndRelatedForCurrentBoard,
   selectFilteredCardIdsForCurrentBoard,
   selectCustomFieldGroupIdsForCurrentBoard,
   selectCustomFieldGroupsForCurrentBoard,

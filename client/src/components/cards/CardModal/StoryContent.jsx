@@ -6,6 +6,7 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Gallery, Item as GalleryItem } from 'react-photoswipe-gallery';
 import { Button, Grid, Icon } from 'semantic-ui-react';
@@ -15,8 +16,14 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { usePopupInClosableContext } from '../../../hooks';
 import { isUsableMarkdownElement } from '../../../utils/element-helpers';
-import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/Enums';
+import {
+  BoardMembershipRoles,
+  CardRelationKinds,
+  CardTypes,
+  ListTypes,
+} from '../../../constants/Enums';
 import { CardTypeIcons } from '../../../constants/Icons';
+import Paths from '../../../constants/Paths';
 import { ClosableContext } from '../../../contexts';
 import NameField from './NameField';
 import Thumbnail from './Thumbnail';
@@ -24,6 +31,7 @@ import CustomFieldGroups from './CustomFieldGroups';
 import Communication from './Communication';
 import CreationDetailsStep from './CreationDetailsStep';
 import MoreActionsStep from './MoreActionsStep';
+import LinkCardStep from '../LinkCardStep/LinkCardStep';
 import Markdown from '../../common/Markdown';
 import EditMarkdown from '../../common/EditMarkdown';
 import ConfirmationStep from '../../common/ConfirmationStep';
@@ -83,6 +91,7 @@ const StoryContent = React.memo(() => {
     canUseLists,
     canUseMembers,
     canUseLabels,
+    canUseCardRelations,
     canAddAttachment,
     canAddCustomFieldGroup,
   } = useSelector((state) => {
@@ -111,6 +120,7 @@ const StoryContent = React.memo(() => {
         canUseLists: isEditor,
         canUseMembers: false,
         canUseLabels: false,
+        canUseCardRelations: false,
         canAddAttachment: false,
         canAddCustomFieldGroup: false,
       };
@@ -130,6 +140,7 @@ const StoryContent = React.memo(() => {
       canUseLists: isEditor,
       canUseMembers: isEditor,
       canUseLabels: isEditor,
+      canUseCardRelations: isEditor,
       canAddAttachment: isEditor,
       canAddCustomFieldGroup: isEditor,
     };
@@ -214,6 +225,25 @@ const StoryContent = React.memo(() => {
     [dispatch],
   );
 
+  const handleCardRelationCreate = useCallback(
+    (relatedCardId, kind) => {
+      dispatch(
+        entryActions.createCardRelationInCurrentCard({
+          relatedCardId,
+          kind,
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  const handleCardRelationDelete = useCallback(
+    (id) => {
+      dispatch(entryActions.deleteCurrentCardRelation(id));
+    },
+    [dispatch],
+  );
+
   const handleCustomFieldGroupCreate = useCallback(
     (data) => {
       dispatch(entryActions.createCustomFieldGroupInCurrentCard(data));
@@ -275,10 +305,44 @@ const StoryContent = React.memo(() => {
   const BoardMembershipsPopup = usePopupInClosableContext(BoardMembershipsStep);
   const LabelsPopup = usePopupInClosableContext(LabelsStep);
   const ListsPopup = usePopupInClosableContext(ListsStep);
+  const LinkCardPopup = usePopupInClosableContext(LinkCardStep);
   const AddAttachmentPopup = usePopupInClosableContext(AddAttachmentStep);
   const AddCustomFieldGroupPopup = usePopupInClosableContext(AddCustomFieldGroupStep);
   const MoreActionsPopup = usePopupInClosableContext(MoreActionsStep);
   const ConfirmationPopup = usePopupInClosableContext(ConfirmationStep);
+
+  const cardRelations = useMemo(
+    () =>
+      (card.cardRelations || []).map((cardRelation) => {
+        if (cardRelation.cardId === card.id) {
+          return cardRelation;
+        }
+
+        const { kind: relationKind } = cardRelation;
+        let kind = relationKind;
+        if (kind === CardRelationKinds.PARENT) {
+          kind = CardRelationKinds.CHILD;
+        } else if (kind === CardRelationKinds.CHILD) {
+          kind = CardRelationKinds.PARENT;
+        }
+
+        return {
+          ...cardRelation,
+          cardId: card.id,
+          relatedCardId: cardRelation.cardId,
+          kind,
+        };
+      }),
+    [card.cardRelations, card.id],
+  );
+
+  const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
+  const relatedCards = useSelector((state) =>
+    cardRelations.map((cardRelation) => ({
+      cardRelation,
+      card: selectCardById(state, cardRelation.relatedCardId),
+    })),
+  );
 
   return (
     <Grid className={styles.wrapper}>
@@ -391,6 +455,37 @@ const StoryContent = React.memo(() => {
                         </button>
                       </LabelsPopup>
                     )}
+                    {relatedCards.length > 0 && (
+                      <div className={styles.attachments}>
+                        {relatedCards.map(({ cardRelation, card: relatedCard }) => (
+                          <span key={cardRelation.id} className={styles.attachment}>
+                            <span className={styles.cardRelation}>
+                              <Link
+                                to={Paths.CARDS.replace(':id', cardRelation.relatedCardId)}
+                                className={styles.cardRelationLink}
+                              >
+                                {relatedCard ? relatedCard.name : `#${cardRelation.relatedCardId}`}
+                              </Link>
+                              <span className={styles.cardRelationKind}>
+                                {t(`common.${cardRelation.kind}`, {
+                                  defaultValue:
+                                    cardRelation.kind[0].toUpperCase() + cardRelation.kind.slice(1),
+                                })}
+                              </span>
+                              {canUseCardRelations && (
+                                <button
+                                  type="button"
+                                  className={styles.cardRelationDelete}
+                                  onClick={() => handleCardRelationDelete(cardRelation.id)}
+                                >
+                                  <Icon name="close" size="small" />
+                                </button>
+                              )}
+                            </span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -494,7 +589,11 @@ const StoryContent = React.memo(() => {
                 )}
               </div>
             </div>
-            {(canUseMembers || canUseLabels || canAddAttachment || canAddCustomFieldGroup) && (
+            {(canUseMembers ||
+              canUseLabels ||
+              canUseCardRelations ||
+              canAddAttachment ||
+              canAddCustomFieldGroup) && (
               <div className={styles.actions}>
                 <span className={styles.actionsTitle}>{t('action.addToCard')}</span>
                 {canUseLabels && (
@@ -527,6 +626,14 @@ const StoryContent = React.memo(() => {
                       })}
                     </Button>
                   </AddCustomFieldGroupPopup>
+                )}
+                {canUseCardRelations && (
+                  <LinkCardPopup onSelect={handleCardRelationCreate}>
+                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
+                      <Icon name="linkify" className={styles.actionIcon} />
+                      {t('common.linkToCard')}
+                    </Button>
+                  </LinkCardPopup>
                 )}
                 {canUseMembers && (
                   <BoardMembershipsPopup
