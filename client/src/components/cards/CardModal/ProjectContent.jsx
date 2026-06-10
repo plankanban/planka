@@ -496,7 +496,12 @@ const ProjectContent = React.memo(() => {
                         >
                           {relatedCard ? relatedCard.name : `#${cardRelation.relatedCardId}`}
                         </Link>
-                        <span className={styles.cardRelationKind}>
+                        <span
+                          className={classNames(
+                            styles.cardRelationKind,
+                            styles[`cardRelationKind-badge-${cardRelation.kind}`],
+                          )}
+                        >
                           {t(`common.${cardRelation.kind}`, {
                             defaultValue:
                               cardRelation.kind[0].toUpperCase() + cardRelation.kind.slice(1),

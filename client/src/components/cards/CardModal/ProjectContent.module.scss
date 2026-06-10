@@ -91,13 +91,43 @@
   }
 
   .cardRelationKind {
-    background: rgba(9, 30, 66, 0.08);
+    // background: rgba(9, 30, 66, 0.08);
     border-radius: 12px;
-    color: #6b808c;
+    // color: #6b808c;
     font-size: 12px;
     line-height: 20px;
     padding: 0 8px;
     text-transform: capitalize;
+  }
+
+  .cardRelationKind-badge-parent {
+    background-color: #b1cbfc;
+    color: #2E5F8A;
+  }
+
+  .cardRelationKind-badge-child {
+    background-color: #D6EAF8;
+    color: #2E5F8A;
+  }
+
+  .cardRelationKind-badge-related {
+    background-color: #E8DAEF;
+    color: #5B3A75;
+  }
+
+  .cardRelationKind-badge-blockedBy {
+    background-color: #FADBD8;
+    color: #A93226;
+  }
+
+  .cardRelationKind-badge-blocks{
+    background-color: #F5C6CB;
+    color: #7A1F2B;
+  }
+
+  .cardRelationKind-badge-duplicate {
+    background-color: #FDEBD0;
+    color: #9A6700;
   }
 
   .cardRelationLink {
