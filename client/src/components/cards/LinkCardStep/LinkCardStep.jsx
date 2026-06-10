@@ -119,16 +119,10 @@ const LinkCardStep = React.memo(({ onSelect, onBack }) => {
             {filteredCards?.map((card) => (
               <Menu.Item
                 key={card.id}
-                className={styles.menuItem}
                 // disabled={!card.isPersisted}
                 onClick={() => handleCardClick(card.id)}
               >
                 <span className={styles.name}>{card.name}</span>
-                {/* <span className={styles.kindChip}>
-                  {t(`common.${kind}`, {
-                    defaultValue: kind[0].toUpperCase() + kind.slice(1),
-                  })}
-                </span> */}
               </Menu.Item>
             ))}
           </Menu>

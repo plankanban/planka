@@ -19,16 +19,32 @@
   }
 
   .menu {
-    margin: 8px 0 0;
-    max-height: 240px;
-    overflow: auto;
+    margin: 8px auto 0;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
+      scrollbar-width: thin;
+    }
+
+    &::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-clip: padding-box;
+      border-left: 0.25em transparent solid;
+      border-radius: 3px;
+    }
   }
 
-  .menuItem {
-    align-items: center;
-    display: flex !important;
-    justify-content: space-between;
-  }
 
   .name {
     overflow: hidden;
