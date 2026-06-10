@@ -119,7 +119,7 @@ const LinkCardStep = React.memo(({ onSelect, onBack }) => {
             {filteredCards?.map((card) => (
               <Menu.Item
                 key={card.id}
-                // disabled={!card.isPersisted}
+                className={styles.menuItem}
                 onClick={() => handleCardClick(card.id)}
               >
                 <span className={styles.name}>{card.name}</span>
