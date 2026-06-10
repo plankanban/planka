@@ -356,13 +356,25 @@ export const selectCardsExceptCurrentAndRelatedForCurrentBoard = createSelector(
       return boardModel;
     }
 
+    const relationshipKinds = [relationshipKind];
+    if (relationshipKind === 'parent') {
+      relationshipKinds.push('child');
+    } else if (relationshipKind === 'child') {
+      relationshipKinds.push('parent');
+    } else if (relationshipKind === 'blockedBy') {
+      relationshipKinds.push('blocks');
+    } else if (relationshipKind === 'blocks') {
+      relationshipKinds.push('blockedBy');
+    }
+
     return boardModel
       .getCardsModelArray()
       .filter(
         (cardModel) =>
           cardModel.cardRelations.filter(
             (cr) =>
-              cr.kind === relationshipKind && (cr.relatedCardId === cardId || cr.cardId === cardId),
+              relationshipKinds.includes(cr.kind) &&
+              (cr.relatedCardId === cardId || cr.cardId === cardId),
           ).length === 0,
       )
       .filter((cardModel) => cardModel.id !== cardId)
