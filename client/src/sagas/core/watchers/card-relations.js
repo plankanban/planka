@@ -28,5 +28,13 @@ export default function* cardRelationsWatchers() {
     takeEvery(EntryActionTypes.CARD_RELATION_DELETE_HANDLE, ({ payload: { cardRelation } }) =>
       services.handleCardRelationDelete(cardRelation),
     ),
+    takeEvery(
+      EntryActionTypes.RELATION_KIND_TO_FILTER_IN_CURRENT_BOARD_ADD,
+      ({ payload: { id } }) => services.addRelationKindToFilterInCurrentBoard(id),
+    ),
+    takeEvery(
+      EntryActionTypes.RELATION_KIND_FROM_FILTER_IN_CURRENT_BOARD_REMOVE,
+      ({ payload: { id } }) => services.removeRelationKindFromFilterInCurrentBoard(id),
+    ),
   ]);
 }

@@ -1,0 +1,89 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    max-width: 100%;
+    outline: none;
+    padding: 0;
+  }
+
+  .wrapper {
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+
+  .wrapperNameless {
+    width: 40px;
+  }
+
+  .wrapperHoverable:hover {
+    opacity: 0.75;
+  }
+
+  /* Sizes */
+
+  .wrapperTiny {
+    font-size: 12px;
+    line-height: 20px;
+    max-width: 176px;
+    padding: 0 6px;
+  }
+
+  .wrapperSmall {
+    font-size: 12px;
+    line-height: 20px;
+    max-width: 176px;
+    padding: 2px 8px;
+  }
+
+  .wrapperMedium {
+    font-size: 14px;
+    line-height: 32px;
+    max-width: 230px;
+    padding: 0 12px;
+  }
+
+
+  .cardRelationKind-chip-parent {
+    background-color: #b1cbfc;
+    color: #2E5F8A;
+  }
+
+  .cardRelationKind-chip-child {
+    background-color: #D6EAF8;
+    color: #2E5F8A;
+  }
+
+  .cardRelationKind-chip-related {
+    background-color: #E8DAEF;
+    color: #5B3A75;
+  }
+
+  .cardRelationKind-chip-blockedby {
+    background-color: #FADBD8;
+    color: #A93226;
+  }
+
+  .cardRelationKind-chip-blocks{
+    background-color: #F5C6CB;
+    color: #7A1F2B;
+  }
+
+  .cardRelationKind-chip-duplicate {
+    background-color: #FDEBD0;
+    color: #9A6700;
+  }
+}

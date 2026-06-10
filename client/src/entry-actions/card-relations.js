@@ -49,6 +49,20 @@ const handleCardRelationDelete = (cardRelation) => ({
   },
 });
 
+const addRelationKindToFilterInCurrentBoard = (id) => ({
+  type: EntryActionTypes.RELATION_KIND_TO_FILTER_IN_CURRENT_BOARD_ADD,
+  payload: {
+    id,
+  },
+});
+
+const removeRelationKindFromFilterInCurrentBoard = (id) => ({
+  type: EntryActionTypes.RELATION_KIND_FROM_FILTER_IN_CURRENT_BOARD_REMOVE,
+  payload: {
+    id,
+  },
+});
+
 export default {
   createCardRelation,
   createCardRelationInCurrentCard,
@@ -56,4 +70,6 @@ export default {
   deleteCardRelation,
   deleteCurrentCardRelation,
   handleCardRelationDelete,
+  addRelationKindToFilterInCurrentBoard,
+  removeRelationKindFromFilterInCurrentBoard,
 };

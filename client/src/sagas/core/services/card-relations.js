@@ -58,6 +58,16 @@ export function* handleCardRelationDelete(cardRelation) {
   yield put(actions.handleCardRelationDelete(cardRelation));
 }
 
+export function* addRelationKindToFilterInCurrentBoard(id) {
+  const { boardId } = yield select(selectors.selectPath);
+  yield put(actions.addRelationKindToFilterInCurrentBoard(id, boardId));
+}
+
+export function* removeRelationKindFromFilterInCurrentBoard(id) {
+  const { boardId } = yield select(selectors.selectPath);
+  yield put(actions.removeRelationKindFromFilterInCurrentBoard(id, boardId));
+}
+
 export default {
   createCardRelation,
   createCardRelationInCurrentCard,
@@ -65,4 +75,6 @@ export default {
   deleteCardRelation,
   deleteCurrentCardRelation,
   handleCardRelationDelete,
+  addRelationKindToFilterInCurrentBoard,
+  removeRelationKindFromFilterInCurrentBoard,
 };

@@ -18,6 +18,21 @@ const POSITION_BY_LIST_TYPE = {
   [ListTypes.TRASH]: Number.MAX_SAFE_INTEGER,
 };
 
+const invertCardRelationKind = (kind) => {
+  switch (kind) {
+    case 'parent':
+      return 'child';
+    case 'child':
+      return 'parent';
+    case 'blocks':
+      return 'blockedBy';
+    case 'blockedBy':
+      return 'blocks';
+    default:
+      return kind;
+  }
+};
+
 const prepareList = (list) => {
   if (list.position === undefined) {
     return list;
@@ -94,6 +109,8 @@ export default class extends BaseModel {
         }
 
         break;
+      case ActionTypes.RELATION_KIND_TO_FILTER_IN_CURRENT_BOARD_ADD:
+      case ActionTypes.RELATION_KIND_FROM_FILTER_IN_CURRENT_BOARD_REMOVE:
       case ActionTypes.USER_TO_BOARD_FILTER_ADD:
       case ActionTypes.USER_FROM_BOARD_FILTER_REMOVE:
       case ActionTypes.IN_BOARD_SEARCH:
@@ -375,6 +392,23 @@ export default class extends BaseModel {
               .toRefArray()
               .some((task) => task.assigneeUserId && filterUserIds.includes(task.assigneeUserId)),
           );
+      });
+    }
+
+    if (this.board.filterRelationKinds.length > 0) {
+      cardModels = cardModels.filter((cardModel) => {
+        const relations = cardModel.cardRelations;
+
+        return relations.some((relation) => {
+          const invertedKind = invertCardRelationKind(relation.kind);
+
+          return (
+            (this.board.filterRelationKinds.includes(relation.kind) &&
+              relation.cardId === cardModel.id) ||
+            (this.board.filterRelationKinds.includes(invertedKind) &&
+              relation.relatedCardId === cardModel.id)
+          );
+        });
       });
     }
 

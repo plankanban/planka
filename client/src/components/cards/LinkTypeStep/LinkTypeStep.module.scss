@@ -1,0 +1,89 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .cardRelationKindChip {
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 8px;
+    text-transform: capitalize;
+  }
+
+  .cardRelationKindChip:hover {
+    opacity: 0.75;
+  }
+
+  .active {
+    border: 2px solid #2E5F8A;
+  }
+
+  .cardRelationKind-chip-parent {
+    background-color: #b1cbfc;
+    color: #2E5F8A;
+  }
+
+  .cardRelationKind-chip-child {
+    background-color: #D6EAF8;
+    color: #2E5F8A;
+  }
+
+  .cardRelationKind-chip-related {
+    background-color: #E8DAEF;
+    color: #5B3A75;
+  }
+
+  .cardRelationKind-chip-blockedby {
+    background-color: #FADBD8;
+    color: #A93226;
+  }
+
+  .cardRelationKind-chip-blocks{
+    background-color: #F5C6CB;
+    color: #7A1F2B;
+  }
+
+  .cardRelationKind-chip-duplicate {
+    background-color: #FDEBD0;
+    color: #9A6700;
+  }
+
+  .menu {
+    margin: 8px auto 0;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
+      scrollbar-width: thin;
+    }
+
+    &::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-clip: padding-box;
+      border-left: 0.25em transparent solid;
+      border-radius: 3px;
+    }
+  }
+
+  .menuItem {
+    padding: 0px;
+  }
+
+  .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

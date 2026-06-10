@@ -487,6 +487,24 @@ export const selectFilterUserIdsForCurrentBoard = createSelector(
   },
 );
 
+export const selectFilterRelationKindsForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel.filterRelationKinds;
+  },
+);
+
 export const selectFilterLabelIdsForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -538,5 +556,6 @@ export default {
   selectActivityIdsForCurrentBoard,
   selectFilterUserIdsForCurrentBoard,
   selectFilterLabelIdsForCurrentBoard,
+  selectFilterRelationKindsForCurrentBoard,
   selectIsBoardWithIdExists,
 };
