@@ -38,10 +38,11 @@ const getByCardIdsOrRelatedCardIds = (cardIds) =>
     ],
   });
 
-const getOneByCardIdAndRelatedCardId = (cardId, relatedCardId) =>
+const getOneByCardIdAndRelatedCardIdAndKind = (cardId, relatedCardId, kind) =>
   CardRelation.findOne({
     cardId,
     relatedCardId,
+    kind,
   });
 
 // eslint-disable-next-line no-underscore-dangle
@@ -54,7 +55,7 @@ module.exports = {
   getOneById,
   getByCardIdOrRelatedCardId,
   getByCardIdsOrRelatedCardIds,
-  getOneByCardIdAndRelatedCardId,
+  getOneByCardIdAndRelatedCardIdAndKind,
   deleteOne,
   delete: delete_,
 };

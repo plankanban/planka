@@ -30,15 +30,17 @@ module.exports = {
       throw 'cardCannotBeRelatedToItself';
     }
 
-    let cardRelation = await CardRelation.qm.getOneByCardIdAndRelatedCardId(
+    let cardRelation = await CardRelation.qm.getOneByCardIdAndRelatedCardIdAndKind(
       values.card.id,
       values.relatedCard.id,
+      values.kind,
     );
 
     if (!cardRelation) {
-      cardRelation = await CardRelation.qm.getOneByCardIdAndRelatedCardId(
+      cardRelation = await CardRelation.qm.getOneByCardIdAndRelatedCardIdAndKind(
         values.relatedCard.id,
         values.card.id,
+        values.kind,
       );
     }
 

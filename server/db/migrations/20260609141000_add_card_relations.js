@@ -18,9 +18,10 @@ exports.up = async (knex) => {
 
     /* Indexes */
 
-    table.unique(['card_id', 'related_card_id']);
+    table.unique(['card_id', 'related_card_id', 'kind']);
     table.index('related_card_id');
     table.index('card_id');
+    table.index('kind');
   });
 };
 
