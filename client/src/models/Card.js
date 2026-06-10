@@ -17,6 +17,10 @@ const invertCardRelationKind = (kind) => {
       return CardRelationKinds.CHILD;
     case CardRelationKinds.CHILD:
       return CardRelationKinds.PARENT;
+    case CardRelationKinds.BLOCKS:
+      return CardRelationKinds.BLOCKEDBY;
+    case CardRelationKinds.BLOCKEDBY:
+      return CardRelationKinds.BLOCKS;
     default:
       return kind;
   }

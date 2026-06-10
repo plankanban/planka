@@ -90,6 +90,9 @@ export const CardTypes = {
 export const CardRelationKinds = {
   PARENT: 'parent',
   CHILD: 'child',
+  BLOCKS: 'blocks',
+  BLOCKEDBY: 'blockedBy',
+  DUPLICATE: 'duplicate',
   RELATED: 'related',
 };
 

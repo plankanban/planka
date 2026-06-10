@@ -29,6 +29,18 @@ const KIND_OPTIONS = [
     key: CardRelationKinds.CHILD,
     value: CardRelationKinds.CHILD,
   },
+  {
+    key: CardRelationKinds.BLOCKS,
+    value: CardRelationKinds.BLOCKS,
+  },
+  {
+    key: CardRelationKinds.BLOCKEDBY,
+    value: CardRelationKinds.BLOCKEDBY,
+  },
+  {
+    key: CardRelationKinds.DUPLICATE,
+    value: CardRelationKinds.DUPLICATE,
+  },
 ];
 
 const LinkCardStep = React.memo(({ onSelect, onBack }) => {
@@ -112,11 +124,11 @@ const LinkCardStep = React.memo(({ onSelect, onBack }) => {
                 onClick={() => handleCardClick(card.id)}
               >
                 <span className={styles.name}>{card.name}</span>
-                <span className={styles.kindChip}>
+                {/* <span className={styles.kindChip}>
                   {t(`common.${kind}`, {
                     defaultValue: kind[0].toUpperCase() + kind.slice(1),
                   })}
-                </span>
+                </span> */}
               </Menu.Item>
             ))}
           </Menu>

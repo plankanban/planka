@@ -6,6 +6,9 @@
 const Kinds = {
   PARENT: 'parent',
   CHILD: 'child',
+  BLOCKS: 'blocks',
+  BLOCKEDBY: 'blockedBy',
+  DUPLICATE: 'duplicate',
   RELATED: 'related',
 };
 

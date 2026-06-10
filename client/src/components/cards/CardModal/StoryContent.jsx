@@ -324,6 +324,10 @@ const StoryContent = React.memo(() => {
           kind = CardRelationKinds.CHILD;
         } else if (kind === CardRelationKinds.CHILD) {
           kind = CardRelationKinds.PARENT;
+        } else if (kind === CardRelationKinds.BLOCKEDBY) {
+          kind = CardRelationKinds.BLOCKS;
+        } else if (kind === CardRelationKinds.BLOCKS) {
+          kind = CardRelationKinds.BLOCKEDBY;
         }
 
         return {
