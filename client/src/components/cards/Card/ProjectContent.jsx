@@ -67,12 +67,6 @@ const ProjectContent = React.memo(({ cardId }) => {
     selectShownOnFrontOfCardCustomFieldValueIdsByCardId(state, cardId),
   );
 
-  const cardRelationValues = useSelector((state) =>
-    selectors.selectCardRelationsByCardId(state, cardId),
-  );
-
-  // debugger;
-
   const notificationsTotal = useSelector((state) =>
     selectNotificationsTotalByCardId(state, cardId),
   );
@@ -119,6 +113,7 @@ const ProjectContent = React.memo(({ cardId }) => {
   );
 
   const hasInformation =
+    card.cardRelationValues > 0 ||
     card.description ||
     card.dueDate ||
     card.stopwatch ||
@@ -181,25 +176,20 @@ const ProjectContent = React.memo(({ cardId }) => {
           ))}
         </span>
       )}
-      {cardRelationValues.length > 0 && (
-        <span className={classNames(styles.labels, !isCompact && styles.labelsFull)}>
-          {cardRelationValues.map((cardRelation) => (
-            <span
-              key={cardRelation.id}
-              className={classNames(styles.attachment, styles.attachmentLeft)}
-            >
-              asd
-              {/* <CustomFieldValueChip id={customFieldValueId} size="tiny" /> */}
-            </span>
-          ))}
-        </span>
-      )}
       {isCompact && usersNode}
       {taskListIds.map((taskListId) => (
         <TaskList key={taskListId} id={taskListId} />
       ))}
       {hasInformation && (
         <span className={styles.attachments}>
+          {card.cardRelations.length > 0 && (
+            <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+              <span className={styles.attachmentContent}>
+                <Icon name="chain" />
+                {card.cardRelations.length}
+              </span>
+            </span>
+          )}
           {notificationsTotal > 0 && (
             <span
               className={classNames(styles.attachment, styles.attachmentLeft, styles.notification)}

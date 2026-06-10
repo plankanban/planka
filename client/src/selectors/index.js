@@ -26,7 +26,6 @@ import customFieldGroups from './custom-field-groups';
 import customFields from './custom-fields';
 import customFieldValues from './custom-field-values';
 import comments from './comments';
-import cardRelations from './card-relations';
 import activities from './activities';
 import notifications from './notifications';
 import notificationServices from './notification-services';
@@ -51,7 +50,6 @@ export default {
   ...taskLists,
   ...tasks,
   ...attachments,
-  ...cardRelations,
   ...customFieldGroups,
   ...customFields,
   ...customFieldValues,
