@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import { Popup } from '../../../lib/custom-ui';
 import selectors from '../../../selectors';
 
@@ -81,10 +83,10 @@ const LinkTypeStep = React.memo(({ onSelect, onDeselect, onBack }) => {
                 className={classNames(
                   isActive(kind) && styles.active,
                   styles.cardRelationKindChip,
-                  styles[`cardRelationKind-chip-${kind.key.toLowerCase()}`],
+                  styles[`${kind.key.toLowerCase()}`],
                 )}
               >
-                {kind.value}
+                {upperFirst(camelCase(kind.value))}
               </div>
             </Menu.Item>
           ))}

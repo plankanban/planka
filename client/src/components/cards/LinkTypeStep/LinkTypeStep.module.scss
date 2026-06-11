@@ -5,7 +5,7 @@
 
 :global(#app) {
   .cardRelationKindChip {
-    border-radius: 12px;
+    border-radius: 5px;
     font-size: 14px;
     line-height: 20px;
     padding: 8px;
@@ -16,36 +16,46 @@
     opacity: 0.75;
   }
 
-  .active {
-    border: 2px solid #2E5F8A;
+  .cardRelationKindChip.active:before {
+    bottom: 2px;
+    color: #4c606b;
+    content: "Г";
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 36px;
+    position: absolute;
+    right: 2px;
+    text-align: center;
+    transform: rotate(-135deg);
+    width: 36px;
   }
 
-  .cardRelationKind-chip-parent {
+  .cardRelationKindChip.parent {
     background-color: #b1cbfc;
     color: #2E5F8A;
   }
 
-  .cardRelationKind-chip-child {
+  .cardRelationKindChip.child {
     background-color: #D6EAF8;
     color: #2E5F8A;
   }
 
-  .cardRelationKind-chip-related {
+  .cardRelationKindChip.related {
     background-color: #E8DAEF;
     color: #5B3A75;
   }
 
-  .cardRelationKind-chip-blockedby {
+  .cardRelationKindChip.blockedby {
     background-color: #FADBD8;
     color: #A93226;
   }
 
-  .cardRelationKind-chip-blocks{
+  .cardRelationKindChip.blocks{
     background-color: #F5C6CB;
     color: #7A1F2B;
   }
 
-  .cardRelationKind-chip-duplicate {
+  .cardRelationKindChip.duplicate {
     background-color: #FDEBD0;
     color: #9A6700;
   }
