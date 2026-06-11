@@ -4,8 +4,8 @@
  */
 
 const Kinds = {
-  PARENT: 'parent',
-  CHILD: 'child',
+  PARENTOF: 'parentOf',
+  CHILDOF: 'childOf',
   BLOCKS: 'blocks',
   BLOCKEDBY: 'blockedBy',
   DUPLICATE: 'duplicate',

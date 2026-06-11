@@ -4,11 +4,11 @@
  */
 
 import upperFirst from 'lodash/upperFirst';
-import camelCase from 'lodash/camelCase';
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import { useTranslation } from 'react-i18next';
 import styles from './LinkChip.module.scss';
 
 const Sizes = {
@@ -18,17 +18,21 @@ const Sizes = {
 };
 
 const LinkChip = React.memo(({ kind, size, onClick }) => {
+  const { t } = useTranslation();
+
+  const getKindName = useCallback(() => t(`common.${kind}`), [t, kind]);
+
   const contentNode = (
     <span
-      title={kind}
+      title={getKindName()}
       className={classNames(
         styles.wrapper,
         styles[`wrapper${upperFirst(size)}`],
         onClick && styles.wrapperHoverable,
-        styles[`cardRelationKind-chip-${kind.toLowerCase()}`],
+        styles[`linkChip-${kind.toLowerCase()}`],
       )}
     >
-      {upperFirst(camelCase(kind)) || '\u00A0'}
+      {getKindName()}
     </span>
   );
 

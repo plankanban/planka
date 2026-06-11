@@ -4,21 +4,21 @@
  */
 
 :global(#app) {
-  .cardRelationKindChip {
+  .linkChip {
     border-radius: 5px;
     font-size: 14px;
     line-height: 20px;
     padding: 8px;
     text-transform: capitalize;
+    display:flex;
   }
 
-  .cardRelationKindChip:hover {
+  .linkChip:hover {
     opacity: 0.75;
   }
 
-  .cardRelationKindChip.active:before {
+  .linkChip.active:before {
     bottom: 2px;
-    color: #4c606b;
     content: "Г";
     font-size: 18px;
     font-weight: normal;
@@ -30,32 +30,32 @@
     width: 36px;
   }
 
-  .cardRelationKindChip.parent {
+  .linkChip.parentof {
     background-color: #b1cbfc;
     color: #2E5F8A;
   }
 
-  .cardRelationKindChip.child {
+  .linkChip.childof {
     background-color: #D6EAF8;
     color: #2E5F8A;
   }
 
-  .cardRelationKindChip.related {
+  .linkChip.related {
     background-color: #E8DAEF;
     color: #5B3A75;
   }
 
-  .cardRelationKindChip.blockedby {
+  .linkChip.blockedby {
     background-color: #FADBD8;
     color: #A93226;
   }
 
-  .cardRelationKindChip.blocks{
+  .linkChip.blocks{
     background-color: #F5C6CB;
     color: #7A1F2B;
   }
 
-  .cardRelationKindChip.duplicate {
+  .linkChip.duplicate {
     background-color: #FDEBD0;
     color: #9A6700;
   }
@@ -95,5 +95,16 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .count {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 2px 6px;
+    text-align: center;
+    margin-left:auto;
+    margin-right:30px;
   }
 }

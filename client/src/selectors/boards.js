@@ -11,6 +11,7 @@ import { selectCurrentUserId } from './users';
 import { isLocalId } from '../utils/local-id';
 import { isListArchiveOrTrash } from '../utils/record-helpers';
 import { ListTypes } from '../constants/Enums';
+import { invertCardRelationKind } from '../utils/cardRelationKinds-helpers';
 
 export const makeSelectBoardById = () =>
   createSelector(
@@ -314,6 +315,24 @@ export const selectAvailableListsForCurrentBoard = createSelector(
   },
 );
 
+export const selectCardsForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel.getCardsModelArray().map((cardModel) => cardModel.ref);
+  },
+);
+
 export const selectCardsExceptCurrentForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -357,14 +376,11 @@ export const selectCardsExceptCurrentAndRelatedForCurrentBoard = createSelector(
     }
 
     const relationshipKinds = [relationshipKind];
-    if (relationshipKind === 'parent') {
-      relationshipKinds.push('child');
-    } else if (relationshipKind === 'child') {
-      relationshipKinds.push('parent');
-    } else if (relationshipKind === 'blockedBy') {
-      relationshipKinds.push('blocks');
-    } else if (relationshipKind === 'blocks') {
-      relationshipKinds.push('blockedBy');
+
+    const inverted = invertCardRelationKind(relationshipKind);
+
+    if (inverted !== relationshipKind) {
+      relationshipKinds.push(inverted);
     }
 
     return boardModel
@@ -558,4 +574,5 @@ export default {
   selectFilterLabelIdsForCurrentBoard,
   selectFilterRelationKindsForCurrentBoard,
   selectIsBoardWithIdExists,
+  selectCardsForCurrentBoard,
 };

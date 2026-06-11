@@ -9,46 +9,36 @@ import { useTranslation } from 'react-i18next';
 import { Menu } from 'semantic-ui-react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
-import upperFirst from 'lodash/upperFirst';
-import camelCase from 'lodash/camelCase';
 import { Popup } from '../../../lib/custom-ui';
 import selectors from '../../../selectors';
 
-import { CardRelationKinds } from '../../../constants/Enums';
+import { getAllCardRelationKinds } from '../../../utils/cardRelationKinds-helpers';
 
-import styles from './LinkTypeStep.module.scss';
+import styles from './LinkKindStep.module.scss';
 
-const LinkTypeStep = React.memo(({ onSelect, onDeselect, onBack }) => {
+const LinkKindStep = React.memo(({ onSelect, onDeselect, onBack }) => {
   const [t] = useTranslation();
 
   const board = useSelector(selectors.selectCurrentBoard);
+  const cards = useSelector(selectors.selectCardsForCurrentBoard);
 
-  const cardRelations = [
-    {
-      key: CardRelationKinds.RELATED,
-      value: CardRelationKinds.RELATED,
+  const getCount = useCallback(
+    (kind) => {
+      return cards.reduce((count, card) => {
+        const filtered = card.cardRelations.filter((r) => r.kind === kind);
+        if (filtered.length > 0) {
+          return count + 1;
+        }
+        return count;
+      }, 0);
     },
-    {
-      key: CardRelationKinds.PARENT,
-      value: CardRelationKinds.PARENT,
-    },
-    {
-      key: CardRelationKinds.CHILD,
-      value: CardRelationKinds.CHILD,
-    },
-    {
-      key: CardRelationKinds.BLOCKS,
-      value: CardRelationKinds.BLOCKS,
-    },
-    {
-      key: CardRelationKinds.BLOCKEDBY,
-      value: CardRelationKinds.BLOCKEDBY,
-    },
-    {
-      key: CardRelationKinds.DUPLICATE,
-      value: CardRelationKinds.DUPLICATE,
-    },
-  ];
+    [cards],
+  );
+
+  const cardRelations = getAllCardRelationKinds().map((kind) => ({
+    ...kind,
+    count: getCount(kind.value),
+  }));
 
   const handleToggleClick = useCallback(
     (kind) => {
@@ -63,6 +53,13 @@ const LinkTypeStep = React.memo(({ onSelect, onDeselect, onBack }) => {
   );
 
   const isActive = useCallback((kind) => board.filterRelationKinds.includes(kind.value), [board]);
+
+  const getKindLabel = useCallback(
+    (k) => {
+      return t(`common.${k.value}`);
+    },
+    [t],
+  );
 
   return (
     <>
@@ -82,11 +79,12 @@ const LinkTypeStep = React.memo(({ onSelect, onDeselect, onBack }) => {
               <div
                 className={classNames(
                   isActive(kind) && styles.active,
-                  styles.cardRelationKindChip,
+                  styles.linkChip,
                   styles[`${kind.key.toLowerCase()}`],
                 )}
               >
-                {upperFirst(camelCase(kind.value))}
+                <span>{getKindLabel(kind)}</span>
+                <span className={styles.count}>{kind.count}</span>
               </div>
             </Menu.Item>
           ))}
@@ -96,14 +94,14 @@ const LinkTypeStep = React.memo(({ onSelect, onDeselect, onBack }) => {
   );
 });
 
-LinkTypeStep.propTypes = {
+LinkKindStep.propTypes = {
   onSelect: PropTypes.func.isRequired,
   onDeselect: PropTypes.func.isRequired,
   onBack: PropTypes.func,
 };
 
-LinkTypeStep.defaultProps = {
+LinkKindStep.defaultProps = {
   onBack: undefined,
 };
 
-export default LinkTypeStep;
+export default LinkKindStep;

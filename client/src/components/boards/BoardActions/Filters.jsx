@@ -21,7 +21,7 @@ import BoardMembershipsStep from '../../board-memberships/BoardMembershipsStep';
 import LabelChip from '../../labels/LabelChip';
 import LinkChip from '../../cards/LinkChip';
 import LabelsStep from '../../labels/LabelsStep';
-import LinkTypeStep from '../../cards/LinkTypeStep';
+import LinkKindStep from '../../cards/LinkKindStep';
 
 import styles from './Filters.module.scss';
 
@@ -172,7 +172,7 @@ const Filters = React.memo(() => {
 
   const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
   const LabelsPopup = usePopup(LabelsStep);
-  const LinksPopup = usePopup(LinkTypeStep);
+  const LinksPopup = usePopup(LinkKindStep);
 
   const isSearchActive = search || isSearchFocused;
 

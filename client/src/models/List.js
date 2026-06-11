@@ -12,25 +12,11 @@ import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { ListSortFieldNames, ListTypes, ListTypeStates, SortOrders } from '../constants/Enums';
 import LIST_TYPE_STATE_BY_TYPE from '../constants/ListTypeStateByType';
+import { invertCardRelationKind } from '../utils/cardRelationKinds-helpers';
 
 const POSITION_BY_LIST_TYPE = {
   [ListTypes.ARCHIVE]: Number.MAX_SAFE_INTEGER - 1,
   [ListTypes.TRASH]: Number.MAX_SAFE_INTEGER,
-};
-
-const invertCardRelationKind = (kind) => {
-  switch (kind) {
-    case 'parent':
-      return 'child';
-    case 'child':
-      return 'parent';
-    case 'blocks':
-      return 'blockedBy';
-    case 'blockedBy':
-      return 'blocks';
-    default:
-      return kind;
-  }
 };
 
 const prepareList = (list) => {

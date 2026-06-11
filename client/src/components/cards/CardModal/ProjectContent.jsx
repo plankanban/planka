@@ -16,12 +16,8 @@ import entryActions from '../../../entry-actions';
 import { usePopupInClosableContext } from '../../../hooks';
 import { startStopwatch, stopStopwatch } from '../../../utils/stopwatch';
 import { isUsableMarkdownElement } from '../../../utils/element-helpers';
-import {
-  BoardMembershipRoles,
-  CardRelationKinds,
-  CardTypes,
-  ListTypes,
-} from '../../../constants/Enums';
+import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/Enums';
+import { invertCardRelationKind } from '../../../utils/cardRelationKinds-helpers';
 import { CardTypeIcons } from '../../../constants/Icons';
 import Paths from '../../../constants/Paths';
 import { ClosableContext } from '../../../contexts';
@@ -42,6 +38,7 @@ import ConfirmationStep from '../../common/ConfirmationStep';
 import UserAvatar from '../../users/UserAvatar';
 import BoardMembershipsStep from '../../board-memberships/BoardMembershipsStep';
 import LabelChip from '../../labels/LabelChip';
+import LinkChip from '../LinkChip';
 import LabelsStep from '../../labels/LabelsStep';
 import ListsStep from '../../lists/ListsStep';
 import AddTaskListStep from '../../task-lists/AddTaskListStep';
@@ -334,16 +331,7 @@ const ProjectContent = React.memo(() => {
         }
 
         const { kind: relationKind } = cardRelation;
-        let kind = relationKind;
-        if (kind === CardRelationKinds.PARENT) {
-          kind = CardRelationKinds.CHILD;
-        } else if (kind === CardRelationKinds.CHILD) {
-          kind = CardRelationKinds.PARENT;
-        } else if (kind === CardRelationKinds.BLOCKEDBY) {
-          kind = CardRelationKinds.BLOCKS;
-        } else if (kind === CardRelationKinds.BLOCKS) {
-          kind = CardRelationKinds.BLOCKEDBY;
-        }
+        const kind = invertCardRelationKind(relationKind);
 
         return {
           ...cardRelation,
@@ -490,23 +478,13 @@ const ProjectContent = React.memo(() => {
                   {relatedCards.map(({ cardRelation, card: relatedCard }) => (
                     <span key={cardRelation.id} className={styles.attachment}>
                       <span className={styles.cardRelation}>
+                        <LinkChip kind={cardRelation.kind} size="small" />
                         <Link
                           to={Paths.CARDS.replace(':id', cardRelation.relatedCardId)}
                           className={styles.cardRelationLink}
                         >
                           {relatedCard ? relatedCard.name : `#${cardRelation.relatedCardId}`}
                         </Link>
-                        <span
-                          className={classNames(
-                            styles.cardRelationKind,
-                            styles[`cardRelationKind-badge-${cardRelation.kind}`],
-                          )}
-                        >
-                          {t(`common.${cardRelation.kind}`, {
-                            defaultValue:
-                              cardRelation.kind[0].toUpperCase() + cardRelation.kind.slice(1),
-                          })}
-                        </span>
                         {canUseCardRelations && (
                           <button
                             type="button"

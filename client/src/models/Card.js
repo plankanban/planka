@@ -9,22 +9,7 @@ import { attr, fk, many, oneToOne } from 'redux-orm';
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
-import { CardRelationKinds } from '../constants/Enums';
-
-const invertCardRelationKind = (kind) => {
-  switch (kind) {
-    case CardRelationKinds.PARENT:
-      return CardRelationKinds.CHILD;
-    case CardRelationKinds.CHILD:
-      return CardRelationKinds.PARENT;
-    case CardRelationKinds.BLOCKS:
-      return CardRelationKinds.BLOCKEDBY;
-    case CardRelationKinds.BLOCKEDBY:
-      return CardRelationKinds.BLOCKS;
-    default:
-      return kind;
-  }
-};
+import { invertCardRelationKind } from '../utils/cardRelationKinds-helpers';
 
 export default class extends BaseModel {
   static modelName = 'Card';

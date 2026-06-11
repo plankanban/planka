@@ -13,35 +13,9 @@ import { Input, Popup } from '../../../lib/custom-ui';
 import selectors from '../../../selectors';
 import { useField, useNestedRef } from '../../../hooks';
 import { CardRelationKinds } from '../../../constants/Enums';
+import { getAllCardRelationKinds } from '../../../utils/cardRelationKinds-helpers';
 
 import styles from './LinkCardStep.module.scss';
-
-const KIND_OPTIONS = [
-  {
-    key: CardRelationKinds.RELATED,
-    value: CardRelationKinds.RELATED,
-  },
-  {
-    key: CardRelationKinds.PARENT,
-    value: CardRelationKinds.PARENT,
-  },
-  {
-    key: CardRelationKinds.CHILD,
-    value: CardRelationKinds.CHILD,
-  },
-  {
-    key: CardRelationKinds.BLOCKS,
-    value: CardRelationKinds.BLOCKS,
-  },
-  {
-    key: CardRelationKinds.BLOCKEDBY,
-    value: CardRelationKinds.BLOCKEDBY,
-  },
-  {
-    key: CardRelationKinds.DUPLICATE,
-    value: CardRelationKinds.DUPLICATE,
-  },
-];
 
 const LinkCardStep = React.memo(({ onSelect, onBack }) => {
   const [t] = useTranslation();
@@ -61,11 +35,9 @@ const LinkCardStep = React.memo(({ onSelect, onBack }) => {
 
   const kindOptions = useMemo(
     () =>
-      KIND_OPTIONS.map((option) => ({
-        ...option,
-        text: t(`common.${option.value}`, {
-          defaultValue: option.value[0].toUpperCase() + option.value.slice(1),
-        }),
+      getAllCardRelationKinds().map((k) => ({
+        ...k,
+        text: t(`common.${k.value}`),
       })),
     [t],
   );

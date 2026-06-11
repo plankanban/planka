@@ -3,6 +3,6 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import LinkTypeStep from './LinkTypeStep';
+import LinkKindStep from './LinkKindStep';
 
-export default LinkTypeStep;
+export default LinkKindStep;
