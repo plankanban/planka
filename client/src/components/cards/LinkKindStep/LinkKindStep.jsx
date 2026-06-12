@@ -11,8 +11,11 @@ import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { Popup } from '../../../lib/custom-ui';
 import selectors from '../../../selectors';
-
-import { getAllCardRelationKinds } from '../../../utils/cardRelationKinds-helpers';
+import uniqueBy from '../../../utils/unique-array';
+import {
+  invertCardRelationKind,
+  getAllCardRelationKinds,
+} from '../../../utils/cardRelationKinds-helpers';
 
 import styles from './LinkKindStep.module.scss';
 
@@ -24,13 +27,42 @@ const LinkKindStep = React.memo(({ onSelect, onDeselect, onBack }) => {
 
   const getCount = useCallback(
     (kind) => {
-      return cards.reduce((count, card) => {
-        const filtered = card.cardRelations.filter((r) => r.kind === kind);
-        if (filtered.length > 0) {
-          return count + 1;
-        }
-        return count;
-      }, 0);
+      let cardCount = 0;
+
+      // get all relations of the given kind
+      const allRelations = cards
+        .flatMap((card) => card.cardRelations)
+        .filter((r) => r.kind === kind);
+      // get unique relations by id (they might show up at both sides of the relation)
+      const uniqueRelations = uniqueBy(allRelations, (r) => r.id);
+      // get unique card ids from the relations
+      const uniqueCardIds = uniqueRelations.map((r) => r.cardId);
+
+      // get the inverted kind of the relation (e.g. "blocks" -> "is blocked by")
+      const invertedKind = invertCardRelationKind(kind);
+
+      if (invertedKind !== kind) {
+        // if kind is asymmetric, we need to add the real count of inverted relations (e.g. "blocks" -> "is blocked by")
+        const invertedRelations = cards
+          .flatMap((card) => card.cardRelations)
+          .filter((r) => r.kind === invertedKind);
+
+        // get unique inverted relations by id (they might show up at both sides of the relation)
+        const uniqueInvertedRelations = uniqueBy(invertedRelations, (r) => r.id);
+        // get unique card ids from the inverted relations
+        const invertedUniqueCardIds = uniqueInvertedRelations.map((r) => r.relatedCardId);
+
+        // combine the unique card ids from both kinds and get the unique count
+        const allUniqueCardIds = uniqueBy([...uniqueCardIds, ...invertedUniqueCardIds], (id) => id);
+
+        // the count is the number of unique card ids from both kinds
+        cardCount = allUniqueCardIds.length;
+      } else {
+        // if kind is symmetric, we just need to double the count for each side
+        cardCount = uniqueCardIds.length * 2; // each relation counts for both cards
+      }
+
+      return cardCount;
     },
     [cards],
   );
