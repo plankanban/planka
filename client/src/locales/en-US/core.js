@@ -178,6 +178,7 @@ export default {
       description: 'Description',
       display: 'Display',
       displayCardAges: 'Display card ages',
+      displayCardLinks: 'Display card links',
       dropFileToUpload: 'Drop file to upload',
       dueDate_title: 'Due Date',
       duplicate: 'Duplicate',

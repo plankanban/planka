@@ -26,6 +26,7 @@
  *         - limitCardTypesToDefaultOne
  *         - alwaysDisplayCardCreator
  *         - displayCardAges
+ *         - displayCardLinks
  *         - expandTaskListsByDefault
  *         - createdAt
  *         - updatedAt
@@ -73,6 +74,11 @@
  *           default: false
  *           description: Whether to display card ages
  *           example: false
+ *         displayCardLinks:
+ *          type: boolean
+ *          default: false
+ *          description: Whether to display card links
+ *          example: false
  *         expandTaskListsByDefault:
  *           type: boolean
  *           default: false
@@ -147,6 +153,11 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'display_card_ages',
+    },
+    displayCardLinks: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'display_card_links',
     },
     expandTaskListsByDefault: {
       type: 'boolean',

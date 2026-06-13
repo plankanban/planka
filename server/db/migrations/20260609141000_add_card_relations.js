@@ -4,7 +4,15 @@
  */
 
 exports.up = async (knex) => {
-  await knex.schema.createTable('card_relation', (table) => {
+  await knex.schema.alterTable('board', (table) => {
+    table.boolean('display_card_links').notNullable().defaultTo(false);
+  });
+
+  await knex.schema.alterTable('board', (table) => {
+    table.boolean('display_card_links').notNullable().alter();
+  });
+
+  return knex.schema.createTable('card_relation', (table) => {
     /* Columns */
 
     table.bigInteger('id').primary().defaultTo(knex.raw('next_id()'));
@@ -25,4 +33,10 @@ exports.up = async (knex) => {
   });
 };
 
-exports.down = (knex) => knex.schema.dropTable('card_relation');
+exports.down = async (knex) => {
+  await knex.schema.dropTable('card_relation');
+
+  return knex.schema.alterTable('board', (table) => {
+    table.dropColumn('display_card_links');
+  });
+};
