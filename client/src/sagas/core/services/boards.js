@@ -3,17 +3,17 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { call, fork, put, select, take } from 'redux-saga/effects';
+import { call, fork, put, select, take } from "redux-saga/effects";
 
-import { goToBoard, goToProject } from './router';
-import { openModal } from './modals';
-import request from '../request';
-import selectors from '../../../selectors';
-import actions from '../../../actions';
-import api from '../../../api';
-import { createLocalId } from '../../../utils/local-id';
-import ActionTypes from '../../../constants/ActionTypes';
-import ModalTypes from '../../../constants/ModalTypes';
+import { goToBoard, goToProject } from "./router";
+import { openModal } from "./modals";
+import request from "../request";
+import selectors from "../../../selectors";
+import actions from "../../../actions";
+import api from "../../../api";
+import { createLocalId } from "../../../utils/local-id";
+import ActionTypes from "../../../constants/ActionTypes";
+import ModalTypes from "../../../constants/ModalTypes";
 
 export function* createBoard(projectId, { import: boardImport, ...data }) {
   const localId = yield call(createLocalId);
@@ -32,9 +32,11 @@ export function* createBoard(projectId, { import: boardImport, ...data }) {
   );
 
   // TODO: use race instead
-  const watchForCreateBoardActionTask = yield fork(function* watchForCreateBoardAction() {
-    yield take(ActionTypes.BOARD_CREATE);
-  });
+  const watchForCreateBoardActionTask = yield fork(
+    function* watchForCreateBoardAction() {
+      yield take(ActionTypes.BOARD_CREATE);
+    },
+  );
 
   let board;
   let boardMemberships;
@@ -104,6 +106,7 @@ export function* fetchBoard(id) {
   let customFieldGroups;
   let customFields;
   let customFieldValues;
+  let projectLabels;
 
   try {
     ({
@@ -123,6 +126,7 @@ export function* fetchBoard(id) {
         customFieldGroups,
         customFields,
         customFieldValues,
+        projectLabels,
       },
     } = yield call(request, api.getBoard, id, true));
   } catch (error) {
@@ -147,6 +151,7 @@ export function* fetchBoard(id) {
       customFieldGroups,
       customFields,
       customFieldValues,
+      projectLabels,
     ),
   );
 }
@@ -177,7 +182,12 @@ export function* handleBoardUpdate(board) {
 
 export function* moveBoard(id, index) {
   const { projectId } = yield select(selectors.selectBoardById, id);
-  const position = yield select(selectors.selectNextBoardPosition, projectId, index, id);
+  const position = yield select(
+    selectors.selectNextBoardPosition,
+    projectId,
+    index,
+    id,
+  );
 
   yield call(updateBoard, id, {
     position,

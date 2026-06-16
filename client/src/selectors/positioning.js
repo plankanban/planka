@@ -3,211 +3,269 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import isUndefined from 'lodash/isUndefined';
-import { createSelector } from 'redux-orm';
+import isUndefined from "lodash/isUndefined";
+import { createSelector } from "redux-orm";
 
-import orm from '../orm';
-import Config from '../constants/Config';
+import orm from "../orm";
+import Config from "../constants/Config";
 
 const nextPosition = (items, index, excludedId) => {
-  const filteredItems = isUndefined(excludedId)
-    ? items
-    : items.filter((item) => item.id !== excludedId);
+    const filteredItems = isUndefined(excludedId)
+        ? items
+        : items.filter((item) => item.id !== excludedId);
 
-  if (isUndefined(index)) {
-    const lastItem = filteredItems[filteredItems.length - 1];
-    return (lastItem ? lastItem.position : 0) + Config.POSITION_GAP;
-  }
+    if (isUndefined(index)) {
+        const lastItem = filteredItems[filteredItems.length - 1];
+        return (lastItem ? lastItem.position : 0) + Config.POSITION_GAP;
+    }
 
-  const prevItem = filteredItems[index - 1];
-  const nextItem = filteredItems[index];
+    const prevItem = filteredItems[index - 1];
+    const nextItem = filteredItems[index];
 
-  const prevPosition = prevItem ? prevItem.position : 0;
+    const prevPosition = prevItem ? prevItem.position : 0;
 
-  if (!nextItem) {
-    return prevPosition + Config.POSITION_GAP;
-  }
+    if (!nextItem) {
+        return prevPosition + Config.POSITION_GAP;
+    }
 
-  return prevPosition + (nextItem.position - prevPosition) / 2;
+    return prevPosition + (nextItem.position - prevPosition) / 2;
 };
 
 export const selectNextBoardPosition = createSelector(
-  orm,
-  (_, projectId) => projectId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Project }, projectId, index, excludedId) => {
-    const projectModel = Project.withId(projectId);
+    orm,
+    (_, projectId) => projectId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ Project }, projectId, index, excludedId) => {
+        const projectModel = Project.withId(projectId);
 
-    if (!projectModel) {
-      return projectModel;
-    }
+        if (!projectModel) {
+            return projectModel;
+        }
 
-    return nextPosition(projectModel.getBoardsQuerySet().toRefArray(), index, excludedId);
-  },
+        return nextPosition(
+            projectModel.getBoardsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextLabelPosition = createSelector(
-  orm,
-  (_, boardId) => boardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Board }, boardId, index, excludedId) => {
-    const boardModel = Board.withId(boardId);
+    orm,
+    (_, boardId) => boardId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ Board }, boardId, index, excludedId) => {
+        const boardModel = Board.withId(boardId);
 
-    if (!boardModel) {
-      return boardModel;
-    }
+        if (!boardModel) {
+            return boardModel;
+        }
 
-    return nextPosition(boardModel.getLabelsQuerySet().toRefArray(), index, excludedId);
-  },
+        return nextPosition(
+            boardModel.getLabelsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
+);
+
+export const selectNextProjectLabelPosition = createSelector(
+    orm,
+    (_, projectId) => projectId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ Project }, projectId, index, excludedId) => {
+        const projectModel = Project.withId(projectId);
+
+        if (!projectModel) {
+            return projectModel;
+        }
+
+        return nextPosition(
+            projectModel.labels
+                .orderBy(["position", "id.length", "id"])
+                .toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextListPosition = createSelector(
-  orm,
-  (_, boardId) => boardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Board }, boardId, index, excludedId) => {
-    const boardModel = Board.withId(boardId);
+    orm,
+    (_, boardId) => boardId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ Board }, boardId, index, excludedId) => {
+        const boardModel = Board.withId(boardId);
 
-    if (!boardModel) {
-      return boardModel;
-    }
+        if (!boardModel) {
+            return boardModel;
+        }
 
-    return nextPosition(boardModel.getKanbanListsQuerySet().toRefArray(), index, excludedId);
-  },
+        return nextPosition(
+            boardModel.getKanbanListsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextCardPosition = createSelector(
-  orm,
-  (_, listId) => listId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ List }, listId, index, excludedId) => {
-    const listModel = List.withId(listId);
+    orm,
+    (_, listId) => listId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ List }, listId, index, excludedId) => {
+        const listModel = List.withId(listId);
 
-    if (!listModel) {
-      return listModel;
-    }
+        if (!listModel) {
+            return listModel;
+        }
 
-    return nextPosition(listModel.getFilteredCardsModelArray(), index, excludedId);
-  },
+        return nextPosition(
+            listModel.getFilteredCardsModelArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextTaskListPosition = createSelector(
-  orm,
-  (_, cardId) => cardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Card }, cardId, index, excludedId) => {
-    const cardModel = Card.withId(cardId);
+    orm,
+    (_, cardId) => cardId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ Card }, cardId, index, excludedId) => {
+        const cardModel = Card.withId(cardId);
 
-    if (!cardModel) {
-      return cardModel;
-    }
+        if (!cardModel) {
+            return cardModel;
+        }
 
-    return nextPosition(cardModel.getTaskListsQuerySet().toRefArray(), index, excludedId);
-  },
+        return nextPosition(
+            cardModel.getTaskListsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextTaskPosition = createSelector(
-  orm,
-  (_, taskListId) => taskListId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ TaskList }, taskListId, index, excludedId) => {
-    const taskListModel = TaskList.withId(taskListId);
+    orm,
+    (_, taskListId) => taskListId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ TaskList }, taskListId, index, excludedId) => {
+        const taskListModel = TaskList.withId(taskListId);
 
-    if (!taskListModel) {
-      return taskListModel;
-    }
+        if (!taskListModel) {
+            return taskListModel;
+        }
 
-    return nextPosition(taskListModel.getTasksQuerySet().toRefArray(), index, excludedId);
-  },
+        return nextPosition(
+            taskListModel.getTasksQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextCustomFieldGroupPositionInBoard = createSelector(
-  orm,
-  (_, cardId) => cardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Board }, boardId, index, excludedId) => {
-    const boardModel = Board.withId(boardId);
+    orm,
+    (_, cardId) => cardId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ Board }, boardId, index, excludedId) => {
+        const boardModel = Board.withId(boardId);
 
-    if (!boardModel) {
-      return boardModel;
-    }
+        if (!boardModel) {
+            return boardModel;
+        }
 
-    return nextPosition(boardModel.getCustomFieldGroupsQuerySet().toRefArray(), index, excludedId);
-  },
+        return nextPosition(
+            boardModel.getCustomFieldGroupsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextCustomFieldGroupPositionInCard = createSelector(
-  orm,
-  (_, cardId) => cardId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ Card }, cardId, index, excludedId) => {
-    const cardModel = Card.withId(cardId);
+    orm,
+    (_, cardId) => cardId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ Card }, cardId, index, excludedId) => {
+        const cardModel = Card.withId(cardId);
 
-    if (!cardModel) {
-      return cardModel;
-    }
+        if (!cardModel) {
+            return cardModel;
+        }
 
-    return nextPosition(cardModel.getCustomFieldGroupsQuerySet().toRefArray(), index, excludedId);
-  },
+        return nextPosition(
+            cardModel.getCustomFieldGroupsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextCustomFieldPositionInBaseGroup = createSelector(
-  orm,
-  (_, baseCustomFieldGroupId) => baseCustomFieldGroupId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ BaseCustomFieldGroup }, baseCustomFieldGroupId, index, excludedId) => {
-    const baseCustomFieldGroupModel = BaseCustomFieldGroup.withId(baseCustomFieldGroupId);
+    orm,
+    (_, baseCustomFieldGroupId) => baseCustomFieldGroupId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ BaseCustomFieldGroup }, baseCustomFieldGroupId, index, excludedId) => {
+        const baseCustomFieldGroupModel = BaseCustomFieldGroup.withId(
+            baseCustomFieldGroupId,
+        );
 
-    if (!baseCustomFieldGroupModel) {
-      return baseCustomFieldGroupModel;
-    }
+        if (!baseCustomFieldGroupModel) {
+            return baseCustomFieldGroupModel;
+        }
 
-    return nextPosition(
-      baseCustomFieldGroupModel.getCustomFieldsQuerySet().toRefArray(),
-      index,
-      excludedId,
-    );
-  },
+        return nextPosition(
+            baseCustomFieldGroupModel.getCustomFieldsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export const selectNextCustomFieldPositionInGroup = createSelector(
-  orm,
-  (_, customFieldGroupId) => customFieldGroupId,
-  (_, __, index) => index,
-  (_, __, ___, excludedId) => excludedId,
-  ({ CustomFieldGroup }, customFieldGroupId, index, excludedId) => {
-    const customFieldGroupModel = CustomFieldGroup.withId(customFieldGroupId);
+    orm,
+    (_, customFieldGroupId) => customFieldGroupId,
+    (_, __, index) => index,
+    (_, __, ___, excludedId) => excludedId,
+    ({ CustomFieldGroup }, customFieldGroupId, index, excludedId) => {
+        const customFieldGroupModel =
+            CustomFieldGroup.withId(customFieldGroupId);
 
-    if (!customFieldGroupModel) {
-      return customFieldGroupModel;
-    }
+        if (!customFieldGroupModel) {
+            return customFieldGroupModel;
+        }
 
-    return nextPosition(
-      customFieldGroupModel.getCustomFieldsQuerySet().toRefArray(),
-      index,
-      excludedId,
-    );
-  },
+        return nextPosition(
+            customFieldGroupModel.getCustomFieldsQuerySet().toRefArray(),
+            index,
+            excludedId,
+        );
+    },
 );
 
 export default {
-  selectNextBoardPosition,
-  selectNextLabelPosition,
-  selectNextListPosition,
-  selectNextCardPosition,
-  selectNextTaskListPosition,
-  selectNextTaskPosition,
-  selectNextCustomFieldGroupPositionInBoard,
-  selectNextCustomFieldGroupPositionInCard,
-  selectNextCustomFieldPositionInBaseGroup,
-  selectNextCustomFieldPositionInGroup,
+    selectNextBoardPosition,
+    selectNextLabelPosition,
+    selectNextProjectLabelPosition,
+    selectNextListPosition,
+    selectNextCardPosition,
+    selectNextTaskListPosition,
+    selectNextTaskPosition,
+    selectNextCustomFieldGroupPositionInBoard,
+    selectNextCustomFieldGroupPositionInCard,
+    selectNextCustomFieldPositionInBaseGroup,
+    selectNextCustomFieldPositionInGroup,
 };

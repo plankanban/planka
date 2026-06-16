@@ -6,21 +6,21 @@
 module.exports = {
   inputs: {
     values: {
-      type: 'ref',
+      type: "ref",
       required: true,
     },
     import: {
-      type: 'json',
+      type: "json",
     },
     actorUser: {
-      type: 'ref',
+      type: "ref",
       required: true,
     },
     requestId: {
-      type: 'string',
+      type: "string",
     },
     request: {
-      type: 'ref',
+      type: "ref",
     },
   },
 
@@ -62,7 +62,7 @@ module.exports = {
         const boardRelatedUserIds = await clonedScoper.getBoardRelatedUserIds();
 
         boardRelatedUserIds.forEach((userId) => {
-          sails.sockets.broadcast(`user:${userId}`, 'boardUpdate', {
+          sails.sockets.broadcast(`user:${userId}`, "boardUpdate", {
             item: {
               id: reposition.record.id,
               position: reposition.position,
@@ -85,7 +85,30 @@ module.exports = {
     );
 
     if (inputs.import && inputs.import.type === Board.ImportTypes.TRELLO) {
-      await sails.helpers.boards.importFromTrello(board, lists, inputs.import.board);
+      await sails.helpers.boards.importFromTrello(
+        board,
+        lists,
+        inputs.import.board,
+      );
+    }
+
+    // Copy project default labels to the new board
+    const projectLabels = await ProjectLabel.qm.getByProjectId(
+      values.project.id,
+    );
+
+    if (projectLabels.length > 0) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const projectLabel of projectLabels) {
+        // eslint-disable-next-line no-await-in-loop
+        await Label.qm.createOne({
+          position: projectLabel.position,
+          name: projectLabel.name,
+          color: projectLabel.color,
+          boardId: board.id,
+          projectLabelId: projectLabel.id,
+        });
+      }
     }
 
     scoper.board = board;
@@ -96,11 +119,12 @@ module.exports = {
     boardRelatedUserIds.forEach((userId) => {
       sails.sockets.broadcast(
         `user:${userId}`,
-        'boardCreate',
+        "boardCreate",
         {
           item: board,
           included: {
-            boardMemberships: userId === boardMembership.userId ? [boardMembership] : [],
+            boardMemberships:
+              userId === boardMembership.userId ? [boardMembership] : [],
           },
           requestId: inputs.requestId,
         },

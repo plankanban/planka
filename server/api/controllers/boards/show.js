@@ -150,11 +150,11 @@
  *         $ref: '#/components/responses/NotFound'
  */
 
-const { idInput } = require('../../../utils/inputs');
+const { idInput } = require("../../../utils/inputs");
 
 const Errors = {
   BOARD_NOT_FOUND: {
-    boardNotFound: 'Board not found',
+    boardNotFound: "Board not found",
   },
 };
 
@@ -165,13 +165,13 @@ module.exports = {
       required: true,
     },
     subscribe: {
-      type: 'boolean',
+      type: "boolean",
     },
   },
 
   exits: {
     boardNotFound: {
-      responseType: 'notFound',
+      responseType: "notFound",
     },
   },
 
@@ -180,19 +180,23 @@ module.exports = {
 
     const { board, project } = await sails.helpers.boards
       .getPathToProjectById(inputs.id)
-      .intercept('pathNotFound', () => Errors.BOARD_NOT_FOUND);
+      .intercept("pathNotFound", () => Errors.BOARD_NOT_FOUND);
 
-    if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
+    if (
+      currentUser.role !== User.Roles.ADMIN ||
+      project.ownerProjectManagerId
+    ) {
       const isProjectManager = await sails.helpers.users.isProjectManager(
         currentUser.id,
         project.id,
       );
 
       if (!isProjectManager) {
-        const boardMembership = await BoardMembership.qm.getOneByBoardIdAndUserId(
-          board.id,
-          currentUser.id,
-        );
+        const boardMembership =
+          await BoardMembership.qm.getOneByBoardIdAndUserId(
+            board.id,
+            currentUser.id,
+          );
 
         if (!boardMembership) {
           throw Errors.BOARD_NOT_FOUND; // Forbidden
@@ -200,21 +204,26 @@ module.exports = {
       }
     }
 
-    board.isSubscribed = await sails.helpers.users.isBoardSubscriber(currentUser.id, board.id);
+    board.isSubscribed = await sails.helpers.users.isBoardSubscriber(
+      currentUser.id,
+      board.id,
+    );
 
     const boardMemberships = await BoardMembership.qm.getByBoardId(board.id);
     const labels = await Label.qm.getByBoardId(board.id);
     const lists = await List.qm.getByBoardId(board.id);
 
-    const finiteLists = lists.filter((list) => sails.helpers.lists.isFinite(list));
+    const finiteLists = lists.filter((list) =>
+      sails.helpers.lists.isFinite(list),
+    );
     const finiteListIds = sails.helpers.utils.mapRecords(finiteLists);
 
     const cards = await Card.qm.getByListIds(finiteListIds);
     const cardIds = sails.helpers.utils.mapRecords(cards);
 
     const userIds = _.union(
-      sails.helpers.utils.mapRecords(boardMemberships, 'userId'),
-      sails.helpers.utils.mapRecords(cards, 'creatorUserId', true, true),
+      sails.helpers.utils.mapRecords(boardMemberships, "userId"),
+      sails.helpers.utils.mapRecords(cards, "creatorUserId", true, true),
     );
 
     const users = await User.qm.getByIds(userIds);
@@ -227,14 +236,49 @@ module.exports = {
     const tasks = await Task.qm.getByTaskListIds(taskListIds);
     const attachments = await Attachment.qm.getByCardIds(cardIds);
 
-    const boardCustomFieldGroups = await CustomFieldGroup.qm.getByBoardId(board.id);
-    const cardCustomFieldGroups = await CustomFieldGroup.qm.getByCardIds(cardIds);
+    const boardCustomFieldGroups = await CustomFieldGroup.qm.getByBoardId(
+      board.id,
+    );
+    const cardCustomFieldGroups =
+      await CustomFieldGroup.qm.getByCardIds(cardIds);
 
-    const customFieldGroups = [...boardCustomFieldGroups, ...cardCustomFieldGroups];
-    const customFieldGroupIds = sails.helpers.utils.mapRecords(customFieldGroups);
+    const customFieldGroups = [
+      ...boardCustomFieldGroups,
+      ...cardCustomFieldGroups,
+    ];
+    const customFieldGroupIds =
+      sails.helpers.utils.mapRecords(customFieldGroups);
 
-    const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
+    const customFields =
+      await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
     const customFieldValues = await CustomFieldValue.qm.getByCardIds(cardIds);
+
+    const projectLabels = await ProjectLabel.qm.getByProjectId(project.id);
+
+    // Sync project labels to board — create missing ones
+    if (projectLabels.length > 0) {
+      const existingLabelKeys = new Set(
+        labels.map((l) => `${l.name || ""}:${l.color}`),
+      );
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const projectLabel of projectLabels) {
+        const key = `${projectLabel.name || ""}:${projectLabel.color}`;
+
+        if (!existingLabelKeys.has(key)) {
+          // eslint-disable-next-line no-await-in-loop
+          const newLabel = await Label.qm.createOne({
+            position: projectLabel.position,
+            name: projectLabel.name,
+            color: projectLabel.color,
+            boardId: board.id,
+            projectLabelId: projectLabel.id,
+          });
+
+          labels.push(newLabel);
+        }
+      }
+    }
 
     const cardSubscriptions = await CardSubscription.qm.getByCardIdsAndUserId(
       cardIds,
@@ -272,6 +316,7 @@ module.exports = {
         customFieldGroups,
         customFields,
         customFieldValues,
+        projectLabels,
         users: sails.helpers.users.presentMany(users, currentUser),
         projects: [project],
         attachments: sails.helpers.attachments.presentMany(attachments),

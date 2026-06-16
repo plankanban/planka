@@ -3,13 +3,13 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { call, select } from 'redux-saga/effects';
+import { call, select } from "redux-saga/effects";
 
-import request from '../request';
-import selectors from '../../../selectors';
-import api from '../../../api';
-import mergeRecords from '../../../utils/merge-records';
-import Paths from '../../../constants/Paths';
+import request from "../request";
+import selectors from "../../../selectors";
+import api from "../../../api";
+import mergeRecords from "../../../utils/merge-records";
+import Paths from "../../../constants/Paths";
 
 export function* fetchBoardByCurrentPath() {
   const pathsMatch = yield select(selectors.selectPathsMatch);
@@ -23,6 +23,7 @@ export function* fetchBoardByCurrentPath() {
   let labels;
   let lists;
   let cards;
+  let projectLabels;
   let cardMemberships1;
   let cardMemberships2;
   let cardLabels1;
@@ -80,6 +81,7 @@ export function* fetchBoardByCurrentPath() {
           customFieldGroups: customFieldGroups2,
           customFields: customFields2,
           customFieldValues: customFieldValues2,
+          projectLabels,
         },
       } = yield call(request, api.getBoard, boardId, true));
     }
@@ -102,6 +104,7 @@ export function* fetchBoardByCurrentPath() {
     customFieldGroups: mergeRecords(customFieldGroups1, customFieldGroups2),
     customFields: mergeRecords(customFields1, customFields2),
     customFieldValues: mergeRecords(customFieldValues1, customFieldValues2),
+    projectLabels,
   };
 }
 

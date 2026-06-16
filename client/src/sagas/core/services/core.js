@@ -3,15 +3,15 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { call, put, select } from 'redux-saga/effects';
+import { call, put, select } from "redux-saga/effects";
 
-import request from '../request';
-import requests from '../requests';
-import selectors from '../../../selectors';
-import actions from '../../../actions';
-import api from '../../../api';
-import i18n from '../../../i18n';
-import { removeAccessToken } from '../../../utils/access-token-storage';
+import request from "../request";
+import requests from "../requests";
+import selectors from "../../../selectors";
+import actions from "../../../actions";
+import api from "../../../api";
+import i18n from "../../../i18n";
+import { removeAccessToken } from "../../../utils/access-token-storage";
 
 export function* initializeCore() {
   const { item: bootstrap } = yield call(request, api.getBootstrap); // TODO: handle error
@@ -41,6 +41,7 @@ export function* initializeCore() {
     customFieldGroups,
     customFields,
     customFieldValues,
+    projectLabels,
     notifications,
     notificationServices,
   } = yield call(requests.fetchCore); // TODO: handle error
@@ -72,6 +73,7 @@ export function* initializeCore() {
       customFieldGroups,
       customFields,
       customFieldValues,
+      projectLabels,
       notifications,
       notificationServices,
     ),

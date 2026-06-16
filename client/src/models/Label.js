@@ -3,23 +3,24 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { attr, fk } from 'redux-orm';
+import { attr, fk } from "redux-orm";
 
-import BaseModel from './BaseModel';
-import ActionTypes from '../constants/ActionTypes';
+import BaseModel from "./BaseModel";
+import ActionTypes from "../constants/ActionTypes";
 
 export default class extends BaseModel {
-  static modelName = 'Label';
+  static modelName = "Label";
 
   static fields = {
     id: attr(),
     position: attr(),
     name: attr(),
     color: attr(),
+    projectLabelId: attr(),
     boardId: fk({
-      to: 'Board',
-      as: 'board',
-      relatedName: 'labels',
+      to: "Board",
+      as: "board",
+      relatedName: "labels",
     }),
   };
 

@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import ActionTypes from '../constants/ActionTypes';
+import ActionTypes from "../constants/ActionTypes";
 
 const handleLocationChange = (
   pathname,
@@ -25,6 +25,7 @@ const handleLocationChange = (
   customFieldGroups,
   customFields,
   customFieldValues,
+  projectLabels,
   notificationsToDelete,
 ) => ({
   type: ActionTypes.LOCATION_CHANGE_HANDLE,
@@ -48,6 +49,7 @@ const handleLocationChange = (
     customFieldGroups,
     customFields,
     customFieldValues,
+    projectLabels,
     notificationsToDelete,
   },
 });

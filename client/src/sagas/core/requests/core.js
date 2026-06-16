@@ -3,14 +3,14 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { call } from 'redux-saga/effects';
+import { call } from "redux-saga/effects";
 
-import { fetchBoardByCurrentPath } from './boards';
-import request from '../request';
-import api from '../../../api';
-import mergeRecords from '../../../utils/merge-records';
-import { isUserAdminOrProjectOwner } from '../../../utils/record-helpers';
-import { UserRoles } from '../../../constants/Enums';
+import { fetchBoardByCurrentPath } from "./boards";
+import request from "../request";
+import api from "../../../api";
+import mergeRecords from "../../../utils/merge-records";
+import { isUserAdminOrProjectOwner } from "../../../utils/record-helpers";
+import { UserRoles } from "../../../constants/Enums";
 
 export function* fetchCore() {
   const {
@@ -61,6 +61,7 @@ export function* fetchCore() {
   let customFieldGroups;
   let customFields2;
   let customFieldValues;
+  let projectLabels;
 
   try {
     ({
@@ -75,6 +76,7 @@ export function* fetchCore() {
       attachments,
       customFieldGroups,
       customFieldValues,
+      projectLabels,
       users: users3,
       projects: projects2,
       boardMemberships: boardMemberships2,
@@ -125,13 +127,17 @@ export function* fetchCore() {
     attachments,
     customFieldGroups,
     customFieldValues,
+    projectLabels,
     notifications,
     users: mergeRecords(users1, users2, users3, users4),
     projects: mergeRecords(projects1, projects2),
     boardMemberships: mergeRecords(boardMemberships1, boardMemberships2),
     cards: mergeRecords(card && [card], cards1),
     customFields: mergeRecords(customFields1, customFields2),
-    notificationServices: mergeRecords(notificationServices1, notificationServices2),
+    notificationServices: mergeRecords(
+      notificationServices1,
+      notificationServices2,
+    ),
   };
 }
 

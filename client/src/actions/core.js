@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import ActionTypes from '../constants/ActionTypes';
+import ActionTypes from "../constants/ActionTypes";
 
 const initializeCore = (
   config,
@@ -28,6 +28,7 @@ const initializeCore = (
   customFieldGroups,
   customFields,
   customFieldValues,
+  projectLabels,
   notifications,
   notificationServices,
 ) => ({
@@ -55,6 +56,7 @@ const initializeCore = (
     customFieldGroups,
     customFields,
     customFieldValues,
+    projectLabels,
     notifications,
     notificationServices,
   },
