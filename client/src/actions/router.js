@@ -25,6 +25,7 @@ const handleLocationChange = (
   customFieldGroups,
   customFields,
   customFieldValues,
+  projectLabels,
   notificationsToDelete,
 ) => ({
   type: ActionTypes.LOCATION_CHANGE_HANDLE,
@@ -48,6 +49,7 @@ const handleLocationChange = (
     customFieldGroups,
     customFields,
     customFieldValues,
+    projectLabels,
     notificationsToDelete,
   },
 });

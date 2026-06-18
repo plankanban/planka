@@ -41,6 +41,7 @@ export function* initializeCore() {
     customFieldGroups,
     customFields,
     customFieldValues,
+    projectLabels,
     notifications,
     notificationServices,
   } = yield call(requests.fetchCore); // TODO: handle error
@@ -72,6 +73,7 @@ export function* initializeCore() {
       customFieldGroups,
       customFields,
       customFieldValues,
+      projectLabels,
       notifications,
       notificationServices,
     ),

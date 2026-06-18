@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import { BoardMembershipRoles } from '../../../constants/Enums';
@@ -24,9 +24,11 @@ const Item = React.memo(({ id, index, isActive, onSelect, onDeselect, onEdit }) 
 
   const label = useSelector((state) => selectLabelById(state, id));
 
+  const isSynced = !!label.projectLabelId;
+
   const canEdit = useSelector((state) => {
     const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
-    return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+    return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR && !isSynced;
   });
 
   const handleToggleClick = useCallback(() => {
@@ -56,11 +58,13 @@ const Item = React.memo(({ id, index, isActive, onSelect, onDeselect, onEdit }) 
               className={classNames(
                 styles.name,
                 isActive && styles.nameActive,
+                isSynced && styles.nameSynced,
                 globalStyles[`background${upperFirst(camelCase(label.color))}`],
               )}
               onClick={handleToggleClick}
             >
               {label.name}
+              {isSynced && <Icon name="globe" className={styles.syncedIcon} />}
             </span>
             {canEdit && (
               <Button

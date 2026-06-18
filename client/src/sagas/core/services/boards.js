@@ -104,6 +104,7 @@ export function* fetchBoard(id) {
   let customFieldGroups;
   let customFields;
   let customFieldValues;
+  let projectLabels;
 
   try {
     ({
@@ -123,6 +124,7 @@ export function* fetchBoard(id) {
         customFieldGroups,
         customFields,
         customFieldValues,
+        projectLabels,
       },
     } = yield call(request, api.getBoard, id, true));
   } catch (error) {
@@ -147,6 +149,7 @@ export function* fetchBoard(id) {
       customFieldGroups,
       customFields,
       customFieldValues,
+      projectLabels,
     ),
   );
 }

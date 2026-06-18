@@ -12,6 +12,7 @@ import BaseCustomFieldGroup from './BaseCustomFieldGroup';
 import Board from './Board';
 import BoardMembership from './BoardMembership';
 import Label from './Label';
+import ProjectLabel from './ProjectLabel';
 import List from './List';
 import Card from './Card';
 import TaskList from './TaskList';
@@ -35,6 +36,7 @@ export {
   Board,
   BoardMembership,
   Label,
+  ProjectLabel,
   List,
   Card,
   TaskList,

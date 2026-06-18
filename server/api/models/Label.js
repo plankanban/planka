@@ -142,6 +142,10 @@ module.exports = {
       required: true,
       columnName: 'board_id',
     },
+    projectLabelId: {
+      model: 'ProjectLabel',
+      columnName: 'project_label_id',
+    },
     cards: {
       collection: 'Card',
       via: 'labelId',

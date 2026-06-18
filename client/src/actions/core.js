@@ -28,6 +28,7 @@ const initializeCore = (
   customFieldGroups,
   customFields,
   customFieldValues,
+  projectLabels,
   notifications,
   notificationServices,
 ) => ({
@@ -55,6 +56,7 @@ const initializeCore = (
     customFieldGroups,
     customFields,
     customFieldValues,
+    projectLabels,
     notifications,
     notificationServices,
   },

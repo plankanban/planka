@@ -75,6 +75,10 @@ export default [
   'projectManagerCreate',
   'projectManagerDelete',
 
+  'projectLabelCreate',
+  'projectLabelUpdate',
+  'projectLabelDelete',
+
   'taskCreate',
   'taskUpdate',
   'taskDelete',

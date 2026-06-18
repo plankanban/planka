@@ -88,6 +88,23 @@ module.exports = {
       await sails.helpers.boards.importFromTrello(board, lists, inputs.import.board);
     }
 
+    // Copy project default labels to the new board
+    const projectLabels = await ProjectLabel.qm.getByProjectId(values.project.id);
+
+    if (projectLabels.length > 0) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const projectLabel of projectLabels) {
+        // eslint-disable-next-line no-await-in-loop
+        await Label.qm.createOne({
+          position: projectLabel.position,
+          name: projectLabel.name,
+          color: projectLabel.color,
+          boardId: board.id,
+          projectLabelId: projectLabel.id,
+        });
+      }
+    }
+
     scoper.board = board;
     scoper.boardMemberships = [boardMembership];
 

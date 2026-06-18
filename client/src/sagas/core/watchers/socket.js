@@ -153,6 +153,18 @@ const createSocketEventsChannel = () =>
       emit(entryActions.handleLabelDelete(item));
     };
 
+    const handleProjectLabelCreate = ({ item }) => {
+      emit(entryActions.handleProjectLabelCreate(item));
+    };
+
+    const handleProjectLabelUpdate = ({ item }) => {
+      emit(entryActions.handleProjectLabelUpdate(item));
+    };
+
+    const handleProjectLabelDelete = ({ item }) => {
+      emit(entryActions.handleProjectLabelDelete(item));
+    };
+
     const handleCardsUpdate = api.makeHandleCardsUpdate(
       ({ items, included: { activities } = {} }) => {
         emit(entryActions.handleCardsUpdate(items, activities));
@@ -342,6 +354,10 @@ const createSocketEventsChannel = () =>
     socket.on('labelUpdate', handleLabelUpdate);
     socket.on('labelDelete', handleLabelDelete);
 
+    socket.on('projectLabelCreate', handleProjectLabelCreate);
+    socket.on('projectLabelUpdate', handleProjectLabelUpdate);
+    socket.on('projectLabelDelete', handleProjectLabelDelete);
+
     socket.on('cardsUpdate', handleCardsUpdate);
     socket.on('cardCreate', handleCardCreate);
     socket.on('cardUpdate', handleCardUpdate);
@@ -438,6 +454,10 @@ const createSocketEventsChannel = () =>
       socket.off('labelCreate', handleLabelCreate);
       socket.off('labelUpdate', handleLabelUpdate);
       socket.off('labelDelete', handleLabelDelete);
+
+      socket.off('projectLabelCreate', handleProjectLabelCreate);
+      socket.off('projectLabelUpdate', handleProjectLabelUpdate);
+      socket.off('projectLabelDelete', handleProjectLabelDelete);
 
       socket.off('cardsUpdate', handleCardsUpdate);
       socket.off('cardCreate', handleCardCreate);

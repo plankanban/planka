@@ -63,6 +63,26 @@ export const selectNextLabelPosition = createSelector(
   },
 );
 
+export const selectNextProjectLabelPosition = createSelector(
+  orm,
+  (_, projectId) => projectId,
+  (_, __, index) => index,
+  (_, __, ___, excludedId) => excludedId,
+  ({ Project }, projectId, index, excludedId) => {
+    const projectModel = Project.withId(projectId);
+
+    if (!projectModel) {
+      return projectModel;
+    }
+
+    return nextPosition(
+      projectModel.labels.orderBy(['position', 'id.length', 'id']).toRefArray(),
+      index,
+      excludedId,
+    );
+  },
+);
+
 export const selectNextListPosition = createSelector(
   orm,
   (_, boardId) => boardId,
@@ -202,6 +222,7 @@ export const selectNextCustomFieldPositionInGroup = createSelector(
 export default {
   selectNextBoardPosition,
   selectNextLabelPosition,
+  selectNextProjectLabelPosition,
   selectNextListPosition,
   selectNextCardPosition,
   selectNextTaskListPosition,

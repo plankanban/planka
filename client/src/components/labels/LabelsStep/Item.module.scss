@@ -34,6 +34,27 @@
     }
   }
 
+  .nameSynced {
+    cursor: default;
+  }
+
+  .syncedIcon {
+    bottom: 1px;
+    font-size: 14px !important;
+    height: auto !important;
+    line-height: 36px;
+    margin: 0 !important;
+    opacity: 0.7;
+    position: absolute;
+    right: 6px;
+    text-align: center;
+    width: 24px !important;
+  }
+
+  .nameActive .syncedIcon {
+    right: 32px;
+  }
+
   .nameActive:before {
     bottom: 1px;
     content: "Г";

@@ -140,6 +140,10 @@ const Events = {
   PROJECT_UPDATE: 'projectUpdate',
   PROJECT_DELETE: 'projectDelete',
 
+  PROJECT_LABEL_CREATE: 'projectLabelCreate',
+  PROJECT_LABEL_UPDATE: 'projectLabelUpdate',
+  PROJECT_LABEL_DELETE: 'projectLabelDelete',
+
   PROJECT_MANAGER_CREATE: 'projectManagerCreate',
   PROJECT_MANAGER_DELETE: 'projectManagerDelete',
 

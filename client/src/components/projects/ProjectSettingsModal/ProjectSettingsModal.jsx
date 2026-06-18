@@ -15,6 +15,7 @@ import GeneralPane from './GeneralPane';
 import ManagersPane from './ManagersPane';
 import BackgroundPane from './BackgroundPane';
 import BaseCustomFieldGroupsPane from './BaseCustomFieldGroupsPane';
+import ProjectLabelsPane from './ProjectLabelsPane/ProjectLabelsPane';
 
 import styles from './ProjectSettingsModal.module.scss';
 
@@ -53,6 +54,12 @@ const ProjectSettingsModal = React.memo(() => {
   if (withManagablePanes) {
     panes.push(
       {
+        menuItem: t('common.labels', {
+          context: 'title',
+        }),
+        render: () => <ProjectLabelsPane />,
+      },
+      {
         menuItem: t('common.background', {
           context: 'title',
         }),
@@ -74,7 +81,11 @@ const ProjectSettingsModal = React.memo(() => {
       closeIcon
       size="small"
       centered={false}
-      dimmer={isBackgroundPaneActive && { className: styles.dimmerTransparent }}
+      dimmer={
+        isBackgroundPaneActive && {
+          className: styles.dimmerTransparent,
+        }
+      }
       onClose={handleClose}
     >
       <ClosableModal.Content>

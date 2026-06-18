@@ -236,6 +236,31 @@ module.exports = {
     const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
     const customFieldValues = await CustomFieldValue.qm.getByCardIds(cardIds);
 
+    const projectLabels = await ProjectLabel.qm.getByProjectId(project.id);
+
+    // Sync project labels to board — create missing ones
+    if (projectLabels.length > 0) {
+      const existingLabelKeys = new Set(labels.map((l) => `${l.name || ''}:${l.color}`));
+
+      // eslint-disable-next-line no-restricted-syntax
+      for (const projectLabel of projectLabels) {
+        const key = `${projectLabel.name || ''}:${projectLabel.color}`;
+
+        if (!existingLabelKeys.has(key)) {
+          // eslint-disable-next-line no-await-in-loop
+          const newLabel = await Label.qm.createOne({
+            position: projectLabel.position,
+            name: projectLabel.name,
+            color: projectLabel.color,
+            boardId: board.id,
+            projectLabelId: projectLabel.id,
+          });
+
+          labels.push(newLabel);
+        }
+      }
+    }
+
     const cardSubscriptions = await CardSubscription.qm.getByCardIdsAndUserId(
       cardIds,
       currentUser.id,
@@ -272,6 +297,7 @@ module.exports = {
         customFieldGroups,
         customFields,
         customFieldValues,
+        projectLabels,
         users: sails.helpers.users.presentMany(users, currentUser),
         projects: [project],
         attachments: sails.helpers.attachments.presentMany(attachments),

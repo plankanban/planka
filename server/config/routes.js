@@ -146,6 +146,10 @@ module.exports.routes = {
   'POST /api/projects/:projectId/background-images': 'background-images/create',
   'DELETE /api/background-images/:id': 'background-images/delete',
 
+  'POST /api/projects/:projectId/project-labels': 'project-labels/create',
+  'PATCH /api/project-labels/:id': 'project-labels/update',
+  'DELETE /api/project-labels/:id': 'project-labels/delete',
+
   'POST /api/projects/:projectId/base-custom-field-groups': 'base-custom-field-groups/create',
   'PATCH /api/base-custom-field-groups/:id': 'base-custom-field-groups/update',
   'DELETE /api/base-custom-field-groups/:id': 'base-custom-field-groups/delete',

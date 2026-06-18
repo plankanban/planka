@@ -182,5 +182,9 @@ module.exports = {
       collection: 'Board',
       via: 'projectId',
     },
+    labels: {
+      collection: 'ProjectLabel',
+      via: 'projectId',
+    },
   },
 };

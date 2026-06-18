@@ -61,6 +61,7 @@ export function* fetchCore() {
   let customFieldGroups;
   let customFields2;
   let customFieldValues;
+  let projectLabels;
 
   try {
     ({
@@ -75,6 +76,7 @@ export function* fetchCore() {
       attachments,
       customFieldGroups,
       customFieldValues,
+      projectLabels,
       users: users3,
       projects: projects2,
       boardMemberships: boardMemberships2,
@@ -125,6 +127,7 @@ export function* fetchCore() {
     attachments,
     customFieldGroups,
     customFieldValues,
+    projectLabels,
     notifications,
     users: mergeRecords(users1, users2, users3, users4),
     projects: mergeRecords(projects1, projects2),
