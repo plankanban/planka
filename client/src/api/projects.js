@@ -17,10 +17,14 @@ const updateProject = (id, data, headers) => socket.patch(`/projects/${id}`, dat
 
 const deleteProject = (id, headers) => socket.delete(`/projects/${id}`, undefined, headers);
 
+const exportProject = (id, exportCards, headers) =>
+  socket.get(`/projects/${id}/export?exportCards=${exportCards}`, undefined, headers);
+
 export default {
   getProjects,
   createProject,
   getProject,
   updateProject,
   deleteProject,
+  exportProject,
 };

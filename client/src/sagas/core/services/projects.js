@@ -297,6 +297,48 @@ export function* handleProjectDelete(project) {
   }
 }
 
+export function* exportProject(id, exportCards) {
+  let project;
+  try {
+    project = yield call(request, api.exportProject, id, exportCards);
+
+    const fileContent = typeof project === 'object' ? JSON.stringify(project, null, 2) : project;
+
+    const blob = new Blob([fileContent], { type: 'application/json' });
+
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `project-${id}-${exportCards ? 'full' : 'template'}.json`); // Name of the file
+
+    document.body.appendChild(link);
+    link.click();
+
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    yield put(actions.exportProject.failure(id, error));
+    return;
+  }
+  yield put(actions.exportProject.success(project));
+}
+
+export function* exportCurrentProject(exportCards) {
+  const { projectId } = yield select(selectors.selectPath);
+  yield put(actions.exportProject(projectId, exportCards));
+  yield call(exportProject, projectId, exportCards);
+}
+
+export function* handleProjectExport(project) {
+  const { projectId } = yield select(selectors.selectPath);
+
+  yield put(actions.handleProjectExport(project));
+
+  if (project.id === projectId) {
+    yield call(goToRoot);
+  }
+}
+
 export default {
   searchProjects,
   updateProjectsOrder,
@@ -309,4 +351,6 @@ export default {
   deleteProject,
   deleteCurrentProject,
   handleProjectDelete,
+  exportCurrentProject,
+  handleProjectExport,
 };

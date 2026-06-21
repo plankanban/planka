@@ -18,6 +18,7 @@ import { isModifierKeyPressed } from '../../../utils/event-helpers';
 import { ProjectTypes } from '../../../constants/Enums';
 import { ProjectTypeIcons } from '../../../constants/Icons';
 import SelectTypeStep from './SelectTypeStep';
+import ImportStep from '../../boards/AddBoardStep/ImportStep';
 
 import styles from './AddProjectModal.module.scss';
 
@@ -35,6 +36,7 @@ const AddProjectModal = React.memo(() => {
     name: '',
     description: '',
     type: ProjectTypes.PRIVATE,
+    import: null,
     ...defaultData,
     ...(defaultType && {
       type: defaultType,
@@ -85,9 +87,29 @@ const AddProjectModal = React.memo(() => {
     [setData],
   );
 
+  const handleImportSelect = useCallback(
+    async (nextImport) => {
+      // eslint-disable-next-line no-param-reassign
+      nextImport.type = 'planka-json';
+
+      const importData = JSON.parse(await nextImport.file.text());
+
+      setData((prevData) => ({
+        ...prevData,
+        import: { type: nextImport.type, data: importData, filename: nextImport.file.name },
+      }));
+    },
+    [setData],
+  );
+
   const [ClosableModal, , activateClosable, deactivateClosable] = useClosableModal();
 
   const handleSelectTypeClose = useCallback(() => {
+    deactivateClosable();
+    nameFieldRef.current.focus();
+  }, [deactivateClosable, nameFieldRef]);
+
+  const handleImportClose = useCallback(() => {
     deactivateClosable();
     nameFieldRef.current.focus();
   }, [deactivateClosable, nameFieldRef]);
@@ -99,6 +121,11 @@ const AddProjectModal = React.memo(() => {
   const SelectTypePopup = usePopup(SelectTypeStep, {
     onOpen: activateClosable,
     onClose: handleSelectTypeClose,
+  });
+
+  const ImportPopup = usePopup(ImportStep, {
+    onOpen: activateClosable,
+    onClose: handleImportClose,
   });
 
   return (
@@ -147,6 +174,13 @@ const AddProjectModal = React.memo(() => {
               {t(`common.${data.type}`)}
             </Button>
           </SelectTypePopup>
+
+          <ImportPopup value={data.import} onSelect={handleImportSelect} onBack={() => null}>
+            <Button type="button" className={styles.selectTypeButton}>
+              {/* <Icon name={ProjectTypeIcons[data.type]} className={styles.selectTypeButtonIcon} /> */}
+              {data.import ? data.import.filename : t('action.import')}
+            </Button>
+          </ImportPopup>
         </Form>
       </ClosableModal.Content>
     </ClosableModal>

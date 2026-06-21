@@ -62,6 +62,16 @@ const handleProjectUpdate = (project) => ({
   },
 });
 
+const exportCurrentProjectTemplate = () => ({
+  type: EntryActionTypes.CURRENT_PROJECT_EXPORT_TEMPLATE,
+  payload: {},
+});
+
+const exportCurrentProjectFull = () => ({
+  type: EntryActionTypes.CURRENT_PROJECT_EXPORT_FULL,
+  payload: {},
+});
+
 const deleteCurrentProject = () => ({
   type: EntryActionTypes.CURRENT_PROJECT_DELETE,
   payload: {},
@@ -83,6 +93,8 @@ export default {
   updateProject,
   updateCurrentProject,
   handleProjectUpdate,
+  exportCurrentProjectTemplate,
+  exportCurrentProjectFull,
   deleteCurrentProject,
   handleProjectDelete,
 };

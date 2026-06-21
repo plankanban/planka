@@ -38,5 +38,14 @@ export default function* projectsWatchers() {
     takeEvery(EntryActionTypes.PROJECT_DELETE_HANDLE, ({ payload: { project } }) =>
       services.handleProjectDelete(project),
     ),
+    takeEvery(EntryActionTypes.CURRENT_PROJECT_EXPORT_FULL, () =>
+      services.exportCurrentProject(true),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_PROJECT_EXPORT_TEMPLATE, () =>
+      services.exportCurrentProject(false),
+    ),
+    takeEvery(EntryActionTypes.PROJECT_EXPORT_HANDLE, ({ payload: { project } }) =>
+      services.handleProjectExport(project),
+    ),
   ]);
 }

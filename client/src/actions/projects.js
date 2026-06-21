@@ -178,6 +178,35 @@ const handleProjectDelete = (project) => ({
   },
 });
 
+const exportProject = (id) => ({
+  type: ActionTypes.PROJECT_EXPORT,
+  payload: {
+    id,
+  },
+});
+
+exportProject.success = (project) => ({
+  type: ActionTypes.PROJECT_EXPORT__SUCCESS,
+  payload: {
+    project,
+  },
+});
+
+exportProject.failure = (id, error) => ({
+  type: ActionTypes.PROJECT_EXPORT__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const handleProjectExport = (project) => ({
+  type: ActionTypes.PROJECT_EXPORT_HANDLE,
+  payload: {
+    project,
+  },
+});
+
 export default {
   searchProjects,
   updateProjectsOrder,
@@ -188,4 +217,6 @@ export default {
   handleProjectUpdate,
   deleteProject,
   handleProjectDelete,
+  exportProject,
+  handleProjectExport,
 };
