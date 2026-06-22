@@ -94,137 +94,150 @@ module.exports = {
       boards = await Board.qm.getByProjectId(project.id);
     }
     if (boards) {
-      boards.forEach(async (board) => {
-        const boardid = board.id;
+      boards = await Promise.all(
+        boards.map(async (board) => {
+          const boardid = board.id;
 
-        // eslint-disable-next-line no-param-reassign
-        delete board.id;
-        // eslint-disable-next-line no-param-reassign
-        delete board.projectId;
-        // eslint-disable-next-line no-param-reassign
-        delete board.createdAt;
-        // eslint-disable-next-line no-param-reassign
-        delete board.updatedAt;
+          // eslint-disable-next-line no-param-reassign
+          delete board.id;
+          // eslint-disable-next-line no-param-reassign
+          delete board.projectId;
+          // eslint-disable-next-line no-param-reassign
+          delete board.createdAt;
+          // eslint-disable-next-line no-param-reassign
+          delete board.updatedAt;
 
-        // eslint-disable-next-line no-param-reassign
-        board.labels = (await Label.qm.getByBoardId(boardid)).map((label, idx) => {
           // eslint-disable-next-line no-param-reassign
-          label.oldid = label.id;
-          // eslint-disable-next-line no-param-reassign
-          label.id = idx + 1;
-          return label;
-        });
-
-        // eslint-disable-next-line no-param-reassign
-        board.lists = await List.qm.getByBoardId(boardid);
-
-        board.lists.forEach(async (list) => {
-          const listId = list.id;
-          // eslint-disable-next-line no-param-reassign
-          delete list.id;
-          // eslint-disable-next-line no-param-reassign
-          delete list.boardId;
-          // eslint-disable-next-line no-param-reassign
-          delete list.createdAt;
-          // eslint-disable-next-line no-param-reassign
-          delete list.updatedAt;
-
-          if (exportCards) {
+          board.labels = (await Label.qm.getByBoardId(boardid)).map((label, idx) => {
             // eslint-disable-next-line no-param-reassign
-            list.cards = await Card.qm.getByListId(listId);
+            label.oldid = label.id;
+            // eslint-disable-next-line no-param-reassign
+            label.id = idx + 1;
+            return label;
+          });
 
-            const cardIds = list.cards.map((card) => card.id);
-
-            const cardLabels = await CardLabel.qm.getByCardIds(cardIds);
-
-            const attachments = await Attachment.qm.getByCardIds(cardIds);
-
-            list.cards.forEach(async (card) => {
-              const cardId = card.id;
-              // eslint-disable-next-line no-param-reassign
-              card.attachments = attachments.filter((attachment) => attachment.cardId === cardId);
-
-              const taskLists = await TaskList.qm.getByCardIds(cardId);
-              const taskListIds = sails.helpers.utils.mapRecords(taskLists);
-
-              const tasks = await Task.qm.getByTaskListIds(taskListIds);
-
-              // eslint-disable-next-line no-param-reassign
-              card.taskLists = taskLists.map((taskList) => {
-                // eslint-disable-next-line no-param-reassign
-                taskList.tasks = tasks
-                  .filter((task) => task.taskListId === taskList.id)
-                  .map((task) => {
-                    // eslint-disable-next-line no-param-reassign
-                    delete task.id;
-                    // eslint-disable-next-line no-param-reassign
-                    delete task.taskListId;
-                    // eslint-disable-next-line no-param-reassign
-                    delete task.createdAt;
-                    // eslint-disable-next-line no-param-reassign
-                    delete task.updatedAt;
-                    return task;
-                  });
-
-                // eslint-disable-next-line no-param-reassign
-                delete taskList.createdAt;
-                // eslint-disable-next-line no-param-reassign
-                delete taskList.updatedAt;
-                // eslint-disable-next-line no-param-reassign
-                delete taskList.cardId;
-                // eslint-disable-next-line no-param-reassign
-                delete taskList.id;
-
-                return taskList;
-              });
-
-              // eslint-disable-next-line no-param-reassign
-              card.labels = cardLabels
-                .filter((cardLabel) => cardLabel.cardId === cardId)
-                .map((cardLabel) => {
-                  const label = board.labels.find((l) => l.oldid === cardLabel.labelId);
-                  return label ? label.id : null;
-                });
-
-              // eslint-disable-next-line no-param-reassign
-              delete card.id;
-              // eslint-disable-next-line no-param-reassign
-              delete card.createdAt;
-              // eslint-disable-next-line no-param-reassign
-              delete card.updatedAt;
-
-              // eslint-disable-next-line no-param-reassign
-              delete card.commentsTotal;
-              // eslint-disable-next-line no-param-reassign
-              delete card.listChangedAt;
-              // eslint-disable-next-line no-param-reassign
-              delete card.boardId;
-              // eslint-disable-next-line no-param-reassign
-              delete card.listId;
-              // eslint-disable-next-line no-param-reassign
-              delete card.creatorUserId;
-              // eslint-disable-next-line no-param-reassign
-              delete card.prevListId;
-              // eslint-disable-next-line no-param-reassign
-              delete card.coverAttachmentId;
-
-              // eslint-disable-next-line no-param-reassign
-              card.taskLists = taskLists.filter((taskList) => taskList.cardId === cardId);
-            });
-          }
-        });
-
-        board.labels.forEach((label) => {
           // eslint-disable-next-line no-param-reassign
-          delete label.boardId;
+          board.lists = await List.qm.getByBoardId(boardid);
+
           // eslint-disable-next-line no-param-reassign
-          delete label.oldid;
-          // eslint-disable-next-line no-param-reassign
-          delete label.createdAt;
-          // eslint-disable-next-line no-param-reassign
-          delete label.updatedAt;
-        });
-      });
+          board.lists = await Promise.all(
+            board.lists.map(async (list) => {
+              const listId = list.id;
+              // eslint-disable-next-line no-param-reassign
+              delete list.id;
+              // eslint-disable-next-line no-param-reassign
+              delete list.boardId;
+              // eslint-disable-next-line no-param-reassign
+              delete list.createdAt;
+              // eslint-disable-next-line no-param-reassign
+              delete list.updatedAt;
+
+              if (exportCards) {
+                // eslint-disable-next-line no-param-reassign
+                list.cards = await Card.qm.getByListId(listId);
+
+                const cardIds = list.cards.map((card) => card.id);
+
+                const cardLabels = await CardLabel.qm.getByCardIds(cardIds);
+
+                const attachments = await Attachment.qm.getByCardIds(cardIds);
+
+                // eslint-disable-next-line no-param-reassign
+                list.cards = await Promise.all(
+                  list.cards.map(async (card) => {
+                    const cardId = card.id;
+                    // eslint-disable-next-line no-param-reassign
+                    card.attachments = attachments.filter(
+                      (attachment) => attachment.cardId === cardId,
+                    );
+
+                    const taskLists = await TaskList.qm.getByCardIds(cardId);
+                    const taskListIds = sails.helpers.utils.mapRecords(taskLists);
+
+                    const tasks = await Task.qm.getByTaskListIds(taskListIds);
+
+                    // eslint-disable-next-line no-param-reassign
+                    card.taskLists = taskLists.map((taskList) => {
+                      // eslint-disable-next-line no-param-reassign
+                      taskList.tasks = tasks
+                        .filter((task) => task.taskListId === taskList.id)
+                        .map((task) => {
+                          // eslint-disable-next-line no-param-reassign
+                          delete task.id;
+                          // eslint-disable-next-line no-param-reassign
+                          delete task.taskListId;
+                          // eslint-disable-next-line no-param-reassign
+                          delete task.createdAt;
+                          // eslint-disable-next-line no-param-reassign
+                          delete task.updatedAt;
+                          return task;
+                        });
+
+                      // eslint-disable-next-line no-param-reassign
+                      delete taskList.createdAt;
+                      // eslint-disable-next-line no-param-reassign
+                      delete taskList.updatedAt;
+                      // eslint-disable-next-line no-param-reassign
+                      delete taskList.cardId;
+                      // eslint-disable-next-line no-param-reassign
+                      delete taskList.id;
+
+                      return taskList;
+                    });
+
+                    // eslint-disable-next-line no-param-reassign
+                    card.labels = cardLabels
+                      .filter((cardLabel) => cardLabel.cardId === cardId)
+                      .map((cardLabel) => {
+                        const label = board.labels.find((l) => l.oldid === cardLabel.labelId);
+                        return label ? label.id : null;
+                      });
+
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.id;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.createdAt;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.updatedAt;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.commentsTotal;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.listChangedAt;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.boardId;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.listId;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.creatorUserId;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.prevListId;
+                    // eslint-disable-next-line no-param-reassign
+                    delete card.coverAttachmentId;
+
+                    // // eslint-disable-next-line no-param-reassign
+                    // card.taskLists = taskLists.filter((taskList) => taskList.cardId === cardId);
+                    return card;
+                  }),
+                );
+              }
+              return list;
+            }),
+          );
+
+          board.labels.forEach((label) => {
+            // eslint-disable-next-line no-param-reassign
+            delete label.boardId;
+            // eslint-disable-next-line no-param-reassign
+            delete label.oldid;
+            // eslint-disable-next-line no-param-reassign
+            delete label.createdAt;
+            // eslint-disable-next-line no-param-reassign
+            delete label.updatedAt;
+          });
+
+          return board;
+        }),
+      );
     }
 
     // project.isFavorite = await sails.helpers.users.isProjectFavorite(currentUser.id, project.id);
