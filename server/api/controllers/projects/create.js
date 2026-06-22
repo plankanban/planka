@@ -68,6 +68,24 @@
  */
 
 async function importProject(project, currentUser) {
+  project.baseCustomFieldGroups.forEach(async (group) => {
+    const g = structuredClone(group);
+    delete g.customFields;
+
+    const fieldGroupResult = await BaseCustomFieldGroup.qm.createOne({
+      projectId: project.id,
+      ...g,
+      actorUser: currentUser,
+    });
+
+    group.customFields.forEach(async (field) => {
+      await CustomField.qm.createOne({
+        ...field,
+        baseCustomFieldGroupId: fieldGroupResult.id,
+      });
+    });
+  });
+
   const boards = project.boards || [];
 
   boards.forEach(async (board) => {
@@ -243,6 +261,9 @@ module.exports = {
       delete projectData.name;
       delete projectData.description;
       delete projectData.type;
+      delete projectData.ownerProjectManagerId;
+      delete projectData.isHidden;
+      delete projectData.isFavorite;
 
       values = {
         ...values,

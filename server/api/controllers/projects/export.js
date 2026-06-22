@@ -95,6 +95,8 @@ module.exports = {
     }
     if (boards) {
       boards.forEach(async (board) => {
+        const boardid = board.id;
+
         // eslint-disable-next-line no-param-reassign
         delete board.id;
         // eslint-disable-next-line no-param-reassign
@@ -105,13 +107,19 @@ module.exports = {
         delete board.updatedAt;
 
         // eslint-disable-next-line no-param-reassign
-        board.labels = await Label.qm.getByBoardId(board.id);
+        board.labels = (await Label.qm.getByBoardId(boardid)).map((label, idx) => {
+          // eslint-disable-next-line no-param-reassign
+          label.oldid = label.id;
+          // eslint-disable-next-line no-param-reassign
+          label.id = idx + 1;
+          return label;
+        });
 
         // eslint-disable-next-line no-param-reassign
-        board.lists = await List.qm.getByBoardId(board.id);
+        board.lists = await List.qm.getByBoardId(boardid);
 
         board.lists.forEach(async (list) => {
-          const listClone = structuredClone(list);
+          const listId = list.id;
           // eslint-disable-next-line no-param-reassign
           delete list.id;
           // eslint-disable-next-line no-param-reassign
@@ -123,7 +131,7 @@ module.exports = {
 
           if (exportCards) {
             // eslint-disable-next-line no-param-reassign
-            list.cards = await Card.qm.getByListId(listClone.id);
+            list.cards = await Card.qm.getByListId(listId);
 
             const cardIds = list.cards.map((card) => card.id);
 
@@ -132,10 +140,11 @@ module.exports = {
             const attachments = await Attachment.qm.getByCardIds(cardIds);
 
             list.cards.forEach(async (card) => {
+              const cardId = card.id;
               // eslint-disable-next-line no-param-reassign
-              card.attachments = attachments.filter((attachment) => attachment.cardId === card.id);
+              card.attachments = attachments.filter((attachment) => attachment.cardId === cardId);
 
-              const taskLists = await TaskList.qm.getByCardIds(card.id);
+              const taskLists = await TaskList.qm.getByCardIds(cardId);
               const taskListIds = sails.helpers.utils.mapRecords(taskLists);
 
               const tasks = await Task.qm.getByTaskListIds(taskListIds);
@@ -171,9 +180,9 @@ module.exports = {
 
               // eslint-disable-next-line no-param-reassign
               card.labels = cardLabels
-                .filter((cardLabel) => cardLabel.cardId === card.id)
+                .filter((cardLabel) => cardLabel.cardId === cardId)
                 .map((cardLabel) => {
-                  const label = board.labels.find((l) => l.id === cardLabel.labelId);
+                  const label = board.labels.find((l) => l.oldid === cardLabel.labelId);
                   return label ? label.id : null;
                 });
 
@@ -200,7 +209,7 @@ module.exports = {
               delete card.coverAttachmentId;
 
               // eslint-disable-next-line no-param-reassign
-              card.taskLists = taskLists.filter((taskList) => taskList.cardId === card.id);
+              card.taskLists = taskLists.filter((taskList) => taskList.cardId === cardId);
             });
           }
         });
@@ -209,6 +218,8 @@ module.exports = {
           // eslint-disable-next-line no-param-reassign
           delete label.boardId;
           // eslint-disable-next-line no-param-reassign
+          delete label.oldid;
+          // eslint-disable-next-line no-param-reassign
           delete label.createdAt;
           // eslint-disable-next-line no-param-reassign
           delete label.updatedAt;
@@ -216,20 +227,53 @@ module.exports = {
       });
     }
 
-    project.isFavorite = await sails.helpers.users.isProjectFavorite(currentUser.id, project.id);
+    // project.isFavorite = await sails.helpers.users.isProjectFavorite(currentUser.id, project.id);
 
     // const projectManagers = await ProjectManager.qm.getByProjectId(project.id);
 
     // const userIds = sails.helpers.utils.mapRecords(projectManagers, 'userId');
     // const users = await User.qm.getByIds(userIds);
 
-    // const backgroundImages = await BackgroundImage.qm.getByProjectId(project.id);
+    // const backgroundImages = (await BackgroundImage.qm.getByProjectId(project.id)).map((bg) =>
+    //   sails.helpers.backgroundImages.presentOne(bg),
+    // );
+    // console.log('backgroundImages', backgroundImages);
 
-    // const baseCustomFieldGroups = await BaseCustomFieldGroup.qm.getByProjectId(project.id);
-    // const baseCustomFieldGroupsIds = sails.helpers.utils.mapRecords(baseCustomFieldGroups);
+    const baseCustomFieldGroups = await BaseCustomFieldGroup.qm.getByProjectId(project.id);
+    const baseCustomFieldGroupsIds = sails.helpers.utils.mapRecords(baseCustomFieldGroups);
 
-    // const customFields =
-    //   await CustomField.qm.getByBaseCustomFieldGroupIds(baseCustomFieldGroupsIds);
+    const customFields =
+      await CustomField.qm.getByBaseCustomFieldGroupIds(baseCustomFieldGroupsIds);
+
+    project.baseCustomFieldGroups = baseCustomFieldGroups.map((group) => {
+      // eslint-disable-next-line no-param-reassign
+      group.customFields = customFields
+        .filter((field) => field.baseCustomFieldGroupId === group.id)
+        .map((field) => {
+          // eslint-disable-next-line no-param-reassign
+          delete field.id;
+          // eslint-disable-next-line no-param-reassign
+          delete field.createdAt;
+          // eslint-disable-next-line no-param-reassign
+          delete field.updatedAt;
+          // eslint-disable-next-line no-param-reassign
+          delete field.baseCustomFieldGroupId;
+          // eslint-disable-next-line no-param-reassign
+          delete field.customFieldGroupId;
+          return field;
+        });
+
+      // eslint-disable-next-line no-param-reassign
+      delete group.projectId;
+      // eslint-disable-next-line no-param-reassign
+      delete group.createdAt;
+      // eslint-disable-next-line no-param-reassign
+      delete group.updatedAt;
+      // eslint-disable-next-line no-param-reassign
+      delete group.id;
+
+      return group;
+    });
 
     // let notificationServices = [];
     // if (isProjectManager) {
@@ -237,7 +281,6 @@ module.exports = {
     //   notificationServices = await NotificationService.qm.getByBoardIds(boardIds);
     // }
 
-    // remove project.id
     delete project.id;
     delete project.createdAt;
     delete project.updatedAt;
