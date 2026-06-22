@@ -18,7 +18,7 @@ import { isModifierKeyPressed } from '../../../utils/event-helpers';
 import { ProjectTypes } from '../../../constants/Enums';
 import { ProjectTypeIcons } from '../../../constants/Icons';
 import SelectTypeStep from './SelectTypeStep';
-import ImportStep from '../../boards/AddBoardStep/ImportStep';
+import ProjectImportStep from './ProjectImportStep';
 
 import styles from './AddProjectModal.module.scss';
 
@@ -123,7 +123,7 @@ const AddProjectModal = React.memo(() => {
     onClose: handleSelectTypeClose,
   });
 
-  const ImportPopup = usePopup(ImportStep, {
+  const ImportPopup = usePopup(ProjectImportStep, {
     onOpen: activateClosable,
     onClose: handleImportClose,
   });
@@ -175,9 +175,9 @@ const AddProjectModal = React.memo(() => {
             </Button>
           </SelectTypePopup>
 
-          <ImportPopup value={data.import} onSelect={handleImportSelect} onBack={() => null}>
-            <Button type="button" className={styles.selectTypeButton}>
-              {/* <Icon name={ProjectTypeIcons[data.type]} className={styles.selectTypeButtonIcon} /> */}
+          <ImportPopup value={data.import} onSelect={handleImportSelect}>
+            <Button type="button" className={styles.selectImportButton}>
+              <Icon name="file" className={styles.selectImportButtonIcon} />
               {data.import ? data.import.filename : t('action.import')}
             </Button>
           </ImportPopup>

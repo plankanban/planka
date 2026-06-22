@@ -32,6 +32,33 @@
     text-decoration: none;
   }
 
+  .selectImportButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    float: right;
+    font-weight: normal;
+    margin-left: auto;
+    margin-right: 0;
+    padding: 6px 11px;
+    text-align: left;
+    text-decoration: underline;
+    transition: none;
+    white-space: nowrap;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      background: rgba(246, 225, 189, 0.08);
+      color: #fff;
+    }
+  }
+
+  .selectImportButtonIcon {
+    text-decoration: none;
+  }
+
   .text {
     padding-bottom: 6px;
   }
