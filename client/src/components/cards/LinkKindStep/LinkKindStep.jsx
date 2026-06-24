@@ -29,39 +29,47 @@ const LinkKindStep = React.memo(({ onSelect, onDeselect, onBack }) => {
     (kind) => {
       let cardCount = 0;
 
-      // get all relations of the given kind
-      const allRelations = cards
-        .flatMap((card) => card.cardRelations)
-        .filter((r) => r.kind === kind);
-      // get unique relations by id (they might show up at both sides of the relation)
-      const uniqueRelations = uniqueBy(allRelations, (r) => r.id);
-      // get unique card ids from the relations
-      const uniqueCardIds = uniqueRelations.map((r) => r.cardId);
-
-      // get the inverted kind of the relation (e.g. "blocks" -> "is blocked by")
-      const invertedKind = invertCardRelationKind(kind);
-
-      if (invertedKind !== kind) {
-        // if kind is asymmetric, we need to add the real count of inverted relations (e.g. "blocks" -> "is blocked by")
-        const invertedRelations = cards
-          .flatMap((card) => card.cardRelations)
-          .filter((r) => r.kind === invertedKind);
-
-        // get unique inverted relations by id (they might show up at both sides of the relation)
-        const uniqueInvertedRelations = uniqueBy(invertedRelations, (r) => r.id);
-        // get unique card ids from the inverted relations
-        const invertedUniqueCardIds = uniqueInvertedRelations.map((r) => r.relatedCardId);
-
-        // combine the unique card ids from both kinds and get the unique count
-        const allUniqueCardIds = uniqueBy([...uniqueCardIds, ...invertedUniqueCardIds], (id) => id);
-
-        // the count is the number of unique card ids from both kinds
-        cardCount = allUniqueCardIds.length;
+      if (kind === 'noRelations') {
+        // get all relations of any kind
+        const allRelations = cards.filter((card) => card.cardRelations.length === 0);
+        cardCount = allRelations.length;
       } else {
-        // if kind is symmetric, we just need to double the count for each side
-        cardCount = uniqueCardIds.length * 2; // each relation counts for both cards
-      }
+        // get all relations of the given kind
+        const allRelations = cards
+          .flatMap((card) => card.cardRelations)
+          .filter((r) => r.kind === kind);
+        // get unique relations by id (they might show up at both sides of the relation)
+        const uniqueRelations = uniqueBy(allRelations, (r) => r.id);
+        // get unique card ids from the relations
+        const uniqueCardIds = uniqueRelations.map((r) => r.cardId);
 
+        // get the inverted kind of the relation (e.g. "blocks" -> "is blocked by")
+        const invertedKind = invertCardRelationKind(kind);
+
+        if (invertedKind !== kind) {
+          // if kind is asymmetric, we need to add the real count of inverted relations (e.g. "blocks" -> "is blocked by")
+          const invertedRelations = cards
+            .flatMap((card) => card.cardRelations)
+            .filter((r) => r.kind === invertedKind);
+
+          // get unique inverted relations by id (they might show up at both sides of the relation)
+          const uniqueInvertedRelations = uniqueBy(invertedRelations, (r) => r.id);
+          // get unique card ids from the inverted relations
+          const invertedUniqueCardIds = uniqueInvertedRelations.map((r) => r.relatedCardId);
+
+          // combine the unique card ids from both kinds and get the unique count
+          const allUniqueCardIds = uniqueBy(
+            [...uniqueCardIds, ...invertedUniqueCardIds],
+            (id) => id,
+          );
+
+          // the count is the number of unique card ids from both kinds
+          cardCount = allUniqueCardIds.length;
+        } else {
+          // if kind is symmetric, we just need to double the count for each side
+          cardCount = uniqueCardIds.length * 2; // each relation counts for both cards
+        }
+      }
       return cardCount;
     },
     [cards],
@@ -71,6 +79,12 @@ const LinkKindStep = React.memo(({ onSelect, onDeselect, onBack }) => {
     ...kind,
     count: getCount(kind.value),
   }));
+
+  cardRelations.push({
+    key: 'noRelations',
+    value: 'noRelations',
+    count: getCount('noRelations'),
+  });
 
   const handleToggleClick = useCallback(
     (kind) => {
