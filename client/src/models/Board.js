@@ -473,7 +473,7 @@ export default class extends BaseModel {
   deleteClearable() {
     this.filterUsers.clear();
     this.filterLabels.clear();
-    this.filterRelationKinds.clear();
+    this.filterRelationKinds = [];
   }
 
   deleteRelated(exceptMemberUserId, soft) {
