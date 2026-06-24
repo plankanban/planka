@@ -263,6 +263,7 @@ export default {
       noConnectionToServer: 'No connection to server',
       noLists: 'No lists',
       noProjects: 'No projects',
+      noRelations: 'No relations',
       noUnreadNotifications: 'No unread notifications.',
       notifications: 'Notifications',
       oldestFirst: 'Oldest first',

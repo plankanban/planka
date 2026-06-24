@@ -385,7 +385,7 @@ export default class extends BaseModel {
       cardModels = cardModels.filter((cardModel) => {
         const relations = cardModel.cardRelations;
 
-        return relations.some((relation) => {
+        const matchesRelation = relations.some((relation) => {
           const invertedKind = invertCardRelationKind(relation.kind);
 
           return (
@@ -395,6 +395,11 @@ export default class extends BaseModel {
               relation.relatedCardId === cardModel.id)
           );
         });
+
+        const matchesNoRelations =
+          this.board.filterRelationKinds.includes('noRelations') && relations.length === 0;
+
+        return matchesRelation || matchesNoRelations;
       });
     }
 
