@@ -8,7 +8,7 @@
  * /board-memberships/{id}:
  *   patch:
  *     summary: Update board membership
- *     description: Updates a board membership. Requires project manager permissions.
+ *     description: Updates a board membership. Requires project manager permissions, except that the membership owner may update their own view preference.
  *     tags:
  *       - Board Memberships
  *     operationId: updateBoardMembership
@@ -37,6 +37,12 @@
  *                 nullable: true
  *                 description: Whether the user can comment on cards (applies only to viewers)
  *                 example: true
+ *               view:
+ *                 type: string
+ *                 enum: [kanban, grid, list]
+ *                 nullable: true
+ *                 description: User's preferred view for the board (can be set by the membership owner on their own membership)
+ *                 example: kanban
  *     responses:
  *       200:
  *         description: Board membership updated successfully
@@ -79,6 +85,11 @@ module.exports = {
       type: 'boolean',
       allowNull: true,
     },
+    view: {
+      type: 'string',
+      isIn: Object.values(Board.Views),
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -98,12 +109,17 @@ module.exports = {
     const { board, project } = pathToProject;
 
     const isProjectManager = await sails.helpers.users.isProjectManager(currentUser.id, project.id);
+    const isOwnMembership = boardMembership.userId === currentUser.id;
 
-    if (!isProjectManager) {
+    if (!isProjectManager && !isOwnMembership) {
       throw Errors.BOARD_MEMBERSHIP_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['role', 'canComment']);
+    // Project managers can update the membership fully; a regular member may only
+    // update the view preference of their own membership.
+    const values = isProjectManager
+      ? _.pick(inputs, ['role', 'canComment', 'view'])
+      : _.pick(inputs, ['view']);
 
     boardMembership = await sails.helpers.boardMemberships.updateOne.with({
       values,

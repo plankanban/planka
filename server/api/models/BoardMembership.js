@@ -52,6 +52,12 @@
  *           nullable: true
  *           description: Whether the user can comment on cards (applies only to viewers)
  *           example: true
+ *         view:
+ *           type: string
+ *           enum: [kanban, grid, list]
+ *           nullable: true
+ *           description: User's preferred view for the board (overrides the board's default view); null means use the board's default view
+ *           example: kanban
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -66,6 +72,8 @@
  *           example: 2024-01-01T00:00:00.000Z
  */
 
+const Board = require('./Board');
+
 const Roles = {
   EDITOR: 'editor',
   VIEWER: 'viewer',
@@ -74,6 +82,7 @@ const Roles = {
 const SHARED_RULES = {
   role: {},
   canComment: { setTo: null },
+  view: {},
 };
 
 const RULES_BY_ROLE = {
@@ -104,6 +113,11 @@ module.exports = {
       type: 'boolean',
       allowNull: true,
       columnName: 'can_comment',
+    },
+    view: {
+      type: 'string',
+      isIn: Object.values(Board.Views),
+      allowNull: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
