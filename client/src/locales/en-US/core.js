@@ -338,6 +338,7 @@ export default {
       uploadFailedNotEnoughStorageSpace: 'Upload failed: Not enough storage space.',
       uploadedImages: 'Uploaded images',
       url: 'URL',
+      useDefaultView: "Use board's default view",
       useSecureConnection: 'Use secure connection',
       userActions_title: 'User Actions',
       userAddedCardToList: '<0>{{user}}</0> added <2>{{card}}</2> to {{list}}',

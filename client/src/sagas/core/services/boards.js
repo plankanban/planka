@@ -7,6 +7,7 @@ import { call, fork, put, select, take } from 'redux-saga/effects';
 
 import { goToBoard, goToProject } from './router';
 import { openModal } from './modals';
+import { updateBoardMembership } from './board-memberships';
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
@@ -130,6 +131,8 @@ export function* fetchBoard(id) {
     return;
   }
 
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+
   yield put(
     actions.fetchBoard.success(
       board,
@@ -147,6 +150,7 @@ export function* fetchBoard(id) {
       customFieldGroups,
       customFields,
       customFieldValues,
+      currentUserId,
     ),
   );
 }
@@ -198,6 +202,7 @@ export function* updateBoardView(id, value) {
   yield put(
     actions.updateBoard(id, {
       view: value,
+      preferredView: value,
     }),
   );
 }
@@ -206,6 +211,31 @@ export function* updateViewInCurrentBoard(value) {
   const { boardId } = yield select(selectors.selectPath);
 
   yield call(updateBoardView, boardId, value);
+
+  // Persist the chosen view as the current user's preference for this board.
+  const currentUserMembership = yield select(selectors.selectCurrentUserMembershipForCurrentBoard);
+
+  if (currentUserMembership) {
+    yield call(updateBoardMembership, currentUserMembership.id, {
+      view: value,
+    });
+  }
+}
+
+export function* resetViewInCurrentBoard() {
+  const { boardId } = yield select(selectors.selectPath);
+  const board = yield select(selectors.selectBoardById, boardId);
+
+  // Clearing the personal preference falls back to the board's default view.
+  yield call(updateBoardView, boardId, board.defaultView);
+
+  const currentUserMembership = yield select(selectors.selectCurrentUserMembershipForCurrentBoard);
+
+  if (currentUserMembership) {
+    yield call(updateBoardMembership, currentUserMembership.id, {
+      view: null,
+    });
+  }
 }
 
 export function* searchInCurrentBoard(value) {
@@ -258,6 +288,7 @@ export default {
   updateContextInCurrentBoard,
   updateBoardView,
   updateViewInCurrentBoard,
+  resetViewInCurrentBoard,
   searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,

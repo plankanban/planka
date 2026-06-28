@@ -60,6 +60,7 @@ fetchBoard.success = (
   customFieldGroups,
   customFields,
   customFieldValues,
+  currentUserId,
 ) => ({
   type: ActionTypes.BOARD_FETCH__SUCCESS,
   payload: {
@@ -78,6 +79,7 @@ fetchBoard.success = (
     customFieldGroups,
     customFields,
     customFieldValues,
+    currentUserId,
   },
 });
 
