@@ -14,6 +14,7 @@ import { Popup } from '../../../lib/custom-ui';
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useForm, useSteps } from '../../../hooks';
+import CustomFieldTypes from '../../../constants/CustomFieldTypes';
 import CustomFieldEditor from './CustomFieldEditor';
 import ConfirmationStep from '../../common/ConfirmationStep';
 
@@ -21,6 +22,7 @@ import styles from './CustomFieldEditStep.module.scss';
 
 const StepTypes = {
   DELETE: 'DELETE',
+  CONFIRM_TYPE_CHANGE: 'CONFIRM_TYPE_CHANGE',
 };
 
 const CustomFieldEditStep = React.memo(({ id, onBack }) => {
@@ -35,13 +37,17 @@ const CustomFieldEditStep = React.memo(({ id, onBack }) => {
     () => ({
       name: customField.name,
       showOnFrontOfCard: customField.showOnFrontOfCard,
+      type: customField.type,
+      config: customField.config,
     }),
-    [customField.name, customField.showOnFrontOfCard],
+    [customField.name, customField.showOnFrontOfCard, customField.type, customField.config],
   );
 
-  const [data, handleFieldChange] = useForm(() => ({
+  const [data, handleFieldChange, setData] = useForm(() => ({
     name: '',
     showOnFrontOfCard: false,
+    type: CustomFieldTypes.TEXT,
+    config: {},
     ...defaultData,
   }));
 
@@ -49,10 +55,34 @@ const CustomFieldEditStep = React.memo(({ id, onBack }) => {
 
   const customFieldEditorRef = useRef(null);
 
+  const handleOptionsChange = useCallback(
+    (options) => {
+      setData((prevData) => ({
+        ...prevData,
+        config: {
+          options,
+        },
+      }));
+    },
+    [setData],
+  );
+
+  const performSubmit = useCallback(
+    (cleanData) => {
+      if (!dequal(cleanData, defaultData)) {
+        dispatch(entryActions.updateCustomField(id, cleanData));
+      }
+
+      onBack();
+    },
+    [id, onBack, dispatch, defaultData],
+  );
+
   const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim() || null,
+      config: data.type === CustomFieldTypes.DROPDOWN ? data.config : {},
     };
 
     if (!cleanData.name) {
@@ -60,12 +90,20 @@ const CustomFieldEditStep = React.memo(({ id, onBack }) => {
       return;
     }
 
-    if (!dequal(cleanData, defaultData)) {
-      dispatch(entryActions.updateCustomField(id, cleanData));
+    if (cleanData.type !== customField.type) {
+      openStep(StepTypes.CONFIRM_TYPE_CHANGE, {
+        cleanData,
+      });
+
+      return;
     }
 
-    onBack();
-  }, [id, onBack, dispatch, defaultData, data]);
+    performSubmit(cleanData);
+  }, [data, customField.type, openStep, performSubmit]);
+
+  const handleTypeChangeConfirm = useCallback(() => {
+    performSubmit(step.params.cleanData);
+  }, [step, performSubmit]);
 
   const handleDeleteConfirm = useCallback(() => {
     dispatch(entryActions.deleteCustomField(id));
@@ -88,6 +126,18 @@ const CustomFieldEditStep = React.memo(({ id, onBack }) => {
     );
   }
 
+  if (step && step.type === StepTypes.CONFIRM_TYPE_CHANGE) {
+    return (
+      <ConfirmationStep
+        title="common.changeCustomFieldType"
+        content="common.changingTheTypeOfThisCustomFieldWillDeleteAllOfItsExistingValues"
+        buttonContent="action.changeType"
+        onConfirm={handleTypeChangeConfirm}
+        onBack={handleBack}
+      />
+    );
+  }
+
   return (
     <>
       <Popup.Header onBack={onBack}>
@@ -101,6 +151,7 @@ const CustomFieldEditStep = React.memo(({ id, onBack }) => {
             ref={customFieldEditorRef}
             data={data}
             onFieldChange={handleFieldChange}
+            onOptionsChange={handleOptionsChange}
           />
           <Button positive content={t('action.save')} className={styles.submitButton} />
         </Form>

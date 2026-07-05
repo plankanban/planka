@@ -1,0 +1,85 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .wrapper {
+    margin-bottom: 12px;
+  }
+
+  .text {
+    color: #444444;
+    font-size: 12px;
+    font-weight: bold;
+    padding-bottom: 6px;
+  }
+
+  .option {
+    margin-bottom: 12px;
+  }
+
+  .optionRow {
+    align-items: center;
+    display: flex;
+    margin-bottom: 6px;
+  }
+
+  .optionNameField {
+    flex: 1;
+  }
+
+  .removeButton {
+    background: transparent;
+    margin: 0 0 0 6px;
+    padding: 6px;
+
+    &:hover {
+      background: #e9e9e9;
+    }
+  }
+
+  .colorButtons {
+    display: grid;
+    gap: 6px;
+    grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+  }
+
+  .colorButton {
+    height: 24px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .colorButtonActive:before {
+    color: #ffffff;
+    content: "Г";
+    font-size: 12px;
+    line-height: 24px;
+    position: absolute;
+    right: calc(50% - 4px);
+    text-align: center;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    top: calc(50% - 13px);
+    transform: rotate(-135deg);
+  }
+
+  .addButton {
+    background: transparent;
+    box-shadow: none;
+    color: #6b808c;
+    font-weight: normal;
+    padding: 6px 11px;
+    text-align: left;
+    text-decoration: underline;
+
+    &:hover {
+      background: #e9e9e9;
+    }
+  }
+}

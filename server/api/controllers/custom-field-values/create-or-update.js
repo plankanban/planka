@@ -46,7 +46,12 @@
  *               content:
  *                 type: string
  *                 maxLength: 512
- *                 description: Content/value of the custom field
+ *                 description: >
+ *                   Content/value of the custom field. Its expected format depends on the
+ *                   custom field's `type`: free text for `text`, a numeric string for `number`
+ *                   (e.g. `"12.5"`), an ISO 8601 date (`YYYY-MM-DD`) for `date`, `"true"` or
+ *                   `"false"` for `checkbox`, and the `id` of one of the field's
+ *                   `config.options` for `dropdown`.
  *                 example: High Priority
  *     responses:
  *       200:
@@ -68,6 +73,8 @@
  *         $ref: '#/components/responses/Forbidden'
  *       404:
  *         $ref: '#/components/responses/NotFound'
+ *       422:
+ *         $ref: '#/components/responses/UnprocessableEntity'
  */
 
 const { idInput } = require('../../../utils/inputs');
@@ -84,6 +91,9 @@ const Errors = {
   },
   CUSTOM_FIELD_NOT_FOUND: {
     customFieldNotFound: 'Custom field not found',
+  },
+  INVALID_CONTENT: {
+    invalidContent: 'Invalid content',
   },
 };
 
@@ -120,6 +130,9 @@ module.exports = {
     },
     customFieldNotFound: {
       responseType: 'notFound',
+    },
+    invalidContent: {
+      responseType: 'unprocessableEntity',
     },
   },
 
@@ -171,6 +184,15 @@ module.exports = {
       }
     } else if (customField.customFieldGroupId !== customFieldGroup.id) {
       throw Errors.CUSTOM_FIELD_NOT_FOUND;
+    }
+
+    const isContentValid = sails.helpers.customFieldValues.validateContent(
+      customField,
+      inputs.content,
+    );
+
+    if (!isContentValid) {
+      throw Errors.INVALID_CONTENT;
     }
 
     const values = _.pick(inputs, ['content']);

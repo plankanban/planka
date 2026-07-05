@@ -31,6 +31,16 @@
     color: #17394d;
   }
 
+  .wrapperColored {
+    color: #fff;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  }
+
+  .wrapperColored.wrapperHoverable:hover {
+    color: #fff;
+    opacity: 0.9;
+  }
+
   /* Sizes */
 
   .wrapperTiny {

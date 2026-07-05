@@ -16,6 +16,8 @@ export default class extends BaseModel {
     position: attr(),
     name: attr(),
     showOnFrontOfCard: attr(),
+    type: attr(),
+    config: attr(),
     baseCustomFieldGroupId: fk({
       to: 'BaseCustomFieldGroup',
       as: 'baseGroup',
@@ -113,6 +115,8 @@ export default class extends BaseModel {
       position: this.position,
       name: this.name,
       showOnFrontOfCard: this.showOnFrontOfCard,
+      type: this.type,
+      config: this.config,
       ...data,
     });
   }

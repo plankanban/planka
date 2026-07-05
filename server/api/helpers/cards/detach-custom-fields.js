@@ -174,7 +174,7 @@ module.exports = {
         customFieldIdByCustomFieldId[customField.id] = id;
 
         return {
-          ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position']),
+          ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position', 'type', 'config']),
           id,
           customFieldGroupId:
             nextCustomFieldGroupIdByCustomFieldGroupIdByCardId[cardId][
@@ -204,7 +204,7 @@ module.exports = {
             nextCustomFieldIdByCustomFieldIdByCardId[cardId][groupedId] = id;
 
             nextCustomFieldsValues.push({
-              ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position']),
+              ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position', 'type', 'config']),
               id,
               customFieldGroupId:
                 nextCustomFieldGroupIdByCustomFieldGroupIdByCardId[cardId][customFieldGroup.id],
@@ -228,7 +228,7 @@ module.exports = {
           nextCustomFieldIdByCustomFieldIdByCardId[customFieldGroup.cardId][groupedId] = id;
 
           nextCustomFieldsValues.push({
-            ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position']),
+            ..._.pick(customField, ['name', 'showOnFrontOfCard', 'position', 'type', 'config']),
             id,
             customFieldGroupId: customFieldGroup.id,
           });

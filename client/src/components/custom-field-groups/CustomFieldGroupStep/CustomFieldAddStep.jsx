@@ -12,6 +12,7 @@ import { Popup } from '../../../lib/custom-ui';
 
 import entryActions from '../../../entry-actions';
 import { useForm } from '../../../hooks';
+import CustomFieldTypes from '../../../constants/CustomFieldTypes';
 import CustomFieldEditor from './CustomFieldEditor';
 
 import styles from './CustomFieldAddStep.module.scss';
@@ -20,18 +21,33 @@ const CustomFieldAddStep = React.memo(({ customFieldGroupId, defaultData, onBack
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
-  const [data, handleFieldChange] = useForm(() => ({
+  const [data, handleFieldChange, setData] = useForm(() => ({
     name: '',
     showOnFrontOfCard: false,
+    type: CustomFieldTypes.TEXT,
+    config: {},
     ...defaultData,
   }));
 
   const customFieldEditorRef = useRef(null);
 
+  const handleOptionsChange = useCallback(
+    (options) => {
+      setData((prevData) => ({
+        ...prevData,
+        config: {
+          options,
+        },
+      }));
+    },
+    [setData],
+  );
+
   const handleSubmit = useCallback(() => {
     const cleanData = {
       ...data,
       name: data.name.trim() || null,
+      config: data.type === CustomFieldTypes.DROPDOWN ? data.config : {},
     };
 
     if (!cleanData.name) {
@@ -56,6 +72,7 @@ const CustomFieldAddStep = React.memo(({ customFieldGroupId, defaultData, onBack
             ref={customFieldEditorRef}
             data={data}
             onFieldChange={handleFieldChange}
+            onOptionsChange={handleOptionsChange}
           />
           <Button positive content={t('action.addCustomField')} className={styles.submitButton} />
         </Form>

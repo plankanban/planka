@@ -44,6 +44,18 @@
  *                 type: boolean
  *                 description: Whether to show the field on the front of cards
  *                 example: false
+ *               type:
+ *                 type: string
+ *                 enum: [text, number, date, checkbox, dropdown]
+ *                 description: Type of the custom field
+ *                 example: dropdown
+ *               config:
+ *                 type: object
+ *                 description: Type-specific configuration (required for `dropdown`)
+ *                 example:
+ *                   options:
+ *                     - name: High
+ *                       color: berry-red
  *     responses:
  *       200:
  *         description: Custom field created successfully
@@ -64,9 +76,12 @@
  *         $ref: '#/components/responses/Forbidden'
  *       404:
  *         $ref: '#/components/responses/NotFound'
+ *       422:
+ *         $ref: '#/components/responses/UnprocessableEntity'
  */
 
 const { idInput } = require('../../../utils/inputs');
+const CUSTOM_FIELD_TYPES = require('../../../utils/custom-field-types');
 
 const Errors = {
   NOT_ENOUGH_RIGHTS: {
@@ -74,6 +89,9 @@ const Errors = {
   },
   CUSTOM_FIELD_GROUP_NOT_FOUND: {
     customFieldGroupNotFound: 'Custom field group not found',
+  },
+  INVALID_CONFIG: {
+    invalidConfig: 'Invalid config',
   },
 };
 
@@ -96,6 +114,13 @@ module.exports = {
     showOnFrontOfCard: {
       type: 'boolean',
     },
+    type: {
+      type: 'string',
+      isIn: CUSTOM_FIELD_TYPES,
+    },
+    config: {
+      type: 'json',
+    },
   },
 
   exits: {
@@ -104,6 +129,9 @@ module.exports = {
     },
     customFieldGroupNotFound: {
       responseType: 'notFound',
+    },
+    invalidConfig: {
+      responseType: 'unprocessableEntity',
     },
   },
 
@@ -127,7 +155,15 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name', 'showOnFrontOfCard']);
+    const values = _.pick(inputs, ['position', 'name', 'showOnFrontOfCard', 'type']);
+    const type = values.type || 'text';
+
+    values.config = await sails.helpers.customFields.normalizeConfig
+      .with({
+        type,
+        config: inputs.config,
+      })
+      .intercept('invalidConfig', () => Errors.INVALID_CONFIG);
 
     const customField = await sails.helpers.customFields.createOneInCustomFieldGroup.with({
       project,

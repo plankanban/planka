@@ -3,8 +3,11 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon } from 'semantic-ui-react';
 
@@ -13,9 +16,15 @@ import entryActions from '../../../entry-actions';
 import { buildCustomFieldValueId } from '../../../models/CustomFieldValue';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import { BoardMembershipRoles } from '../../../constants/Enums';
+import CustomFieldTypes from '../../../constants/CustomFieldTypes';
 import ValueField from './ValueField';
+import NumberValueField from './NumberValueField';
+import DateValueField from './DateValueField';
+import CheckboxValueField from './CheckboxValueField';
+import SelectValueField from './SelectValueField';
 
 import styles from './CustomField.module.scss';
+import globalStyles from '../../../styles.module.scss';
 
 const CustomField = React.memo(({ id, customFieldGroupId }) => {
   const selectCustomFieldById = useMemo(() => selectors.makeSelectCustomFieldById(), []);
@@ -79,22 +88,99 @@ const CustomField = React.memo(({ id, customFieldGroupId }) => {
     }, 1000);
   }, [customFieldValue, isCopied]);
 
+  const selectedOption = useMemo(() => {
+    if (customField.type !== CustomFieldTypes.DROPDOWN || !customFieldValue) {
+      return undefined;
+    }
+
+    return (customField.config.options || []).find(
+      (option) => option.id === customFieldValue.content,
+    );
+  }, [customField, customFieldValue]);
+
+  const canEditValue = canEdit && customField.isPersisted;
+
+  let valueEditNode;
+  switch (customField.type) {
+    case CustomFieldTypes.NUMBER:
+      valueEditNode = (
+        <NumberValueField
+          defaultValue={customFieldValue && customFieldValue.content}
+          onUpdate={handleValueUpdate}
+        />
+      );
+      break;
+    case CustomFieldTypes.DATE:
+      valueEditNode = (
+        <DateValueField
+          defaultValue={customFieldValue && customFieldValue.content}
+          onUpdate={handleValueUpdate}
+        />
+      );
+      break;
+    case CustomFieldTypes.CHECKBOX:
+      valueEditNode = (
+        <CheckboxValueField
+          defaultValue={customFieldValue && customFieldValue.content}
+          onUpdate={handleValueUpdate}
+        />
+      );
+      break;
+    case CustomFieldTypes.DROPDOWN:
+      valueEditNode = (
+        <SelectValueField
+          defaultValue={customFieldValue && customFieldValue.content}
+          options={customField.config.options || []}
+          onUpdate={handleValueUpdate}
+        />
+      );
+      break;
+    default:
+      valueEditNode = (
+        <ValueField
+          defaultValue={customFieldValue && customFieldValue.content}
+          onUpdate={handleValueUpdate}
+        />
+      );
+  }
+
+  let valueDisplayNode;
+  if (customField.type === CustomFieldTypes.CHECKBOX) {
+    const isChecked = !!customFieldValue && customFieldValue.content === 'true';
+
+    valueDisplayNode = <Icon fitted name={isChecked ? 'check square' : 'square outline'} />;
+  } else if (customField.type === CustomFieldTypes.DROPDOWN) {
+    valueDisplayNode = selectedOption ? (
+      <span
+        className={classNames(
+          styles.pill,
+          selectedOption.color &&
+            globalStyles[`background${upperFirst(camelCase(selectedOption.color))}`],
+        )}
+      >
+        {selectedOption.name}
+      </span>
+    ) : (
+      '\u00A0'
+    );
+  } else {
+    valueDisplayNode = customFieldValue ? customFieldValue.content : '\u00A0';
+  }
+
+  const isCopyable =
+    customField.type !== CustomFieldTypes.CHECKBOX &&
+    customField.type !== CustomFieldTypes.DROPDOWN;
+
   return (
     <div>
       <div className={styles.name}>{customField.name}</div>
       <div className={styles.valueWrapper}>
-        {canEdit ? (
-          <ValueField
-            defaultValue={customFieldValue && customFieldValue.content}
-            disabled={!customField.isPersisted}
-            onUpdate={handleValueUpdate}
-          />
+        {canEditValue ? (
+          valueEditNode
         ) : (
-          <div className={styles.value}>
-            {customFieldValue ? customFieldValue.content : '\u00A0'}
-          </div>
+          <div className={styles.value}>{valueDisplayNode}</div>
         )}
-        {customFieldValue && customFieldValue.content && (
+        {isCopyable && customFieldValue && customFieldValue.content && (
           <Button className={styles.copyButton} onClick={handleCopyClick}>
             <Icon fitted name={isCopied ? 'check' : 'copy'} />
           </Button>

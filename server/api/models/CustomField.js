@@ -53,6 +53,23 @@
  *           default: false
  *           description: Whether to show the field on the front of cards
  *           example: false
+ *         type:
+ *           type: string
+ *           enum: [text, number, date, checkbox, dropdown]
+ *           default: text
+ *           description: Type of the custom field, which determines how its value is validated and rendered
+ *           example: dropdown
+ *         config:
+ *           type: object
+ *           nullable: true
+ *           description: >
+ *             Type-specific configuration. Only the `dropdown` type currently uses this
+ *             (`{ options: [{ id, name, color }] }`); other types ignore it.
+ *           example:
+ *             options:
+ *               - id: "1357158568008091270"
+ *                 name: High
+ *                 color: berry-red
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -67,7 +84,11 @@
  *           example: 2024-01-01T00:00:00.000Z
  */
 
+const TYPES = require('../../utils/custom-field-types');
+
 module.exports = {
+  TYPES,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
@@ -85,6 +106,15 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'show_on_front_of_card',
+    },
+    type: {
+      type: 'string',
+      isIn: TYPES,
+      defaultsTo: 'text',
+    },
+    config: {
+      type: 'json',
+      defaultsTo: {},
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

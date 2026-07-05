@@ -83,6 +83,35 @@ module.exports = {
     const customField = await CustomField.qm.updateOne(inputs.record.id, values);
 
     if (customField) {
+      let deletedCustomFieldValues = [];
+      if (customField.type !== inputs.record.type) {
+        deletedCustomFieldValues = await sails.helpers.customFields.deleteObsoleteValues(
+          customField,
+        );
+      } else if (customField.type === 'dropdown' && !_.isUndefined(values.config)) {
+        const validOptionIds = (customField.config.options || []).map((option) => option.id);
+
+        deletedCustomFieldValues = await sails.helpers.customFields.deleteObsoleteValues.with({
+          customField,
+          validContentValues: validOptionIds,
+        });
+      }
+
+      deletedCustomFieldValues.forEach((customFieldValue) => {
+        customFieldGroupRelatedUserIds.forEach((userId) => {
+          sails.sockets.broadcast(
+            `user:${userId}`,
+            'customFieldValueDelete',
+            {
+              item: customFieldValue,
+            },
+            inputs.request,
+          );
+        });
+
+        // TODO: send webhooks
+      });
+
       customFieldGroupRelatedUserIds.forEach((userId) => {
         sails.sockets.broadcast(
           `user:${userId}`,

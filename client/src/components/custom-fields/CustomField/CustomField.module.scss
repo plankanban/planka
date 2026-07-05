@@ -60,4 +60,14 @@
       }
     }
   }
+
+  .pill {
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 13px;
+    line-height: 20px;
+    padding: 0 8px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  }
 }
