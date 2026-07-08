@@ -8,6 +8,7 @@
 
 const { read } = require('read');
 const validator = require('validator');
+const zxcvbn = require('zxcvbn');
 const initKnex = require('knex');
 
 const knexfile = require('./knexfile');
@@ -72,10 +73,19 @@ const input = async (fieldName, options = {}) => {
       }
     }
 
-    process.env.DEFAULT_ADMIN_PASSWORD = await input('Password', {
-      isRequired: true,
-      isPassword: true,
-    });
+    let isPasswordValid = false;
+    while (!isPasswordValid) {
+      process.env.DEFAULT_ADMIN_PASSWORD = await input('Password', {
+        isRequired: true,
+        isPassword: true,
+      });
+
+      if (zxcvbn(process.env.DEFAULT_ADMIN_PASSWORD).score >= 2) {
+        isPasswordValid = true;
+      } else {
+        console.log('Password is too weak. Choose a stronger password.');
+      }
+    }
 
     process.env.DEFAULT_ADMIN_NAME = await input('Name', {
       isRequired: true,
