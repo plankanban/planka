@@ -27,8 +27,8 @@
  *         - position
  *         - name
  *         - description
- *         - dueDate
  *         - startDate
+ *         - dueDate
  *         - isDueCompleted
  *         - stopwatch
  *         - commentsTotal
@@ -178,13 +178,13 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
     },
-    dueDate: {
-      type: 'ref',
-      columnName: 'due_date',
-    },
     startDate: {
       type: 'ref',
       columnName: 'start_date',
+    },
+    dueDate: {
+      type: 'ref',
+      columnName: 'due_date',
     },
     isDueCompleted: {
       type: 'boolean',

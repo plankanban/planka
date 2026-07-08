@@ -417,6 +417,34 @@ const ProjectContent = React.memo(() => {
                   )}
                 </div>
               )}
+              {card.startDate && (
+                <div className={styles.attachments}>
+                  <div className={styles.text}>
+                    {t('common.startDate', {
+                      context: 'title',
+                    })}
+                  </div>
+                  <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
+                    {canEditStartDate ? (
+                      <EditStartDatePopup cardId={card.id}>
+                        <DueDateChip
+                          withStatusIcon
+                          value={card.startDate}
+                          isCompleted={false}
+                          withStatus={false}
+                        />
+                      </EditStartDatePopup>
+                    ) : (
+                      <DueDateChip
+                        withStatusIcon
+                        value={card.startDate}
+                        isCompleted={false}
+                        withStatus={false}
+                      />
+                    )}
+                  </span>
+                </div>
+              )}
               {card.dueDate && (
                 <div className={styles.attachments}>
                   <div className={styles.text}>
@@ -449,34 +477,6 @@ const ProjectContent = React.memo(() => {
                         value={card.dueDate}
                         isCompleted={card.isDueCompleted}
                         withStatus={!card.isClosed}
-                      />
-                    )}
-                  </span>
-                </div>
-              )}
-              {card.startDate && (
-                <div className={styles.attachments}>
-                  <div className={styles.text}>
-                    {t('common.startDate', {
-                      context: 'title',
-                    })}
-                  </div>
-                  <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
-                    {canEditStartDate ? (
-                      <EditStartDatePopup cardId={card.id}>
-                        <DueDateChip
-                          withStatusIcon
-                          value={card.startDate}
-                          isCompleted={false}
-                          withStatus={false}
-                        />
-                      </EditStartDatePopup>
-                    ) : (
-                      <DueDateChip
-                        withStatusIcon
-                        value={card.startDate}
-                        isCompleted={false}
-                        withStatus={false}
                       />
                     )}
                   </span>
@@ -640,16 +640,6 @@ const ProjectContent = React.memo(() => {
                     </Button>
                   </LabelsPopup>
                 )}
-                {canEditDueDate && (
-                  <EditDueDatePopup cardId={card.id}>
-                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
-                      <Icon name="calendar check outline" className={styles.actionIcon} />
-                      {t('common.dueDate', {
-                        context: 'title',
-                      })}
-                    </Button>
-                  </EditDueDatePopup>
-                )}
                 {canEditStartDate && (
                   <EditStartDatePopup cardId={card.id}>
                     <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
@@ -659,6 +649,16 @@ const ProjectContent = React.memo(() => {
                       })}
                     </Button>
                   </EditStartDatePopup>
+                )}
+                {canEditDueDate && (
+                  <EditDueDatePopup cardId={card.id}>
+                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
+                      <Icon name="calendar check outline" className={styles.actionIcon} />
+                      {t('common.dueDate', {
+                        context: 'title',
+                      })}
+                    </Button>
+                  </EditDueDatePopup>
                 )}
                 {canEditStopwatch && (
                   <EditStopwatchPopup cardId={card.id}>

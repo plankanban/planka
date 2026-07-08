@@ -145,11 +145,11 @@ module.exports = {
       maxLength: 1048576,
       allowNull: true,
     },
-    dueDate: {
+    startDate: {
       type: 'string',
       custom: isDueDate,
     },
-    startDate: {
+    dueDate: {
       type: 'string',
       custom: isDueDate,
     },
@@ -200,9 +200,9 @@ module.exports = {
       'position',
       'name',
       'description',
+      'startDate',
       'dueDate',
       'isDueCompleted',
-      'startDate',
       'stopwatch',
     ]);
 

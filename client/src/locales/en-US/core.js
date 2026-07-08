@@ -313,6 +313,7 @@ export default {
       sortList_title: 'Sort List',
       sourceCardIsNoLongerAvailableForCopying: 'Source card is no longer available for copying.',
       sourceCardIsNoLongerAvailableForMoving: 'Source card is no longer available for moving.',
+      startDate_title: 'Start Date',
       stopwatch: 'Stopwatch',
       story: 'Story',
       subscribeToCardWhenCommenting: 'Subscribe to card when commenting',
