@@ -48,32 +48,28 @@ const input = async (fieldName, options = {}) => {
   try {
     await knex.migrate.latest();
 
-    process.env.DEFAULT_ADMIN_EMAIL = await input('Email', {
-      isRequired: true,
-    });
+    let isEmailValid = false;
+    while (!isEmailValid) {
+      process.env.DEFAULT_ADMIN_EMAIL = await input('Email', {
+        isRequired: true,
+      });
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
       if (
-        validator.isEmail(process.env.DEFAULT_ADMIN_EMAIL) &&
-        process.env.DEFAULT_ADMIN_EMAIL.length <= 256
+        !validator.isEmail(process.env.DEFAULT_ADMIN_EMAIL) ||
+        process.env.DEFAULT_ADMIN_EMAIL.length > 256
       ) {
+        console.log('Email must be a valid e-mail address with no more than 256 characters.');
+      } else {
         const existingUser = await knex('user_account')
           .where('email', process.env.DEFAULT_ADMIN_EMAIL.toLowerCase())
           .first();
 
-        if (!existingUser) {
-          break;
+        if (existingUser) {
+          console.log('Email is already in use.');
+        } else {
+          isEmailValid = true;
         }
-
-        console.log('Email is already in use.');
-      } else {
-        console.log('Email must be a valid e-mail address with no more than 256 characters.');
       }
-
-      process.env.DEFAULT_ADMIN_EMAIL = await input('Email', {
-        isRequired: true,
-      });
     }
 
     process.env.DEFAULT_ADMIN_PASSWORD = await input('Password', {
@@ -85,7 +81,6 @@ const input = async (fieldName, options = {}) => {
       isRequired: true,
     });
 
-    // eslint-disable-next-line no-constant-condition
     while (process.env.DEFAULT_ADMIN_NAME.length > 128) {
       console.log('Name must be no more than 128 characters.');
       process.env.DEFAULT_ADMIN_NAME = await input('Name', {
@@ -93,38 +88,34 @@ const input = async (fieldName, options = {}) => {
       });
     }
 
-    process.env.DEFAULT_ADMIN_USERNAME = await input('Username');
+    const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
 
-    if (process.env.DEFAULT_ADMIN_USERNAME) {
-      const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
+    let isUsernameValid = false;
+    while (!isUsernameValid) {
+      process.env.DEFAULT_ADMIN_USERNAME = await input('Username');
 
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        const isValid =
-          process.env.DEFAULT_ADMIN_USERNAME.length >= 3 &&
-          process.env.DEFAULT_ADMIN_USERNAME.length <= 32 &&
-          USERNAME_REGEX.test(process.env.DEFAULT_ADMIN_USERNAME);
+      if (!process.env.DEFAULT_ADMIN_USERNAME) {
+        break;
+      }
 
-        if (isValid) {
-          const existingUser = await knex('user_account')
-            .where('username', process.env.DEFAULT_ADMIN_USERNAME.toLowerCase())
-            .first();
+      const isValid =
+        process.env.DEFAULT_ADMIN_USERNAME.length >= 3 &&
+        process.env.DEFAULT_ADMIN_USERNAME.length <= 32 &&
+        USERNAME_REGEX.test(process.env.DEFAULT_ADMIN_USERNAME);
 
-          if (!existingUser) {
-            break;
-          }
+      if (!isValid) {
+        console.log(
+          'Username must be 3-32 characters and contain only letters, digits, underscores, and dots (e.g., john_doe).',
+        );
+      } else {
+        const existingUser = await knex('user_account')
+          .where('username', process.env.DEFAULT_ADMIN_USERNAME.toLowerCase())
+          .first();
 
+        if (existingUser) {
           console.log('Username is already in use.');
         } else {
-          console.log(
-            'Username must be 3-32 characters and contain only letters, digits, underscores, and dots (e.g., john_doe).',
-          );
-        }
-
-        process.env.DEFAULT_ADMIN_USERNAME = await input('Username');
-
-        if (!process.env.DEFAULT_ADMIN_USERNAME) {
-          break;
+          isUsernameValid = true;
         }
       }
     }
