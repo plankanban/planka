@@ -20,7 +20,12 @@ const buildUserData = () => {
     data.password = bcrypt.hashSync(process.env.DEFAULT_ADMIN_PASSWORD, 10);
   }
   if (process.env.DEFAULT_ADMIN_NAME) {
+    if (process.env.DEFAULT_ADMIN_NAME.length > 128) {
+      console.warn('Warning: DEFAULT_ADMIN_NAME exceeds 128 characters; truncating.');
+      data.name = process.env.DEFAULT_ADMIN_NAME.slice(0, 128);
+    } else {
     data.name = process.env.DEFAULT_ADMIN_NAME;
+    }
   }
   if (process.env.DEFAULT_ADMIN_USERNAME) {
     const username = process.env.DEFAULT_ADMIN_USERNAME.toLowerCase();

@@ -60,6 +60,14 @@ const input = async (fieldName, options = {}) => {
       isRequired: true,
     });
 
+    // eslint-disable-next-line no-constant-condition
+    while (process.env.DEFAULT_ADMIN_NAME.length > 128) {
+      console.log('Name must be no more than 128 characters.');
+      process.env.DEFAULT_ADMIN_NAME = await input('Name', {
+        isRequired: true,
+      });
+    }
+
     process.env.DEFAULT_ADMIN_USERNAME = await input('Username');
 
     if (process.env.DEFAULT_ADMIN_USERNAME) {
