@@ -78,6 +78,16 @@ exports.seed = async (knex) => {
 
     const userData = buildUserData();
 
+    if (userData.username) {
+      const existingUsernameUser = await knex('user_account')
+        .where('username', userData.username)
+        .first();
+
+      if (existingUsernameUser) {
+        throw new Error(`User with DEFAULT_ADMIN_USERNAME "${userData.username}" already exists.`);
+      }
+    }
+
     let userId;
     try {
       [{ id: userId }] = await knex('user_account').insert(

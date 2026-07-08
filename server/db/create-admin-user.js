@@ -97,12 +97,20 @@ const input = async (fieldName, options = {}) => {
           USERNAME_REGEX.test(process.env.DEFAULT_ADMIN_USERNAME);
 
         if (isValid) {
-          break;
-        }
+          const existingUser = await knex('user_account')
+            .where('username', process.env.DEFAULT_ADMIN_USERNAME.toLowerCase())
+            .first();
 
-        console.log(
-          'Username must be 3-32 characters and contain only letters, digits, underscores, and dots (e.g., john_doe).',
-        );
+          if (!existingUser) {
+            break;
+          }
+
+          console.log('Username is already in use.');
+        } else {
+          console.log(
+            'Username must be 3-32 characters and contain only letters, digits, underscores, and dots (e.g., john_doe).',
+          );
+        }
 
         process.env.DEFAULT_ADMIN_USERNAME = await input('Username');
 
