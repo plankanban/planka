@@ -27,6 +27,7 @@ import MoreActionsStep from './MoreActionsStep';
 import DueDateChip from '../DueDateChip';
 import StopwatchChip from '../StopwatchChip';
 import EditDueDateStep from '../EditDueDateStep';
+import EditStartDateStep from '../EditStartDateStep';
 import EditStopwatchStep from '../EditStopwatchStep';
 import ExpandableMarkdown from '../../common/ExpandableMarkdown';
 import EditMarkdown from '../../common/EditMarkdown';
@@ -70,6 +71,7 @@ const ProjectContent = React.memo(() => {
     canEditName,
     canEditDescription,
     canEditDueDate,
+    canEditStartDate,
     canEditStopwatch,
     canSubscribe,
     canJoin,
@@ -101,6 +103,7 @@ const ProjectContent = React.memo(() => {
         canEditName: false,
         canEditDescription: false,
         canEditDueDate: false,
+        canEditStartDate: false,
         canEditStopwatch: false,
         canSubscribe: isMember,
         canJoin: false,
@@ -123,6 +126,7 @@ const ProjectContent = React.memo(() => {
       canEditName: isEditor,
       canEditDescription: isEditor,
       canEditDueDate: isEditor,
+      canEditStartDate: isEditor,
       canEditStopwatch: isEditor,
       canSubscribe: isMember,
       canJoin: isEditor,
@@ -288,6 +292,7 @@ const ProjectContent = React.memo(() => {
   const LabelsPopup = usePopupInClosableContext(LabelsStep);
   const ListsPopup = usePopupInClosableContext(ListsStep);
   const EditDueDatePopup = usePopupInClosableContext(EditDueDateStep);
+  const EditStartDatePopup = usePopupInClosableContext(EditStartDateStep);
   const EditStopwatchPopup = usePopupInClosableContext(EditStopwatchStep);
   const AddTaskListPopup = usePopupInClosableContext(AddTaskListStep);
   const AddAttachmentPopup = usePopupInClosableContext(AddAttachmentStep);
@@ -314,6 +319,7 @@ const ProjectContent = React.memo(() => {
       <Grid.Row className={styles.modalPadding}>
         <Grid.Column width={12} className={styles.contentPadding}>
           {(card.dueDate ||
+            card.startDate ||
             card.stopwatch ||
             board.alwaysDisplayCardCreator ||
             userIds.length > 0 ||
@@ -448,6 +454,34 @@ const ProjectContent = React.memo(() => {
                   </span>
                 </div>
               )}
+              {card.startDate && (
+                <div className={styles.attachments}>
+                  <div className={styles.text}>
+                    {t('common.startDate', {
+                      context: 'title',
+                    })}
+                  </div>
+                  <span className={classNames(styles.attachment, styles.attachmentDueDate)}>
+                    {canEditStartDate ? (
+                      <EditStartDatePopup cardId={card.id}>
+                        <DueDateChip
+                          withStatusIcon
+                          value={card.startDate}
+                          isCompleted={false}
+                          withStatus={false}
+                        />
+                      </EditStartDatePopup>
+                    ) : (
+                      <DueDateChip
+                        withStatusIcon
+                        value={card.startDate}
+                        isCompleted={false}
+                        withStatus={false}
+                      />
+                    )}
+                  </span>
+                </div>
+              )}
               {card.stopwatch && (
                 <div className={styles.attachments}>
                   <div className={styles.text}>
@@ -572,6 +606,7 @@ const ProjectContent = React.memo(() => {
               </div>
             </div>
             {(canEditDueDate ||
+              canEditStartDate ||
               canEditStopwatch ||
               canUseMembers ||
               canUseLabels ||
@@ -614,6 +649,16 @@ const ProjectContent = React.memo(() => {
                       })}
                     </Button>
                   </EditDueDatePopup>
+                )}
+                {canEditStartDate && (
+                  <EditStartDatePopup cardId={card.id}>
+                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
+                      <Icon name="calendar plus outline" className={styles.actionIcon} />
+                      {t('common.startDate', {
+                        context: 'title',
+                      })}
+                    </Button>
+                  </EditStartDatePopup>
                 )}
                 {canEditStopwatch && (
                   <EditStopwatchPopup cardId={card.id}>
