@@ -76,6 +76,12 @@ exports.seed = async (knex) => {
       );
     }
 
+    const existingEmailUser = await knex('user_account').where('email', defaultAdminEmail).first();
+
+    if (existingEmailUser) {
+      throw new Error(`User with DEFAULT_ADMIN_EMAIL "${defaultAdminEmail}" already exists.`);
+    }
+
     const userData = buildUserData();
 
     if (userData.username) {

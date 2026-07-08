@@ -58,10 +58,19 @@ const input = async (fieldName, options = {}) => {
         validator.isEmail(process.env.DEFAULT_ADMIN_EMAIL) &&
         process.env.DEFAULT_ADMIN_EMAIL.length <= 256
       ) {
-        break;
+        const existingUser = await knex('user_account')
+          .where('email', process.env.DEFAULT_ADMIN_EMAIL.toLowerCase())
+          .first();
+
+        if (!existingUser) {
+          break;
+        }
+
+        console.log('Email is already in use.');
+      } else {
+        console.log('Email must be a valid e-mail address with no more than 256 characters.');
       }
 
-      console.log('Email must be a valid e-mail address with no more than 256 characters.');
       process.env.DEFAULT_ADMIN_EMAIL = await input('Email', {
         isRequired: true,
       });
