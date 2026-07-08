@@ -7,6 +7,7 @@
 /* eslint-disable no-console */
 
 const { read } = require('read');
+const validator = require('validator');
 const initKnex = require('knex');
 
 const knexfile = require('./knexfile');
@@ -50,6 +51,21 @@ const input = async (fieldName, options = {}) => {
     process.env.DEFAULT_ADMIN_EMAIL = await input('Email', {
       isRequired: true,
     });
+
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      if (
+        validator.isEmail(process.env.DEFAULT_ADMIN_EMAIL) &&
+        process.env.DEFAULT_ADMIN_EMAIL.length <= 256
+      ) {
+        break;
+      }
+
+      console.log('Email must be a valid e-mail address with no more than 256 characters.');
+      process.env.DEFAULT_ADMIN_EMAIL = await input('Email', {
+        isRequired: true,
+      });
+    }
 
     process.env.DEFAULT_ADMIN_PASSWORD = await input('Password', {
       isRequired: true,

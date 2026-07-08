@@ -6,6 +6,7 @@
 /* eslint-disable no-console */
 
 const bcrypt = require('bcrypt');
+const validator = require('validator');
 
 const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
 
@@ -24,7 +25,7 @@ const buildUserData = () => {
       console.warn('Warning: DEFAULT_ADMIN_NAME exceeds 128 characters; truncating.');
       data.name = process.env.DEFAULT_ADMIN_NAME.slice(0, 128);
     } else {
-    data.name = process.env.DEFAULT_ADMIN_NAME;
+      data.name = process.env.DEFAULT_ADMIN_NAME;
     }
   }
   if (process.env.DEFAULT_ADMIN_USERNAME) {
@@ -63,6 +64,18 @@ exports.seed = async (knex) => {
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase();
 
   if (defaultAdminEmail) {
+    if (!validator.isEmail(defaultAdminEmail)) {
+      throw new Error(
+        `DEFAULT_ADMIN_EMAIL "${process.env.DEFAULT_ADMIN_EMAIL}" is not a valid e-mail address.`,
+      );
+    }
+
+    if (defaultAdminEmail.length > 256) {
+      throw new Error(
+        `DEFAULT_ADMIN_EMAIL "${process.env.DEFAULT_ADMIN_EMAIL}" exceeds 256 characters.`,
+      );
+    }
+
     const userData = buildUserData();
 
     let userId;
