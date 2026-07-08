@@ -3,7 +3,11 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/* eslint-disable no-console */
+
 const bcrypt = require('bcrypt');
+
+const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
 
 const buildUserData = () => {
   const data = {
@@ -19,7 +23,15 @@ const buildUserData = () => {
     data.name = process.env.DEFAULT_ADMIN_NAME;
   }
   if (process.env.DEFAULT_ADMIN_USERNAME) {
-    data.username = process.env.DEFAULT_ADMIN_USERNAME.toLowerCase();
+    const username = process.env.DEFAULT_ADMIN_USERNAME.toLowerCase();
+
+    if (username.length < 3 || username.length > 32 || !USERNAME_REGEX.test(username)) {
+      console.warn(
+        `Warning: DEFAULT_ADMIN_USERNAME "${process.env.DEFAULT_ADMIN_USERNAME}" is invalid; skipping.`,
+      );
+    } else {
+      data.username = username;
+    }
   }
 
   return data;

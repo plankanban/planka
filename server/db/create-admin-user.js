@@ -62,6 +62,32 @@ const input = async (fieldName, options = {}) => {
 
     process.env.DEFAULT_ADMIN_USERNAME = await input('Username');
 
+    if (process.env.DEFAULT_ADMIN_USERNAME) {
+      const USERNAME_REGEX = /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/;
+
+      // eslint-disable-next-line no-constant-condition
+      while (true) {
+        const isValid =
+          process.env.DEFAULT_ADMIN_USERNAME.length >= 3 &&
+          process.env.DEFAULT_ADMIN_USERNAME.length <= 32 &&
+          USERNAME_REGEX.test(process.env.DEFAULT_ADMIN_USERNAME);
+
+        if (isValid) {
+          break;
+        }
+
+        console.log(
+          'Username must be 3-32 characters and contain only letters, digits, underscores, and dots (e.g., john_doe).',
+        );
+
+        process.env.DEFAULT_ADMIN_USERNAME = await input('Username');
+
+        if (!process.env.DEFAULT_ADMIN_USERNAME) {
+          break;
+        }
+      }
+    }
+
     await knex.seed.run({
       specific: 'default.js',
     });
