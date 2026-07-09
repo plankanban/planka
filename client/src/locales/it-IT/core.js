@@ -197,6 +197,7 @@ export default {
       editPassword_title: 'Modifica password',
       editPermissions_title: 'Modifica permessi',
       editRole_title: 'Modifica ruolo',
+      editStartDate_title: 'Modifica data di inizio',
       editStopwatch_title: 'Modifica timer',
       editType_title: 'Modifica tipo',
       editUsername_title: 'Modifica username',
@@ -321,6 +322,7 @@ export default {
         'La scheda sorgente non è più disponibile per la copia.',
       sourceCardIsNoLongerAvailableForMoving:
         'La scheda sorgente non è più disponibile per lo spostamento.',
+      startDate_title: 'Data di inizio',
       stopwatch: 'Timer',
       story: 'Storia',
       subscribeToCardWhenCommenting: 'Iscrivimi alla scheda quando commento',
@@ -466,6 +468,7 @@ export default {
       editPassword_title: 'Modifica password',
       editPermissions: 'Modifica permessi',
       editRole_title: 'Modifica ruolo',
+      editStartDate_title: 'Modifica data di inizio',
       editStopwatch_title: 'Modifica timer',
       editTitle_title: 'Modifica titolo',
       editType_title: 'Modifica tipo',

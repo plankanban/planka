@@ -198,6 +198,7 @@ export default {
       editPassword_title: 'Editar senha',
       editPermissions_title: 'Editar permissões',
       editRole_title: 'Alterar função',
+      editStartDate_title: 'Editar data de início',
       editStopwatch_title: 'Editar cronômetro',
       editType_title: 'Alterar tipo',
       editUsername_title: 'Editar nome de usuário',
@@ -322,6 +323,7 @@ export default {
         'O cartão de origem não está mais disponível para cópia.',
       sourceCardIsNoLongerAvailableForMoving:
         'O cartão de origem não está mais disponível para mover.',
+      startDate_title: 'Data de início',
       stopwatch: 'Cronômetro',
       story: 'História',
       subscribeToCardWhenCommenting: 'Inscrever-se no cartão ao comentar',
@@ -466,6 +468,7 @@ export default {
       editPassword_title: 'Editar senha',
       editPermissions: 'Editar permissões',
       editRole_title: 'Editar função',
+      editStartDate_title: 'Editar data de início',
       editStopwatch_title: 'Editar cronômetro',
       editTitle_title: 'Editar título',
       editType_title: 'Editar tipo',

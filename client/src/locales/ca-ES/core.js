@@ -200,6 +200,7 @@ export default {
       editPassword_title: 'Editar contrasenya',
       editPermissions_title: 'Editar permisos',
       editRole_title: 'Editar rol',
+      editStartDate_title: "Editar data d'inici",
       editStopwatch_title: 'Editar cronòmetre',
       editType_title: 'Editar tipus',
       editUsername_title: "Editar nom d'usuari",
@@ -324,6 +325,7 @@ export default {
         "La targeta d'origen ja no està disponible per copiar.",
       sourceCardIsNoLongerAvailableForMoving:
         "La targeta d'origen ja no està disponible per moure.",
+      startDate_title: "Data d'inici",
       stopwatch: 'Cronòmetre',
       story: 'Història',
       subscribeToCardWhenCommenting: "Subscriure's a la targeta en comentar",
@@ -470,6 +472,7 @@ export default {
       editPassword_title: 'Editar contrasenya',
       editPermissions: 'Editar permisos',
       editRole_title: 'Editar rol',
+      editStartDate_title: "Editar data d'inici",
       editStopwatch_title: 'Editar cronòmetre',
       editTitle_title: 'Editar títol',
       editType_title: 'Editar tipus',

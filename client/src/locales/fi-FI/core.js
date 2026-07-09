@@ -192,6 +192,7 @@ export default {
       editPassword_title: 'Muokkaa salasanaa',
       editPermissions_title: 'Muokkaa oikeuksia',
       editRole_title: 'Muokkaa roolia',
+      editStartDate_title: 'Muokkaa aloituspäivää',
       editStopwatch_title: 'Muokkaa ajastinta',
       editType_title: 'Muokkaa tyyppiä',
       editUsername_title: 'Muokkaa käyttäjänimeä',
@@ -316,6 +317,7 @@ export default {
         'Lähdekortti ei ole enää saatavilla kopiointia varten.',
       sourceCardIsNoLongerAvailableForMoving:
         'Lähdekortti ei ole enää saatavilla siirtämistä varten.',
+      startDate_title: 'Aloituspäivä',
       stopwatch: 'Ajastin',
       story: 'Tarina',
       subscribeToCardWhenCommenting: 'Tilaa kortti kommentoidessa',
@@ -463,6 +465,7 @@ export default {
       editPassword_title: 'Muokkaa salasanaa',
       editPermissions: 'Muokkaa oikeuksia',
       editRole_title: 'Muokkaa roolia',
+      editStartDate_title: 'Muokkaa aloituspäivää',
       editStopwatch_title: 'Muokkaa ajastinta',
       editTitle_title: 'Muokkaa otsikkoa',
       editType_title: 'Muokkaa tyyppiä',

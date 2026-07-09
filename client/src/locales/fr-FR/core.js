@@ -200,6 +200,7 @@ export default {
       editPassword_title: 'Modifier le mot de passe',
       editPermissions_title: 'Modifier les permissions',
       editRole_title: 'Modifier le rôle',
+      editStartDate_title: 'Modifier la date de début',
       editStopwatch_title: 'Modifier la minuterie',
       editType_title: 'Modifier le type',
       editUsername_title: "Modifier le nom d'utilisateur",
@@ -324,6 +325,7 @@ export default {
         "La carte source n'est plus disponible pour la copie.",
       sourceCardIsNoLongerAvailableForMoving:
         "La carte source n'est plus disponible pour le déplacement.",
+      startDate_title: 'Date de début',
       stopwatch: 'Minuteur',
       story: 'Story',
       subscribeToCardWhenCommenting: 'S’abonner à la carte lors de la rédaction d’un commentaire',
@@ -468,6 +470,7 @@ export default {
       editPassword_title: 'Modifier le mot de passe',
       editPermissions: 'Modifier les permissions',
       editRole_title: 'Modifier le rôle',
+      editStartDate_title: 'Modifier la date de début',
       editStopwatch_title: 'Modifier la minuterie',
       editTitle_title: 'Modifier le titre',
       editType_title: 'Modifier le type',

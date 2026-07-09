@@ -197,6 +197,7 @@ export default {
       editPassword_title: 'Изменение пароля',
       editPermissions_title: 'Редактирование разрешений',
       editRole_title: 'Изменить роль',
+      editStartDate_title: 'Редактировать дату начала',
       editStopwatch_title: 'Изменение секундомера',
       editType_title: 'Изменить тип',
       editUsername_title: 'Изменение имени пользователя',
@@ -321,6 +322,7 @@ export default {
         'Исходная карточка больше не доступна для копирования.',
       sourceCardIsNoLongerAvailableForMoving:
         'Исходная карточка больше не доступна для перемещения.',
+      startDate_title: 'Дата начала',
       stopwatch: 'Секундомер',
       story: 'История',
       subscribeToCardWhenCommenting: 'Подписаться на карточку при комментировании',
@@ -465,6 +467,7 @@ export default {
       editPassword_title: 'Изменить пароль',
       editPermissions: 'Изменить разрешения',
       editRole_title: 'Изменить роль',
+      editStartDate_title: 'Редактировать дату начала',
       editStopwatch_title: 'Изменить секундомер',
       editTitle_title: 'Изменить название',
       editType_title: 'Изменить тип',

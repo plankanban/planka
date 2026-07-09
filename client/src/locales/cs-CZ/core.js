@@ -192,6 +192,7 @@ export default {
       editPassword_title: 'Upravit heslo',
       editPermissions_title: 'Upravit oprávnění',
       editRole_title: 'Upravit roli',
+      editStartDate_title: 'Upravit počáteční datum',
       editStopwatch_title: 'Upravit časovač',
       editType_title: 'Upravit typ',
       editUsername_title: 'Upravit uživatelské jméno',
@@ -315,6 +316,7 @@ export default {
       sourceCardIsNoLongerAvailableForCopying:
         'Zdrojová karta již není k dispozici pro kopírování.',
       sourceCardIsNoLongerAvailableForMoving: 'Zdrojová karta již není k dispozici pro přesunutí.',
+      startDate_title: 'Počáteční datum',
       stopwatch: 'Časovač',
       story: 'Příběh',
       subscribeToCardWhenCommenting: 'Odebírat karty při komentování',
@@ -458,6 +460,7 @@ export default {
       editPassword_title: 'Upravit heslo',
       editPermissions: 'Upravit oprávnění',
       editRole_title: 'Upravit roli',
+      editStartDate_title: 'Upravit počáteční datum',
       editStopwatch_title: 'Upravit časovač',
       editTitle_title: 'Upravit titulek',
       editType_title: 'Upravit typ',

@@ -196,6 +196,7 @@ export default {
       editPassword_title: 'Skift adgangskode',
       editPermissions_title: 'Rediger tilladelser',
       editRole_title: 'Rediger rolle',
+      editStartDate_title: 'Rediger startdato',
       editStopwatch_title: 'Rediger stopur',
       editType_title: 'Rediger type',
       editUsername_title: 'Rediger brugernavn',
@@ -320,6 +321,7 @@ export default {
         'Kildekortet er ikke længere tilgængeligt til kopiering.',
       sourceCardIsNoLongerAvailableForMoving:
         'Kildekortet er ikke længere tilgængeligt til flytning.',
+      startDate_title: 'Startdato',
       stopwatch: 'Stopur',
       story: 'Story',
       subscribeToCardWhenCommenting: 'Abonnér på kort ved kommentering',
@@ -464,6 +466,7 @@ export default {
       editPassword_title: 'Skift adgangskode',
       editPermissions: 'Rediger tilladelser',
       editRole_title: 'Rediger rolle',
+      editStartDate_title: 'Rediger startdato',
       editStopwatch_title: 'Rediger stopur',
       editTitle_title: 'Rediger overskrift',
       editType_title: 'Rediger type',

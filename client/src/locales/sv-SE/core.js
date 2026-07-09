@@ -201,6 +201,7 @@ export default {
       editPassword_title: 'Redigera lösenord',
       editPermissions_title: 'Redigera behörigheter',
       editRole_title: 'Redigera roll',
+      editStartDate_title: 'Redigera startdatum',
       editStopwatch_title: 'Redigera timer',
       editType_title: 'Redigera typ',
       editUsername_title: 'Redigera användarnamn',
@@ -325,6 +326,7 @@ export default {
         'Källkortet är inte längre tillgängligt för kopiering.',
       sourceCardIsNoLongerAvailableForMoving:
         'Källkortet är inte längre tillgängligt för flyttning.',
+      startDate_title: 'Startdatum',
       stopwatch: 'Timer',
       story: 'Berättelse',
       subscribeToCardWhenCommenting: 'Prenumerera på kort vid kommentering',
@@ -470,6 +472,7 @@ export default {
       editPassword_title: 'Redigera lösenord',
       editPermissions: 'Redigera behörigheter',
       editRole_title: 'Redigera roll',
+      editStartDate_title: 'Redigera startdatum',
       editStopwatch_title: 'Redigera timer',
       editTitle_title: 'Redigera titel',
       editType_title: 'Redigera typ',

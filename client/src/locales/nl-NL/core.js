@@ -196,6 +196,7 @@ export default {
       editPassword_title: 'Wachtwoord bewerken',
       editPermissions_title: 'Machtigingen bewerken',
       editRole_title: 'Rol bewerken',
+      editStartDate_title: 'Startdatum bewerken',
       editStopwatch_title: 'Stopwatch bewerken',
       editType_title: 'Type bewerken',
       editUsername_title: 'Gebruikersnaam bewerken',
@@ -319,6 +320,7 @@ export default {
       sourceCardIsNoLongerAvailableForCopying: 'Bronkaart is niet meer beschikbaar voor kopiëren.',
       sourceCardIsNoLongerAvailableForMoving:
         'Bronkaart is niet meer beschikbaar voor verplaatsen.',
+      startDate_title: 'Startdatum',
       stopwatch: 'Stopwatch',
       story: 'Verhaal',
       subscribeToCardWhenCommenting: 'Abonneren op kaart bij het plaatsen van commentaar',
@@ -466,6 +468,7 @@ export default {
       editPassword_title: 'Wachtwoord bewerken',
       editPermissions: 'Machtigingen bewerken',
       editRole_title: 'Rol bewerken',
+      editStartDate_title: 'Startdatum bewerken',
       editStopwatch_title: 'Stopwatch bewerken',
       editTitle_title: 'Titel bewerken',
       editType_title: 'Type bewerken',

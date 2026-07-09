@@ -195,6 +195,7 @@ export default {
       editPassword_title: 'Edytuj hasło',
       editPermissions_title: 'Edytuj uprawnienia',
       editRole_title: 'Edytuj rolę',
+      editStartDate_title: 'Edytuj datę rozpoczęcia',
       editStopwatch_title: 'Edytuj stoper',
       editType_title: 'Edytuj typ',
       editUsername_title: 'Edytuj nazwę użytkownika',
@@ -319,6 +320,7 @@ export default {
         'Źródłowa karta nie jest już dostępna do skopiowania.',
       sourceCardIsNoLongerAvailableForMoving:
         'Źródłowa karta nie jest już dostępna do przeniesienia.',
+      startDate_title: 'Data rozpoczęcia',
       stopwatch: 'Stoper',
       story: 'Scenorys',
       subscribeToCardWhenCommenting: 'Subskrybuj kartę przy komentowaniu',
@@ -463,6 +465,7 @@ export default {
       editPassword_title: 'Edytuj hasło',
       editPermissions: 'Edytuj uprawnienia',
       editRole_title: 'Edytuj rolę',
+      editStartDate_title: 'Edytuj datę rozpoczęcia',
       editStopwatch_title: 'Edytuj stoper',
       editTitle_title: 'Edytuj tytuł',
       editType_title: 'Edytuj typ',

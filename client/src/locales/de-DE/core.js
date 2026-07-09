@@ -211,6 +211,7 @@ export default {
       editPassword_title: 'Passwort ändern',
       editPermissions_title: 'Benutzerrolle ändern',
       editRole_title: 'Rolle zuweisen',
+      editStartDate_title: 'Startdatum bearbeiten',
       editStopwatch_title: 'Stoppuhr bearbeiten',
       editType_title: 'Typ ändern',
       editUsername_title: 'Benutzername ändern',
@@ -335,6 +336,7 @@ export default {
       sourceCardIsNoLongerAvailableForCopying: 'Quellkarte ist nicht mehr zum Kopieren verfügbar.',
       sourceCardIsNoLongerAvailableForMoving:
         'Quellkarte ist nicht mehr zum Verschieben verfügbar.',
+      startDate_title: 'Startdatum',
       stopwatch: 'Stoppuhr',
       story: 'Wissen',
       subscribeToCardWhenCommenting: 'Karte beim Kommentieren abonnieren',
@@ -480,6 +482,7 @@ export default {
       editPassword_title: 'Passwort ändern',
       editPermissions: 'Berechtigungen ändern',
       editRole_title: 'Rolle zuweisen',
+      editStartDate_title: 'Startdatum bearbeiten',
       editStopwatch_title: 'Stoppuhr bearbeiten',
       editTitle_title: 'Titel bearbeiten',
       editType_title: 'Typ ändern ',

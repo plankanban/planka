@@ -194,6 +194,7 @@ export default {
       editPassword_title: 'Editați parola',
       editPermissions_title: 'Editați permisiunile',
       editRole_title: 'Editează rolul',
+      editStartDate_title: 'Editați data de început',
       editStopwatch_title: 'Editați cronometrul',
       editType_title: 'Editează tipul',
       editUsername_title: 'Editați numele de utilizator',
@@ -317,6 +318,7 @@ export default {
       sourceCardIsNoLongerAvailableForCopying:
         'Cardul sursă nu mai este disponibil pentru copiere.',
       sourceCardIsNoLongerAvailableForMoving: 'Cardul sursă nu mai este disponibil pentru mutare.',
+      startDate_title: 'Data de început',
       stopwatch: 'Cronometru',
       story: 'Poveste',
       subscribeToCardWhenCommenting: 'Abonează-te la card când comentezi',
@@ -463,6 +465,7 @@ export default {
       editPassword_title: 'Editați parola',
       editPermissions: 'Editați permisiunile',
       editRole_title: 'Editați rolul',
+      editStartDate_title: 'Editați data de început',
       editStopwatch_title: 'Editați cronometrul',
       editTitle_title: 'Editați titlul',
       editType_title: 'Editați tipul',

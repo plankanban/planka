@@ -210,6 +210,7 @@ export default {
       editPassword_title: 'Επεξεργασία κωδικού',
       editPermissions_title: 'Επεξεργασία δικαιωμάτων',
       editRole_title: 'Επεξεργασία ρόλου',
+      editStartDate_title: 'Επεξεργασία ημερομηνίας έναρξης',
       editStopwatch_title: 'Επεξεργασία χρονομέτρου',
       editType_title: 'Επεξεργασία τύπου',
       editUsername_title: 'Επεξεργασία ονόματος χρήστη',
@@ -334,6 +335,7 @@ export default {
         'Η κάρτα πηγής δεν είναι πλέον διαθέσιμη για αντιγραφή.',
       sourceCardIsNoLongerAvailableForMoving:
         'Η κάρτα πηγής δεν είναι πλέον διαθέσιμη για μετακίνηση.',
+      startDate_title: 'Ημερομηνία έναρξης',
       stopwatch: 'Χρονόμετρο',
       story: 'Ιστορία',
       subscribeToCardWhenCommenting: 'Εγγραφή στην κάρτα κατά τη σχολιασμό',
@@ -485,6 +487,7 @@ export default {
       editPassword_title: 'Επεξεργασία κωδικού',
       editPermissions: 'Επεξεργασία δικαιωμάτων',
       editRole_title: 'Επεξεργασία ρόλου',
+      editStartDate_title: 'Επεξεργασία ημερομηνίας έναρξης',
       editStopwatch_title: 'Επεξεργασία χρονομέτρου',
       editTitle_title: 'Επεξεργασία τίτλου',
       editType_title: 'Επεξεργασία τύπου',

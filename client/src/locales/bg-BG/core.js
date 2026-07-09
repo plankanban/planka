@@ -201,6 +201,7 @@ export default {
       editPassword_title: 'Редактиране на парола',
       editPermissions_title: 'Редактиране на права',
       editRole_title: 'Редактиране на роля',
+      editStartDate_title: 'Редактиране на начална дата',
       editStopwatch_title: 'Редактиране на хронометър',
       editType_title: 'Редактиране на тип',
       editUsername_title: 'Редактиране на потребителско име',
@@ -324,6 +325,7 @@ export default {
       sourceCardIsNoLongerAvailableForCopying: 'Оригиналната карта вече не е налична за копиране.',
       sourceCardIsNoLongerAvailableForMoving:
         'Оригиналната карта вече не е налична за преместване.',
+      startDate_title: 'Начална дата',
       stopwatch: 'Хронометър',
       story: 'История',
       subscribeToCardWhenCommenting: 'Абониране за карта при коментиране',
@@ -468,6 +470,7 @@ export default {
       editPassword_title: 'Редактиране на парола',
       editPermissions: 'Разрешения за редактиране',
       editRole_title: 'Редактиране на роля',
+      editStartDate_title: 'Редактиране на начална дата',
       editStopwatch_title: 'Редактиране на хронометър',
       editTitle_title: 'Редактиране на заглавието',
       editType_title: 'Редактиране на тип',
