@@ -28,6 +28,7 @@
  *         - name
  *         - description
  *         - dueDate
+ *         - startDate
  *         - isDueCompleted
  *         - stopwatch
  *         - commentsTotal
@@ -87,6 +88,12 @@
  *           format: date-time
  *           nullable: true
  *           description: Due date for the card
+ *           example: 2024-01-01T00:00:00.000Z
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: Start date for the card
  *           example: 2024-01-01T00:00:00.000Z
  *         isDueCompleted:
  *           type: boolean
@@ -174,6 +181,10 @@ module.exports = {
     dueDate: {
       type: 'ref',
       columnName: 'due_date',
+    },
+    startDate: {
+      type: 'ref',
+      columnName: 'start_date',
     },
     isDueCompleted: {
       type: 'boolean',
