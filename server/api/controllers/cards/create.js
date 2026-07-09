@@ -149,6 +149,10 @@ module.exports = {
       type: 'string',
       custom: isDueDate,
     },
+    startDate: {
+      type: 'string',
+      custom: isDueDate,
+    },
     isDueCompleted: {
       type: 'boolean',
       allowNull: true,
@@ -198,6 +202,7 @@ module.exports = {
       'description',
       'dueDate',
       'isDueCompleted',
+      'startDate',
       'stopwatch',
     ]);
 
