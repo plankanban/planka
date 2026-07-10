@@ -27,6 +27,10 @@
 
 PLANKA is easy to install using multiple methods - learn more in the [installation guide](https://docs.planka.cloud/docs/welcome/).
 
+Prefer a fully managed instance? Deploy PLANKA in one click on Zenith Hosting (storage, backups, email and a free subdomain included):
+
+[![Deploy with Zenith](https://cdn.zenith.hosting/buttons/deploy-with-zenith.svg)](https://zenith.hosting/host/planka)
+
 For configuration and environment settings, see the [configuration section](https://docs.planka.cloud/docs/category/configuration/).
 
 Interested in a hosted or [Pro version](https://planka.app/pro) of PLANKA? Check out the pricing on our [website](https://planka.app/pricing).
