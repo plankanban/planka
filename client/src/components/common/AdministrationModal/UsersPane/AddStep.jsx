@@ -15,6 +15,7 @@ import { Input, Popup } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
+import actions from '../../../../actions';
 import { useForm, useNestedRef, useSteps } from '../../../../hooks';
 import { isPassword, isUsername } from '../../../../utils/validator';
 import { UserRoles } from '../../../../constants/Enums';
@@ -42,6 +43,11 @@ const createMessage = (error) => {
       return {
         type: 'error',
         content: 'common.usernameAlreadyInUse',
+      };
+    case 'Invalid email or username':
+      return {
+        type: 'error',
+        content: 'common.invalidEmailOrUsername',
       };
     default:
       return {
@@ -85,6 +91,7 @@ const AddStep = React.memo(({ onClose }) => {
 
     if (!isEmail(cleanData.email)) {
       emailFieldRef.current.select();
+      dispatch(actions.createUser.failure(new Error('Invalid email or username')));
       return;
     }
 
@@ -100,6 +107,7 @@ const AddStep = React.memo(({ onClose }) => {
 
     if (cleanData.username && !isUsername(cleanData.username)) {
       usernameFieldRef.current.select();
+      dispatch(actions.createUser.failure(new Error('Invalid email or username')));
       return;
     }
 

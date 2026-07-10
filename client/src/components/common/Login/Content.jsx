@@ -15,6 +15,7 @@ import { Input } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
+import actions from '../../../actions';
 import { useForm, useNestedRef } from '../../../hooks';
 import { isUsername } from '../../../utils/validator';
 import AccessTokenSteps from '../../../constants/AccessTokenSteps';
@@ -144,11 +145,13 @@ const Content = React.memo(() => {
 
     if (!isEmail(cleanData.emailOrUsername) && !isUsername(cleanData.emailOrUsername)) {
       emailOrUsernameFieldRef.current.select();
+      dispatch(actions.authenticate.failure(new Error('Invalid email or username')));
       return;
     }
 
     if (!cleanData.password) {
       passwordFieldRef.current.focus();
+      dispatch(actions.authenticate.failure(new Error('Invalid password')));
       return;
     }
 
