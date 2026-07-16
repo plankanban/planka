@@ -95,6 +95,8 @@ const SortOrders = {
 
 const FINITE_TYPES = [Types.ACTIVE, Types.CLOSED];
 
+const KANBAN_TYPES = [Types.ACTIVE, Types.CLOSED];
+
 const TYPE_STATE_BY_TYPE = {
   [Types.ACTIVE]: TypeStates.OPENED,
   [Types.CLOSED]: Types.CLOSED,
@@ -119,6 +121,7 @@ module.exports = {
   SortFieldNames,
   SortOrders,
   FINITE_TYPES,
+  KANBAN_TYPES,
   TYPE_STATE_BY_TYPE,
   COLORS,
 

@@ -7,14 +7,16 @@ import React, { useRef } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { Icon, Loader } from 'semantic-ui-react';
+import { Button, Icon, Loader } from 'semantic-ui-react';
 import { useTransitioning } from '../../../lib/hooks';
+import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
 import { BoardViews } from '../../../constants/Enums';
 import Home from '../Home';
 import GhostError from '../GhostError';
 import Board from '../../boards/Board';
+import AddBoardStep from '../../boards/AddBoardStep';
 
 import styles from './Static.module.scss';
 
@@ -24,6 +26,10 @@ const Static = React.memo(() => {
   const isFetching = useSelector(selectors.selectIsContentFetching);
   const isFavoritesActive = useSelector(selectors.selectIsFavoritesActiveForCurrentUser);
 
+  const canAddBoard = useSelector((state) =>
+    selectors.selectIsCurrentUserManagerForCurrentProject(state),
+  );
+
   const [t] = useTranslation();
 
   const wrapperRef = useRef(null);
@@ -31,6 +37,8 @@ const Static = React.memo(() => {
   const handleTransitionEnd = useTransitioning(wrapperRef, styles.wrapperTransitioning, [
     isFavoritesActive,
   ]);
+
+  const AddBoardPopup = usePopup(AddBoardStep);
 
   let wrapperClassNames;
   let contentNode;
@@ -67,6 +75,14 @@ const Static = React.memo(() => {
         <div className={styles.messageContent}>
           <Trans i18nKey="common.createNewOneOrSelectExistingOne" />
         </div>
+        {canAddBoard && (
+          <AddBoardPopup>
+            <Button basic positive size="large" className={styles.button}>
+              <Icon name="plus" />
+              {t('action.createBoard')}
+            </Button>
+          </AddBoardPopup>
+        )}
       </div>
     );
   } else if (board.isFetching) {

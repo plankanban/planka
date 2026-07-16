@@ -6,7 +6,6 @@ export default {
         'Потрібен вхід адміністратора для ініціалізації екземпляра',
       emailAlreadyInUse: 'Електронна пошта вже використовується',
       emailOrUsername: "Електронна пошта або ім'я користувача",
-      iHaveReadAndAgreeToTheseTerms: 'Я прочитав і погоджуюся з цими умовами',
       invalidCredentials: 'Неправильні облікові дані',
       invalidEmailOrUsername: "Неправильна електронна пошта або ім'я користувача",
       invalidPassword: 'Неправильний пароль',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Скасувати та закрити',
       continue: 'Продовжити',
+      debugSso: 'Відлагодити SSO',
       goBack: 'Назад',
       goHome: 'На головну',
       logIn: 'Увійти',

@@ -105,16 +105,7 @@ const delete_ = (criteria) =>
       query += `END END, updated_at = $${queryValues.length} WHERE id IN (${inValues.join(', ')}) AND references_total IS NOT NULL RETURNING *`;
 
       const queryResult = await sails.sendNativeQuery(query, queryValues).usingConnection(db);
-
-      uploadedFiles = queryResult.rows.map((row) => ({
-        id: row.id,
-        type: row.type,
-        mimeType: row.mime_type,
-        size: row.size,
-        referencesTotal: row.references_total,
-        createdAt: row.created_at,
-        updatedAt: row.updated_at,
-      }));
+      uploadedFiles = queryResult.rows.map((row) => UploadedFile.qm.transformRowToModel(row));
     }
 
     return { backgroundImages, uploadedFiles };
@@ -131,17 +122,7 @@ const deleteOne = (criteria) =>
       )
       .usingConnection(db);
 
-    const [row] = queryResult.rows;
-
-    uploadedFile = {
-      id: row.id,
-      type: row.type,
-      mimeType: row.mime_type,
-      size: row.size,
-      referencesTotal: row.references_total,
-      createdAt: row.created_at,
-      updatedAt: row.updated_at,
-    };
+    const uploadedFile = UploadedFile.qm.transformRowToModel(queryResult.rows[0]);
 
     return { backgroundImage, uploadedFile };
   });

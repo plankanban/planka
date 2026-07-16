@@ -20,13 +20,21 @@
  *         schema:
  *           type: string
  *           example: "1357158568008091264"
- *       - name: before
+ *       - name: before[listChangedAt]
  *         in: query
  *         required: false
- *         description: Pagination cursor (JSON object with id and listChangedAt)
+ *         description: Pagination cursor field `listChangedAt` (use together with `before[id]`)
  *         schema:
  *           type: string
- *           example: '{"id": "1357158568008091269", "listChangedAt": "2024-01-01T00:00:00.000Z"}'
+ *           format: date-time
+ *           example: 2024-01-01T00:00:00.000Z
+ *       - name: before[id]
+ *         in: query
+ *         required: false
+ *         description: Pagination cursor field `id` (use together with `before[listChangedAt]`)
+ *         schema:
+ *           type: string
+ *           example: "1357158568008091265"
  *       - name: search
  *         in: query
  *         required: false
@@ -35,20 +43,20 @@
  *           type: string
  *           maxLength: 128
  *           example: bug fix
- *       - name: filterUserIds
+ *       - name: userIds
  *         in: query
  *         required: false
- *         description: Comma-separated user IDs to filter by members
+ *         description: Comma-separated user IDs to filter by members or task assignees
  *         schema:
  *           type: string
- *           example: 1357158568008091265,1357158568008091266
- *       - name: filterLabelIds
+ *           example: 1357158568008091266,1357158568008091267
+ *       - name: labelIds
  *         in: query
  *         required: false
  *         description: Comma-separated label IDs to filter by labels
  *         schema:
  *           type: string
- *           example: 1357158568008091267,1357158568008091268
+ *           example: 1357158568008091268,1357158568008091269
  *     responses:
  *       200:
  *         description: Cards retrieved successfully
@@ -179,8 +187,8 @@ module.exports = {
       isNotEmptyString: true,
       maxLength: 128,
     },
-    filterUserIds: idsInput,
-    filterLabelIds: idsInput,
+    userIds: idsInput,
+    labelIds: idsInput,
   },
 
   exits: {
@@ -215,23 +223,23 @@ module.exports = {
     }
 
     let filterUserIds;
-    if (inputs.filterUserIds) {
+    if (inputs.userIds) {
       const boardMemberships = await BoardMembership.qm.getByBoardId(list.boardId);
 
       const availableUserIdsSet = new Set(
         sails.helpers.utils.mapRecords(boardMemberships, 'userId'),
       );
 
-      filterUserIds = _.uniq(inputs.filterUserIds.split(','));
+      filterUserIds = _.uniq(inputs.userIds.split(','));
       filterUserIds = filterUserIds.filter((userId) => availableUserIdsSet.has(userId));
     }
 
     let filterLabelIds;
-    if (inputs.filterLabelIds) {
+    if (inputs.labelIds) {
       const labels = await Label.qm.getByBoardId(list.boardId);
       const availableLabelIdsSet = new Set(sails.helpers.utils.mapRecords(labels));
 
-      filterLabelIds = _.uniq(inputs.filterLabelIds.split(','));
+      filterLabelIds = _.uniq(inputs.labelIds.split(','));
       filterLabelIds = filterLabelIds.filter((labelId) => availableLabelIdsSet.has(labelId));
     }
 
@@ -245,10 +253,10 @@ module.exports = {
     }
 
     const cards = await Card.qm.getByEndlessListId(list.id, {
-      filterUserIds,
-      filterLabelIds,
       before: inputs.before,
       search: inputs.search,
+      userIds: filterUserIds,
+      labelIds: filterLabelIds,
     });
 
     const cardIds = sails.helpers.utils.mapRecords(cards);

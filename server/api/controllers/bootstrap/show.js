@@ -52,6 +52,17 @@
  *                   nullable: true
  *                   description: Maximum number of active users allowed (conditionally added for admins if configured)
  *                   example: 100
+ *                 customerPanelUrl:
+ *                   type: string
+ *                   format: uri
+ *                   description: URL to the customer management panel (conditionally added for admins if configured)
+ *                   example: https://panel.example.com
+ *                 termsLanguages:
+ *                   type: array
+ *                   description: List of available language codes for terms localization
+ *                   items:
+ *                     type: string
+ *                   example: [de-DE, en-US]
  *                 version:
  *                   type: string
  *                   description: Current version of the PLANKA application
@@ -63,10 +74,11 @@ module.exports = {
   async fn() {
     const { currentUser } = this.req;
 
+    const internalConfig = await InternalConfig.qm.getOneMain();
     const oidc = await sails.hooks.oidc.getBootstrap();
 
     return {
-      item: sails.helpers.bootstrap.presentOne(oidc, currentUser),
+      item: sails.helpers.bootstrap.presentOne(internalConfig, oidc, currentUser),
     };
   },
 };

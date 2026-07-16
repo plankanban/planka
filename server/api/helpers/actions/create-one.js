@@ -23,7 +23,7 @@ const buildBodyByFormat = (board, card, action, actorUser, t) => {
 
   switch (action.type) {
     case Action.Types.CREATE_CARD: {
-      const listName = sails.helpers.lists.makeName(action.data.list);
+      const listName = sails.helpers.lists.resolveName(action.data.list, t);
 
       return {
         text: t('%s created %s in %s on %s', actorUser.name, card.name, listName, board.name),
@@ -44,8 +44,8 @@ const buildBodyByFormat = (board, card, action, actorUser, t) => {
       };
     }
     case Action.Types.MOVE_CARD: {
-      const fromListName = sails.helpers.lists.makeName(action.data.fromList);
-      const toListName = sails.helpers.lists.makeName(action.data.toList);
+      const fromListName = sails.helpers.lists.resolveName(action.data.fromList, t);
+      const toListName = sails.helpers.lists.resolveName(action.data.toList, t);
 
       return {
         text: t(

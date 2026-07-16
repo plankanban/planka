@@ -5,8 +5,10 @@
 
 const { v4: uuid } = require('uuid');
 const { rimraf } = require('rimraf');
-const mime = require('mime');
+const { fileTypeFromFile } = require('file-type');
 const sharp = require('sharp');
+
+const { MAX_SIZE_TO_PROCESS_AS_IMAGE } = require('../../../constants');
 
 module.exports = {
   inputs: {
@@ -21,8 +23,13 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const mimeType = mime.getType(inputs.file.filename);
-    if (['image/svg+xml', 'application/pdf'].includes(mimeType)) {
+    const fileManager = sails.hooks['file-manager'].getInstance();
+
+    const fileType = await fileTypeFromFile(inputs.file.fd);
+    const { mime: mimeType = null } = fileType || {};
+    const { size } = inputs.file;
+
+    if (!mimeType || !mimeType.startsWith('image/') || size > MAX_SIZE_TO_PROCESS_AS_IMAGE) {
       await rimraf(inputs.file.fd);
       throw 'fileIsNotImage';
     }
@@ -32,25 +39,16 @@ module.exports = {
     });
 
     let metadata;
-    let originalBuffer;
-
     try {
       metadata = await image.metadata();
-
-      if (metadata.orientation && metadata.orientation > 4) {
-        image = image.rotate();
-      }
-
-      originalBuffer = await image.toBuffer();
     } catch (error) {
       await rimraf(inputs.file.fd);
       throw 'fileIsNotImage';
     }
 
-    const fileManager = sails.hooks['file-manager'].getInstance();
-
-    const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
-    const size = originalBuffer.length;
+    if (metadata.orientation && metadata.orientation > 4) {
+      image = image.rotate();
+    }
 
     const { id: uploadedFileId } = await UploadedFile.qm.createOne({
       mimeType,
@@ -60,30 +58,28 @@ module.exports = {
     });
 
     const dirPathSegment = `${sails.config.custom.backgroundImagesPathSegment}/${uploadedFileId}`;
+    const extension = metadata.format === 'jpeg' ? 'jpg' : metadata.format;
+
+    const outside360 = image
+      .clone()
+      .resize(360, 360, {
+        fit: 'outside',
+        withoutEnlargement: true,
+      })
+      .png({
+        quality: 75,
+        force: false,
+      });
 
     try {
-      await fileManager.save(
-        `${dirPathSegment}/original.${extension}`,
-        originalBuffer,
-        inputs.file.type,
-      );
-
-      const outside360Buffer = await image
-        .resize(360, 360, {
-          fit: 'outside',
-          withoutEnlargement: true,
-        })
-        .png({
-          quality: 75,
-          force: false,
-        })
-        .toBuffer();
-
-      await fileManager.save(
-        `${dirPathSegment}/outside-360.${extension}`,
-        outside360Buffer,
-        inputs.file.type,
-      );
+      await Promise.all([
+        fileManager.save(`${dirPathSegment}/original.${extension}`, image, inputs.file.type),
+        fileManager.save(
+          `${dirPathSegment}/outside-360.${extension}`,
+          outside360,
+          inputs.file.type,
+        ),
+      ]);
     } catch (error) {
       sails.log.warn(error.stack);
 

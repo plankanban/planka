@@ -5,7 +5,6 @@ export default {
       adminLoginRequiredToInitializeInstance: 'Örneği başlatmak için yönetici girişi gerekli',
       emailAlreadyInUse: 'E-posta adresi zaten kullanımda',
       emailOrUsername: 'E-posta adresi veya kullanıcı adı',
-      iHaveReadAndAgreeToTheseTerms: 'Bu şartları okudum ve kabul ediyorum',
       invalidCredentials: 'Geçersiz kimlik bilgileri',
       invalidEmailOrUsername: 'Geçersiz e-posta adresi veya kullanıcı adı',
       invalidPassword: 'Hatalı şifre',
@@ -25,6 +24,7 @@ export default {
     action: {
       cancelAndClose: 'İptal et ve kapat',
       continue: 'Devam et',
+      debugSso: 'SSO hatalarını ayıkla',
       goBack: 'Geri dön',
       goHome: 'Ana sayfaya git',
       logIn: 'Giriş yap',

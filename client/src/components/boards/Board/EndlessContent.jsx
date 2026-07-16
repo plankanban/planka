@@ -30,12 +30,17 @@ const EndlessContent = React.memo(() => {
     [dispatch],
   );
 
+  const handleCardPaste = useCallback(() => {
+    dispatch(entryActions.pasteCardInCurrentList());
+  }, [dispatch]);
+
   const viewProps = {
     cardIds,
     isCardsFetching,
     isAllCardsFetched,
     onCardsFetch: handleCardsFetch,
     onCardCreate: handleCardCreate,
+    onCardPaste: handleCardPaste,
   };
 
   let View;

@@ -18,6 +18,14 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         bootstrap: payload.bootstrap,
       };
+    case ActionTypes.BOOTSTRAP_UPDATE_HANDLE:
+      return {
+        ...state,
+        bootstrap: {
+          ...state.bootstrap,
+          ...payload.bootstrap,
+        },
+      };
     case ActionTypes.LOGIN_INITIALIZE:
       return {
         ...state,

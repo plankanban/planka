@@ -48,7 +48,7 @@
  *               username:
  *                 type: string
  *                 minLength: 3
- *                 maxLength: 16
+ *                 maxLength: 32
  *                 pattern: "^[a-zA-Z0-9]+((_{1}|\\.|){1}[a-zA-Z0-9])*$"
  *                 nullable: true
  *                 description: Unique username for user identification
@@ -58,7 +58,7 @@
  *                 maxLength: 128
  *                 nullable: true
  *                 description: Contact phone number
- *                 example: +1234567890
+ *                 example: "+1234567890"
  *               organization:
  *                 type: string
  *                 maxLength: 128
@@ -67,7 +67,7 @@
  *                 example: Acme Corporation
  *               language:
  *                 type: string
- *                 enum: [ar-YE, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, zh-CN, zh-TW]
+ *                 enum: [ar-YE, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, et-EE, fa-IR, fi-FI, fr-FR, hu-HU, id-ID, it-IT, ja-JP, ko-KR, nl-NL, pl-PL, pt-BR, pt-PT, ro-RO, ru-RU, sk-SK, sr-Cyrl-RS, sr-Latn-RS, sv-SE, tr-TR, uk-UA, uz-UZ, vi-VN, zh-CN, zh-TW]
  *                 nullable: true
  *                 description: Preferred language for user interface and notifications (if null - will be set automatically on the first login)
  *                 example: en-US
@@ -150,7 +150,7 @@ module.exports = {
       type: 'string',
       isNotEmptyString: true,
       minLength: 3,
-      maxLength: 16,
+      maxLength: 32,
       regex: /^[a-zA-Z0-9]+((_|\.)?[a-zA-Z0-9])*$/,
       allowNull: true,
     },

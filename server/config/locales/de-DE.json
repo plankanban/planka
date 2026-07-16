@@ -1,16 +1,19 @@
 {
+  "Archive": "Archiv",
   "Card Created": "Karte erstellt",
   "Card Moved": "Karte verschoben",
+  "copy": "Kopie",
   "New Comment": "Neuer Kommentar",
   "Test Title": "Testtitel",
   "This is a test text message!": "Dies ist eine Test-Textnachricht!",
   "This is a *test* **markdown** `message`!": "Dies ist eine *Test*-**Markdown**-`Nachricht`!",
   "This is a <i>test</i> <b>html</b> <code>message</code>!": "Dies ist eine <i>Test</i>-<b>HTML</b>-<code>Nachricht</code>!",
+  "Trash": "Papierkorb",
   "You Were Added to Card": "Sie wurden zur Karte hinzugefügt",
   "You Were Mentioned in Comment": "Sie wurden in einem Kommentar erwähnt",
-  "%s added you to %s on %s": "%s hat Sie zu %s am %s hinzugefügt",
-  "%s created %s in %s on %s": "%s hat %s in %s am %s erstellt",
-  "%s left a new comment to %s on %s": "%s hat einen neuen Kommentar zu %s am %s hinterlassen",
-  "%s mentioned you in %s on %s": "%s hat Sie in %s am %s erwähnt",
-  "%s moved %s from %s to %s on %s": "%s hat %s von %s nach %s am %s verschoben"
+  "%s added you to %s on %s": "%s hat Sie zur Karte %s auf dem Board %s hinzugefügt",
+  "%s created %s in %s on %s": "%s hat die Karte %s in der Liste %s auf dem Board %s erstellt",
+  "%s left a new comment to %s on %s": "%s hat einen neuen Kommentar zur Karte %s auf dem Board %s hinterlassen",
+  "%s mentioned you in %s on %s": "%s hat Sie in der Karte %s auf dem Board %s erwähnt",
+  "%s moved %s from %s to %s on %s": "%s hat die Karte %s von der Liste %s in die Liste %s auf dem Board %s verschoben"
 }

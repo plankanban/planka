@@ -18,8 +18,8 @@ import styles from './UsersPane.module.scss';
 
 const UsersPane = React.memo(() => {
   const activeUsersLimit = useSelector(selectors.selectActiveUsersLimit);
-  const users = useSelector(selectors.selectUsers);
   const activeUsersTotal = useSelector(selectors.selectActiveUsersTotal);
+  const users = useSelector(selectors.selectUsers);
 
   const canAdd = useSelector((state) => {
     const oidcBootstrap = selectors.selectOidcBootstrap(state);

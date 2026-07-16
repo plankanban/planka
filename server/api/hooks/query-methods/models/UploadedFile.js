@@ -3,11 +3,15 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const { makeRowToModelTransformer } = require('../helpers');
+
 const COLUMN_NAME_BY_TYPE = {
   [UploadedFile.Types.USER_AVATAR]: 'user_avatars',
   [UploadedFile.Types.BACKGROUND_IMAGE]: 'background_images',
   [UploadedFile.Types.ATTACHMENT]: 'attachments',
 };
+
+const transformRowToModel = makeRowToModelTransformer(UploadedFile);
 
 /* Query methods */
 
@@ -47,4 +51,6 @@ const deleteOne = (criteria) =>
 module.exports = {
   createOne,
   deleteOne,
+
+  transformRowToModel,
 };

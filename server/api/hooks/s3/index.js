@@ -29,15 +29,21 @@ module.exports = function defineS3Hook(sails) {
 
       sails.log.info('Initializing custom hook (`s3`)');
 
-      client = new S3Client({
+      const config = {
         endpoint: sails.config.custom.s3Endpoint,
-        region: sails.config.custom.s3Region || '-',
+        region: sails.config.custom.s3Region || 'eu-central-1',
         credentials: {
           accessKeyId: sails.config.custom.s3AccessKeyId,
           secretAccessKey: sails.config.custom.s3SecretAccessKey,
         },
         forcePathStyle: sails.config.custom.s3ForcePathStyle,
-      });
+      };
+
+      if (sails.config.custom.s3RequestChecksumCalculation) {
+        config.requestChecksumCalculation = sails.config.custom.s3RequestChecksumCalculation;
+      }
+
+      client = new S3Client(config);
     },
 
     getClient() {

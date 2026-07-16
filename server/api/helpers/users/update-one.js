@@ -112,14 +112,7 @@ module.exports = {
       }
 
       if (!_.isUndefined(values.password) || isDeactivatedChangeToTrue) {
-        sails.sockets.broadcast(
-          `user:${user.id}`,
-          'userDelete', // TODO: introduce separate event
-          {
-            item: sails.helpers.users.presentOne(user, user),
-          },
-          inputs.request,
-        );
+        sails.sockets.broadcast(`user:${user.id}`, 'logout', undefined, inputs.request);
 
         if (
           !isDeactivatedChangeToTrue &&

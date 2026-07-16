@@ -29,8 +29,8 @@ const buildBodyByFormat = (board, card, notification, actorUser, t) => {
 
   switch (notification.type) {
     case Notification.Types.MOVE_CARD: {
-      const fromListName = sails.helpers.lists.makeName(notification.data.fromList);
-      const toListName = sails.helpers.lists.makeName(notification.data.toList);
+      const fromListName = sails.helpers.lists.resolveName(notification.data.fromList, t);
+      const toListName = sails.helpers.lists.resolveName(notification.data.toList, t);
 
       return {
         text: t(
@@ -144,8 +144,8 @@ const buildEmail = (board, card, notification, actorUser, notifiableUser, t) => 
   let html;
   switch (notification.type) {
     case Notification.Types.MOVE_CARD: {
-      const fromListName = sails.helpers.lists.makeName(notification.data.fromList);
-      const toListName = sails.helpers.lists.makeName(notification.data.toList);
+      const fromListName = sails.helpers.lists.resolveName(notification.data.fromList, t);
+      const toListName = sails.helpers.lists.resolveName(notification.data.toList, t);
 
       html = `<p>${t(
         '%s moved %s from %s to %s on %s',
@@ -243,10 +243,6 @@ module.exports = {
       arrayOfValues.map((values) => {
         const id = ids.shift();
 
-        const isCommentRelated =
-          values.type === Notification.Types.COMMENT_CARD ||
-          values.type === Notification.Types.MENTION_IN_COMMENT;
-
         const nextValues = {
           ...values,
           id,
@@ -254,10 +250,10 @@ module.exports = {
           boardId: values.card.boardId,
           cardId: values.card.id,
         };
-
-        if (isCommentRelated) {
+        if (values.comment) {
           nextValues.commentId = values.comment.id;
-        } else {
+        }
+        if (values.action) {
           nextValues.actionId = values.action.id;
         }
 
@@ -300,57 +296,60 @@ module.exports = {
     });
 
     const notificationsByUserId = _.groupBy(notifications, 'userId');
-    const userIds = Object.keys(notificationsByUserId);
 
-    const notificationServices = await NotificationService.qm.getByUserIds(userIds);
-    const { transporter } = await sails.helpers.utils.makeSmtpTransporter();
+    const notifiableUsers = await User.qm.getByIds(Object.keys(notificationsByUserId), {
+      withDeactivated: false,
+    });
 
-    if (notificationServices.length > 0 || transporter) {
-      const users = await User.qm.getByIds(userIds);
-      const userById = _.keyBy(users, 'id');
+    if (notifiableUsers.length > 0) {
+      const notifiableUserIds = sails.helpers.utils.mapRecords(notifiableUsers);
 
-      const notificationServicesByUserId = _.groupBy(notificationServices, 'userId');
+      const notificationServices = await NotificationService.qm.getByUserIds(notifiableUserIds);
+      const { transporter } = await sails.helpers.utils.makeSmtpTransporter();
 
-      Object.keys(notificationsByUserId).forEach(async (userId) => {
-        const notifiableUser = userById[userId];
-        const t = sails.helpers.utils.makeTranslator(notifiableUser.language);
+      if (notificationServices.length > 0 || transporter) {
+        const notificationServicesByUserId = _.groupBy(notificationServices, 'userId');
 
-        const emails = notificationsByUserId[userId].flatMap((notification) => {
-          const values = valuesById[notification.id];
+        notifiableUsers.forEach(async (notifiableUser) => {
+          const t = sails.helpers.utils.makeTranslator(notifiableUser.language);
 
-          if (notificationServicesByUserId[userId]) {
-            const services = notificationServicesByUserId[userId].map((notificationService) =>
-              _.pick(notificationService, ['url', 'format']),
-            );
+          const emails = notificationsByUserId[notifiableUser.id].flatMap((notification) => {
+            const values = valuesById[notification.id];
 
-            buildAndSendNotifications(
-              services,
-              inputs.board,
-              values.card,
-              notification,
-              values.creatorUser,
-              t,
-            );
+            if (notificationServicesByUserId[notifiableUser.id]) {
+              const services = notificationServicesByUserId[notifiableUser.id].map(
+                (notificationService) => _.pick(notificationService, ['url', 'format']),
+              );
+
+              buildAndSendNotifications(
+                services,
+                inputs.board,
+                values.card,
+                notification,
+                values.creatorUser,
+                t,
+              );
+            }
+
+            if (transporter) {
+              return buildEmail(
+                inputs.board,
+                values.card,
+                notification,
+                values.creatorUser,
+                notifiableUser,
+                t,
+              );
+            }
+
+            return [];
+          });
+
+          if (emails.length > 0) {
+            sendEmails(transporter, emails);
           }
-
-          if (transporter) {
-            return buildEmail(
-              inputs.board,
-              values.card,
-              notification,
-              values.creatorUser,
-              notifiableUser,
-              t,
-            );
-          }
-
-          return [];
         });
-
-        if (emails.length > 0) {
-          sendEmails(transporter, emails);
-        }
-      });
+      }
     }
 
     return notifications;

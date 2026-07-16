@@ -4,5 +4,6 @@
  */
 
 import ClosableContext from './ClosableContext';
+import BoardShortcutsContext from './BoardShortcutsContext';
 
-export { ClosableContext }; // eslint-disable-line import/prefer-default-export
+export { ClosableContext, BoardShortcutsContext };

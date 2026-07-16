@@ -39,7 +39,16 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- $imageTag := .Values.image.tag | default .Chart.AppVersion }}
+          {{- if .Values.image.digest }}
+            {{- if $imageTag }}
+          image: "{{ .Values.image.repository }}:{{ $imageTag }}@sha256:{{ .Values.image.digest }}"
+            {{- else }}
+          image: "{{ .Values.image.repository }}@sha256:{{ .Values.image.digest }}"
+            {{- end }}
+          {{- else }}
+          image: "{{ .Values.image.repository }}:{{ $imageTag }}"
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -54,22 +63,23 @@ spec:
               path: /
               port: http
           volumeMounts:
-            - mountPath: /app/public/favicons
-              subPath: favicons
-              name: planka
-            - mountPath: /app/public/user-avatars
-              subPath: user-avatars
-              name: planka
-            - mountPath: /app/public/background-images
-              subPath: background-images
-              name: planka
-            - mountPath: /app/private/attachments
-              subPath: attachments
+            - mountPath: /app/data
+              subPath: data
               name: planka
           {{- if .Values.securityContext.readOnlyRootFilesystem }}
             - mountPath: /app/logs
               subPath: app-logs
               name: emptydir
+            - mountPath: /app/.tmp
+              subPath: app-tmp
+              name: emptydir
+            - mountPath: /tmp
+              subPath: tmp
+              name: emptydir
+          {{- end }}
+          {{- if .Values.terms.enabled }}
+            - mountPath: /app/terms/custom
+              name: planka-terms
           {{- end }}
           {{- /* Extra volume mounts */}}
           {{- range .Values.extraMounts }}
@@ -190,6 +200,9 @@ spec:
               value: {{ .Values.oidc.admin.ignoreRoles | quote }}
           {{- end }}
           {{- end }}
+        {{- if .Values.extraContainers -}}
+          {{ toYaml .Values.extraContainers | nindent 8 }}
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -213,6 +226,11 @@ spec:
     {{- if .Values.securityContext.readOnlyRootFilesystem }}
         - name: emptydir
           emptyDir: {}
+    {{- end }}
+    {{- if .Values.terms.enabled }}
+        - name: planka-terms
+          configMap:
+            name: {{ include "planka.fullname" . }}-terms
     {{- end }}
         {{- /* Extra volumes */}}
         {{- range .Values.extraMounts }}

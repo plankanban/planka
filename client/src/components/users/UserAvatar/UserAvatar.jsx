@@ -5,7 +5,6 @@
 
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import initials from 'initials';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -13,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import selectors from '../../../selectors';
-import { StaticUserIds } from '../../../constants/StaticUsers';
+import { isUserStatic } from '../../../utils/record-helpers';
 
 import styles from './UserAvatar.module.scss';
 
@@ -34,6 +33,19 @@ const COLORS = [
   'turquoise',
   'midnight-blue',
 ];
+
+const getInitials = (name) => {
+  const words = name
+    .trim()
+    .split(/[\s-]+/)
+    .filter(Boolean);
+  if (words.length === 0) return '';
+  if (words.length === 1) return [...words[0]].slice(0, 2).join('');
+  return words
+    .slice(0, 2)
+    .map((word) => [...word][0])
+    .join('');
+};
 
 const getColor = (name) => {
   let sum = 0;
@@ -62,7 +74,7 @@ const UserAvatar = React.memo(
     const contentNode = (
       <span
         title={
-          user.id === StaticUserIds.DELETED
+          isUserStatic(user)
             ? t(`common.${user.name}`, {
                 context: 'title',
               })
@@ -78,7 +90,7 @@ const UserAvatar = React.memo(
           background: avatarUrl && `url("${avatarUrl}") center / cover`,
         }}
       >
-        {!avatarUrl && <span className={styles.initials}>{initials(user.name).slice(0, 2)}</span>}
+        {!avatarUrl && <span className={styles.initials}>{getInitials(user.name)}</span>}
         {withCreatorIndicator && <span className={styles.creatorIndicator}>+</span>}
       </span>
     );

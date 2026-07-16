@@ -10,6 +10,7 @@ import EntryActionTypes from '../../../constants/EntryActionTypes';
 
 export default function* usersWatchers() {
   yield all([
+    takeEvery(EntryActionTypes.USERS_RESET_HANDLE, () => services.handleUsersReset()),
     takeEvery(EntryActionTypes.USER_CREATE, ({ payload: { data } }) => services.createUser(data)),
     takeEvery(EntryActionTypes.USER_CREATE_HANDLE, ({ payload: { user } }) =>
       services.handleUserCreate(user),
@@ -62,6 +63,9 @@ export default function* usersWatchers() {
     ),
     takeEvery(EntryActionTypes.CURRENT_USER_USERNAME_UPDATE_ERROR_CLEAR, () =>
       services.clearCurrentUserUsernameUpdateError(),
+    ),
+    takeEvery(EntryActionTypes.USER_AVATAR_UPDATE, ({ payload: { id, data } }) =>
+      services.updateUserAvatar(id, data),
     ),
     takeEvery(EntryActionTypes.CURRENT_USER_AVATAR_UPDATE, ({ payload: { data } }) =>
       services.updateCurrentUserAvatar(data),

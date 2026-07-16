@@ -1,0 +1,19 @@
+diff --git a/node_modules/@diplodoc/transform/lib/md.js b/node_modules/@diplodoc/transform/lib/md.js
+index c9faa96..e4bef9b 100644
+--- a/node_modules/@diplodoc/transform/lib/md.js
++++ b/node_modules/@diplodoc/transform/lib/md.js
+@@ -107,8 +107,12 @@ function initPlugins(md, options, pluginOptions) {
+     }
+     md.use(ol_attr_conversion_1.olAttrConversion);
+     plugins.forEach((plugin) => md.use(plugin, pluginOptions));
+-    if (linkify && linkifyTlds) {
+-        md.linkify.tlds(linkifyTlds, true);
++    if (linkify) {
++        if (linkifyTlds) {
++            md.linkify.tlds(linkifyTlds, true);
++        } else if (linkifyTlds === null) {
++            md.linkify.set({ fuzzyLink: false });
++        }
+     }
+ }
+ function initParser(md, options, env, pluginOptions) {

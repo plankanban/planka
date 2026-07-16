@@ -97,7 +97,7 @@ module.exports = {
     boardId: idInput,
     type: {
       type: 'string',
-      isIn: List.FINITE_TYPES,
+      isIn: List.KANBAN_TYPES,
     },
     position: {
       type: 'number',
@@ -146,7 +146,7 @@ module.exports = {
       throw Errors.LIST_NOT_FOUND; // Forbidden
     }
 
-    if (!sails.helpers.lists.isFinite(list)) {
+    if (!sails.helpers.lists.isKanban(list)) {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 

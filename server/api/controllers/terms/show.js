@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /terms/{type}:
+ * /terms:
  *   get:
  *     summary: Get terms and conditions
  *     description: Retrieves terms and conditions in the specified language.
@@ -13,21 +13,12 @@
  *       - Terms
  *     operationId: getTerms
  *     parameters:
- *       - name: type
- *         in: path
- *         required: true
- *         description: Type of terms to retrieve
- *         schema:
- *           type: string
- *           enum: [general, extended]
- *           example: general
  *       - name: language
  *         in: query
  *         required: false
  *         description: Language code for terms localization
  *         schema:
  *           type: string
- *           enum: [de-DE, en-US]
  *           example: en-US
  *     responses:
  *       200:
@@ -47,14 +38,8 @@
  *                     - content
  *                     - signature
  *                   properties:
- *                     type:
- *                       type: string
- *                       enum: [general, extended]
- *                       description: Type of terms
- *                       example: en-US
  *                     language:
  *                       type: string
- *                       enum: [de-DE, en-US]
  *                       description: Language code used
  *                       example: en-US
  *                     content:
@@ -76,19 +61,13 @@
 
 module.exports = {
   inputs: {
-    type: {
-      type: 'string',
-      isIn: Object.values(sails.hooks.terms.Types),
-      required: true,
-    },
     language: {
       type: 'string',
-      isIn: User.LANGUAGES,
     },
   },
 
   async fn(inputs) {
-    const terms = await sails.hooks.terms.getPayload(inputs.type, inputs.language);
+    const terms = await sails.hooks.terms.getPayload(inputs.language);
 
     return {
       item: terms,

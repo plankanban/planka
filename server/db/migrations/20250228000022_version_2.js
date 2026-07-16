@@ -5,7 +5,7 @@
 
 module.exports.up = async (knex) => {
   await knex.raw(`
-    CREATE EXTENSION pg_trgm;
+    CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
     CREATE SEQUENCE next_id_seq;
     CREATE FUNCTION next_id(OUT id BIGINT) AS $$

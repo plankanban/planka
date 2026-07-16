@@ -6,7 +6,6 @@ export default {
         'Необходимо е влизане на администратор за инициализиране на инстанцията',
       emailAlreadyInUse: 'Имейлът вече се използва',
       emailOrUsername: 'Имейл или потребителско име',
-      iHaveReadAndAgreeToTheseTerms: 'Прочетох и се съгласявам с тези условия',
       invalidCredentials: 'Невалидни данни за вход',
       invalidEmailOrUsername: 'Невалиден имейл или потребителско име',
       invalidPassword: 'Невалидна парола',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Отказ и затваряне',
       continue: 'Продължи',
+      debugSso: 'Дебъгване на SSO',
       goBack: 'Назад',
       goHome: 'Към началото',
       logIn: 'Вход',

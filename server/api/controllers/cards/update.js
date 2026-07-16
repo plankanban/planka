@@ -49,7 +49,7 @@
  *                 type: number
  *                 minimum: 0
  *                 nullable: true
- *                 description: Position of the card within the list
+ *                 description: Position of the card within the list (required when moving card to new list)
  *                 example: 65536
  *               name:
  *                 type: string

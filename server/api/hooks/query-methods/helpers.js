@@ -31,6 +31,14 @@ const makeWhereQueryBuilder = (Model) => (criteria) => {
   return ['id = $1', [criteria]];
 };
 
+const makeRowToModelTransformer = (Model) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const transformations = _.invert(Model._transformer._transformations);
+
+  return (row) => _.mapKeys(row, (_, key) => transformations[key]);
+};
+
 module.exports = {
   makeWhereQueryBuilder,
+  makeRowToModelTransformer,
 };

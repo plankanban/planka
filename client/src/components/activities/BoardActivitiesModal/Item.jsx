@@ -7,12 +7,12 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Comment } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
+import { isUserStatic } from '../../../utils/record-helpers';
 import Paths from '../../../constants/Paths';
-import { StaticUserIds } from '../../../constants/StaticUsers';
 import { ActivityTypes } from '../../../constants/Enums';
 import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
@@ -30,12 +30,11 @@ const Item = React.memo(({ id }) => {
 
   const [t] = useTranslation();
 
-  const userName =
-    user.id === StaticUserIds.DELETED
-      ? t(`common.${user.name}`, {
-          context: 'title',
-        })
-      : user.name;
+  const userName = isUserStatic(user)
+    ? t(`common.${user.name}`, {
+        context: 'title',
+      })
+    : user.name;
 
   const cardName = card ? card.name : activity.data.card.name;
 

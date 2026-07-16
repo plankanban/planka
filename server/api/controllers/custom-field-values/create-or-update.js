@@ -5,7 +5,7 @@
 
 /**
  * @swagger
- * /cards/{cardId}/custom-field-values/customFieldGroupId:{customFieldGroupId}:customFieldId:${customFieldId}:
+ * /cards/{cardId}/custom-field-values/customFieldGroupId:{customFieldGroupId}:customFieldId:{customFieldId}:
  *   patch:
  *     summary: Create or update custom field value
  *     description: Creates or updates a custom field value for a card. Requires board editor permissions.

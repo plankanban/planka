@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-const mime = require('mime');
+const mime = require('mime-types');
 
 exports.up = async (knex) => {
   await knex.schema.createTable('storage_usage', (table) => {
@@ -87,7 +87,7 @@ exports.up = async (knex) => {
       id: avatar.uploadedFileId,
       type: 'userAvatar',
       referencesTotal: 1,
-      mimeType: mime.getType(avatar.extension),
+      mimeType: mime.lookup(avatar.extension) || null,
       size: avatar.size,
     })),
   );
@@ -100,7 +100,7 @@ exports.up = async (knex) => {
       id: backgroundImage.uploaded_file_id,
       type: 'backgroundImage',
       referencesTotal: 1,
-      mimeType: mime.getType(backgroundImage.extension),
+      mimeType: mime.lookup(backgroundImage.extension) || null,
       size: backgroundImage.size,
       createdAt: backgroundImage.created_at,
     })),

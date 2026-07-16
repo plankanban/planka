@@ -61,9 +61,8 @@ module.exports = {
       return Errors.NOT_AVAILABLE;
     }
 
-    const logs = [];
+    const logs = ['📧 Sending test email...'];
     try {
-      logs.push('📧 Sending test email...');
       /* eslint-disable no-underscore-dangle */
       const info = await transporter.sendMail({
         to: currentUser.email,
@@ -72,16 +71,16 @@ module.exports = {
         html: this.req.i18n.__('This is a <i>test</i> <b>html</b> <code>message</code>!'),
       });
       /* eslint-enable no-underscore-dangle */
-      logs.push('✅ Email sent successfully!', '');
+      logs.push('✅ Email sent successfully.', '');
 
       logs.push(`📬 Message ID: ${info.messageId}`);
       if (info.response) {
         logs.push(`📤 Server response: ${info.response.trim()}`);
       }
 
-      logs.push('', '🎉 Your configuration is working correctly!');
+      logs.push('', '🎉 Your configuration is working correctly.');
     } catch (error) {
-      logs.push('❌ Failed to send email!', '');
+      logs.push('❌ Failed to send email.', '');
 
       if (error.code) {
         logs.push(`⚠️ Error code: ${error.code}`);

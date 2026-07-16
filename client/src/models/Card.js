@@ -3,6 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import keyBy from 'lodash/keyBy';
 import { attr, fk, many, oneToOne } from 'redux-orm';
 
 import BaseModel from './BaseModel';
@@ -272,7 +273,7 @@ export default class extends BaseModel {
           const cardModel = Card.withId(card.id);
 
           if (cardModel) {
-            cardModel.deleteWithRelated();
+            cardModel.deleteWithRelated(true);
           }
 
           Card.upsert(card);
@@ -316,32 +317,27 @@ export default class extends BaseModel {
       case ActionTypes.CARD_UPDATE: {
         const cardModel = Card.withId(payload.id);
 
-        // TODO: introduce separate action?
-        if (payload.data.boardId && payload.data.boardId !== cardModel.boardId) {
-          cardModel.deleteWithRelated();
-        } else {
-          if (payload.data.listId && payload.data.listId !== cardModel.listId) {
-            payload.data.listChangedAt = new Date(); // eslint-disable-line no-param-reassign
-          }
-
-          if (payload.data.dueDate !== undefined) {
-            if (payload.data.dueDate) {
-              if (!cardModel.dueDate) {
-                payload.data.isDueCompleted = false; // eslint-disable-line no-param-reassign
-              }
-            } else {
-              payload.data.isDueCompleted = null; // eslint-disable-line no-param-reassign
-            }
-          }
-
-          if (payload.data.isClosed !== undefined && payload.data.isClosed !== cardModel.isClosed) {
-            cardModel.linkedTasks.update({
-              isCompleted: payload.data.isClosed,
-            });
-          }
-
-          cardModel.update(payload.data);
+        if (payload.data.listId && payload.data.listId !== cardModel.listId) {
+          payload.data.listChangedAt = new Date(); // eslint-disable-line no-param-reassign
         }
+
+        if (payload.data.dueDate !== undefined) {
+          if (payload.data.dueDate) {
+            if (!cardModel.dueDate) {
+              payload.data.isDueCompleted = false; // eslint-disable-line no-param-reassign
+            }
+          } else {
+            payload.data.isDueCompleted = null; // eslint-disable-line no-param-reassign
+          }
+        }
+
+        if (payload.data.isClosed !== undefined && payload.data.isClosed !== cardModel.isClosed) {
+          cardModel.linkedTasks.update({
+            isCompleted: payload.data.isClosed,
+          });
+        }
+
+        cardModel.update(payload.data);
 
         break;
       }
@@ -350,7 +346,7 @@ export default class extends BaseModel {
 
         if (payload.card.boardId === null || payload.isFetched) {
           if (cardModel) {
-            cardModel.deleteWithRelated();
+            cardModel.deleteWithRelated(true);
           }
         }
 
@@ -378,14 +374,86 @@ export default class extends BaseModel {
 
         break;
       }
-      case ActionTypes.CARD_DUPLICATE:
-        Card.withId(payload.id).duplicate(payload.localId, payload.data);
+      case ActionTypes.CARD_TRANSFER: {
+        const cardModel = Card.withId(payload.id);
+
+        if (cardModel) {
+          cardModel.update(payload.data);
+          cardModel.syncAfterBoardChange();
+        }
 
         break;
-      case ActionTypes.CARD_DUPLICATE__SUCCESS: {
-        Card.withId(payload.localId).deleteWithRelated();
+      }
+      case ActionTypes.CARD_TRANSFER__SUCCESS: {
+        const cardModel = Card.withId(payload.card.id);
 
-        const cardModel = Card.upsert(payload.card);
+        if (cardModel) {
+          cardModel.deleteWithRelated(true);
+        }
+
+        Card.upsert(payload.card);
+
+        if (payload.cardMemberships) {
+          payload.cardMemberships.forEach(({ cardId, userId }) => {
+            Card.withId(cardId).users.add(userId);
+          });
+        }
+
+        if (payload.cardLabels) {
+          payload.cardLabels.forEach(({ cardId, labelId }) => {
+            Card.withId(cardId).labels.add(labelId);
+          });
+        }
+
+        break;
+      }
+      case ActionTypes.CARD_TRANSFER__FAILURE: {
+        const cardModel = Card.withId(payload.id);
+
+        if (cardModel) {
+          cardModel.deleteWithRelated(true);
+        }
+
+        if (payload.card) {
+          Card.upsert(payload.card);
+        }
+
+        if (payload.cardMemberships) {
+          payload.cardMemberships.forEach(({ cardId, userId }) => {
+            Card.withId(cardId).users.add(userId);
+          });
+        }
+
+        if (payload.cardLabels) {
+          payload.cardLabels.forEach(({ cardId, labelId }) => {
+            Card.withId(cardId).labels.add(labelId);
+          });
+        }
+
+        break;
+      }
+      case ActionTypes.CARD_DUPLICATE: {
+        let cardModel = Card.withId(payload.id);
+
+        if (cardModel) {
+          cardModel = cardModel.duplicate(payload.localId, {
+            ...payload.data,
+            listChangedAt: new Date(),
+          });
+
+          cardModel.syncAfterBoardChange();
+        }
+
+        break;
+      }
+      case ActionTypes.CARD_DUPLICATE__SUCCESS: {
+        let cardModel = Card.withId(payload.localId);
+
+        if (cardModel) {
+          cardModel.deleteWithRelated();
+        }
+
+        cardModel = Card.upsert(payload.card);
 
         payload.cardMemberships.forEach(({ userId }) => {
           cardModel.users.add(userId);
@@ -397,10 +465,15 @@ export default class extends BaseModel {
 
         break;
       }
-      case ActionTypes.CARD_DUPLICATE__FAILURE:
-        Card.withId(payload.localId).deleteWithRelated();
+      case ActionTypes.CARD_DUPLICATE__FAILURE: {
+        const cardModel = Card.withId(payload.localId);
+
+        if (cardModel) {
+          cardModel.deleteWithRelated();
+        }
 
         break;
+      }
       case ActionTypes.CARD_DELETE:
         Card.withId(payload.id).deleteWithRelated();
 
@@ -637,23 +710,66 @@ export default class extends BaseModel {
     return cardModel;
   }
 
+  syncAfterBoardChange() {
+    if (!this.board) {
+      return;
+    }
+
+    const boardMemberships = this.board.memberships.toRefArray();
+    const userIdsSet = new Set(boardMemberships.map(({ userId }) => userId));
+
+    this.users.toRefArray().forEach((user) => {
+      if (userIdsSet.has(user.id)) {
+        return;
+      }
+
+      this.users.remove(user.id);
+    });
+
+    this.taskLists.toModelArray().forEach((taskListModel) => {
+      taskListModel.tasks.toModelArray().forEach((taskModel) => {
+        if (!taskModel.assigneeUserId || userIdsSet.has(taskModel.assigneeUserId)) {
+          return;
+        }
+
+        taskModel.update({
+          assigneeUserId: null,
+        });
+      });
+    });
+
+    const labels = this.board.labels.toRefArray();
+    const labelByName = keyBy(labels, 'name');
+
+    this.labels.toRefArray().forEach((label) => {
+      if (!labelByName[label.name]) {
+        return;
+      }
+
+      this.labels.remove(label.id);
+      this.labels.add(labelByName[label.name].id);
+    });
+  }
+
   deleteClearable() {
     this.users.clear();
     this.labels.clear();
   }
 
-  deleteRelated() {
+  deleteRelated(soft = false) {
     this.deleteClearable();
 
     this.taskLists.toModelArray().forEach((taskListModel) => {
       taskListModel.deleteWithRelated();
     });
 
-    this.linkedTasks.toModelArray().forEach((taskModel) => {
-      taskModel.update({
-        linkedCardId: null,
+    if (!soft) {
+      this.linkedTasks.toModelArray().forEach((taskModel) => {
+        taskModel.update({
+          linkedCardId: null,
+        });
       });
-    });
+    }
 
     this.attachments.delete();
 
@@ -670,8 +786,8 @@ export default class extends BaseModel {
     this.delete();
   }
 
-  deleteWithRelated() {
-    this.deleteRelated();
+  deleteWithRelated(soft) {
+    this.deleteRelated(soft);
     this.delete();
   }
 }

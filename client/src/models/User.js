@@ -105,6 +105,7 @@ export default class extends BaseModel {
       case ActionTypes.BOARD_MEMBERSHIP_CREATE_HANDLE:
       case ActionTypes.LIST_UPDATE_HANDLE:
       case ActionTypes.CARD_UPDATE_HANDLE:
+      case ActionTypes.CARD_TRANSFER__FAILURE:
         if (payload.users) {
           payload.users.forEach((user) => {
             User.upsert(user);
@@ -124,6 +125,23 @@ export default class extends BaseModel {
       case ActionTypes.CORE_INITIALIZE:
         User.upsert(payload.user);
 
+        payload.users.forEach((user) => {
+          User.upsert(user);
+        });
+
+        break;
+      case ActionTypes.USERS_RESET_HANDLE:
+      case ActionTypes.PROJECT_CREATE_HANDLE:
+      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
+      case ActionTypes.BOARD_FETCH__SUCCESS:
+      case ActionTypes.CARDS_FETCH__SUCCESS:
+      case ActionTypes.CARD_CREATE_HANDLE:
+      case ActionTypes.CARD_TRANSFER__SUCCESS:
+      case ActionTypes.COMMENTS_FETCH__SUCCESS:
+      case ActionTypes.COMMENT_CREATE_HANDLE:
+      case ActionTypes.ACTIVITIES_IN_BOARD_FETCH__SUCCESS:
+      case ActionTypes.ACTIVITIES_IN_CARD_FETCH__SUCCESS:
+      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
         payload.users.forEach((user) => {
           User.upsert(user);
         });
@@ -346,21 +364,6 @@ export default class extends BaseModel {
 
         break;
       }
-      case ActionTypes.PROJECT_CREATE_HANDLE:
-      case ActionTypes.PROJECT_MANAGER_CREATE_HANDLE:
-      case ActionTypes.BOARD_FETCH__SUCCESS:
-      case ActionTypes.CARDS_FETCH__SUCCESS:
-      case ActionTypes.CARD_CREATE_HANDLE:
-      case ActionTypes.COMMENTS_FETCH__SUCCESS:
-      case ActionTypes.COMMENT_CREATE_HANDLE:
-      case ActionTypes.ACTIVITIES_IN_BOARD_FETCH__SUCCESS:
-      case ActionTypes.ACTIVITIES_IN_CARD_FETCH__SUCCESS:
-      case ActionTypes.NOTIFICATION_CREATE_HANDLE:
-        payload.users.forEach((user) => {
-          User.upsert(user);
-        });
-
-        break;
       default:
     }
   }

@@ -12,7 +12,8 @@
   },
   "codeblock": {
     "remove": "Kaldır",
-    "empty_option": "Eşleşme bulunamadı"
+    "empty_option": "Eşleşme bulunamadı",
+    "show_line_numbers": "Satır numaralandırma"
   },
   "common": {
     "delete": "Sil",
@@ -148,9 +149,12 @@
     "column.add.before": "Öncesine sütun ekle",
     "column.add.after": "Sonrasına sütun ekle",
     "column.remove": "Sütunu kaldır",
+    "column.remove.multiple": "Sütunları kaldır",
     "row.add.before": "Öncesine satır ekle",
     "row.add.after": "Sonrasına satır ekle",
     "row.remove": "Satırı kaldır",
+    "row.remove.multiple": "Satırları kaldır",
+    "cells.clear": "Hücreleri temizle",
     "table.remove": "Tabloyu kaldır",
     "table.menu.cell.align.left": "Hücre içeriğini sola hizala",
     "table.menu.cell.align.right": "Hücre içeriğini sağa hizala",

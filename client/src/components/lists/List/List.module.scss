@@ -15,18 +15,21 @@
     cursor: pointer;
     display: block;
     fill: #6b808c;
-    flex: 0 0 auto;
+    flex: 1;
     font-weight: normal;
     height: 36px;
     outline: none;
     padding: 8px;
     text-align: left;
-    width: 100%;
 
     &:hover {
       background: #c3cbd0;
       color: #17394d;
       fill: #17394d;
+    }
+
+    &.paste {
+      flex: 0 0 auto;
     }
   }
 
@@ -42,6 +45,10 @@
     line-height: 20px;
     margin-left: 2px;
     vertical-align: top;
+  }
+
+  .addCardButtonWrapper {
+    display: flex;
   }
 
   .card {

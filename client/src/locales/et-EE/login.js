@@ -6,7 +6,6 @@ export default {
         'Administraatori sisselogimine on vajalik rakenduse käivitamiseks',
       emailAlreadyInUse: 'E-post on juba kasutusel',
       emailOrUsername: 'E-post või kasutajanimi',
-      iHaveReadAndAgreeToTheseTerms: 'Olen lugenud ja nõustun nende tingimustega',
       invalidCredentials: 'Vale kasutajanimi või parool',
       invalidEmailOrUsername: 'Vale e-post või kasutajanimi',
       invalidPassword: 'Vale parool',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Tühista ja sulge',
       continue: 'Jätka',
+      debugSso: 'Siluda SSO',
       goBack: 'Tagasi',
       goHome: 'Koju',
       logIn: 'Logi sisse',

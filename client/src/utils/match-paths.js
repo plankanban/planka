@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { matchPath } from 'react-router-dom';
+import { matchPath } from 'react-router';
 
 export default (pathname, paths) => {
   for (let i = 0; i < paths.length; i += 1) {

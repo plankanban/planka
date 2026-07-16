@@ -6,7 +6,6 @@ export default {
         'K inicializaci instance je nutné přihlášení správce.',
       emailAlreadyInUse: 'E-mail se již používá',
       emailOrUsername: 'E-mail nebo uživatelské jméno',
-      iHaveReadAndAgreeToTheseTerms: 'Přečetl jsem si tyto podmínky a souhlasím s nimi.',
       invalidCredentials: 'Neplatné přihlašovací údaje',
       invalidEmailOrUsername: 'Nesprávný e-mail nebo uživatelské jméno',
       invalidPassword: 'Nesprávné heslo',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Zrušit a zavřít',
       continue: 'Pokračovat',
+      debugSso: 'Ladit SSO',
       goBack: 'Zpět',
       goHome: 'Domů',
       logIn: 'Přihlásit se',

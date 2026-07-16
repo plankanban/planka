@@ -13,7 +13,7 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import DroppableTypes from '../../../constants/DroppableTypes';
 import Item from './Item';
-import AddStep from './AddStep';
+import AddBoardStep from '../AddBoardStep';
 
 import styles from './Boards.module.scss';
 import globalStyles from '../../../styles.module.scss';
@@ -59,7 +59,7 @@ const Boards = React.memo(() => {
     });
   }, []);
 
-  const AddPopup = usePopup(AddStep);
+  const AddBoardPopup = usePopup(AddBoardStep);
 
   return (
     <div className={styles.wrapper} onWheel={handleWheel}>
@@ -74,9 +74,9 @@ const Boards = React.memo(() => {
                 ))}
                 {placeholder}
                 {canAdd && (
-                  <AddPopup>
+                  <AddBoardPopup>
                     <Button icon="plus" className={styles.addButton} />
-                  </AddPopup>
+                  </AddBoardPopup>
                 )}
               </div>
             )}

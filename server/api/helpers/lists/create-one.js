@@ -25,7 +25,7 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
-    const lists = await sails.helpers.boards.getFiniteListsById(values.board.id);
+    const lists = await sails.helpers.boards.getKanbanListsById(values.board.id);
 
     const { position, repositions } = sails.helpers.utils.insertToPositionables(
       values.position,

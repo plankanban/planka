@@ -172,7 +172,7 @@ const EditUserUsernameStep = React.memo(({ id, onBack, onClose }) => {
             name="username"
             value={data.username}
             placeholder={username}
-            maxLength={16}
+            maxLength={32}
             className={styles.field}
             onChange={handleFieldChange}
           />

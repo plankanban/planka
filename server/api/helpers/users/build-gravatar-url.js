@@ -20,7 +20,7 @@ module.exports = {
       return null;
     }
 
-    const hash = crypto.createHash('md5').update(inputs.record.email).digest('hex');
+    const hash = crypto.createHash('sha256').update(inputs.record.email).digest('hex');
     return `${sails.config.custom.gravatarBaseUrl}${hash}?s=180&d=initials`;
   },
 };

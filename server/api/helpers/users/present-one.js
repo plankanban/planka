@@ -17,8 +17,6 @@ module.exports = {
   },
 
   fn(inputs) {
-    const fileManager = sails.hooks['file-manager'].getInstance();
-
     const data = {
       ..._.omit(inputs.record, [
         'password',
@@ -30,13 +28,12 @@ module.exports = {
         'termsAcceptedAt',
       ]),
       avatar: inputs.record.avatar && {
-        url: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.uploadedFileId}/original.${inputs.record.avatar.extension}`)}`,
+        url: `${sails.config.custom.baseUrl}/user-avatars/${inputs.record.avatar.uploadedFileId}/original.${inputs.record.avatar.extension}`,
         thumbnailUrls: {
-          cover180: `${fileManager.buildUrl(`${sails.config.custom.userAvatarsPathSegment}/${inputs.record.avatar.uploadedFileId}/cover-180.${inputs.record.avatar.extension}`)}`,
+          cover180: `${sails.config.custom.baseUrl}/user-avatars/${inputs.record.avatar.uploadedFileId}/cover-180.${inputs.record.avatar.extension}`,
         },
       },
       language: inputs.record.language || sails.config.i18n.defaultLocale,
-      termsType: sails.hooks.terms.getTypeByUserRole(inputs.record.role),
     };
 
     const gravatarUrl = sails.helpers.users.buildGravatarUrl(inputs.record);
@@ -53,7 +50,9 @@ module.exports = {
         const isDefaultAdmin = inputs.record.email === sails.config.custom.defaultAdminEmail;
 
         const lockedFieldNames = [];
-        if (isDefaultAdmin || inputs.record.isSsoUser) {
+        if (sails.config.custom.demoMode) {
+          lockedFieldNames.push('email', 'password', 'role', 'name', 'username');
+        } else if (isDefaultAdmin || inputs.record.isSsoUser) {
           lockedFieldNames.push('email', 'password', 'name');
 
           if (isDefaultAdmin) {
@@ -66,6 +65,10 @@ module.exports = {
               lockedFieldNames.push('username');
             }
           }
+        }
+
+        if (sails.config.custom.oidcEnforced) {
+          lockedFieldNames.push('isSsoUser');
         }
 
         Object.assign(data, {

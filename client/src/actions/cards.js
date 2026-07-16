@@ -160,6 +160,72 @@ const handleCardUpdate = (
   },
 });
 
+const transferCard = (id, data) => ({
+  type: ActionTypes.CARD_TRANSFER,
+  payload: {
+    id,
+    data,
+  },
+});
+
+transferCard.success = (
+  card,
+  users,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+) => ({
+  type: ActionTypes.CARD_TRANSFER__SUCCESS,
+  payload: {
+    card,
+    users,
+    cardMemberships,
+    cardLabels,
+    taskLists,
+    tasks,
+    attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
+  },
+});
+
+transferCard.failure = (
+  id,
+  error,
+  card,
+  users,
+  cardMemberships,
+  cardLabels,
+  taskLists,
+  tasks,
+  attachments,
+  customFieldGroups,
+  customFields,
+  customFieldValues,
+) => ({
+  type: ActionTypes.CARD_TRANSFER__FAILURE,
+  payload: {
+    id,
+    error,
+    card,
+    users,
+    cardMemberships,
+    cardLabels,
+    taskLists,
+    tasks,
+    attachments,
+    customFieldGroups,
+    customFields,
+    customFieldValues,
+  },
+});
+
 const duplicateCard = (id, localId, data) => ({
   type: ActionTypes.CARD_DUPLICATE,
   payload: {
@@ -204,6 +270,25 @@ duplicateCard.failure = (localId, error) => ({
   },
 });
 
+const copyCard = (id) => ({
+  type: ActionTypes.CARD_COPY,
+  payload: {
+    id,
+  },
+});
+
+const cutCard = (id) => ({
+  type: ActionTypes.CARD_CUT,
+  payload: {
+    id,
+  },
+});
+
+const pasteCard = () => ({
+  type: ActionTypes.CARD_PASTE,
+  payload: {},
+});
+
 const deleteCard = (id) => ({
   type: ActionTypes.CARD_DELETE,
   payload: {
@@ -240,7 +325,11 @@ export default {
   handleCardCreate,
   updateCard,
   handleCardUpdate,
+  transferCard,
   duplicateCard,
+  copyCard,
+  cutCard,
+  pasteCard,
   deleteCard,
   handleCardDelete,
 };

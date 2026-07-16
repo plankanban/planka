@@ -55,6 +55,10 @@
  *                 type: boolean
  *                 description: Whether to always display card creators
  *                 example: false
+ *               displayCardAges:
+ *                 type: boolean
+ *                 description: Whether to display card ages
+ *                 example: false
  *               expandTaskListsByDefault:
  *                 type: boolean
  *                 description: Whether to expand task lists by default
@@ -120,6 +124,9 @@ module.exports = {
     alwaysDisplayCardCreator: {
       type: 'boolean',
     },
+    displayCardAges: {
+      type: 'boolean',
+    },
     expandTaskListsByDefault: {
       type: 'boolean',
     },
@@ -160,6 +167,7 @@ module.exports = {
         'defaultCardType',
         'limitCardTypesToDefaultOne',
         'alwaysDisplayCardCreator',
+        'displayCardAges',
         'expandTaskListsByDefault',
       );
     }
@@ -178,6 +186,7 @@ module.exports = {
       'defaultCardType',
       'limitCardTypesToDefaultOne',
       'alwaysDisplayCardCreator',
+      'displayCardAges',
       'expandTaskListsByDefault',
       'isSubscribed',
     ]);

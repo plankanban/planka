@@ -43,13 +43,7 @@
       color: #444444;
       font-size: 14px;
       font-family: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif;
-      // font-weight: normal;
-      width: 100%;
       padding-bottom: 8px;
-    }
-
-    .react-datepicker__month-container {
-      width: 100%;
     }
 
     .react-datepicker__current-month,
@@ -72,11 +66,7 @@
     .react-datepicker__day,
     .react-datepicker__time-name {
       color: #444;
-      display: inline-block;
       width: 40px;
-      font-weight: normal;
-      line-height: 28px;
-      text-align: center;
       margin: 0;
       border-style: solid;
       border-width: 0 0 1px 1px;
@@ -87,7 +77,6 @@
     .react-datepicker__day--in-selecting-range,
     .react-datepicker__day--in-range {
       border-radius: 0;
-      background: #216ba5;
       color: #fff;
     }
 
@@ -102,12 +91,11 @@
     }
 
     .react-datepicker__day--outside-month {
-      color: transparent;
-      background: #f5f6f7;
+      color: rgba(68, 68, 68, 0.3);
     }
 
     .react-datepicker__month {
-      margin: 0.4rem 0 0;
+      margin: 8px 0 0;
     }
 
     .react-datepicker__navigation--previous,
@@ -117,16 +105,13 @@
 
     .react-datepicker__navigation--previous {
       left: 0;
-      border-right-color: #999;
     }
 
     .react-datepicker__navigation--next {
       right: 0;
-      border-left-color: #999;
     }
 
     .react-datepicker__navigation {
-      border-width: 7px 9px;
       top: 0;
     }
 
@@ -174,7 +159,9 @@
   }
 
   .yfm {
-    --yfm-color-text-private: #17394d !important;
+    --yfm-color-accent: #2185d0 !important;
+    --yfm-color-link: #1e70bf !important;
+    --yfm-color-text: #17394d !important;
     --yfm-font-family-monospace: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace !important;
     --yfm-font-family-sans: "Nunitoga", "Helvetica Neue", Arial, Helvetica, sans-serif !important;
 
@@ -387,6 +374,10 @@
     background: #6c99bb !important;
   }
 
+  .backgroundAntiqueBlueSoft {
+    background: #c7dcee !important;
+  }
+
   .backgroundEggYellow {
     background: #f9c423 !important;
   }
@@ -399,12 +390,20 @@
     background: #8b8680 !important;
   }
 
+  .backgroundDarkGraniteSoft {
+    background: #d8d6d3 !important;
+  }
+
   .backgroundFreshSalad {
     background: #ced85e !important;
   }
 
   .backgroundLagoonBlue {
     background: #109dc0 !important;
+  }
+
+  .backgroundLagoonBlueSoft {
+    background: #bfe3ee !important;
   }
 
   .backgroundMidnightBlue {
@@ -417,6 +416,10 @@
 
   .backgroundPumpkinOrange {
     background: #ed9223 !important;
+  }
+
+  .backgroundPumpkinOrangeSoft {
+    background: #f6d2a8 !important;
   }
 
   .backgroundLightConcrete {
@@ -443,12 +446,20 @@
     background: #de692f !important;
   }
 
+  .backgroundOrangePeelSoft {
+    background: #f2c6ae !important;
+  }
+
   .backgroundSilverGlint {
     background: linear-gradient(160deg, #adadad, #92908d, #e2e2e2, #928e8e, #726f6e) !important;
   }
 
   .backgroundBrightMoss {
     background: #96b352 !important;
+  }
+
+  .backgroundBrightMossSoft {
+    background: #d7e4b6 !important;
   }
 
   .backgroundDeepOcean {
@@ -461,6 +472,10 @@
 
   .backgroundBerryRed {
     background: #e83855 !important;
+  }
+
+  .backgroundBerryRedSoft {
+    background: #f6c6cf !important;
   }
 
   .backgroundLightCocoa {
@@ -487,6 +502,10 @@
     background: #e34f7c !important;
   }
 
+  .backgroundPinkTulipSoft {
+    background: #f2c1d3 !important;
+  }
+
   .backgroundShadyRust {
     background: #87564a !important;
   }
@@ -503,6 +522,10 @@
     background: #00858a !important;
   }
 
+  .backgroundTurquoiseSeaSoft {
+    background: #b7e1e3 !important;
+  }
+
   .backgroundLavenderFields {
     background: #b287bd !important;
   }
@@ -513,6 +536,10 @@
 
   .backgroundLightMud {
     background: #c7a57a !important;
+  }
+
+  .backgroundLightMudSoft {
+    background: #e6d4bc !important;
   }
 
   .backgroundGunMetal {

@@ -6,7 +6,7 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Button, Icon, Menu } from 'semantic-ui-react';
 import { usePopup } from '../../../lib/popup';
 
@@ -15,7 +15,7 @@ import entryActions from '../../../entry-actions';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, BoardViews, UserRoles } from '../../../constants/Enums';
 import UserAvatar from '../../users/UserAvatar';
-import UserStep from '../../users/UserStep';
+import UserActionsStep from '../../users/UserActionsStep';
 import NotificationsStep from '../../notifications/NotificationsStep';
 
 import styles from './Header.module.scss';
@@ -90,7 +90,7 @@ const Header = React.memo(() => {
   }, [canEditProject, dispatch]);
 
   const NotificationsPopup = usePopup(NotificationsStep, POPUP_PROPS);
-  const UserPopup = usePopup(UserStep, POPUP_PROPS);
+  const UserActionsPopup = usePopup(UserActionsStep, POPUP_PROPS);
 
   return (
     <div className={styles.wrapper}>
@@ -152,12 +152,12 @@ const Header = React.memo(() => {
               )}
             </Menu.Item>
           </NotificationsPopup>
-          <UserPopup>
+          <UserActionsPopup>
             <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
               <span className={styles.userName}>{user.name}</span>
               <UserAvatar id={user.id} size="small" />
             </Menu.Item>
-          </UserPopup>
+          </UserActionsPopup>
         </Menu.Menu>
       </Menu>
     </div>

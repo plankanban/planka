@@ -127,7 +127,7 @@ export const selectCurrentList = createSelector(
   },
 );
 
-export const selectFirstFiniteListId = createSelector(
+export const selectFirstKanbanListId = createSelector(
   orm,
   (state) => selectPath(state).boardId,
   ({ Board }, id) => {
@@ -141,7 +141,7 @@ export const selectFirstFiniteListId = createSelector(
       return boardModel;
     }
 
-    const listModel = boardModel.getFiniteListsQuerySet().first();
+    const listModel = boardModel.getKanbanListsQuerySet().first();
     return listModel && listModel.id;
   },
 );
@@ -174,6 +174,6 @@ export default {
   selectIsListWithIdAvailableForCurrentUser,
   selectCurrentListId,
   selectCurrentList,
-  selectFirstFiniteListId,
+  selectFirstKanbanListId,
   selectFilteredCardIdsForCurrentList,
 };

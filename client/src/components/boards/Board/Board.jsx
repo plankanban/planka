@@ -12,6 +12,7 @@ import { BoardContexts, BoardViews } from '../../../constants/Enums';
 import KanbanContent from './KanbanContent';
 import FiniteContent from './FiniteContent';
 import EndlessContent from './EndlessContent';
+import ShortcutsProvider from './ShortcutsProvider';
 import CardModal from '../../cards/CardModal';
 import BoardActivitiesModal from '../../activities/BoardActivitiesModal';
 
@@ -53,7 +54,9 @@ const Board = React.memo(() => {
 
   return (
     <>
-      <Content />
+      <ShortcutsProvider>
+        <Content />
+      </ShortcutsProvider>
       {modalNode}
     </>
   );

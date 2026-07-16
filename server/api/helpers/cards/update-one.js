@@ -98,7 +98,11 @@ module.exports = {
         throw 'coverAttachmentInValuesMustContainImage';
       }
 
-      values.coverAttachmentId = values.coverAttachment.id;
+      if (values.coverAttachment.id === inputs.record.coverAttachmentId) {
+        delete values.coverAttachment;
+      } else {
+        values.coverAttachmentId = values.coverAttachment.id;
+      }
     }
 
     const dueDate = _.isUndefined(values.dueDate) ? inputs.record.dueDate : values.dueDate;
@@ -289,9 +293,14 @@ module.exports = {
           inputs.request,
         );
 
-        sails.sockets.broadcast(`board:${card.boardId}`, 'cardUpdate', {
-          item: card,
-        });
+        sails.sockets.broadcast(
+          `board:${card.boardId}`,
+          'cardUpdate',
+          {
+            item: card,
+          },
+          inputs.request,
+        );
 
         // TODO: add transfer action
       } else {

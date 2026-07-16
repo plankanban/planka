@@ -6,7 +6,6 @@ export default {
         'Login de administrador necessário para inicializar a instância',
       emailAlreadyInUse: 'E-mail já está em uso',
       emailOrUsername: 'E-mail ou nome de usuário',
-      iHaveReadAndAgreeToTheseTerms: 'Li e concordo com estes termos',
       invalidCredentials: 'Credenciais inválidas',
       invalidEmailOrUsername: 'E-mail ou nome de usuário inválido',
       invalidPassword: 'Senha inválida',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Cancelar e fechar',
       continue: 'Continuar',
+      debugSso: 'Depurar SSO',
       goBack: 'Voltar',
       goHome: 'Ir para início',
       logIn: 'Entrar',

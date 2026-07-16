@@ -75,7 +75,7 @@ export const selectNextListPosition = createSelector(
       return boardModel;
     }
 
-    return nextPosition(boardModel.getFiniteListsQuerySet().toRefArray(), index, excludedId);
+    return nextPosition(boardModel.getKanbanListsQuerySet().toRefArray(), index, excludedId);
   },
 );
 

@@ -21,16 +21,12 @@
     top: 2px;
     transition: background 85ms ease;
     width: 20px;
+    z-index: 1000;
 
     &:hover {
       background: #ebeef0;
       color: #516b7a;
     }
-  }
-
-  .colorLine {
-    border-radius: 0 0 3px 3px;
-    height: 4px;
   }
 
   .content {
@@ -43,6 +39,10 @@
     }
   }
 
+  .contentCut {
+    opacity: 0.5;
+  }
+
   .contentDisabled {
     filter: saturate(0.5);
     opacity: 0.64;
@@ -52,6 +52,7 @@
     background: #fff;
     border-radius: 3px;
     box-shadow: 0 1px 0 #ccc;
+    overflow: hidden;
     position: relative;
 
     &:hover {

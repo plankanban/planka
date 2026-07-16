@@ -6,7 +6,6 @@ export default {
         'Este necesară autentificarea administratorului pentru a inițializa instanța',
       emailAlreadyInUse: 'E-mail deja utilizat',
       emailOrUsername: 'E-mail sau nume de utilizator',
-      iHaveReadAndAgreeToTheseTerms: 'Am citit și sunt de acord cu acești termeni',
       invalidCredentials: 'Credențiale nevalide',
       invalidEmailOrUsername: 'E-mail sau nume de utilizator introduse greșit',
       invalidPassword: 'Parola greșita',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Anulează și închide',
       continue: 'Continuă',
+      debugSso: 'Depanează SSO',
       goBack: 'Înapoi',
       goHome: 'Acasă',
       logIn: 'Autentificarea',

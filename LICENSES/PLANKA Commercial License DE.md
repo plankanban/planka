@@ -1,6 +1,6 @@
 **PLANKA Commercial License**
 
-Version 1.1 - Zuletzt aktualisiert: 20. Mai 2025
+Version 1.2 - Zuletzt aktualisiert: 28. Nov 2025
 
 Zugehörige Dateien in Englisch:
 
@@ -20,7 +20,7 @@ Zugehörige Dateien in Deutsch:
 
 Copyright (c) 2025 bis heute von PLANKA Software GmbH.
 
-Unsere Software und zugehörige Dokumentationsdateien (die "Software") dürfen nur dann produktiv genutzt werden, wenn Sie (und jede juristische Person, die Sie vertreten) eine gültige "PLANKA Pro/Enterprise-Lizenz" besitzen, die Ihrer Nutzung entspricht. Vorbehaltlich des vorstehenden Satzes steht es Ihnen frei, unsere Software zu modifizieren und Patches dafür zu veröffentlichen. Sie stimmen zu, dass die PLANKA Software GmbH und/oder ihre Lizenzgeber (falls zutreffend) alle Rechte, Titel und Ansprüche an und auf alle solche Modifikationen und/oder Patches behalten, und alle solche Modifikationen und/oder Patches dürfen nur mit einer gültigen "PLANKA Pro/Enterprise-Lizenz" für die entsprechende Nutzung verwendet, kopiert, modifiziert, angezeigt, verteilt oder anderweitig genutzt werden. Ungeachtet des Vorstehenden dürfen Sie die Software für Entwicklungs- und Testzwecke ohne Abonnement kopieren und modifizieren. Sie stimmen zu, dass PLANKA Software GmbH und/oder ihre Lizenzgeber (falls zutreffend) alle Rechte, Titel und Ansprüche an und auf alle solche Modifikationen behalten. Es werden Ihnen keine anderen Rechte gewährt als die, die hier ausdrücklich genannt sind. Vorbehaltlich des Vorstehenden ist es verboten, die Software zu kopieren, zusammenzuführen, zu veröffentlichen, zu verteilen, zu unterlizenzieren und/oder zu verkaufen.
+Unsere Software und zugehörige Dokumentationsdateien (die "Software") dürfen nur dann produktiv genutzt werden, wenn Sie (und jede juristische Person, die Sie vertreten) eine gültige "PLANKA Pro/Enterprise-Lizenz" besitzen, die Ihrer Nutzung entspricht. Sie stimmen zu, dass die PLANKA Software GmbH und/oder ihre Lizenzgeber (falls zutreffend) alle Rechte, Titel und Ansprüche an und auf alle solche Modifikationen und/oder Patches behalten, und alle solche Modifikationen und/oder Patches dürfen nur mit einer gültigen "PLANKA Pro/Enterprise-Lizenz" für die entsprechende Nutzung verwendet, kopiert, modifiziert, angezeigt, verteilt oder anderweitig genutzt werden. Ungeachtet des Vorstehenden dürfen Sie die Software für Entwicklungs- und Testzwecke ohne Abonnement kopieren und modifizieren. Sie stimmen zu, dass PLANKA Software GmbH und/oder ihre Lizenzgeber (falls zutreffend) alle Rechte, Titel und Ansprüche an und auf alle solche Modifikationen behalten. Es werden Ihnen keine anderen Rechte gewährt als die, die hier ausdrücklich genannt sind. Vorbehaltlich des Vorstehenden ist es verboten, die Software zu kopieren, zusammenzuführen, zu veröffentlichen, zu verteilen, zu unterlizenzieren und/oder zu verkaufen.
 
 #### Komponenten von Drittanbietern
 
@@ -28,7 +28,11 @@ Für alle Komponenten von Drittanbietern, die in unsere Software integriert sind
 
 ## PLANKA Pro/Enterprise Repositories
 
-Nach dem Kauf unserer "PLANKA Pro/Enterprise-Lizenz" erhalten Sie Zugang zu unseren "PLANKA Pro/Enterprise"-Repositories. Hier finden Sie unsere neuesten stabilen Builds, die umfangreiche, eingehende Tests bestanden haben und als kampferprobt gelten. Unter keinen Umständen dürfen Sie Dateien, Quellcode oder Teile aus unseren "PLANKA Pro/Enterprise"-Repositories ohne vorherige Genehmigung der PLANKA Software GmbH an Personen weitergeben, die nicht zugangsberechtigt sind.
+Nach dem Erwerb einer "PLANKA Pro/Enterprise-Lizenz" erhalten Sie Zugang zu unseren "PLANKA Pro/Enterprise"-Repositories. Dort finden Sie unsere neuesten stabilen Builds, die umfangreiche Tests durchlaufen haben und als produktionsreif gelten.
+
+Wichtiger Hinweis zum Zugriffsumfang: Der Standardzugang umfasst ausschließlich die vorkompilierten Versionen unserer Software. Zugang zum Quellcode wird nur in Ausnahmefällen und nach gesonderter Vereinbarung mit PLANKA Software GmbH gewährt.
+
+Unabhängig vom Zugriffsumfang gilt: Die Weitergabe von Dateien, Quellcode oder Teilen davon aus unseren "PLANKA Pro/Enterprise"-Repositories an Dritte, die nicht zugriffsberechtigt sind, ist ohne vorherige schriftliche Genehmigung von PLANKA Software GmbH untersagt.
 
 ## Eingeschränkte Garantie
 

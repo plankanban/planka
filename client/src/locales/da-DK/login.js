@@ -6,7 +6,6 @@ export default {
         'Administrator login påkrævet for at initialisere instans',
       emailAlreadyInUse: 'E-mail allerede i brug',
       emailOrUsername: 'E-mail eller brugernavn',
-      iHaveReadAndAgreeToTheseTerms: 'Jeg har læst og accepterer disse vilkår',
       invalidCredentials: 'Forkerte loginoplysninger',
       invalidEmailOrUsername: 'Ugyldig e-mail eller brugernavn',
       invalidPassword: 'Ugyldig adgangskode',
@@ -26,6 +25,7 @@ export default {
     action: {
       cancelAndClose: 'Annuller og luk',
       continue: 'Fortsæt',
+      debugSso: 'Fejlfind SSO',
       goBack: 'Gå tilbage',
       goHome: 'Gå hjem',
       logIn: 'Log på',

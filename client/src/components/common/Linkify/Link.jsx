@@ -10,9 +10,10 @@ import { useSelector } from 'react-redux';
 import history from '../../../history';
 import selectors from '../../../selectors';
 import matchPaths from '../../../utils/match-paths';
+import Config from '../../../constants/Config';
 import Paths from '../../../constants/Paths';
 
-const Linkify = React.memo(({ href, content, stopPropagation, ...props }) => {
+const Link = React.memo(({ href, content, stopPropagation, ...props }) => {
   const selectCardById = useMemo(() => selectors.makeSelectCardById(), []);
 
   const url = useMemo(() => {
@@ -23,7 +24,8 @@ const Linkify = React.memo(({ href, content, stopPropagation, ...props }) => {
     }
   }, [href]);
 
-  const isSameSite = !!url && url.origin === window.location.origin;
+  const isSameSite =
+    !!url && url.origin === window.location.origin && url.pathname.startsWith(Config.BASE_PATH);
 
   const cardsPathMatch = useMemo(() => {
     if (!isSameSite) {
@@ -68,14 +70,14 @@ const Linkify = React.memo(({ href, content, stopPropagation, ...props }) => {
   );
 });
 
-Linkify.propTypes = {
+Link.propTypes = {
   href: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   stopPropagation: PropTypes.bool,
 };
 
-Linkify.defaultProps = {
+Link.defaultProps = {
   stopPropagation: false,
 };
 
-export default Linkify;
+export default Link;

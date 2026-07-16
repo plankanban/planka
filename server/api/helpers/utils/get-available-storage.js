@@ -3,9 +3,12 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const bytes = require('bytes');
+
 module.exports = {
   async fn() {
-    const { storageLimit } = sails.config.custom;
+    let { storageLimit } = await InternalConfig.qm.getOneMain();
+    storageLimit = bytes(storageLimit);
 
     if (storageLimit === null) {
       return null;

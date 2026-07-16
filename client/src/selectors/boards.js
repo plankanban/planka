@@ -271,7 +271,7 @@ export const selectTrashListIdForCurrentBoard = createSelector(
   },
 );
 
-export const selectFiniteListIdsForCurrentBoard = createSelector(
+export const selectKanbanListIdsForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
   ({ Board }, id) => {
@@ -286,7 +286,7 @@ export const selectFiniteListIdsForCurrentBoard = createSelector(
     }
 
     return boardModel
-      .getFiniteListsQuerySet()
+      .getKanbanListsQuerySet()
       .toRefArray()
       .map((list) => list.id);
   },
@@ -482,7 +482,7 @@ export default {
   selectLabelsForCurrentBoard,
   selectArchiveListIdForCurrentBoard,
   selectTrashListIdForCurrentBoard,
-  selectFiniteListIdsForCurrentBoard,
+  selectKanbanListIdsForCurrentBoard,
   selectAvailableListsForCurrentBoard,
   selectCardsExceptCurrentForCurrentBoard,
   selectFilteredCardIdsForCurrentBoard,

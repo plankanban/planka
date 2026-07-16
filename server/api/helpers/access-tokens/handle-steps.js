@@ -42,12 +42,12 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const config = await Config.qm.getOneMain();
+    const internalConfig = await InternalConfig.qm.getOneMain();
 
-    if (!config.isInitialized) {
+    if (!internalConfig.isInitialized) {
       if (inputs.user.role === User.Roles.ADMIN) {
         if (inputs.user.termsSignature) {
-          await Config.qm.updateOneMain({
+          await InternalConfig.qm.updateOneMain({
             isInitialized: true,
           });
         }
@@ -56,7 +56,7 @@ module.exports = {
       }
     }
 
-    if (!sails.hooks.terms.hasSignature(inputs.user.termsSignature)) {
+    if (!sails.hooks.terms.isSignatureValid(inputs.user.termsSignature)) {
       const { token: pendingToken, payload: pendingTokenPayload } =
         sails.helpers.utils.createJwtToken(
           AccessTokenSteps.ACCEPT_TERMS,
@@ -82,12 +82,9 @@ module.exports = {
         );
       }
 
-      const termsType = sails.hooks.terms.getTypeByUserRole(inputs.user.role);
-
       throw {
         termsAcceptanceRequired: {
           pendingToken,
-          termsType,
           message: 'Terms acceptance required',
           step: AccessTokenSteps.ACCEPT_TERMS,
         },
