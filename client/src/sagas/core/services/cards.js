@@ -232,6 +232,7 @@ export function* handleCardCreate(card) {
 export function* updateCard(id, data) {
   let prevListId;
   let isClosed;
+  let prevLocation;
 
   if (data.listId) {
     const list = yield select(selectors.selectListById, data.listId);
@@ -258,6 +259,11 @@ export function* updateCard(id, data) {
     }
   }
 
+  if ('location' in data) {
+    const card = yield select(selectors.selectCardById, id);
+    prevLocation = card.location || null;
+  }
+
   yield put(
     actions.updateCard(id, {
       ...data,
@@ -274,7 +280,15 @@ export function* updateCard(id, data) {
   try {
     ({ item: card } = yield call(request, api.updateCard, id, data));
   } catch (error) {
-    yield put(actions.updateCard.failure(id, error));
+    if ('location' in data) {
+      yield put(actions.updateCard.failure(id, error, prevLocation));
+
+      yield call(toast, {
+        type: ToastTypes.LOCATION_UPDATE_FAILED,
+      });
+    } else {
+      yield put(actions.updateCard.failure(id, error));
+    }
     return;
   }
 

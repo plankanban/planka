@@ -26,11 +26,22 @@ module.exports = {
       version: sails.config.custom.version,
     };
 
-    if (inputs.user && inputs.user.role === User.Roles.ADMIN) {
-      Object.assign(data, {
-        activeUsersLimit: inputs.internalConfig.activeUsersLimit,
-        customerPanelUrl: sails.config.custom.customerPanelUrl,
-      });
+    const googleMapsApiKey = sails.config.custom.googleMapsApiKey || '';
+    const isLocationEnabled = googleMapsApiKey.length > 0;
+
+    data.isLocationEnabled = isLocationEnabled;
+
+    if (inputs.user) {
+      if (isLocationEnabled) {
+        data.googleMapsApiKey = googleMapsApiKey;
+      }
+
+      if (inputs.user.role === User.Roles.ADMIN) {
+        Object.assign(data, {
+          activeUsersLimit: inputs.internalConfig.activeUsersLimit,
+          customerPanelUrl: sails.config.custom.customerPanelUrl,
+        });
+      }
     }
 
     if (sails.config.custom.demoMode) {

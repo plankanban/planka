@@ -120,7 +120,8 @@ const ProjectContent = React.memo(({ cardId }) => {
     withAge ||
     attachmentsTotal > 0 ||
     notificationsTotal > 0 ||
-    listName;
+    listName ||
+    card.location;
 
   const isCompact =
     (labelIds.length === 0 || customFieldValueIds.length === 0) &&
@@ -213,6 +214,14 @@ const ProjectContent = React.memo(({ cardId }) => {
               <span className={styles.attachmentContent}>
                 <Icon name="columns" />
                 {listName}
+              </span>
+            </span>
+          )}
+          {card.location && (
+            <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+              <span className={classNames(styles.attachmentContent, styles.locationIndicator)}>
+                <Icon name="map marker alternate" />
+                {card.location.placeName}
               </span>
             </span>
           )}

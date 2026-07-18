@@ -56,6 +56,18 @@ const isStopwatch = (value) => {
   return true;
 };
 
+const isLocation = (value) => {
+  if (_.isNull(value)) return true;
+  if (!_.isPlainObject(value)) return false;
+  if (_.size(value) !== 4) return false;
+  if (!_.isString(value.placeName) || value.placeName.length === 0 || value.placeName.length > 256)
+    return false;
+  if (!_.isFinite(value.latitude) || value.latitude < -90 || value.latitude > 90) return false;
+  if (!_.isFinite(value.longitude) || value.longitude < -180 || value.longitude > 180) return false;
+  if (!_.isString(value.formattedAddress) || value.formattedAddress.length > 512) return false;
+  return true;
+};
+
 module.exports = {
   MAX_STRING_ID,
 
@@ -73,4 +85,5 @@ module.exports = {
   isEmailOrUsername,
   isDueDate,
   isStopwatch,
+  isLocation,
 };

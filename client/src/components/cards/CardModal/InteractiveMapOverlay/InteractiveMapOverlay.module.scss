@@ -1,0 +1,144 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .overlay {
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1100;
+  }
+
+  .container {
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
+    display: flex;
+    flex-direction: column;
+    height: 94vh;
+    max-height: none;
+    max-width: none;
+    overflow: hidden;
+    width: 96vw;
+  }
+
+  .header {
+    align-items: center;
+    border-bottom: 1px solid #e8e8e8;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+
+  .headerTitle {
+    align-items: center;
+    color: #17394d;
+    display: flex;
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .headerIcon {
+    color: #17394d;
+    flex-shrink: 0;
+    font-size: 16px;
+    margin-right: 8px;
+  }
+
+  .headerActions {
+    align-items: center;
+    display: flex;
+    flex-shrink: 0;
+    gap: 12px;
+    margin-left: 16px;
+  }
+
+  .openLink {
+    align-items: center;
+    color: #5ba4cf;
+    display: flex;
+    font-size: 13px;
+    text-decoration: none;
+    white-space: nowrap;
+
+    &:hover {
+      color: #298fca;
+      text-decoration: underline;
+    }
+  }
+
+  .openLinkIcon {
+    font-size: 12px;
+    margin-left: 4px;
+  }
+
+  .closeButton {
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    color: #6b808c;
+    cursor: pointer;
+    display: flex;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    width: 32px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+      color: #17394d;
+    }
+  }
+
+  .closeIcon {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .mapWrapper {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+  }
+
+  .loading {
+    align-items: center;
+    color: #6b808c;
+    display: flex;
+    font-size: 14px;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .error {
+    align-items: center;
+    color: #6b808c;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    gap: 8px;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .errorIcon {
+    color: #eb5a46;
+    font-size: 24px;
+  }
+}

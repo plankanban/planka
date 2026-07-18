@@ -13,6 +13,10 @@ export const selectOidcBootstrap = (state) => selectBootstrap(state).oidc;
 
 export const selectActiveUsersLimit = (state) => selectBootstrap(state).activeUsersLimit;
 
+export const selectGoogleMapsApiKey = (state) => selectBootstrap(state).googleMapsApiKey || null;
+
+export const selectIsLocationEnabled = (state) => selectBootstrap(state).isLocationEnabled || false;
+
 export const selectAccessToken = ({ auth: { accessToken } }) => accessToken;
 
 export const selectAuthenticateForm = ({ ui: { authenticateForm } }) => authenticateForm;
@@ -23,15 +27,20 @@ export const selectProjectCreateForm = ({ ui: { projectCreateForm } }) => projec
 
 export const selectSmtpTestState = ({ ui: { smtpTestState } }) => smtpTestState;
 
+export const selectLocationSearch = ({ ui: { locationSearch } }) => locationSearch;
+
 export default {
   selectIsSocketDisconnected,
   selectIsInitializing,
   selectBootstrap,
   selectOidcBootstrap,
   selectActiveUsersLimit,
+  selectGoogleMapsApiKey,
+  selectIsLocationEnabled,
   selectAccessToken,
   selectAuthenticateForm,
   selectUserCreateForm,
   selectProjectCreateForm,
   selectSmtpTestState,
+  selectLocationSearch,
 };

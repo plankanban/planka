@@ -117,7 +117,7 @@
  *         $ref: '#/components/responses/UnprocessableEntity'
  */
 
-const { isDueDate, isStopwatch } = require('../../../utils/validators');
+const { isDueDate, isStopwatch, isLocation } = require('../../../utils/validators');
 const { idInput } = require('../../../utils/inputs');
 
 const Errors = {
@@ -192,6 +192,10 @@ module.exports = {
       type: 'json',
       custom: isStopwatch,
     },
+    location: {
+      type: 'json',
+      custom: isLocation,
+    },
     isSubscribed: {
       type: 'boolean',
     },
@@ -256,6 +260,7 @@ module.exports = {
         'dueDate',
         'isDueCompleted',
         'stopwatch',
+        'location',
       );
     }
 
@@ -316,6 +321,7 @@ module.exports = {
       'dueDate',
       'isDueCompleted',
       'stopwatch',
+      'location',
       'isSubscribed',
     ]);
 

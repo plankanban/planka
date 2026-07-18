@@ -178,6 +178,7 @@ module.exports.routes = {
   'POST /api/cards/:id/duplicate': 'cards/duplicate',
   'POST /api/cards/:id/read-notifications': 'cards/read-notifications',
   'DELETE /api/cards/:id': 'cards/delete',
+  'GET /api/cards/:id/location-search': 'cards/location-search',
   'POST /api/cards/:cardId/card-memberships': 'card-memberships/create',
   'DELETE /api/cards/:cardId/card-memberships/userId::userId': 'card-memberships/delete',
   'POST /api/cards/:cardId/card-labels': 'card-labels/create',

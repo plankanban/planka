@@ -179,6 +179,7 @@ module.exports = {
         'dueDate',
         'isDueCompleted',
         'stopwatch',
+        'location',
         'isClosed',
       ]),
       ...values,

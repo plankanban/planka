@@ -123,11 +123,12 @@ updateCard.success = (card) => ({
   },
 });
 
-updateCard.failure = (id, error) => ({
+updateCard.failure = (id, error, prevLocation) => ({
   type: ActionTypes.CARD_UPDATE__FAILURE,
   payload: {
     id,
     error,
+    prevLocation,
   },
 });
 

@@ -102,6 +102,9 @@ const readCardNotifications = (id, headers) =>
     },
   }));
 
+const searchLocations = (cardId, query, headers) =>
+  socket.get(`/cards/${cardId}/location-search`, { query }, headers);
+
 const deleteCard = (id, headers) =>
   socket.delete(`/cards/${id}`, undefined, headers).then((body) => ({
     ...body,
@@ -138,6 +141,7 @@ export default {
   getCard,
   updateCard,
   duplicateCard,
+  searchLocations,
   readCardNotifications,
   deleteCard,
   makeHandleCardsUpdate,

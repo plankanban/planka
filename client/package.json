@@ -91,6 +91,7 @@
     "@gravity-ui/markdown-editor": "^15.35.1",
     "@gravity-ui/uikit": "^7.34.0",
     "@juggle/resize-observer": "^3.4.0",
+    "@react-google-maps/api": "2.20.6",
     "@vitejs/plugin-react": "^5.2.0",
     "browserslist-to-esbuild": "^2.1.1",
     "classnames": "^2.5.1",
@@ -183,6 +184,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "fast-check": "^4.9.0",
     "jest": "^30.3.0",
     "playwright": "^1.58.2",
     "prettier": "3.8.1"

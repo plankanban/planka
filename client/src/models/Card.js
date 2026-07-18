@@ -22,6 +22,7 @@ export default class extends BaseModel {
     dueDate: attr(),
     isDueCompleted: attr(),
     stopwatch: attr(),
+    location: attr(),
     isClosed: attr(),
     commentsTotal: attr({
       getDefault: () => 0,
@@ -302,6 +303,17 @@ export default class extends BaseModel {
         Card.withId(payload.localId).deleteWithClearable();
 
         break;
+      case ActionTypes.CARD_UPDATE__FAILURE: {
+        if (payload.prevLocation !== undefined) {
+          const cardModel = Card.withId(payload.id);
+
+          if (cardModel) {
+            cardModel.update({ location: payload.prevLocation });
+          }
+        }
+
+        break;
+      }
       case ActionTypes.CARD_CREATE_HANDLE:
         Card.upsert(payload.card);
 
@@ -654,6 +666,7 @@ export default class extends BaseModel {
       dueDate: this.dueDate,
       isDueCompleted: this.isDueCompleted,
       stopwatch: this.stopwatch,
+      location: this.location,
       isClosed: this.isClosed,
       ...data,
     });

@@ -113,6 +113,8 @@ module.exports.custom = {
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
 
+  googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || null,
+
   /* Internal */
 
   internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,

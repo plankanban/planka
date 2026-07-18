@@ -183,6 +183,10 @@ module.exports = {
     stopwatch: {
       type: 'json',
     },
+    location: {
+      type: 'json',
+      columnName: 'location',
+    },
     commentsTotal: {
       type: 'number',
       defaultsTo: 0,

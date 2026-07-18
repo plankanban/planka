@@ -9,10 +9,12 @@ import authenticateForm from './authenticate-form';
 import userCreateForm from './user-create-form';
 import projectCreateForm from './project-create-form';
 import smtpTestState from './smtp-test-state';
+import locationSearch from './location-search';
 
 export default combineReducers({
   authenticateForm,
   userCreateForm,
   projectCreateForm,
   smtpTestState,
+  locationSearch,
 });

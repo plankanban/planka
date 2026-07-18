@@ -72,6 +72,14 @@
     overflow: hidden;
   }
 
+  .locationIndicator {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   .labelsFull {
     display: block;
   }

@@ -1,0 +1,85 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .wrapper {
+    margin-bottom: 24px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .headerIcon {
+    color: #17394d;
+    font-size: 17px;
+    margin-right: 8px;
+  }
+
+  .headerText {
+    color: #17394d;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+
+  .mapImage {
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    max-height: 200px;
+    object-fit: cover;
+    width: 100%;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .placeholder {
+    align-items: center;
+    background: rgba(9, 30, 66, 0.04);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 200px;
+    min-height: 120px;
+    padding: 16px;
+  }
+
+  .placeholderName {
+    color: #17394d;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+
+  .placeholderMessage {
+    color: #6b808c;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .caption {
+    color: #6b808c;
+    font-size: 13px;
+    line-height: 1.4;
+    margin-top: 6px;
+    word-wrap: break-word;
+  }
+
+  .captionName {
+    color: #17394d;
+    font-weight: bold;
+  }
+
+  .captionAddress {
+    color: #6b808c;
+  }
+}
