@@ -26,6 +26,7 @@
  *         - type
  *         - position
  *         - name
+ *         - priority
  *         - description
  *         - dueDate
  *         - isDueCompleted
@@ -77,6 +78,13 @@
  *           type: string
  *           description: Name/title of the card
  *           example: Implement user authentication
+ *         priority:
+ *           type: number
+ *           default: 0
+ *           minimum: 0
+ *           maximum: 10
+ *           description: Priority of the card, from 0 (no priority) to 10 (most urgent)
+ *           example: 7
  *         description:
  *           type: string
  *           nullable: true
@@ -165,6 +173,10 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
+    },
+    priority: {
+      type: 'number',
+      defaultsTo: 0,
     },
     description: {
       type: 'string',

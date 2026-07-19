@@ -26,8 +26,10 @@ import CreationDetailsStep from './CreationDetailsStep';
 import MoreActionsStep from './MoreActionsStep';
 import DueDateChip from '../DueDateChip';
 import StopwatchChip from '../StopwatchChip';
+import PriorityChip from '../PriorityChip';
 import EditDueDateStep from '../EditDueDateStep';
 import EditStopwatchStep from '../EditStopwatchStep';
+import EditPriorityStep from '../EditPriorityStep';
 import ExpandableMarkdown from '../../common/ExpandableMarkdown';
 import EditMarkdown from '../../common/EditMarkdown';
 import ConfirmationStep from '../../common/ConfirmationStep';
@@ -71,6 +73,7 @@ const ProjectContent = React.memo(() => {
     canEditDescription,
     canEditDueDate,
     canEditStopwatch,
+    canEditPriority,
     canSubscribe,
     canJoin,
     canDuplicate,
@@ -102,6 +105,7 @@ const ProjectContent = React.memo(() => {
         canEditDescription: false,
         canEditDueDate: false,
         canEditStopwatch: false,
+        canEditPriority: false,
         canSubscribe: isMember,
         canJoin: false,
         canDuplicate: false,
@@ -124,6 +128,7 @@ const ProjectContent = React.memo(() => {
       canEditDescription: isEditor,
       canEditDueDate: isEditor,
       canEditStopwatch: isEditor,
+      canEditPriority: isEditor,
       canSubscribe: isMember,
       canJoin: isEditor,
       canDuplicate: isEditor,
@@ -289,6 +294,7 @@ const ProjectContent = React.memo(() => {
   const ListsPopup = usePopupInClosableContext(ListsStep);
   const EditDueDatePopup = usePopupInClosableContext(EditDueDateStep);
   const EditStopwatchPopup = usePopupInClosableContext(EditStopwatchStep);
+  const EditPriorityPopup = usePopupInClosableContext(EditPriorityStep);
   const AddTaskListPopup = usePopupInClosableContext(AddTaskListStep);
   const AddAttachmentPopup = usePopupInClosableContext(AddAttachmentStep);
   const AddCustomFieldGroupPopup = usePopupInClosableContext(AddCustomFieldGroupStep);
@@ -313,7 +319,8 @@ const ProjectContent = React.memo(() => {
       </Grid.Row>
       <Grid.Row className={styles.modalPadding}>
         <Grid.Column width={12} className={styles.contentPadding}>
-          {(card.dueDate ||
+          {(card.priority > 0 ||
+            card.dueDate ||
             card.stopwatch ||
             board.alwaysDisplayCardCreator ||
             userIds.length > 0 ||
@@ -409,6 +416,24 @@ const ProjectContent = React.memo(() => {
                       </button>
                     </LabelsPopup>
                   )}
+                </div>
+              )}
+              {card.priority > 0 && (
+                <div className={styles.attachments}>
+                  <div className={styles.text}>
+                    {t('common.priority', {
+                      context: 'title',
+                    })}
+                  </div>
+                  <span className={styles.attachment}>
+                    {canEditPriority ? (
+                      <EditPriorityPopup cardId={card.id}>
+                        <PriorityChip value={card.priority} />
+                      </EditPriorityPopup>
+                    ) : (
+                      <PriorityChip value={card.priority} />
+                    )}
+                  </span>
                 </div>
               )}
               {card.dueDate && (
@@ -571,7 +596,8 @@ const ProjectContent = React.memo(() => {
                 )}
               </div>
             </div>
-            {(canEditDueDate ||
+            {(canEditPriority ||
+              canEditDueDate ||
               canEditStopwatch ||
               canUseMembers ||
               canUseLabels ||
@@ -580,6 +606,16 @@ const ProjectContent = React.memo(() => {
               canAddCustomFieldGroup) && (
               <div className={styles.actions}>
                 <span className={styles.actionsTitle}>{t('action.addToCard')}</span>
+                {canEditPriority && (
+                  <EditPriorityPopup cardId={card.id}>
+                    <Button fluid className={classNames(styles.actionButton, styles.hidable)}>
+                      <Icon name="exclamation circle" className={styles.actionIcon} />
+                      {t('common.priority', {
+                        context: 'title',
+                      })}
+                    </Button>
+                  </EditPriorityPopup>
+                )}
                 {canUseMembers && (
                   <BoardMembershipsPopup
                     currentUserIds={userIds}

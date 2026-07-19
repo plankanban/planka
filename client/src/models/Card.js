@@ -18,6 +18,9 @@ export default class extends BaseModel {
     type: attr(),
     position: attr(),
     name: attr(),
+    priority: attr({
+      getDefault: () => 0,
+    }),
     description: attr(),
     dueDate: attr(),
     isDueCompleted: attr(),
@@ -650,6 +653,7 @@ export default class extends BaseModel {
       type: this.type,
       position: this.position,
       name: this.name,
+      priority: this.priority,
       description: this.description,
       dueDate: this.dueDate,
       isDueCompleted: this.isDueCompleted,
