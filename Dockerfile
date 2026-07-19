@@ -37,6 +37,7 @@ COPY --chown=node:node ["LICENSES/PLANKA Community License DE.md", "LICENSE_DE.m
 
 COPY --from=server --chown=node:node /app/node_modules node_modules
 COPY --from=server --chown=node:node /app/dist .
+RUN sed -i 's/\r$//' start.sh && chmod +x start.sh
 
 COPY --from=client --chown=node:node /app/dist public
 
