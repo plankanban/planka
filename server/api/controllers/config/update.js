@@ -64,6 +64,127 @@
  *                 nullable: true
  *                 description: Default "from" used for outgoing SMTP emails
  *                 example: no-reply@example.com
+ *               ldapEnabled:
+ *                 type: boolean
+ *                 description: Whether LDAP authentication is enabled
+ *                 example: false
+ *               ldapHost:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Hostname or IP address of the LDAP server
+ *                 example: ldap.example.com
+ *               ldapPort:
+ *                 type: number
+ *                 minimum: 0
+ *                 maximum: 65535
+ *                 nullable: true
+ *                 description: Port number of the LDAP server
+ *                 example: 389
+ *               ldapTls:
+ *                 type: boolean
+ *                 description: Whether to use LDAPS (LDAP over TLS)
+ *                 example: false
+ *               ldapBindDn:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Distinguished name of the service account used to search the directory
+ *                 example: cn=admin,dc=example,dc=com
+ *               ldapBindPassword:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Password of the LDAP service account
+ *                 example: SecurePassword123!
+ *               ldapBaseDn:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Base distinguished name to search for users under
+ *                 example: dc=example,dc=com
+ *               ldapUserFilter:
+ *                 type: string
+ *                 maxLength: 512
+ *                 nullable: true
+ *                 description: Search filter used to locate a user by username, containing a `{{username}}` placeholder
+ *                 example: (uid={{username}})
+ *               ldapNameAttribute:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: LDAP attribute mapped to the user's display name
+ *                 example: cn
+ *               ldapEmailAttribute:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: LDAP attribute mapped to the user's email
+ *                 example: mail
+ *               ldapUsernameAttribute:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: LDAP attribute mapped to the user's username
+ *                 example: uid
+ *               ldapRolesAttribute:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: LDAP attribute containing the user's group memberships
+ *                 example: memberOf
+ *               ldapAdminRoles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Group DNs/names mapped to the admin role
+ *               ldapProjectOwnerRoles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Group DNs/names mapped to the project owner role
+ *               ldapBoardUserRoles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                 description: Group DNs/names mapped to the board user role
+ *               ldapSshTunnelEnabled:
+ *                 type: boolean
+ *                 description: Whether to route the LDAP connection through an SSH tunnel
+ *                 example: false
+ *               ldapSshHost:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Hostname or IP address of the SSH jump host
+ *               ldapSshPort:
+ *                 type: number
+ *                 minimum: 0
+ *                 maximum: 65535
+ *                 nullable: true
+ *                 description: Port number of the SSH jump host
+ *                 example: 22
+ *               ldapSshUsername:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Username for authenticating with the SSH jump host
+ *               ldapSshPassword:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Password for authenticating with the SSH jump host
+ *               ldapSshRemoteHost:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Hostname or IP address of the LDAP server as seen from the SSH jump host
+ *               ldapSshRemotePort:
+ *                 type: number
+ *                 minimum: 0
+ *                 maximum: 65535
+ *                 nullable: true
+ *                 description: Port number of the LDAP server as seen from the SSH jump host
  *     responses:
  *       200:
  *         description: Configuration updated successfully
@@ -122,6 +243,124 @@ module.exports = {
       maxLength: 256,
       allowNull: true,
     },
+
+    ldapEnabled: {
+      type: 'boolean',
+    },
+    ldapHost: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapPort: {
+      type: 'number',
+      min: 0,
+      max: 65535,
+      allowNull: true,
+    },
+    ldapTls: {
+      type: 'boolean',
+    },
+    ldapBindDn: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapBindPassword: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapBaseDn: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapUserFilter: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 512,
+      allowNull: true,
+    },
+    ldapNameAttribute: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapEmailAttribute: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapUsernameAttribute: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapRolesAttribute: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapAdminRoles: {
+      type: 'json',
+      custom: (value) => Array.isArray(value) && value.every((item) => typeof item === 'string'),
+    },
+    ldapProjectOwnerRoles: {
+      type: 'json',
+      custom: (value) => Array.isArray(value) && value.every((item) => typeof item === 'string'),
+    },
+    ldapBoardUserRoles: {
+      type: 'json',
+      custom: (value) => Array.isArray(value) && value.every((item) => typeof item === 'string'),
+    },
+    ldapSshTunnelEnabled: {
+      type: 'boolean',
+    },
+    ldapSshHost: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapSshPort: {
+      type: 'number',
+      min: 0,
+      max: 65535,
+      allowNull: true,
+    },
+    ldapSshUsername: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapSshPassword: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapSshRemoteHost: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
+    ldapSshRemotePort: {
+      type: 'number',
+      min: 0,
+      max: 65535,
+      allowNull: true,
+    },
   },
 
   async fn(inputs) {
@@ -136,6 +375,28 @@ module.exports = {
       'smtpUser',
       'smtpPassword',
       'smtpFrom',
+      'ldapEnabled',
+      'ldapHost',
+      'ldapPort',
+      'ldapTls',
+      'ldapBindDn',
+      'ldapBindPassword',
+      'ldapBaseDn',
+      'ldapUserFilter',
+      'ldapNameAttribute',
+      'ldapEmailAttribute',
+      'ldapUsernameAttribute',
+      'ldapRolesAttribute',
+      'ldapAdminRoles',
+      'ldapProjectOwnerRoles',
+      'ldapBoardUserRoles',
+      'ldapSshTunnelEnabled',
+      'ldapSshHost',
+      'ldapSshPort',
+      'ldapSshUsername',
+      'ldapSshPassword',
+      'ldapSshRemoteHost',
+      'ldapSshRemotePort',
     ]);
 
     const config = await sails.helpers.config.updateMain.with({

@@ -102,6 +102,64 @@
  *                     - Admin login required to initialize instance
  *                   description: Specific error message
  *                   example: Use single sign-on
+ *       409:
+ *         description: Conflict error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_CONFLICT
+ *                 message:
+ *                   type: string
+ *                   enum:
+ *                     - Email already in use
+ *                     - Username already in use
+ *                     - Active users limit reached
+ *                   description: Specific error message
+ *                   example: Email already in use
+ *       422:
+ *         description: Missing required LDAP-mapped values
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_UNPROCESSABLE_ENTITY
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Unable to retrieve required values (email, name)
+ *       500:
+ *         description: LDAP configuration error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               required:
+ *                 - code
+ *                 - message
+ *               properties:
+ *                 code:
+ *                   type: string
+ *                   description: Error code
+ *                   example: E_INTERNAL_SERVER_ERROR
+ *                 message:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Invalid LDAP configuration
  *     security: []
  */
 
@@ -125,6 +183,21 @@ const Errors = {
   },
   TERMS_ACCEPTANCE_REQUIRED: {
     termsAcceptanceRequired: 'Terms acceptance required',
+  },
+  INVALID_LDAP_CONFIGURATION: {
+    invalidLdapConfiguration: 'Invalid LDAP configuration',
+  },
+  EMAIL_ALREADY_IN_USE: {
+    emailAlreadyInUse: 'Email already in use',
+  },
+  USERNAME_ALREADY_IN_USE: {
+    usernameAlreadyInUse: 'Username already in use',
+  },
+  ACTIVE_USERS_LIMIT_REACHED: {
+    activeUsersLimitReached: 'Active users limit reached',
+  },
+  MISSING_VALUES: {
+    missingValues: 'Unable to retrieve required values (email, name)',
   },
 };
 
@@ -165,6 +238,21 @@ module.exports = {
     adminLoginRequiredToInitializeInstance: {
       responseType: 'forbidden',
     },
+    invalidLdapConfiguration: {
+      responseType: 'serverError',
+    },
+    emailAlreadyInUse: {
+      responseType: 'conflict',
+    },
+    usernameAlreadyInUse: {
+      responseType: 'conflict',
+    },
+    activeUsersLimitReached: {
+      responseType: 'conflict',
+    },
+    missingValues: {
+      responseType: 'unprocessableEntity',
+    },
   },
 
   async fn(inputs) {
@@ -174,6 +262,47 @@ module.exports = {
 
     const remoteAddress = getRemoteAddress(this.req);
     const user = await User.qm.getOneActiveByEmailOrUsername(inputs.emailOrUsername);
+
+    if (!user || user.isLdapUser) {
+      const config = await Config.qm.getOneMain();
+
+      if (config.ldapEnabled) {
+        const ldapUser = await sails.helpers.users.getOrCreateOneWithLdap
+          .with({
+            emailOrUsername: inputs.emailOrUsername,
+            password: inputs.password,
+          })
+          .intercept('invalidLdapConfiguration', () => Errors.INVALID_LDAP_CONFIGURATION)
+          .intercept('invalidCredentials', () => {
+            sails.log.warn(
+              `Invalid LDAP credentials for: "${inputs.emailOrUsername}"! (IP: ${remoteAddress})`,
+            );
+
+            return sails.config.custom.showDetailedAuthErrors
+              ? Errors.INVALID_PASSWORD
+              : Errors.INVALID_CREDENTIALS;
+          })
+          .intercept('missingValues', () => Errors.MISSING_VALUES)
+          .intercept('emailAlreadyInUse', () => Errors.EMAIL_ALREADY_IN_USE)
+          .intercept('usernameAlreadyInUse', () => Errors.USERNAME_ALREADY_IN_USE)
+          .intercept('activeLimitReached', () => Errors.ACTIVE_USERS_LIMIT_REACHED);
+
+        return sails.helpers.accessTokens.handleSteps
+          .with({
+            user: ldapUser,
+            remoteAddress,
+            request: this.req,
+            response: this.res,
+            withHttpOnlyToken: inputs.withHttpOnlyToken,
+          })
+          .intercept('adminLoginRequiredToInitializeInstance', (error) => ({
+            adminLoginRequiredToInitializeInstance: error.raw,
+          }))
+          .intercept('termsAcceptanceRequired', (error) => ({
+            termsAcceptanceRequired: error.raw,
+          }));
+      }
+    }
 
     if (!user) {
       sails.log.warn(
@@ -185,7 +314,7 @@ module.exports = {
         : Errors.INVALID_CREDENTIALS;
     }
 
-    if (user.isSsoUser) {
+    if (user.isSsoUser || user.isLdapUser) {
       throw Errors.USE_SINGLE_SIGN_ON;
     }
 

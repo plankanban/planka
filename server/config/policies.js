@@ -21,6 +21,7 @@ module.exports.policies = {
   'config/show': ['is-authenticated', 'is-admin'],
   'config/update': ['is-authenticated', 'is-admin'],
   'config/test-smtp': ['is-authenticated', 'is-admin'],
+  'config/test-ldap': ['is-authenticated', 'is-admin'],
 
   'webhooks/index': ['is-authenticated', 'is-external', 'is-admin'],
   'webhooks/create': ['is-authenticated', 'is-external', 'is-admin'],

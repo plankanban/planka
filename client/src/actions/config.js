@@ -52,8 +52,28 @@ testSmtpConfig.failure = (error) => ({
   },
 });
 
+const testLdapConfig = () => ({
+  type: ActionTypes.LDAP_CONFIG_TEST,
+  payload: {},
+});
+
+testLdapConfig.success = (logs) => ({
+  type: ActionTypes.LDAP_CONFIG_TEST__SUCCESS,
+  payload: {
+    logs,
+  },
+});
+
+testLdapConfig.failure = (error) => ({
+  type: ActionTypes.LDAP_CONFIG_TEST__FAILURE,
+  payload: {
+    error,
+  },
+});
+
 export default {
   updateConfig,
   handleConfigUpdate,
   testSmtpConfig,
+  testLdapConfig,
 };

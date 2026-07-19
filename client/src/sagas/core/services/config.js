@@ -42,8 +42,24 @@ export function* testSmtpConfig() {
   yield put(actions.testSmtpConfig.success(logs));
 }
 
+export function* testLdapConfig() {
+  yield put(actions.testLdapConfig());
+
+  let logs;
+  try {
+    ({
+      included: { logs },
+    } = yield call(request, api.testLdapConfig));
+  } catch (error) {
+    yield put(actions.testLdapConfig.failure(error));
+  }
+
+  yield put(actions.testLdapConfig.success(logs));
+}
+
 export default {
   updateConfig,
   handleConfigUpdate,
   testSmtpConfig,
+  testLdapConfig,
 };

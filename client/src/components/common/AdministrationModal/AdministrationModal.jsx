@@ -14,6 +14,7 @@ import entryActions from '../../../entry-actions';
 import { useClosableModal } from '../../../hooks';
 import UsersPane from './UsersPane';
 import SmtpPane from './SmtpPane';
+import LdapPane from './LdapPane';
 import WebhooksPane from './WebhooksPane';
 
 import styles from './AdministrationModal.module.scss';
@@ -49,6 +50,14 @@ const AdministrationModal = React.memo(() => {
         context: 'title',
       }),
       render: () => <SmtpPane />,
+    });
+  }
+  if (config.ldapEnabled !== undefined) {
+    panes.push({
+      menuItem: t('common.ldap', {
+        context: 'title',
+      }),
+      render: () => <LdapPane />,
     });
   }
   panes.push({

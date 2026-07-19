@@ -14,14 +14,22 @@ module.exports = {
   },
 
   fn(inputs) {
+    let { record } = inputs;
+
     if (sails.config.custom.smtpHost) {
-      return _.omit(inputs.record, Config.SMTP_FIELD_NAMES);
+      record = _.omit(record, Config.SMTP_FIELD_NAMES);
+    } else if (record.smtpPassword) {
+      record = _.omit(record, 'smtpPassword');
     }
 
-    if (inputs.record.smtpPassword) {
-      return _.omit(inputs.record, 'smtpPassword');
+    if (record.ldapBindPassword) {
+      record = _.omit(record, 'ldapBindPassword');
     }
 
-    return inputs.record;
+    if (record.ldapSshPassword) {
+      record = _.omit(record, 'ldapSshPassword');
+    }
+
+    return record;
   },
 };

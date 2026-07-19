@@ -147,6 +147,11 @@
  *           default: false
  *           description: Whether the user is SSO user (private field)
  *           example: false
+ *         isLdapUser:
+ *           type: boolean
+ *           default: false
+ *           description: Whether the user is managed via LDAP (private field)
+ *           example: false
  *         isDeactivated:
  *           type: boolean
  *           default: false
@@ -238,7 +243,14 @@ const LANGUAGES = [
 ];
 
 // TODO: find better way to handle apiKeyHash and apiKeyCreatedAt
-const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'apiKeyHash', 'isSsoUser', 'apiKeyCreatedAt'];
+const PRIVATE_FIELD_NAMES = [
+  'email',
+  'apiKeyPrefix',
+  'apiKeyHash',
+  'isSsoUser',
+  'isLdapUser',
+  'apiKeyCreatedAt',
+];
 
 const PERSONAL_FIELD_NAMES = [
   'language',
@@ -261,6 +273,11 @@ const OIDC = {
   role: Roles.ADMIN,
 };
 
+const LDAP = {
+  id: '_ldap',
+  role: Roles.ADMIN,
+};
+
 module.exports = {
   Roles,
   EditorModes,
@@ -271,6 +288,7 @@ module.exports = {
   PERSONAL_FIELD_NAMES,
   INTERNAL,
   OIDC,
+  LDAP,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -382,6 +400,11 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'is_sso_user',
+    },
+    isLdapUser: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'is_ldap_user',
     },
     isDeactivated: {
       type: 'boolean',

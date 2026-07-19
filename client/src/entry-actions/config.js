@@ -24,8 +24,14 @@ const testSmtpConfig = () => ({
   payload: {},
 });
 
+const testLdapConfig = () => ({
+  type: EntryActionTypes.LDAP_CONFIG_TEST,
+  payload: {},
+});
+
 export default {
   updateConfig,
   handleConfigUpdate,
   testSmtpConfig,
+  testLdapConfig,
 };

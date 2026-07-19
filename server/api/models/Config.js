@@ -61,6 +61,108 @@
  *           nullable: true
  *           description: Default "from" used for outgoing SMTP emails
  *           example: no-reply@example.com
+ *         ldapEnabled:
+ *           type: boolean
+ *           description: Whether LDAP authentication is enabled
+ *           example: false
+ *         ldapHost:
+ *           type: string
+ *           nullable: true
+ *           description: Hostname or IP address of the LDAP server
+ *           example: ldap.example.com
+ *         ldapPort:
+ *           type: number
+ *           nullable: true
+ *           description: Port number of the LDAP server
+ *           example: 389
+ *         ldapTls:
+ *           type: boolean
+ *           description: Whether to use LDAPS (LDAP over TLS)
+ *           example: false
+ *         ldapBindDn:
+ *           type: string
+ *           nullable: true
+ *           description: Distinguished name of the service account used to search the directory
+ *           example: cn=admin,dc=example,dc=com
+ *         ldapBindPassword:
+ *           type: string
+ *           nullable: true
+ *           description: Password of the LDAP service account
+ *           example: SecurePassword123!
+ *         ldapBaseDn:
+ *           type: string
+ *           nullable: true
+ *           description: Base distinguished name to search for users under
+ *           example: dc=example,dc=com
+ *         ldapUserFilter:
+ *           type: string
+ *           nullable: true
+ *           description: Search filter used to locate a user by username, containing a `{{username}}` placeholder
+ *           example: (uid={{username}})
+ *         ldapNameAttribute:
+ *           type: string
+ *           nullable: true
+ *           description: LDAP attribute mapped to the user's display name
+ *           example: cn
+ *         ldapEmailAttribute:
+ *           type: string
+ *           nullable: true
+ *           description: LDAP attribute mapped to the user's email
+ *           example: mail
+ *         ldapUsernameAttribute:
+ *           type: string
+ *           nullable: true
+ *           description: LDAP attribute mapped to the user's username
+ *           example: uid
+ *         ldapRolesAttribute:
+ *           type: string
+ *           nullable: true
+ *           description: LDAP attribute containing the user's group memberships
+ *           example: memberOf
+ *         ldapAdminRoles:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Group DNs/names mapped to the admin role
+ *         ldapProjectOwnerRoles:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Group DNs/names mapped to the project owner role
+ *         ldapBoardUserRoles:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Group DNs/names mapped to the board user role
+ *         ldapSshTunnelEnabled:
+ *           type: boolean
+ *           description: Whether to route the LDAP connection through an SSH tunnel
+ *           example: false
+ *         ldapSshHost:
+ *           type: string
+ *           nullable: true
+ *           description: Hostname or IP address of the SSH jump host
+ *         ldapSshPort:
+ *           type: number
+ *           nullable: true
+ *           description: Port number of the SSH jump host
+ *           example: 22
+ *         ldapSshUsername:
+ *           type: string
+ *           nullable: true
+ *           description: Username for authenticating with the SSH jump host
+ *         ldapSshPassword:
+ *           type: string
+ *           nullable: true
+ *           description: Password for authenticating with the SSH jump host
+ *         ldapSshRemoteHost:
+ *           type: string
+ *           nullable: true
+ *           description: Hostname or IP address of the LDAP server as seen from the SSH jump host
+ *         ldapSshRemotePort:
+ *           type: number
+ *           nullable: true
+ *           description: Port number of the LDAP server as seen from the SSH jump host
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -88,9 +190,35 @@ const SMTP_FIELD_NAMES = [
   'smtpFrom',
 ];
 
+const LDAP_FIELD_NAMES = [
+  'ldapEnabled',
+  'ldapHost',
+  'ldapPort',
+  'ldapTls',
+  'ldapBindDn',
+  'ldapBindPassword',
+  'ldapBaseDn',
+  'ldapUserFilter',
+  'ldapNameAttribute',
+  'ldapEmailAttribute',
+  'ldapUsernameAttribute',
+  'ldapRolesAttribute',
+  'ldapAdminRoles',
+  'ldapProjectOwnerRoles',
+  'ldapBoardUserRoles',
+  'ldapSshTunnelEnabled',
+  'ldapSshHost',
+  'ldapSshPort',
+  'ldapSshUsername',
+  'ldapSshPassword',
+  'ldapSshRemoteHost',
+  'ldapSshRemotePort',
+];
+
 module.exports = {
   MAIN_ID,
   SMTP_FIELD_NAMES,
+  LDAP_FIELD_NAMES,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -136,6 +264,117 @@ module.exports = {
       type: 'string',
       allowNull: true,
       columnName: 'smtp_from',
+    },
+
+    ldapEnabled: {
+      type: 'boolean',
+      required: true,
+      columnName: 'ldap_enabled',
+    },
+    ldapHost: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_host',
+    },
+    ldapPort: {
+      type: 'number',
+      allowNull: true,
+      columnName: 'ldap_port',
+    },
+    ldapTls: {
+      type: 'boolean',
+      required: true,
+      columnName: 'ldap_tls',
+    },
+    ldapBindDn: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_bind_dn',
+    },
+    ldapBindPassword: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_bind_password',
+    },
+    ldapBaseDn: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_base_dn',
+    },
+    ldapUserFilter: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_user_filter',
+    },
+    ldapNameAttribute: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_name_attribute',
+    },
+    ldapEmailAttribute: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_email_attribute',
+    },
+    ldapUsernameAttribute: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_username_attribute',
+    },
+    ldapRolesAttribute: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_roles_attribute',
+    },
+    ldapAdminRoles: {
+      type: 'json',
+      defaultsTo: [],
+      columnName: 'ldap_admin_roles',
+    },
+    ldapProjectOwnerRoles: {
+      type: 'json',
+      defaultsTo: [],
+      columnName: 'ldap_project_owner_roles',
+    },
+    ldapBoardUserRoles: {
+      type: 'json',
+      defaultsTo: [],
+      columnName: 'ldap_board_user_roles',
+    },
+    ldapSshTunnelEnabled: {
+      type: 'boolean',
+      required: true,
+      columnName: 'ldap_ssh_tunnel_enabled',
+    },
+    ldapSshHost: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_ssh_host',
+    },
+    ldapSshPort: {
+      type: 'number',
+      allowNull: true,
+      columnName: 'ldap_ssh_port',
+    },
+    ldapSshUsername: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_ssh_username',
+    },
+    ldapSshPassword: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_ssh_password',
+    },
+    ldapSshRemoteHost: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_ssh_remote_host',
+    },
+    ldapSshRemotePort: {
+      type: 'number',
+      allowNull: true,
+      columnName: 'ldap_ssh_remote_port',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

@@ -110,6 +110,7 @@ module.exports.routes = {
   'GET /api/config': 'config/show',
   'PATCH /api/config': 'config/update',
   'POST /api/config/test-smtp': 'config/test-smtp',
+  'POST /api/config/test-ldap': 'config/test-ldap',
 
   'GET /api/webhooks': 'webhooks/index',
   'POST /api/webhooks': 'webhooks/create',
