@@ -330,6 +330,7 @@ export default {
       sortList_title: 'Sort List',
       sourceCardIsNoLongerAvailableForCopying: 'Source card is no longer available for copying.',
       sourceCardIsNoLongerAvailableForMoving: 'Source card is no longer available for moving.',
+      sshHostKeyFingerprint: 'SSH host key fingerprint (SHA256, hex)',
       sshPassword: 'SSH password',
       stopwatch: 'Stopwatch',
       story: 'Story',

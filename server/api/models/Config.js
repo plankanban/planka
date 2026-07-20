@@ -163,6 +163,10 @@
  *           type: number
  *           nullable: true
  *           description: Port number of the LDAP server as seen from the SSH jump host
+ *         ldapSshHostKeyFingerprint:
+ *           type: string
+ *           nullable: true
+ *           description: Expected SHA256 fingerprint of the SSH jump host's public key, used to verify its identity and prevent MITM attacks
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -213,6 +217,7 @@ const LDAP_FIELD_NAMES = [
   'ldapSshPassword',
   'ldapSshRemoteHost',
   'ldapSshRemotePort',
+  'ldapSshHostKeyFingerprint',
 ];
 
 module.exports = {
@@ -375,6 +380,11 @@ module.exports = {
       type: 'number',
       allowNull: true,
       columnName: 'ldap_ssh_remote_port',
+    },
+    ldapSshHostKeyFingerprint: {
+      type: 'string',
+      allowNull: true,
+      columnName: 'ldap_ssh_host_key_fingerprint',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

@@ -185,6 +185,11 @@
  *                 maximum: 65535
  *                 nullable: true
  *                 description: Port number of the LDAP server as seen from the SSH jump host
+ *               ldapSshHostKeyFingerprint:
+ *                 type: string
+ *                 maxLength: 256
+ *                 nullable: true
+ *                 description: Expected SHA256 fingerprint of the SSH jump host's public key, used to verify its identity and prevent MITM attacks
  *     responses:
  *       200:
  *         description: Configuration updated successfully
@@ -361,6 +366,12 @@ module.exports = {
       max: 65535,
       allowNull: true,
     },
+    ldapSshHostKeyFingerprint: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 256,
+      allowNull: true,
+    },
   },
 
   async fn(inputs) {
@@ -397,6 +408,7 @@ module.exports = {
       'ldapSshPassword',
       'ldapSshRemoteHost',
       'ldapSshRemotePort',
+      'ldapSshHostKeyFingerprint',
     ]);
 
     const config = await sails.helpers.config.updateMain.with({

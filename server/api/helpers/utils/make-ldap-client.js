@@ -3,14 +3,37 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const crypto = require('crypto');
 const net = require('net');
 const ldap = require('ldapjs');
 const { Client: SshClient } = require('ssh2');
 
 const { bind, unbind } = require('../../../utils/ldap');
 
+const makeSshHostKeyVerifier = (expectedFingerprint) => (key) => {
+  const actualFingerprint = crypto.createHash('sha256').update(key).digest('hex');
+
+  return (
+    actualFingerprint.length === expectedFingerprint.length &&
+    crypto.timingSafeEqual(Buffer.from(actualFingerprint), Buffer.from(expectedFingerprint))
+  );
+};
+
 const openSshTunnel = (config) =>
   new Promise((resolve, reject) => {
+    const expectedFingerprint = (config.ldapSshHostKeyFingerprint || '')
+      .replace(/[^a-f0-9]/gi, '')
+      .toLowerCase();
+
+    if (!expectedFingerprint) {
+      reject(
+        new Error(
+          'SSH host key fingerprint is not configured. Set it before enabling the SSH tunnel, otherwise the connection cannot be verified and is vulnerable to man-in-the-middle attacks.',
+        ),
+      );
+      return;
+    }
+
     const sshClient = new SshClient();
 
     sshClient.on('ready', () => {
@@ -52,6 +75,7 @@ const openSshTunnel = (config) =>
       username: config.ldapSshUsername,
       password: config.ldapSshPassword,
       readyTimeout: 10000,
+      hostVerifier: makeSshHostKeyVerifier(expectedFingerprint),
     });
   });
 

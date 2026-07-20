@@ -61,6 +61,7 @@ const LdapPane = React.memo(() => {
       ldapSshPassword: config.ldapSshPassword,
       ldapSshRemoteHost: config.ldapSshRemoteHost,
       ldapSshRemotePort: config.ldapSshRemotePort,
+      ldapSshHostKeyFingerprint: config.ldapSshHostKeyFingerprint,
     }),
     [config],
   );
@@ -98,6 +99,7 @@ const LdapPane = React.memo(() => {
       defaultData.ldapSshRemotePort === null || defaultData.ldapSshRemotePort === undefined
         ? ''
         : `${defaultData.ldapSshRemotePort}`,
+    ldapSshHostKeyFingerprint: defaultData.ldapSshHostKeyFingerprint || '',
   }));
 
   const isBindPasswordSet = defaultData.ldapBindPassword === undefined;
@@ -125,6 +127,7 @@ const LdapPane = React.memo(() => {
       ldapSshPassword: data.ldapSshPassword || (isSshPasswordSet ? undefined : null),
       ldapSshRemoteHost: data.ldapSshRemoteHost.trim() || null,
       ldapSshRemotePort: parseInt(data.ldapSshRemotePort, 10) || null,
+      ldapSshHostKeyFingerprint: data.ldapSshHostKeyFingerprint.trim() || null,
     }),
     [data, isBindPasswordSet, isSshPasswordSet],
   );
@@ -465,6 +468,15 @@ const LdapPane = React.memo(() => {
               min={0}
               max={65535}
               step={1}
+              className={styles.field}
+              onChange={handleFieldChange}
+            />
+            <div className={styles.text}>{t('common.sshHostKeyFingerprint')}</div>
+            <Input
+              fluid
+              name="ldapSshHostKeyFingerprint"
+              value={data.ldapSshHostKeyFingerprint}
+              maxLength={256}
               className={styles.field}
               onChange={handleFieldChange}
             />
