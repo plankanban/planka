@@ -175,6 +175,17 @@ const getOneById = (id, { listId } = {}) => {
   return Card.findOne(criteria);
 };
 
+const getWithExpiredDueDate = () =>
+  defaultFind({
+    dueDate: {
+      '<': new Date().toISOString(),
+    },
+    isDueCompleted: {
+      '!=': true,
+    },
+    dueDateExpirationNotifiedAt: null,
+  });
+
 const update = async (criteria, values) => {
   if (!_.isUndefined(values.isClosed)) {
     return sails.getDatastore().transaction(async (db) => {
@@ -240,6 +251,7 @@ module.exports = {
   getByEndlessListId,
   getByListIds,
   getOneById,
+  getWithExpiredDueDate,
   update,
   updateOne,
   deleteOne,

@@ -105,6 +105,17 @@ module.exports = {
       }
     }
 
+    if (!_.isUndefined(values.dueDate)) {
+      const hasDueDateChanged =
+        values.dueDate && inputs.record.dueDate
+          ? new Date(values.dueDate).getTime() !== new Date(inputs.record.dueDate).getTime()
+          : values.dueDate !== inputs.record.dueDate;
+
+      if (hasDueDateChanged) {
+        values.dueDateExpirationNotifiedAt = null;
+      }
+    }
+
     const dueDate = _.isUndefined(values.dueDate) ? inputs.record.dueDate : values.dueDate;
 
     if (dueDate) {

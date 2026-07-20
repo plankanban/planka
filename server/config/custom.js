@@ -50,6 +50,9 @@ module.exports.custom = {
   storageLimit: envToBytes(process.env.STORAGE_LIMIT),
   activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
 
+  // In seconds
+  dueDateExpirationCheckInterval: envToNumber(process.env.DUE_DATE_EXPIRATION_CHECK_INTERVAL) || 60,
+
   // Location to receive uploaded files in. Default (non-string value) is a Sails-specific location.
   uploadsTempPath: null,
   uploadsBasePath: path.join(sails.config.appPath, 'data'),

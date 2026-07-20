@@ -180,6 +180,10 @@ module.exports = {
       allowNull: true,
       columnName: 'is_due_completed',
     },
+    dueDateExpirationNotifiedAt: {
+      type: 'ref',
+      columnName: 'due_date_expiration_notified_at',
+    },
     stopwatch: {
       type: 'json',
     },

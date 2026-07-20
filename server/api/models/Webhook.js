@@ -96,6 +96,7 @@ const Events = {
   CARD_CREATE: 'cardCreate',
   CARD_UPDATE: 'cardUpdate',
   CARD_DELETE: 'cardDelete',
+  CARD_DUE_DATE_EXPIRED: 'cardDueDateExpired',
 
   CARD_LABEL_CREATE: 'cardLabelCreate',
   CARD_LABEL_DELETE: 'cardLabelDelete',

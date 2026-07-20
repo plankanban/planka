@@ -28,6 +28,7 @@ export default [
   'cardCreate',
   'cardUpdate',
   'cardDelete',
+  'cardDueDateExpired',
 
   'cardLabelCreate',
   'cardLabelDelete',
