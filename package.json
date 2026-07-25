@@ -36,7 +36,7 @@
     ]
   },
   "dependencies": {
-    "concurrently": "^9.2.1",
+    "concurrently": "^9.2.4",
     "genversion": "^3.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0"
