@@ -33,10 +33,7 @@ Interested in a hosted or [Pro version](https://planka.app/pro) of PLANKA? Check
 
 ## Notes App
 
-A testing version of the Notes app is now available on multiple platforms:
-
-- **iOS:** Join the [TestFlight](https://testflight.apple.com/join/5eJqTaJW) to try the app
-- **Windows & Android:** Download the app [here](https://planka-notes.hillerdaniel.de)
+An iOS testing version of the Notes app is available through [TestFlight](https://testflight.apple.com/join/5eJqTaJW).
 
 ## Contact
 
