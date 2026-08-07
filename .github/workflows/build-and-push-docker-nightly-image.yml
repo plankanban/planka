@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
 
       - name: Update version with build number
@@ -44,10 +44,12 @@ jobs:
 
       - name: Update Dockerfile to use prebuilt client
         run: |
-          sed -i '/^FROM node:22 AS client/,/^  && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build$/c\
-          FROM node:22 AS client\n\
+          sed -i '/^FROM node:24 AS client/,/^  && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build$/c\
+          FROM node:24 AS client\n\
           WORKDIR /app\n\
           COPY client/build /app/dist' Dockerfile
+          grep -q '^COPY client/build /app/dist$' Dockerfile \
+            || { echo "::error::Failed to patch Dockerfile for the prebuilt client"; exit 1; }
           cat Dockerfile
 
       - name: Set up QEMU
