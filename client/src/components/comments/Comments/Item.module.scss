@@ -5,12 +5,15 @@
 
 :global(#app) {
   .actions {
-    margin-left: 20px;
+    margin-inline-start: 20px;
   }
 
   .bubble {
     background: #fff;
-    border-radius: 0 8px 8px;
+    border-start-start-radius: 0;
+    border-start-end-radius: 8px;
+    border-end-end-radius: 8px;
+    border-end-start-radius: 8px;
     box-shadow: 0 1px 2px -1px rgba(9, 30, 66, 0.25),
       0 0 0 1px rgba(9, 30, 66, 0.08);
     box-sizing: border-box;
@@ -24,8 +27,11 @@
 
   .bubbleRight {
     background: #dee7f4;
-    border-radius: 8px 0 8px 8px;
-    float: right;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 0;
+    border-end-end-radius: 8px;
+    border-end-start-radius: 8px;
+    float: inline-end;
   }
 
   .content {
@@ -36,7 +42,7 @@
   }
 
   .contentWithoutUser {
-    margin-left: 40px;
+    margin-inline-start: 40px;
   }
 
   .date {
@@ -61,7 +67,8 @@
 
   .user {
     display: inline-block;
-    padding: 4px 8px 4px 0;
+    padding-block: 4px 4px;
+    padding-inline: 0 8px;
     position: sticky;
     top: 0;
     vertical-align: top;

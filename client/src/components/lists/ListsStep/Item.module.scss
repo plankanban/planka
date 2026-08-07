@@ -12,7 +12,8 @@
     flex: 1 1 auto;
     font-size: 14px;
     overflow: hidden;
-    padding: 8px 32px 8px 10px;
+    padding-block: 8px 8px;
+    padding-inline: 10px 32px;
     position: relative;
     text-overflow: ellipsis;
 
@@ -31,7 +32,7 @@
       font-weight: normal;
       line-height: 36px;
       position: absolute;
-      right: 2px;
+      inset-inline-end: 2px;
       text-align: center;
       transform: rotate(-135deg);
       width: 36px;
@@ -41,7 +42,8 @@
   .nameIcon {
     color: rgba(9, 30, 66, 0.24);
     font-size: 12px;
-    margin: 0 8px 0 0;
+    margin-block: 0 0;
+    margin-inline: 0 8px;
     width: 14px;
   }
 

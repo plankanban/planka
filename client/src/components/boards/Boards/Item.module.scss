@@ -9,11 +9,11 @@
     box-shadow: none;
     color: #fff;
     line-height: 32px;
-    margin-right: 0;
+    margin-inline-end: 0;
     opacity: 0;
     padding: 0;
     position: absolute;
-    right: 2px;
+    inset-inline-end: 2px;
     top: 2px;
     width: 32px;
 
@@ -26,7 +26,8 @@
     cursor: pointer;
     display: block;
     line-height: 20px;
-    padding: 10px 34px 6px 14px;
+    padding-block: 10px 6px;
+    padding-inline: 14px 34px;
     text-overflow: ellipsis;
     max-width: 400px;
     overflow: hidden;
@@ -44,7 +45,7 @@
     display: inline-block;
     font-size: 10px;
     line-height: 18px;
-    margin-right: 6px;
+    margin-inline-end: 6px;
     outline: none;
     padding: 0px 6px;
     transition: background 0.3s ease;

@@ -7,7 +7,8 @@
   .attachment {
     display: inline-block;
     line-height: 0;
-    margin: 0 0 6px 0;
+    margin-block: 0 6px;
+    margin-inline: 0 0;
     max-width: 100%;
     vertical-align: top;
   }
@@ -26,7 +27,7 @@
   }
 
   .attachmentLeft {
-    margin-right: 4px;
+    margin-inline-end: 4px;
   }
 
   .attachments {
@@ -88,7 +89,7 @@
     border-radius: 3px;
     display: inline-block;
     outline: none;
-    text-align: left;
+    text-align: start;
     transition: background 0.3s ease;
     vertical-align: top;
   }

@@ -28,9 +28,9 @@
     background: rgba(107, 128, 140, 0.08);
     bottom: 0;
     content: "";
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 0;
     transition: filter 0.2s ease;
   }
@@ -98,11 +98,12 @@
   .title {
     color: #6b808c;
     font-size: 16px;
-    padding: 14px 0 14px 2px;
+    padding-block: 14px 14px;
+    padding-inline: 2px 0;
   }
 
   .titleIcon {
-    margin-right: 10px;
+    margin-inline-end: 10px;
   }
 
   .wrapper:not(:last-child) {

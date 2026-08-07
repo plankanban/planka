@@ -18,12 +18,13 @@
 
   .menuItem {
     margin: 0;
-    padding-left: 14px;
+    padding-inline-start: 14px;
   }
 
   .menuItemIcon {
-    float: left;
-    margin: 0 0.5em 0 0;
+    float: inline-start;
+    margin-block: 0 0;
+    margin-inline: 0 0.5em;
   }
 
   .tip {

@@ -6,7 +6,8 @@
 :global(#app) {
   .details {
     box-sizing: border-box;
-    padding: 6px 32px 6px 128px;
+    padding-block: 6px 6px;
+    padding-inline: 128px 32px;
     margin: 0;
     min-height: 80px;
   }
@@ -20,7 +21,7 @@
     opacity: 0;
     padding: 0;
     position: absolute;
-    right: 4px;
+    inset-inline-end: 4px;
     top: 4px;
     width: 28px;
 
@@ -53,7 +54,7 @@
     padding: 0;
 
     &:not(:last-child) {
-      margin-right: 10px;
+      margin-inline-end: 10px;
     }
 
     &:hover {
@@ -62,7 +63,7 @@
   }
 
   .optionIcon {
-    margin-right: 6px;
+    margin-inline-end: 6px;
   }
 
   .optionText {
@@ -94,7 +95,8 @@
     font-size: 18px;
     font-weight: bold;
     overflow: hidden;
-    padding: 0 20px 0 20px;
+    padding-block: 0 0;
+    padding-inline: 20px 20px;
     text-overflow: ellipsis;
     text-transform: uppercase;
   }

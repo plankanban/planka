@@ -25,12 +25,12 @@
     line-height: 14px;
     overflow-wrap: break-word;
     padding-bottom: 6px;
-    padding-left: 14px;
+    padding-inline-start: 14px;
 
     &:before {
       content: "–";
       position: absolute;
-      left: 10px;
+      inset-inline-start: 10px;
     }
   }
 }

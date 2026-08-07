@@ -18,7 +18,7 @@ import { configure as configureMarkdownEditor } from '@gravity-ui/markdown-edito
 // eslint-disable-next-line import/no-unresolved
 import { i18n as markdownEditorI18n } from '@gravity-ui/markdown-editor/_/i18n/i18n';
 
-import { embeddedLocales, languages } from './locales';
+import { embeddedLocales, languages, localeByLanguage } from './locales';
 
 const FALLBACK_LANGUAGE = 'en-US';
 
@@ -80,10 +80,22 @@ i18n.dateFns.init();
 i18n.timeAgo.init();
 i18n.markdownEditor.init();
 
+const applyDocumentDirection = (language) => {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  const locale = localeByLanguage[language] || localeByLanguage[FALLBACK_LANGUAGE];
+  const root = document.documentElement;
+  root.setAttribute('dir', locale && locale.isRtl ? 'rtl' : 'ltr');
+  root.setAttribute('lang', language);
+};
+
 i18n.on('languageChanged', () => {
   i18n.dateFns.setLanguage(i18n.resolvedLanguage);
   i18n.timeAgo.setLanguage(i18n.resolvedLanguage);
   i18n.markdownEditor.setLanguage(i18n.resolvedLanguage);
+  applyDocumentDirection(i18n.resolvedLanguage);
 });
 
 const formatDatePostProcessor = {

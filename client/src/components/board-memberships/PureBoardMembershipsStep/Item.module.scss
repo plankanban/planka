@@ -33,7 +33,7 @@
     font-weight: normal;
     line-height: 36px;
     position: absolute;
-    right: 2px;
+    inset-inline-end: 2px;
     text-align: center;
     transform: rotate(-135deg);
     width: 36px;
@@ -42,7 +42,7 @@
   .user {
     display: inline-block;
     line-height: 32px;
-    padding-right: 8px;
+    padding-inline-end: 8px;
     width: 40px;
   }
 }

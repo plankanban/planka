@@ -8,7 +8,7 @@
     bottom: 12px;
     box-shadow: 0 1px 0 #cbcccc;
     position: absolute;
-    right: 9px;
+    inset-inline-end: 9px;
   }
 
   .fieldBox {
@@ -24,7 +24,8 @@
   .iconButton {
     background: transparent;
     box-shadow: none;
-    margin: 0 4px 0 1px;
+    margin-block: 0 0;
+    margin-inline: 1px 4px;
     width: 36px;
 
     &:hover {
@@ -37,6 +38,6 @@
     font-size: 12px;
     font-weight: bold;
     padding-bottom: 4px;
-    padding-left: 2px;
+    padding-inline-start: 2px;
   }
 }

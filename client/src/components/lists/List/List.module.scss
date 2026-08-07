@@ -20,7 +20,7 @@
     height: 36px;
     outline: none;
     padding: 8px;
-    text-align: left;
+    text-align: start;
 
     &:hover {
       background: #c3cbd0;
@@ -43,7 +43,7 @@
     display: inline-block;
     font-size: 14px;
     line-height: 20px;
-    margin-left: 2px;
+    margin-inline-start: 2px;
     vertical-align: top;
   }
 
@@ -94,7 +94,8 @@
 
   .header {
     outline: none;
-    padding: 6px 36px 6px 8px;
+    padding-block: 6px 6px;
+    padding-inline: 8px 36px;
     position: relative;
 
     &:hover {
@@ -121,7 +122,7 @@
     opacity: 0;
     padding: 0;
     position: absolute;
-    right: 4px;
+    inset-inline-end: 4px;
     top: 4px;
     width: 32px;
 
@@ -134,7 +135,7 @@
   .headerIcon {
     color: #798d99;
     position: absolute;
-    right: 8px;
+    inset-inline-end: 8px;
     top: 10px;
   }
 
@@ -152,11 +153,11 @@
 
   .headerNameColor {
     line-height: 1;
-    margin-right: 6px;
+    margin-inline-end: 6px;
   }
 
   .innerWrapper {
-    margin-right: 8px;
+    margin-inline-end: 8px;
     width: 272px;
   }
 

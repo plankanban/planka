@@ -10,6 +10,17 @@ import { Button, Popup as SemanticUIPopup } from 'semantic-ui-react';
 
 import styles from './Popup.module.css';
 
+const flipPositionForRtl = (position) => {
+  if (typeof document === 'undefined' || document.documentElement.dir !== 'rtl') {
+    return position;
+  }
+
+  return position
+    .replace(/\bleft\b/g, '\0')
+    .replace(/\bright\b/g, 'left')
+    .replace(/\0/g, 'right');
+};
+
 export default (Step, { position, onOpen, onClose } = {}) => {
   return useMemo(() => {
     const Popup = React.forwardRef(({ children, ...stepProps }, ref) => {
@@ -97,7 +108,7 @@ export default (Step, { position, onOpen, onClose } = {}) => {
           trigger={tigger}
           on="click"
           open={!!stepParams}
-          position={position || 'bottom left'}
+          position={flipPositionForRtl(position || 'bottom left')}
           popperModifiers={[
             {
               name: 'preventOverflow',

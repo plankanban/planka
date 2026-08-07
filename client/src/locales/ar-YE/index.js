@@ -4,5 +4,6 @@ export default {
   language: 'ar-YE',
   country: 'ye',
   name: 'العربية',
+  isRtl: true,
   embeddedLocale: login,
 };

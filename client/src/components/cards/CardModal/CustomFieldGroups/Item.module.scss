@@ -13,7 +13,7 @@
     opacity: 0;
     padding: 0;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 4px;
     width: 28px;
 
@@ -33,7 +33,7 @@
   }
 
   .moduleHeaderEditable {
-    padding-right: 32px;
+    padding-inline-end: 32px;
 
     &:hover {
       .editButton {
@@ -51,16 +51,17 @@
     color: #17394d;
     font-size: 17px;
     height: 32px;
-    left: -40px;
+    inset-inline-start: -40px;
     line-height: 32px;
-    margin-right: 0;
+    margin-inline-end: 0;
     position: absolute;
     top: 2px;
     width: 32px;
   }
 
   .moduleWrapper {
-    margin: 0 0 0 40px;
+    margin-block: 0 0;
+    margin-inline: 40px 0;
     position: relative;
   }
 

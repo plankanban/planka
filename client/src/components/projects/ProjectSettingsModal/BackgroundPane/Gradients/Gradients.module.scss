@@ -32,7 +32,7 @@
 
     &::-webkit-scrollbar-thumb {
       background-clip: padding-box;
-      border-left: 0.25em transparent solid;
+      border-inline-start: 0.25em transparent solid;
       border-radius: 3px;
     }
   }

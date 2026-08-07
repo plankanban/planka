@@ -6,9 +6,9 @@
 :global(#app) {
   .bottom {
     display: flex;
-    left: 0;
+    inset-inline-start: 0;
     position: absolute;
-    right: 0;
+    inset-inline-end: 0;
     top: 100%;
 
     div {
@@ -35,7 +35,7 @@
     background: #22252a;
     border-radius: 50%;
     height: 12px;
-    left: 10px;
+    inset-inline-start: 10px;
     position: absolute;
     width: 12px;
   }
@@ -45,13 +45,13 @@
     border-radius: 50%;
     height: 12px;
     position: absolute;
-    right: 10px;
+    inset-inline-end: 10px;
     width: 12px;
   }
 
   .eyes {
     height: 12px;
-    left: 50%;
+    inset-inline-start: 50%;
     position: absolute;
     top: 45%;
     transform: translateX(-50%);
@@ -87,7 +87,7 @@
   .symbol {
     &:nth-child(1) {
       animation: shine 4s ease-in-out 3s infinite;
-      left: 20px;
+      inset-inline-start: 20px;
       opacity: 0.3;
       position: absolute;
       top: 20px;
@@ -119,7 +119,7 @@
       height: 12px;
       opacity: 0.3;
       position: absolute;
-      right: 30px;
+      inset-inline-end: 30px;
       top: 40px;
       width: 12px;
     }
@@ -127,7 +127,7 @@
     &:nth-child(3) {
       animation: shine 3s ease-in-out 0.5s infinite;
       bottom: 30px;
-      left: 30px;
+      inset-inline-start: 30px;
       opacity: 0.3;
       position: absolute;
 
@@ -154,7 +154,7 @@
       animation: shine 6s ease-in-out 1.6s infinite;
       opacity: 0.3;
       position: absolute;
-      right: 30px;
+      inset-inline-end: 30px;
       top: 10px;
 
       &:before,
@@ -184,7 +184,7 @@
       height: 8px;
       opacity: 0.3;
       position: absolute;
-      right: 5px;
+      inset-inline-end: 5px;
       top: 60px;
       width: 8px;
     }
@@ -194,7 +194,7 @@
       bottom: 10px;
       opacity: 0.3;
       position: absolute;
-      right: 10px;
+      inset-inline-end: 10px;
 
       &:before,
       &:after {
@@ -218,7 +218,7 @@
 
   .symbols {
     height: 200px;
-    left: 50%;
+    inset-inline-start: 50%;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);

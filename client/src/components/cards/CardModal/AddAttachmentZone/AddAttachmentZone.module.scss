@@ -17,7 +17,7 @@
   }
 
   .dropzoneText {
-    left: 50%;
+    inset-inline-start: 50%;
     position: absolute;
     top: min(200px, 50%);
     transform: translateX(-50%) translateY(-50%);

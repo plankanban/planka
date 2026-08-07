@@ -11,7 +11,7 @@
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 11px;
-    text-align: left;
+    text-align: start;
     text-decoration: underline;
     transition: none;
 
@@ -38,7 +38,7 @@
   }
 
   .informationIcon {
-    margin-right: 6px;
+    margin-inline-end: 6px;
     opacity: 0.45;
   }
 
@@ -47,7 +47,8 @@
     font-size: 16px;
     font-weight: bold;
     line-height: 1.2;
-    padding: 9px 28px 0 2px;
+    padding-block: 9px 0;
+    padding-inline: 2px 28px;
   }
 
   .userWrapper {
@@ -57,7 +58,7 @@
 
   .user {
     display: inline-block;
-    padding-right: 8px;
+    padding-inline-end: 8px;
     padding-top: 10px;
     vertical-align: top;
   }
@@ -66,7 +67,8 @@
     color: #888888;
     font-size: 14px;
     line-height: 1.2;
-    padding: 2px 0 2px 2px;
+    padding-block: 2px 2px;
+    padding-inline: 2px 0;
     word-wrap: break-word;
   }
 }

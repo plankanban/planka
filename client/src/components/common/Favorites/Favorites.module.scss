@@ -10,7 +10,7 @@
   }
 
   .cardWrapper:not(:last-child) {
-    margin-right: 20px;
+    margin-inline-end: 20px;
   }
 
   .cards {
@@ -18,7 +18,8 @@
     height: 108px;
     overflow-x: auto;
     overflow-y: hidden;
-    padding: 10px 20px 0 20px;
+    padding-block: 10px 0;
+    padding-inline: 20px 20px;
 
     @supports (-moz-appearance: none) {
       scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
