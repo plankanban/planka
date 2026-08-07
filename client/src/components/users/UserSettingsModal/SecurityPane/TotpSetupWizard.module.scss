@@ -5,7 +5,7 @@
 
 :global(#app) {
   .intro {
-    color: var(--text-secondary);
+    color: #444444;
     margin-bottom: 12px;
   }
 
@@ -14,8 +14,8 @@
   }
 
   .qrWrapper {
-    background: var(--surface-card);
-    border: 1px solid var(--grey-dddddd);
+    background: #ffffff;
+    border: 1px solid #dddddd;
     border-radius: 8px;
     display: inline-block;
     margin: 16px 0;
@@ -23,14 +23,14 @@
   }
 
   .secretLabel {
-    color: var(--text-secondary);
+    color: #444444;
     font-size: 13px;
     margin-bottom: 6px;
   }
 
   .secret {
-    background: var(--surface-subtle);
-    border: 1px solid var(--grey-dddddd);
+    background: #f8f8f8;
+    border: 1px solid #dddddd;
     border-radius: 4px;
     display: inline-block;
     font-family: 'JetBrains Mono', 'Menlo', 'Courier New', monospace;
