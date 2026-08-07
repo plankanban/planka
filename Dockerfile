@@ -1,5 +1,5 @@
 # Stage 1: Server build
-FROM node:22-alpine AS server
+FROM node:24-alpine AS server
 
 RUN apk -U upgrade \
   && apk add build-base python3 --no-cache
@@ -13,7 +13,7 @@ RUN  npm install \
   && npm prune --production
 
 # Stage 2: Client build
-FROM node:22 AS client
+FROM node:24 AS client
 
 WORKDIR /app
 
@@ -24,7 +24,7 @@ RUN npm install npm --global \
   && INDEX_FORMAT=ejs DISABLE_ESLINT_PLUGIN=true npm run build
 
 # Stage 3: Final image
-FROM node:22-alpine
+FROM node:24-alpine
 
 RUN apk -U upgrade \
   && apk add bash python3 squid --no-cache
