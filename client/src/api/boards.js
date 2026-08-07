@@ -32,10 +32,14 @@ const updateBoard = (id, data, headers) => socket.patch(`/boards/${id}`, data, h
 
 const deleteBoard = (id, headers) => socket.delete(`/boards/${id}`, undefined, headers);
 
+const moveToProject = (id, data, headers) =>
+  socket.post(`/boards/${id}/move-to-project`, data, headers);
+
 export default {
   createBoard,
   createBoardWithImport,
   getBoard,
   updateBoard,
   deleteBoard,
+  moveToProject,
 };

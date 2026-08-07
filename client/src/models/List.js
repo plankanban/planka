@@ -120,7 +120,14 @@ export default class extends BaseModel {
       case ActionTypes.LIST_SORT__SUCCESS:
       case ActionTypes.LIST_CARDS_MOVE__SUCCESS:
       case ActionTypes.LIST_CLEAR__SUCCESS:
-        List.upsert(prepareList(payload.list));
+      case ActionTypes.BOARD_MOVE_TO_PROJECT__SUCCESS:
+        if (payload.lists && payload.lists.length > 0) {
+          payload.lists.forEach((list) => {
+            List.upsert(prepareList(list));
+          });
+        } else if (payload.list) {
+          List.upsert(prepareList(payload.list));
+        }
 
         break;
       case ActionTypes.LIST_CREATE__SUCCESS:

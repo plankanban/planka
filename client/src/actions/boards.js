@@ -165,6 +165,31 @@ const handleBoardDelete = (board) => ({
   },
 });
 
+const moveBoardToProject = (id, targetProjectId) => ({
+  type: ActionTypes.BOARD_MOVE_TO_PROJECT,
+  payload: {
+    id,
+    targetProjectId,
+  },
+});
+
+moveBoardToProject.success = (board, lists, cards) => ({
+  type: ActionTypes.BOARD_MOVE_TO_PROJECT__SUCCESS,
+  payload: {
+    board,
+    lists,
+    cards,
+  },
+});
+
+moveBoardToProject.failure = (id, error) => ({
+  type: ActionTypes.BOARD_MOVE_TO_PROJECT__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
 export default {
   createBoard,
   handleBoardCreate,
@@ -175,4 +200,5 @@ export default {
   searchInBoard,
   deleteBoard,
   handleBoardDelete,
+  moveBoardToProject,
 };
