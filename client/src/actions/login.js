@@ -98,6 +98,44 @@ updateTermsLanguage.failure = (error) => ({
   },
 });
 
+const verifyTotp = (data) => ({
+  type: ActionTypes.TOTP_VERIFY,
+  payload: {
+    data,
+  },
+});
+
+verifyTotp.success = (accessToken) => ({
+  type: ActionTypes.TOTP_VERIFY__SUCCESS,
+  payload: {
+    accessToken,
+  },
+});
+
+verifyTotp.failure = (error) => ({
+  type: ActionTypes.TOTP_VERIFY__FAILURE,
+  payload: {
+    error,
+  },
+});
+
+const cancelTotpChallenge = () => ({
+  type: ActionTypes.TOTP_CHALLENGE_CANCEL,
+  payload: {},
+});
+
+cancelTotpChallenge.success = () => ({
+  type: ActionTypes.TOTP_CHALLENGE_CANCEL__SUCCESS,
+  payload: {},
+});
+
+cancelTotpChallenge.failure = (error) => ({
+  type: ActionTypes.TOTP_CHALLENGE_CANCEL__FAILURE,
+  payload: {
+    error,
+  },
+});
+
 export default {
   initializeLogin,
   authenticate,
@@ -105,4 +143,6 @@ export default {
   acceptTerms,
   cancelTerms,
   updateTermsLanguage,
+  verifyTotp,
+  cancelTotpChallenge,
 };

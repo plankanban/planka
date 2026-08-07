@@ -138,6 +138,7 @@
     "patch-package": "^8.0.1",
     "photoswipe": "^5.4.4",
     "prop-types": "^15.8.1",
+    "qrcode.react": "^4.2.0",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-datepicker": "^9.1.0",

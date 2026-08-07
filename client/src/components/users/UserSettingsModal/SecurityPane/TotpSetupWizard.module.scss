@@ -1,0 +1,59 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .intro {
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .scanStep {
+    text-align: center;
+  }
+
+  .qrWrapper {
+    background: var(--surface-card);
+    border: 1px solid var(--grey-dddddd);
+    border-radius: 8px;
+    display: inline-block;
+    margin: 16px 0;
+    padding: 16px;
+  }
+
+  .secretLabel {
+    color: var(--text-secondary);
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .secret {
+    background: var(--surface-subtle);
+    border: 1px solid var(--grey-dddddd);
+    border-radius: 4px;
+    display: inline-block;
+    font-family: 'JetBrains Mono', 'Menlo', 'Courier New', monospace;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 6px 12px;
+    user-select: all;
+  }
+
+  .codeInput {
+    font-family: 'JetBrains Mono', 'Menlo', 'Courier New', monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+
+  .codesStep {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .savedCheckbox {
+    margin-top: 8px;
+  }
+}

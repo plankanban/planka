@@ -294,6 +294,159 @@ const clearUserApiKeyValue = (id) => ({
   },
 });
 
+const setupUserTotp = (id) => ({
+  type: ActionTypes.USER_TOTP_SETUP,
+  payload: {
+    id,
+  },
+});
+
+setupUserTotp.success = (id, setup) => ({
+  type: ActionTypes.USER_TOTP_SETUP__SUCCESS,
+  payload: {
+    id,
+    setup,
+  },
+});
+
+setupUserTotp.failure = (id, error) => ({
+  type: ActionTypes.USER_TOTP_SETUP__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const clearUserTotpSetupValue = (id) => ({
+  type: ActionTypes.USER_TOTP_SETUP_VALUE_CLEAR,
+  payload: {
+    id,
+  },
+});
+
+const enableUserTotp = (id) => ({
+  type: ActionTypes.USER_TOTP_ENABLE,
+  payload: {
+    id,
+  },
+});
+
+enableUserTotp.success = (user, recoveryCodes) => ({
+  type: ActionTypes.USER_TOTP_ENABLE__SUCCESS,
+  payload: {
+    user,
+    recoveryCodes,
+  },
+});
+
+enableUserTotp.failure = (id, error) => ({
+  type: ActionTypes.USER_TOTP_ENABLE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const disableUserTotp = (id) => ({
+  type: ActionTypes.USER_TOTP_DISABLE,
+  payload: {
+    id,
+  },
+});
+
+disableUserTotp.success = (user) => ({
+  type: ActionTypes.USER_TOTP_DISABLE__SUCCESS,
+  payload: {
+    user,
+  },
+});
+
+disableUserTotp.failure = (id, error) => ({
+  type: ActionTypes.USER_TOTP_DISABLE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const regenerateUserTotpRecoveryCodes = (id) => ({
+  type: ActionTypes.USER_TOTP_RECOVERY_CODES_REGENERATE,
+  payload: {
+    id,
+  },
+});
+
+regenerateUserTotpRecoveryCodes.success = (id, recoveryCodes) => ({
+  type: ActionTypes.USER_TOTP_RECOVERY_CODES_REGENERATE__SUCCESS,
+  payload: {
+    id,
+    recoveryCodes,
+  },
+});
+
+regenerateUserTotpRecoveryCodes.failure = (id, error) => ({
+  type: ActionTypes.USER_TOTP_RECOVERY_CODES_REGENERATE__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const clearUserTotpRecoveryCodes = (id) => ({
+  type: ActionTypes.USER_TOTP_RECOVERY_CODES_CLEAR,
+  payload: {
+    id,
+  },
+});
+
+const fetchUserTrustedDevices = (id) => ({
+  type: ActionTypes.USER_TRUSTED_DEVICES_FETCH,
+  payload: {
+    id,
+  },
+});
+
+fetchUserTrustedDevices.success = (id, devices) => ({
+  type: ActionTypes.USER_TRUSTED_DEVICES_FETCH__SUCCESS,
+  payload: {
+    id,
+    devices,
+  },
+});
+
+fetchUserTrustedDevices.failure = (id, error) => ({
+  type: ActionTypes.USER_TRUSTED_DEVICES_FETCH__FAILURE,
+  payload: {
+    id,
+    error,
+  },
+});
+
+const deleteUserTrustedDevice = (id, deviceId) => ({
+  type: ActionTypes.USER_TRUSTED_DEVICE_DELETE,
+  payload: {
+    id,
+    deviceId,
+  },
+});
+
+deleteUserTrustedDevice.success = (id, device) => ({
+  type: ActionTypes.USER_TRUSTED_DEVICE_DELETE__SUCCESS,
+  payload: {
+    id,
+    device,
+  },
+});
+
+deleteUserTrustedDevice.failure = (id, deviceId, error) => ({
+  type: ActionTypes.USER_TRUSTED_DEVICE_DELETE__FAILURE,
+  payload: {
+    id,
+    deviceId,
+    error,
+  },
+});
+
 const deleteUser = (id) => ({
   type: ActionTypes.USER_DELETE,
   payload: {
@@ -422,6 +575,14 @@ export default {
   createUserApiKey,
   deleteUserApiKey,
   clearUserApiKeyValue,
+  setupUserTotp,
+  clearUserTotpSetupValue,
+  enableUserTotp,
+  disableUserTotp,
+  regenerateUserTotpRecoveryCodes,
+  clearUserTotpRecoveryCodes,
+  fetchUserTrustedDevices,
+  deleteUserTrustedDevice,
   deleteUser,
   handleUserDelete,
   addUserToCard,

@@ -175,6 +175,64 @@ const clearUserApiKeyValue = (id) => ({
   },
 });
 
+const setupCurrentUserTotp = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_TOTP_SETUP,
+  payload: {
+    data,
+  },
+});
+
+const clearCurrentUserTotpSetupValue = () => ({
+  type: EntryActionTypes.CURRENT_USER_TOTP_SETUP_VALUE_CLEAR,
+  payload: {},
+});
+
+const enableCurrentUserTotp = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_TOTP_ENABLE,
+  payload: {
+    data,
+  },
+});
+
+const disableCurrentUserTotp = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_TOTP_DISABLE,
+  payload: {
+    data,
+  },
+});
+
+const disableUserTotp = (id, data) => ({
+  type: EntryActionTypes.USER_TOTP_DISABLE,
+  payload: {
+    id,
+    data,
+  },
+});
+
+const regenerateCurrentUserTotpRecoveryCodes = (data) => ({
+  type: EntryActionTypes.CURRENT_USER_TOTP_RECOVERY_CODES_REGENERATE,
+  payload: {
+    data,
+  },
+});
+
+const clearCurrentUserTotpRecoveryCodes = () => ({
+  type: EntryActionTypes.CURRENT_USER_TOTP_RECOVERY_CODES_CLEAR,
+  payload: {},
+});
+
+const fetchCurrentUserTrustedDevices = () => ({
+  type: EntryActionTypes.CURRENT_USER_TRUSTED_DEVICES_FETCH,
+  payload: {},
+});
+
+const deleteCurrentUserTrustedDevice = (deviceId) => ({
+  type: EntryActionTypes.CURRENT_USER_TRUSTED_DEVICE_DELETE,
+  payload: {
+    deviceId,
+  },
+});
+
 const deleteUser = (id) => ({
   type: EntryActionTypes.USER_DELETE,
   payload: {
@@ -284,6 +342,15 @@ export default {
   createUserApiKey,
   deleteUserApiKey,
   clearUserApiKeyValue,
+  setupCurrentUserTotp,
+  clearCurrentUserTotpSetupValue,
+  enableCurrentUserTotp,
+  disableCurrentUserTotp,
+  disableUserTotp,
+  regenerateCurrentUserTotpRecoveryCodes,
+  clearCurrentUserTotpRecoveryCodes,
+  fetchCurrentUserTrustedDevices,
+  deleteCurrentUserTrustedDevice,
   deleteUser,
   handleUserDelete,
   addUserToCard,

@@ -388,6 +388,136 @@ export function* clearUserApiKeyValue(id) {
   yield put(actions.clearUserApiKeyValue(id));
 }
 
+export function* setupUserTotp(id, data) {
+  yield put(actions.setupUserTotp(id));
+
+  let setup;
+  try {
+    ({ item: setup } = yield call(request, api.setupUserTotp, id, data));
+  } catch (error) {
+    yield put(actions.setupUserTotp.failure(id, error));
+    return;
+  }
+
+  yield put(actions.setupUserTotp.success(id, setup));
+}
+
+export function* setupCurrentUserTotp(data) {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield call(setupUserTotp, currentUserId, data);
+}
+
+export function* clearCurrentUserTotpSetupValue() {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield put(actions.clearUserTotpSetupValue(currentUserId));
+}
+
+export function* enableUserTotp(id, data) {
+  yield put(actions.enableUserTotp(id));
+
+  let user;
+  let recoveryCodes;
+  try {
+    ({
+      item: user,
+      included: { recoveryCodes },
+    } = yield call(request, api.enableUserTotp, id, data));
+  } catch (error) {
+    yield put(actions.enableUserTotp.failure(id, error));
+    return;
+  }
+
+  yield put(actions.enableUserTotp.success(user, recoveryCodes));
+}
+
+export function* enableCurrentUserTotp(data) {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield call(enableUserTotp, currentUserId, data);
+}
+
+export function* disableUserTotp(id, data) {
+  yield put(actions.disableUserTotp(id));
+
+  let user;
+  try {
+    ({ item: user } = yield call(request, api.disableUserTotp, id, data));
+  } catch (error) {
+    yield put(actions.disableUserTotp.failure(id, error));
+    return;
+  }
+
+  yield put(actions.disableUserTotp.success(user));
+}
+
+export function* disableCurrentUserTotp(data) {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield call(disableUserTotp, currentUserId, data);
+}
+
+export function* regenerateUserTotpRecoveryCodes(id, data) {
+  yield put(actions.regenerateUserTotpRecoveryCodes(id));
+
+  let recoveryCodes;
+  try {
+    ({
+      included: { recoveryCodes },
+    } = yield call(request, api.regenerateUserTotpRecoveryCodes, id, data));
+  } catch (error) {
+    yield put(actions.regenerateUserTotpRecoveryCodes.failure(id, error));
+    return;
+  }
+
+  yield put(actions.regenerateUserTotpRecoveryCodes.success(id, recoveryCodes));
+}
+
+export function* regenerateCurrentUserTotpRecoveryCodes(data) {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield call(regenerateUserTotpRecoveryCodes, currentUserId, data);
+}
+
+export function* clearCurrentUserTotpRecoveryCodes() {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield put(actions.clearUserTotpRecoveryCodes(currentUserId));
+}
+
+export function* fetchUserTrustedDevices(id) {
+  yield put(actions.fetchUserTrustedDevices(id));
+
+  let devices;
+  try {
+    ({ items: devices } = yield call(request, api.getUserTrustedDevices, id));
+  } catch (error) {
+    yield put(actions.fetchUserTrustedDevices.failure(id, error));
+    return;
+  }
+
+  yield put(actions.fetchUserTrustedDevices.success(id, devices));
+}
+
+export function* fetchCurrentUserTrustedDevices() {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield call(fetchUserTrustedDevices, currentUserId);
+}
+
+export function* deleteUserTrustedDevice(id, deviceId) {
+  yield put(actions.deleteUserTrustedDevice(id, deviceId));
+
+  let device;
+  try {
+    ({ item: device } = yield call(request, api.deleteUserTrustedDevice, id, deviceId));
+  } catch (error) {
+    yield put(actions.deleteUserTrustedDevice.failure(id, deviceId, error));
+    return;
+  }
+
+  yield put(actions.deleteUserTrustedDevice.success(id, device));
+}
+
+export function* deleteCurrentUserTrustedDevice(deviceId) {
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+  yield call(deleteUserTrustedDevice, currentUserId, deviceId);
+}
+
 export function* deleteUser(id) {
   yield put(actions.deleteUser(id));
 
@@ -528,6 +658,20 @@ export default {
   createUserApiKey,
   deleteUserApiKey,
   clearUserApiKeyValue,
+  setupUserTotp,
+  setupCurrentUserTotp,
+  clearCurrentUserTotpSetupValue,
+  enableUserTotp,
+  enableCurrentUserTotp,
+  disableUserTotp,
+  disableCurrentUserTotp,
+  regenerateUserTotpRecoveryCodes,
+  regenerateCurrentUserTotpRecoveryCodes,
+  clearCurrentUserTotpRecoveryCodes,
+  fetchUserTrustedDevices,
+  fetchCurrentUserTrustedDevices,
+  deleteUserTrustedDevice,
+  deleteCurrentUserTrustedDevice,
   deleteUser,
   handleUserDelete,
   addUserToCard,

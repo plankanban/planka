@@ -98,6 +98,7 @@
  *                   type: string
  *                   enum:
  *                     - Terms acceptance required
+ *                     - TOTP verification required
  *                     - Admin login required to initialize instance
  *                   description: Specific error message
  *                   example: Terms acceptance required
@@ -155,6 +156,9 @@ module.exports = {
     termsAcceptanceRequired: {
       responseType: 'forbidden',
     },
+    totpVerificationRequired: {
+      responseType: 'forbidden',
+    },
     adminLoginRequiredToInitializeInstance: {
       responseType: 'forbidden',
     },
@@ -197,6 +201,9 @@ module.exports = {
       }))
       .intercept('termsAcceptanceRequired', (error) => ({
         termsAcceptanceRequired: error.raw,
+      }))
+      .intercept('totpVerificationRequired', (error) => ({
+        totpVerificationRequired: error.raw,
       }));
   },
 };

@@ -18,6 +18,7 @@ import { useForm, useNestedRef } from '../../../hooks';
 import { isUsername } from '../../../utils/validator';
 import AccessTokenSteps from '../../../constants/AccessTokenSteps';
 import TermsModal from './TermsModal';
+import TotpChallengeModal from './TotpChallengeModal';
 
 import logo from '../../../assets/images/logo.png';
 
@@ -268,6 +269,7 @@ const Content = React.memo(() => {
         </Grid.Column>
       </Grid>
       {step === AccessTokenSteps.ACCEPT_TERMS && <TermsModal />}
+      {step === AccessTokenSteps.VERIFY_TOTP && <TotpChallengeModal />}
     </div>
   );
 });

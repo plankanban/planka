@@ -15,6 +15,7 @@ import entryActions from '../../../../entry-actions';
 import { useSteps } from '../../../../hooks';
 import SelectRoleStep from './SelectRoleStep';
 import ApiKeyStep from './ApiKeyStep';
+import ResetTotpStep from './ResetTotpStep';
 import ConfirmationStep from '../../ConfirmationStep';
 import EditUserInformationStep from '../../../users/EditUserInformationStep';
 import EditUserAvatarStep from '../../../users/EditUserAvatarStep';
@@ -32,6 +33,7 @@ const StepTypes = {
   EDIT_PASSWORD: 'EDIT_PASSWORD',
   EDIT_ROLE: 'EDIT_ROLE',
   API_KEY: 'API_KEY',
+  RESET_TOTP: 'RESET_TOTP',
   ACTIVATE: 'ACTIVATE',
   DEACTIVATE: 'DEACTIVATE',
   DELETE: 'DELETE',
@@ -112,6 +114,10 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     openStep(StepTypes.API_KEY);
   }, [openStep]);
 
+  const handleResetTotpClick = useCallback(() => {
+    openStep(StepTypes.RESET_TOTP);
+  }, [openStep]);
+
   const handleActivateClick = useCallback(() => {
     openStep(StepTypes.ACTIVATE);
   }, [openStep]);
@@ -150,6 +156,8 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
         );
       case StepTypes.API_KEY:
         return <ApiKeyStep userId={userId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.RESET_TOTP:
+        return <ResetTotpStep userId={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.ACTIVATE:
         return (
           <ConfirmationStep
@@ -246,6 +254,14 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
               context: 'title',
             })}
           </Menu.Item>
+          {user.isTotpEnabled && !isCurrentUser && (
+            <Menu.Item className={styles.menuItem} onClick={handleResetTotpClick}>
+              <Icon name="shield alternate" className={styles.menuItemIcon} />
+              {t('common.reset2fa', {
+                context: 'title',
+              })}
+            </Menu.Item>
+          )}
           {!isCurrentUser && (
             <>
               <Menu.Item

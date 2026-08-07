@@ -36,10 +36,24 @@ const updateTermsLanguage = (value) => ({
   },
 });
 
+const verifyTotp = (data) => ({
+  type: EntryActionTypes.TOTP_VERIFY,
+  payload: {
+    data,
+  },
+});
+
+const cancelTotpChallenge = () => ({
+  type: EntryActionTypes.TOTP_CHALLENGE_CANCEL,
+  payload: {},
+});
+
 export default {
   authenticate,
   clearAuthenticateError,
   acceptTerms,
   cancelTerms,
   updateTermsLanguage,
+  verifyTotp,
+  cancelTotpChallenge,
 };

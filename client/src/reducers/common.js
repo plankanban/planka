@@ -33,6 +33,7 @@ export default (state = initialState, { type, payload }) => {
         bootstrap: payload.bootstrap,
       };
     case ActionTypes.AUTHENTICATE__SUCCESS:
+    case ActionTypes.TOTP_VERIFY__SUCCESS:
     case ActionTypes.TERMS_ACCEPT__SUCCESS:
       return {
         ...state,

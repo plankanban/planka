@@ -79,6 +79,34 @@ export default function* usersWatchers() {
     takeEvery(EntryActionTypes.USER_API_KEY_VALUE_CLEAR, ({ payload: { id } }) =>
       services.clearUserApiKeyValue(id),
     ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TOTP_SETUP, ({ payload: { data } }) =>
+      services.setupCurrentUserTotp(data),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TOTP_SETUP_VALUE_CLEAR, () =>
+      services.clearCurrentUserTotpSetupValue(),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TOTP_ENABLE, ({ payload: { data } }) =>
+      services.enableCurrentUserTotp(data),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TOTP_DISABLE, ({ payload: { data } }) =>
+      services.disableCurrentUserTotp(data),
+    ),
+    takeEvery(EntryActionTypes.USER_TOTP_DISABLE, ({ payload: { id, data } }) =>
+      services.disableUserTotp(id, data),
+    ),
+    takeEvery(
+      EntryActionTypes.CURRENT_USER_TOTP_RECOVERY_CODES_REGENERATE,
+      ({ payload: { data } }) => services.regenerateCurrentUserTotpRecoveryCodes(data),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TOTP_RECOVERY_CODES_CLEAR, () =>
+      services.clearCurrentUserTotpRecoveryCodes(),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TRUSTED_DEVICES_FETCH, () =>
+      services.fetchCurrentUserTrustedDevices(),
+    ),
+    takeEvery(EntryActionTypes.CURRENT_USER_TRUSTED_DEVICE_DELETE, ({ payload: { deviceId } }) =>
+      services.deleteCurrentUserTrustedDevice(deviceId),
+    ),
     takeEvery(EntryActionTypes.USER_DELETE, ({ payload: { id } }) => services.deleteUser(id)),
     takeEvery(EntryActionTypes.USER_DELETE_HANDLE, ({ payload: { user } }) =>
       services.handleUserDelete(user),

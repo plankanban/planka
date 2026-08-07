@@ -60,6 +60,17 @@ const filterProjectModels = (projectModels, search, isHidden) => {
   return filteredProjectModels;
 };
 
+const DEFAULT_TOTP_STATE = {
+  setupSecret: null,
+  setupProvisioningUri: null,
+  recoveryCodes: null,
+  isSettingUp: false,
+  isEnabling: false,
+  isDisabling: false,
+  isRegeneratingRecoveryCodes: false,
+  error: null,
+};
+
 export default class extends BaseModel {
   static modelName = 'User';
 
@@ -78,10 +89,16 @@ export default class extends BaseModel {
     subscribeToCardWhenCommenting: attr(),
     turnOffRecentCardHighlighting: attr(),
     isDefaultAdmin: attr(),
+    isTotpEnabled: attr(),
+    totpEnabledAt: attr(),
+    totpRecoveryCodesRemaining: attr(),
     isDeactivated: attr(),
     lockedFieldNames: attr(),
     isAvatarUpdating: attr({
       getDefault: () => false,
+    }),
+    totpState: attr({
+      getDefault: () => DEFAULT_TOTP_STATE,
     }),
     emailUpdateForm: attr({
       getDefault: () => DEFAULT_EMAIL_UPDATE_FORM,
@@ -359,6 +376,160 @@ export default class extends BaseModel {
 
         if (userModel) {
           userModel.deleteWithRelated();
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_SETUP: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...DEFAULT_TOTP_STATE,
+            isSettingUp: true,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_SETUP__SUCCESS: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...DEFAULT_TOTP_STATE,
+            setupSecret: payload.setup.secret,
+            setupProvisioningUri: payload.setup.provisioningUri,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_SETUP__FAILURE: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...DEFAULT_TOTP_STATE,
+            error: payload.error,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_SETUP_VALUE_CLEAR: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = DEFAULT_TOTP_STATE;
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_ENABLE: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            isEnabling: true,
+            error: null,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_ENABLE__SUCCESS:
+        User.withId(payload.user.id).update({
+          ...payload.user,
+          totpState: {
+            ...DEFAULT_TOTP_STATE,
+            recoveryCodes: payload.recoveryCodes,
+          },
+        });
+
+        break;
+      case ActionTypes.USER_TOTP_ENABLE__FAILURE: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            isEnabling: false,
+            error: payload.error,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_DISABLE: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            isDisabling: true,
+            error: null,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_DISABLE__SUCCESS:
+        User.withId(payload.user.id).update({
+          ...payload.user,
+          totpState: DEFAULT_TOTP_STATE,
+        });
+
+        break;
+      case ActionTypes.USER_TOTP_DISABLE__FAILURE: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            isDisabling: false,
+            error: payload.error,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_RECOVERY_CODES_REGENERATE: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            isRegeneratingRecoveryCodes: true,
+            error: null,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_RECOVERY_CODES_REGENERATE__SUCCESS: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            isRegeneratingRecoveryCodes: false,
+            recoveryCodes: payload.recoveryCodes,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_RECOVERY_CODES_REGENERATE__FAILURE: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            isRegeneratingRecoveryCodes: false,
+            error: payload.error,
+          };
+        }
+
+        break;
+      }
+      case ActionTypes.USER_TOTP_RECOVERY_CODES_CLEAR: {
+        const userModel = User.withId(payload.id);
+        if (userModel) {
+          userModel.totpState = {
+            ...userModel.totpState,
+            recoveryCodes: null,
+          };
         }
 
         break;

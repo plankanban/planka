@@ -142,6 +142,21 @@
  *           default: byDefault
  *           description: Default sort order for projects display (personal field)
  *           example: byDefault
+ *         isTotpEnabled:
+ *           type: boolean
+ *           default: false
+ *           description: Whether TOTP-based two-factor authentication is enabled (visible only to current user or admin)
+ *           example: false
+ *         totpEnabledAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *           description: When TOTP was enabled (visible only to current user or admin)
+ *           example: 2026-05-14T10:00:00.000Z
+ *         totpRecoveryCodesRemaining:
+ *           type: integer
+ *           description: Number of unused recovery codes (visible only to current user or admin)
+ *           example: 10
  *         isDeactivated:
  *           type: boolean
  *           default: false
@@ -233,7 +248,20 @@ const LANGUAGES = [
 ];
 
 // TODO: find better way to handle apiKeyHash and apiKeyCreatedAt
-const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'apiKeyHash', 'apiKeyCreatedAt'];
+const PRIVATE_FIELD_NAMES = [
+  'email',
+  'apiKeyPrefix',
+  'apiKeyHash',
+  'apiKeyCreatedAt',
+  'totpSecret',
+  'totpRecoveryCodes',
+];
+
+const TWO_FACTOR_VISIBLE_FIELD_NAMES = [
+  'isTotpEnabled',
+  'totpEnabledAt',
+  'totpRecoveryCodesRemaining',
+];
 
 const PERSONAL_FIELD_NAMES = [
   'language',
@@ -259,6 +287,7 @@ module.exports = {
   LANGUAGES,
   PRIVATE_FIELD_NAMES,
   PERSONAL_FIELD_NAMES,
+  TWO_FACTOR_VISIBLE_FIELD_NAMES,
   INTERNAL,
 
   attributes: {
@@ -383,6 +412,25 @@ module.exports = {
     termsAcceptedAt: {
       type: 'ref',
       columnName: 'terms_accepted_at',
+    },
+    totpSecret: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+      columnName: 'totp_secret',
+    },
+    isTotpEnabled: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'is_totp_enabled',
+    },
+    totpEnabledAt: {
+      type: 'ref',
+      columnName: 'totp_enabled_at',
+    },
+    totpRecoveryCodes: {
+      type: 'json',
+      columnName: 'totp_recovery_codes',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

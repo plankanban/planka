@@ -117,6 +117,7 @@ module.exports.routes = {
   'DELETE /api/webhooks/:id': 'webhooks/delete',
 
   'POST /api/access-tokens': 'access-tokens/create',
+  'POST /api/access-tokens/verify-totp': 'access-tokens/verify-totp',
   'POST /api/access-tokens/accept-terms': 'access-tokens/accept-terms',
   'POST /api/access-tokens/revoke-pending-token': 'access-tokens/revoke-pending-token',
   'DELETE /api/access-tokens/me': 'access-tokens/delete',
@@ -130,6 +131,12 @@ module.exports.routes = {
   'PATCH /api/users/:id/username': 'users/update-username',
   'POST /api/users/:id/avatar': 'users/update-avatar',
   'POST /api/users/:id/api-key': 'users/create-api-key',
+  'POST /api/users/:id/totp/setup': 'users/setup-totp',
+  'POST /api/users/:id/totp/enable': 'users/enable-totp',
+  'DELETE /api/users/:id/totp': 'users/disable-totp',
+  'POST /api/users/:id/totp/recovery-codes': 'users/regenerate-totp-recovery-codes',
+  'GET /api/users/:id/trusted-devices': 'users/index-trusted-devices',
+  'DELETE /api/users/:id/trusted-devices/:deviceId': 'users/delete-trusted-device',
   'DELETE /api/users/:id': 'users/delete',
 
   'GET /api/projects': 'projects/index',

@@ -94,6 +94,43 @@ export function* updateTermsLanguage(value) {
   yield put(actions.updateTermsLanguage.success(terms));
 }
 
+export function* verifyTotp(data) {
+  yield put(actions.verifyTotp(data));
+
+  const { pendingToken } = yield select(selectors.selectAuthenticateForm);
+
+  let accessToken;
+  try {
+    ({ item: accessToken } = yield call(api.verifyTotp, {
+      ...data,
+      pendingToken,
+    }));
+  } catch (error) {
+    yield put(actions.verifyTotp.failure(error));
+    return;
+  }
+
+  yield call(setAccessToken, accessToken);
+  yield put(actions.verifyTotp.success(accessToken));
+}
+
+export function* cancelTotpChallenge() {
+  const { pendingToken } = yield select(selectors.selectAuthenticateForm);
+
+  yield put(actions.cancelTotpChallenge());
+
+  try {
+    yield call(api.revokePendingToken, {
+      pendingToken,
+    });
+  } catch (error) {
+    yield put(actions.cancelTotpChallenge.failure(error));
+    return;
+  }
+
+  yield put(actions.cancelTotpChallenge.success());
+}
+
 export default {
   initializeLogin,
   authenticate,
@@ -101,4 +138,6 @@ export default {
   acceptTerms,
   cancelTerms,
   updateTermsLanguage,
+  verifyTotp,
+  cancelTotpChallenge,
 };

@@ -11,6 +11,9 @@ export const selectBootstrap = ({ common: { bootstrap } }) => bootstrap;
 
 export const selectActiveUsersLimit = (state) => selectBootstrap(state).activeUsersLimit;
 
+export const selectUserTrustedDevicesState = ({ ui: { userTrustedDevicesState } }) =>
+  userTrustedDevicesState;
+
 export const selectAccessToken = ({ auth: { accessToken } }) => accessToken;
 
 export const selectAuthenticateForm = ({ ui: { authenticateForm } }) => authenticateForm;
@@ -26,6 +29,7 @@ export default {
   selectIsInitializing,
   selectBootstrap,
   selectActiveUsersLimit,
+  selectUserTrustedDevicesState,
   selectAccessToken,
   selectAuthenticateForm,
   selectUserCreateForm,

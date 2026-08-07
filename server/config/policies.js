@@ -38,6 +38,12 @@ module.exports.policies = {
   'users/update-username': 'is-authenticated',
   'users/update-avatar': 'is-authenticated',
   'users/create-api-key': ['is-authenticated', 'is-admin'],
+  'users/setup-totp': 'is-authenticated',
+  'users/enable-totp': 'is-authenticated',
+  'users/disable-totp': 'is-authenticated',
+  'users/regenerate-totp-recovery-codes': 'is-authenticated',
+  'users/index-trusted-devices': 'is-authenticated',
+  'users/delete-trusted-device': 'is-authenticated',
   'users/delete': ['is-authenticated', 'is-admin'],
 
   'projects/create': ['is-authenticated', 'is-external', 'is-admin-or-project-owner'],
@@ -49,6 +55,7 @@ module.exports.policies = {
   'bootstrap/show': true,
   'terms/show': true,
   'access-tokens/create': true,
+  'access-tokens/verify-totp': true,
   'access-tokens/accept-terms': true,
   'access-tokens/revoke-pending-token': true,
 };

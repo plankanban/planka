@@ -14,6 +14,8 @@ export default function* loginWatchers() {
       services.authenticate(data),
     ),
     takeEvery(EntryActionTypes.AUTHENTICATE_ERROR_CLEAR, () => services.clearAuthenticateError()),
+    takeEvery(EntryActionTypes.TOTP_VERIFY, ({ payload: { data } }) => services.verifyTotp(data)),
+    takeEvery(EntryActionTypes.TOTP_CHALLENGE_CANCEL, () => services.cancelTotpChallenge()),
     takeEvery(EntryActionTypes.TERMS_ACCEPT, ({ payload: { signature } }) =>
       services.acceptTerms(signature),
     ),

@@ -1,0 +1,18 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .intro {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  .codeInput {
+    font-family: 'JetBrains Mono', 'Menlo', 'Courier New', monospace;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-align: center;
+  }
+}
