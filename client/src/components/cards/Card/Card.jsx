@@ -7,7 +7,9 @@ import React, { useCallback, useContext, useMemo, useRef, useState } from 'react
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 import { push } from '../../../lib/redux-router';
 import { closePopup, usePopup } from '../../../lib/popup';
 
@@ -57,6 +59,7 @@ const Card = React.memo(({ id, isInline }) => {
   });
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
   const [, , handleCardMouseEnter, handleCardMouseLeave] = useContext(BoardShortcutsContext);
 
@@ -151,9 +154,11 @@ const Card = React.memo(({ id, isInline }) => {
           </div>
           {canUseActions && (
             <CardActionsPopup ref={actionsPopupRef} cardId={id} onNameEdit={handleNameEdit}>
-              <Button className={styles.actionsButton}>
-                <Icon fitted name="pencil" size="small" />
-              </Button>
+              <Tooltip content={t('common.openCardActions')}>
+                <Button className={styles.actionsButton}>
+                  <Icon fitted name="pencil" size="small" />
+                </Button>
+              </Tooltip>
             </CardActionsPopup>
           )}
         </>

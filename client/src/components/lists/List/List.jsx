@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
 import { useDidUpdate, useToggle, useTransitioning } from '../../../lib/hooks';
+import { Tooltip } from '../../../lib/custom-ui';
 import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
@@ -240,16 +241,20 @@ const List = React.memo(({ id, index }) => {
               {list.isPersisted &&
                 (canEdit ? (
                   <ActionsPopup listId={id} onNameEdit={handleNameEdit} onCardAdd={handleCardAdd}>
-                    <Button className={styles.headerButton}>
-                      <Icon fitted name="pencil" size="small" />
-                    </Button>
+                    <Tooltip content={t('common.openListActions')}>
+                      <Button className={styles.headerButton}>
+                        <Icon fitted name="pencil" size="small" />
+                      </Button>
+                    </Tooltip>
                   </ActionsPopup>
                 ) : (
                   canArchiveCards && (
                     <ArchiveCardsPopup listId={id}>
-                      <Button className={styles.headerButton}>
-                        <Icon fitted name="archive" size="small" />
-                      </Button>
+                      <Tooltip content={t('action.archiveCards')}>
+                        <Button className={styles.headerButton}>
+                          <Icon fitted name="archive" size="small" />
+                        </Button>
+                      </Tooltip>
                     </ArchiveCardsPopup>
                   )
                 ))}
@@ -275,14 +280,16 @@ const List = React.memo(({ id, index }) => {
                   </span>
                 </button>
                 {clipboard && canPasteCard && (
-                  <button
-                    type="button"
-                    disabled={!list.isPersisted}
-                    className={classNames(styles.addCardButton, styles.paste)}
-                    onClick={handlePasteCardClick}
-                  >
-                    <Icon name="paste" />
-                  </button>
+                  <Tooltip content={t('action.paste')}>
+                    <button
+                      type="button"
+                      disabled={!list.isPersisted}
+                      className={classNames(styles.addCardButton, styles.paste)}
+                      onClick={handlePasteCardClick}
+                    >
+                      <Icon name="paste" />
+                    </button>
+                  </Tooltip>
                 )}
               </div>
             )}

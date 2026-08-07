@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Gallery, Item as GalleryItem } from 'react-photoswipe-gallery';
 import { Button, Grid, Icon } from 'semantic-ui-react';
 import { useDidUpdate } from '../../../lib/hooks';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -383,12 +384,14 @@ const StoryContent = React.memo(() => {
                         onSelect={handleLabelSelect}
                         onDeselect={handleLabelDeselect}
                       >
-                        <button
-                          type="button"
-                          className={classNames(styles.attachment, styles.dueDate)}
-                        >
-                          <Icon name="add" size="small" className={styles.addAttachment} />
-                        </button>
+                        <Tooltip content={t('action.addLabel')}>
+                          <button
+                            type="button"
+                            className={classNames(styles.attachment, styles.dueDate)}
+                          >
+                            <Icon name="add" size="small" className={styles.addAttachment} />
+                          </button>
+                        </Tooltip>
                       </LabelsPopup>
                     )}
                   </div>
@@ -419,9 +422,11 @@ const StoryContent = React.memo(() => {
                             className={classNames(styles.descriptionText, styles.cursorPointer)}
                             onClick={handleEditDescriptionClick}
                           >
-                            <Button className={styles.editButton}>
-                              <Icon fitted name="pencil" size="small" />
-                            </Button>
+                            <Tooltip content={t('action.editDescription', { context: 'title' })}>
+                              <Button className={styles.editButton}>
+                                <Icon fitted name="pencil" size="small" />
+                              </Button>
+                            </Tooltip>
                             <Markdown>{card.description}</Markdown>
                           </div>
                         ) : (
@@ -477,14 +482,16 @@ const StoryContent = React.memo(() => {
                 <div className={classNames(styles.text, styles.textList)}>{t('common.list')}</div>
                 {canUseLists ? (
                   <ListsPopup currentId={list.id} onSelect={handleListSelect}>
-                    <button type="button" className={styles.listButton}>
-                      <span className={classNames(styles.list, styles.listHoverable)}>
-                        <Icon name="columns" size="small" className={styles.listIcon} />
-                        <span className={styles.hidable}>
-                          {list.name || t(`common.${list.type}`)}
+                    <Tooltip content={t('common.selectList')}>
+                      <button type="button" className={styles.listButton}>
+                        <span className={classNames(styles.list, styles.listHoverable)}>
+                          <Icon name="columns" size="small" className={styles.listIcon} />
+                          <span className={styles.hidable}>
+                            {list.name || t(`common.${list.type}`)}
+                          </span>
                         </span>
-                      </span>
-                    </button>
+                      </button>
+                    </Tooltip>
                   </ListsPopup>
                 ) : (
                   <span className={styles.list}>

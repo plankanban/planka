@@ -5,16 +5,26 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Button, Popup as SemanticUIPopup } from 'semantic-ui-react';
+import Tooltip from '../Tooltip';
 
 import styles from './PopupHeader.module.css';
 
-const PopupHeader = React.memo(({ children, onBack }) => (
-  <SemanticUIPopup.Header className={styles.wrapper}>
-    {onBack && <Button icon="angle left" onClick={onBack} className={styles.backButton} />}
-    <div className={styles.content}>{children}</div>
-  </SemanticUIPopup.Header>
-));
+const PopupHeader = React.memo(({ children, onBack }) => {
+  const [t] = useTranslation();
+
+  return (
+    <SemanticUIPopup.Header className={styles.wrapper}>
+      {onBack && (
+        <Tooltip content={t('action.goBack')}>
+          <Button icon="angle left" onClick={onBack} className={styles.backButton} />
+        </Tooltip>
+      )}
+      <div className={styles.content}>{children}</div>
+    </SemanticUIPopup.Header>
+  );
+});
 
 PopupHeader.propTypes = {
   children: PropTypes.node.isRequired,

@@ -9,8 +9,10 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon } from 'semantic-ui-react';
 import { useToggle } from '../../../../lib/hooks';
+import { Tooltip } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
 import { usePopupInClosableContext } from '../../../../hooks';
@@ -24,6 +26,7 @@ const Item = React.memo(({ id, index }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
 
   const taskList = useSelector((state) => selectTaskListById(state, id));
+  const [t] = useTranslation();
 
   const canEdit = useSelector((state) => {
     const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
@@ -67,22 +70,30 @@ const Item = React.memo(({ id, index }) => {
                   {taskList.isPersisted && withActions && (
                     <div className={classNames(styles.actions)}>
                       {taskList.hideCompletedTasks && (
-                        <Button
-                          className={styles.button}
-                          onClick={handleToggleCompletedVisibleClick}
+                        <Tooltip
+                          content={t(
+                            isCompletedVisible ? 'common.hideCompletedTasks' : 'action.showActive',
+                          )}
                         >
-                          <Icon
-                            fitted
-                            name={isCompletedVisible ? 'eye slash' : 'eye'}
-                            size="small"
-                          />
-                        </Button>
+                          <Button
+                            className={styles.button}
+                            onClick={handleToggleCompletedVisibleClick}
+                          >
+                            <Icon
+                              fitted
+                              name={isCompletedVisible ? 'eye slash' : 'eye'}
+                              size="small"
+                            />
+                          </Button>
+                        </Tooltip>
                       )}
                       {canEdit && (
                         <EditPopup taskListId={taskList.id}>
-                          <Button className={styles.button}>
-                            <Icon fitted name="pencil" size="small" />
-                          </Button>
+                          <Tooltip content={t('action.edit', { context: 'title' })}>
+                            <Button className={styles.button}>
+                              <Icon fitted name="pencil" size="small" />
+                            </Button>
+                          </Tooltip>
                         </EditPopup>
                       )}
                     </div>

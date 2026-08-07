@@ -6,13 +6,17 @@
 import { ResizeObserver } from '@juggle/resize-observer';
 import React, { useCallback, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Button, Popup as SemanticUIPopup } from 'semantic-ui-react';
+import { Tooltip } from '../custom-ui';
 
 import styles from './Popup.module.css';
 
 export default (Step, { position, onOpen, onClose } = {}) => {
   return useMemo(() => {
     const Popup = React.forwardRef(({ children, ...stepProps }, ref) => {
+      const [t] = useTranslation();
+
       const [stepParams, setStepParams] = useState(null);
 
       const wrapperRef = useRef(null);
@@ -116,7 +120,9 @@ export default (Step, { position, onOpen, onClose } = {}) => {
           onClick={handleClick}
         >
           <div ref={handleContentRef}>
-            <Button icon="close" onClick={handleClose} className={styles.closeButton} />
+            <Tooltip content={t('action.close')}>
+              <Button icon="close" onClick={handleClose} className={styles.closeButton} />
+            </Tooltip>
             {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <Step {...stepProps} {...stepParams} onClose={handleClose} />
           </div>

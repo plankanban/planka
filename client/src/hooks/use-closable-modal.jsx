@@ -5,6 +5,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Modal } from 'semantic-ui-react';
 
 import useClosable from './use-closable';
@@ -22,6 +23,8 @@ export default (initialClosableValue) => {
   const ClosableModal = useMemo(() => {
     // eslint-disable-next-line no-shadow
     const ClosableModal = React.memo(({ closeIcon, onClose, ...props }) => {
+      const [t] = useTranslation();
+
       const handleClose = useCallback(
         (event) => {
           if (isClosableActiveRef.current) {
@@ -41,16 +44,32 @@ export default (initialClosableValue) => {
         [closeIcon, onClose],
       );
 
+      const semanticCloseIcon =
+        closeIcon === true
+          ? {
+              name: 'close',
+              'aria-label': t('action.close'),
+              title: t('action.close'),
+            }
+          : closeIcon;
+
       return (
         <ClosableContext.Provider value={closableContextValue}>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          <Modal open {...props} closeIcon={closeIcon} onClose={handleClose} />
+          <Modal open {...props} closeIcon={semanticCloseIcon} onClose={handleClose} />
         </ClosableContext.Provider>
       );
     });
 
     ClosableModal.propTypes = {
-      closeIcon: PropTypes.bool,
+      closeIcon: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.shape({
+          name: PropTypes.string,
+          'aria-label': PropTypes.string,
+          title: PropTypes.string,
+        }),
+      ]),
       onClose: PropTypes.func,
     };
 

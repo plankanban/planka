@@ -8,7 +8,9 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 
@@ -18,6 +20,7 @@ const CustomField = React.memo(({ id, index, onEdit }) => {
   const selectCustomFieldById = useMemo(() => selectors.makeSelectCustomFieldById(), []);
 
   const customField = useSelector((state) => selectCustomFieldById(state, id));
+  const [t] = useTranslation();
 
   const handleEditClick = useCallback(() => {
     onEdit(id);
@@ -36,14 +39,16 @@ const CustomField = React.memo(({ id, index, onEdit }) => {
               {customField.showOnFrontOfCard && <Icon name="pin" className={styles.nameIcon} />}
               {customField.name}
             </span>
-            <Button
-              icon="pencil"
-              size="small"
-              floated="right"
-              disabled={!customField.isPersisted}
-              className={styles.editButton}
-              onClick={handleEditClick}
-            />
+            <Tooltip content={t('action.edit', { context: 'title' })}>
+              <Button
+                icon="pencil"
+                size="small"
+                floated="right"
+                disabled={!customField.isPersisted}
+                className={styles.editButton}
+                onClick={handleEditClick}
+              />
+            </Tooltip>
           </div>
         );
 
