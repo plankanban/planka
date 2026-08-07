@@ -116,7 +116,6 @@ Any questions or concerns, [raise an issue](https://github.com/Chris-Greaves/pla
 
 The Helm chart supports mounting arbitrary ConfigMaps, Secrets, and Volumes to the PLANKA deployment using the `extraMounts` configuration. This is especially useful for scenarios like:
 
-- Mounting custom CA certificates for OIDC with self-hosted identity providers
 - Adding custom configuration files
 - Mounting TLS certificates from existing secrets
 - Adding temporary or persistent storage volumes
@@ -171,44 +170,6 @@ extraMounts:
     nfs:
       server: nfs.example.com
       path: /exports/planka
-```
-
-### OIDC with Self-Hosted Keycloak
-
-A common use case is configuring OIDC with a self-hosted Keycloak instance that uses custom CA certificates.
-
-First, create the CA certificate ConfigMap:
-
-```bash
-kubectl create configmap ca-certificates --from-file=ca.crt=/path/to/your/ca.crt
-```
-
-Then configure the chart:
-
-```yaml
-# Mount custom CA certificate from existing ConfigMap
-extraMounts:
-  - name: keycloak-ca
-    mountPath: /etc/ssl/certs/keycloak-ca.crt
-    subPath: ca.crt
-    readOnly: true
-    configMap:
-      name: ca-certificates
-
-# Configure Node.js to trust the custom CA
-extraEnv:
-  - name: NODE_EXTRA_CA_CERTS
-    value: "/etc/ssl/certs/keycloak-ca.crt"
-
-# Enable OIDC
-oidc:
-  enabled: true
-  clientId: "planka-client"
-  clientSecret: "your-client-secret"
-  issuerUrl: "https://keycloak.example.com/realms/master"
-  admin:
-    roles:
-      - "planka-admin"
 ```
 
 ### Environment Variables from Secrets
@@ -310,7 +271,4 @@ image:
 - **Reproducibility**: Makes deployments fully reproducible across environments
 - **Audit Trail**: Provides clear image identity in deployment manifests
 
-### Complete Example
-
-See `values-example.yaml` for a comprehensive example that demonstrates all the advanced features including OIDC configuration with custom CA certificates.
 ````

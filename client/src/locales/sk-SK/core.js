@@ -83,8 +83,6 @@ export default {
         'Naozaj chcete zmazať daného správcu tohto projektu?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Naozaj chcete odstrániť tohoto člena z tabule?',
-      areYouSureYouWantToUnlinkSsoFromThisUser:
-        'Naozaj chcete odpojiť SSO od tohto používateľa? Tým umožníte používateľovi prihlásiť sa pomocou hesla.',
       assignAsOwner_title: 'Prideliť ako vlastníka',
       atLeastOneListMustBePresent: 'Musí byť prítomný aspoň jeden zoznam',
       attachment: 'Príloha',
@@ -332,7 +330,6 @@ export default {
       turnOffRecentCardHighlighting: 'Vypnúť zvýrazňovanie nedávnych kariet',
       typeNameToConfirm: 'Zadajte meno na potvrdenie.',
       typeTitleToConfirm: 'Zadajte názov na potvrdenie.',
-      unlinkSso_title: 'Odpojenie SSO',
       unsavedChanges: 'Neuložené zmeny',
       uploadFailedFileIsTooBig: 'Nahrávanie zlyhalo: súbor je príliš veľký.',
       uploadFailedNotEnoughStorageSpace: 'Nahrávanie zlyhalo: nedostatok úložného priestoru.',
@@ -500,8 +497,6 @@ export default {
       start: 'Start',
       stop: 'Stop',
       subscribe: 'Odoberať',
-      unlinkSso: 'Odpojiť SSO',
-      unlinkSso_title: 'Odpojiť SSO',
       unsubscribe: 'Neodoberať',
       uploadNewAvatar: 'Nahrať nový avatar',
       uploadNewImage: 'Nahrať nový obrázok',

@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Desenvolupat amb <1>PLANKA</1>',
       serverConnectionFailed: 'Error de connexió amb el servidor',
       unknownError: 'Error desconegut, torna-ho a provar més tard',
-      useSingleSignOn: 'Utilitzar inici de sessió únic',
       usernameAlreadyInUse: "Nom d'usuari ja en ús",
       whoops_title: 'Ups!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Cancel·lar i tancar',
       continue: 'Continuar',
-      debugSso: 'Depurar SSO',
       goBack: 'Tornar',
       goHome: "Anar a l'inici",
       logIn: 'Iniciar sessió',
-      logInWithSso: 'Iniciar sessió amb SSO',
     },
   },
 };

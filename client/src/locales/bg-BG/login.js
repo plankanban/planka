@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Задвижвано от <1>PLANKA</1>',
       serverConnectionFailed: 'Неуспешна връзка със сървъра',
       unknownError: 'Неизвестна грешка, опитайте отново по-късно',
-      useSingleSignOn: 'Използване на single sign-on',
       usernameAlreadyInUse: 'Потребителското име вече се използва',
       whoops_title: 'Опа!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Отказ и затваряне',
       continue: 'Продължи',
-      debugSso: 'Дебъгване на SSO',
       goBack: 'Назад',
       goHome: 'Към началото',
       logIn: 'Вход',
-      logInWithSso: 'Вход чрез SSO',
     },
   },
 };

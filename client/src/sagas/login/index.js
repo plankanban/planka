@@ -15,11 +15,7 @@ export default function* loginSaga() {
 
   yield fork(services.initializeLogin);
 
-  yield take([
-    ActionTypes.AUTHENTICATE__SUCCESS,
-    ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS,
-    ActionTypes.TERMS_ACCEPT__SUCCESS,
-  ]);
+  yield take([ActionTypes.AUTHENTICATE__SUCCESS, ActionTypes.TERMS_ACCEPT__SUCCESS]);
 
   yield cancel(watcherTasks);
   yield call(services.goToRoot);

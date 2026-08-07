@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Poháňané <1>PLANKA</1>',
       serverConnectionFailed: 'Pripojenie k serveru zlyhalo',
       unknownError: 'Neznáma chyba, skúste to neskôr',
-      useSingleSignOn: 'Použiť jednotné prihlásenie',
       usernameAlreadyInUse: 'Používateľské meno je zabrané',
       whoops_title: 'Ups!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Zrušiť a zavrieť',
       continue: 'Pokračovať',
-      debugSso: 'Ladiť SSO',
       goBack: 'Ísť späť',
       goHome: 'Ísť domov',
       logIn: 'Prihlásiť sa',
-      logInWithSso: 'Prihlásiť sa cez SSO',
     },
   },
 };

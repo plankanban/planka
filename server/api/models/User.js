@@ -142,11 +142,6 @@
  *           default: byDefault
  *           description: Default sort order for projects display (personal field)
  *           example: byDefault
- *         isSsoUser:
- *           type: boolean
- *           default: false
- *           description: Whether the user is SSO user (private field)
- *           example: false
  *         isDeactivated:
  *           type: boolean
  *           default: false
@@ -238,7 +233,7 @@ const LANGUAGES = [
 ];
 
 // TODO: find better way to handle apiKeyHash and apiKeyCreatedAt
-const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'apiKeyHash', 'isSsoUser', 'apiKeyCreatedAt'];
+const PRIVATE_FIELD_NAMES = ['email', 'apiKeyPrefix', 'apiKeyHash', 'apiKeyCreatedAt'];
 
 const PERSONAL_FIELD_NAMES = [
   'language',
@@ -256,11 +251,6 @@ const INTERNAL = {
   role: Roles.ADMIN,
 };
 
-const OIDC = {
-  id: '_oidc',
-  role: Roles.ADMIN,
-};
-
 module.exports = {
   Roles,
   EditorModes,
@@ -270,7 +260,6 @@ module.exports = {
   PRIVATE_FIELD_NAMES,
   PERSONAL_FIELD_NAMES,
   INTERNAL,
-  OIDC,
 
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -377,11 +366,6 @@ module.exports = {
       isNotEmptyString: true,
       allowNull: true,
       columnName: 'terms_signature',
-    },
-    isSsoUser: {
-      type: 'boolean',
-      defaultsTo: false,
-      columnName: 'is_sso_user',
     },
     isDeactivated: {
       type: 'boolean',

@@ -83,8 +83,6 @@ export default {
         'هل أنت متأكد أنك تريد إزالة هذا المدير من المشروع؟',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'هل أنت متأكد أنك تريد إزالة هذا العضو من اللوحة؟',
-      areYouSureYouWantToUnlinkSsoFromThisUser:
-        'هل أنت متأكد أنك تريد إلغاء ربط تسجيل الدخول الموحد من هذا المستخدم؟ سيسمح هذا للمستخدم بتسجيل الدخول باستخدام كلمة المرور.',
       assignAsOwner_title: 'تعيين كمالك',
       atLeastOneListMustBePresent: 'يجب وجود قائمة واحدة على الأقل',
       attachment: 'مرفق',
@@ -330,7 +328,6 @@ export default {
       turnOffRecentCardHighlighting: 'إيقاف تمييز البطاقات الحديثة',
       typeNameToConfirm: 'اكتب الاسم للتأكيد.',
       typeTitleToConfirm: 'اكتب العنوان للتأكيد.',
-      unlinkSso_title: 'إلغاء ربط تسجيل الدخول الموحد',
       unsavedChanges: 'تغييرات غير محفوظة',
       uploadFailedFileIsTooBig: 'فشل الرفع: الملف كبير جداً.',
       uploadFailedNotEnoughStorageSpace: 'فشل الرفع: مساحة التخزين غير كافية.',
@@ -497,8 +494,6 @@ export default {
       start: 'ابدأ',
       stop: 'توقف',
       subscribe: 'اشترك',
-      unlinkSso: 'إلغاء ربط تسجيل الدخول الموحد',
-      unlinkSso_title: 'إلغاء ربط تسجيل الدخول الموحد',
       unsubscribe: 'إلغاء الاشتراك',
       uploadNewAvatar: 'رفع صورة رمزية جديدة',
       uploadNewImage: 'رفع صورة جديدة',

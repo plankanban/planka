@@ -200,10 +200,6 @@ module.exports = {
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    if (sails.config.custom.oidcEnforced) {
-      throw Errors.NOT_ENOUGH_RIGHTS;
-    }
-
     const values = _.pick(inputs, [
       'email',
       'password',

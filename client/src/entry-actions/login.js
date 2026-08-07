@@ -12,11 +12,6 @@ const authenticate = (data) => ({
   },
 });
 
-const authenticateWithOidc = () => ({
-  type: EntryActionTypes.WITH_OIDC_AUTHENTICATE,
-  payload: {},
-});
-
 const clearAuthenticateError = () => ({
   type: EntryActionTypes.AUTHENTICATE_ERROR_CLEAR,
   payload: {},
@@ -43,7 +38,6 @@ const updateTermsLanguage = (value) => ({
 
 export default {
   authenticate,
-  authenticateWithOidc,
   clearAuthenticateError,
   acceptTerms,
   cancelTerms,

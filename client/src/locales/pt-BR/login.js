@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Desenvolvido por <1>PLANKA</1>',
       serverConnectionFailed: 'Falha na conexão com o servidor',
       unknownError: 'Erro desconhecido, tente novamente mais tarde',
-      useSingleSignOn: 'Usar login único',
       usernameAlreadyInUse: 'Nome de usuário já está em uso',
       whoops_title: 'Ops!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Cancelar e fechar',
       continue: 'Continuar',
-      debugSso: 'Depurar SSO',
       goBack: 'Voltar',
       goHome: 'Ir para início',
       logIn: 'Entrar',
-      logInWithSso: 'Entrar com SSO',
     },
   },
 };

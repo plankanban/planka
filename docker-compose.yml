@@ -78,31 +78,6 @@ services:
       # - S3_FORCE_PATH_STYLE=true
       # - S3_REQUEST_CHECKSUM_CALCULATION=
 
-      # - OIDC_ISSUER=
-      # - OIDC_CLIENT_ID=
-      # - OIDC_CLIENT_SECRET=
-      # Optionally store in secrets - then OIDC_CLIENT_SECRET should not be set
-      # - OIDC_CLIENT_SECRET__FILE=/run/secrets/oidc_client_secret
-      # - OIDC_USE_OAUTH_CALLBACK=true
-      # - OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG=
-      # - OIDC_USERINFO_SIGNED_RESPONSE_ALG=
-      # - OIDC_SCOPES=openid email profile
-      # - OIDC_RESPONSE_MODE=fragment
-      # - OIDC_USE_DEFAULT_RESPONSE_MODE=true
-      # - OIDC_ADMIN_ROLES=admin
-      # - OIDC_PROJECT_OWNER_ROLES=project_owner
-      # - OIDC_BOARD_USER_ROLES=board_user
-      # - OIDC_CLAIMS_SOURCE=userinfo
-      # - OIDC_EMAIL_ATTRIBUTE=email
-      # - OIDC_NAME_ATTRIBUTE=name
-      # - OIDC_USERNAME_ATTRIBUTE=preferred_username
-      # - OIDC_ROLES_ATTRIBUTE=groups
-      # - OIDC_IGNORE_USERNAME=true
-      # - OIDC_IGNORE_ROLES=true
-      # - OIDC_ENFORCED=true
-      # - OIDC_TIMEOUT=3500
-      # - OIDC_DEBUG=true
-
       # Email Notifications (https://nodemailer.com/smtp/)
       # These values override and disable configuration in the UI if set.
       # - SMTP_HOST=

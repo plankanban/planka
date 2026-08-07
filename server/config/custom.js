@@ -74,34 +74,6 @@ module.exports.custom = {
   s3ForcePathStyle: process.env.S3_FORCE_PATH_STYLE === 'true',
   s3RequestChecksumCalculation: process.env.S3_REQUEST_CHECKSUM_CALCULATION,
 
-  oidcIssuer: process.env.OIDC_ISSUER,
-  oidcClientId: process.env.OIDC_CLIENT_ID,
-  oidcClientSecret: process.env.OIDC_CLIENT_SECRET,
-  oidcUseOauthCallback: process.env.OIDC_USE_OAUTH_CALLBACK === 'true',
-  oidcIdTokenSignedResponseAlg: process.env.OIDC_ID_TOKEN_SIGNED_RESPONSE_ALG,
-  oidcUserinfoSignedResponseAlg: process.env.OIDC_USERINFO_SIGNED_RESPONSE_ALG,
-  oidcScopes: process.env.OIDC_SCOPES || 'openid email profile',
-  oidcResponseMode: process.env.OIDC_RESPONSE_MODE || 'fragment',
-  oidcUseDefaultResponseMode: process.env.OIDC_USE_DEFAULT_RESPONSE_MODE === 'true',
-  oidcAdminRoles: envToArray(process.env.OIDC_ADMIN_ROLES),
-  oidcProjectOwnerRoles: envToArray(process.env.OIDC_PROJECT_OWNER_ROLES),
-  oidcBoardUserRoles: envToArray(process.env.OIDC_BOARD_USER_ROLES),
-  oidcClaimsSource: process.env.OIDC_CLAIMS_SOURCE || 'userinfo',
-  oidcEmailAttribute: process.env.OIDC_EMAIL_ATTRIBUTE || 'email',
-  oidcNameAttribute: process.env.OIDC_NAME_ATTRIBUTE || 'name',
-  oidcUsernameAttribute: process.env.OIDC_USERNAME_ATTRIBUTE || 'preferred_username',
-  oidcRolesAttribute: process.env.OIDC_ROLES_ATTRIBUTE || 'groups',
-  oidcIgnoreUsername: process.env.OIDC_IGNORE_USERNAME === 'true',
-  oidcIgnoreRoles: process.env.OIDC_IGNORE_ROLES === 'true',
-  oidcEnforced: process.env.OIDC_ENFORCED === 'true',
-  oidcTimeout: envToNumber(process.env.OIDC_TIMEOUT),
-  oidcDebug: process.env.OIDC_DEBUG === 'true',
-
-  // TODO: move client base url to environment variable?
-  oidcRedirectUri: `${
-    sails.config.environment === 'production' ? baseUrl : 'http://localhost:3000'
-  }/oidc-callback`,
-
   smtpHost: process.env.SMTP_HOST,
   smtpPort: process.env.SMTP_PORT || 587,
   smtpName: process.env.SMTP_NAME,

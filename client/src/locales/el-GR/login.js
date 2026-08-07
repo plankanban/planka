@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Με την υποστήριξη του <1>PLANKA</1>',
       serverConnectionFailed: 'Αποτυχία σύνδεσης με τον διακομιστή',
       unknownError: 'Άγνωστο σφάλμα, δοκιμάστε ξανά αργότερα',
-      useSingleSignOn: 'Χρήση Single Sign-On',
       usernameAlreadyInUse: 'Το όνομα χρήστη χρησιμοποιείται ήδη',
       whoops_title: 'Ωχ!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Ακύρωση και κλείσιμο',
       continue: 'Συνέχεια',
-      debugSso: 'Αποσφαλμάτωση SSO',
       goBack: 'Επιστροφή',
       goHome: 'Αρχική σελίδα',
       logIn: 'Σύνδεση',
-      logInWithSso: 'Σύνδεση με SSO',
     },
   },
 };

@@ -11,9 +11,6 @@ module.exports = {
       type: 'ref',
       required: true,
     },
-    oidc: {
-      type: 'ref',
-    },
     user: {
       type: 'ref',
     },
@@ -21,7 +18,6 @@ module.exports = {
 
   fn(inputs) {
     const data = {
-      oidc: inputs.oidc,
       termsLanguages: sails.hooks.terms.getLanguages(),
       version: sails.config.custom.version,
     };

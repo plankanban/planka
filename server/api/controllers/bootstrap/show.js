@@ -20,33 +20,8 @@
  *             schema:
  *               type: object
  *               required:
- *                 - oidc
  *                 - version
  *               properties:
- *                 oidc:
- *                   type: object
- *                   required:
- *                     - authorizationUrl
- *                     - endSessionUrl
- *                     - isEnforced
- *                   nullable: true
- *                   description: OpenID Connect configuration (null if not configured)
- *                   properties:
- *                     authorizationUrl:
- *                       type: string
- *                       format: uri
- *                       description: OIDC authorization URL for initiating authentication
- *                       example: https://oidc.example.com/auth
- *                     endSessionUrl:
- *                       type: string
- *                       format: uri
- *                       nullable: true
- *                       description: OIDC end session URL for logout (null if not supported by provider)
- *                       example: https://oidc.example.com/logout
- *                     isEnforced:
- *                       type: boolean
- *                       description: Whether OIDC authentication is enforced (users must use OIDC to login)
- *                       example: false
  *                 activeUsersLimit:
  *                   type: number
  *                   nullable: true
@@ -75,10 +50,9 @@ module.exports = {
     const { currentUser } = this.req;
 
     const internalConfig = await InternalConfig.qm.getOneMain();
-    const oidc = await sails.hooks.oidc.getBootstrap();
 
     return {
-      item: sails.helpers.bootstrap.presentOne(internalConfig, oidc, currentUser),
+      item: sails.helpers.bootstrap.presentOne(internalConfig, currentUser),
     };
   },
 };

@@ -89,7 +89,6 @@ const upgradeDatabase = async () => {
       ALTER TABLE migration_lock SET SCHEMA v1;
       ALTER TABLE archive SET SCHEMA v1;
       ALTER TABLE user_account SET SCHEMA v1;
-      ALTER TABLE identity_provider_user SET SCHEMA v1;
       ALTER TABLE session SET SCHEMA v1;
       ALTER TABLE project SET SCHEMA v1;
       ALTER TABLE project_manager SET SCHEMA v1;
@@ -147,19 +146,10 @@ const upgradeDatabase = async () => {
             default_editor_mode: User.EditorModes.WYSIWYG,
             default_home_view: User.HomeViews.GROUPED_PROJECTS,
             default_projects_order: User.ProjectOrders.BY_DEFAULT,
-            is_sso_user: user.is_sso,
             is_deactivated: false,
           })),
         )
         .transacting(trx);
-
-      const identityProviderUsers = await trx('identity_provider_user')
-        .withSchema('v1')
-        .whereRaw('user_id = ANY (?)', [whereInUserIds]);
-
-      if (identityProviderUsers.length > 0) {
-        await knex.batchInsert('identity_provider_user', identityProviderUsers).transacting(trx);
-      }
 
       const sessions = await trx('session')
         .withSchema('v1')

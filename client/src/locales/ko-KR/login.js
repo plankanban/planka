@@ -16,7 +16,6 @@ export default {
       poweredByPlanka: '<1>PLANKA</1>로 구동됨',
       serverConnectionFailed: '서버 연결 실패',
       unknownError: '알 수 없는 오류, 나중에 다시 시도하세요',
-      useSingleSignOn: 'Single Sign-On(SSO) 사용',
       usernameAlreadyInUse: '이미 사용 중인 사용자 이름',
       whoops_title: '앗!',
     },
@@ -24,11 +23,9 @@ export default {
     action: {
       cancelAndClose: '취소 후 닫기',
       continue: '계속',
-      debugSso: 'SSO 디버그',
       goBack: '뒤로 가기',
       goHome: '홈으로 가기',
       logIn: '로그인',
-      logInWithSso: 'SSO로 로그인',
     },
   },
 };

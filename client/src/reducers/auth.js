@@ -15,7 +15,6 @@ const initialState = {
 export default (state = initialState, { type, payload }) => {
   switch (type) {
     case ActionTypes.AUTHENTICATE__SUCCESS:
-    case ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS:
     case ActionTypes.TERMS_ACCEPT__SUCCESS:
       return {
         ...state,

@@ -16,7 +16,6 @@ export default {
       poweredByPlanka: '技术支持由<1>PLANKA</1>提供',
       serverConnectionFailed: '服务器连接失败',
       unknownError: '未知错误，请稍后重试',
-      useSingleSignOn: '使用单点登录',
       usernameAlreadyInUse: '用户名已被占用',
       whoops_title: '哎呀！',
     },
@@ -24,11 +23,9 @@ export default {
     action: {
       cancelAndClose: '取消并关闭',
       continue: '继续',
-      debugSso: '调试SSO',
       goBack: '返回',
       goHome: '回到首页',
       logIn: '登录',
-      logInWithSso: '使用SSO登录',
     },
   },
 };

@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Powered by <1>PLANKA</1>',
       serverConnectionFailed: 'Błąd połączenia z serwerem',
       unknownError: 'Nieznany błąd, spróbuj ponownie później',
-      useSingleSignOn: 'Użyj logowania SSO',
       usernameAlreadyInUse: 'Nazwa użytkownika nie jest dostępna',
       whoops_title: 'Ups!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Anuluj i zamknij',
       continue: 'Kontynuuj',
-      debugSso: 'Debuguj SSO',
       goBack: 'Wróć',
       goHome: 'Idź do domu',
       logIn: 'Zaloguj',
-      logInWithSso: 'Zaloguj z SSO',
     },
   },
 };

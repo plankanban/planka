@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'PLANKA tomonidan quvvatlanadi',
       serverConnectionFailed: "Serverga bog'lanish xatosi",
       unknownError: "Noma'lum xatolik, qaytadan urinib ko'ring",
-      useSingleSignOn: 'Yagona kirish tizimidan foydalaning',
       usernameAlreadyInUse: 'Foydalanuvchi nomi allaqachon mavjud',
       whoops_title: 'Voy!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Bekor qilish va yopish',
       continue: 'Davom etish',
-      debugSso: 'SSO ni tuzatish',
       goBack: 'Orqaga',
       goHome: 'Bosh sahifaga',
       logIn: 'Kirish',
-      logInWithSso: 'SSO orqali kirish',
     },
   },
 };

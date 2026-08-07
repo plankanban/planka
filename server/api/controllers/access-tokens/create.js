@@ -97,11 +97,10 @@
  *                 message:
  *                   type: string
  *                   enum:
- *                     - Use single sign-on
  *                     - Terms acceptance required
  *                     - Admin login required to initialize instance
  *                   description: Specific error message
- *                   example: Use single sign-on
+ *                   example: Terms acceptance required
  *     security: []
  */
 
@@ -119,9 +118,6 @@ const Errors = {
   },
   INVALID_PASSWORD: {
     invalidPassword: 'Invalid password',
-  },
-  USE_SINGLE_SIGN_ON: {
-    useSingleSignOn: 'Use single sign-on',
   },
   TERMS_ACCEPTANCE_REQUIRED: {
     termsAcceptanceRequired: 'Terms acceptance required',
@@ -156,9 +152,6 @@ module.exports = {
     invalidPassword: {
       responseType: 'unauthorized',
     },
-    useSingleSignOn: {
-      responseType: 'forbidden',
-    },
     termsAcceptanceRequired: {
       responseType: 'forbidden',
     },
@@ -168,10 +161,6 @@ module.exports = {
   },
 
   async fn(inputs) {
-    if (sails.config.custom.oidcEnforced) {
-      throw Errors.USE_SINGLE_SIGN_ON;
-    }
-
     const remoteAddress = getRemoteAddress(this.req);
     const user = await User.qm.getOneActiveByEmailOrUsername(inputs.emailOrUsername);
 
@@ -183,10 +172,6 @@ module.exports = {
       throw sails.config.custom.showDetailedAuthErrors
         ? Errors.INVALID_EMAIL_OR_USERNAME
         : Errors.INVALID_CREDENTIALS;
-    }
-
-    if (user.isSsoUser) {
-      throw Errors.USE_SINGLE_SIGN_ON;
     }
 
     const isPasswordValid = await bcrypt.compare(inputs.password, user.password);

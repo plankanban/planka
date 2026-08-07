@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: '<1>PLANKA</1>で動作',
       serverConnectionFailed: 'サーバーの接続に失敗',
       unknownError: '不明なエラーです。後でもう一度試してください。',
-      useSingleSignOn: 'SSOを使用',
       usernameAlreadyInUse: 'ユーザー名は既に使われています',
       whoops_title: 'おっと！',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'キャンセルして閉じる',
       continue: '続行',
-      debugSso: 'SSOをデバッグ',
       goBack: '戻る',
       goHome: 'ホームへ',
       logIn: 'ログイン',
-      logInWithSso: 'SSOでログイン',
     },
   },
 };

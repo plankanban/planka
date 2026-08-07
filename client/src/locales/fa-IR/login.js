@@ -16,7 +16,6 @@ export default {
       poweredByPlanka: 'قدرت گرفته از <1>PLANKA</1>',
       serverConnectionFailed: 'اتصال به سرور ناموفق بود',
       unknownError: 'خطای ناشناخته، بعداً دوباره تلاش کنید',
-      useSingleSignOn: 'استفاده از ورود یکپارچه',
       usernameAlreadyInUse: 'نام کاربری قبلا استفاده شده است',
       whoops_title: 'اوه!',
     },
@@ -24,11 +23,9 @@ export default {
     action: {
       cancelAndClose: 'لغو و بستن',
       continue: 'ادامه',
-      debugSso: 'اشکال‌زدایی SSO',
       goBack: 'بازگشت',
       goHome: 'رفتن به خانه',
       logIn: 'ورود',
-      logInWithSso: 'ورود با SSO',
     },
   },
 };

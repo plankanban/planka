@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Didukung oleh <1>PLANKA</1>',
       serverConnectionFailed: 'Koneksi server gagal',
       unknownError: 'Kesalahan tidak diketahui, coba lagi nanti.',
-      useSingleSignOn: 'Gunakan single sign-on',
       usernameAlreadyInUse: 'Username telah digunakan',
       whoops_title: 'Ups!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Batal dan tutup',
       continue: 'Lanjutkan',
-      debugSso: 'Debug SSO',
       goBack: 'Kembali',
       goHome: 'Ke beranda',
       logIn: 'Masuk',
-      logInWithSso: 'Masuk dengan SSO',
     },
   },
 };

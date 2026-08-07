@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Käyttää <1>PLANKAa</1>',
       serverConnectionFailed: 'Yhteys palvelimeen epäonnistui',
       unknownError: 'Tuntematon virhe, yritä myöhemmin uudelleen',
-      useSingleSignOn: 'Käytä kertakirjautumista',
       usernameAlreadyInUse: 'Käyttäjänimi on jo käytössä',
       whoops_title: 'Hups!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Peruuta ja sulje',
       continue: 'Jatka',
-      debugSso: 'Korjaa SSO-virheitä',
       goBack: 'Takaisin',
       goHome: 'Kotiin',
       logIn: 'Kirjaudu sisään',
-      logInWithSso: 'Kirjaudu SSO:lla',
     },
   },
 };

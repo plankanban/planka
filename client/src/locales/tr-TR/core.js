@@ -90,8 +90,6 @@ export default {
         'Bu yöneticiyi projeden çıkarmak istediğinizden emin misiniz?',
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Bu üyeyi panodan çıkarmak istediğinizden emin misiniz?',
-      areYouSureYouWantToUnlinkSsoFromThisUser:
-        'Bu kullanıcıdan SSO bağlantısını kaldırmak istediğinizden emin misiniz? Bu, kullanıcının şifre ile giriş yapmasına izin verecektir.',
       assignAsOwner_title: 'Sahip olarak ata',
       atLeastOneListMustBePresent: 'En az bir liste bulunmalıdır',
       attachment: 'ek',
@@ -338,7 +336,6 @@ export default {
       turnOffRecentCardHighlighting: 'Son kart vurgulamasını kapat',
       typeNameToConfirm: 'Onaylamak için adı yazın.',
       typeTitleToConfirm: 'Onaylamak için başlığı yazın.',
-      unlinkSso_title: 'SSO bağlantısını kaldırma',
       unsavedChanges: 'Kaydedilmemiş değişiklikler',
       uploadFailedFileIsTooBig: 'Yükleme başarısız: dosya çok büyük.',
       uploadFailedNotEnoughStorageSpace: 'Yükleme başarısız: yeterli depolama alanı yok.',
@@ -510,8 +507,6 @@ export default {
       start: 'başlat',
       stop: 'dur',
       subscribe: 'Abone ol',
-      unlinkSso: 'SSO bağlantısını kaldır',
-      unlinkSso_title: 'SSO bağlantısını kaldır',
       unsubscribe: 'Abonelikten çık',
       uploadNewAvatar: 'Yeni avatar yükle',
       uploadNewImage: 'Yeni resim yükle',

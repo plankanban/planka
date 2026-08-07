@@ -34,33 +34,6 @@ authenticate.failure = (error, terms) => ({
   },
 });
 
-const authenticateWithOidc = () => ({
-  type: ActionTypes.WITH_OIDC_AUTHENTICATE,
-  payload: {},
-});
-
-authenticateWithOidc.success = (accessToken) => ({
-  type: ActionTypes.WITH_OIDC_AUTHENTICATE__SUCCESS,
-  payload: {
-    accessToken,
-  },
-});
-
-authenticateWithOidc.failure = (error, terms) => ({
-  type: ActionTypes.WITH_OIDC_AUTHENTICATE__FAILURE,
-  payload: {
-    error,
-    terms,
-  },
-});
-
-authenticateWithOidc.debug = (logs) => ({
-  type: ActionTypes.WITH_OIDC_AUTHENTICATE__DEBUG,
-  payload: {
-    logs,
-  },
-});
-
 const clearAuthenticateError = () => ({
   type: ActionTypes.AUTHENTICATE_ERROR_CLEAR,
   payload: {},
@@ -128,7 +101,6 @@ updateTermsLanguage.failure = (error) => ({
 export default {
   initializeLogin,
   authenticate,
-  authenticateWithOidc,
   clearAuthenticateError,
   acceptTerms,
   cancelTerms,

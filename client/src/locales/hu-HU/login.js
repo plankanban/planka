@@ -17,7 +17,6 @@ export default {
       poweredByPlanka: 'Működteti a <1>PLANKA</1>',
       serverConnectionFailed: 'A szerverkapcsolat sikertelen',
       unknownError: 'Ismeretlen hiba, próbáld meg később újra',
-      useSingleSignOn: 'Egyszeri bejelentkezés használata',
       usernameAlreadyInUse: 'A felhasználónév már használatban van',
       whoops_title: 'Hoppá!',
     },
@@ -25,11 +24,9 @@ export default {
     action: {
       cancelAndClose: 'Mégse és bezárás',
       continue: 'Folytatás',
-      debugSso: 'SSO hibakeresése',
       goBack: 'Vissza',
       goHome: 'Kezdőlapra',
       logIn: 'Belépés',
-      logInWithSso: 'Belépés SSO-val',
     },
   },
 };

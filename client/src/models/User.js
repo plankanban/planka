@@ -78,7 +78,6 @@ export default class extends BaseModel {
     subscribeToCardWhenCommenting: attr(),
     turnOffRecentCardHighlighting: attr(),
     isDefaultAdmin: attr(),
-    isSsoUser: attr(),
     isDeactivated: attr(),
     lockedFieldNames: attr(),
     isAvatarUpdating: attr({

@@ -16,7 +16,6 @@ export default {
       poweredByPlanka: 'مدعوم بواسطة <1>PLANKA</1>',
       serverConnectionFailed: 'فشل الاتصال بالخادم',
       unknownError: 'خطأ غير معروف، يرجى المحاولة لاحقاً',
-      useSingleSignOn: 'استخدم تسجيل الدخول الموحد',
       usernameAlreadyInUse: 'اسم المستخدم تم استخدامه بالفعل',
       whoops_title: 'عفواً!',
     },
@@ -24,11 +23,9 @@ export default {
     action: {
       cancelAndClose: 'إلغاء وإغلاق',
       continue: 'متابعة',
-      debugSso: 'تصحيح أخطاء تسجيل الدخول الموحد',
       goBack: 'العودة',
       goHome: 'الذهاب للرئيسية',
       logIn: 'تسجيل الدخول',
-      logInWithSso: 'تسجيل الدخول باستخدام SSO',
     },
   },
 };

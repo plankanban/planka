@@ -52,23 +52,8 @@ module.exports = {
         const lockedFieldNames = [];
         if (sails.config.custom.demoMode) {
           lockedFieldNames.push('email', 'password', 'role', 'name', 'username');
-        } else if (isDefaultAdmin || inputs.record.isSsoUser) {
-          lockedFieldNames.push('email', 'password', 'name');
-
-          if (isDefaultAdmin) {
-            lockedFieldNames.push('role', 'username');
-          } else if (inputs.record.isSsoUser) {
-            if (!sails.config.custom.oidcIgnoreRoles) {
-              lockedFieldNames.push('role');
-            }
-            if (!sails.config.custom.oidcIgnoreUsername) {
-              lockedFieldNames.push('username');
-            }
-          }
-        }
-
-        if (sails.config.custom.oidcEnforced) {
-          lockedFieldNames.push('isSsoUser');
+        } else if (isDefaultAdmin) {
+          lockedFieldNames.push('email', 'password', 'name', 'role', 'username');
         }
 
         Object.assign(data, {

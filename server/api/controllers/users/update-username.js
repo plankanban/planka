@@ -8,7 +8,7 @@
  * /users/{id}/username:
  *   patch:
  *     summary: Update user username
- *     description: Updates a user's username. Users must provide a current password when updating their own username (unless they are SSO users with `oidcIgnoreUsername` enabled). Admins can update any user's username without the current password.
+ *     description: Updates a user's username. Users must provide a current password when updating their own username. Admins can update any user's username without the current password.
  *     tags:
  *       - Users
  *     operationId: updateUserUsername
@@ -136,11 +136,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    if (user.isSsoUser) {
-      if (!sails.config.custom.oidcIgnoreUsername) {
-        throw Errors.NOT_ENOUGH_RIGHTS;
-      }
-    } else if (inputs.id === currentUser.id) {
+    if (inputs.id === currentUser.id) {
       if (!inputs.currentPassword) {
         throw Errors.INVALID_CURRENT_PASSWORD;
       }

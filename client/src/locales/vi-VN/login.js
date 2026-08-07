@@ -16,7 +16,6 @@ export default {
       poweredByPlanka: 'Được phát triển bởi <1>PLANKA</1>',
       serverConnectionFailed: 'Không kết nối được tới máy chủ',
       unknownError: 'Lỗi không xác định, thử lại sau',
-      useSingleSignOn: 'Sử dụng đăng nhập một lần (SSO)',
       usernameAlreadyInUse: 'Tên đăng nhập đã được sử dụng',
       whoops_title: 'Ôi thôi chếcccc!',
     },
@@ -24,11 +23,9 @@ export default {
     action: {
       cancelAndClose: 'Hủy và đóng',
       continue: 'Tiếp tục',
-      debugSso: 'Gỡ lỗi SSO',
       goBack: 'Quay lại',
       goHome: 'Về trang chủ',
       logIn: 'Đăng nhập',
-      logInWithSso: 'Đăng nhập bằng SSO',
     },
   },
 };

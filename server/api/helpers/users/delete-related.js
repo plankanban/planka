@@ -21,10 +21,6 @@ module.exports = {
       userIdOrIds = sails.helpers.utils.mapRecords(inputs.recordOrRecords);
     }
 
-    await IdentityProviderUser.qm.delete({
-      userId: userIdOrIds,
-    });
-
     await Session.qm.delete({
       userId: userIdOrIds,
     });
