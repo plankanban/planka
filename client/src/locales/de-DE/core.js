@@ -140,6 +140,7 @@ export default {
       color: 'Farbe',
       comments: 'Kommentare',
       confirmCodesSaved: 'Ich habe diese Codes an einem sicheren Ort gespeichert.',
+      confirmPassword: 'Passwort bestätigen',
       contentExceedsLimit: 'Inhalt überschreitet {{limit}}',
       contentOfThisAttachmentIsTooBigToDisplay:
         'Der Inhalt dieses Anhangs ist zu groß für die Anzeige.',
@@ -468,6 +469,7 @@ export default {
       assignAsOwner: 'Als Eigentümer zuweisen',
       back: 'Zurück',
       cancel: 'Abbrechen',
+      changePassword: 'Passwort ändern',
       copy: 'Kopieren',
       copyAll: 'Alle kopieren',
       copyCard_title: 'Karte Kopieren',

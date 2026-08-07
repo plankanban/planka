@@ -14,32 +14,18 @@ import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { useSteps } from '../../../../hooks';
 import SelectRoleStep from './SelectRoleStep';
-import ApiKeyStep from './ApiKeyStep';
-import ResetTotpStep from './ResetTotpStep';
 import ConfirmationStep from '../../ConfirmationStep';
-import EditUserInformationStep from '../../../users/EditUserInformationStep';
-import EditUserAvatarStep from '../../../users/EditUserAvatarStep';
-import EditUserUsernameStep from '../../../users/EditUserUsernameStep';
-import EditUserEmailStep from '../../../users/EditUserEmailStep';
-import EditUserPasswordStep from '../../../users/EditUserPasswordStep';
 
 import styles from './ActionsStep.module.scss';
 
 const StepTypes = {
-  EDIT_INFORMATION: 'EDIT_INFORMATION',
-  EDIT_AVATAR: 'EDIT_AVATAR',
-  EDIT_USERNAME: 'EDIT_USERNAME',
-  EDIT_EMAIL: 'EDIT_EMAIL',
-  EDIT_PASSWORD: 'EDIT_PASSWORD',
   EDIT_ROLE: 'EDIT_ROLE',
-  API_KEY: 'API_KEY',
-  RESET_TOTP: 'RESET_TOTP',
   ACTIVATE: 'ACTIVATE',
   DEACTIVATE: 'DEACTIVATE',
   DELETE: 'DELETE',
 };
 
-const ActionsStep = React.memo(({ userId, onClose }) => {
+const ActionsStep = React.memo(({ userId, onEdit, onClose }) => {
   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
 
   const activeUsersLimit = useSelector(selectors.selectActiveUsersLimit);
@@ -86,36 +72,13 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
     dispatch(entryActions.deleteUser(userId));
   }, [userId, dispatch]);
 
-  const handleEditInformationClick = useCallback(() => {
-    openStep(StepTypes.EDIT_INFORMATION);
-  }, [openStep]);
-
-  const handleEditAvatarClick = useCallback(() => {
-    openStep(StepTypes.EDIT_AVATAR);
-  }, [openStep]);
-
-  const handleEditUsernameClick = useCallback(() => {
-    openStep(StepTypes.EDIT_USERNAME);
-  }, [openStep]);
-
-  const handleEditEmailClick = useCallback(() => {
-    openStep(StepTypes.EDIT_EMAIL);
-  }, [openStep]);
-
-  const handleEditPasswordClick = useCallback(() => {
-    openStep(StepTypes.EDIT_PASSWORD);
-  }, [openStep]);
+  const handleEditClick = useCallback(() => {
+    onEdit(userId);
+    onClose();
+  }, [userId, onEdit, onClose]);
 
   const handleEditRoleClick = useCallback(() => {
     openStep(StepTypes.EDIT_ROLE);
-  }, [openStep]);
-
-  const handleApiKeyClick = useCallback(() => {
-    openStep(StepTypes.API_KEY);
-  }, [openStep]);
-
-  const handleResetTotpClick = useCallback(() => {
-    openStep(StepTypes.RESET_TOTP);
   }, [openStep]);
 
   const handleActivateClick = useCallback(() => {
@@ -132,16 +95,6 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
 
   if (step) {
     switch (step.type) {
-      case StepTypes.EDIT_INFORMATION:
-        return <EditUserInformationStep id={userId} onBack={handleBack} onClose={onClose} />;
-      case StepTypes.EDIT_AVATAR:
-        return <EditUserAvatarStep id={userId} onBack={handleBack} onClose={onClose} />;
-      case StepTypes.EDIT_USERNAME:
-        return <EditUserUsernameStep id={userId} onBack={handleBack} onClose={onClose} />;
-      case StepTypes.EDIT_EMAIL:
-        return <EditUserEmailStep id={userId} onBack={handleBack} onClose={onClose} />;
-      case StepTypes.EDIT_PASSWORD:
-        return <EditUserPasswordStep id={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.EDIT_ROLE:
         return (
           <SelectRoleStep
@@ -154,10 +107,6 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
             onClose={onClose}
           />
         );
-      case StepTypes.API_KEY:
-        return <ApiKeyStep userId={userId} onBack={handleBack} onClose={onClose} />;
-      case StepTypes.RESET_TOTP:
-        return <ResetTotpStep userId={userId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.ACTIVATE:
         return (
           <ConfirmationStep
@@ -204,60 +153,16 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
       </Popup.Header>
       <Popup.Content>
         <Menu secondary vertical className={styles.menu}>
-          <Menu.Item className={styles.menuItem} onClick={handleEditInformationClick}>
+          <Menu.Item className={styles.menuItem} onClick={handleEditClick}>
             <Icon name="info" className={styles.menuItemIcon} />
             {t('action.editInformation', {
               context: 'title',
             })}
           </Menu.Item>
-          <Menu.Item className={styles.menuItem} onClick={handleEditAvatarClick}>
-            <Icon name="image outline" className={styles.menuItemIcon} />
-            {t('action.editAvatar', {
-              context: 'title',
-            })}
-          </Menu.Item>
-          {!user.lockedFieldNames.includes('username') && (
-            <Menu.Item className={styles.menuItem} onClick={handleEditUsernameClick}>
-              <Icon name="at" className={styles.menuItemIcon} />
-              {t('action.editUsername', {
-                context: 'title',
-              })}
-            </Menu.Item>
-          )}
-          {!user.lockedFieldNames.includes('email') && (
-            <Menu.Item className={styles.menuItem} onClick={handleEditEmailClick}>
-              <Icon name="mail outline" className={styles.menuItemIcon} />
-              {t('action.editEmail', {
-                context: 'title',
-              })}
-            </Menu.Item>
-          )}
-          {!user.lockedFieldNames.includes('password') && (
-            <Menu.Item className={styles.menuItem} onClick={handleEditPasswordClick}>
-              <Icon name="keyboard outline" className={styles.menuItemIcon} />
-              {t('action.editPassword', {
-                context: 'title',
-              })}
-            </Menu.Item>
-          )}
           {!user.lockedFieldNames.includes('role') && !isCurrentUser && (
             <Menu.Item className={styles.menuItem} onClick={handleEditRoleClick}>
               <Icon name="sun outline" className={styles.menuItemIcon} />
               {t('action.editRole', {
-                context: 'title',
-              })}
-            </Menu.Item>
-          )}
-          <Menu.Item className={styles.menuItem} onClick={handleApiKeyClick}>
-            <Icon name="key" className={styles.menuItemIcon} />
-            {t('common.apiKey', {
-              context: 'title',
-            })}
-          </Menu.Item>
-          {user.isTotpEnabled && !isCurrentUser && (
-            <Menu.Item className={styles.menuItem} onClick={handleResetTotpClick}>
-              <Icon name="shield alternate" className={styles.menuItemIcon} />
-              {t('common.reset2fa', {
                 context: 'title',
               })}
             </Menu.Item>
@@ -303,6 +208,7 @@ const ActionsStep = React.memo(({ userId, onClose }) => {
 
 ActionsStep.propTypes = {
   userId: PropTypes.string.isRequired,
+  onEdit: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

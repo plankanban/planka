@@ -1,0 +1,140 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .avatarArea {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .avatarButton {
+    margin: 0 !important;
+  }
+
+  .avatarButtons {
+    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field {
+    margin-bottom: 8px;
+  }
+
+  .fieldGroup {
+    margin-bottom: 8px;
+    min-width: 0;
+  }
+
+  .column {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+
+  .twoColumns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 16px;
+    margin-bottom: 4px;
+  }
+
+  .lockedField {
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .lockedInput {
+    flex: 1;
+    margin-bottom: 0 !important;
+  }
+
+  .pane {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 16px 0 !important;
+  }
+
+  .passwordField {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .passwordCancelButton {
+    align-self: flex-start;
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    color: #666666;
+    cursor: pointer;
+    flex-shrink: 0;
+    height: 38px;
+    margin-top: 22px;
+    outline: none;
+    padding: 4px 6px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.1);
+      // against the dark-mode hover bg. --text-primary flips per
+      // theme so the hovered text stays readable in both.
+      color: #1b1c1d;
+    }
+  }
+
+  .passwordRow {
+    align-items: flex-start;
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .passwordToggleWrapper {
+    margin-bottom: 8px;
+  }
+
+  .text {
+    color: #444444;
+    font-size: 12px;
+    font-weight: bold;
+    padding-bottom: 6px;
+  }
+
+  .unlockButton {
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    color: #666666;
+    cursor: pointer;
+    flex-shrink: 0;
+    height: 28px;
+    outline: none;
+    padding: 4px 6px;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.1);
+      // against the dark-mode hover bg. --text-primary flips per
+      // theme so the hovered text stays readable in both.
+      color: #1b1c1d;
+    }
+  }
+
+  .totpResetRow {
+    align-items: center;
+    display: flex;
+    gap: 16px;
+    justify-content: space-between;
+  }
+
+  .totpResetHint {
+    color: #666666;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+}

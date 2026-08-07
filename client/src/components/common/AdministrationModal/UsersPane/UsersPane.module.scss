@@ -26,6 +26,7 @@
   }
 
   .tableWrapper {
+    container-type: inline-size;
     margin-right: -2.5rem;
     max-height: calc(100vh - 338px);
     overflow: auto;

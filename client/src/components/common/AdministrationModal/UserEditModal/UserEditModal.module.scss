@@ -1,0 +1,36 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .header {
+    padding-right: 2.5rem !important;
+  }
+
+  .wrapper {
+    @media (min-width: 768px) {
+      width: 680px !important;
+    }
+
+    // Default Semantic UI buttons inside this modal — i.e. anywhere
+    // a <Button> is rendered without an explicit colour modifier
+    // (positive / negative / primary / secondary / a named hue).
+    // Their default grey background uses --surface-divider which
+    // resolves to a near-black dark grey in dark mode and looks
+    // misplaced against the dark surface. We give them the same
+    // translucent-overlay tokens the row edit pencil and card field
+    // chips use, so they read correctly in both themes and pick up
+    // the surface's hue subtly. The :not() chain preserves every
+    // explicitly-coloured Semantic UI button.
+    :global(.ui.button):not(:global(.positive)):not(:global(.negative)):not(:global(.primary)):not(:global(.secondary)):not(:global(.red)):not(:global(.orange)):not(:global(.yellow)):not(:global(.olive)):not(:global(.green)):not(:global(.teal)):not(:global(.blue)):not(:global(.violet)):not(:global(.purple)):not(:global(.pink)):not(:global(.brown)):not(:global(.grey)):not(:global(.black)):not(:global(.inverted)) {
+      background: rgba(22, 49, 75, 0.15);
+      color: #1b1c1d;
+
+      &:hover {
+        background: rgba(22, 49, 75, 0.22);
+        color: #1b1c1d;
+      }
+    }
+  }
+}

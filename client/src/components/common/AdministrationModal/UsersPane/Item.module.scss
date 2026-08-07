@@ -51,4 +51,37 @@
   .wrapperDeactivated {
     opacity: 0.64;
   }
+
+  .nameLink {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .mobileIdentity {
+    display: none;
+  }
+
+  @container (max-width: 600px) {
+    .identityCell {
+      display: none !important;
+    }
+
+    .mobileIdentity {
+      color: #6b6b6b;
+      display: block;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+  }
+
+  @container (max-width: 450px) {
+    .informationCell {
+      display: none !important;
+    }
+  }
 }
