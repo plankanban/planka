@@ -13,6 +13,15 @@ export const EditorModes = {
   MARKUP: 'markup',
 };
 
+export const AutoLogoutModes = {
+  NEVER: 'never',
+  MINUTES_2: '2m',
+  MINUTES_5: '5m',
+  MINUTES_10: '10m',
+  MINUTES_30: '30m',
+  HOURS_12: '12h',
+};
+
 export const HomeViews = {
   GRID_PROJECTS: 'gridProjects',
   GROUPED_PROJECTS: 'groupedProjects',

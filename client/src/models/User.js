@@ -89,6 +89,7 @@ export default class extends BaseModel {
     subscribeToCardWhenCommenting: attr(),
     turnOffRecentCardHighlighting: attr(),
     isDefaultAdmin: attr(),
+    autoLogoutMode: attr(),
     isTotpEnabled: attr(),
     totpEnabledAt: attr(),
     totpRecoveryCodesRemaining: attr(),

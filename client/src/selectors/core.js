@@ -15,6 +15,8 @@ export const selectClipboard = ({ core: { clipboard } }) => clipboard;
 
 export const selectConfig = ({ core: { config } }) => config;
 
+export const selectAutoLogoutWarning = ({ core: { autoLogoutWarning } }) => autoLogoutWarning;
+
 export const selectRecentCardId = ({ core: { recentCardId } }) => recentCardId;
 
 export const selectPrevCardId = ({ core: { prevCardIds } }) => prevCardIds.at(-1);
@@ -35,6 +37,7 @@ export default {
   selectIsEditModeEnabled,
   selectClipboard,
   selectConfig,
+  selectAutoLogoutWarning,
   selectRecentCardId,
   selectPrevCardId,
   selectHomeView,

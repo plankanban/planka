@@ -26,6 +26,7 @@ const initialState = {
   projectsSearch: '',
   projectsOrder: ProjectOrders.BY_DEFAULT,
   isHiddenProjectsVisible: false, // TODO: refactor?
+  autoLogoutWarning: null,
 };
 
 // eslint-disable-next-line default-param-last
@@ -116,6 +117,18 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         isLogouting: true,
+      };
+    case ActionTypes.AUTO_LOGOUT_WARNING_SHOW:
+      return {
+        ...state,
+        autoLogoutWarning: {
+          expiresAt: payload.expiresAt,
+        },
+      };
+    case ActionTypes.AUTO_LOGOUT_WARNING_DISMISS:
+      return {
+        ...state,
+        autoLogoutWarning: null,
       };
     case ActionTypes.MODAL_OPEN:
       return {

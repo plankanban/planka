@@ -17,6 +17,7 @@ import Fixed from '../Fixed';
 import Static from '../Static';
 import AdministrationModal from '../AdministrationModal';
 import AboutModal from '../AboutModal';
+import AutoLogoutWarningModal from '../AutoLogoutWarningModal';
 import UserSettingsModal from '../../users/UserSettingsModal';
 import ProjectBackground from '../../projects/ProjectBackground';
 import AddProjectModal from '../../projects/AddProjectModal';
@@ -122,6 +123,7 @@ const Core = React.memo(() => {
           <Fixed />
           <Static />
           {modalNode}
+          <AutoLogoutWarningModal />
         </>
       )}
       {messageNode}

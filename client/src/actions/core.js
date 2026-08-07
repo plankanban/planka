@@ -98,10 +98,24 @@ logout.revokeAccessToken = () => ({
   payload: {},
 });
 
+const showAutoLogoutWarning = (expiresAt) => ({
+  type: ActionTypes.AUTO_LOGOUT_WARNING_SHOW,
+  payload: {
+    expiresAt,
+  },
+});
+
+const dismissAutoLogoutWarning = () => ({
+  type: ActionTypes.AUTO_LOGOUT_WARNING_DISMISS,
+  payload: {},
+});
+
 export default {
   initializeCore,
   toggleFavorites,
   toggleEditMode,
   updateHomeView,
   logout,
+  showAutoLogoutWarning,
+  dismissAutoLogoutWarning,
 };

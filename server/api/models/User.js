@@ -142,6 +142,12 @@
  *           default: byDefault
  *           description: Default sort order for projects display (personal field)
  *           example: byDefault
+ *         autoLogoutMode:
+ *           type: string
+ *           enum: [never, 2m, 5m, 10m, 30m, 12h]
+ *           default: 30m
+ *           description: Auto-logout behavior on inactivity (personal field)
+ *           example: 30m
  *         isTotpEnabled:
  *           type: boolean
  *           default: false
@@ -248,6 +254,15 @@ const LANGUAGES = [
 ];
 
 // TODO: find better way to handle apiKeyHash and apiKeyCreatedAt
+const AutoLogoutModes = {
+  NEVER: 'never',
+  MINUTES_2: '2m',
+  MINUTES_5: '5m',
+  MINUTES_10: '10m',
+  MINUTES_30: '30m',
+  HOURS_12: '12h',
+};
+
 const PRIVATE_FIELD_NAMES = [
   'email',
   'apiKeyPrefix',
@@ -272,6 +287,7 @@ const PERSONAL_FIELD_NAMES = [
   'defaultEditorMode',
   'defaultHomeView',
   'defaultProjectsOrder',
+  'autoLogoutMode',
 ];
 
 const INTERNAL = {
@@ -284,6 +300,7 @@ module.exports = {
   EditorModes,
   HomeViews,
   ProjectOrders,
+  AutoLogoutModes,
   LANGUAGES,
   PRIVATE_FIELD_NAMES,
   PERSONAL_FIELD_NAMES,
@@ -412,6 +429,12 @@ module.exports = {
     termsAcceptedAt: {
       type: 'ref',
       columnName: 'terms_accepted_at',
+    },
+    autoLogoutMode: {
+      type: 'string',
+      isIn: Object.values(AutoLogoutModes),
+      defaultsTo: AutoLogoutModes.MINUTES_30,
+      columnName: 'auto_logout_mode',
     },
     totpSecret: {
       type: 'string',

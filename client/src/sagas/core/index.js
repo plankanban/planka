@@ -17,6 +17,7 @@ export default function* coreSaga() {
 
   yield apply(socket, socket.connect);
   yield fork(services.initializeCore);
+  yield fork(services.autoLogout);
 
   yield take(ActionTypes.LOGOUT);
 

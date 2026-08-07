@@ -13,6 +13,22 @@
     }
   }
 
+  .field {
+    margin-top: 16px;
+  }
+
+  .label {
+    color: #444444;
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
   .wrapper {
     border: none;
     box-shadow: none;

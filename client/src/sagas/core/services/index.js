@@ -7,6 +7,7 @@ import router from './router';
 import socket from './socket';
 import bootstrap from './bootstrap';
 import core from './core';
+import autoLogout from './auto-logout';
 import modals from './modals';
 import config from './config';
 import webhooks from './webhooks';
@@ -36,6 +37,7 @@ export default {
   ...socket,
   ...bootstrap,
   ...core,
+  ...autoLogout,
   ...modals,
   ...config,
   ...webhooks,

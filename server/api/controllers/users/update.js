@@ -95,6 +95,11 @@
  *                 enum: [byDefault, alphabetically, byCreationTime]
  *                 description: Default sort order for projects display
  *                 example: byDefault
+ *               autoLogoutMode:
+ *                 type: string
+ *                 enum: [never, 2m, 5m, 10m, 30m, 12h]
+ *                 description: Auto-logout behavior on inactivity
+ *                 example: 30m
  *               isDeactivated:
  *                 type: boolean
  *                 description: Whether the user account is deactivated and cannot log in (for admins)
@@ -200,6 +205,10 @@ module.exports = {
       type: 'string',
       isIn: Object.values(User.ProjectOrders),
     },
+    autoLogoutMode: {
+      type: 'string',
+      isIn: Object.values(User.AutoLogoutModes),
+    },
     isDeactivated: {
       type: 'boolean',
     },
@@ -266,6 +275,7 @@ module.exports = {
         'defaultEditorMode',
         'defaultHomeView',
         'defaultProjectsOrder',
+        'autoLogoutMode',
         'isDeactivated',
       ]),
     };

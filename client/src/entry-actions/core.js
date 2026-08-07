@@ -33,9 +33,15 @@ const logout = (revokeAccessToken = true) => ({
   },
 });
 
+const dismissAutoLogoutWarning = () => ({
+  type: EntryActionTypes.AUTO_LOGOUT_WARNING_DISMISS,
+  payload: {},
+});
+
 export default {
   toggleFavorites,
   toggleEditMode,
   updateHomeView,
   logout,
+  dismissAutoLogoutWarning,
 };
