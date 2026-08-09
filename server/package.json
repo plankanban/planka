@@ -105,6 +105,6 @@
     "swagger-jsdoc": "^6.2.8"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   }
 }
