@@ -1,4 +1,10 @@
-# [2.2.0] - 2026-08-09
+# [2.2.1] - 2026-08-10
+
+### Fixed
+
+* Fix path traversal in the static file routes that allowed authenticated users to read arbitrary files from the server
+
+## [2.2.0] - 2026-08-09
 
 ### ⚠️ Breaking changes
 
