@@ -56,5 +56,8 @@ export default function* labelsWatchers() {
     takeEvery(EntryActionTypes.LABEL_FROM_FILTER_IN_CURRENT_BOARD_REMOVE, ({ payload: { id } }) =>
       services.removeLabelFromFilterInCurrentBoard(id),
     ),
+    takeEvery(EntryActionTypes.LABEL_FILTER_IN_CURRENT_BOARD_UPDATE, ({ payload: { id, mode } }) =>
+      services.updateLabelFilterInCurrentBoard(id, mode),
+    ),
   ]);
 }

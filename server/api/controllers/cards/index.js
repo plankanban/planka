@@ -57,6 +57,13 @@
  *         schema:
  *           type: string
  *           example: 1357158568008091268,1357158568008091269
+ *       - name: excludedLabelIds
+ *         in: query
+ *         required: false
+ *         description: Comma-separated label IDs to exclude from results
+ *         schema:
+ *           type: string
+ *           example: 1357158568008091268,1357158568008091269
  *     responses:
  *       200:
  *         description: Cards retrieved successfully
@@ -189,6 +196,7 @@ module.exports = {
     },
     userIds: idsInput,
     labelIds: idsInput,
+    excludedLabelIds: idsInput,
   },
 
   exits: {
@@ -235,12 +243,28 @@ module.exports = {
     }
 
     let filterLabelIds;
+    let filterExcludedLabelIds;
     if (inputs.labelIds) {
       const labels = await Label.qm.getByBoardId(list.boardId);
       const availableLabelIdsSet = new Set(sails.helpers.utils.mapRecords(labels));
 
       filterLabelIds = _.uniq(inputs.labelIds.split(','));
       filterLabelIds = filterLabelIds.filter((labelId) => availableLabelIdsSet.has(labelId));
+
+      if (inputs.excludedLabelIds) {
+        filterExcludedLabelIds = _.uniq(inputs.excludedLabelIds.split(','));
+        filterExcludedLabelIds = filterExcludedLabelIds.filter((labelId) =>
+          availableLabelIdsSet.has(labelId),
+        );
+      }
+    } else if (inputs.excludedLabelIds) {
+      const labels = await Label.qm.getByBoardId(list.boardId);
+      const availableLabelIdsSet = new Set(sails.helpers.utils.mapRecords(labels));
+
+      filterExcludedLabelIds = _.uniq(inputs.excludedLabelIds.split(','));
+      filterExcludedLabelIds = filterExcludedLabelIds.filter((labelId) =>
+        availableLabelIdsSet.has(labelId),
+      );
     }
 
     const cards = await Card.qm.getByEndlessListId(list.id, {
@@ -248,6 +272,7 @@ module.exports = {
       search: inputs.search,
       userIds: filterUserIds,
       labelIds: filterLabelIds,
+      excludedLabelIds: filterExcludedLabelIds,
     });
 
     const cardIds = sails.helpers.utils.mapRecords(cards);
