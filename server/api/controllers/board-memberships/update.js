@@ -37,6 +37,11 @@
  *                 nullable: true
  *                 description: Whether the user can comment on cards (applies only to viewers)
  *                 example: true
+ *               limitAccessToAssigned:
+ *                 type: boolean
+ *                 nullable: true
+ *                 description: If this field is set then the user's access is limited to cards assigned to them
+ *                 example: false
  *     responses:
  *       200:
  *         description: Board membership updated successfully
@@ -79,6 +84,10 @@ module.exports = {
       type: 'boolean',
       allowNull: true,
     },
+    limitAccessToAssigned: {
+      type: 'boolean',
+      allowNull: true,
+    },
   },
 
   exits: {
@@ -103,7 +112,7 @@ module.exports = {
       throw Errors.BOARD_MEMBERSHIP_NOT_FOUND; // Forbidden
     }
 
-    const values = _.pick(inputs, ['role', 'canComment']);
+    const values = _.pick(inputs, ['role', 'canComment', 'limitAccessToAssigned']);
 
     boardMembership = await sails.helpers.boardMemberships.updateOne.with({
       values,
