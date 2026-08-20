@@ -1,0 +1,22 @@
+# Example values for the optional Kubernetes backup CronJob.
+# Published backup image from github.com/sinae99/planka-k8s-backup.
+
+backup:
+  enabled: true
+  schedule: "0 3 * * 0"
+  image:
+    repository: ghcr.io/sinae99/planka-k8s-backup
+    tag: "1.0.0"
+    pullPolicy: IfNotPresent
+  existingSecret: planka-backup-s3
+  retentionCount: 4
+
+# The chart defaults below assume the Bitnami PostgreSQL dependency is enabled.
+# Override them when using an external database or non-standard resource names.
+# backup:
+#   postgresSecretName: planka-postgresql
+#   postgresPodName: planka-postgresql-0
+#   postgresDatabase: planka
+#   postgresUser: postgres
+#   plankaDeploymentName: planka
+#   plankaPodName: planka-xxxxxxxxx-yyyyy

@@ -60,3 +60,14 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the name of the backup service account to use
+*/}}
+{{- define "planka.backupServiceAccountName" -}}
+{{- if .Values.backup.serviceAccount.create }}
+{{- default (printf "%s-backup" (include "planka.fullname" .)) .Values.backup.serviceAccount.name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- default "default" .Values.backup.serviceAccount.name }}
+{{- end }}
+{{- end }}

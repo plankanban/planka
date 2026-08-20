@@ -1,0 +1,37 @@
+{{- if and .Values.backup.enabled .Values.backup.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "planka.fullname" . }}-backup
+  labels:
+    {{- include "planka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backup
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get"]
+    resourceNames:
+      - {{ default (printf "%s-postgresql" (include "planka.fullname" .)) .Values.backup.postgresSecretName | quote }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "planka.fullname" . }}-backup
+  labels:
+    {{- include "planka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backup
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "planka.fullname" . }}-backup
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "planka.backupServiceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}

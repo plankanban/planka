@@ -1,0 +1,98 @@
+{{- if .Values.backup.enabled }}
+{{- $backupImageTag := .Values.backup.image.tag }}
+{{- $postgresSecretName := default (printf "%s-postgresql" (include "planka.fullname" .)) .Values.backup.postgresSecretName }}
+{{- $postgresPodName := default (printf "%s-postgresql-0" (include "planka.fullname" .)) .Values.backup.postgresPodName }}
+{{- $postgresDatabase := default .Values.postgresql.auth.database .Values.backup.postgresDatabase }}
+{{- $plankaDeploymentName := default (include "planka.fullname" .) .Values.backup.plankaDeploymentName }}
+{{- if not .Values.backup.image.repository }}
+{{- fail "backup.image.repository is required when backup.enabled is true" }}
+{{- end }}
+{{- if not .Values.backup.existingSecret }}
+{{- fail "backup.existingSecret is required when backup.enabled is true" }}
+{{- end }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "planka.fullname" . }}-backup
+  labels:
+    {{- include "planka.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backup
+spec:
+  schedule: {{ .Values.backup.schedule | quote }}
+  concurrencyPolicy: {{ .Values.backup.concurrencyPolicy }}
+  successfulJobsHistoryLimit: {{ .Values.backup.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.backup.failedJobsHistoryLimit }}
+  jobTemplate:
+    spec:
+      backoffLimit: {{ .Values.backup.backoffLimit }}
+      ttlSecondsAfterFinished: {{ .Values.backup.ttlSecondsAfterFinished }}
+      template:
+        metadata:
+          labels:
+            {{- include "planka.selectorLabels" . | nindent 12 }}
+            app.kubernetes.io/component: backup
+        spec:
+          serviceAccountName: {{ include "planka.backupServiceAccountName" . }}
+          restartPolicy: Never
+          securityContext:
+            {{- toYaml .Values.backup.podSecurityContext | nindent 12 }}
+          {{- with .Values.backup.imagePullSecrets }}
+          imagePullSecrets:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          containers:
+            - name: backup
+              {{- if .Values.backup.image.digest }}
+              {{- if $backupImageTag }}
+              image: "{{ .Values.backup.image.repository }}:{{ $backupImageTag }}@sha256:{{ .Values.backup.image.digest }}"
+              {{- else }}
+              image: "{{ .Values.backup.image.repository }}@sha256:{{ .Values.backup.image.digest }}"
+              {{- end }}
+              {{- else }}
+              image: "{{ .Values.backup.image.repository }}:{{ $backupImageTag | default "latest" }}"
+              {{- end }}
+              imagePullPolicy: {{ .Values.backup.image.pullPolicy }}
+              securityContext:
+                {{- toYaml .Values.backup.securityContext | nindent 16 }}
+              envFrom:
+                - secretRef:
+                    name: {{ .Values.backup.existingSecret }}
+              env:
+                - name: KUBE_NAMESPACE
+                  value: {{ .Release.Namespace | quote }}
+                - name: KUBE_POD_POSTGRES
+                  value: {{ $postgresPodName | quote }}
+                - name: KUBE_DEPLOYMENT_PLANKA
+                  value: {{ $plankaDeploymentName | quote }}
+                - name: POSTGRES_USER
+                  value: {{ .Values.backup.postgresUser | quote }}
+                - name: POSTGRES_DB
+                  value: {{ $postgresDatabase | quote }}
+                - name: POSTGRES_SECRET_NAME
+                  value: {{ $postgresSecretName | quote }}
+                - name: POSTGRES_SECRET_KEY
+                  value: {{ .Values.backup.postgresSecretKey | quote }}
+                - name: RETENTION_COUNT
+                  value: {{ .Values.backup.retentionCount | quote }}
+                {{- with .Values.backup.plankaPodName }}
+                - name: KUBE_POD_PLANKA
+                  value: {{ . | quote }}
+                {{- end }}
+                {{- with .Values.backup.extraEnv }}
+                {{- toYaml . | nindent 16 }}
+                {{- end }}
+              resources:
+                {{- toYaml .Values.backup.resources | nindent 16 }}
+          {{- with .Values.backup.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.backup.affinity }}
+          affinity:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.backup.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{- end }}

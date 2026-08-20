@@ -271,4 +271,33 @@ image:
 - **Reproducibility**: Makes deployments fully reproducible across environments
 - **Audit Trail**: Provides clear image identity in deployment manifests
 
+### Optional Kubernetes Backup CronJob
+
+The chart can create an optional backup CronJob. It follows the same
+`postgres.sql` plus `data/` layout as Planka's official Docker backup script.
+It is disabled by default.
+
+The backup image is published at
+`ghcr.io/sinae99/planka-k8s-backup`. Publish a new version by following the
+[GHCR guide](https://github.com/sinae99/planka-k8s-backup/blob/main/guide/publish-to-ghcr.md),
+then configure the image below:
+
+```yaml
+backup:
+  enabled: true
+  image:
+    repository: ghcr.io/sinae99/planka-k8s-backup
+    tag: "1.0.0"
+  existingSecret: planka-backup-s3
+```
+
+Create `planka-backup-s3` with the S3 credentials before enabling the chart.
+The public GHCR image does not need an image pull Secret. The chart creates the
+CronJob and namespace-scoped RBAC.
+
+See [`docs/backup-cronjob/`](docs/backup-cronjob/) for the short setup guide.
+
+### Complete Example
+
+See [`docs/backup-cronjob/values.example.yaml`](docs/backup-cronjob/values.example.yaml) for a backup configuration example.
 ````
