@@ -30,6 +30,8 @@ For configuration and environment settings, see the [configuration section](http
 
 Interested in a hosted or [Pro version](https://planka.app/pro) of PLANKA? Check out the pricing on our [website](https://planka.app/pricing).
 
+[![Deploy on RepoCloud](https://d16t0pc4846x52.cloudfront.net/deploylobe.svg)](https://repocloud.io/details/Planka/)
+
 ## Notes App
 
 A testing version of the Notes app is now available on multiple platforms:
