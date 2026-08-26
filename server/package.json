@@ -5,6 +5,7 @@
   "scripts": {
     "build": "node build.js",
     "console": "dotenv sails console",
+    "db:clean-orphaned-records": "node db/clean-orphaned-records.js",
     "db:create-admin-user": "node db/create-admin-user.js",
     "db:init": "node db/init.js",
     "db:migrate": "knex migrate:latest --cwd db",
