@@ -56,6 +56,10 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    // The changelog rendered in the about modal lives at the repository root
+    fs: {
+      allow: ['..'],
+    },
     proxy: {
       '/api': PROXY_TARGET,
       '/socket.io': { target: PROXY_TARGET, ws: true },

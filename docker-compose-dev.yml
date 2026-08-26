@@ -87,6 +87,7 @@ services:
     restart: on-failure
     volumes:
       - ./client:/app
+      - ./CHANGELOG.md:/CHANGELOG.md
     ports:
       - 3000:3000
     environment:

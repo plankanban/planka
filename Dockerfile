@@ -18,6 +18,7 @@ FROM node:24 AS client
 WORKDIR /app
 
 COPY client .
+COPY CHANGELOG.md /CHANGELOG.md
 
 RUN npm install npm --global \
   && npm install --omit=dev \

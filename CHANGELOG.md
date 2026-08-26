@@ -1,4 +1,16 @@
-# [2.2.1] - 2026-08-10
+## [Unreleased]
+
+### Added
+
+* Add `db:clean-orphaned-records` script to report and remove reference rows left behind by an incomplete delete
+
+### Fixed
+
+* Fix a blank home view when a project manager or board membership points at a project that no longer exists
+* Fix endless list pagination returning an error for cursors Postgres cannot read as a timestamp
+* Fix endless list pagination skipping and repeating cards when a search, member or label filter is active
+
+## [2.2.1] - 2026-08-10
 
 ### Fixed
 

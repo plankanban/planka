@@ -11,7 +11,7 @@ import version from '../../../version';
 import Markdown from '../Markdown';
 
 import aboutLogo from '../../../assets/images/about-logo.png';
-import whatsNewUrl from '../../../assets/docs/whats-new.md?url';
+import changelogUrl from '../../../../../CHANGELOG.md?url';
 
 import styles from './AboutPane.module.scss';
 
@@ -23,7 +23,7 @@ const AboutPane = React.memo(() => {
     async function fetchWhatsNew() {
       let response;
       try {
-        response = await fetch(whatsNewUrl);
+        response = await fetch(changelogUrl);
       } catch {
         return;
       }
