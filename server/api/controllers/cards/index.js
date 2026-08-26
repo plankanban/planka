@@ -243,8 +243,17 @@ module.exports = {
       filterLabelIds = filterLabelIds.filter((labelId) => availableLabelIdsSet.has(labelId));
     }
 
+    // ISO 8601 allows forms Postgres rejects as a timestamp (`2026`, `2026-W35-3`,
+    // a comma as the decimal separator), so the cursor is normalized here rather
+    // than reaching the query as the string the client sent. It stays a string
+    // because the equality branch of the cursor reads a `Date` as an empty constraint
+    const before = inputs.before && {
+      listChangedAt: moment.utc(inputs.before.listChangedAt, moment.ISO_8601, true).toISOString(),
+      id: inputs.before.id,
+    };
+
     const cards = await Card.qm.getByEndlessListId(list.id, {
-      before: inputs.before,
+      before,
       search: inputs.search,
       userIds: filterUserIds,
       labelIds: filterLabelIds,

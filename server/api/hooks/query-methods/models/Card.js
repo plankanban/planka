@@ -108,6 +108,9 @@ const getByEndlessListId = async (listId, { before, search, userIds, labelIds })
       query += ` AND card_label.label_id IN (${inValues.join(', ')})`;
     }
 
+    // Must match the cursor built from the last returned card, otherwise the
+    // limit cuts an arbitrary slice and pages skip or repeat cards
+    query += ' ORDER BY card.list_changed_at DESC, card.id DESC';
     query += ` LIMIT ${LIMIT}`;
 
     let queryResult;
