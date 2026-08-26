@@ -569,10 +569,12 @@ export default class extends BaseModel {
     return this.notificationServices.orderBy(['id.length', 'id']);
   }
 
+  // A manager or membership row can outlive the project or board it points to,
+  // and a single dangling reference must not take the whole view down
   getManagerProjectsModelArray() {
     return this.getProjectManagersQuerySet()
       .toModelArray()
-      .map(({ project: projectModel }) => projectModel);
+      .flatMap(({ project: projectModel }) => projectModel || []);
   }
 
   getMembershipProjectsModelArray() {
@@ -580,7 +582,9 @@ export default class extends BaseModel {
 
     return this.getBoardMembershipsQuerySet()
       .toModelArray()
-      .flatMap(({ board: { project: projectModel } }) => {
+      .flatMap(({ board: boardModel }) => {
+        const projectModel = boardModel && boardModel.project;
+
         if (!projectModel || projectIds.includes(projectModel.id)) {
           return [];
         }

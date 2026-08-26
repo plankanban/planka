@@ -124,16 +124,24 @@ module.exports = {
       true,
     );
 
-    const projectIds = [...managerProjectIds, ...membershipProjectIds];
-    const projects = await Project.qm.getByIds(projectIds);
+    const projects = await Project.qm.getByIds([...managerProjectIds, ...membershipProjectIds]);
 
     if (sharedProjectIds) {
-      projectIds.push(...sharedProjectIds);
       projects.push(...sharedProjects);
     }
 
+    // A manager row can outlive its project, so the ids for everything included
+    // below come from the projects that actually exist, never from the memberships
+    const projectIds = sails.helpers.utils.mapRecords(projects);
+
     const fullyVisibleBoards = await Board.qm.getByProjectIds(fullyVisibleProjectIds);
     const boards = [...fullyVisibleBoards, ...membershipBoards];
+
+    const boardIdsSet = new Set(sails.helpers.utils.mapRecords(boards));
+
+    const availableBoardMemberships = boardMemberships.filter(({ boardId }) =>
+      boardIdsSet.has(boardId),
+    );
 
     const projectFavorites = await ProjectFavorite.qm.getByProjectIdsAndUserId(
       projectIds,
@@ -183,7 +191,7 @@ module.exports = {
         projectManagers,
         baseCustomFieldGroups,
         boards,
-        boardMemberships,
+        boardMemberships: availableBoardMemberships,
         customFields,
         notificationServices,
         users: sails.helpers.users.presentMany(users, currentUser),
