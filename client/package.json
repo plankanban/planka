@@ -133,7 +133,7 @@
     "lodash": "^4.18.1",
     "lowlight": "^3.3.0",
     "markdown-it": "^13.0.2",
-    "nanoid": "^5.1.7",
+    "nanoid": "^5.1.16",
     "papaparse": "^5.5.3",
     "patch-package": "^8.0.1",
     "photoswipe": "^5.4.4",
