@@ -157,6 +157,24 @@ module.exports = {
 
     if (!codeAccepted) {
       sails.log.warn(`Invalid TOTP code! (IP: ${remoteAddress})`);
+
+      // Incremented in the database rather than read-then-written, so two
+      // requests racing on the same pending token cannot each see the old
+      // count and spend the budget twice.
+      const queryResult = await sails.sendNativeQuery(
+        'UPDATE session SET pending_token_attempts = pending_token_attempts + 1, updated_at = $1 WHERE id = $2 RETURNING pending_token_attempts',
+        [new Date().toISOString(), session.id],
+      );
+
+      const [row] = queryResult.rows;
+
+      if (row && row.pending_token_attempts > sails.config.custom.totpMaxAttempts) {
+        sails.log.warn(`TOTP attempts exhausted, dropping session (IP: ${remoteAddress})`);
+        await Session.qm.deleteOneById(session.id);
+
+        throw Errors.INVALID_PENDING_TOKEN;
+      }
+
       throw Errors.INVALID_TOTP_CODE;
     }
 

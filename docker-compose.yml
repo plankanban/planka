@@ -22,6 +22,10 @@ services:
       # secrets:
       #   - database_password
 
+      # REPLACE THIS. Every access token is signed with it, so leaving the
+      # published example value means anyone can mint a token for any account
+      # on this instance. Generate one with: openssl rand -hex 32
+      # PLANKA warns about this on every start until you change it.
       - SECRET_KEY=notsecretkey
       # Optionally store in secrets - then SECRET_KEY should not be set
       # - SECRET_KEY__FILE=/run/secrets/secret_key

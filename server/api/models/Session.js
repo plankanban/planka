@@ -28,6 +28,13 @@ module.exports = {
       allowNull: true,
       columnName: 'pending_token',
     },
+    // Wrong second-factor codes entered against this pending token. Bounded by
+    // `totpMaxAttempts`; reaching it destroys the session.
+    pendingTokenAttempts: {
+      type: 'number',
+      defaultsTo: 0,
+      columnName: 'pending_token_attempts',
+    },
     httpOnlyToken: {
       type: 'string',
       isNotEmptyString: true,

@@ -47,6 +47,24 @@ module.exports.custom = {
   maxUploadFileSize: envToBytes(process.env.MAX_UPLOAD_FILE_SIZE),
   tokenExpiresIn: (parseInt(process.env.TOKEN_EXPIRES_IN, 10) || 365) * 24 * 60 * 60,
 
+  // A second factor needs a harder stop than a time window: six digits fall to
+  // patience alone. After this many wrong codes the pending session is
+  // destroyed and the login starts over from the password, so the ten minutes
+  // a pending token is valid for stop being ten minutes of free guessing.
+  totpMaxAttempts: parseInt(process.env.TOTP_MAX_ATTEMPTS, 10) || 5,
+
+  // Ceiling on sign-in attempts, counted per client address and per account.
+  // The two attacks look different: one source working through many accounts is
+  // caught by the first, many sources working on one account by the second.
+  //
+  // Counted in the process that serves the request, not in shared storage —
+  // PLANKA needs no Redis, and the stock deployment is a single container. Run
+  // several and each keeps its own count, so the effective ceiling multiplies
+  // by the number of processes. Put a limiter in your proxy if that matters.
+  authRateLimitWindow: parseInt(process.env.AUTH_RATE_LIMIT_WINDOW, 10) || 60,
+  authRateLimitMaxPerIp: parseInt(process.env.AUTH_RATE_LIMIT_MAX_PER_IP, 10) || 30,
+  authRateLimitMaxPerIdentifier: parseInt(process.env.AUTH_RATE_LIMIT_MAX_PER_IDENTIFIER, 10) || 10,
+
   storageLimit: envToBytes(process.env.STORAGE_LIMIT),
   activeUsersLimit: envToNumber(process.env.ACTIVE_USERS_LIMIT),
 

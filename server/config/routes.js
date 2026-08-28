@@ -88,14 +88,28 @@ const serveStatic = async (prefix, getPathSegment, req, res) => {
   return serveStatic(prefix, getPathSegment, req, res);
 }; */
 
-const protectedStaticDirServer = (prefix, getPathSegment) => (req, res, next) => {
+// Avatars, background images and favicons. These used to check the token's
+// signature and nothing else, which meant a revoked session, a deactivated
+// account or a changed password all kept working here for as long as the
+// signature lasted — a year by default. They now ask the same question the API
+// asks, through the same helper.
+const protectedStaticDirServer = (prefix, getPathSegment) => async (req, res, next) => {
   if (!req.url.startsWith(prefix)) {
     return next();
   }
 
-  try {
-    sails.helpers.utils.verifyJwtToken(req.cookies.accessToken);
-  } catch (error) {
+  const { accessToken, httpOnlyToken } = req.cookies;
+
+  if (!accessToken) {
+    return res.sendStatus(401);
+  }
+
+  const sessionAndUser = await sails.helpers.utils.resolveAccessToken.with({
+    accessToken,
+    httpOnlyToken: httpOnlyToken || null,
+  });
+
+  if (!sessionAndUser) {
     return res.sendStatus(401);
   }
 

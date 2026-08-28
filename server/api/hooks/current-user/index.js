@@ -15,41 +15,14 @@ module.exports = function defineCurrentUserHook(sails) {
   const TOKEN_PATTERN = /^Bearer /;
   const API_KEY_HEADER_NAME = 'x-api-key';
 
-  const getSessionAndUserByAccessToken = async (accessToken, httpOnlyToken) => {
-    let payload;
-    try {
-      payload = sails.helpers.utils.verifyJwtToken(accessToken);
-    } catch (error) {
-      return null;
-    }
-
-    const session = await Session.qm.getOneUndeletedByAccessToken(accessToken);
-
-    if (!session) {
-      return null;
-    }
-
-    if (session.httpOnlyToken && httpOnlyToken !== session.httpOnlyToken) {
-      return null;
-    }
-
-    const user = await User.qm.getOneById(payload.subject, {
-      withDeactivated: false,
+  // The five checks a token has to pass live in `utils/resolveAccessToken`,
+  // shared with the routes that serve avatars and background images so the two
+  // cannot answer differently.
+  const getSessionAndUserByAccessToken = (accessToken, httpOnlyToken) =>
+    sails.helpers.utils.resolveAccessToken.with({
+      accessToken,
+      httpOnlyToken: httpOnlyToken || null,
     });
-
-    if (!user) {
-      return null;
-    }
-
-    if (user.passwordChangedAt > payload.issuedAt) {
-      return null;
-    }
-
-    return {
-      session,
-      user,
-    };
-  };
 
   const getUserByApiKey = (apiKey) => {
     const apiKeyHash = sails.helpers.utils.hash(apiKey);

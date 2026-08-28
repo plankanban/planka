@@ -1,5 +1,14 @@
 ## [Unreleased]
 
+### Security
+
+* Limit sign-in attempts per client address and per account
+* Destroy the pending session after repeated wrong two-factor codes, so a pending token can no longer be guessed against for its full lifetime
+* Check the session, the account status and the password age — not only the token signature — before serving avatars, background images and favicons, so a revoked token no longer works there
+* Refuse server-side fetches to private, loopback and link-local addresses when a link attachment's favicon is retrieved
+* Warn on every start while `SECRET_KEY` is missing, too short, or still the value from the example configuration
+* Encrypt the backup archive when `BACKUP_PASSPHRASE` is set, and say what an unencrypted one contains
+
 ### Added
 
 * Add `db:clean-orphaned-records` script to report and remove reference rows left behind by an incomplete delete

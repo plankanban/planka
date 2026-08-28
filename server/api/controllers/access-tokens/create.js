@@ -123,6 +123,9 @@ const Errors = {
   TERMS_ACCEPTANCE_REQUIRED: {
     termsAcceptanceRequired: 'Terms acceptance required',
   },
+  RATE_LIMIT_EXCEEDED: {
+    rateLimitExceeded: 'Rate limit exceeded',
+  },
 };
 
 module.exports = {
@@ -153,6 +156,9 @@ module.exports = {
     invalidPassword: {
       responseType: 'unauthorized',
     },
+    rateLimitExceeded: {
+      responseType: 'conflict',
+    },
     termsAcceptanceRequired: {
       responseType: 'forbidden',
     },
@@ -166,6 +172,36 @@ module.exports = {
 
   async fn(inputs) {
     const remoteAddress = getRemoteAddress(this.req);
+
+    // Counted before the lookup, so a script cannot make the database do the
+    // work of telling it that an account does not exist. Two counters: one
+    // source against many accounts is caught per address, many sources against
+    // one account per identifier — and behind a proxy only the second still
+    // means anything, which is why both are here.
+    const identifier = inputs.emailOrUsername.trim().toLowerCase();
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, max] of [
+      [`auth:ip:${remoteAddress}`, sails.config.custom.authRateLimitMaxPerIp],
+      [
+        // Hashed so the key that lives in memory for the window is not the
+        // address itself.
+        `auth:identifier:${sails.helpers.utils.hash(identifier)}`,
+        sails.config.custom.authRateLimitMaxPerIdentifier,
+      ],
+    ]) {
+      const { isExceeded } = sails.helpers.utils.checkRateLimit.with({
+        key,
+        windowSeconds: sails.config.custom.authRateLimitWindow,
+        max,
+      });
+
+      if (isExceeded) {
+        sails.log.warn(`Login rate limit hit (IP: ${remoteAddress})`);
+        throw Errors.RATE_LIMIT_EXCEEDED;
+      }
+    }
+
     const user = await User.qm.getOneActiveByEmailOrUsername(inputs.emailOrUsername);
 
     if (!user) {
