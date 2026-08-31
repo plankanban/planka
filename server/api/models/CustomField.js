@@ -67,7 +67,15 @@
  *           example: 2024-01-01T00:00:00.000Z
  */
 
+const Types = {
+  TEXT: 'text',
+  NUMBER: 'number',
+  DATE: 'date',
+};
+
 module.exports = {
+  Types,
+
   attributes: {
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
@@ -80,6 +88,11 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
+    },
+    type: {
+      type: 'string',
+      isIn: Object.values(Types),
+      defaultsTo: Types.TEXT,
     },
     showOnFrontOfCard: {
       type: 'boolean',

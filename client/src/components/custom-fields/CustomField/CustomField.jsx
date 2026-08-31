@@ -86,6 +86,7 @@ const CustomField = React.memo(({ id, customFieldGroupId }) => {
         {canEdit ? (
           <ValueField
             defaultValue={customFieldValue && customFieldValue.content}
+            type={customField.type}
             disabled={!customField.isPersisted}
             onUpdate={handleValueUpdate}
           />

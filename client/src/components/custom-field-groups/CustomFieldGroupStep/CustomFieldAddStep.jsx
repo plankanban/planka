@@ -12,6 +12,7 @@ import { Popup } from '../../../lib/custom-ui';
 
 import entryActions from '../../../entry-actions';
 import { useForm } from '../../../hooks';
+import { CustomFieldTypes } from '../../../constants/Enums';
 import CustomFieldEditor from './CustomFieldEditor';
 
 import styles from './CustomFieldAddStep.module.scss';
@@ -22,6 +23,7 @@ const CustomFieldAddStep = React.memo(({ customFieldGroupId, defaultData, onBack
 
   const [data, handleFieldChange] = useForm(() => ({
     name: '',
+    type: CustomFieldTypes.TEXT,
     showOnFrontOfCard: false,
     ...defaultData,
   }));

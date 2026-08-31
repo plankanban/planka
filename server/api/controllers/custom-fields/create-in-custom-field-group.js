@@ -93,6 +93,10 @@ module.exports = {
       maxLength: 128,
       required: true,
     },
+    type: {
+      type: 'string',
+      isIn: ['text', 'number', 'date'],
+    },
     showOnFrontOfCard: {
       type: 'boolean',
     },
@@ -127,7 +131,7 @@ module.exports = {
       throw Errors.NOT_ENOUGH_RIGHTS;
     }
 
-    const values = _.pick(inputs, ['position', 'name', 'showOnFrontOfCard']);
+    const values = _.pick(inputs, ['position', 'name', 'type', 'showOnFrontOfCard']);
 
     const customField = await sails.helpers.customFields.createOneInCustomFieldGroup.with({
       project,
