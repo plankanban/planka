@@ -13,6 +13,7 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useField, useNestedRef } from '../../../hooks';
 import { focusEnd } from '../../../utils/element-helpers';
+import { isComposing } from '../../../utils/event-helpers';
 
 import styles from './EditName.module.scss';
 
@@ -46,6 +47,10 @@ const EditName = React.memo(({ listId, onClose }) => {
 
   const handleFieldKeyDown = useCallback(
     (event) => {
+      if (isComposing(event)) {
+        return;
+      }
+
       switch (event.key) {
         case 'Enter':
           event.preventDefault();

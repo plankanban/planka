@@ -15,7 +15,7 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { useForm, useNestedRef } from '../../../hooks';
 import { focusEnd } from '../../../utils/element-helpers';
-import { isModifierKeyPressed } from '../../../utils/event-helpers';
+import { isComposing, isModifierKeyPressed } from '../../../utils/event-helpers';
 
 import styles from './AddTask.module.scss';
 
@@ -87,6 +87,10 @@ const AddTask = React.memo(({ children, taskListId, isOpened, onClose }) => {
 
   const handleFieldKeyDown = useCallback(
     (event) => {
+      if (isComposing(event)) {
+        return;
+      }
+
       if (event.key === 'Enter') {
         if (!isLinkingToCard) {
           event.preventDefault();
