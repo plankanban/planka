@@ -72,6 +72,11 @@ const updateViewInCurrentBoard = (value) => ({
   },
 });
 
+const resetViewInCurrentBoard = () => ({
+  type: EntryActionTypes.VIEW_IN_CURRENT_BOARD_RESET,
+  payload: {},
+});
+
 const searchInCurrentBoard = (value) => ({
   type: EntryActionTypes.IN_CURRENT_BOARD_SEARCH,
   payload: {
@@ -103,6 +108,7 @@ export default {
   moveBoard,
   updateContextInCurrentBoard,
   updateViewInCurrentBoard,
+  resetViewInCurrentBoard,
   searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,

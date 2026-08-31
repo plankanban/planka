@@ -37,6 +37,9 @@ export default function* boardsWatchers() {
     takeEvery(EntryActionTypes.VIEW_IN_CURRENT_BOARD_UPDATE, ({ payload: { value } }) =>
       services.updateViewInCurrentBoard(value),
     ),
+    takeEvery(EntryActionTypes.VIEW_IN_CURRENT_BOARD_RESET, () =>
+      services.resetViewInCurrentBoard(),
+    ),
     takeEvery(EntryActionTypes.IN_CURRENT_BOARD_SEARCH, ({ payload: { value } }) =>
       services.searchInCurrentBoard(value),
     ),

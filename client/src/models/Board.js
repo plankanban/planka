@@ -12,13 +12,34 @@ import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { BoardContexts, BoardViews } from '../constants/Enums';
 
-const prepareFetchedBoard = (board) => ({
-  ...board,
-  isFetching: false,
-  context: BoardContexts.BOARD,
-  view: board.defaultView,
-  search: '',
-});
+// The current user's saved view preference (from their board membership) takes
+// precedence over the board's default view; fall back to the default when unset.
+const resolvePreferredView = (board, boardMemberships, currentUserId) => {
+  if (boardMemberships && currentUserId) {
+    const currentUserMembership = boardMemberships.find(
+      (boardMembership) => boardMembership.userId === currentUserId,
+    );
+
+    if (currentUserMembership && currentUserMembership.view) {
+      return currentUserMembership.view;
+    }
+  }
+
+  return board.defaultView;
+};
+
+const prepareFetchedBoard = (board, boardMemberships, currentUserId) => {
+  const effectiveView = resolvePreferredView(board, boardMemberships, currentUserId);
+
+  return {
+    ...board,
+    isFetching: false,
+    context: BoardContexts.BOARD,
+    view: effectiveView,
+    preferredView: effectiveView,
+    search: '',
+  };
+};
 
 export default class extends BaseModel {
   static modelName = 'Board';
@@ -35,6 +56,7 @@ export default class extends BaseModel {
     expandTaskListsByDefault: attr(),
     context: attr(),
     view: attr(),
+    preferredView: attr(),
     search: attr(),
     isSubscribed: attr({
       getDefault: () => false,
@@ -69,7 +91,9 @@ export default class extends BaseModel {
     switch (type) {
       case ActionTypes.LOCATION_CHANGE_HANDLE:
         if (payload.board) {
-          Board.upsert(prepareFetchedBoard(payload.board));
+          Board.upsert(
+            prepareFetchedBoard(payload.board, payload.boardMemberships, payload.currentUserId),
+          );
         }
 
         break;
@@ -123,7 +147,13 @@ export default class extends BaseModel {
         break;
       case ActionTypes.CORE_INITIALIZE:
         if (payload.board) {
-          Board.upsert(prepareFetchedBoard(payload.board));
+          Board.upsert(
+            prepareFetchedBoard(
+              payload.board,
+              payload.boardMemberships,
+              payload.user && payload.user.id,
+            ),
+          );
         }
 
         payload.boards.forEach((board) => {
@@ -189,10 +219,31 @@ export default class extends BaseModel {
       case ActionTypes.BOARD_CREATE:
       case ActionTypes.BOARD_CREATE_HANDLE:
       case ActionTypes.BOARD_UPDATE__SUCCESS:
-      case ActionTypes.BOARD_UPDATE_HANDLE:
         Board.upsert(payload.board);
 
         break;
+      case ActionTypes.BOARD_UPDATE_HANDLE: {
+        const boardModel = Board.withId(payload.board.id);
+
+        // When another user changes the board's default view and the current user
+        // has no personal preference (they follow the default), keep the displayed
+        // view in sync with the new default.
+        const followsDefault =
+          boardModel &&
+          boardModel.view === boardModel.defaultView &&
+          payload.board.defaultView !== boardModel.defaultView;
+
+        Board.upsert(payload.board);
+
+        if (followsDefault) {
+          Board.withId(payload.board.id).update({
+            view: payload.board.defaultView,
+            preferredView: payload.board.defaultView,
+          });
+        }
+
+        break;
+      }
       case ActionTypes.BOARD_CREATE__SUCCESS:
         Board.withId(payload.localId).delete();
         Board.upsert(payload.board);
@@ -203,7 +254,9 @@ export default class extends BaseModel {
 
         break;
       case ActionTypes.BOARD_FETCH__SUCCESS:
-        Board.upsert(prepareFetchedBoard(payload.board));
+        Board.upsert(
+          prepareFetchedBoard(payload.board, payload.boardMemberships, payload.currentUserId),
+        );
 
         break;
       case ActionTypes.BOARD_FETCH__FAILURE:
@@ -212,16 +265,38 @@ export default class extends BaseModel {
         });
 
         break;
-      case ActionTypes.BOARD_UPDATE:
-        Board.withId(payload.id).update(payload.data);
+      case ActionTypes.BOARD_UPDATE: {
+        const boardModel = Board.withId(payload.id);
+
+        // When the current user changes the board's default view and has no
+        // personal preference (they follow the default), keep the displayed view
+        // in sync with the new default.
+        const followsDefault =
+          boardModel &&
+          payload.data.defaultView !== undefined &&
+          boardModel.view === boardModel.defaultView &&
+          payload.data.defaultView !== boardModel.defaultView;
+
+        boardModel.update(payload.data);
+
+        if (followsDefault) {
+          boardModel.update({
+            view: payload.data.defaultView,
+            preferredView: payload.data.defaultView,
+          });
+        }
 
         break;
+      }
       case ActionTypes.BOARD_CONTEXT_UPDATE: {
         const boardModel = Board.withId(payload.id);
 
         boardModel.update({
           context: payload.value,
-          view: payload.value === BoardContexts.BOARD ? boardModel.defaultView : BoardViews.LIST,
+          view:
+            payload.value === BoardContexts.BOARD
+              ? boardModel.preferredView || boardModel.defaultView
+              : BoardViews.LIST,
         });
 
         break;

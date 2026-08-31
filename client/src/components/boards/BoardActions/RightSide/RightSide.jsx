@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 import { usePopup } from '../../../../lib/popup';
@@ -17,7 +18,10 @@ import ActionsStep from './ActionsStep';
 import styles from './RightSide.module.scss';
 
 const RightSide = React.memo(() => {
+  const [t] = useTranslation();
+
   const board = useSelector(selectors.selectCurrentBoard);
+  const currentUserMembership = useSelector(selectors.selectCurrentUserMembershipForCurrentBoard);
 
   const dispatch = useDispatch();
 
@@ -28,12 +32,23 @@ const RightSide = React.memo(() => {
     [dispatch],
   );
 
+  const handleResetViewClick = useCallback(() => {
+    dispatch(entryActions.resetViewInCurrentBoard());
+  }, [dispatch]);
+
   const ActionsPopup = usePopup(ActionsStep);
 
   const views = [BoardViews.GRID, BoardViews.LIST];
   if (board.context === BoardContexts.BOARD) {
     views.unshift(BoardViews.KANBAN);
   }
+
+  // A personal view preference only applies to the board context; show the reset
+  // control only when the current user actually has one stored.
+  const hasViewPreference =
+    board.context === BoardContexts.BOARD &&
+    !!currentUserMembership &&
+    !!currentUserMembership.view;
 
   return (
     <>
@@ -51,6 +66,16 @@ const RightSide = React.memo(() => {
               <Icon fitted name={BoardViewIcons[view]} />
             </button>
           ))}
+          {hasViewPreference && (
+            <button
+              type="button"
+              title={t('common.useDefaultView')}
+              className={styles.button}
+              onClick={handleResetViewClick}
+            >
+              <Icon fitted name="undo" />
+            </button>
+          )}
         </div>
       </div>
       <div className={styles.action}>

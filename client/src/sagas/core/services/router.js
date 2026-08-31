@@ -228,6 +228,8 @@ export function* handleLocationChange() {
     default:
   }
 
+  const currentUserId = yield select(selectors.selectCurrentUserId);
+
   yield put(
     actions.handleLocationChange(
       pathsMatch.pathname,
@@ -250,6 +252,7 @@ export function* handleLocationChange() {
       mergeRecords(customFields1, customFields2),
       mergeRecords(customFieldValues1, customFieldValues2),
       notificationsToDelete,
+      currentUserId,
     ),
   );
 }
