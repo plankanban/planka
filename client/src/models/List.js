@@ -443,6 +443,13 @@ export default class extends BaseModel {
 
   deleteWithRelated(soft) {
     this.deleteRelated(soft);
+
+    try {
+      this.board.filterLists.remove(this.id);
+    } catch {
+      /* empty */
+    }
+
     this.delete();
   }
 }

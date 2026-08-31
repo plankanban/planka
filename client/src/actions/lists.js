@@ -201,6 +201,22 @@ const handleListDelete = (list, cards) => ({
   },
 });
 
+const addListToBoardFilter = (id, boardId) => ({
+  type: ActionTypes.LIST_TO_BOARD_FILTER_ADD,
+  payload: {
+    id,
+    boardId,
+  },
+});
+
+const removeListFromBoardFilter = (id, boardId) => ({
+  type: ActionTypes.LIST_FROM_BOARD_FILTER_REMOVE,
+  payload: {
+    id,
+    boardId,
+  },
+});
+
 export default {
   createList,
   handleListCreate,
@@ -212,4 +228,6 @@ export default {
   handleListClear,
   deleteList,
   handleListDelete,
+  addListToBoardFilter,
+  removeListFromBoardFilter,
 };

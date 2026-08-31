@@ -44,5 +44,11 @@ export default function* listsWatchers() {
     takeEvery(EntryActionTypes.LIST_DELETE_HANDLE, ({ payload: { list, cards } }) =>
       services.handleListDelete(list, cards),
     ),
+    takeEvery(EntryActionTypes.LIST_TO_FILTER_IN_CURRENT_BOARD_ADD, ({ payload: { id } }) =>
+      services.addListToFilterInCurrentBoard(id),
+    ),
+    takeEvery(EntryActionTypes.LIST_FROM_FILTER_IN_CURRENT_BOARD_REMOVE, ({ payload: { id } }) =>
+      services.removeListFromFilterInCurrentBoard(id),
+    ),
   ]);
 }
