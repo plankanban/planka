@@ -53,12 +53,13 @@ const StoryContent = React.memo(({ cardId }) => {
     selectNotificationsTotalByCardId(state, cardId),
   );
 
-  const { listName, withAge } = useSelector((state) => {
+  const { listName, withAge, withCardLinks } = useSelector((state) => {
     const board = selectors.selectCurrentBoard(state);
 
     return {
       listName: list.name && (board.view === BoardViews.KANBAN ? null : list.name),
       withAge: board.displayCardAges,
+      withCardLinks: board.displayCardLinks,
     };
   }, shallowEqual);
 
@@ -105,45 +106,57 @@ const StoryContent = React.memo(({ cardId }) => {
           {card.name}
         </div>
         {card.description && <div className={styles.descriptionText}>{descriptionText}</div>}
-        {(withAge || attachmentsTotal > 0 || notificationsTotal > 0 || listName) && (
-          <span className={styles.attachments}>
-            {notificationsTotal > 0 && (
-              <span
-                className={classNames(
-                  styles.attachment,
-                  styles.attachmentLeft,
-                  styles.notification,
-                )}
-              >
-                {notificationsTotal}
-              </span>
-            )}
-            {listName && (
-              <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                <span className={styles.attachmentContent}>
-                  <Icon name="columns" />
-                  {listName}
+        {withAge ||
+          attachmentsTotal > 0 ||
+          notificationsTotal > 0 ||
+          listName ||
+          (withCardLinks && card.cardRelations.length > 0 && (
+            <span className={styles.attachments}>
+              {notificationsTotal > 0 && (
+                <span
+                  className={classNames(
+                    styles.attachment,
+                    styles.attachmentLeft,
+                    styles.notification,
+                  )}
+                >
+                  {notificationsTotal}
                 </span>
-              </span>
-            )}
-            {attachmentsTotal > 0 && (
-              <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                <span className={styles.attachmentContent}>
-                  <Icon name="attach" />
-                  {attachmentsTotal}
+              )}
+              {listName && (
+                <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                  <span className={styles.attachmentContent}>
+                    <Icon name="columns" />
+                    {listName}
+                  </span>
                 </span>
-              </span>
-            )}
-            {withAge && card.createdAt && (
-              <span className={classNames(styles.attachment, styles.attachmentLeft)}>
-                <span className={styles.attachmentContent}>
-                  <Icon name="history" />
-                  <TimeAgo date={card.createdAt} />
+              )}
+              {attachmentsTotal > 0 && (
+                <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                  <span className={styles.attachmentContent}>
+                    <Icon name="attach" />
+                    {attachmentsTotal}
+                  </span>
                 </span>
-              </span>
-            )}
-          </span>
-        )}
+              )}
+              {withCardLinks && card.cardRelations.length > 0 && (
+                <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                  <span className={styles.attachmentContent}>
+                    <Icon name="chain" />
+                    {card.cardRelations.length}
+                  </span>
+                </span>
+              )}
+              {withAge && card.createdAt && (
+                <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+                  <span className={styles.attachmentContent}>
+                    <Icon name="history" />
+                    <TimeAgo date={card.createdAt} />
+                  </span>
+                </span>
+              )}
+            </span>
+          ))}
       </div>
     </>
   );

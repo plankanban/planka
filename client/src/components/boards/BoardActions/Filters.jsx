@@ -19,7 +19,9 @@ import { useNestedRef } from '../../../hooks';
 import UserAvatar from '../../users/UserAvatar';
 import BoardMembershipsStep from '../../board-memberships/BoardMembershipsStep';
 import LabelChip from '../../labels/LabelChip';
+import LinkChip from '../../cards/LinkChip';
 import LabelsStep from '../../labels/LabelsStep';
+import LinkKindStep from '../../cards/LinkKindStep';
 
 import styles from './Filters.module.scss';
 
@@ -27,6 +29,7 @@ const Filters = React.memo(() => {
   const board = useSelector(selectors.selectCurrentBoard);
   const userIds = useSelector(selectors.selectFilterUserIdsForCurrentBoard);
   const labelIds = useSelector(selectors.selectFilterLabelIdsForCurrentBoard);
+  const filterRelationKinds = useSelector(selectors.selectFilterRelationKindsForCurrentBoard);
   const currentUserId = useSelector(selectors.selectCurrentUserId);
 
   const withCurrentUserSelector = useSelector(
@@ -80,6 +83,31 @@ const Filters = React.memo(() => {
       },
     }) => {
       dispatch(entryActions.removeUserFromFilterInCurrentBoard(userId));
+    },
+    [dispatch],
+  );
+
+  const handleRelationKindSelect = useCallback(
+    (relationKind) => {
+      dispatch(entryActions.addRelationKindToFilterInCurrentBoard(relationKind));
+    },
+    [dispatch],
+  );
+
+  const handleRelationKindDeselect = useCallback(
+    (relationKind) => {
+      dispatch(entryActions.removeRelationKindFromFilterInCurrentBoard(relationKind));
+    },
+    [dispatch],
+  );
+
+  const handleLinkChipClicked = useCallback(
+    ({
+      currentTarget: {
+        dataset: { id: relationKind },
+      },
+    }) => {
+      dispatch(entryActions.removeRelationKindFromFilterInCurrentBoard(relationKind));
     },
     [dispatch],
   );
@@ -144,6 +172,7 @@ const Filters = React.memo(() => {
 
   const BoardMembershipsPopup = usePopup(BoardMembershipsStep);
   const LabelsPopup = usePopup(LabelsStep);
+  const LinksPopup = usePopup(LinkKindStep);
 
   const isSearchActive = search || isSearchFocused;
 
@@ -189,6 +218,26 @@ const Filters = React.memo(() => {
         {labelIds.map((labelId) => (
           <span key={labelId} className={styles.filterItem}>
             <LabelChip id={labelId} size="small" onClick={handleLabelClick} />
+          </span>
+        ))}
+      </span>
+      <span className={styles.filter}>
+        <LinksPopup
+          currentIds={labelIds}
+          title="common.filterByRelation"
+          onSelect={handleRelationKindSelect}
+          onDeselect={handleRelationKindDeselect}
+        >
+          <button type="button" className={styles.filterButton}>
+            <span className={styles.filterTitle}>{`${t('common.relations')}:`}</span>
+            {filterRelationKinds.length === 0 && (
+              <span className={styles.filterLabel}>{t('common.all')}</span>
+            )}
+          </button>
+        </LinksPopup>
+        {filterRelationKinds.map((kind) => (
+          <span key={kind} className={styles.filterItem}>
+            <LinkChip kind={kind} size="small" onClick={handleLinkChipClicked} />
           </span>
         ))}
       </span>

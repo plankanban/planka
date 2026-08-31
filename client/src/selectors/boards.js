@@ -11,6 +11,7 @@ import { selectCurrentUserId } from './users';
 import { isLocalId } from '../utils/local-id';
 import { isListArchiveOrTrash } from '../utils/record-helpers';
 import { ListTypes } from '../constants/Enums';
+import { invertCardRelationKind } from '../utils/cardRelationKinds-helpers';
 
 export const makeSelectBoardById = () =>
   createSelector(
@@ -314,6 +315,24 @@ export const selectAvailableListsForCurrentBoard = createSelector(
   },
 );
 
+export const selectCardsForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel.getCardsModelArray().map((cardModel) => cardModel.ref);
+  },
+);
+
 export const selectCardsExceptCurrentForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -331,6 +350,49 @@ export const selectCardsExceptCurrentForCurrentBoard = createSelector(
 
     return boardModel
       .getCardsModelArray()
+      .filter((cardModel) => cardModel.id !== cardId)
+      .map((cardModel) => cardModel.ref);
+  },
+);
+
+export const selectCardsExceptCurrentAndRelatedForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  (state) => selectPath(state).cardId,
+  (_state, relationshipKind) => relationshipKind,
+  ({ Board }, id, cardId, relationshipKind) => {
+    if (!id) {
+      return id;
+    }
+
+    if (!relationshipKind) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    const relationshipKinds = [relationshipKind];
+
+    const inverted = invertCardRelationKind(relationshipKind);
+
+    if (inverted !== relationshipKind) {
+      relationshipKinds.push(inverted);
+    }
+
+    return boardModel
+      .getCardsModelArray()
+      .filter(
+        (cardModel) =>
+          cardModel.cardRelations.filter(
+            (cr) =>
+              relationshipKinds.includes(cr.kind) &&
+              (cr.relatedCardId === cardId || cr.cardId === cardId),
+          ).length === 0,
+      )
       .filter((cardModel) => cardModel.id !== cardId)
       .map((cardModel) => cardModel.ref);
   },
@@ -441,6 +503,24 @@ export const selectFilterUserIdsForCurrentBoard = createSelector(
   },
 );
 
+export const selectFilterRelationKindsForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel.filterRelationKinds;
+  },
+);
+
 export const selectFilterLabelIdsForCurrentBoard = createSelector(
   orm,
   (state) => selectPath(state).boardId,
@@ -485,11 +565,14 @@ export default {
   selectKanbanListIdsForCurrentBoard,
   selectAvailableListsForCurrentBoard,
   selectCardsExceptCurrentForCurrentBoard,
+  selectCardsExceptCurrentAndRelatedForCurrentBoard,
   selectFilteredCardIdsForCurrentBoard,
   selectCustomFieldGroupIdsForCurrentBoard,
   selectCustomFieldGroupsForCurrentBoard,
   selectActivityIdsForCurrentBoard,
   selectFilterUserIdsForCurrentBoard,
   selectFilterLabelIdsForCurrentBoard,
+  selectFilterRelationKindsForCurrentBoard,
   selectIsBoardWithIdExists,
+  selectCardsForCurrentBoard,
 };

@@ -32,6 +32,7 @@ export default class extends BaseModel {
     limitCardTypesToDefaultOne: attr(),
     alwaysDisplayCardCreator: attr(),
     displayCardAges: attr(),
+    displayCardLinks: attr(),
     expandTaskListsByDefault: attr(),
     context: attr(),
     view: attr(),
@@ -63,6 +64,9 @@ export default class extends BaseModel {
     }),
     filterUsers: many('User', 'filterBoards'),
     filterLabels: many('Label', 'filterBoards'),
+    filterRelationKinds: attr({
+      getDefault: () => [],
+    }),
   };
 
   static reducer({ type, payload }, Board) {
@@ -246,6 +250,22 @@ export default class extends BaseModel {
 
         break;
       }
+      case ActionTypes.RELATION_KIND_TO_FILTER_IN_CURRENT_BOARD_ADD:
+        // eslint-disable-next-line no-case-declarations
+        const b = Board.withId(payload.boardId);
+        b.update({
+          filterRelationKinds: [...b.filterRelationKinds, payload.id],
+        });
+
+        break;
+      case ActionTypes.RELATION_KIND_FROM_FILTER_IN_CURRENT_BOARD_REMOVE:
+        // eslint-disable-next-line no-case-declarations
+        const boardModel = Board.withId(payload.boardId);
+        boardModel.update({
+          filterRelationKinds: boardModel.filterRelationKinds.filter((kind) => kind !== payload.id),
+        });
+
+        break;
       case ActionTypes.LABEL_TO_BOARD_FILTER_ADD:
         Board.withId(payload.boardId).filterLabels.add(payload.id);
 
@@ -389,6 +409,15 @@ export default class extends BaseModel {
       });
     }
 
+    // if (this.filterRelationKinds.toRefArray().length > 0) {
+    //   cardModels = cardModels.filter((cardModel) => {
+    //     const relations = cardModel.cardRelations.toRefArray();
+    //     return relations.some((relation) =>
+    //       this.filterRelationKinds.toRefArray().includes(relation.kind),
+    //     );
+    //   });
+    // }
+
     return cardModels;
   }
 
@@ -444,6 +473,7 @@ export default class extends BaseModel {
   deleteClearable() {
     this.filterUsers.clear();
     this.filterLabels.clear();
+    this.filterRelationKinds = [];
   }
 
   deleteRelated(exceptMemberUserId, soft) {

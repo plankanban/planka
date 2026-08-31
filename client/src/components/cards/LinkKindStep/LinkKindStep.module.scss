@@ -1,0 +1,115 @@
+/*!
+ * Copyright (c) 2024 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .linkChip {
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 8px;
+    text-transform: capitalize;
+    display:flex;
+  }
+
+  .linkChip:hover {
+    opacity: 0.75;
+  }
+
+  .linkChip.active:before {
+    bottom: 2px;
+    content: "Г";
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 36px;
+    position: absolute;
+    right: 2px;
+    text-align: center;
+    transform: rotate(-135deg);
+    width: 36px;
+  }
+
+  .linkChip.parentof {
+    background-color: #b1cbfc;
+    color: #2E5F8A;
+  }
+
+  .linkChip.childof {
+    background-color: #D6EAF8;
+    color: #2E5F8A;
+  }
+
+  .linkChip.related {
+    background-color: #E8DAEF;
+    color: #5B3A75;
+  }
+
+  .linkChip.blockedby {
+    background-color: #FADBD8;
+    color: #A93226;
+  }
+
+  .linkChip.blocks{
+    background-color: #F5C6CB;
+    color: #7A1F2B;
+  }
+
+  .linkChip.duplicate {
+    background-color: #FDEBD0;
+    color: #9A6700;
+  }
+
+  .linkChip.norelations {
+    background-color: #a9a9a9;
+    color: #494949;
+  }
+
+  .menu {
+    margin: 8px auto 0;
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+
+    @supports (-moz-appearance: none) {
+      scrollbar-color: rgba(0, 0, 0, 0.32) transparent;
+      scrollbar-width: thin;
+    }
+
+    &::-webkit-scrollbar {
+      width: 9px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-clip: padding-box;
+      border-left: 0.25em transparent solid;
+      border-radius: 3px;
+    }
+  }
+
+  .menuItem {
+    padding: 0px;
+  }
+
+  .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .count {
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 2px 6px;
+    text-align: center;
+    margin-left:auto;
+    margin-right:30px;
+  }
+}

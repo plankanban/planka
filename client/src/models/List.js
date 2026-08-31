@@ -12,6 +12,7 @@ import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { ListSortFieldNames, ListTypes, ListTypeStates, SortOrders } from '../constants/Enums';
 import LIST_TYPE_STATE_BY_TYPE from '../constants/ListTypeStateByType';
+import { invertCardRelationKind } from '../utils/cardRelationKinds-helpers';
 
 const POSITION_BY_LIST_TYPE = {
   [ListTypes.ARCHIVE]: Number.MAX_SAFE_INTEGER - 1,
@@ -94,6 +95,8 @@ export default class extends BaseModel {
         }
 
         break;
+      case ActionTypes.RELATION_KIND_TO_FILTER_IN_CURRENT_BOARD_ADD:
+      case ActionTypes.RELATION_KIND_FROM_FILTER_IN_CURRENT_BOARD_REMOVE:
       case ActionTypes.USER_TO_BOARD_FILTER_ADD:
       case ActionTypes.USER_FROM_BOARD_FILTER_REMOVE:
       case ActionTypes.IN_BOARD_SEARCH:
@@ -375,6 +378,28 @@ export default class extends BaseModel {
               .toRefArray()
               .some((task) => task.assigneeUserId && filterUserIds.includes(task.assigneeUserId)),
           );
+      });
+    }
+
+    if (this.board.filterRelationKinds.length > 0) {
+      cardModels = cardModels.filter((cardModel) => {
+        const relations = cardModel.cardRelations;
+
+        const matchesRelation = relations.some((relation) => {
+          const invertedKind = invertCardRelationKind(relation.kind);
+
+          return (
+            (this.board.filterRelationKinds.includes(relation.kind) &&
+              relation.cardId === cardModel.id) ||
+            (this.board.filterRelationKinds.includes(invertedKind) &&
+              relation.relatedCardId === cardModel.id)
+          );
+        });
+
+        const matchesNoRelations =
+          this.board.filterRelationKinds.includes('noRelations') && relations.length === 0;
+
+        return matchesRelation || matchesNoRelations;
       });
     }
 

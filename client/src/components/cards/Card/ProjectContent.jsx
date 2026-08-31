@@ -76,13 +76,14 @@ const ProjectContent = React.memo(({ cardId }) => {
     return attachment && attachment.data.thumbnailUrls.outside360;
   });
 
-  const { listName, withCreator, withAge } = useSelector((state) => {
+  const { listName, withCreator, withAge, withCardLinks } = useSelector((state) => {
     const board = selectors.selectCurrentBoard(state);
 
     return {
       listName: list.name && (board.view === BoardViews.KANBAN ? null : list.name),
       withCreator: board.alwaysDisplayCardCreator,
       withAge: board.displayCardAges,
+      withCardLinks: board.displayCardLinks,
     };
   }, shallowEqual);
 
@@ -113,6 +114,7 @@ const ProjectContent = React.memo(({ cardId }) => {
   );
 
   const hasInformation =
+    (withCardLinks && card.cardRelations.length > 0) ||
     card.description ||
     card.dueDate ||
     card.stopwatch ||
@@ -181,6 +183,14 @@ const ProjectContent = React.memo(({ cardId }) => {
       ))}
       {hasInformation && (
         <span className={styles.attachments}>
+          {withCardLinks && card.cardRelations.length > 0 && (
+            <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+              <span className={styles.attachmentContent}>
+                <Icon name="chain" />
+                {card.cardRelations.length}
+              </span>
+            </span>
+          )}
           {notificationsTotal > 0 && (
             <span
               className={classNames(styles.attachment, styles.attachmentLeft, styles.notification)}

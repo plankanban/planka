@@ -53,6 +53,14 @@ const Others = React.memo(() => {
       />
       <Radio
         toggle
+        name="displayCardLinks"
+        checked={board.displayCardLinks}
+        label={t('common.displayCardLinks')}
+        className={styles.radio}
+        onChange={handleChange}
+      />
+      <Radio
+        toggle
         name="expandTaskListsByDefault"
         checked={board.expandTaskListsByDefault}
         label={t('common.expandTaskListsByDefault')}

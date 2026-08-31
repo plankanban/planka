@@ -22,6 +22,7 @@ import lists from './lists';
 import cards from './cards';
 import taskLists from './task-lists';
 import tasks from './tasks';
+import cardRelations from './card-relations';
 import attachments from './attachments';
 import customFieldGroups from './custom-field-groups';
 import customFields from './custom-fields';
@@ -49,6 +50,7 @@ export default {
   ...labels,
   ...lists,
   ...cards,
+  ...cardRelations,
   ...taskLists,
   ...tasks,
   ...attachments,

@@ -24,6 +24,7 @@ import cards from './cards';
 import taskLists from './task-lists';
 import tasks from './tasks';
 import attachments from './attachments';
+import cardRelations from './card-relations';
 import customFieldGroups from './custom-field-groups';
 import customFields from './custom-fields';
 import customFieldValues from './custom-field-values';
@@ -53,6 +54,7 @@ export default {
   ...cards,
   ...taskLists,
   ...tasks,
+  ...cardRelations,
   ...attachments,
   ...customFieldGroups,
   ...customFields,

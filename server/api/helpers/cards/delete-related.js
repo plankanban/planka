@@ -33,6 +33,17 @@ module.exports = {
       cardId: cardIdOrIds,
     });
 
+    await CardRelation.qm.delete({
+      or: [
+        {
+          cardId: cardIdOrIds,
+        },
+        {
+          relatedCardId: cardIdOrIds,
+        },
+      ],
+    });
+
     const taskLists = await TaskList.qm.delete({
       cardId: cardIdOrIds,
     });

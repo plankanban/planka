@@ -52,6 +52,7 @@
  *                     - customFieldGroups
  *                     - customFields
  *                     - customFieldValues
+ *                     - cardRelations
  *                   properties:
  *                     users:
  *                       type: array
@@ -98,6 +99,11 @@
  *                       description: Related custom field values
  *                       items:
  *                         $ref: '#/components/schemas/CustomFieldValue'
+ *                     cardRelations:
+ *                       type: array
+ *                       description: Related card relations
+ *                       items:
+ *                         $ref: '#/components/schemas/CardRelation'
  *       400:
  *         $ref: '#/components/responses/ValidationError'
  *       401:
@@ -170,6 +176,7 @@ module.exports = {
 
     const customFields = await CustomField.qm.getByCustomFieldGroupIds(customFieldGroupIds);
     const customFieldValues = await CustomFieldValue.qm.getByCardId(card.id);
+    const cardRelations = await CardRelation.qm.getByCardIdOrRelatedCardId(card.id);
 
     return {
       item: card,
@@ -181,6 +188,7 @@ module.exports = {
         customFieldGroups,
         customFields,
         customFieldValues,
+        cardRelations,
         users: sails.helpers.users.presentMany(users, currentUser),
         attachments: sails.helpers.attachments.presentMany(attachments),
       },

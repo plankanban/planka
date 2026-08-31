@@ -67,6 +67,39 @@
     vertical-align: top;
   }
 
+  .cardRelation {
+    align-items: center;
+    background: rgba(9, 30, 66, 0.04);
+    border-radius: 3px;
+    color: #17394d;
+    display: inline-flex;
+    gap: 8px;
+    padding: 4px 8px;
+  }
+
+  .cardRelationDelete {
+    background: transparent;
+    border: none;
+    color: #6b808c;
+    cursor: pointer;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+
+    &:hover {
+      color: #17394d;
+    }
+  }
+
+  .cardRelationLink {
+    color: #17394d;
+    max-width: 220px;
+    overflow: hidden;
+    text-decoration: underline;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .attachmentsList {
     width: 100%;
   }

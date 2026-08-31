@@ -9,6 +9,7 @@ import { attr, fk, many, oneToOne } from 'redux-orm';
 import BaseModel from './BaseModel';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
+import { invertCardRelationKind } from '../utils/cardRelationKinds-helpers';
 
 export default class extends BaseModel {
   static modelName = 'Card';
@@ -46,6 +47,9 @@ export default class extends BaseModel {
     }),
     lastActivityId: attr({
       getDefault: () => null,
+    }),
+    cardRelations: attr({
+      getDefault: () => [],
     }),
     isActivitiesFetching: attr({
       getDefault: () => false,
@@ -338,6 +342,62 @@ export default class extends BaseModel {
         }
 
         cardModel.update(payload.data);
+
+        break;
+      }
+      case ActionTypes.CARD_RELATION_CREATE__SUCCESS:
+      case ActionTypes.CARD_RELATION_CREATE_HANDLE: {
+        const { cardRelation } = payload;
+
+        const cardModel = Card.withId(cardRelation.cardId);
+        if (cardModel) {
+          const exists = cardModel.cardRelations.some((currentCardRelation) => {
+            return currentCardRelation.id === cardRelation.id;
+          });
+
+          if (!exists) {
+            cardModel.cardRelations = [...cardModel.cardRelations, cardRelation];
+          }
+        }
+
+        const relatedCardModel = Card.withId(cardRelation.relatedCardId);
+        if (relatedCardModel) {
+          const exists = relatedCardModel.cardRelations.some((currentCardRelation) => {
+            return currentCardRelation.id === cardRelation.id;
+          });
+
+          if (!exists) {
+            relatedCardModel.cardRelations = [
+              ...relatedCardModel.cardRelations,
+              {
+                ...cardRelation,
+                cardId: cardRelation.relatedCardId,
+                relatedCardId: cardRelation.cardId,
+                kind: invertCardRelationKind(cardRelation.kind),
+              },
+            ];
+          }
+        }
+
+        break;
+      }
+      case ActionTypes.CARD_RELATION_DELETE__SUCCESS:
+      case ActionTypes.CARD_RELATION_DELETE_HANDLE: {
+        const { cardRelation } = payload;
+
+        const cardModel = Card.withId(cardRelation.cardId);
+        if (cardModel) {
+          cardModel.cardRelations = cardModel.cardRelations.filter(
+            (currentCardRelation) => currentCardRelation.id !== cardRelation.id,
+          );
+        }
+
+        const relatedCardModel = Card.withId(cardRelation.relatedCardId);
+        if (relatedCardModel) {
+          relatedCardModel.cardRelations = relatedCardModel.cardRelations.filter(
+            (currentCardRelation) => currentCardRelation.id !== cardRelation.id,
+          );
+        }
 
         break;
       }

@@ -96,6 +96,15 @@ export const CardTypes = {
   STORY: 'story',
 };
 
+export const CardRelationKinds = {
+  PARENTOF: 'parentOf',
+  CHILDOF: 'childOf',
+  BLOCKS: 'blocks',
+  BLOCKEDBY: 'blockedBy',
+  DUPLICATE: 'duplicate',
+  RELATED: 'related',
+};
+
 export const AttachmentTypes = {
   FILE: 'file',
   LINK: 'link',
