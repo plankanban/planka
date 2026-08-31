@@ -56,6 +56,12 @@
  *                 maxLength: 1024
  *                 description: Name/title of the card
  *                 example: Implement user authentication
+ *               priority:
+ *                 type: number
+ *                 minimum: 0
+ *                 maximum: 10
+ *                 description: Priority of the card, from 0 (no priority) to 10 (most urgent)
+ *                 example: 7
  *               description:
  *                 type: string
  *                 maxLength: 1048576
@@ -173,6 +179,11 @@ module.exports = {
       isNotEmptyString: true,
       maxLength: 1024,
     },
+    priority: {
+      type: 'number',
+      min: 0,
+      max: 10,
+    },
     description: {
       type: 'string',
       isNotEmptyString: true,
@@ -252,6 +263,7 @@ module.exports = {
         'type',
         'position',
         'name',
+        'priority',
         'description',
         'dueDate',
         'isDueCompleted',
@@ -312,6 +324,7 @@ module.exports = {
       'type',
       'position',
       'name',
+      'priority',
       'description',
       'dueDate',
       'isDueCompleted',

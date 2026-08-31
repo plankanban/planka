@@ -15,6 +15,7 @@ import { startStopwatch, stopStopwatch } from '../../../utils/stopwatch';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import { BoardMembershipRoles, BoardViews } from '../../../constants/Enums';
 import TaskList from './TaskList';
+import PriorityChip from '../PriorityChip';
 import DueDateChip from '../DueDateChip';
 import StopwatchChip from '../StopwatchChip';
 import TimeAgo from '../../common/TimeAgo';
@@ -114,6 +115,7 @@ const ProjectContent = React.memo(({ cardId }) => {
 
   const hasInformation =
     card.description ||
+    card.priority > 0 ||
     card.dueDate ||
     card.stopwatch ||
     card.commentsTotal > 0 ||
@@ -186,6 +188,11 @@ const ProjectContent = React.memo(({ cardId }) => {
               className={classNames(styles.attachment, styles.attachmentLeft, styles.notification)}
             >
               {notificationsTotal}
+            </span>
+          )}
+          {card.priority > 0 && (
+            <span className={classNames(styles.attachment, styles.attachmentLeft)}>
+              <PriorityChip value={card.priority} size="tiny" />
             </span>
           )}
           {card.dueDate && (
