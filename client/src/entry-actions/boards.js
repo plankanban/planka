@@ -93,6 +93,14 @@ const handleBoardDelete = (board) => ({
   },
 });
 
+const setNoMemberToFilterInCurrentBoard = () => ({
+  type: EntryActionTypes.NO_MEMBER_TO_FILTER_IN_CURRENT_BOARD_SET,
+});
+
+const removeNoMemberFromFilterInCurrentBoard = () => ({
+  type: EntryActionTypes.NO_MEMBER_FROM_FILTER_IN_CURRENT_BOARD_REMOVE,
+});
+
 export default {
   createBoardInCurrentProject,
   handleBoardCreate,
@@ -106,4 +114,6 @@ export default {
   searchInCurrentBoard,
   deleteBoard,
   handleBoardDelete,
+  setNoMemberToFilterInCurrentBoard,
+  removeNoMemberFromFilterInCurrentBoard,
 };
