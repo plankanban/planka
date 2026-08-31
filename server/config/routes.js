@@ -284,6 +284,8 @@ module.exports.routes = {
     skipAssets: false,
   },
 
+  'GET /api/cards/assigned': 'cards/assigned',
+
   'GET /*': {
     action: 'index',
     skipAssets: true,
