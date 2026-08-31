@@ -26,6 +26,7 @@ import ActionsStep from './ActionsStep';
 import DraggableCard from '../../cards/DraggableCard';
 import AddCard from '../../cards/AddCard';
 import ArchiveCardsStep from '../../cards/ArchiveCardsStep';
+import DescriptionPreview from '../../common/DescriptionPreview';
 import PlusMathIcon from '../../../assets/images/plus-math-icon.svg?react';
 
 import styles from './List.module.scss';
@@ -227,6 +228,11 @@ const List = React.memo(({ id, index }) => {
                   )}
                   {list.name}
                 </div>
+              )}
+              {!isEditNameOpened && list.description && (
+                <DescriptionPreview maxLines={3} className={styles.headerDescription}>
+                  {list.description}
+                </DescriptionPreview>
               )}
               {list.type !== ListTypes.ACTIVE && (
                 <Icon

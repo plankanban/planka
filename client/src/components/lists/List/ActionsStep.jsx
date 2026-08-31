@@ -15,6 +15,7 @@ import entryActions from '../../../entry-actions';
 import { useSteps } from '../../../hooks';
 import { ListTypes } from '../../../constants/Enums';
 import EditColorStep from './EditColorStep';
+import EditDescriptionStep from './EditDescriptionStep';
 import SortStep from './SortStep';
 import MoveStep from './MoveStep';
 import SelectListTypeStep from '../SelectListTypeStep';
@@ -26,6 +27,7 @@ import styles from './ActionsStep.module.scss';
 const StepTypes = {
   EDIT_TYPE: 'EDIT_TYPE',
   EDIT_COLOR: 'EDIT_COLOR',
+  EDIT_DESCRIPTION: 'EDIT_DESCRIPTION',
   SORT: 'SORT',
   MOVE: 'MOVE',
   ARCHIVE_CARDS: 'ARCHIVE_CARDS',
@@ -74,6 +76,10 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
     openStep(StepTypes.EDIT_COLOR);
   }, [openStep]);
 
+  const handleEditDescriptionClick = useCallback(() => {
+    openStep(StepTypes.EDIT_DESCRIPTION);
+  }, [openStep]);
+
   const handleSortClick = useCallback(() => {
     openStep(StepTypes.SORT);
   }, [openStep]);
@@ -106,6 +112,8 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
         );
       case StepTypes.EDIT_COLOR:
         return <EditColorStep listId={listId} onBack={handleBack} onClose={onClose} />;
+      case StepTypes.EDIT_DESCRIPTION:
+        return <EditDescriptionStep listId={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.SORT:
         return <SortStep listId={listId} onBack={handleBack} onClose={onClose} />;
       case StepTypes.MOVE:
@@ -150,6 +158,12 @@ const ActionsStep = React.memo(({ listId, onNameEdit, onCardAdd, onClose }) => {
           <Menu.Item className={styles.menuItem} onClick={handleEditColorClick}>
             <Icon name="dot circle outline" className={styles.menuItemIcon} />
             {t('action.editColor', {
+              context: 'title',
+            })}
+          </Menu.Item>
+          <Menu.Item className={styles.menuItem} onClick={handleEditDescriptionClick}>
+            <Icon name="align left" className={styles.menuItemIcon} />
+            {t('action.editDescription', {
               context: 'title',
             })}
           </Menu.Item>

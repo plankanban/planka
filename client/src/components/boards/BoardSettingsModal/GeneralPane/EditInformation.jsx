@@ -7,11 +7,13 @@ import { dequal } from 'dequal';
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Button, Form, Input } from 'semantic-ui-react';
+import TextareaAutosize from 'react-textarea-autosize';
+import { Button, Form, Input, TextArea } from 'semantic-ui-react';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
 import { useForm, useNestedRef } from '../../../../hooks';
+import { isModifierKeyPressed } from '../../../../utils/event-helpers';
 
 import styles from './EditInformation.module.scss';
 
@@ -27,26 +29,29 @@ const EditInformation = React.memo(() => {
   const defaultData = useMemo(
     () => ({
       name: board.name,
+      description: board.description || null,
     }),
-    [board.name],
+    [board.name, board.description],
   );
 
   const [data, handleFieldChange] = useForm(() => ({
     name: '',
     ...defaultData,
+    description: defaultData.description || '',
   }));
 
   const cleanData = useMemo(
     () => ({
       ...data,
       name: data.name.trim(),
+      description: data.description.trim() || null,
     }),
     [data],
   );
 
   const [nameFieldRef, handleNameFieldRef] = useNestedRef('inputRef');
 
-  const handleSubmit = useCallback(() => {
+  const submit = useCallback(() => {
     if (!cleanData.name) {
       nameFieldRef.current.select();
       return;
@@ -54,6 +59,19 @@ const EditInformation = React.memo(() => {
 
     dispatch(entryActions.updateBoard(boardId, cleanData));
   }, [boardId, dispatch, cleanData, nameFieldRef]);
+
+  const handleSubmit = useCallback(() => {
+    submit();
+  }, [submit]);
+
+  const handleDescriptionKeyDown = useCallback(
+    (event) => {
+      if (isModifierKeyPressed(event) && event.key === 'Enter') {
+        submit();
+      }
+    },
+    [submit],
+  );
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -65,6 +83,18 @@ const EditInformation = React.memo(() => {
         value={data.name}
         maxLength={128}
         className={styles.field}
+        onChange={handleFieldChange}
+      />
+      <div className={styles.text}>{t('common.description')}</div>
+      <TextArea
+        as={TextareaAutosize}
+        name="description"
+        value={data.description}
+        placeholder={t('common.enterDescription')}
+        maxLength={1024}
+        minRows={2}
+        className={styles.field}
+        onKeyDown={handleDescriptionKeyDown}
         onChange={handleFieldChange}
       />
       <Button positive disabled={dequal(cleanData, defaultData)} content={t('action.save')} />

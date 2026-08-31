@@ -22,6 +22,7 @@
  *         - type
  *         - position
  *         - name
+ *         - description
  *         - color
  *         - createdAt
  *         - updatedAt
@@ -49,6 +50,11 @@
  *           nullable: true
  *           description: Name/title of the list
  *           example: To Do
+ *         description:
+ *           type: string
+ *           nullable: true
+ *           description: Detailed description of the list
+ *           example: Cards that are ready to be picked up
  *         color:
  *           type: string
  *           enum: [berry-red, pumpkin-orange, lagoon-blue, pink-tulip, light-mud, orange-peel, bright-moss, antique-blue, dark-granite, turquoise-sea]
@@ -140,6 +146,11 @@ module.exports = {
       allowNull: true,
     },
     name: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
+    },
+    description: {
       type: 'string',
       isNotEmptyString: true,
       allowNull: true,

@@ -40,6 +40,12 @@
  *                 maxLength: 128
  *                 description: Name/title of the board
  *                 example: Development Board
+ *               description:
+ *                 type: string
+ *                 maxLength: 1024
+ *                 nullable: true
+ *                 description: Detailed description of the board
+ *                 example: Development workflow for the product team
  *               importType:
  *                 type: string
  *                 enum: [trello]
@@ -135,6 +141,12 @@ module.exports = {
       maxLength: 128,
       required: true,
     },
+    description: {
+      type: 'string',
+      isNotEmptyString: true,
+      maxLength: 1024,
+      allowNull: true,
+    },
     importType: {
       type: 'string',
       isIn: Object.values(Board.ImportTypes),
@@ -203,7 +215,7 @@ module.exports = {
       }
     }
 
-    const values = _.pick(inputs, ['position', 'name']);
+    const values = _.pick(inputs, ['position', 'name', 'description']);
 
     const { board, boardMembership } = await sails.helpers.boards.createOne.with({
       values: {

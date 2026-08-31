@@ -21,6 +21,7 @@
  *         - projectId
  *         - position
  *         - name
+ *         - description
  *         - defaultView
  *         - defaultCardType
  *         - limitCardTypesToDefaultOne
@@ -46,6 +47,11 @@
  *           type: string
  *           description: Name/title of the board
  *           example: Development Board
+ *         description:
+ *           type: string
+ *           nullable: true
+ *           description: Detailed description of the board
+ *           example: Development workflow for the product team
  *         defaultView:
  *           type: string
  *           enum: [kanban, grid, list]
@@ -120,6 +126,11 @@ module.exports = {
     name: {
       type: 'string',
       required: true,
+    },
+    description: {
+      type: 'string',
+      isNotEmptyString: true,
+      allowNull: true,
     },
     defaultView: {
       type: 'string',
