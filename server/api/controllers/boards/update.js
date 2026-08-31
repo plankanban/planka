@@ -63,6 +63,10 @@
  *                 type: boolean
  *                 description: Whether to expand task lists by default
  *                 example: false
+ *               displayLabelPlaceholderOnUnlabeledCards:
+ *                 type: boolean
+ *                 description: Whether to display a clickable label placeholder on cards without labels
+ *                 example: false
  *               isSubscribed:
  *                 type: boolean
  *                 description: Whether the current user is subscribed to the board
@@ -130,6 +134,9 @@ module.exports = {
     expandTaskListsByDefault: {
       type: 'boolean',
     },
+    displayLabelPlaceholderOnUnlabeledCards: {
+      type: 'boolean',
+    },
     isSubscribed: {
       type: 'boolean',
     },
@@ -169,6 +176,7 @@ module.exports = {
         'alwaysDisplayCardCreator',
         'displayCardAges',
         'expandTaskListsByDefault',
+        'displayLabelPlaceholderOnUnlabeledCards',
       );
     }
     if (isBoardMember) {
@@ -188,6 +196,7 @@ module.exports = {
       'alwaysDisplayCardCreator',
       'displayCardAges',
       'expandTaskListsByDefault',
+      'displayLabelPlaceholderOnUnlabeledCards',
       'isSubscribed',
     ]);
 

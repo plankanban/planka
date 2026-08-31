@@ -72,8 +72,41 @@
     overflow: hidden;
   }
 
+  .labelsButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0;
+    max-width: 100%;
+    outline: none;
+    padding: 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .labelsButtonFull {
+    display: block;
+    width: 100%;
+  }
+
   .labelsFull {
     display: block;
+  }
+
+  .labelsPlaceholder {
+    background: rgba(9, 30, 66, 0.04);
+    border-radius: 3px;
+    display: inline-block;
+    height: 16px;
+    margin: 0 0 6px 0;
+    min-width: 40px;
+    transition: background 0.2s ease;
+    vertical-align: top;
+
+    &:hover {
+      background: rgba(9, 30, 66, 0.08);
+    }
   }
 
   .name {

@@ -3,17 +3,21 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
+import entryActions from '../../../entry-actions';
+import { usePopup } from '../../../lib/popup';
+import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import markdownToText from '../../../utils/markdown-to-text';
-import { BoardViews } from '../../../constants/Enums';
+import { BoardMembershipRoles, BoardViews } from '../../../constants/Enums';
 import UserAvatar from '../../users/UserAvatar';
 import LabelChip from '../../labels/LabelChip';
+import LabelsStep from '../../labels/LabelsStep';
 
 import styles from './InlineContent.module.scss';
 
@@ -35,19 +39,48 @@ const InlineContent = React.memo(({ cardId }) => {
     selectNotificationsTotalByCardId(state, cardId),
   );
 
-  const listName = useSelector((state) => {
-    if (!list.name) {
-      return null;
+  const { listName, withLabelPlaceholder } = useSelector((state) => {
+    const board = selectors.selectCurrentBoard(state);
+    const view = board && board.view;
+
+    return {
+      listName: list.name && view !== BoardViews.KANBAN ? list.name : null,
+      withLabelPlaceholder: !!board && board.displayLabelPlaceholderOnUnlabeledCards,
+    };
+  }, shallowEqual);
+
+  const canEditLabels = useSelector((state) => {
+    if (isListArchiveOrTrash(list)) {
+      return false;
     }
 
-    const { view } = selectors.selectCurrentBoard(state);
-
-    if (view === BoardViews.KANBAN) {
-      return null;
-    }
-
-    return list.name;
+    const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+    return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
   });
+
+  const dispatch = useDispatch();
+
+  const handleLabelsButtonClick = useCallback((event) => {
+    event.stopPropagation();
+  }, []);
+
+  const handleLabelSelect = useCallback(
+    (labelId) => {
+      dispatch(entryActions.addLabelToCard(labelId, cardId));
+    },
+    [cardId, dispatch],
+  );
+
+  const handleLabelDeselect = useCallback(
+    (labelId) => {
+      dispatch(entryActions.removeLabelFromCard(labelId, cardId));
+    },
+    [cardId, dispatch],
+  );
+
+  const LabelsPopup = usePopup(LabelsStep);
+
+  const showLabelPlaceholder = labelIds.length === 0 && withLabelPlaceholder && canEditLabels;
 
   const descriptionText = useMemo(
     () => card.description && markdownToText(card.description),
@@ -78,15 +111,42 @@ const InlineContent = React.memo(({ cardId }) => {
           )}
         </span>
       )}
-      {labelIds.length > 0 && (
-        <span className={classNames(styles.attachments, styles.hidable)}>
-          {labelIds.map((labelId) => (
-            <span key={labelId} className={classNames(styles.attachment, styles.attachmentLeft)}>
-              <LabelChip id={labelId} size="tiny" />
-            </span>
-          ))}
-        </span>
-      )}
+      {(labelIds.length > 0 || showLabelPlaceholder) &&
+        (canEditLabels ? (
+          <LabelsPopup
+            currentIds={labelIds}
+            cardId={cardId}
+            onSelect={handleLabelSelect}
+            onDeselect={handleLabelDeselect}
+          >
+            <button
+              type="button"
+              onClick={handleLabelsButtonClick}
+              className={classNames(styles.labelsButton, styles.hidable)}
+            >
+              {labelIds.length > 0 ? (
+                labelIds.map((labelId) => (
+                  <span
+                    key={labelId}
+                    className={classNames(styles.attachment, styles.attachmentLeft)}
+                  >
+                    <LabelChip id={labelId} size="tiny" />
+                  </span>
+                ))
+              ) : (
+                <span className={styles.labelsPlaceholder} />
+              )}
+            </button>
+          </LabelsPopup>
+        ) : (
+          <span className={classNames(styles.attachments, styles.hidable)}>
+            {labelIds.map((labelId) => (
+              <span key={labelId} className={classNames(styles.attachment, styles.attachmentLeft)}>
+                <LabelChip id={labelId} size="tiny" />
+              </span>
+            ))}
+          </span>
+        ))}
       <span
         className={classNames(styles.attachments, styles.name, card.isClosed && styles.nameClosed)}
       >

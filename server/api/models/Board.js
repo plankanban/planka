@@ -27,6 +27,7 @@
  *         - alwaysDisplayCardCreator
  *         - displayCardAges
  *         - expandTaskListsByDefault
+ *         - displayLabelPlaceholderOnUnlabeledCards
  *         - createdAt
  *         - updatedAt
  *       properties:
@@ -77,6 +78,11 @@
  *           type: boolean
  *           default: false
  *           description: Whether to expand task lists by default
+ *           example: false
+ *         displayLabelPlaceholderOnUnlabeledCards:
+ *           type: boolean
+ *           default: false
+ *           description: Whether to display a clickable label placeholder on cards without labels
  *           example: false
  *         createdAt:
  *           type: string
@@ -152,6 +158,11 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'expand_task_lists_by_default',
+    },
+    displayLabelPlaceholderOnUnlabeledCards: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'display_label_placeholder_on_unlabeled_cards',
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

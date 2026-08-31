@@ -11,6 +11,7 @@ import { Icon } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
+import { usePopup } from '../../../lib/popup';
 import { startStopwatch, stopStopwatch } from '../../../utils/stopwatch';
 import { isListArchiveOrTrash } from '../../../utils/record-helpers';
 import { BoardMembershipRoles, BoardViews } from '../../../constants/Enums';
@@ -20,6 +21,7 @@ import StopwatchChip from '../StopwatchChip';
 import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
 import LabelChip from '../../labels/LabelChip';
+import LabelsStep from '../../labels/LabelsStep';
 import CustomFieldValueChip from '../../custom-field-values/CustomFieldValueChip';
 
 import styles from './ProjectContent.module.scss';
@@ -76,17 +78,18 @@ const ProjectContent = React.memo(({ cardId }) => {
     return attachment && attachment.data.thumbnailUrls.outside360;
   });
 
-  const { listName, withCreator, withAge } = useSelector((state) => {
+  const { listName, withCreator, withAge, withLabelPlaceholder } = useSelector((state) => {
     const board = selectors.selectCurrentBoard(state);
 
     return {
       listName: list.name && (board.view === BoardViews.KANBAN ? null : list.name),
       withCreator: board.alwaysDisplayCardCreator,
       withAge: board.displayCardAges,
+      withLabelPlaceholder: board.displayLabelPlaceholderOnUnlabeledCards,
     };
   }, shallowEqual);
 
-  const canEditStopwatch = useSelector((state) => {
+  const canEditLabels = useSelector((state) => {
     if (isListArchiveOrTrash(list)) {
       return false;
     }
@@ -94,6 +97,8 @@ const ProjectContent = React.memo(({ cardId }) => {
     const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
     return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
   });
+
+  const canEditStopwatch = canEditLabels;
 
   const dispatch = useDispatch();
 
@@ -112,6 +117,26 @@ const ProjectContent = React.memo(({ cardId }) => {
     [cardId, card.stopwatch, dispatch],
   );
 
+  const handleLabelsButtonClick = useCallback((event) => {
+    event.stopPropagation();
+  }, []);
+
+  const handleLabelSelect = useCallback(
+    (labelId) => {
+      dispatch(entryActions.addLabelToCard(labelId, cardId));
+    },
+    [cardId, dispatch],
+  );
+
+  const handleLabelDeselect = useCallback(
+    (labelId) => {
+      dispatch(entryActions.removeLabelFromCard(labelId, cardId));
+    },
+    [cardId, dispatch],
+  );
+
+  const LabelsPopup = usePopup(LabelsStep);
+
   const hasInformation =
     card.description ||
     card.dueDate ||
@@ -121,6 +146,8 @@ const ProjectContent = React.memo(({ cardId }) => {
     attachmentsTotal > 0 ||
     notificationsTotal > 0 ||
     listName;
+
+  const showLabelPlaceholder = labelIds.length === 0 && withLabelPlaceholder && canEditLabels;
 
   const isCompact =
     (labelIds.length === 0 || customFieldValueIds.length === 0) &&
@@ -154,15 +181,44 @@ const ProjectContent = React.memo(({ cardId }) => {
           <img src={coverUrl} alt="" className={styles.cover} />
         </div>
       )}
-      {labelIds.length > 0 && (
-        <span className={classNames(styles.labels, !isCompact && styles.labelsFull)}>
-          {labelIds.map((labelId) => (
-            <span key={labelId} className={classNames(styles.attachment, styles.attachmentLeft)}>
-              <LabelChip id={labelId} size="tiny" />
-            </span>
-          ))}
-        </span>
-      )}
+      {(labelIds.length > 0 || showLabelPlaceholder) &&
+        (canEditLabels ? (
+          <LabelsPopup
+            currentIds={labelIds}
+            cardId={cardId}
+            onSelect={handleLabelSelect}
+            onDeselect={handleLabelDeselect}
+          >
+            <button
+              type="button"
+              onClick={handleLabelsButtonClick}
+              className={classNames(styles.labelsButton, !isCompact && styles.labelsButtonFull)}
+            >
+              <span className={classNames(styles.labels, !isCompact && styles.labelsFull)}>
+                {labelIds.length > 0 ? (
+                  labelIds.map((labelId) => (
+                    <span
+                      key={labelId}
+                      className={classNames(styles.attachment, styles.attachmentLeft)}
+                    >
+                      <LabelChip id={labelId} size="tiny" />
+                    </span>
+                  ))
+                ) : (
+                  <span className={styles.labelsPlaceholder} />
+                )}
+              </span>
+            </button>
+          </LabelsPopup>
+        ) : (
+          <span className={classNames(styles.labels, !isCompact && styles.labelsFull)}>
+            {labelIds.map((labelId) => (
+              <span key={labelId} className={classNames(styles.attachment, styles.attachmentLeft)}>
+                <LabelChip id={labelId} size="tiny" />
+              </span>
+            ))}
+          </span>
+        ))}
       {customFieldValueIds.length > 0 && (
         <span className={classNames(styles.labels, !isCompact && styles.labelsFull)}>
           {customFieldValueIds.map((customFieldValueId) => (
