@@ -55,6 +55,10 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
   const userIds = useSelector((state) => selectUserIdsByCardId(state, cardId));
   const labelIds = useSelector((state) => selectLabelIdsByCardId(state, cardId));
 
+  const closedLists = useSelector((state) =>
+    selectors.selectAvailableListsForCurrentBoard(state),
+  ).filter((l) => l.type === ListTypes.CLOSED);
+
   const {
     canEditType,
     canEditName,
@@ -312,6 +316,14 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
     openStep(StepTypes.MOVE);
   }, [openStep]);
 
+  const handleMoveToClosedListClick = useCallback(
+    (id) => {
+      dispatch(entryActions.moveCard(cardId, id, undefined, true));
+      onClose();
+    },
+    [dispatch, cardId, onClose],
+  );
+
   const handleArchiveClick = useCallback(() => {
     openStep(StepTypes.ARCHIVE);
   }, [openStep]);
@@ -485,6 +497,18 @@ const CardActionsStep = React.memo(({ cardId, defaultStep, onNameEdit, onClose }
               })}
             </Menu.Item>
           )}
+          {canMove &&
+            closedLists.length > 0 &&
+            closedLists.slice(0, 3).map((closedList) => (
+              <Menu.Item
+                className={styles.menuItem}
+                onClick={() => handleMoveToClosedListClick(closedList.id)}
+                key={closedList.id}
+              >
+                <Icon name="share square outline" className={styles.menuItemIcon} />
+                Move Card to &quot;{closedList.name}&quot;
+              </Menu.Item>
+            ))}
           {prevList && canRestore && (
             <Menu.Item className={styles.menuItem} onClick={handleRestoreClick}>
               <Icon name="undo alternate" className={styles.menuItemIcon} />
