@@ -46,6 +46,7 @@ const FiniteContent = React.memo(() => {
   return (
     <View
       cardIds={cardIds}
+      isReorderingEnabled={board.view === BoardViews.LIST}
       onCardCreate={canAddCard ? handleCardCreate : undefined}
       onCardPaste={canAddCard ? handleCardPaste : undefined}
     />
