@@ -129,15 +129,10 @@ module.exports = {
 
     const data = inputs.buildData();
     const prevData = inputs.buildPrevData && inputs.buildPrevData();
+    const user = inputs.user && sails.helpers.users.presentOne(inputs.user);
 
     webhooks.forEach((webhook) => {
-      sendWebhook(
-        webhook,
-        inputs.event,
-        data,
-        prevData,
-        sails.helpers.users.presentOne(inputs.user),
-      );
+      sendWebhook(webhook, inputs.event, data, prevData, user);
     });
   },
 };
