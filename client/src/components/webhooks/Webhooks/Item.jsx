@@ -20,7 +20,7 @@ import ConfirmationStep from '../../common/ConfirmationStep';
 import styles from './Item.module.scss';
 import { useToggle } from '../../../lib/hooks';
 
-const Item = React.memo(({ id }) => {
+const Item = React.memo(({ id, projects, boards, users }) => {
   const selectWebhookById = useMemo(() => selectors.makeSelectWebhookById(), []);
 
   const webhook = useSelector((state) => selectWebhookById(state, id));
@@ -36,6 +36,9 @@ const Item = React.memo(({ id }) => {
       accessToken: webhook.accessToken,
       events: webhook.events,
       excludedEvents: webhook.excludedEvents,
+      projectId: webhook.projectId,
+      boardId: webhook.boardId,
+      userId: webhook.userId,
     }),
     [webhook],
   );
@@ -47,6 +50,9 @@ const Item = React.memo(({ id }) => {
     accessToken: defaultData.accessToken || '',
     events: defaultData.events || [],
     excludedEvents: defaultData.excludedEvents || [],
+    projectId: defaultData.projectId || null,
+    boardId: defaultData.boardId || null,
+    userId: defaultData.userId || null,
   }));
 
   const cleanData = useMemo(
@@ -57,6 +63,9 @@ const Item = React.memo(({ id }) => {
       accessToken: data.accessToken.trim() || null,
       events: data.events.length === 0 ? null : data.events,
       excludedEvents: data.excludedEvents.length === 0 ? null : data.excludedEvents,
+      projectId: data.projectId || null,
+      boardId: data.boardId || null,
+      userId: data.userId || null,
     }),
     [data],
   );
@@ -99,6 +108,9 @@ const Item = React.memo(({ id }) => {
             <Editor
               ref={editorRef}
               data={data}
+              projects={projects}
+              boards={boards}
+              users={users}
               isReadOnly={!webhook.isPersisted}
               onFieldChange={handleFieldChange}
             />
@@ -132,6 +144,9 @@ const Item = React.memo(({ id }) => {
 
 Item.propTypes = {
   id: PropTypes.string.isRequired,
+  projects: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  boards: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
+  users: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
 };
 
 export default Item;

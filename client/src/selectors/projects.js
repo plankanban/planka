@@ -10,6 +10,8 @@ import { selectPath } from './router';
 import { selectCurrentUserId } from './users';
 import { isLocalId } from '../utils/local-id';
 
+export const selectProjects = createSelector(orm, ({ Project }) => Project.all().toRefArray());
+
 export const makeSelectProjectById = () =>
   createSelector(
     orm,
@@ -311,6 +313,7 @@ export const selectIsCurrentUserManagerForCurrentProject = createSelector(
 );
 
 export default {
+  selectProjects,
   makeSelectProjectById,
   selectProjectById,
   makeSelectBoardIdsByProjectId,

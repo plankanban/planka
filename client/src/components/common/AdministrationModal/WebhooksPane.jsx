@@ -15,6 +15,9 @@ import styles from './WebhooksPane.module.scss';
 
 const WebhooksPane = React.memo(() => {
   const webhookIds = useSelector(selectors.selectWebhookIds);
+  const projects = useSelector(selectors.selectProjects);
+  const boards = useSelector(selectors.selectBoards);
+  const users = useSelector(selectors.selectUsers);
 
   const dispatch = useDispatch();
 
@@ -27,7 +30,13 @@ const WebhooksPane = React.memo(() => {
 
   return (
     <Tab.Pane attached={false} className={styles.wrapper}>
-      <Webhooks ids={webhookIds} onCreate={handleCreate} />
+      <Webhooks
+        ids={webhookIds}
+        projects={projects}
+        boards={boards}
+        users={users}
+        onCreate={handleCreate}
+      />
     </Tab.Pane>
   );
 });
