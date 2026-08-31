@@ -67,6 +67,165 @@
  *         $ref: '#/components/responses/Unauthorized'
  */
 
+async function importProject(project, currentUser) {
+  project.baseCustomFieldGroups.forEach(async (group) => {
+    const g = structuredClone(group);
+    delete g.customFields;
+
+    const fieldGroupResult = await BaseCustomFieldGroup.qm.createOne({
+      projectId: project.id,
+      ...g,
+      actorUser: currentUser,
+    });
+
+    group.customFields.forEach(async (field) => {
+      await CustomField.qm.createOne({
+        ...field,
+        baseCustomFieldGroupId: fieldGroupResult.id,
+      });
+    });
+  });
+
+  const boards = project.boards || [];
+
+  boards.forEach(async (board) => {
+    // eslint-disable-next-line no-param-reassign
+    board.projectId = project.id;
+
+    const labels = structuredClone(board.labels);
+    const lists = structuredClone(board.lists);
+    // eslint-disable-next-line no-param-reassign
+    delete board.labels;
+    // eslint-disable-next-line no-param-reassign
+    delete board.lists;
+
+    const boardResult = await sails.helpers.boards.createOne.with({
+      values: {
+        ...board,
+        project,
+      },
+      actorUser: currentUser,
+    });
+
+    labels.forEach(async (label) => {
+      // eslint-disable-next-line no-param-reassign
+      label.boardId = boardResult.board.id;
+
+      const l = structuredClone(label);
+      delete l.id;
+      const newLabel = await sails.helpers.labels.createOne.with({
+        values: {
+          ...l,
+          board: boardResult.board,
+        },
+        project,
+        actorUser: currentUser,
+      });
+
+      // eslint-disable-next-line no-param-reassign
+      label.newid = newLabel.id;
+    });
+
+    lists
+      .filter((l) => !['trash', 'archive'].includes(l.type))
+      .forEach(async (list) => {
+        const cards = structuredClone(list.cards) || [];
+
+        // eslint-disable-next-line no-param-reassign
+        delete list.cards;
+
+        const listResult = await sails.helpers.lists.createOne.with({
+          values: {
+            ...list,
+            board: boardResult.board,
+          },
+          project,
+          actorUser: currentUser,
+        });
+
+        cards.forEach(async (card) => {
+          // eslint-disable-next-line no-param-reassign
+          delete card.attachments;
+          const taskLists = structuredClone(card.taskLists || []);
+          // eslint-disable-next-line no-param-reassign
+          delete card.taskLists;
+          // eslint-disable-next-line no-param-reassign
+          delete card.id;
+
+          const cardLabels = structuredClone(card.labels || []);
+          // eslint-disable-next-line no-param-reassign
+          delete card.labels;
+
+          const cardResult = await sails.helpers.cards.createOne.with({
+            values: {
+              ...card,
+              board: boardResult.board,
+              list: listResult,
+              creatorUser: currentUser,
+            },
+            project,
+          });
+
+          labels
+            .filter((label) => cardLabels.includes(label.id))
+            .forEach(async (label) => {
+              const l = structuredClone(label);
+              l.id = l.newid;
+
+              await sails.helpers.cardLabels.createOne.with({
+                values: {
+                  card: cardResult,
+                  label: l,
+                },
+                project,
+                board: boardResult.board,
+                list: listResult,
+                actorUser: currentUser,
+              });
+            });
+
+          taskLists.forEach(async (taskList) => {
+            const tasks = structuredClone(taskList.tasks || []);
+            // eslint-disable-next-line no-param-reassign
+            delete taskList.tasks;
+            // eslint-disable-next-line no-param-reassign
+            delete taskList.id;
+
+            const taskListResult = await sails.helpers.taskLists.createOne.with({
+              values: {
+                ...taskList,
+                card: cardResult,
+              },
+              project,
+              board: boardResult.board,
+              list: listResult,
+
+              actorUser: currentUser,
+            });
+
+            tasks.forEach(async (task) => {
+              // eslint-disable-next-line no-param-reassign
+              delete task.id;
+
+              await sails.helpers.tasks.createOne.with({
+                values: {
+                  ...task,
+                  taskList: taskListResult,
+                  card: cardResult,
+                },
+                project,
+                board: boardResult.board,
+                list: listResult,
+                card: cardResult,
+                actorUser: currentUser,
+              });
+            });
+          });
+        });
+      });
+  });
+}
+
 module.exports = {
   inputs: {
     type: {
@@ -85,18 +244,44 @@ module.exports = {
       maxLength: 1024,
       allowNull: true,
     },
+    import: {
+      type: {},
+      allowNull: true,
+    },
   },
 
   async fn(inputs) {
     const { currentUser } = this.req;
 
-    const values = _.pick(inputs, ['type', 'name', 'description']);
+    let values = _.pick(inputs, ['type', 'name', 'description']);
+
+    if (inputs.import && inputs.import.type === 'planka-json') {
+      const projectData = structuredClone(inputs.import.data);
+      delete projectData.boards;
+      delete projectData.name;
+      delete projectData.description;
+      delete projectData.type;
+      delete projectData.ownerProjectManagerId;
+      delete projectData.isHidden;
+      delete projectData.isFavorite;
+
+      values = {
+        ...values,
+        ...projectData,
+      };
+    }
 
     const { project, projectManager } = await sails.helpers.projects.createOne.with({
       values,
       actorUser: currentUser,
       request: this.req,
     });
+
+    if (inputs.import && inputs.import.type === 'planka-json') {
+      const importProjectData = inputs.import.data;
+      importProjectData.id = project.id;
+      await importProject(importProjectData, currentUser);
+    }
 
     return {
       item: project,

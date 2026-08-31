@@ -43,6 +43,14 @@ const GeneralPane = React.memo(() => {
     dispatch(entryActions.deleteCurrentProject());
   }, [dispatch]);
 
+  const handleExportProjectFull = useCallback(() => {
+    dispatch(entryActions.exportCurrentProjectFull());
+  }, [dispatch]);
+
+  const handleExportProjectTemplate = useCallback(() => {
+    dispatch(entryActions.exportCurrentProjectTemplate());
+  }, [dispatch]);
+
   const ConfirmationPopup = usePopupInClosableContext(ConfirmationStep);
 
   return (
@@ -67,6 +75,37 @@ const GeneralPane = React.memo(() => {
         className={styles.radio}
         onChange={handleToggleChange}
       />
+      {canEdit && (
+        <>
+          <Divider horizontal section>
+            <Header as="h4">
+              {t('common.exportData_title', {
+                context: 'title',
+              })}
+            </Header>
+          </Divider>
+          <div className={styles.action}>
+            <Button
+              className={styles.actionButton}
+              onClick={() => {
+                handleExportProjectFull();
+              }}
+            >
+              {t('common.exportProjectFull')}
+            </Button>
+          </div>
+          <div className={styles.action}>
+            <Button
+              className={styles.actionButton}
+              onClick={() => {
+                handleExportProjectTemplate();
+              }}
+            >
+              {t('common.exportProjectTemplate')}
+            </Button>
+          </div>
+        </>
+      )}
       {canEdit && (
         <>
           <Divider horizontal section>
