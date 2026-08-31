@@ -68,6 +68,12 @@ const Errors = {
   BOARD_NOT_FOUND: {
     boardNotFound: 'Board not found',
   },
+  APPRISE_DISABLED: {
+    appriseDisabled: 'Apprise notifications are disabled',
+  },
+  SCHEMA_NOT_ALLOWED: {
+    schemaNotAllowed: 'Notification service schema is not allowed',
+  },
   LIMIT_REACHED: {
     limitReached: 'Limit reached',
   },
@@ -94,6 +100,12 @@ module.exports = {
   exits: {
     boardNotFound: {
       responseType: 'notFound',
+    },
+    appriseDisabled: {
+      responseType: 'forbidden',
+    },
+    schemaNotAllowed: {
+      responseType: 'unprocessableEntity',
     },
     limitReached: {
       responseType: 'conflict',
@@ -125,6 +137,8 @@ module.exports = {
         actorUser: currentUser,
         request: this.req,
       })
+      .intercept('appriseDisabled', () => Errors.APPRISE_DISABLED)
+      .intercept('schemaNotAllowed', () => Errors.SCHEMA_NOT_ALLOWED)
       .intercept('limitReached', () => Errors.LIMIT_REACHED);
 
     return {
