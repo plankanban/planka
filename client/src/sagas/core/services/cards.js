@@ -3,11 +3,13 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import { call, fork, join, put, race, select, take } from 'redux-saga/effects';
+import { all, call, fork, join, put, race, select, take } from 'redux-saga/effects';
 import toast from 'react-hot-toast';
 import { LOCATION_CHANGE_HANDLE } from '../../../lib/redux-router';
 
 import { goToBoard, goToCard } from './router';
+import { addUserToCard } from './users';
+import { addLabelToCard } from './labels';
 import request from '../request';
 import selectors from '../../../selectors';
 import actions from '../../../actions';
@@ -165,6 +167,15 @@ export function* createCard(listId, data, index, autoOpen) {
   }
 
   yield put(actions.createCard.success(localId, card));
+
+  // Inherit active board filters so the new card stays visible in the filtered view
+  const filterUserIds = yield select(selectors.selectFilterUserIdsForCurrentBoard);
+  const filterLabelIds = yield select(selectors.selectFilterLabelIdsForCurrentBoard);
+
+  yield all([
+    ...filterUserIds.map((userId) => call(addUserToCard, userId, card.id)),
+    ...filterLabelIds.map((labelId) => call(addLabelToCard, labelId, card.id)),
+  ]);
 
   if (watchForCreateCardActionTask && watchForCreateCardActionTask.isRunning()) {
     yield call(goToCard, card.id);
