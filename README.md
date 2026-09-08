@@ -8,11 +8,62 @@
 
   ![Version](https://img.shields.io/github/package-json/v/plankanban/planka?style=flat-square) [![Docker Pulls](https://img.shields.io/badge/docker_pulls-8M%2B-%23066da5?style=flat-square&color=red)](https://github.com/plankanban/planka/pkgs/container/planka) [![Contributors](https://img.shields.io/github/contributors/plankanban/planka?style=flat-square&color=blue)](https://github.com/plankanban/planka/graphs/contributors) [![Chat](https://img.shields.io/discord/1041440072953765979?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/WqqYNd7Jvt)
 
-  [Install](https://docs.planka.cloud/docs/installation/docker/production-version/) ·  [Demo](https://planka.app) · [Docs](https://docs.planka.cloud/docs/welcome/) · [API](https://plankanban.github.io/planka/swagger-ui/) · [Cloud](https://planka.app/pricing) · [Pro version](https://planka.app/pro)
+  [Install](https://docs.planka.cloud/docs/installation/docker/production-version/) ·  [Demo](https://planka.app) · [Docs](https://docs.planka.cloud/docs/welcome/) · [API](https://plankanban.github.io/planka/swagger-ui/) · [Cloud](https://planka.app/pricing) · [Pro version](https://planka.app/pro?ref=github-readme)
 
   ![Demo](https://raw.githubusercontent.com/plankanban/planka/master/assets/demo.gif)
 
 </div>
+
+---
+
+<div align="center">
+
+  ## PLANKA Pro
+
+  **When the whole team runs on PLANKA.**
+
+  Phones and tablets · five themes · a dashboard across every project · calendar, timeline and
+  map views · cards on more than one board · templates · guest roles · SSO · PDF export.
+  Self-hosted exactly as you host it now, supported by the people who build it.
+
+  [![Try Pro free for 30 days](https://img.shields.io/badge/Try_Pro_free_for_30_days-22252a?style=for-the-badge)](https://planka.app/trial?ref=github-readme-trial)
+  [![Features and pricing](https://img.shields.io/badge/Features_and_pricing-5a6c78?style=for-the-badge)](https://planka.app/pro?ref=github-readme-pro)
+
+  <img src="https://raw.githubusercontent.com/plankanban/planka/master/assets/pro/dashboard.png" width="820" alt="Personal dashboard across every project">
+
+  <img src="https://raw.githubusercontent.com/plankanban/planka/master/assets/pro/mobile-board-small.png" height="240" alt="A board on a phone">
+  <img src="https://raw.githubusercontent.com/plankanban/planka/master/assets/pro/theme-picker-crop.png" height="240" alt="Theme picker">
+  <img src="https://raw.githubusercontent.com/plankanban/planka/master/assets/pro/timeline.png" height="240" alt="Timeline view">
+
+</div>
+
+| | Community | Pro |
+| --- | :---: | :---: |
+| Boards, lists, cards, real-time collaboration | ✓ | ✓ |
+| Markdown, attachments, comments, custom fields | ✓ | ✓ |
+| Stopwatch and due dates on cards | ✓ | ✓ |
+| Notifications through 100+ providers | ✓ | ✓ |
+| Webhooks and a documented REST API | ✓ | ✓ |
+| Two-factor authentication | ✓ | ✓ |
+| Self-hosted, your database, your backups | ✓ | ✓ |
+| **Free to self-host** | **✓** | — |
+| Phones and tablets, five themes, accent color | — | ✓ |
+| Calendar, timeline, map and media views | — | ✓ |
+| Recurring cards, card and board templates | — | ✓ |
+| One card on more than one board | — | ✓ |
+| Guest roles, SSO (OIDC) | — | ✓ |
+| PDF and HTML export | — | ✓ |
+| Support from the developers, no ticket queue | — | ✓ |
+
+Pro upgrades an existing Community installation in place — your database, your volume, your
+data. It is a real migration rather than a new image: Pro adds a Valkey service and a one-off
+schema promote. The promote accepts only certain Community releases as a starting point —
+currently 2.1.x and 2.2.x — and from any other version it stops without changing anything.
+**The upgrade is one-way — there is no downgrade back to Community — so take a backup first,
+or try it on a copy.** The step-by-step guide is in the customer center once you have a key,
+and lists the releases the promote accepts.
+
+---
 
 ## Key Features
 
@@ -28,7 +79,7 @@ PLANKA is easy to install using multiple methods - learn more in the [installati
 
 For configuration and environment settings, see the [configuration section](https://docs.planka.cloud/docs/category/configuration/).
 
-Interested in a hosted or [Pro version](https://planka.app/pro) of PLANKA? Check out the pricing on our [website](https://planka.app/pricing).
+For hosted plans and pricing, see our [website](https://planka.app/pricing?ref=github-readme).
 
 ## Notes App
 
