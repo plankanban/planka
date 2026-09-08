@@ -6,7 +6,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Tab } from 'semantic-ui-react';
+import { Button, Tab } from 'semantic-ui-react';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -14,6 +14,8 @@ import { useClosableModal } from '../../../hooks';
 import GeneralPane from './GeneralPane';
 import PreferencesPane from './PreferencesPane';
 import NotificationsPane from './NotificationsPane';
+
+import styles from './BoardSettingsModal.module.scss';
 
 const BoardSettingsModal = React.memo(() => {
   const openPreferences = useSelector(
@@ -61,6 +63,9 @@ const BoardSettingsModal = React.memo(() => {
           panes={panes}
           defaultActiveIndex={openPreferences ? 1 : undefined}
         />
+        <div className={styles.actions}>
+          <Button positive content="OK" onClick={handleClose} />
+        </div>
       </ClosableModal.Content>
     </ClosableModal>
   );
