@@ -105,7 +105,11 @@ const UserActionsStep = React.memo(({ onClose }) => {
             })}
           </Menu.Item>
           <Menu.Item
-            href="https://planka.app/pro?ref=app-menu"
+            href={
+              withAdministration
+                ? 'https://planka.app/trial?ref=app-menu'
+                : 'https://planka.app/pro?ref=app-menu'
+            }
             target="_blank"
             rel="noopener noreferrer"
             className={styles.proMenuItem}
