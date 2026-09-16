@@ -8,6 +8,7 @@ import { attr, fk, many } from 'redux-orm';
 import BaseModel from './BaseModel';
 import buildSearchParts from '../utils/build-search-parts';
 import { isListKanban } from '../utils/record-helpers';
+import { recallBoardView } from '../utils/board-view-memory';
 import ActionTypes from '../constants/ActionTypes';
 import Config from '../constants/Config';
 import { BoardContexts, BoardViews } from '../constants/Enums';
@@ -16,7 +17,10 @@ const prepareFetchedBoard = (board) => ({
   ...board,
   isFetching: false,
   context: BoardContexts.BOARD,
-  view: board.defaultView,
+  // Whatever this window was last looking at, where that choice still applies —
+  // see `utils/board-view-memory`. A board's configured default is where it
+  // starts, not where it has to stay.
+  view: recallBoardView(board.id, BoardContexts.BOARD) || board.defaultView,
   search: '',
 });
 

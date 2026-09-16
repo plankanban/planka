@@ -12,6 +12,7 @@ import selectors from '../../../selectors';
 import actions from '../../../actions';
 import api from '../../../api';
 import { createLocalId } from '../../../utils/local-id';
+import { rememberBoardView } from '../../../utils/board-view-memory';
 import ActionTypes from '../../../constants/ActionTypes';
 import ModalTypes from '../../../constants/ModalTypes';
 
@@ -195,6 +196,15 @@ export function* updateContextInCurrentBoard(value) {
 }
 
 export function* updateBoardView(id, value) {
+  const board = yield select(selectors.selectBoardById, id);
+
+  // Written down so a reload comes back to it. Stored against the context it
+  // was chosen in, since that is what makes it meaningful — see
+  // `utils/board-view-memory`.
+  if (board) {
+    yield call(rememberBoardView, id, board.context, value);
+  }
+
   yield put(
     actions.updateBoard(id, {
       view: value,

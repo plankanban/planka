@@ -12,6 +12,7 @@ import actions from '../../../actions';
 import api from '../../../api';
 import i18n from '../../../i18n';
 import { removeAccessToken } from '../../../utils/access-token-storage';
+import { forgetBoardViews } from '../../../utils/board-view-memory';
 
 export function* initializeCore() {
   const { item: bootstrap } = yield call(request, api.getBootstrap); // TODO: handle error
@@ -117,6 +118,9 @@ export function* updateHomeView(value) {
 
 export function* logout(revokeAccessToken) {
   yield call(removeAccessToken);
+  // Everything this window was holding about the boards it had open. None of it
+  // belongs to the next person to sign in here.
+  yield call(forgetBoardViews);
 
   if (revokeAccessToken) {
     yield put(actions.logout.revokeAccessToken());
