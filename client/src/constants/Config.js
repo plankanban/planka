@@ -18,6 +18,11 @@ const MAX_SIZE_TO_DISPLAY_CONTENT = 256 * 1024;
 
 const IS_MAC = navigator.platform.startsWith('Mac');
 
+// Where the pointer cannot hover there is no room for a tooltip: a tap gives the
+// button focus, and a hint meant for the moment before a click ends up covering
+// the thing that was just clicked.
+const IS_TOUCH_PRIMARY = window.matchMedia('(hover: none)').matches;
+
 export default {
   BASE_PATH,
   ACCESS_TOKEN_KEY,
@@ -29,4 +34,5 @@ export default {
   ACTIVITIES_LIMIT,
   MAX_SIZE_TO_DISPLAY_CONTENT,
   IS_MAC,
+  IS_TOUCH_PRIMARY,
 };

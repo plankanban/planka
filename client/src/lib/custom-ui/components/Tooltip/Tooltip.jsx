@@ -7,6 +7,8 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Popup as SemanticUIPopup } from 'semantic-ui-react';
 
+import Config from '../../../../constants/Config';
+
 import styles from './Tooltip.module.css';
 
 const callAll =
@@ -32,7 +34,7 @@ const Tooltip = React.forwardRef(
       });
     }, [children, content, props, ref, ariaLabel, onClick]);
 
-    if (disabled || !content) {
+    if (disabled || !content || Config.IS_TOUCH_PRIMARY) {
       return trigger;
     }
 
