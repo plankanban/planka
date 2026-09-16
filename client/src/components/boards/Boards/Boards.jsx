@@ -6,7 +6,9 @@
 import React, { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 import { closePopup, usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
@@ -32,6 +34,7 @@ const Boards = React.memo(() => {
   });
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
 
   const tabsWrapperRef = useRef(null);
 
@@ -75,7 +78,9 @@ const Boards = React.memo(() => {
                 {placeholder}
                 {canAdd && (
                   <AddBoardPopup>
-                    <Button icon="plus" className={styles.addButton} />
+                    <Tooltip content={t('action.createBoard')}>
+                      <Button icon="plus" className={styles.addButton} />
+                    </Tooltip>
                   </AddBoardPopup>
                 )}
               </div>

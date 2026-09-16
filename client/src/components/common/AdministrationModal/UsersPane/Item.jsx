@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Icon, Table } from 'semantic-ui-react';
 import { useEventCallback } from '../../../../lib/hooks';
+import { Tooltip } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
@@ -92,9 +93,11 @@ const Item = React.memo(({ id, onEdit }) => {
       </Table.Cell>
       <Table.Cell textAlign="right">
         <ActionsPopup userId={id} onEdit={onEdit}>
-          <Button className={styles.button}>
-            <Icon fitted name="pencil" />
-          </Button>
+          <Tooltip content={t('common.userActions', { context: 'title' })}>
+            <Button className={styles.button}>
+              <Icon fitted name="pencil" />
+            </Button>
+          </Tooltip>
         </ActionsPopup>
       </Table.Cell>
     </Table.Row>

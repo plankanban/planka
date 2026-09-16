@@ -11,7 +11,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import { BoardMembershipRoles } from '../../../constants/Enums';
@@ -23,6 +25,7 @@ const Item = React.memo(({ id, index, isActive, onSelect, onDeselect, onEdit }) 
   const selectLabelById = useMemo(() => selectors.makeSelectLabelById(), []);
 
   const label = useSelector((state) => selectLabelById(state, id));
+  const [t] = useTranslation();
 
   const canEdit = useSelector((state) => {
     const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
@@ -63,14 +66,16 @@ const Item = React.memo(({ id, index, isActive, onSelect, onDeselect, onEdit }) 
               {label.name}
             </span>
             {canEdit && (
-              <Button
-                icon="pencil"
-                size="small"
-                floated="right"
-                disabled={!label.isPersisted}
-                className={styles.editButton}
-                onClick={handleEditClick}
-              />
+              <Tooltip content={t('action.edit', { context: 'title' })}>
+                <Button
+                  icon="pencil"
+                  size="small"
+                  floated="right"
+                  disabled={!label.isPersisted}
+                  className={styles.editButton}
+                  onClick={handleEditClick}
+                />
+              </Tooltip>
             )}
           </div>
         );

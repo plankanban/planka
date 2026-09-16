@@ -6,7 +6,9 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -49,6 +51,7 @@ const CustomField = React.memo(({ id, customFieldGroupId }) => {
   });
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
   const [isCopied, setIsCopied] = useState(false);
 
   const handleValueUpdate = useCallback(
@@ -95,9 +98,11 @@ const CustomField = React.memo(({ id, customFieldGroupId }) => {
           </div>
         )}
         {customFieldValue && customFieldValue.content && (
-          <Button className={styles.copyButton} onClick={handleCopyClick}>
-            <Icon fitted name={isCopied ? 'check' : 'copy'} />
-          </Button>
+          <Tooltip content={t('action.copy')}>
+            <Button className={styles.copyButton} onClick={handleCopyClick}>
+              <Icon fitted name={isCopied ? 'check' : 'copy'} />
+            </Button>
+          </Tooltip>
         )}
       </div>
     </div>

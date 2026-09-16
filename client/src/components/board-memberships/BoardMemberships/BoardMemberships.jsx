@@ -7,7 +7,9 @@ import groupBy from 'lodash/groupBy';
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
@@ -20,6 +22,7 @@ import styles from './BoardMemberships.module.scss';
 
 const BoardMemberships = React.memo(() => {
   const boardMemberships = useSelector(selectors.selectMembershipsForCurrentBoard);
+  const [t] = useTranslation();
 
   const canAdd = useSelector((state) => {
     const user = selectors.selectCurrentUser(state);
@@ -57,7 +60,9 @@ const BoardMemberships = React.memo(() => {
       )}
       {canAdd && (
         <AddPopup>
-          <Button icon="add user" className={classNames(styles.segment, styles.addButton)} />
+          <Tooltip content={t('action.addMember')}>
+            <Button icon="add user" className={classNames(styles.segment, styles.addButton)} />
+          </Tooltip>
         </AddPopup>
       )}
     </>

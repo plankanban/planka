@@ -5,7 +5,9 @@
 
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import { usePopupInClosableContext } from '../../../hooks';
@@ -18,6 +20,7 @@ import styles from './ProjectManagers.module.scss';
 
 const ProjectManagers = React.memo(() => {
   const projectManagers = useSelector(selectors.selectManagersForCurrentProject);
+  const [t] = useTranslation();
 
   const canAdd = useSelector((state) => {
     const user = selectors.selectCurrentUser(state);
@@ -47,7 +50,9 @@ const ProjectManagers = React.memo(() => {
       ))}
       {canAdd && (
         <AddPopup>
-          <Button icon="add user" className={styles.addButton} />
+          <Tooltip content={t('action.addMember')}>
+            <Button icon="add user" className={styles.addButton} />
+          </Tooltip>
         </AddPopup>
       )}
     </div>

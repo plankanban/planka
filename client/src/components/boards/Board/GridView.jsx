@@ -11,7 +11,7 @@ import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
 import { Button, Icon, Loader } from 'semantic-ui-react';
 import { useWindowWidth } from '../../../lib/hooks';
-import { Masonry } from '../../../lib/custom-ui';
+import { Masonry, Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import { BoardMembershipRoles } from '../../../constants/Enums';
@@ -81,14 +81,16 @@ const GridView = React.memo(
                     </span>
                   </Button>
                   {onCardPaste && clipboard && canPasteCard && (
-                    <Button
-                      type="button"
-                      disabled={!onCardCreate}
-                      className={classNames(styles.addCardButton, styles.paste)}
-                      onClick={onCardPaste}
-                    >
-                      <Icon fitted name="paste" />
-                    </Button>
+                    <Tooltip content={t('action.paste')}>
+                      <Button
+                        type="button"
+                        disabled={!onCardCreate}
+                        className={classNames(styles.addCardButton, styles.paste)}
+                        onClick={onCardPaste}
+                      >
+                        <Icon fitted name="paste" />
+                      </Button>
+                    </Tooltip>
                   )}
                 </div>
               </div>

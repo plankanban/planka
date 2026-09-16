@@ -9,7 +9,9 @@ import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -40,6 +42,7 @@ const Item = React.memo(({ id, index }) => {
   });
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
 
   const handleEditClick = useCallback(() => {
     dispatch(entryActions.openBoardSettingsModal(id));
@@ -64,9 +67,11 @@ const Item = React.memo(({ id, index }) => {
                   <span className={styles.name}>{board.name}</span>
                 </Link>
                 {canEdit && (
-                  <Button className={styles.editButton} onClick={handleEditClick}>
-                    <Icon fitted name="pencil" size="small" />
-                  </Button>
+                  <Tooltip content={t('action.edit', { context: 'title' })}>
+                    <Button className={styles.editButton} onClick={handleEditClick}>
+                      <Icon fitted name="pencil" size="small" />
+                    </Button>
+                  </Tooltip>
                 )}
               </>
             ) : (

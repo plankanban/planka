@@ -8,7 +8,9 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 
@@ -18,6 +20,7 @@ const Item = React.memo(({ id, index, onEdit }) => {
   const selectCustomFieldGroupById = useMemo(() => selectors.makeSelectCustomFieldGroupById(), []);
 
   const customFieldGroup = useSelector((state) => selectCustomFieldGroupById(state, id));
+  const [t] = useTranslation();
 
   const handleEditClick = useCallback(() => {
     onEdit(id);
@@ -35,14 +38,16 @@ const Item = React.memo(({ id, index, onEdit }) => {
             >
               {customFieldGroup.name}
             </span>
-            <Button
-              icon="pencil"
-              size="small"
-              floated="right"
-              disabled={!customFieldGroup.isPersisted}
-              className={styles.editButton}
-              onClick={handleEditClick}
-            />
+            <Tooltip content={t('action.editGroup')}>
+              <Button
+                icon="pencil"
+                size="small"
+                floated="right"
+                disabled={!customFieldGroup.isPersisted}
+                className={styles.editButton}
+                onClick={handleEditClick}
+              />
+            </Tooltip>
           </div>
         );
 

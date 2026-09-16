@@ -10,8 +10,10 @@ import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
 import { Draggable } from 'react-beautiful-dnd';
+import { useTranslation } from 'react-i18next';
 import { Button, Checkbox, Icon } from 'semantic-ui-react';
 import { useDidUpdate } from '../../../../lib/hooks';
+import { Tooltip } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
 import entryActions from '../../../../entry-actions';
@@ -60,6 +62,7 @@ const Task = React.memo(({ id, index }) => {
   }, shallowEqual);
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
   const [isEditNameOpened, setIsEditNameOpened] = useState(false);
   const [, , setIsClosableActive] = useContext(ClosableContext);
 
@@ -203,16 +206,20 @@ const Task = React.memo(({ id, index }) => {
                                 className={styles.assigneeUserAvatar}
                               />
                             ) : (
-                              <Button className={styles.button}>
-                                <Icon fitted name="add user" size="small" />
-                              </Button>
+                              <Tooltip content={t('common.selectAssignee', { context: 'title' })}>
+                                <Button className={styles.button}>
+                                  <Icon fitted name="add user" size="small" />
+                                </Button>
+                              </Tooltip>
                             )}
                           </SelectAssigneePopup>
                         )}
                         <ActionsPopup taskId={id} onNameEdit={handleNameEdit}>
-                          <Button className={styles.button}>
-                            <Icon fitted name="pencil" size="small" />
-                          </Button>
+                          <Tooltip content={t('common.taskActions', { context: 'title' })}>
+                            <Button className={styles.button}>
+                              <Icon fitted name="pencil" size="small" />
+                            </Button>
+                          </Tooltip>
                         </ActionsPopup>
                       </>
                     ) : (

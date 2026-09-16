@@ -6,9 +6,10 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { Button, Dropdown, Form, Icon, Input, Message } from 'semantic-ui-react';
 import { useDidUpdate, useToggle } from '../../../lib/hooks';
+import { Tooltip } from '../../../lib/custom-ui';
 
 import { useEscapeInterceptor, useForm, useNestedRef } from '../../../hooks';
 import { NotificationServiceFormats } from '../../../constants/Enums';
@@ -22,6 +23,8 @@ const DEFAULT_DATA = {
 };
 
 const NotificationServices = React.memo(({ ids, onCreate }) => {
+  const [t] = useTranslation();
+
   const [data, handleFieldChange, setData] = useForm(DEFAULT_DATA);
   const [focusUrlFieldState, focusUrlField] = useToggle();
 
@@ -117,9 +120,11 @@ const NotificationServices = React.memo(({ ids, onCreate }) => {
             onChange={handleFieldChange}
             onBlur={handleUrlBlur}
           />
-          <Button positive className={styles.button}>
-            <Icon fitted name="plus" />
-          </Button>
+          <Tooltip content={t('common.addNotificationService', { context: 'title' })}>
+            <Button positive className={styles.button}>
+              <Icon fitted name="plus" />
+            </Button>
+          </Tooltip>
         </Form>
       )}
     </>

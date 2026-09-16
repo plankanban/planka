@@ -5,7 +5,9 @@
 
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon, Label } from 'semantic-ui-react';
+import { Tooltip } from '../../../../lib/custom-ui';
 
 import { usePopupInClosableContext } from '../../../../hooks';
 import ConfirmationStep from '../../../common/ConfirmationStep';
@@ -13,6 +15,8 @@ import ConfirmationStep from '../../../common/ConfirmationStep';
 import styles from './Image.module.scss';
 
 const Image = React.memo(({ url, isActive, onSelect, onDeselect, onDelete }) => {
+  const [t] = useTranslation();
+
   const handleClick = useCallback(() => {
     if (isActive) {
       onDeselect();
@@ -52,9 +56,11 @@ const Image = React.memo(({ url, isActive, onSelect, onDeselect, onDelete }) => 
           buttonContent="action.deleteBackgroundImage"
           onConfirm={onDelete}
         >
-          <Button className={styles.deleteButton}>
-            <Icon fitted name="trash alternate" size="small" />
-          </Button>
+          <Tooltip content={t('action.deleteBackgroundImage')}>
+            <Button className={styles.deleteButton}>
+              <Icon fitted name="trash alternate" size="small" />
+            </Button>
+          </Tooltip>
         </ConfirmationPopup>
       )}
     </div>

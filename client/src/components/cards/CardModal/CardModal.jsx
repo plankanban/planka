@@ -6,7 +6,9 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { Icon } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 import { push } from '../../../lib/redux-router';
 
 import selectors from '../../../selectors';
@@ -45,6 +47,7 @@ const CardModal = React.memo(() => {
   });
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
 
   const handleClose = useCallback(() => {
     dispatch(push(Paths.BOARDS.replace(':id', card.boardId)));
@@ -102,9 +105,11 @@ const CardModal = React.memo(() => {
       onClose={handleClose}
     >
       {prevCardId && (
-        <button type="button" className={styles.prevButton} onClick={handlePrevClick}>
-          <Icon fitted name="arrow left" size="large" className={styles.prevButtonIcon} />
-        </button>
+        <Tooltip content={t('action.goBack')} position="right center">
+          <button type="button" className={styles.prevButton} onClick={handlePrevClick}>
+            <Icon fitted name="arrow left" size="large" className={styles.prevButtonIcon} />
+          </button>
+        </Tooltip>
       )}
       {canEdit ? (
         <AddAttachmentZone>

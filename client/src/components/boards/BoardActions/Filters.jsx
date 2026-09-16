@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from 'semantic-ui-react';
 import { useDidUpdate } from '../../../lib/hooks';
 import { usePopup } from '../../../lib/popup';
-import { Input } from '../../../lib/custom-ui';
+import { Input, Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -162,11 +162,13 @@ const Filters = React.memo(() => {
           </button>
         </BoardMembershipsPopup>
         {userIds.length === 0 && withCurrentUserSelector && (
-          <button type="button" className={styles.filterButton} onClick={handleCurrentUserSelect}>
-            <span className={styles.filterLabel}>
-              <Icon fitted name="target" className={styles.filterLabelIcon} />
-            </span>
-          </button>
+          <Tooltip content={t('action.filterByCurrentUser')}>
+            <button type="button" className={styles.filterButton} onClick={handleCurrentUserSelect}>
+              <span className={styles.filterLabel}>
+                <Icon fitted name="target" className={styles.filterLabelIcon} />
+              </span>
+            </button>
+          </Tooltip>
         )}
         {userIds.map((userId) => (
           <span key={userId} className={styles.filterItem}>

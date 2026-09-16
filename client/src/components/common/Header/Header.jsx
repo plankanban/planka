@@ -7,7 +7,9 @@ import React, { useCallback } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { Button, Icon, Menu } from 'semantic-ui-react';
+import { Tooltip } from '../../../lib/custom-ui';
 import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
@@ -72,6 +74,7 @@ const Header = React.memo(() => {
   }, shallowEqual);
 
   const dispatch = useDispatch();
+  const [t] = useTranslation();
 
   const handleToggleFavoritesClick = useCallback(() => {
     dispatch(entryActions.toggleFavorites(!isFavoritesEnabled));
@@ -102,55 +105,69 @@ const Header = React.memo(() => {
       <Menu inverted size="large" className={styles.menu}>
         {project && (
           <Menu.Menu position="left">
-            <Menu.Item
-              as={Link}
-              to={Paths.ROOT}
-              className={classNames(styles.item, styles.itemHoverable)}
-            >
-              <Icon fitted name="arrow left" />
-            </Menu.Item>
+            <Tooltip content={t('action.returnToProjects')}>
+              <Menu.Item
+                as={Link}
+                to={Paths.ROOT}
+                className={classNames(styles.item, styles.itemHoverable)}
+              >
+                <Icon fitted name="arrow left" />
+              </Menu.Item>
+            </Tooltip>
             <Menu.Item className={classNames(styles.item, styles.title)}>
               {project.name}
               {canEditProject && (
-                <Button className={styles.editButton} onClick={handleProjectSettingsClick}>
-                  <Icon fitted name="pencil" size="small" />
-                </Button>
+                <Tooltip content={t('common.openProjectSettings')}>
+                  <Button className={styles.editButton} onClick={handleProjectSettingsClick}>
+                    <Icon fitted name="pencil" size="small" />
+                  </Button>
+                </Tooltip>
               )}
             </Menu.Item>
           </Menu.Menu>
         )}
         <Menu.Menu position="right">
           {withFavoritesToggler && (
-            <Menu.Item
-              className={classNames(styles.item, styles.itemHoverable)}
-              onClick={handleToggleFavoritesClick}
+            <Tooltip
+              content={t(isFavoritesEnabled ? 'action.hideProjectList' : 'action.showProjectList')}
             >
-              <Icon
-                fitted
-                name={isFavoritesEnabled ? 'star' : 'star outline'}
-                className={classNames(isFavoritesEnabled && styles.itemIconEnabled)}
-              />
-            </Menu.Item>
+              <Menu.Item
+                className={classNames(styles.item, styles.itemHoverable)}
+                onClick={handleToggleFavoritesClick}
+              >
+                <Icon
+                  fitted
+                  name={isFavoritesEnabled ? 'star' : 'star outline'}
+                  className={classNames(isFavoritesEnabled && styles.itemIconEnabled)}
+                />
+              </Menu.Item>
+            </Tooltip>
           )}
           {withEditModeToggler && (
-            <Menu.Item
-              className={classNames(styles.item, styles.itemHoverable)}
-              onClick={handleToggleEditModeClick}
+            <Tooltip
+              content={t(isEditModeEnabled ? 'action.disableEditMode' : 'action.enableEditMode')}
             >
-              <Icon
-                fitted
-                name={isEditModeEnabled ? 'unlock' : 'lock'}
-                className={classNames(isEditModeEnabled && styles.itemIconEnabled)}
-              />
-            </Menu.Item>
+              <Menu.Item
+                className={classNames(styles.item, styles.itemHoverable)}
+                onClick={handleToggleEditModeClick}
+              >
+                <Icon
+                  fitted
+                  name={isEditModeEnabled ? 'unlock' : 'lock'}
+                  className={classNames(isEditModeEnabled && styles.itemIconEnabled)}
+                />
+              </Menu.Item>
+            </Tooltip>
           )}
           <NotificationsPopup>
-            <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
-              <Icon fitted name="bell" />
-              {notificationIds.length > 0 && (
-                <span className={styles.notification}>{notificationIds.length}</span>
-              )}
-            </Menu.Item>
+            <Tooltip content={t('common.openNotifications')}>
+              <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
+                <Icon fitted name="bell" />
+                {notificationIds.length > 0 && (
+                  <span className={styles.notification}>{notificationIds.length}</span>
+                )}
+              </Menu.Item>
+            </Tooltip>
           </NotificationsPopup>
           <UserActionsPopup>
             <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>

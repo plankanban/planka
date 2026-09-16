@@ -7,5 +7,6 @@ import Input from './components/Input';
 import Popup from './components/Popup';
 import Masonry from './components/Masonry';
 import FilePicker from './components/FilePicker';
+import Tooltip from './components/Tooltip';
 
-export { Input, Popup, Masonry, FilePicker };
+export { Input, Popup, Masonry, FilePicker, Tooltip };
