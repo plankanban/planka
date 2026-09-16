@@ -8,16 +8,31 @@
 * Refuse server-side fetches to private, loopback and link-local addresses when a link attachment's favicon is retrieved
 * Warn on every start while `SECRET_KEY` is missing, too short, or still the value from the example configuration
 * Encrypt the backup archive when `BACKUP_PASSPHRASE` is set, and say what an unencrypted one contains
+* Update `sanitize-html` and `svgo`, both of which ship in the client bundle, and `js-yaml` and `fast-uri`, which are used at build time
 
 ### Added
 
 * Add `db:clean-orphaned-records` script to report and remove reference rows left behind by an incomplete delete
+* Add tooltips to the icon buttons across the interface, hidden on touch devices where there is no hover
+* Add negative label filtering, so a filter can exclude cards carrying a label as well as require one
+* Remember which view a board was last put into for the rest of the browser session, per window and per context
+* Add `client:locales:check` to report translation keys a locale is missing before a release goes out
+
+### Changed
+
+* Widen the Pro banner rotation to nine features and send admins to the trial rather than the overview, since only they can start one
+* Fill in the 66 user-facing strings that existed only in English and German, in all 33 remaining languages, including the two-factor challenge shown before sign-in
 
 ### Fixed
 
 * Fix a blank home view when a project manager or board membership points at a project that no longer exists
 * Fix endless list pagination returning an error for cursors Postgres cannot read as a timestamp
 * Fix endless list pagination skipping and repeating cards when a search, member or label filter is active
+* Fix task reordering saving the wrong position when completed tasks are hidden
+* Fix Enter being swallowed mid-composition in input fields, which cut off text entered with an IME
+* Show a message when a login or user settings form is submitted with invalid input, instead of silently focusing the field
+* Validate the input taken by `db:create-admin-user`, which previously accepted anything
+* Correct the Swedish translations, including dates that rendered in American order with the English word "at"
 
 ## [2.2.1] - 2026-08-10
 
