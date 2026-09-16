@@ -14,6 +14,7 @@ import { Input, Popup } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
+import actions from '../../../actions';
 import { useForm, useNestedRef } from '../../../hooks';
 
 import styles from './EditUserEmailStep.module.scss';
@@ -33,6 +34,11 @@ const createMessage = (error) => {
       return {
         type: 'error',
         content: 'common.invalidCurrentPassword',
+      };
+    case 'Invalid email or username':
+      return {
+        type: 'error',
+        content: 'common.invalidEmailOrUsername',
       };
     default:
       return {
@@ -78,6 +84,7 @@ const EditUserEmailStep = React.memo(({ id, onBack, onClose }) => {
 
     if (!isEmail(cleanData.email)) {
       emailFieldRef.current.select();
+      dispatch(actions.updateUserEmail.failure(id, new Error('Invalid email or username')));
       return;
     }
 
@@ -89,6 +96,7 @@ const EditUserEmailStep = React.memo(({ id, onBack, onClose }) => {
     if (withPasswordConfirmation) {
       if (!cleanData.currentPassword) {
         currentPasswordFieldRef.current.focus();
+        dispatch(actions.updateUserEmail.failure(id, new Error('Invalid current password')));
         return;
       }
     } else {
