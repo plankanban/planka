@@ -122,6 +122,14 @@ const removeLabelFromFilterInCurrentBoard = (id) => ({
   },
 });
 
+const updateLabelFilterInCurrentBoard = (id, mode) => ({
+  type: EntryActionTypes.LABEL_FILTER_IN_CURRENT_BOARD_UPDATE,
+  payload: {
+    id,
+    mode,
+  },
+});
+
 export default {
   createLabelInCurrentBoard,
   createLabelFromCard,
@@ -139,4 +147,5 @@ export default {
   handleLabelFromCardRemove,
   addLabelToFilterInCurrentBoard,
   removeLabelFromFilterInCurrentBoard,
+  updateLabelFilterInCurrentBoard,
 };
