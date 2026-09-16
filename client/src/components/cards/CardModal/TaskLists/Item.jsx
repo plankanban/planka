@@ -11,7 +11,6 @@ import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 import { useTranslation } from 'react-i18next';
 import { Button, Icon } from 'semantic-ui-react';
-import { useToggle } from '../../../../lib/hooks';
 import { Tooltip } from '../../../../lib/custom-ui';
 
 import selectors from '../../../../selectors';
@@ -22,7 +21,7 @@ import TaskList from '../../../task-lists/TaskList';
 
 import styles from './Item.module.scss';
 
-const Item = React.memo(({ id, index }) => {
+const Item = React.memo(({ id, index, isCompletedVisible, onCompletedVisibleToggle }) => {
   const selectTaskListById = useMemo(() => selectors.makeSelectTaskListById(), []);
 
   const taskList = useSelector((state) => selectTaskListById(state, id));
@@ -33,11 +32,9 @@ const Item = React.memo(({ id, index }) => {
     return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
   });
 
-  const [isCompletedVisible, toggleCompletedVisible] = useToggle();
-
   const handleToggleCompletedVisibleClick = useCallback(() => {
-    toggleCompletedVisible();
-  }, [toggleCompletedVisible]);
+    onCompletedVisibleToggle(id);
+  }, [id, onCompletedVisibleToggle]);
 
   const EditPopup = usePopupInClosableContext(EditStep);
 
@@ -115,6 +112,8 @@ const Item = React.memo(({ id, index }) => {
 Item.propTypes = {
   id: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
+  isCompletedVisible: PropTypes.bool.isRequired,
+  onCompletedVisibleToggle: PropTypes.func.isRequired,
 };
 
 export default Item;

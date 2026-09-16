@@ -35,12 +35,13 @@ const handleTaskUpdate = (task) => ({
   },
 });
 
-const moveTask = (id, taskListId, index) => ({
+const moveTask = (id, taskListId, index, isCompletedVisible) => ({
   type: EntryActionTypes.TASK_MOVE,
   payload: {
     id,
     taskListId,
     index,
+    isCompletedVisible,
   },
 });
 

@@ -116,14 +116,23 @@ export const selectNextTaskPosition = createSelector(
   (_, taskListId) => taskListId,
   (_, __, index) => index,
   (_, __, ___, excludedId) => excludedId,
-  ({ TaskList }, taskListId, index, excludedId) => {
+  (_, __, ___, ____, isCompletedVisible) => isCompletedVisible,
+  ({ TaskList }, taskListId, index, excludedId, isCompletedVisible) => {
     const taskListModel = TaskList.withId(taskListId);
 
     if (!taskListModel) {
       return taskListModel;
     }
 
-    return nextPosition(taskListModel.getTasksQuerySet().toRefArray(), index, excludedId);
+    let tasks = taskListModel.getTasksQuerySet().toRefArray();
+
+    // when an index is provided it refers to the rendered list, which excludes
+    // completed tasks if they are hidden, so the same filter must be applied here
+    if (!isUndefined(index) && taskListModel.hideCompletedTasks && !isCompletedVisible) {
+      tasks = tasks.filter((task) => !task.isCompleted);
+    }
+
+    return nextPosition(tasks, index, excludedId);
   },
 );
 

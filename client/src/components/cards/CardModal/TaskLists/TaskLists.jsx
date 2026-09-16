@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { closePopup } from '../../../../lib/popup';
@@ -20,6 +20,14 @@ const TaskLists = React.memo(() => {
   const taskListIds = useSelector(selectors.selectTaskListIdsForCurrentCard);
 
   const dispatch = useDispatch();
+  const [completedVisibilities, setCompletedVisibilities] = useState({});
+
+  const handleCompletedVisibleToggle = useCallback((taskListId) => {
+    setCompletedVisibilities((prevCompletedVisibilities) => ({
+      ...prevCompletedVisibilities,
+      [taskListId]: !prevCompletedVisibilities[taskListId],
+    }));
+  }, []);
 
   const handleDragStart = useCallback(() => {
     document.body.classList.add(globalStyles.dragging);
@@ -45,16 +53,18 @@ const TaskLists = React.memo(() => {
           dispatch(entryActions.moveTaskList(id, destination.index));
 
           break;
-        case DroppableTypes.TASK:
-          dispatch(
-            entryActions.moveTask(id, parseDndId(destination.droppableId), destination.index),
-          );
+        case DroppableTypes.TASK: {
+          const taskListId = parseDndId(destination.droppableId);
+          const isCompletedVisible = !!completedVisibilities[taskListId];
+
+          dispatch(entryActions.moveTask(id, taskListId, destination.index, isCompletedVisible));
 
           break;
+        }
         default:
       }
     },
-    [dispatch],
+    [completedVisibilities, dispatch],
   );
 
   return (
@@ -64,7 +74,13 @@ const TaskLists = React.memo(() => {
           // eslint-disable-next-line react/jsx-props-no-spreading
           <div {...droppableProps} ref={innerRef}>
             {taskListIds.map((taskListId, index) => (
-              <Item key={taskListId} id={taskListId} index={index} />
+              <Item
+                key={taskListId}
+                id={taskListId}
+                index={index}
+                isCompletedVisible={!!completedVisibilities[taskListId]}
+                onCompletedVisibleToggle={handleCompletedVisibleToggle}
+              />
             ))}
             {placeholder}
           </div>

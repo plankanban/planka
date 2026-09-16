@@ -68,8 +68,14 @@ export function* handleTaskUpdate(task) {
   yield put(actions.handleTaskUpdate(task));
 }
 
-export function* moveTask(id, taskListId, index) {
-  const position = yield select(selectors.selectNextTaskPosition, taskListId, index, id);
+export function* moveTask(id, taskListId, index, isCompletedVisible) {
+  const position = yield select(
+    selectors.selectNextTaskPosition,
+    taskListId,
+    index,
+    id,
+    isCompletedVisible,
+  );
 
   yield call(updateTask, id, {
     taskListId,
