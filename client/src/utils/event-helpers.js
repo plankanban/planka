@@ -5,5 +5,6 @@
 
 import Config from '../constants/Config';
 
-// eslint-disable-next-line import/prefer-default-export
+export const isComposing = (event) => event.nativeEvent.isComposing || event.keyCode === 229;
+
 export const isModifierKeyPressed = (event) => (Config.IS_MAC ? event.metaKey : event.ctrlKey);

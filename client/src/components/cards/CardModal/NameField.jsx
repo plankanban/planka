@@ -12,6 +12,7 @@ import { TextArea } from 'semantic-ui-react';
 import { useDidUpdate, usePrevious, useToggle } from '../../../lib/hooks';
 
 import { useEscapeInterceptor, useField, useNestedRef } from '../../../hooks';
+import { isComposing } from '../../../utils/event-helpers';
 
 import styles from './NameField.module.scss';
 
@@ -43,6 +44,10 @@ const NameField = React.memo(({ defaultValue, size, onUpdate }) => {
 
   const handleKeyDown = useCallback(
     (event) => {
+      if (isComposing(event)) {
+        return;
+      }
+
       if (event.key === 'Enter') {
         event.preventDefault();
         fiedRef.current.blur();
