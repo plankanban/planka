@@ -62,34 +62,36 @@ exports.seed = async (knex) => {
   const defaultAdminEmail =
     process.env.DEFAULT_ADMIN_EMAIL && process.env.DEFAULT_ADMIN_EMAIL.toLowerCase();
 
-  if (defaultAdminEmail) {
-    if (!validator.isEmail(defaultAdminEmail)) {
-      throw new Error(
-        `DEFAULT_ADMIN_EMAIL "${process.env.DEFAULT_ADMIN_EMAIL}" is not a valid e-mail address.`,
-      );
-    }
+  // Nothing in here may throw. The seed runs on every start, not only on the
+  // first one, and a throw here leaves the container in a restart loop with an
+  // instance that used to come up fine. Bad input is reported and skipped; the
+  // interactive `db:create-admin-user` is where invalid input is refused.
+  const isDefaultAdminEmailUsable =
+    defaultAdminEmail && validator.isEmail(defaultAdminEmail) && defaultAdminEmail.length <= 256;
 
-    if (defaultAdminEmail.length > 256) {
-      throw new Error(
-        `DEFAULT_ADMIN_EMAIL "${process.env.DEFAULT_ADMIN_EMAIL}" exceeds 256 characters.`,
-      );
-    }
+  if (defaultAdminEmail && !isDefaultAdminEmailUsable) {
+    console.warn(
+      `Warning: DEFAULT_ADMIN_EMAIL "${process.env.DEFAULT_ADMIN_EMAIL}" is not a usable e-mail address; skipping the default admin user.`,
+    );
+  }
 
-    const existingEmailUser = await knex('user_account').where('email', defaultAdminEmail).first();
-
-    if (existingEmailUser) {
-      throw new Error(`User with DEFAULT_ADMIN_EMAIL "${defaultAdminEmail}" already exists.`);
-    }
-
+  if (isDefaultAdminEmailUsable) {
     const userData = buildUserData();
 
     if (userData.username) {
       const existingUsernameUser = await knex('user_account')
         .where('username', userData.username)
+        .whereNot('email', defaultAdminEmail)
         .first();
 
+      // Taken by somebody else, so it cannot be applied. The account itself is
+      // still created or refreshed, it simply keeps the username it has.
       if (existingUsernameUser) {
-        throw new Error(`User with DEFAULT_ADMIN_USERNAME "${userData.username}" already exists.`);
+        console.warn(
+          `Warning: DEFAULT_ADMIN_USERNAME "${userData.username}" belongs to another user; leaving the username unchanged.`,
+        );
+
+        delete userData.username;
       }
     }
 
