@@ -30,6 +30,21 @@
  *           type: string
  *           description: Unique identifier for the webhook
  *           example: "1357158568008091264"
+ *         projectId:
+ *           type: string
+ *           nullable: true
+ *           description: Optional project scope; webhook fires only for events within this project
+ *           example: "1357158568008091264"
+ *         boardId:
+ *           type: string
+ *           nullable: true
+ *           description: Optional board scope; webhook fires only for events within this board
+ *           example: "1357158568008091264"
+ *         userId:
+ *           type: string
+ *           nullable: true
+ *           description: Optional acting-user scope; webhook fires only for events triggered by this user
+ *           example: "1357158568008091264"
  *         name:
  *           type: string
  *           description: Name/title of the webhook
@@ -200,9 +215,17 @@ module.exports = {
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
+    projectId: {
+      model: 'Project',
+      columnName: 'project_id',
+    },
     boardId: {
       model: 'Board',
       columnName: 'board_id',
+    },
+    userId: {
+      model: 'User',
+      columnName: 'user_id',
     },
   },
 };

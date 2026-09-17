@@ -12,6 +12,8 @@ import { isLocalId } from '../utils/local-id';
 import { isListArchiveOrTrash } from '../utils/record-helpers';
 import { ListTypes } from '../constants/Enums';
 
+export const selectBoards = createSelector(orm, ({ Board }) => Board.all().toRefArray());
+
 export const makeSelectBoardById = () =>
   createSelector(
     orm,
@@ -484,6 +486,7 @@ export const selectIsBoardWithIdExists = createSelector(
 );
 
 export default {
+  selectBoards,
   makeSelectBoardById,
   selectBoardById,
   makeSelectCurrentUserMembershipByBoardId,
