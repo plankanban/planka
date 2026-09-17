@@ -44,6 +44,7 @@ export default {
       alwaysDisplayCardCreator: 'Kartenersteller immer anzeigen',
       apiKeyCreated_title: 'API-Schlüssel erstellt',
       apiKey_title: 'API-Schlüssel',
+      applyFilter: 'Filter anwenden',
       archive: 'Archiv',
       archiveCard_title: 'Karte archivieren',
       archiveCards_title: 'Karten archivieren',
@@ -74,6 +75,8 @@ export default {
         'Sind Sie sicher, dass Sie dieses Datenfeld löschen möchten?',
       areYouSureYouWantToDeleteThisCustomFieldGroup:
         'Sind Sie sicher, dass Sie diese Feldgruppe löschen möchten?',
+      areYouSureYouWantToDeleteThisFilter:
+        'Sind Sie sicher, dass Sie diesen Filter löschen möchten?',
       areYouSureYouWantToDeleteThisLabel: 'Sind Sie sicher, dass Sie dieses Label löschen möchten?',
       areYouSureYouWantToDeleteThisList:
         'Sind Sie sicher, dass Sie diese Liste löschen möchten? Alle Karten werden in den Papierkorb verschoben.',
@@ -143,6 +146,7 @@ export default {
       cardsOnThisListAreCompleteAndReadyToBeArchived:
         'Karten in dieser Liste sind abgeschlossen und können archiviert werden.',
       cardsOnThisListAreReadyToBeWorkedOn: 'Karten in dieser Liste sind bereit zur Bearbeitung.',
+      clearFilter: 'Filter zurücksetzen',
       clickHereOrRefreshPageToUpdate:
         '<0>Hier klicken</0> oder Seite aktualisieren, um zu aktualisieren.',
       clientHostnameInEhlo: 'Client-Hostname in EHLO',
@@ -226,6 +230,7 @@ export default {
       unknownDevice: 'Unbekanntes Gerät',
       upgradeTeamToPro_title: 'Team auf Pro upgraden',
       date: 'Datum',
+      deactivateFilter: 'Filter deaktivieren',
       deactivateUser_title: 'Benutzer deaktivieren',
       defaultCardType_title: 'Standard-Kartentyp',
       defaultFrom: 'Standard "Von"',
@@ -241,6 +246,7 @@ export default {
       deleteComment_title: 'Kommentar löschen',
       deleteCustomFieldGroup_title: 'Feldgruppe löschen',
       deleteCustomField_title: 'Datenfeld löschen',
+      deleteFilter_title: 'Filter löschen',
       deleteLabel_title: 'Label löschen',
       deleteList_title: 'Liste löschen',
       deleteNotificationService_title: 'Benachrichtigungsdienst löschen',
@@ -286,6 +292,7 @@ export default {
       filterByLabels_title: 'Nach Label filtern',
       filterByLists_title: 'Nach Listen filtern',
       filterByMembers_title: 'Nach Mitgliedern filtern',
+      filterName: 'Filtername',
       forPersonalProjects: 'Für persönliche Projekte.',
       forTeamBasedProjects: 'Für teambasierte Projekte.',
       fromComputer_title: 'Vom Computer',
@@ -337,6 +344,7 @@ export default {
       noLists: 'Keine Listen',
       noMember: 'Ohne Mitglied',
       noProjects: 'Keine Projekte',
+      noSavedFilters: 'Keine gespeicherten Filter',
       noUnreadNotifications: 'Keine ungelesenen Benachrichtigungen.',
       notifications: 'Benachrichtigungen',
       oldestFirst: 'Älteste zuerst',
@@ -373,9 +381,12 @@ export default {
       rejectUnauthorizedTlsCertificates: 'Nicht autorisierte TLS-Zertifikate ablehnen',
       removeManager_title: 'Projektleiter entfernen',
       removeMember_title: 'Mitglied entfernen',
+      restoreFilter: 'Filter wiederherstellen',
       role: 'Rolle',
+      saveFilter_title: 'Filter speichern',
       saveThisKeyItWillNotBeShownAgain:
         'Speichern Sie diesen Schlüssel — er wird nicht erneut angezeigt!',
+      savedFilters_title: 'Gespeicherte Filter',
       searchCards: 'Karte suchen...',
       searchCustomFieldGroups: 'Benutzerdefinierte Feldgruppen suchen...',
       searchCustomFields: 'In Feldgruppen suchen...',
