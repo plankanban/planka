@@ -3,6 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+import keyBy from 'lodash/keyBy';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -16,6 +17,7 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { usePopupInClosableContext } from '../../../hooks';
 import { isUsableMarkdownElement } from '../../../utils/element-helpers';
+import { mentionTextToMarkup } from '../../../utils/mentions';
 import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/Enums';
 import { CardTypeIcons } from '../../../constants/Icons';
 import { ClosableContext } from '../../../contexts';
@@ -46,6 +48,7 @@ const StoryContent = React.memo(() => {
 
   const card = useSelector(selectors.selectCurrentCard);
   const board = useSelector(selectors.selectCurrentBoard);
+  const boardMemberships = useSelector(selectors.selectMembershipsForCurrentBoard);
   const userIds = useSelector(selectors.selectUserIdsForCurrentCard);
   const labelIds = useSelector(selectors.selectLabelIdsForCurrentCard);
   const attachmentIds = useSelector(selectors.selectAttachmentIdsForCurrentCard);
@@ -137,6 +140,15 @@ const StoryContent = React.memo(() => {
   }, shallowEqual);
 
   const dispatch = useDispatch();
+  const userByUsername = useMemo(
+    () =>
+      keyBy(
+        boardMemberships.flatMap(({ user }) => (user.username ? user : [])),
+        ({ username }) => username.toLowerCase(),
+      ),
+    [boardMemberships],
+  );
+
   const [t] = useTranslation();
   const [descriptionDraft, setDescriptionDraft] = useState(null);
   const [isEditDescriptionOpened, setIsEditDescriptionOpened] = useState(false);
@@ -164,11 +176,11 @@ const StoryContent = React.memo(() => {
     (description) => {
       dispatch(
         entryActions.updateCurrentCard({
-          description,
+          description: description && mentionTextToMarkup(description, userByUsername),
         }),
       );
     },
-    [dispatch],
+    [dispatch, userByUsername],
   );
 
   const handleRestoreClick = useCallback(() => {

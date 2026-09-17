@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { Comment, Loader } from 'semantic-ui-react';
@@ -45,6 +45,15 @@ const Comments = React.memo(() => {
   });
 
   const dispatch = useDispatch();
+  const [replyText, setReplyText] = useState();
+
+  const handleReply = useCallback((username) => {
+    setReplyText(`@${username} `);
+  }, []);
+
+  const handleReplyTextConsumed = useCallback(() => {
+    setReplyText(undefined);
+  }, []);
 
   const [inViewRef] = useInView({
     threshold: 1,
@@ -57,11 +66,11 @@ const Comments = React.memo(() => {
 
   return (
     <>
-      {cadAdd && <Add />}
+      {cadAdd && <Add initialText={replyText} onInitialTextConsumed={handleReplyTextConsumed} />}
       <div className={styles.itemsWrapper}>
         <Comment.Group className={styles.items}>
           {commentIds.map((commentId) => (
-            <Item key={commentId} id={commentId} />
+            <Item key={commentId} id={commentId} canReply={cadAdd} onReply={handleReply} />
           ))}
         </Comment.Group>
       </div>

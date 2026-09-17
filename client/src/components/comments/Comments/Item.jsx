@@ -25,7 +25,7 @@ import UserAvatar from '../../users/UserAvatar';
 
 import styles from './Item.module.scss';
 
-const Item = React.memo(({ id }) => {
+const Item = React.memo(({ id, canReply, onReply }) => {
   const selectCommentById = useMemo(() => selectors.makeSelectCommentById(), []);
   const selectUserById = useMemo(() => selectors.makeSelectUserById(), []);
   const selectListById = useMemo(() => selectors.makeSelectListById(), []);
@@ -83,6 +83,12 @@ const Item = React.memo(({ id }) => {
     setIsEditOpened(true);
   }, []);
 
+  const handleReplyClick = useCallback(() => {
+    if (user.username) {
+      onReply(user.username);
+    }
+  }, [onReply, user.username]);
+
   const handleEditClose = useCallback(() => {
     setIsEditOpened(false);
   }, []);
@@ -117,8 +123,18 @@ const Item = React.memo(({ id }) => {
               <span className={styles.date}>
                 <TimeAgo date={comment.createdAt} />
               </span>
-              {(canEdit || canDelete) && (
+              {(canReply || canEdit || canDelete) && (
                 <span className={styles.actions}>
+                  {canReply && user.username && (
+                    <Comment.Action
+                      as="button"
+                      content={t('action.reply', {
+                        defaultValue: 'Reply',
+                      })}
+                      disabled={!comment.isPersisted}
+                      onClick={handleReplyClick}
+                    />
+                  )}
                   {canEdit && (
                     <Comment.Action
                       as="button"
@@ -153,6 +169,13 @@ const Item = React.memo(({ id }) => {
 
 Item.propTypes = {
   id: PropTypes.string.isRequired,
+  canReply: PropTypes.bool,
+  onReply: PropTypes.func,
+};
+
+Item.defaultProps = {
+  canReply: false,
+  onReply: () => {},
 };
 
 export default Item;

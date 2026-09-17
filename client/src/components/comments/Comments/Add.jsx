@@ -5,6 +5,7 @@
 
 import keyBy from 'lodash/keyBy';
 import React, { useCallback, useState, useRef, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Mention, MentionsInput } from 'react-mentions';
@@ -24,7 +25,7 @@ const DEFAULT_DATA = {
   text: '',
 };
 
-const Add = React.memo(() => {
+const Add = React.memo(({ initialText, onInitialTextConsumed }) => {
   const boardMemberships = useSelector(selectors.selectMembershipsForCurrentBoard);
 
   const dispatch = useDispatch();
@@ -138,6 +139,19 @@ const Add = React.memo(() => {
     textInputRef.current.focus();
   }, [selectTextFieldState]);
 
+  useDidUpdate(() => {
+    if (!initialText) {
+      return;
+    }
+
+    setData({
+      text: initialText,
+    });
+    setIsOpened(true);
+    selectTextField();
+    onInitialTextConsumed();
+  }, [initialText, onInitialTextConsumed, selectTextField, setData]);
+
   return (
     <Form onSubmit={handleSubmit}>
       <div ref={textFieldRef} className={styles.field}>
@@ -187,5 +201,15 @@ const Add = React.memo(() => {
     </Form>
   );
 });
+
+Add.propTypes = {
+  initialText: PropTypes.string,
+  onInitialTextConsumed: PropTypes.func,
+};
+
+Add.defaultProps = {
+  initialText: undefined,
+  onInitialTextConsumed: () => {},
+};
 
 export default Add;
