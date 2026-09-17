@@ -18,6 +18,35 @@ load_secret() {
   fi
 }
 
+# The image is built for uid 1000 and the app creates these directories on first
+# start. Under any other uid that fails deep inside the logger, long after an
+# operator can tell what went wrong, so name the path here instead.
+ensure_runtime_directories() {
+  local directories=(.tmp)
+  local directory
+
+  # Only needed while the log file sits at its default path: LOG_FILE moves it
+  # elsewhere, and then where it lands is the operator's to get right
+  if [[ -z "${LOG_FILE:-}" ]]; then
+    directories+=(logs)
+  fi
+
+  for directory in "${directories[@]}"; do
+    if ! mkdir -p "$directory" 2>/dev/null || [[ ! -w "$directory" ]]; then
+      echo "PLANKA cannot write to /app/${directory} as uid $(id -u), gid $(id -g)." >&2
+      echo "Run the container as uid 1000, as any uid with group 0 (for example user: \"5000:0\"), or mount a writable volume at /app/${directory}." >&2
+      exit 1
+    fi
+  done
+
+  # A volume keeps the ownership it was created with, so this one is the
+  # operator's to fix and not worth refusing to start over
+  if [[ ! -w data ]]; then
+    echo "Warning: PLANKA cannot write to /app/data as uid $(id -u), gid $(id -g). Avatars, attachments and background images will fail to save." >&2
+    echo "Change the owner of the volume mounted there to the uid the container runs as, or give that uid group 0." >&2
+  fi
+}
+
 start_outgoing_proxy_if_needed() {
   # If a custom outgoing proxy is set, do not start internal proxy
   if [[ -n "${OUTGOING_PROXY:-}" ]]; then
@@ -122,17 +151,18 @@ start_outgoing_proxy_if_needed() {
   export OUTGOING_PROXY="http://127.0.0.1:3128"
 }
 
-if [[ -n "${DATABASE_URL:-}" ]]; then
-  if [[ -z "${DATABASE_PASSWORD:-}" && -e "${DATABASE_PASSWORD__FILE:-}" ]]; then
-    DATABASE_PASSWORD="$(read_secret "${DATABASE_PASSWORD__FILE}")"
-    export DATABASE_URL="${DATABASE_URL/\$\{DATABASE_PASSWORD\}/${DATABASE_PASSWORD}}"
-  fi
-fi
-
+# Every variable documented as accepting a __FILE counterpart, so that the
+# convention does not quietly do nothing for one of them. DATABASE_PASSWORD is
+# only exported: the ${DATABASE_PASSWORD} placeholder in DATABASE_URL is expanded
+# by the server, which is the only way the `db:` scripts see the same value.
+load_secret DATABASE_URL
+load_secret DATABASE_PASSWORD
 load_secret SECRET_KEY
 load_secret DEFAULT_ADMIN_PASSWORD
 load_secret S3_SECRET_ACCESS_KEY
 load_secret SMTP_PASSWORD
+
+ensure_runtime_directories
 
 start_outgoing_proxy_if_needed
 

@@ -7,30 +7,31 @@ const path = require('path');
 const dotenv = require('dotenv');
 const _ = require('lodash');
 
+const { resolveDatabaseConfig } = require('../utils/database-config');
+
 dotenv.config({
   path: path.resolve(__dirname, '../.env'),
   quiet: true,
 });
 
-function buildSSLConfig() {
-  if (process.env.KNEX_REJECT_UNAUTHORIZED_SSL_CERTIFICATE === 'false') {
-    return {
-      rejectUnauthorized: false,
-    };
-  }
-
-  return false;
-}
+// Resolved after the environment file is loaded, and by the same code the app
+// uses, so that a `db:` script run by hand connects exactly as the app does
+const { url, ssl, searchPath } = resolveDatabaseConfig();
 
 module.exports = {
   client: 'pg',
   connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: buildSSLConfig(),
+    connectionString: url,
+    ssl,
   },
+  searchPath,
   migrations: {
     tableName: 'migration',
     directory: path.join(__dirname, 'migrations'),
+    // Without this the migration table lands in whichever schema the search path
+    // happens to resolve to first, which is not necessarily the one the tables
+    // were created in
+    schemaName: searchPath && searchPath[0],
   },
   seeds: {
     directory: path.join(__dirname, 'seeds'),

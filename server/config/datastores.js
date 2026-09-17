@@ -15,7 +15,15 @@
 
 const pg = require('pg');
 
+const { resolveDatabaseConfig, applySearchPathToEnvironment } = require('../utils/database-config');
+
 pg.types.setTypeParser(pg.types.builtins.TIMESTAMP, (value) => new Date(`${value}Z`));
+
+// Resolved once, here and in `db/knexfile.js`, so that the app and the `db:`
+// scripts cannot end up connecting on different terms
+const { url, ssl, searchPath } = resolveDatabaseConfig();
+
+applySearchPathToEnvironment(searchPath);
 
 module.exports.datastores = {
   /**
@@ -51,6 +59,11 @@ module.exports.datastores = {
      */
 
     adapter: 'sails-postgresql',
-    url: process.env.DATABASE_URL,
+    url,
+
+    // sails-postgresql assembles its connection from the parts of the URL it
+    // recognises and throws the query string away, so the TLS settings have to be
+    // handed to node-postgres beside it
+    ssl,
   },
 };
