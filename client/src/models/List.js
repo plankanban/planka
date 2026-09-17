@@ -389,6 +389,11 @@ export default class extends BaseModel {
       cardModels = filterCardLabels(cardModels, filterLabelIds, filterExcludedLabelIds);
     }
 
+    if (this.board.filterNoMember) {
+      cardModels = cardModels.filter((cardModel) => cardModel.users.toRefArray().length === 0);
+      return cardModels;
+    }
+
     return cardModels;
   }
 

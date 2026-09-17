@@ -162,6 +162,14 @@ const Filters = React.memo(() => {
 
   const isSearchActive = search || isSearchFocused;
 
+  const handleNoMemberClick = useCallback(() => {
+    if (board.filterNoMember) {
+      dispatch(entryActions.removeNoMemberFromFilterInCurrentBoard());
+    } else {
+      dispatch(entryActions.setNoMemberToFilterInCurrentBoard());
+    }
+  }, [dispatch, board.filterNoMember]);
+
   return (
     <>
       <span className={styles.filter}>
@@ -176,6 +184,13 @@ const Filters = React.memo(() => {
             {userIds.length === 0 && <span className={styles.filterLabel}>{t('common.all')}</span>}
           </button>
         </BoardMembershipsPopup>
+        <button
+          type="button"
+          className={classNames(styles.filterButton, styles.filterLabel)}
+          onClick={handleNoMemberClick}
+        >
+          {t('common.noMember')}
+        </button>
         {userIds.length === 0 && withCurrentUserSelector && (
           <Tooltip content={t('action.filterByCurrentUser')}>
             <button type="button" className={styles.filterButton} onClick={handleCurrentUserSelect}>

@@ -44,5 +44,13 @@ export default function* boardsWatchers() {
     takeEvery(EntryActionTypes.BOARD_DELETE_HANDLE, ({ payload: { board } }) =>
       services.handleBoardDelete(board),
     ),
+    takeEvery(
+      EntryActionTypes.NO_MEMBER_TO_FILTER_IN_CURRENT_BOARD_SET,
+      services.setNoMemberToFilterInCurrentBoard,
+    ),
+    takeEvery(
+      EntryActionTypes.NO_MEMBER_FROM_FILTER_IN_CURRENT_BOARD_REMOVE,
+      services.removeNoMemberFromFilterInCurrentBoard,
+    ),
   ]);
 }
