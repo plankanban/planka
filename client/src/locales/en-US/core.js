@@ -355,6 +355,8 @@ export default {
       project: 'Project',
       projectNotFound_title: 'Project Not Found',
       projectOwner: 'Project owner',
+      recoveredDraftDescriptionChanged:
+        'Recovered draft — description changed since; review before saving',
       referenceDataAndKnowledgeStorage: 'Reference data and knowledge storage.',
       regenerateApiKey_title: 'Regenerate API Key',
       rejectUnauthorizedTlsCertificates: 'Reject unauthorized TLS certificates',

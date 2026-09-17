@@ -4,7 +4,7 @@
  */
 
 import keyBy from 'lodash/keyBy';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,8 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import { usePopupInClosableContext } from '../../../hooks';
 import { isUsableMarkdownElement } from '../../../utils/element-helpers';
-import { mentionTextToMarkup } from '../../../utils/mentions';
+import { mentionMarkupToText, mentionTextToMarkup } from '../../../utils/mentions';
+import { clearDraftSnapshot, loadDraftSnapshot } from '../../../utils/description-draft';
 import { BoardMembershipRoles, CardTypes, ListTypes } from '../../../constants/Enums';
 import { CardTypeIcons } from '../../../constants/Icons';
 import { ClosableContext } from '../../../contexts';
@@ -57,6 +58,7 @@ const StoryContent = React.memo(() => {
     selectors.selectImageAttachmentIdsExceptCoverForCurrentCard,
   );
 
+  const currentUserId = useSelector(selectors.selectCurrentUserId);
   const isJoined = useSelector(selectors.selectIsCurrentUserInCurrentCard);
 
   const list = useSelector((state) => selectListById(state, card.listId));
@@ -152,7 +154,37 @@ const StoryContent = React.memo(() => {
   const [t] = useTranslation();
   const [descriptionDraft, setDescriptionDraft] = useState(null);
   const [isEditDescriptionOpened, setIsEditDescriptionOpened] = useState(false);
+  const [recoveredDraftConflict, setRecoveredDraftConflict] = useState(false);
   const [activateClosable, deactivateClosable, setIsClosableActive] = useContext(ClosableContext);
+
+  // Pick up a draft that an uncontrolled close (crash, killed tab) left behind.
+  // If the description moved on in the meantime, flag it so the chip warns
+  // before the user saves over a change they never saw. Mount only — a later
+  // description update must not resurrect a draft the user just discarded.
+  useEffect(() => {
+    const snapshot = loadDraftSnapshot(currentUserId, card.id);
+
+    if (snapshot && snapshot.value !== mentionMarkupToText(card.description || '')) {
+      setDescriptionDraft(snapshot.value);
+
+      if (snapshot.baseline && snapshot.baseline !== card.description) {
+        setRecoveredDraftConflict(true);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Baseline for that comparison. There is no server-side description hash
+  // here, so the description itself travels with the snapshot — both the write
+  // and the compare happen in this browser anyway.
+  const descriptionDraftSnapshot = useMemo(
+    () => ({
+      userId: currentUserId,
+      cardId: card.id,
+      baseline: card.description || undefined,
+    }),
+    [currentUserId, card.id, card.description],
+  );
 
   const handleListSelect = useCallback(
     (listId) => {
@@ -258,10 +290,20 @@ const StoryContent = React.memo(() => {
     setIsEditDescriptionOpened(true);
   }, []);
 
-  const handleEditDescriptionClose = useCallback((nextDescriptionDraft) => {
-    setDescriptionDraft(nextDescriptionDraft);
-    setIsEditDescriptionOpened(false);
-  }, []);
+  const handleEditDescriptionClose = useCallback(
+    (nextDescriptionDraft) => {
+      setDescriptionDraft(nextDescriptionDraft);
+      setIsEditDescriptionOpened(false);
+      // Every normal close drops the crash snapshot, saved or cancelled alike —
+      // a leftover snapshot is the signal that the close was not normal.
+      clearDraftSnapshot(currentUserId, card.id);
+
+      if (!nextDescriptionDraft) {
+        setRecoveredDraftConflict(false);
+      }
+    },
+    [currentUserId, card.id],
+  );
 
   const handleBeforeGalleryOpen = useCallback(
     (gallery) => {
@@ -418,6 +460,7 @@ const StoryContent = React.memo(() => {
                       <EditMarkdown
                         defaultValue={card.description}
                         draftValue={descriptionDraft}
+                        draftSnapshot={descriptionDraftSnapshot}
                         placeholder="common.enterDescription"
                         onUpdate={handleDescriptionUpdate}
                         onClose={handleEditDescriptionClose}
@@ -425,7 +468,11 @@ const StoryContent = React.memo(() => {
                     ) : (
                       <>
                         {descriptionDraft && (
-                          <span className={styles.draftChip}>{t('common.unsavedChanges')}</span>
+                          <span className={styles.draftChip}>
+                            {recoveredDraftConflict
+                              ? t('common.recoveredDraftDescriptionChanged')
+                              : t('common.unsavedChanges')}
+                          </span>
                         )}
                         {card.description ? (
                           /* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
