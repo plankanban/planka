@@ -51,8 +51,8 @@ serviceAccount:
 
 podAnnotations: {}
 
-podSecurityContext: {}
-  # fsGroup: 2000
+podSecurityContext:
+  fsGroup: 1000
 
 # Annotations to add to the deployment
 deploymentAnnotations: {}
