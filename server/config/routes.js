@@ -66,7 +66,13 @@ const serveStatic = async (prefix, getPathSegment, req, res) => {
 
   res.set({
     ...headers,
-    'Cache-Control': `private, max-age=${sails.config.http.cache}, immutable`,
+    // Each upload gets its own directory id, so these URLs really are
+    // immutable. The number is not: sails.config.http.cache is in
+    // milliseconds, because that is the unit serve-static's maxAge option
+    // takes, while max-age in the header is in seconds. Sent unconverted it
+    // read as roughly a thousand years, and Firefox answers an out-of-range
+    // max-age by discarding the whole directive — immutable with it.
+    'Cache-Control': `private, max-age=${Math.floor(sails.config.http.cache / 1000)}, immutable`,
   });
 
   readStream.on('error', () => {
