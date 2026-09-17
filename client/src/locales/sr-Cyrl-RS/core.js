@@ -91,7 +91,7 @@ export default {
       areYouSureYouWantToRemoveThisMemberFromBoard:
         'Да ли заиста желите да уклоните овог члана из ове табле?',
       assignAsOwner_title: 'Додели као власника',
-      atLeastOneListMustBePresent: 'Мора постојати најмање једна листа',
+      atLeastOneListMustBePresent: 'Мора постојати најмање један списак',
       attachment: 'Прилог',
       attachments: 'Прилози',
       authentication: 'Аутентификација',
@@ -127,10 +127,10 @@ export default {
       cardActions_title: 'Радње над картицом',
       cardNotFound_title: 'Картица није пронађена',
       cardsOnThisListAreAvailableToAllBoardMembers:
-        'Картице на овој листи су доступне свим члановима табле.',
+        'Картице на овом списку су доступне свим члановима табле.',
       cardsOnThisListAreCompleteAndReadyToBeArchived:
-        'Картице на овој листи су завршене и спремне за архивирање.',
-      cardsOnThisListAreReadyToBeWorkedOn: 'Картице на овој листи су спремне за рад.',
+        'Картице на овом списку су завршене и спремне за архивирање.',
+      cardsOnThisListAreReadyToBeWorkedOn: 'Картице на овом списку су спремне за рад.',
       clearFilter: 'Очисти филтер',
       clickHereOrRefreshPageToUpdate: '<0>Кликните овде</0> или освежите страницу за ажурирање.',
       clientHostnameInEhlo: 'Име хоста клијента у EHLO',

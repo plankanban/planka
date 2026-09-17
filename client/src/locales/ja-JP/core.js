@@ -132,7 +132,7 @@ export default {
       clearFilter: '絞り込みをクリア',
       clickHereOrRefreshPageToUpdate: '<0>ここをクリック</0>するかページを更新してください',
       clientHostnameInEhlo: 'EHLOでのクライアントホスト名',
-      closed: '閉じる',
+      closed: '終了',
       color: '色',
       comments: 'コメント',
       confirmCodesSaved: 'これらのコードを安全な場所に保存しました。',

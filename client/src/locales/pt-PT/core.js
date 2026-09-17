@@ -512,7 +512,7 @@ export default {
       addToCard: 'Adicionar ao cartão',
       addUser: 'Adicionar utilizador',
       addWebhook: 'Adicionar webhook',
-      archive: 'Arquivo',
+      archive: 'Arquivar',
       archiveCard: 'Arquivar cartão',
       archiveCard_title: 'Arquivar cartão',
       archiveCards: 'Arquivar cartões',

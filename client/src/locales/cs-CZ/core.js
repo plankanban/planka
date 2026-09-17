@@ -313,7 +313,7 @@ export default {
       limitCardTypesToDefaultOne: 'Omezit typy karet na jeden výchozí',
       linkToCard: 'Odkaz na kartu',
       list: 'Seznam',
-      listActions_title: 'Seznam akcí',
+      listActions_title: 'Akce seznamu',
       lists: 'Seznamy',
       makeProjectPrivate_title: 'Nastavit projekt jako soukromý',
       makeProjectShared_title: 'Vytvořit sdílený projekt',

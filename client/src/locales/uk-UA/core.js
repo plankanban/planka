@@ -379,7 +379,7 @@ export default {
       saveFilter_title: 'Зберегти фільтр',
       saveThisKeyItWillNotBeShownAgain: 'Збережіть цей ключ — він більше не відображатиметься!',
       savedFilters_title: 'Збережені фільтри',
-      searchCards: 'Картки пошуку...',
+      searchCards: 'Пошук карток...',
       searchCustomFieldGroups: 'Пошук користувацьких груп полів...',
       searchCustomFields: 'Пошук користувацьких полів...',
       searchLabels: 'Пошук міток...',
