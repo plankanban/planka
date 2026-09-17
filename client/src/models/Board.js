@@ -36,6 +36,7 @@ export default class extends BaseModel {
     defaultCardType: attr(),
     limitCardTypesToDefaultOne: attr(),
     alwaysDisplayCardCreator: attr(),
+    showCardCounter: attr(),
     displayCardAges: attr(),
     expandTaskListsByDefault: attr(),
     context: attr(),

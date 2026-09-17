@@ -25,6 +25,7 @@
  *         - defaultCardType
  *         - limitCardTypesToDefaultOne
  *         - alwaysDisplayCardCreator
+ *         - showCardCounter
  *         - displayCardAges
  *         - expandTaskListsByDefault
  *         - createdAt
@@ -67,6 +68,11 @@
  *           type: boolean
  *           default: false
  *           description: Whether to always display the card creator
+ *           example: false
+ *         showCardCounter:
+ *           type: boolean
+ *           default: false
+ *           description: Whether a list's add-card button shows how many cards it holds
  *           example: false
  *         displayCardAges:
  *           type: boolean
@@ -142,6 +148,12 @@ module.exports = {
       type: 'boolean',
       defaultsTo: false,
       columnName: 'always_display_card_creator',
+    },
+    // Whether a list's add-card button carries the number of cards it holds.
+    showCardCounter: {
+      type: 'boolean',
+      defaultsTo: false,
+      columnName: 'show_card_counter',
     },
     displayCardAges: {
       type: 'boolean',

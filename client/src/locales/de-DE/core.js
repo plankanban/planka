@@ -398,6 +398,9 @@ export default {
       settings: 'Einstellungen',
       shared: 'Geteilt',
       sharedWithMe_title: 'Mit mir geteilt',
+      showCardCounter: 'Kartenzähler in Listen anzeigen',
+      showCardCounterHint:
+        'Zeigt die Anzahl der Karten einer Liste auf ihrer Schaltfläche zum Hinzufügen einer Karte an. Gezählt werden alle Karten der Liste, nicht nur die von einem Filter übrig gelassenen.',
       showOnFrontOfCard: 'Auf der Vorderseite der Karte anzeigen',
       smtp: 'SMTP',
       sortList_title: 'Liste sortieren',

@@ -65,6 +65,27 @@ export const makeSelectFilteredCardIdsByListId = () =>
 
 export const selectFilteredCardIdsByListId = makeSelectFilteredCardIdsByListId();
 
+// How many cards the list holds.
+//
+// Unfiltered on purpose: a filter hides cards, it does not remove them, and a
+// count that fell as the filter narrowed would say the list had emptied.
+export const makeSelectCardCountByListId = () =>
+  createSelector(
+    orm,
+    (_, id) => id,
+    ({ List }, id) => {
+      const listModel = List.withId(id);
+
+      if (!listModel) {
+        return null;
+      }
+
+      return listModel.getCardsModelArray().length;
+    },
+  );
+
+export const selectCardCountByListId = makeSelectCardCountByListId();
+
 export const selectIsListWithIdAvailableForCurrentUser = createSelector(
   orm,
   (_, id) => id,
@@ -171,6 +192,8 @@ export default {
   selectCardIdsByListId,
   makeSelectFilteredCardIdsByListId,
   selectFilteredCardIdsByListId,
+  makeSelectCardCountByListId,
+  selectCardCountByListId,
   selectIsListWithIdAvailableForCurrentUser,
   selectCurrentListId,
   selectCurrentList,

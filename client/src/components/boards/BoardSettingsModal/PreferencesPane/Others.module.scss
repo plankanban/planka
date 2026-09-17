@@ -4,6 +4,15 @@
  */
 
 :global(#app) {
+  // Sits under the toggle it belongs to: pulled up out of that toggle's 16px
+  // gap so only a few pixels separate the two, and carrying the full 16px on
+  // its own underside so the next toggle keeps its distance.
+  .hint {
+    color: #666666;
+    margin-bottom: 16px;
+    margin-top: -12px;
+  }
+
   .radio {
     margin-bottom: 16px;
     width: 100%;

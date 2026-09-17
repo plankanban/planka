@@ -375,6 +375,9 @@ export default {
       settings: 'Settings',
       shared: 'Shared',
       sharedWithMe_title: 'Shared With Me',
+      showCardCounter: 'Show card counter in lists',
+      showCardCounterHint:
+        'Adds the number of cards a list holds to its add-card button. The count covers every card in the list, not only the ones a filter leaves visible.',
       showOnFrontOfCard: 'Show on front of card',
       smtp: 'SMTP',
       sortList_title: 'Sort List',

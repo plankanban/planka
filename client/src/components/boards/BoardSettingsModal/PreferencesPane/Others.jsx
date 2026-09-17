@@ -45,6 +45,15 @@ const Others = React.memo(() => {
       />
       <Radio
         toggle
+        name="showCardCounter"
+        checked={board.showCardCounter}
+        label={t('common.showCardCounter')}
+        className={styles.radio}
+        onChange={handleChange}
+      />
+      <p className={styles.hint}>{t('common.showCardCounterHint')}</p>
+      <Radio
+        toggle
         name="displayCardAges"
         checked={board.displayCardAges}
         label={t('common.displayCardAges')}

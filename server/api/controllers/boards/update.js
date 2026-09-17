@@ -55,6 +55,10 @@
  *                 type: boolean
  *                 description: Whether to always display card creators
  *                 example: false
+ *               showCardCounter:
+ *                 type: boolean
+ *                 description: Whether a list's add-card button shows how many cards it holds
+ *                 example: false
  *               displayCardAges:
  *                 type: boolean
  *                 description: Whether to display card ages
@@ -124,6 +128,9 @@ module.exports = {
     alwaysDisplayCardCreator: {
       type: 'boolean',
     },
+    showCardCounter: {
+      type: 'boolean',
+    },
     displayCardAges: {
       type: 'boolean',
     },
@@ -167,6 +174,7 @@ module.exports = {
         'defaultCardType',
         'limitCardTypesToDefaultOne',
         'alwaysDisplayCardCreator',
+        'showCardCounter',
         'displayCardAges',
         'expandTaskListsByDefault',
       );
@@ -186,6 +194,7 @@ module.exports = {
       'defaultCardType',
       'limitCardTypesToDefaultOne',
       'alwaysDisplayCardCreator',
+      'showCardCounter',
       'displayCardAges',
       'expandTaskListsByDefault',
       'isSubscribed',
