@@ -53,6 +53,10 @@ podAnnotations: {}
 
 podSecurityContext:
   fsGroup: 1000
+  # Without this Kubernetes chowns every file on the volume on each pod start,
+  # which on an instance with a lot of attachments delays every restart for as
+  # long as the walk takes. OnRootMismatch pays that once.
+  fsGroupChangePolicy: OnRootMismatch
 
 # Annotations to add to the deployment
 deploymentAnnotations: {}
