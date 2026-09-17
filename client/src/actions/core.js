@@ -81,6 +81,11 @@ const toggleEditMode = (isEnabled) => ({
   },
 });
 
+const focusBoardFilter = () => ({
+  type: ActionTypes.BOARD_FILTER_FOCUS,
+  payload: {},
+});
+
 const updateHomeView = (value) => ({
   type: ActionTypes.HOME_VIEW_UPDATE,
   payload: {
@@ -114,6 +119,7 @@ export default {
   initializeCore,
   toggleFavorites,
   toggleEditMode,
+  focusBoardFilter,
   updateHomeView,
   logout,
   showAutoLogoutWarning,

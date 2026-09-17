@@ -13,6 +13,13 @@ const openAdministrationModal = () => ({
   },
 });
 
+const openKeyboardShortcutsModal = () => ({
+  type: EntryActionTypes.MODAL_OPEN,
+  payload: {
+    type: ModalTypes.KEYBOARD_SHORTCUTS,
+  },
+});
+
 const openAboutModal = () => ({
   type: EntryActionTypes.MODAL_OPEN,
   payload: {
@@ -68,6 +75,7 @@ const closeModal = () => ({
 
 export default {
   openAdministrationModal,
+  openKeyboardShortcutsModal,
   openAboutModal,
   openUserSettingsModal,
   openAddProjectModal,

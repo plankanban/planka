@@ -40,6 +40,11 @@ const UserActionsStep = React.memo(({ onClose }) => {
     onClose();
   }, [onClose, dispatch]);
 
+  const handleKeyboardShortcutsClick = useCallback(() => {
+    dispatch(entryActions.openKeyboardShortcutsModal());
+    onClose();
+  }, [onClose, dispatch]);
+
   const handleAboutClick = useCallback(() => {
     dispatch(entryActions.openAboutModal());
     onClose();
@@ -98,6 +103,10 @@ const UserActionsStep = React.memo(({ onClose }) => {
               )}
             </>
           )}
+          <Menu.Item className={styles.menuItem} onClick={handleKeyboardShortcutsClick}>
+            <Icon name="keyboard" className={styles.menuItemIcon} />
+            {t('common.keyboardShortcuts')}
+          </Menu.Item>
           <Menu.Item className={styles.menuItem} onClick={handleAboutClick}>
             <Icon name="info circle" className={styles.menuItemIcon} />
             {t('common.aboutApp', {

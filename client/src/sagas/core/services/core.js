@@ -13,6 +13,8 @@ import api from '../../../api';
 import i18n from '../../../i18n';
 import { removeAccessToken } from '../../../utils/access-token-storage';
 import { forgetBoardViews } from '../../../utils/board-view-memory';
+import { forgetListScrolls } from '../../../utils/list-scroll-memory';
+import { removeLoginRedirect, setLoginRedirect } from '../../../utils/login-redirect-storage';
 
 export function* initializeCore() {
   const { item: bootstrap } = yield call(request, api.getBootstrap); // TODO: handle error
@@ -102,6 +104,10 @@ export function* toggleEditMode(isEnabled) {
   yield put(actions.toggleEditMode(isEnabled));
 }
 
+export function* focusBoardFilter() {
+  yield put(actions.focusBoardFilter());
+}
+
 export function* updateHomeView(value) {
   yield put(actions.updateHomeView(value));
 
@@ -117,10 +123,23 @@ export function* updateHomeView(value) {
 }
 
 export function* logout(revokeAccessToken) {
+  // A session that ended without being asked to — a token that expired or was
+  // revoked underneath the user — should drop them back where they were once
+  // they sign in again. An explicit sign-out must not, and clears anything
+  // remembered before it.
+  if (revokeAccessToken) {
+    yield call(removeLoginRedirect);
+  } else {
+    const location = yield select(selectors.selectLocationPath);
+
+    yield call(setLoginRedirect, location);
+  }
+
   yield call(removeAccessToken);
   // Everything this window was holding about the boards it had open. None of it
   // belongs to the next person to sign in here.
   yield call(forgetBoardViews);
+  yield call(forgetListScrolls);
 
   if (revokeAccessToken) {
     yield put(actions.logout.revokeAccessToken());
@@ -140,6 +159,7 @@ export default {
   changeCoreLanguage,
   toggleFavorites,
   toggleEditMode,
+  focusBoardFilter,
   updateHomeView,
   logout,
 };

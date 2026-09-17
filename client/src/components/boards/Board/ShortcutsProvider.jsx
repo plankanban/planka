@@ -40,6 +40,9 @@ const canCutCard = (boardMembership) =>
 const canPasteCard = (boardMembership) =>
   !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 
+const canAddCard = (boardMembership) =>
+  !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
+
 const canEditCardName = (boardMembership, list) => {
   if (isListArchiveOrTrash(list)) {
     return false;
@@ -72,6 +75,25 @@ const canUseCardLabels = (boardMembership, list) => {
   return !!boardMembership && boardMembership.role === BoardMembershipRoles.EDITOR;
 };
 
+// Which list a board-level action lands in: the hovered one on a kanban board,
+// else whatever single list the current context is showing. Shared by the card
+// paste and the add-card shortcut so the two can never disagree.
+const resolveTargetListId = (state, board, hoveredListId) => {
+  // The board can be momentarily absent while one is being swapped out, and a
+  // keypress in that window must do nothing rather than throw.
+  if (!board) {
+    return null;
+  }
+
+  if (board.context === BoardContexts.BOARD) {
+    return board.view === BoardViews.KANBAN
+      ? hoveredListId
+      : selectors.selectFirstKanbanListId(state);
+  }
+
+  return selectors.selectCurrentListId(state);
+};
+
 const ShortcutsProvider = React.memo(({ children }) => {
   const { cardId, boardId } = useSelector(selectors.selectPath);
 
@@ -80,10 +102,11 @@ const ShortcutsProvider = React.memo(({ children }) => {
   const selectedListRef = useRef(null);
   const selectedCardRef = useRef(null);
 
-  const handleListMouseEnter = useCallback((id, onPaste) => {
+  const handleListMouseEnter = useCallback((id, onPaste, onCardAdd) => {
     selectedListRef.current = {
       id,
       onPaste,
+      onCardAdd,
     };
   }, []);
 
@@ -168,17 +191,7 @@ const ShortcutsProvider = React.memo(({ children }) => {
       }
 
       const board = selectors.selectCurrentBoard(state);
-
-      let listId;
-      if (board.context === BoardContexts.BOARD) {
-        if (board.view === BoardViews.KANBAN) {
-          listId = selectedListRef.current?.id;
-        } else {
-          listId = selectors.selectFirstKanbanListId(state);
-        }
-      } else {
-        listId = selectors.selectCurrentListId(state);
-      }
+      const listId = resolveTargetListId(state, board, selectedListRef.current?.id);
 
       if (!listId) {
         return;
@@ -350,6 +363,53 @@ const ShortcutsProvider = React.memo(({ children }) => {
       }
     };
 
+    // The add-card form is a list's own state, so it can only be opened through
+    // the callback the hovered list registered — and only when that list is the
+    // one the resolution above settled on.
+    const handleCardAdd = (event) => {
+      const state = store.getState();
+
+      // Board-only — with a card open the board's keys belong to the card.
+      if (selectors.selectPath(state).cardId) {
+        return;
+      }
+
+      const board = selectors.selectCurrentBoard(state);
+      const selectedList = selectedListRef.current;
+      const listId = resolveTargetListId(state, board, selectedList?.id);
+
+      if (!listId || !selectedList || selectedList.id !== listId || !selectedList.onCardAdd) {
+        return;
+      }
+
+      const list = selectors.selectListById(state, listId);
+
+      if (!list || !list.isPersisted) {
+        return;
+      }
+
+      const boardMembership = selectors.selectCurrentUserMembershipForCurrentBoard(state);
+
+      if (!canAddCard(boardMembership)) {
+        return;
+      }
+
+      event.preventDefault();
+      selectedList.onCardAdd();
+    };
+
+    const handleFilterFocus = (event) => {
+      const state = store.getState();
+
+      // Board-only — with a card open `f` belongs to the card, not the board.
+      if (selectors.selectPath(state).cardId) {
+        return;
+      }
+
+      event.preventDefault();
+      dispatch(entryActions.focusBoardFilter());
+    };
+
     const handleKeyDown = (event) => {
       if (isActiveTextElement(event.target)) {
         return;
@@ -375,10 +435,22 @@ const ShortcutsProvider = React.memo(({ children }) => {
         return;
       }
 
+      // Matched on the character rather than the physical key: `+` sits
+      // somewhere else on every second layout, and on the numpad besides.
+      if (event.key === '+') {
+        handleCardAdd(event);
+
+        return;
+      }
+
       switch (event.code) {
         case 'KeyE':
         case 'Enter':
           handleCardOpen(event);
+
+          break;
+        case 'KeyF':
+          handleFilterFocus(event);
 
           break;
         case 'KeyL':

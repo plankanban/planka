@@ -17,6 +17,15 @@ export const selectPathname = ({
   },
 }) => pathname;
 
+// Current location as a single router-ready string — pathname plus query and
+// hash — for the places that hand a whole location around rather than inspect
+// its parts (remembering where a login should return to, for one).
+export const selectLocationPath = ({
+  router: {
+    location: { pathname, search, hash },
+  },
+}) => `${pathname}${search || ''}${hash || ''}`;
+
 export const selectPathsMatch = createReselectSelector(selectPathname, (pathname) =>
   matchPaths(pathname, Object.values(Paths)),
 );
@@ -85,6 +94,7 @@ export const selectPath = createReduxOrmSelector(
 
 export default {
   selectPathname,
+  selectLocationPath,
   selectPathsMatch,
   selectPath,
 };

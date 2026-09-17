@@ -16,6 +16,7 @@ import Toaster from '../Toaster';
 import Fixed from '../Fixed';
 import Static from '../Static';
 import AdministrationModal from '../AdministrationModal';
+import KeyboardShortcutsModal from '../KeyboardShortcutsModal';
 import AboutModal from '../AboutModal';
 import AutoLogoutWarningModal from '../AutoLogoutWarningModal';
 import UserSettingsModal from '../../users/UserSettingsModal';
@@ -62,6 +63,10 @@ const Core = React.memo(() => {
     switch (modal.type) {
       case ModalTypes.ADMINISTRATION:
         modalNode = <AdministrationModal />;
+
+        break;
+      case ModalTypes.KEYBOARD_SHORTCUTS:
+        modalNode = <KeyboardShortcutsModal />;
 
         break;
       case ModalTypes.ABOUT:

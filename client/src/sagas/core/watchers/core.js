@@ -16,6 +16,7 @@ export default function* coreWatchers() {
     takeEvery(EntryActionTypes.EDIT_MODE_TOGGLE, ({ payload: { isEnabled } }) =>
       services.toggleEditMode(isEnabled),
     ),
+    takeEvery(EntryActionTypes.BOARD_FILTER_FOCUS, () => services.focusBoardFilter()),
     takeEvery(EntryActionTypes.HOME_VIEW_UPDATE, ({ payload: { value } }) =>
       services.updateHomeView(value),
     ),

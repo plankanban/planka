@@ -11,6 +11,8 @@ export const selectIsFavoritesEnabled = ({ core: { isFavoritesEnabled } }) => is
 
 export const selectIsEditModeEnabled = ({ core: { isEditModeEnabled } }) => isEditModeEnabled;
 
+export const selectFilterFocusNonce = ({ core: { filterFocusNonce } }) => filterFocusNonce;
+
 export const selectClipboard = ({ core: { clipboard } }) => clipboard;
 
 export const selectConfig = ({ core: { config } }) => config;
@@ -35,6 +37,7 @@ export default {
   selectIsLogouting,
   selectIsFavoritesEnabled,
   selectIsEditModeEnabled,
+  selectFilterFocusNonce,
   selectClipboard,
   selectConfig,
   selectAutoLogoutWarning,

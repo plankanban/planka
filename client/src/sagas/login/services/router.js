@@ -7,11 +7,34 @@ import { call, put, select, take } from 'redux-saga/effects';
 import { push } from '../../../lib/redux-router';
 
 import selectors from '../../../selectors';
+import { setLoginRedirect, takeLoginRedirect } from '../../../utils/login-redirect-storage';
 import ActionTypes from '../../../constants/ActionTypes';
 import Paths from '../../../constants/Paths';
 
 export function* goTo(pathname) {
   yield put(push(pathname));
+}
+
+// Whatever location this visit asked for, captured before anything in the login
+// flow gets to rewrite the address bar — see utils/login-redirect-storage.
+export function* rememberLoginRedirect() {
+  const location = yield select(selectors.selectLocationPath);
+
+  yield call(setLoginRedirect, location);
+}
+
+// Returns whether it navigated, so callers can fall back to their default
+// destination when nothing was remembered.
+export function* goToLoginRedirect() {
+  const location = yield call(takeLoginRedirect);
+
+  if (!location) {
+    return false;
+  }
+
+  yield call(goTo, location);
+
+  return true;
 }
 
 export function* goToLogin() {
@@ -55,5 +78,7 @@ export default {
   goTo,
   goToLogin,
   goToRoot,
+  rememberLoginRedirect,
+  goToLoginRedirect,
   handleLocationChange,
 };

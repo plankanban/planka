@@ -4,7 +4,7 @@
  */
 
 import debounce from 'lodash/debounce';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
@@ -95,6 +95,25 @@ const Filters = React.memo(() => {
   );
 
   const [searchFieldRef, handleSearchFieldRef] = useNestedRef('inputRef');
+
+  // The `f` shortcut asks for the caret through the store, since it fires from
+  // outside this tree. Watching the counter rather than a flag means a second
+  // press brings the focus back even though nothing else changed. The ref
+  // starts at the current value so arriving on a board does not steal focus.
+  const filterFocusNonce = useSelector(selectors.selectFilterFocusNonce);
+  const handledFocusNonceRef = useRef(filterFocusNonce);
+
+  useEffect(() => {
+    if (handledFocusNonceRef.current === filterFocusNonce) {
+      return;
+    }
+
+    handledFocusNonceRef.current = filterFocusNonce;
+
+    if (searchFieldRef.current) {
+      searchFieldRef.current.focus();
+    }
+  }, [filterFocusNonce, searchFieldRef]);
 
   const labelModes = useMemo(
     () => ({

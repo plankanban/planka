@@ -15,6 +15,10 @@ const initialState = {
   isLogouting: false,
   isFavoritesEnabled: false,
   isEditModeEnabled: false,
+  // Bumped by every "focus the board filter" request. Filters watches the
+  // number rather than a flag so pressing the shortcut again brings the caret
+  // back even when nothing about the filter has changed.
+  filterFocusNonce: 0,
   modal: null,
   clipboard: null,
   config: null,
@@ -107,6 +111,11 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         isEditModeEnabled: payload.isEnabled,
+      };
+    case ActionTypes.BOARD_FILTER_FOCUS:
+      return {
+        ...state,
+        filterFocusNonce: state.filterFocusNonce + 1,
       };
     case ActionTypes.HOME_VIEW_UPDATE:
       return {
