@@ -21,9 +21,52 @@
 
 const { URL } = require('url');
 
+// Required for its side effect, and required here rather than left to Sails:
+// it settles LOG_LEVEL and reconfigures the transports, and the origins below
+// are logged through those transports the moment this file is evaluated.
+// Config files are loaded in no guaranteed order, so this is the only way to
+// be sure the log policy is in place before the first line goes through it.
+require('../log');
+
 const { customLogger } = require('../../utils/logger');
 
-const origins = process.env.BASE_URL.split(',').map((baseUrl) => new URL(baseUrl).origin);
+// Kept in step with `envToArray` in config/custom.js by hand: there is no
+// module both config files are guaranteed to have loaded first. The reason the
+// entries are trimmed is written out there.
+const baseUrls = (process.env.BASE_URL || '')
+  .split(',')
+  .map((baseUrl) => baseUrl.trim())
+  .filter((baseUrl) => baseUrl);
+
+const origins = baseUrls.reduce((acc, baseUrl) => {
+  try {
+    return [...acc, new URL(baseUrl).origin];
+  } catch (error) {
+    // config/custom.js refuses to start on a BASE_URL it cannot parse and says
+    // so properly. Whichever of the two files is loaded first, there is nothing
+    // to add here beyond not throwing a bare TypeError ahead of that message.
+    return acc;
+  }
+}, []);
+
+// A BASE_URL that is not the address the browser actually used is the single
+// commonest way a self-hosted instance fails: the page loads and then every
+// request behind it is refused, with nothing said anywhere about which two
+// values disagreed. Neither refusal can be reported from inside this app.
+// Sails' CORS middleware does not reject anything — it omits the
+// Access-Control-Allow-Origin header and serves the request, leaving the
+// browser to block the response, so the server never learns it happened. The
+// socket refusal is reported, by sails-hook-sockets, but at `verbose` and
+// without the origins it expected; and `beforeConnect`, the one hook Sails
+// exposes, replaces `onlyAllowOrigins` instead of adding to it, which would
+// take the CORS headers cross-origin clients need down with it.
+//
+// So put the expected half of the comparison on the record before it is needed.
+customLogger.info(`BASE_URL is ${baseUrls.join(', ')}`);
+customLogger.info(
+  `Browser requests are accepted from these origins only: ${origins.join(', ')}. ` +
+    'A browser reaching PLANKA at any other address will load the page and then fail to connect.',
+);
 
 module.exports = {
   /**
@@ -134,6 +177,8 @@ module.exports = {
 
     cors: {
       allRoutes: true,
+      // The first origin serves the client, so it is never a cross-origin
+      // request; the rest are the extra addresses BASE_URL listed.
       allowOrigins: origins.slice(1),
       allowRequestHeaders: ['Authorization'],
       allowCredentials: true,
@@ -221,6 +266,9 @@ module.exports = {
      *
      */
 
+    // A socket from anywhere else is refused during the handshake, and what the
+    // browser shows for that is a bare websocket error. The origins logged at
+    // startup are the list it was compared against.
     onlyAllowOrigins: origins,
 
     /**
@@ -259,6 +307,22 @@ module.exports = {
 
     inspect: false,
     custom: customLogger,
+
+    /**
+     * Sails filters by its own level before it hands anything to the custom
+     * logger, and its default is `info` — so `sails.log.verbose` was dropped
+     * here and never reached Winston at all, whatever LOG_LEVEL said. That is
+     * the level sails-hook-sockets reports a refused socket origin at, which
+     * made the one message naming the origin that was rejected unreachable.
+     *
+     * Passing everything through leaves LOG_LEVEL as the only thing deciding
+     * what is printed, which is what the note above has always claimed. At the
+     * default LOG_LEVEL the output is unchanged: Winston still drops it all
+     * below `warn`. With `inspect: false` above, nothing is formatted on the
+     * way through, so what is dropped costs a function call.
+     */
+
+    level: 'silly',
 
     /**
      * Removes the Sail.js init success logs (ASCII ship art).

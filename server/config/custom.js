@@ -8,6 +8,8 @@
  * https://sailsjs.com/config/custom
  */
 
+/* eslint-disable no-console */
+
 const path = require('path');
 const { URL } = require('url');
 const bytes = require('bytes');
@@ -26,10 +28,63 @@ const envToNumber = (value) => {
 
 const envToBytes = (value) => bytes(value);
 
-const envToArray = (value) => (value ? value.split(',') : []);
+// Operators write these lists the way they read them — `http://a, http://b` —
+// and the space after the comma belongs to the comma, not to the value. The
+// URL parser forgives it, so the origins built below survive; everything that
+// compares these strings as strings does not. A schema reads as ` discord`
+// and matches nothing, and a `baseUrl` with a space in it goes out in every
+// link PLANKA sends. An entry that was only separators is not an entry at all
+// and becomes `new URL('')` somewhere downstream.
+const envToArray = (value) =>
+  value
+    ? value
+        .split(',')
+        .map((item) => item.trim())
+        .filter((item) => item)
+    : [];
 
-const baseUrl = envToArray(process.env.BASE_URL)[0];
-const parsedBasedUrl = new URL(baseUrl);
+const RULE = '─'.repeat(72);
+
+// Links, CORS origins and socket origins are all built from BASE_URL, so an
+// unusable one is fatal however we handle it. The only thing left to decide is
+// whether the operator is told which variable to look at, or handed
+// `TypeError: Invalid URL` from a file they have never opened.
+const exitWithUnusableBaseUrl = (problem, detail) => {
+  console.error(RULE);
+  console.error(`BASE_URL ${problem}`);
+  console.error('');
+  detail.forEach((line) => console.error(`  ${line}`));
+  console.error('');
+  console.error('  It is the address browsers use to reach this instance, scheme included:');
+  console.error('');
+  console.error('    BASE_URL=https://planka.example.com');
+  console.error(RULE);
+
+  return process.exit(1);
+};
+
+const baseUrls = envToArray(process.env.BASE_URL);
+
+if (baseUrls.length === 0) {
+  exitWithUnusableBaseUrl('is not set.', ['PLANKA cannot start without it.']);
+}
+
+// Every entry, not only the first: config/env/production.js turns all of them
+// into origins, and the second one failing there produces the same bare
+// TypeError with even less to go on.
+const parsedBaseUrls = baseUrls.map((value) => {
+  try {
+    return new URL(value);
+  } catch (error) {
+    return exitWithUnusableBaseUrl(`contains "${value}", which is not a URL.`, [
+      'A missing scheme is the usual reason: "planka.example.com" is not a URL,',
+      '"https://planka.example.com" is.',
+    ]);
+  }
+});
+
+const baseUrl = baseUrls[0];
+const parsedBasedUrl = parsedBaseUrls[0];
 
 module.exports.custom = {
   /**
