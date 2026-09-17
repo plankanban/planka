@@ -20,6 +20,74 @@
     }
   }
 
+  // Chip in the chips view. Same visual family as the list view's `.name`
+  // chip (Item.module.scss), minus the drag handle and edit button. The colour
+  // comes from the globalStyles `.background<Colour>` class applied alongside.
+  // `position: relative` and the reserved right padding leave room for the
+  // active chip's checkmark without the text running under it.
+  .chip {
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 20px;
+    max-width: 100%;
+    overflow: hidden;
+    padding: 8px 24px 8px 16px;
+    position: relative;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    transition: box-shadow 120ms ease, opacity 120ms ease;
+    user-select: none;
+    white-space: nowrap;
+
+    &:hover {
+      opacity: 0.92;
+    }
+  }
+
+  // Assigned chip. The inset ring reads as "selected" on every one of the 85
+  // label colours, where a border colour would only work on some; the outer
+  // shadow lifts it off the popup so it separates from the dimmed chips at a
+  // glance; the checkmark repeats the list view's idiom (a rotated "Г").
+  .chipActive {
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55), 0 10px 28px rgba(0, 0, 0, 0.65),
+      0 4px 10px rgba(0, 0, 0, 0.55), 0 1px 3px rgba(0, 0, 0, 0.45);
+
+    &:after {
+      bottom: 3px;
+      color: #fff;
+      content: "Г";
+      font-size: 14px;
+      font-weight: normal;
+      line-height: 28px;
+      position: absolute;
+      right: 4px;
+      text-align: center;
+      text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+      transform: rotate(-135deg);
+      width: 20px;
+    }
+  }
+
+  .chipGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 2px 0;
+  }
+
+  // Unassigned chip — faded right back so the assigned ones read as the
+  // foreground of the grid. Nothing else distinguishes the two states.
+  .chipInactive {
+    opacity: 0.25;
+  }
+
   .droppableHack {
     display: none;
     position: fixed;
@@ -48,6 +116,43 @@
       background-clip: padding-box;
       border-left: 0.25em transparent solid;
       border-radius: 3px;
+    }
+  }
+
+  .searchField {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  // Keeps the search field and the view-mode toggle on one line; the field
+  // takes the slack, the button stays square.
+  .searchRow {
+    align-items: center;
+    display: flex;
+    gap: 6px;
+  }
+
+  // Ghost icon button, dimmed until hovered, matching how the row's edit
+  // button behaves (Item.module.scss) so it reads as secondary to the search.
+  .viewModeButton {
+    align-items: center;
+    background: transparent;
+    border: none;
+    border-radius: 3px;
+    color: #6b808c;
+    cursor: pointer;
+    display: inline-flex;
+    flex: 0 0 auto;
+    height: 32px;
+    justify-content: center;
+    outline: none;
+    padding: 0;
+    transition: background 120ms ease, color 120ms ease;
+    width: 32px;
+
+    &:hover {
+      background: #e9e9e9;
+      color: #17394d;
     }
   }
 }

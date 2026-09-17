@@ -3,13 +3,16 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useMemo } from 'react';
+import upperFirst from 'lodash/upperFirst';
+import camelCase from 'lodash/camelCase';
+import classNames from 'classnames';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { Button } from 'semantic-ui-react';
-import { Input, Popup } from '../../../lib/custom-ui';
+import { Button, Icon } from 'semantic-ui-react';
+import { Input, Popup, Tooltip } from '../../../lib/custom-ui';
 
 import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
@@ -26,6 +29,42 @@ import globalStyles from '../../../styles.module.scss';
 const StepTypes = {
   ADD: 'ADD',
   EDIT: 'EDIT',
+};
+
+// Two view modes:
+//   • LIST  — full row per label (drag handle + chip + edit button). The
+//             original / default. Used for management: reorder, edit, delete.
+//   • CHIPS — compact grid of just the coloured chips, flex-wrapping onto
+//             several rows. Unchecked chips are dimmed so the assigned ones
+//             pop by contrast. No edit / drag affordances — this view is for
+//             quick toggling only.
+const ViewModes = {
+  LIST: 'LIST',
+  CHIPS: 'CHIPS',
+};
+
+// The preference outlives the popup (which remounts on every open) and the
+// browser session, so it lives in localStorage rather than in the store. The
+// `plankaLabels` namespace keeps it clear of any other module's keys.
+const VIEW_MODE_STORAGE_KEY = 'plankaLabels.viewMode';
+
+const loadViewMode = () => {
+  try {
+    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    return stored === ViewModes.CHIPS ? ViewModes.CHIPS : ViewModes.LIST;
+  } catch {
+    // Private-mode browsers and blocked site data throw on access, so fall
+    // back to the mode the popup has always opened in.
+    return ViewModes.LIST;
+  }
+};
+
+const persistViewMode = (mode) => {
+  try {
+    window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, mode);
+  } catch {
+    // Storage disabled / full — the current session still remembers via state.
+  }
 };
 
 const LabelsStep = React.memo(
@@ -64,6 +103,43 @@ const LabelsStep = React.memo(
     );
 
     const [searchFieldRef, handleSearchFieldRef] = useNestedRef('inputRef');
+
+    // Lazy initializer so the read happens once per mount, not on every render.
+    const [viewMode, setViewMode] = useState(loadViewMode);
+
+    // The chip grid has no room for the three-state include/exclude cycle, so
+    // the filter popup stays on the list and never offers the switch.
+    const canSwitchViewMode = !isFilterModeEnabled;
+    const isChipsView = canSwitchViewMode && viewMode === ViewModes.CHIPS;
+
+    const handleToggleViewMode = useCallback(() => {
+      setViewMode((prevViewMode) => {
+        const nextViewMode = prevViewMode === ViewModes.LIST ? ViewModes.CHIPS : ViewModes.LIST;
+        persistViewMode(nextViewMode);
+
+        return nextViewMode;
+      });
+    }, []);
+
+    // The same toggle `Item` performs, but against the plain label objects the
+    // board selector hands out. Those lack the Redux-ORM `isPersisted` getter
+    // that `Item` sees through `selectLabelById`, so `!label.isPersisted` would
+    // reject every chip. Test for an explicit `false` instead: a genuinely
+    // unsaved label is still blocked, an undefined one still clicks.
+    const handleChipToggle = useCallback(
+      (label) => {
+        if (label.isPersisted === false) {
+          return;
+        }
+
+        if (currentIds.includes(label.id)) {
+          onDeselect(label.id);
+        } else {
+          onSelect(label.id);
+        }
+      },
+      [currentIds, onSelect, onDeselect],
+    );
 
     const handleDragStart = useCallback(() => {
       document.body.classList.add(globalStyles.dragging);
@@ -129,6 +205,8 @@ const LabelsStep = React.memo(
       }
     }
 
+    const viewModeHint = isChipsView ? t('common.showAsList') : t('common.showAsChips');
+
     return (
       <>
         <Popup.Header onBack={onBack}>
@@ -137,16 +215,34 @@ const LabelsStep = React.memo(
           })}
         </Popup.Header>
         <Popup.Content>
-          <Input
-            fluid
-            ref={handleSearchFieldRef}
-            value={search}
-            placeholder={t('common.searchLabels')}
-            maxLength={128}
-            icon="search"
-            onChange={handleSearchChange}
-          />
-          {filteredLabels.length > 0 && (
+          <div className={styles.searchRow}>
+            <Input
+              fluid
+              ref={handleSearchFieldRef}
+              value={search}
+              placeholder={t('common.searchLabels')}
+              maxLength={128}
+              icon="search"
+              className={styles.searchField}
+              onChange={handleSearchChange}
+            />
+            {/* The glyph shows what the click will give you, not what you are
+            looking at: `th large` while the list shows, `list` while the chips
+            do. */}
+            {canSwitchViewMode && (
+              <Tooltip content={viewModeHint}>
+                <button
+                  type="button"
+                  aria-label={viewModeHint}
+                  className={styles.viewModeButton}
+                  onClick={handleToggleViewMode}
+                >
+                  <Icon fitted name={isChipsView ? 'list' : 'th large'} />
+                </button>
+              </Tooltip>
+            )}
+          </div>
+          {filteredLabels.length > 0 && !isChipsView && (
             <DragDropContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
               <Droppable droppableId="labels" type={DroppableTypes.LABEL}>
                 {({ innerRef, droppableProps, placeholder }) => (
@@ -185,6 +281,30 @@ const LabelsStep = React.memo(
                 )}
               </Droppable>
             </DragDropContext>
+          )}
+          {/* `data-popup-wide-grid` widens the popup wrapper (Popup.module.css)
+          for as long as the grid is on screen, so a few chips fit per row. A
+          <span> rather than a <button> because the popup portal swallows some
+          button click chains — the same reason Item.jsx clicks a span. */}
+          {filteredLabels.length > 0 && isChipsView && (
+            <div className={styles.chipGrid} data-popup-wide-grid>
+              {filteredLabels.map((item) => (
+                /* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+                                            jsx-a11y/no-static-element-interactions */
+                <span
+                  key={item.id}
+                  data-label-id={item.id}
+                  className={classNames(
+                    styles.chip,
+                    currentIds.includes(item.id) ? styles.chipActive : styles.chipInactive,
+                    globalStyles[`background${upperFirst(camelCase(item.color))}`],
+                  )}
+                  onClick={() => handleChipToggle(item)}
+                >
+                  {item.name || item.color}
+                </span>
+              ))}
+            </div>
           )}
           {canAdd && (
             <Button

@@ -25,3 +25,25 @@
   padding: 0 12px 12px !important;
   width: 304px;
 }
+
+/* Chip-grid variant of the labels popup — needs more horizontal room so
+   several chips fit per row instead of one per line. Triggered by
+   `data-popup-wide-grid` on the grid container in LabelsStep.jsx, so the
+   popup is only wide while that view is showing. The widths are forced
+   because Semantic's own `.ui.wide.popup` caps the surface at 350px (and at
+   250px below 768px), which would otherwise clamp the grid back. Below 420px
+   a fixed width plus the viewport padding would clip, so it goes full-width
+   there instead. */
+.wrapper:has([data-popup-wide-grid]) {
+  min-width: 380px !important;
+  max-width: 380px !important;
+  width: 380px !important;
+}
+
+@media only screen and (max-width: 420px) {
+  .wrapper:has([data-popup-wide-grid]) {
+    min-width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
+    width: calc(100vw - 32px) !important;
+  }
+}

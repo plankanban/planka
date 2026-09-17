@@ -403,6 +403,8 @@ export default {
       shortcutsBoard: 'Board',
       shortcutsClipboard: 'Clipboard',
       shortcutsHoveredCard: 'Hovered card',
+      showAsChips: 'Show as chips',
+      showAsList: 'Show as list',
       showCardCounter: 'Show card counter in lists',
       showCardCounterHint:
         'Adds the number of cards a list holds to its add-card button. The count covers every card in the list, not only the ones a filter leaves visible.',
