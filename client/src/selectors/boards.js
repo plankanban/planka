@@ -479,6 +479,24 @@ export const selectFilterExcludedLabelIdsForCurrentBoard = createSelector(
   },
 );
 
+export const selectFilterListIdsForCurrentBoard = createSelector(
+  orm,
+  (state) => selectPath(state).boardId,
+  ({ Board }, id) => {
+    if (!id) {
+      return id;
+    }
+
+    const boardModel = Board.withId(id);
+
+    if (!boardModel) {
+      return boardModel;
+    }
+
+    return boardModel.filterLists.toRefArray().map((list) => list.id);
+  },
+);
+
 export const selectIsBoardWithIdExists = createSelector(
   orm,
   (_, id) => id,
@@ -513,5 +531,6 @@ export default {
   selectFilterUserIdsForCurrentBoard,
   selectFilterLabelIdsForCurrentBoard,
   selectFilterExcludedLabelIdsForCurrentBoard,
+  selectFilterListIdsForCurrentBoard,
   selectIsBoardWithIdExists,
 };

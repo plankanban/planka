@@ -261,6 +261,26 @@ export function* handleListDelete(list, cards) {
   yield put(actions.handleListDelete(list, cards));
 }
 
+export function* addListToBoardFilter(id, boardId) {
+  yield put(actions.addListToBoardFilter(id, boardId));
+}
+
+export function* addListToFilterInCurrentBoard(id) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(addListToBoardFilter, id, boardId);
+}
+
+export function* removeListFromBoardFilter(id, boardId) {
+  yield put(actions.removeListFromBoardFilter(id, boardId));
+}
+
+export function* removeListFromFilterInCurrentBoard(id) {
+  const { boardId } = yield select(selectors.selectPath);
+
+  yield call(removeListFromBoardFilter, id, boardId);
+}
+
 export default {
   createList,
   createListInCurrentBoard,
@@ -275,4 +295,8 @@ export default {
   handleListClear,
   deleteList,
   handleListDelete,
+  addListToBoardFilter,
+  addListToFilterInCurrentBoard,
+  removeListFromBoardFilter,
+  removeListFromFilterInCurrentBoard,
 };
