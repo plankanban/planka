@@ -2,6 +2,40 @@ apiVersion: v2
 name: planka
 description: A Helm chart to deploy PLANKA and it's dependencies.
 
+# Where the chart, the project and its documentation live. Artifact Hub reads
+# these to build the listing, so they are not decoration.
+home: https://planka.app
+icon: https://raw.githubusercontent.com/plankanban/planka/master/assets/logo.png
+sources:
+  - https://github.com/plankanban/planka
+  - https://github.com/plankanban/planka/tree/master/charts/planka
+
+keywords:
+  - planka
+  - kanban
+  - project-management
+  - trello
+  - collaboration
+
+maintainers:
+  - name: PLANKA
+    email: security@planka.group
+    url: https://github.com/plankanban/planka
+
+annotations:
+  artifacthub.io/links: |
+    - name: Chart documentation
+      url: https://docs.planka.cloud/docs/installation/kubernetes/helm-chart/
+    - name: Chart source
+      url: https://github.com/plankanban/planka/tree/master/charts/planka
+    - name: Issue tracker
+      url: https://github.com/plankanban/planka/issues
+    - name: License
+      url: https://github.com/plankanban/planka/blob/master/LICENSE.md
+  artifacthub.io/images: |
+    - name: planka
+      image: ghcr.io/plankanban/planka
+
 # A chart can be either an 'application' or a 'library' chart.
 #
 # Application charts are a collection of templates that can be packaged into versioned archives

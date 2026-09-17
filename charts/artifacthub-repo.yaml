@@ -1,0 +1,16 @@
+# Artifact Hub repository metadata.
+#
+# This is the ownership claim for the published chart repository, not for a
+# single chart, which is why it sits next to the charts rather than inside one.
+# Artifact Hub reads it from the root of the Helm repository, so it has to be
+# served alongside the index.yaml that chart-releaser writes to the gh-pages
+# branch; keeping it here is what makes that copy reviewable.
+#
+# repositoryID is issued by Artifact Hub when the repository is first added from
+# the control panel. Until it is filled in the listing still works, it just
+# cannot be verified as ours.
+repositoryID: ""
+
+owners:
+  - name: PLANKA
+    email: security@planka.group

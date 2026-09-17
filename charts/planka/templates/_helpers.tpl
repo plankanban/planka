@@ -51,6 +51,32 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Render the body of a liveness or readiness probe from its values block.
+The timing fields are only written out when they are set, so an untouched
+values.yaml leaves Kubernetes' own defaults in place.
+*/}}
+{{- define "planka.probe" -}}
+httpGet:
+  path: {{ .path }}
+  port: http
+{{- with .initialDelaySeconds }}
+initialDelaySeconds: {{ . }}
+{{- end }}
+{{- with .periodSeconds }}
+periodSeconds: {{ . }}
+{{- end }}
+{{- with .timeoutSeconds }}
+timeoutSeconds: {{ . }}
+{{- end }}
+{{- with .successThreshold }}
+successThreshold: {{ . }}
+{{- end }}
+{{- with .failureThreshold }}
+failureThreshold: {{ . }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "planka.serviceAccountName" -}}

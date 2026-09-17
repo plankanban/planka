@@ -16,9 +16,28 @@ If you want to fully uninstall this chart including the data, follow [these step
 
 If you just want to spin up an instance using help, please see [these docs](https://docs.planka.cloud/docs/installation/kubernetes/helm-chart/). If you want to make changes to the chart locally, and deploy them, see the below section.
 
+## Installing from the chart repository
+
+Released versions of the chart are published to `https://plankanban.github.io/planka/`, so there is no need to clone anything to install it:
+
+```bash
+helm repo add planka https://plankanban.github.io/planka/
+helm repo update
+export SECRETKEY=$(openssl rand -hex 64)
+helm install planka planka/planka --set secretkey=$SECRETKEY  \
+--set admin_email="demo@demo.demo"  \
+--set admin_password="demo"  \
+--set admin_name="Demo Demo" \
+--set admin_username="demo"
+```
+
+> **Note:** The command `openssl rand -hex 64` is needed to create a random hexadecimal key for planka. On Windows you can use Git Bash to run that command.
+
+The chart version tracks the application version, so `--version 2.2.0` installs PLANKA 2.2.0. The examples further down all use `planka/planka`; swap it for `.` if you are working from a clone as described in the next section.
+
 ## Local Building and Using the Chart
 
-The basic usage of the chart can be found below:
+If you want to change the chart itself and deploy your changes, build it from a clone instead:
 
 ```bash
 git clone https://github.com/plankanban/planka.git
@@ -32,8 +51,6 @@ helm install planka . --set secretkey=$SECRETKEY  \
 --set admin_username="demo"
 ```
 
-> **Note:** The command `openssl rand -hex 64` is needed to create a random hexadecimal key for planka. On Windows you can use Git Bash to run that command.
-
 To access PLANKA you can port forward using the following command:
 
 ```bash
@@ -46,7 +63,7 @@ To access PLANKA externally you can use the following configuration
 
 ```bash
 # HTTP only
-helm install planka . --set secretkey=$SECRETKEY \
+helm install planka planka/planka --set secretkey=$SECRETKEY \
 --set admin_email="demo@demo.demo"  \
 --set admin_password="demo"  \
 --set admin_name="Demo Demo" \
@@ -55,7 +72,7 @@ helm install planka . --set secretkey=$SECRETKEY \
 --set ingress.hosts[0].host=planka.example.dev \
 
 # HTTPS
-helm install planka . --set secretkey=$SECRETKEY \
+helm install planka planka/planka --set secretkey=$SECRETKEY \
 --set admin_email="demo@demo.demo"  \
 --set admin_password="demo"  \
 --set admin_name="Demo Demo" \
@@ -71,7 +88,7 @@ or create a values.yaml file like:
 ````yaml
 secretkey: "<InsertSecretKey>"
 # The admin section needs to be present for new instances of PLANKA, after the first start you can remove the lines starting with admin_. If you want the admin user to be unchangeable admin_email: has to stay
-# After changing the config you have to run ```helm upgrade  planka . -f values.yaml```
+# After changing the config you have to run ```helm upgrade planka planka/planka -f values.yaml```
 
 # Admin user
 admin_email: "demo@demo.demo" # Do not remove if you want to prevent this user from being edited/deleted
@@ -97,7 +114,7 @@ ingress:
 ```
 
 ```bash
-helm install planka . -f values.yaml
+helm install planka planka/planka -f values.yaml
 ```
 
 ### Things to consider if production hosting
@@ -108,9 +125,47 @@ If you want to host PLANKA for more than just playing around with, you might wan
 - Create your `secretkey` once and store it either in a secure vault, or in your `values.yaml` file so it will be the same for upgrading in the future.
 - Specify a password for `postgresql.auth.password` as there have been issues with the postgresql chart generating new passwords locking you out of the data you've already stored. (see [this issue](https://github.com/bitnami/charts/issues/2061))
 
-Any questions or concerns, [raise an issue](https://github.com/Chris-Greaves/planka-helm-chart/issues/new).
+Any questions or concerns, [raise an issue](https://github.com/plankanban/planka/issues/new).
 
 ## Advanced Configuration
+
+### Base URL
+
+PLANKA has to be told the address the browser actually uses, because it only accepts websocket connections from that origin. Getting it wrong is what produces a page that loads blank and never finishes connecting.
+
+The chart works it out for you:
+
+- With ingress enabled, it uses the first ingress host, over `https` when `ingress.tls` is set and `http` when it is not.
+- With ingress disabled, it uses `defaultBaseUrl`, which is `http://localhost:3000` to match the port-forward above. If you port forward to a different port, or reach the service by another address, set it to match:
+
+  ```yaml
+  defaultBaseUrl: "http://planka.internal:8080"
+  ```
+
+- `baseUrl` overrides both, for the cases the chart cannot work out on its own, such as a proxy in front of the ingress that terminates TLS elsewhere:
+
+  ```yaml
+  baseUrl: "https://planka.example.dev"
+  ```
+
+### Probes
+
+Both probes hit `/` on the container port and otherwise leave Kubernetes' defaults alone. If PLANKA is on slow storage, or waits on a database that is still starting, the first start can outlast the probe and the pod restarts in a loop that looks like PLANKA crashing. Give it more room rather than turning the probes off:
+
+```yaml
+livenessProbe:
+  enabled: true
+  path: /
+  initialDelaySeconds: 60
+  failureThreshold: 10
+
+readinessProbe:
+  enabled: true
+  path: /
+  initialDelaySeconds: 15
+```
+
+`periodSeconds`, `timeoutSeconds` and `successThreshold` are available too, and any field left unset keeps the Kubernetes default.
 
 ### Extra Volume Mounts
 
@@ -235,7 +290,7 @@ You can use digest pinning in several ways:
 Includes the tag for reference while using the digest for verification:
 
 ```bash
-helm install planka . --set secretkey=$SECRETKEY \
+helm install planka planka/planka --set secretkey=$SECRETKEY \
   --set image.tag=latest \
   --set image.digest=abc123def456... \
   --set admin_email="demo@demo.demo" \

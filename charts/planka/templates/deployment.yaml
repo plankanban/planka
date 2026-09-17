@@ -54,14 +54,14 @@ spec:
             - name: http
               containerPort: {{ .Values.service.containerPort | default 1337 }}
               protocol: TCP
+          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            {{- include "planka.probe" .Values.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            {{- include "planka.probe" .Values.readinessProbe | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: /app/data
               subPath: data
@@ -133,9 +133,12 @@ spec:
               {{- if .Values.baseUrl }}
               value: {{ .Values.baseUrl }}
               {{- else if .Values.ingress.enabled }}
-              value: {{ printf "https://%s" (first .Values.ingress.hosts).host }}
+              {{- /* The scheme has to follow the ingress. Announcing https on an
+                     ingress served over http gives a base url the browser never
+                     matches, which is a blank page and a socket that never connects. */}}
+              value: http{{ if .Values.ingress.tls }}s{{ end }}://{{ (first .Values.ingress.hosts).host }}
               {{- else }}
-              value: http://localhost:3000
+              value: {{ .Values.defaultBaseUrl }}
               {{- end }}
             - name: SECRET_KEY
               {{- if .Values.existingSecretkeySecret }}
