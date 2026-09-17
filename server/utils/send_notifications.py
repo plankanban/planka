@@ -7,7 +7,7 @@ import logging
 import apprise
 
 
-BLOCKED_SCHEMAS_SET = {
+DEFAULT_BLOCKED_SCHEMAS_SET = {
     'syslog',
     'dbus',
     'kde',
@@ -45,13 +45,22 @@ if __name__ == '__main__':
     services = json.loads(sys.argv[1])
     title = sys.argv[2]
     body_by_format = json.loads(sys.argv[3])
+    schema_config = json.loads(sys.argv[4]) if len(sys.argv) > 4 else {}
+
+    allowed_schemas = set(schema_config.get('allowedSchemas', []))
+    custom_blocked = schema_config.get('blockedSchemas', [])
+    blocked_schemas = set(custom_blocked) if custom_blocked else DEFAULT_BLOCKED_SCHEMAS_SET
 
     errors = []
     for service in services:
         url = service['url']
         schema = url.split(':')[0]
 
-        if schema in BLOCKED_SCHEMAS_SET:
+        if allowed_schemas and schema not in allowed_schemas:
+            errors.append(f'[{schema}] Schema not in allowed list')
+            continue
+
+        if schema in blocked_schemas:
             errors.append(f'[{schema}] Blocked service schema')
             continue
 
