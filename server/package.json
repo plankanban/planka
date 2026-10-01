@@ -71,7 +71,7 @@
     "knex": "^3.1.0",
     "lodash": "^4.18.1",
     "mime-types": "^3.0.2",
-    "moment": "^2.30.1",
+    "moment": "^2.31.0",
     "nodemailer": "^9.1.1",
     "otplib": "^12.0.1",
     "patch-package": "^8.0.1",
