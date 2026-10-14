@@ -66,7 +66,7 @@ const serveStatic = async (prefix, getPathSegment, req, res) => {
 
   res.set({
     ...headers,
-    'Cache-Control': `private, max-age=${sails.config.http.cache}, immutable`,
+    'Cache-Control': `private, max-age=${Math.floor(sails.config.http.cache / 1000)}, immutable`,
   });
 
   readStream.on('error', () => {

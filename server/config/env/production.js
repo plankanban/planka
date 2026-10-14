@@ -271,7 +271,7 @@ module.exports = {
     /**
      *
      * The number of milliseconds to cache static assets in production.
-     * (the "max-age" to include in the "Cache-Control" response header)
+     * Custom "Cache-Control" headers must convert this value to seconds.
      *
      */
 
