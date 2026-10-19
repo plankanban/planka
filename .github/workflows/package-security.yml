@@ -1,0 +1,61 @@
+name: Package Security
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  npm-audit:
+    name: npm audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Audit root packages
+        run: npm audit --audit-level=high
+
+      - name: Audit client packages
+        if: always()
+        working-directory: client
+        run: npm audit --audit-level=high
+
+      - name: Audit server packages
+        if: always()
+        working-directory: server
+        run: npm audit --audit-level=high
+
+  pip-audit:
+    name: pip audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pip-audit
+        run: python -m pip install --disable-pip-version-check pip-audit
+
+      - name: Audit Python packages
+        run: pip-audit --progress-spinner=off -r server/requirements.txt
