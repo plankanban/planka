@@ -9,6 +9,9 @@ const Errors = {
   ADMIN_LOGIN_REQUIRED_TO_INITIALIZE_INSTANCE: {
     adminLoginRequiredToInitializeInstance: 'Admin login required to initialize instance',
   },
+  INVALID_PENDING_TOKEN: {
+    invalidPendingToken: 'Invalid pending token',
+  },
 };
 
 const PENDING_TOKEN_EXPIRES_IN = 10 * 60;
@@ -34,10 +37,16 @@ module.exports = {
     withHttpOnlyToken: {
       type: 'boolean',
     },
+    // Session holding the pending token the caller has just redeemed. When
+    // given, the flow continues on that session instead of starting a new one.
+    pendingSession: {
+      type: 'ref',
+    },
   },
 
   exits: {
     adminLoginRequiredToInitializeInstance: {},
+    invalidPendingToken: {},
     termsAcceptanceRequired: {},
     totpVerificationRequired: {},
   },
@@ -57,23 +66,43 @@ module.exports = {
       }
     }
 
-    if (!sails.hooks.terms.isSignatureValid(inputs.user.termsSignature)) {
+    // Issues the pending token for a step: a new session normally, or, when
+    // the caller is continuing a flow that already has one, the same session
+    // row (id and cookie value kept) with its pending token replaced. The
+    // replacement only applies while the token that was presented is still the
+    // one stored, so a pending token can be redeemed exactly once.
+    const issuePendingToken = async (step) => {
       const { token: pendingToken, payload: pendingTokenPayload } =
-        sails.helpers.utils.createJwtToken(
-          AccessTokenSteps.ACCEPT_TERMS,
-          undefined,
-          PENDING_TOKEN_EXPIRES_IN,
+        sails.helpers.utils.createJwtToken(step, undefined, PENDING_TOKEN_EXPIRES_IN);
+
+      let session;
+      if (inputs.pendingSession) {
+        session = await Session.qm.updateOne(
+          {
+            id: inputs.pendingSession.id,
+            pendingToken: inputs.pendingSession.pendingToken,
+            deletedAt: null,
+          },
+          {
+            pendingToken,
+            pendingTokenAttempts: 0,
+          },
         );
 
-      const session = await sails.helpers.sessions.createOne.with({
-        values: {
-          pendingToken,
-          userId: inputs.user.id,
-          remoteAddress: inputs.remoteAddress,
-          userAgent: inputs.request.headers['user-agent'],
-        },
-        withHttpOnlyToken: inputs.withHttpOnlyToken,
-      });
+        if (!session) {
+          throw Errors.INVALID_PENDING_TOKEN;
+        }
+      } else {
+        session = await sails.helpers.sessions.createOne.with({
+          values: {
+            pendingToken,
+            userId: inputs.user.id,
+            remoteAddress: inputs.remoteAddress,
+            userAgent: inputs.request.headers['user-agent'],
+          },
+          withHttpOnlyToken: inputs.withHttpOnlyToken,
+        });
+      }
 
       if (session.httpOnlyToken && !inputs.request.isSocket) {
         sails.helpers.utils.setHttpOnlyTokenCookie(
@@ -82,6 +111,12 @@ module.exports = {
           inputs.response,
         );
       }
+
+      return pendingToken;
+    };
+
+    if (!sails.hooks.terms.isSignatureValid(inputs.user.termsSignature)) {
+      const pendingToken = await issuePendingToken(AccessTokenSteps.ACCEPT_TERMS);
 
       throw {
         termsAcceptanceRequired: {
@@ -104,30 +139,7 @@ module.exports = {
         : false;
 
       if (!isDeviceTrusted) {
-        const { token: pendingToken, payload: pendingTokenPayload } =
-          sails.helpers.utils.createJwtToken(
-            AccessTokenSteps.VERIFY_TOTP,
-            undefined,
-            PENDING_TOKEN_EXPIRES_IN,
-          );
-
-        const session = await sails.helpers.sessions.createOne.with({
-          values: {
-            pendingToken,
-            userId: inputs.user.id,
-            remoteAddress: inputs.remoteAddress,
-            userAgent: inputs.request.headers['user-agent'],
-          },
-          withHttpOnlyToken: inputs.withHttpOnlyToken,
-        });
-
-        if (session.httpOnlyToken && !inputs.request.isSocket) {
-          sails.helpers.utils.setHttpOnlyTokenCookie(
-            session.httpOnlyToken,
-            pendingTokenPayload,
-            inputs.response,
-          );
-        }
+        const pendingToken = await issuePendingToken(AccessTokenSteps.VERIFY_TOTP);
 
         throw {
           totpVerificationRequired: {
@@ -143,15 +155,34 @@ module.exports = {
       inputs.user.id,
     );
 
-    const session = await sails.helpers.sessions.createOne.with({
-      values: {
-        accessToken,
-        userId: inputs.user.id,
-        remoteAddress: inputs.remoteAddress,
-        userAgent: inputs.request.headers['user-agent'],
-      },
-      withHttpOnlyToken: inputs.withHttpOnlyToken,
-    });
+    let session;
+    if (inputs.pendingSession) {
+      session = await Session.qm.updateOne(
+        {
+          id: inputs.pendingSession.id,
+          pendingToken: inputs.pendingSession.pendingToken,
+          deletedAt: null,
+        },
+        {
+          accessToken,
+          pendingToken: null,
+        },
+      );
+
+      if (!session) {
+        throw Errors.INVALID_PENDING_TOKEN;
+      }
+    } else {
+      session = await sails.helpers.sessions.createOne.with({
+        values: {
+          accessToken,
+          userId: inputs.user.id,
+          remoteAddress: inputs.remoteAddress,
+          userAgent: inputs.request.headers['user-agent'],
+        },
+        withHttpOnlyToken: inputs.withHttpOnlyToken,
+      });
+    }
 
     if (session.httpOnlyToken && !inputs.request.isSocket) {
       sails.helpers.utils.setHttpOnlyTokenCookie(

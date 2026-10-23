@@ -119,6 +119,18 @@ export default (state = initialState, { type, payload }) => {
         },
       };
     case ActionTypes.TERMS_ACCEPT__FAILURE:
+      if (payload.error && payload.error.step === AccessTokenSteps.VERIFY_TOTP) {
+        return {
+          ...state,
+          data: initialState.data,
+          isSubmitting: false,
+          pendingToken: payload.error.pendingToken,
+          step: payload.error.step,
+          termsForm: initialState.termsForm,
+          totpForm: initialState.totpForm,
+        };
+      }
+
       return {
         ...initialState,
         error: payload.error,

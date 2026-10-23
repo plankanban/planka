@@ -120,20 +120,24 @@ module.exports = {
       throw Errors.INVALID_PENDING_TOKEN;
     }
 
-    let session = await Session.qm.getOneUndeletedByPendingToken(inputs.pendingToken);
-    if (!session) {
+    const pendingSession = await Session.qm.getOneUndeletedByPendingToken(inputs.pendingToken);
+    if (!pendingSession) {
       sails.log.warn(`Invalid pending token! (IP: ${remoteAddress})`);
       throw Errors.INVALID_PENDING_TOKEN;
     }
 
-    if (session.httpOnlyToken && httpOnlyToken !== session.httpOnlyToken) {
+    if (pendingSession.httpOnlyToken && httpOnlyToken !== pendingSession.httpOnlyToken) {
       throw Errors.INVALID_PENDING_TOKEN;
     }
 
-    const user = await User.qm.getOneById(session.userId, {
+    const user = await User.qm.getOneById(pendingSession.userId, {
       withDeactivated: false,
     });
     if (!user || !user.isTotpEnabled || !user.totpSecret) {
+      throw Errors.INVALID_PENDING_TOKEN;
+    }
+
+    if (user.passwordChangedAt > payload.issuedAt) {
       throw Errors.INVALID_PENDING_TOKEN;
     }
 
@@ -163,14 +167,14 @@ module.exports = {
       // count and spend the budget twice.
       const queryResult = await sails.sendNativeQuery(
         'UPDATE session SET pending_token_attempts = pending_token_attempts + 1, updated_at = $1 WHERE id = $2 RETURNING pending_token_attempts',
-        [new Date().toISOString(), session.id],
+        [new Date().toISOString(), pendingSession.id],
       );
 
       const [row] = queryResult.rows;
 
       if (row && row.pending_token_attempts > sails.config.custom.totpMaxAttempts) {
         sails.log.warn(`TOTP attempts exhausted, dropping session (IP: ${remoteAddress})`);
-        await Session.qm.deleteOneById(session.id);
+        await Session.qm.deleteOneById(pendingSession.id);
 
         throw Errors.INVALID_PENDING_TOKEN;
       }
@@ -207,10 +211,23 @@ module.exports = {
       user.id,
     );
 
-    session = await Session.qm.updateOne(session.id, {
-      accessToken,
-      pendingToken: null,
-    });
+    // Single use: only applies while the presented pending token is still the
+    // one stored on the session, so of two requests redeeming it only one wins.
+    const session = await Session.qm.updateOne(
+      {
+        id: pendingSession.id,
+        pendingToken: inputs.pendingToken,
+        deletedAt: null,
+      },
+      {
+        accessToken,
+        pendingToken: null,
+      },
+    );
+
+    if (!session) {
+      throw Errors.INVALID_PENDING_TOKEN;
+    }
 
     if (session.httpOnlyToken && !this.req.isSocket) {
       sails.helpers.utils.setHttpOnlyTokenCookie(

@@ -8,7 +8,7 @@
  * /access-tokens/accept-terms:
  *   post:
  *     summary: Accept terms and conditions
- *     description: Accept terms during the authentication flow. Converts the pending token to an access token.
+ *     description: Accept terms during the authentication flow. Continues the remaining login steps - an access token is returned directly, or, if the user has TOTP enabled and the device is not trusted, a new pending token for the TOTP step is returned instead. The pending token that was submitted can no longer be used afterwards.
  *     tags:
  *       - Access Tokens
  *     operationId: acceptTerms
@@ -41,7 +41,7 @@
  *                 example: en-US
  *     responses:
  *       200:
- *         description: Terms accepted successfully
+ *         description: Terms accepted and login completed
  *         content:
  *           application/json:
  *             schema:
@@ -56,7 +56,7 @@
  *       400:
  *         $ref: '#/components/responses/ValidationError'
  *       401:
- *         description: Invalid pending token
+ *         description: Invalid, expired or already used pending token
  *         content:
  *           application/json:
  *             schema:
@@ -91,9 +91,20 @@
  *                   type: string
  *                   enum:
  *                     - Invalid signature
+ *                     - TOTP verification required
  *                     - Admin login required to initialize instance
  *                   description: Specific error message
- *                   example: Invalid signature
+ *                   example: TOTP verification required
+ *                 pendingToken:
+ *                   type: string
+ *                   description: Pending token for the next step (present when TOTP verification is required)
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ4...
+ *                 step:
+ *                   type: string
+ *                   enum:
+ *                     - verify-totp
+ *                   description: Next step of the authentication flow (present when TOTP verification is required)
+ *                   example: verify-totp
  *     security: []
  */
 
@@ -143,16 +154,23 @@ module.exports = {
     adminLoginRequiredToInitializeInstance: {
       responseType: 'forbidden',
     },
+    totpVerificationRequired: {
+      responseType: 'forbidden',
+    },
+    termsAcceptanceRequired: {
+      responseType: 'forbidden',
+    },
   },
 
   async fn(inputs) {
     const remoteAddress = getRemoteAddress(this.req);
     const { httpOnlyToken } = this.req.cookies;
 
+    let payload;
     try {
       payload = sails.helpers.utils.verifyJwtToken(inputs.pendingToken);
     } catch (error) {
-      if (error.raw.name === 'TokenExpiredError') {
+      if (error.raw && error.raw.name === 'TokenExpiredError') {
         throw Errors.INVALID_PENDING_TOKEN;
       }
 
@@ -164,7 +182,7 @@ module.exports = {
       throw Errors.INVALID_PENDING_TOKEN;
     }
 
-    let session = await Session.qm.getOneUndeletedByPendingToken(inputs.pendingToken);
+    const session = await Session.qm.getOneUndeletedByPendingToken(inputs.pendingToken);
 
     if (!session) {
       sails.log.warn(`Invalid pending token! (IP: ${remoteAddress})`);
@@ -187,6 +205,18 @@ module.exports = {
       throw Errors.INVALID_PENDING_TOKEN; // TODO: introduce separate error?
     }
 
+    if (user.passwordChangedAt > payload.issuedAt) {
+      throw Errors.INVALID_PENDING_TOKEN;
+    }
+
+    // Checked before anything is stored, so that a refused login leaves the
+    // account as it was.
+    const internalConfig = await InternalConfig.qm.getOneMain();
+
+    if (!internalConfig.isInitialized && user.role !== User.Roles.ADMIN) {
+      throw Errors.ADMIN_LOGIN_REQUIRED_TO_INITIALIZE_INSTANCE;
+    }
+
     const values = {
       termsSignature: inputs.signature,
       termsAcceptedAt: new Date().toISOString(),
@@ -198,37 +228,25 @@ module.exports = {
 
     ({ user } = await User.qm.updateOne(user.id, values));
 
-    const internalConfig = await InternalConfig.qm.getOneMain();
-
-    if (!internalConfig.isInitialized) {
-      if (user.role === User.Roles.ADMIN) {
-        await InternalConfig.qm.updateOneMain({
-          isInitialized: true,
-        });
-      } else {
-        throw Errors.ADMIN_LOGIN_REQUIRED_TO_INITIALIZE_INSTANCE;
-      }
-    }
-
-    const { token: accessToken, payload: accessTokenPayload } = sails.helpers.utils.createJwtToken(
-      user.id,
-    );
-
-    session = await Session.qm.updateOne(session.id, {
-      accessToken,
-      pendingToken: null,
-    });
-
-    if (session.httpOnlyToken && !this.req.isSocket) {
-      sails.helpers.utils.setHttpOnlyTokenCookie(
-        session.httpOnlyToken,
-        accessTokenPayload,
-        this.res,
-      );
-    }
-
-    return {
-      item: accessToken,
-    };
+    // The rest of the login runs through the same steps as a password login,
+    // on the session that holds this pending token.
+    return sails.helpers.accessTokens.handleSteps
+      .with({
+        user,
+        remoteAddress,
+        request: this.req,
+        response: this.res,
+        pendingSession: session,
+      })
+      .intercept('invalidPendingToken', () => Errors.INVALID_PENDING_TOKEN)
+      .intercept('adminLoginRequiredToInitializeInstance', (error) => ({
+        adminLoginRequiredToInitializeInstance: error.raw,
+      }))
+      .intercept('termsAcceptanceRequired', (error) => ({
+        termsAcceptanceRequired: error.raw,
+      }))
+      .intercept('totpVerificationRequired', (error) => ({
+        totpVerificationRequired: error.raw,
+      }));
   },
 };
