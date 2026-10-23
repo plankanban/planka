@@ -42,6 +42,41 @@ const removeRoutePrefix = (prefix, urlPath) => {
   return urlPath;
 };
 
+// Turn the part of the request URL that follows the route prefix into a file
+// path segment that is guaranteed to live inside the route's own base segment.
+// The path is decoded exactly once; segments that would climb out of the
+// directory (in any spelling) are refused instead of being collapsed.
+//
+// Returns `{ segment }` on success or `{ status }` (400 or 404) otherwise.
+const resolveStaticPathSegment = (baseSegment, urlPath) => {
+  const rawPath = urlPath.split(/[?#]/)[0];
+
+  let decodedPath;
+  try {
+    decodedPath = decodeURIComponent(rawPath);
+  } catch (err) {
+    return { status: 400 };
+  }
+
+  if (decodedPath.includes('\0')) {
+    return { status: 404 };
+  }
+
+  if (decodedPath.split(/[/\\]/).some((part) => part === '..')) {
+    return { status: 404 };
+  }
+
+  const basePath = path.posix.normalize(baseSegment).replace(/\/+$/, '');
+  const segment = path.posix.join(basePath, decodedPath);
+
+  // Must name something inside the directory, not the directory itself.
+  if (!segment.startsWith(`${basePath}/`) || segment.endsWith('/')) {
+    return { status: 404 };
+  }
+
+  return { segment };
+};
+
 const serveStatic = async (prefix, getPathSegment, req, res) => {
   // Custom config properties are not available when the routes config is
   // loaded, so resolve the target value just before serving the request.
@@ -50,8 +85,14 @@ const serveStatic = async (prefix, getPathSegment, req, res) => {
   // segment.
   const normalizedUrlPath = removeRoutePrefix(prefix, req.url);
 
+  const resolved = resolveStaticPathSegment(pathSegment, normalizedUrlPath);
+
+  if (!resolved.segment) {
+    return res.sendStatus(resolved.status);
+  }
+
   const fileManager = sails.hooks['file-manager'].getInstance();
-  const filePathSegment = path.join(pathSegment, normalizedUrlPath);
+  const filePathSegment = resolved.segment;
 
   let readStream;
   let headers;
@@ -59,6 +100,7 @@ const serveStatic = async (prefix, getPathSegment, req, res) => {
   try {
     [readStream, headers] = await fileManager.read(filePathSegment, {
       withHeaders: true,
+      rootPathSegment: pathSegment,
     });
   } catch (err) {
     return res.sendStatus(404);
@@ -71,8 +113,8 @@ const serveStatic = async (prefix, getPathSegment, req, res) => {
     // milliseconds, because that is the unit serve-static's maxAge option
     // takes, while max-age in the header is in seconds. Sent unconverted it
     // read as roughly a thousand years, and Firefox answers an out-of-range
-    // max-age by discarding the whole directive — immutable with it.
-    'Cache-Control': `private, max-age=${Math.floor(sails.config.http.cache / 1000)}, immutable`,
+    // max-age by discarding the whole directive - immutable with it.
+    'Cache-Control': `private, max-age=${Math.floor((sails.config.http.cache || 0) / 1000)}, immutable`,
   });
 
   readStream.on('error', () => {
@@ -295,3 +337,9 @@ module.exports.routes = {
     skipAssets: true,
   },
 };
+
+// Exposed for tests only; not a route and not enumerated as configuration.
+Object.defineProperty(module.exports, 'resolveStaticPathSegment', {
+  value: resolveStaticPathSegment,
+  enumerable: false,
+});

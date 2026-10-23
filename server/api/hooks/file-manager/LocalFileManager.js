@@ -20,13 +20,19 @@ const assertWithinRoot = (rootPath, filePath) => {
   }
 };
 
-const buildPath = (pathSegment) => {
+// `rootPathSegment` optionally narrows the allowed area to a sub-directory of
+// the uploads root (relative to it).
+const buildPath = (pathSegment, rootPathSegment) => {
   const { uploadsBasePath } = sails.config.custom;
   const filePath = path.resolve(uploadsBasePath, pathSegment);
 
   // Ensure the resolved path stays within the uploads root, so that
   // attacker-controlled path segments (e.g. `../`) cannot escape it.
   assertWithinRoot(uploadsBasePath, filePath);
+
+  if (rootPathSegment) {
+    assertWithinRoot(path.resolve(uploadsBasePath, rootPathSegment), filePath);
+  }
 
   return filePath;
 };
@@ -55,8 +61,8 @@ class LocalFileManager {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  async read(filePathSegment, { withHeaders = false } = {}) {
-    const filePath = buildPath(filePathSegment);
+  async read(filePathSegment, { withHeaders = false, rootPathSegment } = {}) {
+    const filePath = buildPath(filePathSegment, rootPathSegment);
 
     // Resolve symlinks and re-check containment, so that a symlink placed
     // inside the uploads root cannot be used to read files outside of it.
@@ -68,6 +74,18 @@ class LocalFileManager {
     }
     const realBasePath = await fs.promises.realpath(sails.config.custom.uploadsBasePath);
     assertWithinRoot(realBasePath, realFilePath);
+
+    if (rootPathSegment) {
+      let realRootPath;
+      try {
+        realRootPath = await fs.promises.realpath(
+          path.resolve(sails.config.custom.uploadsBasePath, rootPathSegment),
+        );
+      } catch (error) {
+        throw new Error('File does not exist');
+      }
+      assertWithinRoot(realRootPath, realFilePath);
+    }
 
     let stat;
     try {

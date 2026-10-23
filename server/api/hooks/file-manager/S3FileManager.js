@@ -47,7 +47,11 @@ class S3FileManager {
     await upload.done();
   }
 
-  async read(filePathSegment, { withHeaders = false } = {}) {
+  async read(filePathSegment, { withHeaders = false, rootPathSegment } = {}) {
+    if (rootPathSegment && !filePathSegment.startsWith(`${rootPathSegment.replace(/\/+$/, '')}/`)) {
+      throw new Error('Path is outside of the allowed directory');
+    }
+
     const command = new GetObjectCommand({
       Bucket: sails.config.custom.s3Bucket,
       Key: filePathSegment,
