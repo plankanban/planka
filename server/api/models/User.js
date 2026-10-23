@@ -290,6 +290,14 @@ const PERSONAL_FIELD_NAMES = [
   'autoLogoutMode',
 ];
 
+const SECRET_FIELD_NAMES = [
+  'password',
+  'apiKeyHash',
+  'termsSignature',
+  'totpSecret',
+  'totpRecoveryCodes',
+];
+
 const INTERNAL = {
   id: '_internal',
   role: Roles.ADMIN,
@@ -487,4 +495,9 @@ module.exports = {
   },
 
   tableName: 'user_account',
+
+  // Credential columns are never serialized from a raw record
+  customToJSON() {
+    return _.omit(this, SECRET_FIELD_NAMES);
+  },
 };

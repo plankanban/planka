@@ -59,7 +59,7 @@ module.exports = {
         buildData: () => ({
           item: cardMembership,
           included: {
-            users: [inputs.user],
+            users: [sails.helpers.users.presentOne(inputs.user, {})],
             projects: [inputs.project],
             boards: [inputs.board],
             lists: [inputs.list],

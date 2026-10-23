@@ -91,7 +91,7 @@ module.exports = {
     return {
       item: notification,
       included: {
-        users,
+        users: sails.helpers.users.presentMany(users, currentUser),
       },
     };
   },

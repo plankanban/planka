@@ -49,7 +49,7 @@ module.exports = {
         buildData: () => ({
           item: notificationService,
           included: {
-            users: [inputs.user],
+            users: [sails.helpers.users.presentOne(inputs.user, {})],
           },
         }),
         buildPrevData: () => ({
