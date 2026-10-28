@@ -1,8 +1,8 @@
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
-index c0d13c3..4c6e4e9 100644
+index b4f89ce..0bd3285 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
 +++ b/node_modules/@gravity-ui/markdown-editor/build/esm/bundle/wysiwyg-preset.js
-@@ -107,7 +107,6 @@ export const BundlePreset = (builder, opts) => {
+@@ -110,7 +110,6 @@ export const BundlePreset = (builder, opts) => {
              enableNewImageSizeCalculation: opts.enableNewImageSizeCalculation,
              ...opts.imgSize,
          },
@@ -10,7 +10,7 @@ index c0d13c3..4c6e4e9 100644
          deflist: {
              deflistTermPlaceholder: () => i18nPlaceholder('deflist_term'),
              deflistDescPlaceholder: () => i18nPlaceholder('deflist_desc'),
-@@ -128,11 +127,6 @@ export const BundlePreset = (builder, opts) => {
+@@ -131,11 +130,6 @@ export const BundlePreset = (builder, opts) => {
              ...opts.yfmTable,
              controls: opts.mobile ? false : opts.yfmTable?.controls,
          },
@@ -36,48 +36,50 @@ index 8aefe20..99e59e3 100644
          }
          if (options.pmTransformers) {
              this.#pmTransformers = options.pmTransformers;
-diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/index.js b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/index.js
-index 5eec9bb..3abd31a 100644
---- a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/index.js
-+++ b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/index.js
-@@ -75,12 +75,6 @@ export const codeLangSelectTooltipViewCreator = (view, langItems, mapping = {},
-                                     dispatch: view.dispatch,
-                                 }),
-                             },
--                        {
--                            id: 'code-block-copy',
--                            type: ToolbarDataType.ReactNodeFn,
--                            width: 28,
--                            content: () => _jsx(ClipboardButton, { text: node.textContent }),
--                        },
-                     ].filter(isTruthy),
-                     [
-                         {
-diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
-index 212c583..b709383 100644
---- a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
-+++ b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/index.js
-@@ -10,7 +10,7 @@ export { noteType, noteTitleType } from "./utils.js";
- export const YfmNoteSpecs = (builder, opts) => {
-     const schemaSpecs = getSchemaSpecs(opts, builder.context.get('placeholder'));
+diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/CodeBlockToolbar.js b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/CodeBlockToolbar.js
+index 15b6c46..43e8b5a 100644
+--- a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/CodeBlockToolbar.js
++++ b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/markdown/CodeBlock/CodeBlockHighlight/TooltipPlugin/CodeBlockToolbar.js
+@@ -73,13 +73,6 @@ export function CodeBlockToolbar({ node, pos, editorView, langItems, mapping, sh
+                             });
+                         },
+                     },
+-                {
+-                    id: 'code-block-copy',
+-                    type: ToolbarDataType.ReactNodeFn,
+-                    width: 28,
+-                    content: () => _jsx(ClipboardButton, { text: copyText }),
+-                    noRerenderOnUpdate: true,
+-                },
+             ].filter(isTruthy),
+             [
+                 {
+diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/parser.js b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/parser.js
+index a8041f2..eff5b1d 100644
+--- a/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/parser.js
++++ b/node_modules/@gravity-ui/markdown-editor/build/esm/extensions/yfm/YfmNote/YfmNoteSpecs/parser.js
+@@ -26,7 +26,7 @@ const parserTokens = {
+ };
+ export const YfmNoteParserSpecs = (builder) => {
      builder
 -        .configureMd((md) => md.use(yfmPlugin, { log, lang: getConfig().lang || 'en' }))
 +        .configureMd((md) => md.use(yfmPlugin, { log, lang: getConfig().lang || 'en', notesAutotitle: false }))
-         .addNode(NoteNode.Note, () => ({
-         spec: schemaSpecs[NoteNode.Note],
-         toMd: serializerTokens[NoteNode.Note],
+         .addMarkdownTokenParserSpec('yfm_note', () => parserTokens[NoteNode.Note])
+         .addMarkdownTokenParserSpec('yfm_note_title', () => parserTokens[NoteNode.NoteTitle])
+         .addMarkdownTokenParserSpec('yfm_note_content', () => parserTokens[NoteNode.NoteContent]);
 diff --git a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js b/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
-index ed2a9db..77f6d08 100644
+index 4c374fb..199ebf4 100644
 --- a/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
 +++ b/node_modules/@gravity-ui/markdown-editor/build/esm/presets/yfm.js
-@@ -1,5 +1,5 @@
+@@ -1,6 +1,6 @@
  import { Deflist, Subscript, Superscript, Underline, } from "../extensions/markdown/index.js";
+ import { ImageSpecs } from "../extensions/markdown/Image/ImageSpecs/index.js";
 -import { Checkbox, ImgSize, Monospace, Video, YfmConfigs, YfmCut, YfmFile, YfmHeading, YfmNote, YfmTable, YfmTabs, } from "../extensions/yfm/index.js";
 +import { ImgSize, Monospace, Video, YfmConfigs, YfmCut, YfmHeading, YfmNote, YfmTable, } from "../extensions/yfm/index.js";
  import { DefaultPreset } from "./default.js";
  export const YfmPreset = (builder, opts) => {
-     builder.use(DefaultPreset, { ...opts, image: false, heading: false });
-@@ -8,16 +8,13 @@ export const YfmPreset = (builder, opts) => {
+     builder.use(DefaultPreset, {
+@@ -13,16 +13,13 @@ export const YfmPreset = (builder, opts) => {
          .use(Subscript)
          .use(Superscript)
          .use(Underline, opts.underline ?? {})
