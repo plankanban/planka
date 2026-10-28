@@ -1,11 +1,9 @@
 name: Release Charts
 
 on:
-  push:
-    paths:
-      - "charts/**"
-    branches:
-      - master
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   release-helm-chart:
@@ -41,5 +39,6 @@ jobs:
         with:
           charts_dir: charts
           mark_as_latest: false
+          skip_existing: true
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
