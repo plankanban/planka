@@ -3,28 +3,93 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+const dns = require('dns');
 const { URL } = require('url');
-const { ProxyAgent } = require('undici');
+const { Agent, ProxyAgent } = require('undici');
 const icoToPng = require('ico-to-png');
 const sharp = require('sharp');
 
+const { isPrivateAddress } = require('../../../utils/ip-address');
+
 const FETCH_TIMEOUT = 4000;
 const MAX_RESPONSE_LENGTH = 1024 * 1024;
+const MAX_REDIRECTS = 5;
 
 const FAVICON_TAGS_REGEX = /<link [^>]*rel="([^"]* )?icon( [^"]*)?"[^>]*>/gi;
 const HREF_REGEX = /href="(.*?)"/i;
 const SIZES_REGEX = /sizes="(.*?)"/i;
 
-const fetchWithTimeout = (url) => {
+// Resolves the host and refuses to connect if any of its addresses is internal,
+// so the address that is connected to is the one that was validated.
+const lookup = (hostname, options, callback) => {
+  const lookupOptions = typeof options === 'object' && options !== null ? options : {};
+
+  dns.lookup(hostname, { ...lookupOptions, all: true }, (error, addresses) => {
+    if (error) {
+      callback(error);
+      return;
+    }
+
+    if (addresses.length === 0 || addresses.some(({ address }) => isPrivateAddress(address))) {
+      callback(new Error(`Address of ${hostname} is not allowed`));
+      return;
+    }
+
+    if (lookupOptions.all) {
+      callback(null, addresses);
+      return;
+    }
+
+    callback(null, addresses[0].address, addresses[0].family);
+  });
+};
+
+let agent;
+
+const getDispatcher = () => {
+  if (sails.config.custom.outgoingProxy) {
+    return new ProxyAgent(sails.config.custom.outgoingProxy);
+  }
+
+  if (!agent) {
+    agent = new Agent({ connect: { lookup } });
+  }
+
+  return agent;
+};
+
+const fetchWithTimeout = async (url) => {
   const abortController = new AbortController();
   setTimeout(() => abortController.abort(), FETCH_TIMEOUT);
 
-  return fetch(url, {
-    signal: abortController.signal,
-    dispatcher: sails.config.custom.outgoingProxy
-      ? new ProxyAgent(sails.config.custom.outgoingProxy)
-      : undefined,
-  });
+  const dispatcher = getDispatcher();
+  let currentUrl = url;
+
+  for (let redirectCount = 0; redirectCount <= MAX_REDIRECTS; redirectCount += 1) {
+    // eslint-disable-next-line no-await-in-loop
+    if (!(await sails.helpers.utils.isSafeRemoteUrl(currentUrl))) {
+      throw new Error('URL is not allowed');
+    }
+
+    // eslint-disable-next-line no-await-in-loop
+    const response = await fetch(currentUrl, {
+      dispatcher,
+      signal: abortController.signal,
+      redirect: 'manual',
+    });
+
+    const location =
+      response.status >= 300 && response.status < 400 && response.headers.get('location');
+
+    if (!location) {
+      return response;
+    }
+
+    response.body.cancel().catch(() => {});
+    currentUrl = new URL(location, currentUrl).href;
+  }
+
+  throw new Error('Too many redirects');
 };
 
 const readResponse = async (response) => {
