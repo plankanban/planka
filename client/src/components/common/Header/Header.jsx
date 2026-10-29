@@ -28,11 +28,13 @@ const POPUP_PROPS = {
 
 const Header = React.memo(() => {
   const user = useSelector(selectors.selectCurrentUser);
+  const projectIds = useSelector(selectors.selectProjectIdsForCurrentUser);
   const project = useSelector(selectors.selectCurrentProject);
   const board = useSelector(selectors.selectCurrentBoard);
   const notificationIds = useSelector(selectors.selectNotificationIdsForCurrentUser);
   const isFavoritesEnabled = useSelector(selectors.selectIsFavoritesEnabled);
   const isEditModeEnabled = useSelector(selectors.selectIsEditModeEnabled);
+  const canReturnToProjects = user.role === UserRoles.ADMIN || projectIds.length !== 1;
 
   const withFavoritesToggler = useSelector(
     // TODO: use selector instead?
@@ -105,15 +107,17 @@ const Header = React.memo(() => {
       <Menu inverted size="large" className={styles.menu}>
         {project && (
           <Menu.Menu position="left">
-            <Tooltip content={t('action.returnToProjects')}>
-              <Menu.Item
-                as={Link}
-                to={Paths.ROOT}
-                className={classNames(styles.item, styles.itemHoverable)}
-              >
-                <Icon fitted name="arrow left" />
-              </Menu.Item>
-            </Tooltip>
+            {canReturnToProjects && (
+              <Tooltip content={t('action.returnToProjects')}>
+                <Menu.Item
+                  as={Link}
+                  to={Paths.ROOT}
+                  className={classNames(styles.item, styles.itemHoverable)}
+                >
+                  <Icon fitted name="arrow left" />
+                </Menu.Item>
+              </Tooltip>
+            )}
             <Menu.Item className={classNames(styles.item, styles.title)}>
               {project.name}
               {canEditProject && (
