@@ -1,14 +1,17 @@
-## [Unreleased]
+## [2.3.0] - 2026-11-04
 
 ### Security
 
 * Limit sign-in attempts per client address and per account
 * Destroy the pending session after repeated wrong two-factor codes, so a pending token can no longer be guessed against for its full lifetime
 * Check the session, the account status and the password age — not only the token signature — before serving avatars, background images and favicons, so a revoked token no longer works there
-* Refuse server-side fetches to private, loopback and link-local addresses when a link attachment's favicon is retrieved
+* Refuse server-side fetches to private, loopback and link-local addresses when a link attachment's favicon is retrieved, including after redirects, for the favicon address found on the page, and at the moment of connecting
 * Warn on every start while `SECRET_KEY` is missing, too short, or still the value from the example configuration
 * Encrypt the backup archive when `BACKUP_PASSPHRASE` is set, and say what an unencrypted one contains
 * Update `sanitize-html` and `svgo`, both of which ship in the client bundle, and `js-yaml` and `fast-uri`, which are used at build time
+* Return only the public profile of a notification's creator, in notification details as in webhook payloads
+* Ask for the second factor after updated terms are accepted during sign-in
+* Serve each protected static route only from its own directory
 
 ### Added
 
@@ -17,22 +20,47 @@
 * Add negative label filtering, so a filter can exclude cards carrying a label as well as require one
 * Remember which view a board was last put into for the rest of the browser session, per window and per context
 * Add `client:locales:check` to report translation keys a locale is missing before a release goes out
+* Filter the cards on a board down to a set of lists
+* Filter the cards on a board down to the ones nobody is assigned to
+* Save a board filter under a name, put it down and pick it up again later
+* Show how many cards a list holds, as a board setting, on the add-card button
+* Reorder cards by hand in list view
+* Scope a webhook to one project or one account instead of firing it on everything
+* Add `APPRISE_ENABLED`, `APPRISE_ALLOWED_SCHEMAS` and `APPRISE_BLOCKED_SCHEMAS`, so an operator decides which notification schemas an instance may use
+* Reply to a comment, and mention people with `@name` in a card description
+* Add a keyboard shortcuts dialog, reached from the user menu, listing what a board responds to
+* Add `+` to add a card to the list under the pointer, and `F` to put the cursor in the filter search field
+* Reopen each list where it was last scrolled to, for the rest of the browser session
+* Return to the page you were on when a session ended underneath you, once you sign in again
+* Keep an unsaved card description through a browser crash and offer it back on the next open
+* Let the label picker show labels as a grid of chips instead of one row each
+* Add `DATABASE_URL__FILE`, so the whole connection string can come from a secret file
+* Add liveness and readiness probe settings and a `defaultBaseUrl` to the Helm chart, and Artifact Hub metadata
 
 ### Changed
 
 * Widen the Pro banner rotation to nine features and send admins to the trial rather than the overview, since only they can start one
 * Fill in the 66 user-facing strings that existed only in English and German, in all 33 remaining languages, including the two-factor challenge shown before sign-in
+* Translate the 33 strings the shortcut dialog, the saved filters, the list card counter and the label chips added, in every one of the 34 languages
+* Update dependencies, including Apprise 1.11.0
 
 ### Fixed
 
+* Fix task reordering saving the wrong position when completed tasks are hidden
+* Fix Enter being swallowed mid-composition in input fields, which cut off text entered with an IME
+* Correct the Swedish translations, including dates that rendered in American order with the English word "at"
+* Fix a card created while a filter is active dropping straight out of view, by giving it the members and labels the filter asks for
+* Fix the Helm chart leaving volumes unwritable by not setting `fsGroup` in the pod security context
+* Take ownership of the chart's volume once on first start instead of on every start
+* Fix the Helm chart assuming https when no base URL is set, by following the ingress TLS setting
+* Fix the Helm chart README installing from a local directory and linking the old issue tracker
+* Fix `db:` scripts reading the database password and `__FILE` secrets differently from the app
+* Stop with a clear message when the container runs under a uid that cannot write its runtime directories
 * Fix a blank home view when a project manager or board membership points at a project that no longer exists
 * Fix endless list pagination returning an error for cursors Postgres cannot read as a timestamp
 * Fix endless list pagination skipping and repeating cards when a search, member or label filter is active
-* Fix task reordering saving the wrong position when completed tasks are hidden
-* Fix Enter being swallowed mid-composition in input fields, which cut off text entered with an IME
 * Show a message when a login or user settings form is submitted with invalid input, instead of silently focusing the field
 * Validate the input taken by `db:create-admin-user`, which previously accepted anything
-* Correct the Swedish translations, including dates that rendered in American order with the English word "at"
 
 ## [2.2.1] - 2026-08-10
 

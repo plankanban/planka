@@ -33,7 +33,7 @@ helm install planka planka/planka --set secretkey=$SECRETKEY  \
 
 > **Note:** The command `openssl rand -hex 64` is needed to create a random hexadecimal key for planka. On Windows you can use Git Bash to run that command.
 
-The chart version tracks the application version, so `--version 2.2.0` installs PLANKA 2.2.0. The examples further down all use `planka/planka`; swap it for `.` if you are working from a clone as described in the next section.
+The chart version tracks the application version, so `--version 2.3.0` installs PLANKA 2.3.0. The examples further down all use `planka/planka`; swap it for `.` if you are working from a clone as described in the next section.
 
 ## Local Building and Using the Chart
 
