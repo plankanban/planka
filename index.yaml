@@ -15,6 +15,50 @@ entries:
         - name: License
           url: https://github.com/plankanban/planka/blob/master/LICENSE.md
     apiVersion: v2
+    appVersion: 2.3.1
+    created: "2026-11-05T12:19:01.087158614Z"
+    dependencies:
+    - alias: postgresql
+      condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 16.6.6
+    description: A Helm chart to deploy PLANKA and it's dependencies.
+    digest: e0d9b8972d10585bfb52a83f75a34987c4f71a653d22e6af96b9f8f6170e9a54
+    home: https://planka.app
+    icon: https://raw.githubusercontent.com/plankanban/planka/master/assets/logo.png
+    keywords:
+    - planka
+    - kanban
+    - project-management
+    - trello
+    - collaboration
+    maintainers:
+    - email: security@planka.group
+      name: PLANKA
+      url: https://github.com/plankanban/planka
+    name: planka
+    sources:
+    - https://github.com/plankanban/planka
+    - https://github.com/plankanban/planka/tree/master/charts/planka
+    type: application
+    urls:
+    - https://github.com/plankanban/planka/releases/download/planka-2.3.1/planka-2.3.1.tgz
+    version: 2.3.1
+  - annotations:
+      artifacthub.io/images: |
+        - name: planka
+          image: ghcr.io/plankanban/planka
+      artifacthub.io/links: |
+        - name: Chart documentation
+          url: https://docs.planka.cloud/docs/installation/kubernetes/helm-chart/
+        - name: Chart source
+          url: https://github.com/plankanban/planka/tree/master/charts/planka
+        - name: Issue tracker
+          url: https://github.com/plankanban/planka/issues
+        - name: License
+          url: https://github.com/plankanban/planka/blob/master/LICENSE.md
+    apiVersion: v2
     appVersion: 2.3.0
     created: "2026-11-04T18:37:58.007321323Z"
     dependencies:
@@ -589,4 +633,4 @@ entries:
     urls:
     - https://github.com/plankanban/planka/releases/download/planka-0.2.8/planka-0.2.8.tgz
     version: 0.2.8
-generated: "2026-11-04T18:37:58.007756479Z"
+generated: "2026-11-05T12:19:01.088698096Z"
