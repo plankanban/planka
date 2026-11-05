@@ -1,3 +1,9 @@
+## [2.3.1] - 2026-11-05
+
+### Fixed
+
+* Fix the description editor crashing to a blank page on boards with a member who has no username
+
 ## [2.3.0] - 2026-11-04
 
 ### Security
