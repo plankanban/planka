@@ -32,8 +32,8 @@ const EditMarkdown = React.memo(
     const userByUsername = useMemo(
       () =>
         keyBy(
-          boardMemberships.map(({ user }) => user),
-          (user) => user.username.toLowerCase(),
+          boardMemberships.flatMap(({ user }) => (user.username ? user : [])),
+          ({ username }) => username.toLowerCase(),
         ),
       [boardMemberships],
     );
