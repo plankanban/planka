@@ -60,7 +60,7 @@ jobs:
           cp .env.sample .env
           sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@localhost/${POSTGRES_DATABASE}|" .env
           npm run db:init
-          npm start --prod &
+          npm run start:prod &
 
       - name: Wait for server to start
         run: |
