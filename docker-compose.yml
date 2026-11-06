@@ -116,6 +116,10 @@ services:
       # Outgoing traffic control (internal Squid proxy)
       # --------------------------------------------------------------------
 
+      # These rules also apply to Apprise notification services that do not use HTTP
+      # (email, syslog, IRC, etc.). For those, hostnames are resolved once at start,
+      # so a leading dot (subdomain matching) is not supported there.
+
       # These IPs/hostnames will always be blocked (highest priority)
       # - OUTGOING_BLOCKED_IPS=
       # - OUTGOING_BLOCKED_HOSTS=localhost,postgres

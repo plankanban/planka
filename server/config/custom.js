@@ -137,6 +137,10 @@ module.exports.custom = {
 
   showDetailedAuthErrors: process.env.SHOW_DETAILED_AUTH_ERRORS === 'true',
   outgoingProxy: process.env.OUTGOING_PROXY,
+  outgoingBlockedIps: process.env.OUTGOING_BLOCKED_IPS,
+  outgoingBlockedHosts: process.env.OUTGOING_BLOCKED_HOSTS,
+  outgoingAllowedIps: process.env.OUTGOING_ALLOWED_IPS,
+  outgoingAllowedHosts: process.env.OUTGOING_ALLOWED_HOSTS,
   swaggerExposed: process.env.SWAGGER_EXPOSED === 'true',
 
   s3Endpoint: process.env.S3_ENDPOINT,

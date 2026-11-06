@@ -31,7 +31,15 @@ module.exports = {
   },
 
   async fn(inputs) {
-    const { appriseEnabled, appriseAllowedSchemas, appriseBlockedSchemas } = sails.config.custom;
+    const {
+      appriseEnabled,
+      appriseAllowedSchemas,
+      appriseBlockedSchemas,
+      outgoingBlockedIps,
+      outgoingBlockedHosts,
+      outgoingAllowedIps,
+      outgoingAllowedHosts,
+    } = sails.config.custom;
 
     if (!appriseEnabled) {
       return;
@@ -40,6 +48,14 @@ module.exports = {
     const schemaConfig = JSON.stringify({
       allowedSchemas: appriseAllowedSchemas,
       blockedSchemas: appriseBlockedSchemas,
+      // Not every notification service goes through the HTTP proxy, so the script
+      // applies the same outgoing rules itself
+      outgoingRules: {
+        blockedIps: outgoingBlockedIps,
+        blockedHosts: outgoingBlockedHosts,
+        allowedIps: outgoingAllowedIps,
+        allowedHosts: outgoingAllowedHosts,
+      },
     });
 
     try {

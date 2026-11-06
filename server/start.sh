@@ -55,7 +55,8 @@ start_outgoing_proxy_if_needed() {
 
   # Minimum safe defaults
   if [[ -z "${OUTGOING_BLOCKED_HOSTS+x}" ]]; then
-    OUTGOING_BLOCKED_HOSTS="localhost,postgres"
+    # Exported so that the app applies the same default to non-HTTP services
+    export OUTGOING_BLOCKED_HOSTS="localhost,postgres"
   fi
 
   # If no blocked/allowed rules exist, do not start internal proxy
