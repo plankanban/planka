@@ -14,6 +14,7 @@ import api from '../../../api';
 import { getAccessToken } from '../../../utils/access-token-storage';
 import mergeRecords from '../../../utils/merge-records';
 import ActionTypes from '../../../constants/ActionTypes';
+import { UserRoles } from '../../../constants/Enums';
 import Paths from '../../../constants/Paths';
 
 export function* goTo(pathname) {
@@ -63,6 +64,24 @@ export function* handleLocationChange() {
 
   if (isInitializing) {
     yield take(ActionTypes.CORE_INITIALIZE);
+  }
+
+  // in the case if a non-admin user has access only to a single project redirect to that
+  if (pathsMatch.pattern.path === Paths.ROOT) {
+    const currentUser = yield select(selectors.selectCurrentUser);
+    const projectIds = yield select(selectors.selectProjectIdsForCurrentUser);
+
+    if (currentUser.role !== UserRoles.ADMIN && projectIds.length === 1) {
+      const boardIds = yield select(selectors.selectBoardIdsByProjectId, projectIds[0]);
+
+      if (boardIds.length === 1) {
+        yield call(goToBoard, boardIds[0]);
+      } else {
+        yield call(goToProject, projectIds[0]);
+      }
+
+      return;
+    }
   }
 
   let currentBoard = yield select(selectors.selectCurrentBoard);
