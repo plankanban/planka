@@ -5,7 +5,7 @@
 
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Popup as SemanticUIPopup } from 'semantic-ui-react';
+import { Popup as SemanticUIPopup, Ref } from 'semantic-ui-react';
 
 import Config from '../../../../constants/Config';
 
@@ -26,12 +26,17 @@ const Tooltip = React.forwardRef(
     const trigger = useMemo(() => {
       const contentAriaLabel = typeof content === 'string' ? content : undefined;
 
-      return React.cloneElement(children, {
-        ...props,
-        ref,
-        'aria-label': children.props['aria-label'] || ariaLabel || contentAriaLabel,
-        onClick: callAll(children.props.onClick, onClick),
-      });
+      return (
+        <Ref
+          /* eslint-disable-next-line react/jsx-props-no-spreading */
+          {...props}
+          innerRef={ref}
+          aria-label={children.props['aria-label'] || ariaLabel || contentAriaLabel}
+          onClick={callAll(children.props.onClick, onClick)}
+        >
+          {children}
+        </Ref>
+      );
     }, [children, content, props, ref, ariaLabel, onClick]);
 
     if (disabled || !content || Config.IS_TOUCH_PRIMARY) {
@@ -68,4 +73,4 @@ Tooltip.defaultProps = {
   position: 'top center',
 };
 
-export default React.memo(Tooltip);
+export default Tooltip;
