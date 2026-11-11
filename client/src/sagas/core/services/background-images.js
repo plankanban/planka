@@ -17,7 +17,7 @@ export function* createBackgroundImage(projectId, data) {
 
   yield put(
     actions.createBackgroundImage({
-      ...omit(data, ['file', 'url']),
+      ...omit(data, ['file', 'url', 'purpose']),
       projectId,
       id: localId,
     }),

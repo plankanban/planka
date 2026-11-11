@@ -13,6 +13,10 @@ module.exports = {
       type: 'ref',
       required: true,
     },
+    purpose: {
+      type: 'string',
+      isIn: ['background', 'homeThumbnail'],
+    },
     requestId: {
       type: 'string',
     },
@@ -65,10 +69,13 @@ module.exports = {
       scoper,
       webhooks,
       record: values.project,
-      values: {
-        backgroundImage,
-        backgroundType: Project.BackgroundTypes.IMAGE,
-      },
+      values:
+        inputs.purpose === 'homeThumbnail'
+          ? { homeThumbnailImageId: backgroundImage.id }
+          : {
+              backgroundImage,
+              backgroundType: Project.BackgroundTypes.IMAGE,
+            },
       actorUser: inputs.actorUser,
     });
 

@@ -70,7 +70,7 @@ const ThumbnailPane = React.memo(() => {
 
   const handleFileSelect = useCallback(
     (file) => {
-      dispatch(entryActions.createBackgroundImageInCurrentProject({ file }));
+      dispatch(entryActions.createBackgroundImageInCurrentProject({ file, purpose: 'homeThumbnail' }));
     },
     [dispatch],
   );
