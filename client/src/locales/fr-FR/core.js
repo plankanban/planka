@@ -109,6 +109,9 @@ export default {
       autoLogoutWarning_body: "Vous serez déconnecté dans {{seconds}} s pour cause d'inactivité.",
       autoLogoutWarning_title: 'Vous allez bientôt être déconnecté',
       background: 'Arrière-plan',
+      homeThumbnail: "Miniature d'accueil",
+      homeThumbnailHint:
+        "Image affichée sur la tuile du projet sur la page d'accueil. Choisissez une image téléchargée ou ajoutez-en une ; recliquez dessus pour revenir à l'arrière-plan.",
       baseCustomFields_title: 'Champs personnalisés de base',
       baseGroup: 'Groupe de base',
       board: 'Tableau',

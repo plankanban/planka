@@ -37,6 +37,11 @@
  *                 nullable: true
  *                 description: ID of the background image used as background
  *                 example: "1357158568008091266"
+ *               homeThumbnailImageId:
+ *                 type: string
+ *                 nullable: true
+ *                 description: ID of the uploaded image used as the project's tile thumbnail on the home page (null = use the background)
+ *                 example: "1357158568008091267"
  *               name:
  *                 type: string
  *                 maxLength: 128
@@ -106,6 +111,9 @@ const Errors = {
   OWNER_PROJECT_MANAGER_NOT_FOUND: {
     ownerProjectManagerNotFound: 'Owner project manager not found',
   },
+  HOME_THUMBNAIL_IMAGE_NOT_FOUND: {
+    homeThumbnailImageNotFound: 'Home thumbnail image not found',
+  },
   BACKGROUND_IMAGE_NOT_FOUND: {
     backgroundImageNotFound: 'Background image not found',
   },
@@ -134,6 +142,10 @@ module.exports = {
       allowNull: true,
     },
     backgroundImageId: {
+      ...idInput,
+      allowNull: true,
+    },
+    homeThumbnailImageId: {
       ...idInput,
       allowNull: true,
     },
@@ -177,6 +189,9 @@ module.exports = {
       responseType: 'notFound',
     },
     backgroundImageNotFound: {
+      responseType: 'notFound',
+    },
+    homeThumbnailImageNotFound: {
       responseType: 'notFound',
     },
     projectAlreadyHasOwnerProjectManager: {
@@ -225,6 +240,7 @@ module.exports = {
     if (projectManager) {
       availableInputKeys.push(
         'backgroundImageId',
+        'homeThumbnailImageId',
         'name',
         'description',
         'backgroundType',
@@ -262,6 +278,16 @@ module.exports = {
       delete inputs.backgroundImageId; // eslint-disable-line no-param-reassign
     }
 
+    if (inputs.homeThumbnailImageId) {
+      const homeThumbnailImage = await BackgroundImage.qm.getOneById(inputs.homeThumbnailImageId, {
+        projectId: project.id,
+      });
+
+      if (!homeThumbnailImage) {
+        throw Errors.HOME_THUMBNAIL_IMAGE_NOT_FOUND;
+      }
+    }
+
     if (!_.isUndefined(inputs.isFavorite)) {
       if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
         if (!projectManager) {
@@ -281,6 +307,7 @@ module.exports = {
     const values = _.pick(inputs, [
       'ownerProjectManagerId',
       'backgroundImageId',
+      'homeThumbnailImageId',
       'name',
       'description',
       'backgroundType',

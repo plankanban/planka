@@ -14,6 +14,7 @@ import { useClosableModal } from '../../../hooks';
 import GeneralPane from './GeneralPane';
 import ManagersPane from './ManagersPane';
 import BackgroundPane from './BackgroundPane';
+import ThumbnailPane from './ThumbnailPane';
 import BaseCustomFieldGroupsPane from './BaseCustomFieldGroupsPane';
 
 import styles from './ProjectSettingsModal.module.scss';
@@ -57,6 +58,12 @@ const ProjectSettingsModal = React.memo(() => {
           context: 'title',
         }),
         render: () => <BackgroundPane />,
+      },
+      {
+        menuItem: t('common.homeThumbnail', {
+          context: 'title',
+        }),
+        render: () => <ThumbnailPane />,
       },
       {
         menuItem: t('common.baseCustomFields', {

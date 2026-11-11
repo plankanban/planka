@@ -20,6 +20,7 @@
  *         - id
  *         - ownerProjectManagerId
  *         - backgroundImageId
+ *         - homeThumbnailImageId
  *         - name
  *         - description
  *         - backgroundType
@@ -42,6 +43,11 @@
  *           nullable: true
  *           description: ID of the background image used as background
  *           example: "1357158568008091266"
+ *         homeThumbnailImageId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the uploaded image used as the project's tile thumbnail on the home page (falls back to the background when null)
+ *           example: "1357158568008091267"
  *         name:
  *           type: string
  *           description: Name/title of the project
@@ -172,6 +178,10 @@ module.exports = {
     backgroundImageId: {
       model: 'BackgroundImage',
       columnName: 'background_image_id',
+    },
+    homeThumbnailImageId: {
+      model: 'BackgroundImage',
+      columnName: 'home_thumbnail_image_id',
     },
     managerUsers: {
       collection: 'User',

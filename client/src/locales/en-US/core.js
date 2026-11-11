@@ -101,6 +101,9 @@ export default {
       autoLogoutWarning_body: 'You will be logged out in {{seconds}}s due to inactivity.',
       autoLogoutWarning_title: 'You will be logged out soon',
       background: 'Background',
+      homeThumbnail: 'Home thumbnail',
+      homeThumbnailHint:
+        'Image shown on the project tile on the home page. Pick one of the uploaded images, or upload a new one; click it again to fall back to the background.',
       baseCustomFields_title: 'Base Custom Fields',
       baseGroup: 'Base group',
       board: 'Board',

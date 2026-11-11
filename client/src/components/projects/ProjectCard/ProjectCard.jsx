@@ -70,6 +70,11 @@ const ProjectCard = React.memo(
       return backgroundImage.thumbnailUrls.outside360;
     });
 
+    const homeThumbnailUrl = useSelector((state) => {
+      const homeThumbnailImage = selectBackgroundImageById(state, project.homeThumbnailImageId);
+      return homeThumbnailImage ? homeThumbnailImage.thumbnailUrls.outside360 : null;
+    });
+
     const dispatch = useDispatch();
 
     const handleToggleFavoriteClick = useCallback(() => {
@@ -102,11 +107,14 @@ const ProjectCard = React.memo(
           <div
             className={classNames(
               styles.cover,
-              project.backgroundType === ProjectBackgroundTypes.GRADIENT &&
+              !homeThumbnailUrl &&
+                project.backgroundType === ProjectBackgroundTypes.GRADIENT &&
                 globalStyles[`background${upperFirst(camelCase(project.backgroundGradient))}`],
             )}
             style={{
-              background: backgroundImageUrl && `url("${backgroundImageUrl}") center / cover`,
+              background:
+                (homeThumbnailUrl || backgroundImageUrl) &&
+                `url("${homeThumbnailUrl || backgroundImageUrl}") center / cover`,
             }}
           />
           {notificationsTotal > 0 && (

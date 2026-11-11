@@ -43,6 +43,18 @@ module.exports = {
       }
     }
 
+    if (inputs.record.id === inputs.project.homeThumbnailImageId) {
+      await sails.helpers.projects.updateOne.with({
+        scoper,
+        webhooks,
+        record: inputs.project,
+        values: {
+          homeThumbnailImageId: null,
+        },
+        actorUser: inputs.actorUser,
+      });
+    }
+
     const { backgroundImage, uploadedFile } = await BackgroundImage.qm.deleteOne(inputs.record.id);
 
     if (backgroundImage) {
