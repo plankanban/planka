@@ -5,7 +5,9 @@ const rc = require('sails/accessible/rc');
 process.env.NODE_ENV = 'test';
 
 before(function beforeCallback(done) {
-  this.timeout(5000);
+  // Lifting against a real Postgres (TEST_DATABASE_URL) is slower than the
+  // in-memory sails-disk default, especially on a cold container.
+  this.timeout(30000);
 
   dotenv.config({ quiet: true });
 

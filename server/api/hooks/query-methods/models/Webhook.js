@@ -11,6 +11,8 @@ const getAll = () => Webhook.find().sort('id');
 
 const getOneById = (id) => Webhook.findOne(id);
 
+const update = (criteria, values) => Webhook.update(criteria).set(values).fetch();
+
 const updateOne = (criteria, values) => Webhook.updateOne(criteria).set({ ...values });
 
 const deleteOne = (criteria) => Webhook.destroyOne(criteria);
@@ -19,6 +21,7 @@ module.exports = {
   createOne,
   getAll,
   getOneById,
+  update,
   updateOne,
   deleteOne,
 };

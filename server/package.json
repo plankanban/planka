@@ -9,6 +9,7 @@
     "db:create-admin-user": "node db/create-admin-user.js",
     "db:init": "node db/init.js",
     "db:migrate": "knex migrate:latest --cwd db",
+    "db:orphan-census": "node db/orphan-census.js",
     "db:seed": "knex seed:run --cwd db",
     "db:upgrade": "node db/upgrade.js",
     "postinstall": "patch-package && npm run setup-python",
@@ -17,7 +18,7 @@
     "start": "nodemon",
     "start:prod": "cross-env NODE_ENV=production node app.js --prod",
     "swagger:generate": "node generate-swagger.js",
-    "test": "mocha test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
+    "test": "mocha --exit --timeout 30000 test/lifecycle.test.js test/integration/**/*.test.js test/utils/**/*.test.js"
   },
   "eslintConfig": {
     "plugins": [

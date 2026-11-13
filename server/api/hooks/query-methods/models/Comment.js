@@ -99,6 +99,14 @@ const deleteOne = (criteria) =>
   sails.getDatastore().transaction(async (db) => {
     const comment = await Comment.destroyOne(criteria).usingConnection(db);
 
+    // `destroyOne` resolves to `undefined` when nothing matched (already
+    // deleted, or deleted concurrently). `helpers/comments/delete-one.js`
+    // tests the result for truthiness and expects a no-op, so dereferencing
+    // `comment.cardId` here turned a benign double-delete into a 500.
+    if (!comment) {
+      return comment;
+    }
+
     const queryResult = await sails
       .sendNativeQuery(
         'UPDATE card SET comments_total = comments_total - 1, updated_at = $1 WHERE id = $2',

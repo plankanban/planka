@@ -38,10 +38,29 @@ const getByCardId = (cardId, { exceptIdOrIds, sort = ['position', 'id'] } = {}) 
     { exceptIdOrIds, sort },
   );
 
+const getByBoardIds = (boardIds, { sort = ['position', 'id'] } = {}) =>
+  defaultFind(
+    {
+      boardId: boardIds,
+    },
+    { sort },
+  );
+
 const getByCardIds = (cardIds, { sort = ['position', 'id'] } = {}) =>
   defaultFind(
     {
       cardId: cardIds,
+    },
+    { sort },
+  );
+
+const getByBaseCustomFieldGroupIds = (
+  baseCustomFieldGroupIds,
+  { sort = ['position', 'id'] } = {},
+) =>
+  defaultFind(
+    {
+      baseCustomFieldGroupId: baseCustomFieldGroupIds,
     },
     { sort },
   );
@@ -61,9 +80,11 @@ module.exports = {
   create,
   createOne,
   getByBoardId,
+  getByBoardIds,
   getByIds,
   getByCardId,
   getByCardIds,
+  getByBaseCustomFieldGroupIds,
   getOneById,
   update,
   updateOne,

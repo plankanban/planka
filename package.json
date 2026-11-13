@@ -19,6 +19,7 @@
     "server:db:create-admin-user": "npm run db:create-admin-user --prefix server",
     "server:db:init": "npm run db:init --prefix server",
     "server:db:migrate": "npm run db:migrate --prefix server",
+    "server:db:orphan-census": "npm run db:orphan-census --prefix server",
     "server:db:seed": "npm run db:seed --prefix server",
     "server:db:upgrade": "npm run db:upgrade --prefix server",
     "server:lint": "npm run lint --prefix server",
