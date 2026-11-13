@@ -14,6 +14,7 @@ import selectors from '../../../selectors';
 import { isUserStatic } from '../../../utils/record-helpers';
 import Paths from '../../../constants/Paths';
 import { ActivityTypes } from '../../../constants/Enums';
+import { getCustomFieldActivityValues } from '../../../utils/custom-field-activity';
 import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
 
@@ -193,6 +194,31 @@ const Item = React.memo(({ id }) => {
       );
 
       break;
+    case ActivityTypes.UPDATE_CUSTOM_FIELD_VALUE: {
+      const { customField, content } = getCustomFieldActivityValues(activity.data);
+
+      contentNode = (
+        <Trans
+          i18nKey="common.userSetCustomFieldOnCard"
+          values={{
+            user: userName,
+            customField,
+            card: cardName,
+            content,
+          }}
+        >
+          <span className={styles.author}>{userName}</span>
+          {' set '}
+          {customField}
+          {' on '}
+          <Link to={Paths.CARDS.replace(':id', activity.cardId)}>{cardName}</Link>
+          {': '}
+          {content}
+        </Trans>
+      );
+
+      break;
+    }
     default:
       contentNode = null;
   }
