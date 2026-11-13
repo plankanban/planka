@@ -6,6 +6,7 @@
 const { ProxyAgent } = require('undici');
 
 const Webhook = require('../../models/Webhook');
+const { describeWebhookFailure } = require('../../../utils/webhook-failure');
 
 const BOARD_ITEM_EVENTS = new Set([
   Webhook.Events.BOARD_CREATE,
@@ -118,7 +119,9 @@ async function sendWebhook(webhook, event, data, prevData, user) {
       );
     }
   } catch (error) {
-    sails.log.error(`Webhook ${webhook.name} failed with error: ${error}`);
+    // `${error}` alone is always "TypeError: fetch failed" here -- the reason is
+    // on error.cause. See utils/webhook-failure.js.
+    sails.log.error(`Webhook ${webhook.name} failed with error: ${describeWebhookFailure(error)}`);
   }
 }
 
