@@ -12,6 +12,7 @@ import { Comment } from 'semantic-ui-react';
 import selectors from '../../../selectors';
 import { isUserStatic } from '../../../utils/record-helpers';
 import { ActivityTypes } from '../../../constants/Enums';
+import { getCustomFieldActivityValues } from '../../../utils/custom-field-activity';
 import TimeAgo from '../../common/TimeAgo';
 import UserAvatar from '../../users/UserAvatar';
 
@@ -169,6 +170,28 @@ const Item = React.memo(({ id }) => {
       );
 
       break;
+    case ActivityTypes.UPDATE_CUSTOM_FIELD_VALUE: {
+      const { customField, content } = getCustomFieldActivityValues(activity.data);
+
+      contentNode = (
+        <Trans
+          i18nKey="common.userSetCustomFieldOnThisCard"
+          values={{
+            user: userName,
+            customField,
+            content,
+          }}
+        >
+          <span className={styles.author}>{userName}</span>
+          {' set '}
+          {customField}
+          {': '}
+          {content}
+        </Trans>
+      );
+
+      break;
+    }
     default:
       contentNode = null;
   }

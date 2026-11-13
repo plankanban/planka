@@ -33,6 +33,13 @@ module.exports = {
   async fn(inputs) {
     const { values } = inputs;
 
+    const prevCustomFieldValue =
+      await CustomFieldValue.qm.getOneByCardIdAndCustomFieldGroupIdAndCustomFieldId(
+        values.card.id,
+        values.customFieldGroup.id,
+        values.customField.id,
+      );
+
     const customFieldValue = await CustomFieldValue.qm.createOrUpdateOne({
       ...values,
       cardId: values.card.id,
@@ -68,6 +75,45 @@ module.exports = {
       }),
       user: inputs.actorUser,
     });
+
+    const content = _.isString(customFieldValue.content) ? customFieldValue.content.trim() : '';
+    const prevContent =
+      prevCustomFieldValue && _.isString(prevCustomFieldValue.content)
+        ? prevCustomFieldValue.content.trim()
+        : null;
+
+    if (
+      sails.config.custom.trackedCustomFieldNames.includes(values.customField.name) &&
+      content !== '' &&
+      content !== prevContent
+    ) {
+      try {
+        await sails.helpers.actions.createOne.with({
+          webhooks,
+          values: {
+            type: Action.Types.UPDATE_CUSTOM_FIELD_VALUE,
+            data: {
+              card: _.pick(values.card, ['name']),
+              customFieldId: values.customField.id,
+              customFieldName: values.customField.name,
+              customFieldGroupId: values.customFieldGroup.id,
+              customFieldGroupName: values.customFieldGroup.name,
+              content: customFieldValue.content,
+            },
+            user: inputs.actorUser,
+            card: values.card,
+          },
+          project: inputs.project,
+          board: inputs.board,
+          list: inputs.list,
+          request: inputs.request,
+        });
+      } catch (error) {
+        sails.log.warn(
+          `Failed to record ${Action.Types.UPDATE_CUSTOM_FIELD_VALUE} action for card ${values.card.id}: ${error}`,
+        );
+      }
+    }
 
     return customFieldValue;
   },

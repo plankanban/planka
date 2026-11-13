@@ -166,6 +166,13 @@ module.exports.custom = {
 
   gravatarBaseUrl: process.env.GRAVATAR_BASE_URL,
 
+  // Custom fields whose value changes are recorded as card actions (activity history).
+  trackedCustomFieldNames: process.env.TRACKED_CUSTOM_FIELD_NAMES
+    ? envToArray(process.env.TRACKED_CUSTOM_FIELD_NAMES)
+        .map((name) => name.trim())
+        .filter((name) => name.length > 0)
+    : ['block_reason'],
+
   /* Internal */
 
   internalAccessToken: process.env.INTERNAL_ACCESS_TOKEN,

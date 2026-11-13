@@ -464,6 +464,9 @@ export default {
         '<0>{{user}}</0> moved this card from {{fromList}} to {{toList}}',
       userRemovedUserFromCard: '<0>{{actorUser}}</0> removed {{removedUser}} from <4>{{card}}</4>',
       userRemovedUserFromThisCard: '<0>{{actorUser}}</0> removed {{removedUser}} from this card',
+      userSetCustomFieldOnCard:
+        '<0>{{user}}</0> set {{customField}} on <4>{{card}}</4>: {{content}}',
+      userSetCustomFieldOnThisCard: '<0>{{user}}</0> set {{customField}}: {{content}}',
       username: 'Username',
       users: 'Users',
       viewer: 'Viewer',

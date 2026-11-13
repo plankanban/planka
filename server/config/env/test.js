@@ -45,23 +45,42 @@ module.exports = {
      *
      */
 
-    default: {
-      adapter: 'sails-disk',
+    /**
+     * `sails-disk` in-memory by default, so `npm test` needs no infrastructure.
+     *
+     * Integration tests that exercise the delete cascades need a real Postgres:
+     * the query-method layer drops to `sails.sendNativeQuery` for the comment
+     * and attachment counters, and the orphan census is a set of LEFT JOINs.
+     * Those tests opt in via TEST_DATABASE_URL and skip themselves without it.
+     *
+     * TEST_DATABASE_URL is deliberately NOT DATABASE_URL: `test/lifecycle.test.js`
+     * loads `.env`, and silently pointing a truncating test suite at a
+     * developer's or an operator's DATABASE_URL is how you lose a database.
+     * Point it at a throwaway container and nothing else.
+     */
 
-      /**
-       *
-       * More adapter-specific options
-       *
-       * > For example, for some hosted PostgreSQL providers (like Heroku), the
-       * > extra `ssl: true` option is mandatory and must be provided.
-       *
-       * More info:
-       * https://sailsjs.com/config/datastores
-       *
-       */
+    default: process.env.TEST_DATABASE_URL
+      ? {
+          adapter: 'sails-postgresql',
+          url: process.env.TEST_DATABASE_URL,
+        }
+      : {
+          adapter: 'sails-disk',
 
-      inMemoryOnly: true,
-    },
+          /**
+           *
+           * More adapter-specific options
+           *
+           * > For example, for some hosted PostgreSQL providers (like Heroku), the
+           * > extra `ssl: true` option is mandatory and must be provided.
+           *
+           * More info:
+           * https://sailsjs.com/config/datastores
+           *
+           */
+
+          inMemoryOnly: true,
+        },
   },
 
   log: {
