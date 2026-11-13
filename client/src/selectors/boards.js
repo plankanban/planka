@@ -153,11 +153,18 @@ export const selectMembershipsForCurrentBoard = createSelector(
     return boardModel
       .getMembershipsQuerySet()
       .toModelArray()
-      .map((boardMembershipModel) => ({
-        ...boardMembershipModel.ref,
-        isPersisted: !isLocalId(boardMembershipModel.id),
-        user: boardMembershipModel.user.ref,
-      }));
+      .flatMap((boardMembershipModel) => {
+        // A board membership can outlive the user it points at
+        if (!boardMembershipModel.user) {
+          return [];
+        }
+
+        return {
+          ...boardMembershipModel.ref,
+          isPersisted: !isLocalId(boardMembershipModel.id),
+          user: boardMembershipModel.user.ref,
+        };
+      });
   },
 );
 

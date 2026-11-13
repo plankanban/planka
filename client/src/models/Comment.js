@@ -70,7 +70,10 @@ export default class extends BaseModel {
       case ActionTypes.COMMENT_DELETE: {
         const commentModel = Comment.withId(payload.id);
         commentModel.delete();
-        commentModel.card.commentsTotal -= 1;
+
+        if (commentModel.card) {
+          commentModel.card.commentsTotal -= 1;
+        }
 
         break;
       }
