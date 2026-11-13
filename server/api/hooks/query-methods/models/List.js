@@ -34,6 +34,14 @@ const getByBoardId = (boardId, { exceptIdOrIds, typeOrTypes, sort = ['position',
   return defaultFind(criteria, { sort });
 };
 
+const getByBoardIds = (boardIds, { sort = ['position', 'id'] } = {}) =>
+  defaultFind(
+    {
+      boardId: boardIds,
+    },
+    { sort },
+  );
+
 const getOneById = (id, { boardId } = {}) => {
   const criteria = {
     id,
@@ -136,6 +144,7 @@ module.exports = {
   createOne,
   getByIds,
   getByBoardId,
+  getByBoardIds,
   getOneById,
   getOneTrashByBoardId,
   updateOne,

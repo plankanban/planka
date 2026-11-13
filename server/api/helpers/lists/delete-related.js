@@ -3,6 +3,12 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
+/**
+ * Deletes everything that hangs off a list.
+ *
+ * Children before parents -- see the ordering contract in
+ * `helpers/cards/delete-related.js`.
+ */
 module.exports = {
   inputs: {
     recordOrRecords: {
@@ -21,10 +27,12 @@ module.exports = {
       listIdOrIds = sails.helpers.utils.mapRecords(inputs.recordOrRecords);
     }
 
-    const cards = await Card.qm.delete({
-      listId: listIdOrIds,
-    });
+    const cards = await Card.qm.getByListIds(listIdOrIds);
 
     await sails.helpers.cards.deleteRelated(cards);
+
+    await Card.qm.delete({
+      listId: listIdOrIds,
+    });
   },
 };

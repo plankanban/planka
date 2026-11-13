@@ -47,6 +47,11 @@ const getShared = ({ exceptIdOrIds } = {}) => {
   return defaultFind(criteria);
 };
 
+const getByOwnerProjectManagerIds = (ownerProjectManagerIds) =>
+  defaultFind({
+    ownerProjectManagerId: ownerProjectManagerIds,
+  });
+
 const getOneById = (id) => Project.findOne(id);
 
 const updateOne = (criteria, values) => Project.updateOne(criteria).set({ ...values });
@@ -60,6 +65,7 @@ module.exports = {
   createOne,
   getByIds,
   getShared,
+  getByOwnerProjectManagerIds,
   getOneById,
   updateOne,
   deleteOne,

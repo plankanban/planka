@@ -182,8 +182,12 @@ const deleteOne = (criteria) =>
   sails.getDatastore().transaction(async (db) => {
     const attachment = await Attachment.destroyOne(criteria).usingConnection(db);
 
+    // `destroyOne` resolves to `undefined` when nothing matched (already
+    // deleted, or deleted concurrently). Callers -- `helpers/attachments/
+    // delete-one.js` -- test the result for truthiness and expect a no-op, so
+    // dereferencing it here turned a benign double-delete into a 500.
     let uploadedFile;
-    if (attachment.type === Attachment.Types.FILE) {
+    if (attachment && attachment.type === Attachment.Types.FILE) {
       const queryResult = await sails
         .sendNativeQuery(
           'UPDATE uploaded_file SET references_total = CASE WHEN references_total > 1 THEN references_total - 1 END, updated_at = $1 WHERE id = $2 RETURNING *',
@@ -191,7 +195,9 @@ const deleteOne = (criteria) =>
         )
         .usingConnection(db);
 
-      uploadedFile = UploadedFile.qm.transformRowToModel(queryResult.rows[0]);
+      if (queryResult.rows.length > 0) {
+        uploadedFile = UploadedFile.qm.transformRowToModel(queryResult.rows[0]);
+      }
     }
 
     return { attachment, uploadedFile };
