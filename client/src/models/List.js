@@ -329,6 +329,12 @@ export default class extends BaseModel {
       return cardModels;
     }
 
+    // A list can outlive its board if the deletion did not cascade; with no board
+    // there is no search or filter to apply, so every card passes through
+    if (!this.board) {
+      return cardModels;
+    }
+
     if (this.board.search) {
       if (this.board.search.startsWith('/')) {
         let searchRegex;

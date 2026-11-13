@@ -135,25 +135,28 @@ export const makeSelectShownOnFrontOfCardCustomFieldValueIdsByCardId = () =>
         return cardModel;
       }
 
-      return [
-        ...cardModel.board
-          .getCustomFieldGroupsQuerySet()
-          .toModelArray()
-          .flatMap((customFieldGroupModel) =>
-            customFieldGroupModel
-              .getShownOnFrontOfCardCustomFieldsModelArray()
-              .flatMap((customFieldModel) => {
-                const customFieldValue = CustomFieldValue.withId(
-                  buildCustomFieldValueId({
-                    cardId: id,
-                    customFieldGroupId: customFieldGroupModel.id,
-                    customFieldId: customFieldModel.id,
-                  }),
-                );
+      // A card can outlive its board if the deletion did not cascade; the card's
+      // own custom field groups stay reachable either way
+      const boardCustomFieldGroupModels = cardModel.board
+        ? cardModel.board.getCustomFieldGroupsQuerySet().toModelArray()
+        : [];
 
-                return customFieldValue ? customFieldValue.id : [];
-              }),
-          ),
+      return [
+        ...boardCustomFieldGroupModels.flatMap((customFieldGroupModel) =>
+          customFieldGroupModel
+            .getShownOnFrontOfCardCustomFieldsModelArray()
+            .flatMap((customFieldModel) => {
+              const customFieldValue = CustomFieldValue.withId(
+                buildCustomFieldValueId({
+                  cardId: id,
+                  customFieldGroupId: customFieldGroupModel.id,
+                  customFieldId: customFieldModel.id,
+                }),
+              );
+
+              return customFieldValue ? customFieldValue.id : [];
+            }),
+        ),
         ...cardModel
           .getCustomFieldGroupsQuerySet()
           .toModelArray()

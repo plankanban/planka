@@ -175,11 +175,18 @@ export const selectManagersForCurrentProject = createSelector(
     return projectModel
       .getManagersQuerySet()
       .toModelArray()
-      .map((projectManagerModel) => ({
-        ...projectManagerModel.ref,
-        isPersisted: !isLocalId(projectManagerModel.id),
-        user: projectManagerModel.user.ref,
-      }));
+      .flatMap((projectManagerModel) => {
+        // A project manager can outlive the user it points at
+        if (!projectManagerModel.user) {
+          return [];
+        }
+
+        return {
+          ...projectManagerModel.ref,
+          isPersisted: !isLocalId(projectManagerModel.id),
+          user: projectManagerModel.user.ref,
+        };
+      });
   },
 );
 

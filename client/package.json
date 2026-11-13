@@ -77,7 +77,13 @@
   "jest": {
     "transform": {
       "^.+\\.(js|jsx)$": "babel-jest"
-    }
+    },
+    "moduleNameMapper": {
+      "\\.(png|jpg|jpeg|gif|webp|avif|ico|svg|css|scss|sass)(\\?.*)?$": "<rootDir>/jest/asset-mock.js"
+    },
+    "setupFiles": [
+      "<rootDir>/jest/setup.js"
+    ]
   },
   "overrides": {
     "react-mentions": {

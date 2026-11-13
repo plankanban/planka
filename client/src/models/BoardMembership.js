@@ -106,6 +106,12 @@ export default class extends BaseModel {
   }
 
   deleteRelated(isCurrentUser = false) {
+    // A board membership can outlive its board if the deletion did not cascade,
+    // and every cleanup below hangs off that relation
+    if (!this.board) {
+      return;
+    }
+
     if (isCurrentUser) {
       this.board.isSubscribed = false;
     }

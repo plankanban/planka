@@ -70,7 +70,9 @@ export const selectPath = createReduxOrmSelector(
         case Paths.CARDS: {
           const cardModel = Card.withId(pathsMatch.params.id);
 
-          if (!cardModel || !cardModel.isAvailableForUser(currentUserModel)) {
+          // `isAvailableForUser` walks card → list → board, so a card whose own
+          // board hop dangles passes it and then throws on `board.projectId`
+          if (!cardModel || !cardModel.board || !cardModel.isAvailableForUser(currentUserModel)) {
             return {
               cardId: null,
               boardId: null,
