@@ -27,6 +27,7 @@
 const { expect } = require('chai');
 
 const { buildCensusQuery, summarize, ORPHAN_EDGES } = require('../../../utils/orphan-census');
+const { withoutForeignKeys } = require('../../support/foreign-keys');
 
 const { TEST_DATABASE_URL } = process.env;
 
@@ -347,6 +348,14 @@ const expectInjectedFailure = async (promise) => {
 
 (TEST_DATABASE_URL ? describe : describe.skip)('delete-related cascade ordering', () => {
   let tree;
+
+  // MUST come before the FK migration can help these tests. Every assertion below
+  // is `census === 0`, and with foreign keys enforced Postgres delivers that on its
+  // own -- ON DELETE CASCADE would clean up after a parent-first regression and the
+  // suite would stay green through the exact bug it was written to catch. Disabling
+  // enforcement keeps the subject of the test the APPLICATION cascade.
+  // See test/support/foreign-keys.js.
+  withoutForeignKeys();
 
   beforeEach(async () => {
     await truncateAll();

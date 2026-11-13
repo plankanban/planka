@@ -47,7 +47,7 @@
  *     an upstream rebase after it has run in production, the next
  *     `migrate:latest` aborts with "The migration directory is corrupt".
  *     ESCAPE HATCH, when it is landed: give the file a timestamp far beyond any
- *     plausible upstream one (e.g. 29990101000000_add_foreign_keys.js) so it
+ *     plausible upstream one (e.g. 20261113000000_add_referential_integrity_constraints.js) so it
  *     always sorts last, and never rename it once applied.
  *
  * Until then this census is the compensating control: it is the thing that
@@ -95,7 +95,6 @@ const ORPHAN_EDGES = [
   ['custom_field_value', 'card_id', 'card'],
   ['custom_field_value', 'custom_field_group_id', 'custom_field_group'],
   ['custom_field_value', 'custom_field_id', 'custom_field'],
-  ['identity_provider_user', 'user_id', 'user_account'],
   ['label', 'board_id', 'board'],
   ['list', 'board_id', 'board'],
   ['notification', 'action_id', 'action'],

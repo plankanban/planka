@@ -32,6 +32,8 @@ const {
   nullifyBackupTableFor,
 } = require('../../../utils/orphan-purge');
 
+const { withoutForeignKeys } = require('../../support/foreign-keys');
+
 const { TEST_DATABASE_URL } = process.env;
 
 const TABLES = [
@@ -209,6 +211,10 @@ describe('orphan purge', function purgeSuite() {
 
     return;
   }
+
+  // These tests manufacture states foreign keys forbid, and are about what the
+  // APPLICATION does. See test/support/foreign-keys.js.
+  withoutForeignKeys();
 
   beforeEach(async () => {
     await truncateAll();

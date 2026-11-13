@@ -84,7 +84,6 @@ const PURGE_ACTIONS = {
   'custom_field_value.card_id': DELETE,
   'custom_field_value.custom_field_group_id': DELETE,
   'custom_field_value.custom_field_id': DELETE,
-  'identity_provider_user.user_id': DELETE,
   'label.board_id': DELETE,
   'list.board_id': DELETE,
   'notification.action_id': DELETE,
