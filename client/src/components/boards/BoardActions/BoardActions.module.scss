@@ -32,9 +32,10 @@
   }
 
   .contextTitle {
-    background: rgba(0, 0, 0, 0.08);
-    border-radius: 3px;
-    color: #fff;
+    background: var(--pk-surface);
+    border: 1px solid var(--pk-border);
+    border-radius: 8px;
+    color: var(--pk-text-secondary);
     line-height: 34px;
     padding: 2px 14px;
   }
@@ -47,7 +48,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     -ms-overflow-style: none;
-    padding: 15px 0;
+    padding: 12px 0;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {

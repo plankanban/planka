@@ -7,7 +7,7 @@
   .editButton {
     background: transparent;
     box-shadow: none;
-    color: #fff;
+    color: var(--pk-text-muted);
     line-height: 32px;
     margin-right: 0;
     opacity: 0;
@@ -18,7 +18,8 @@
     width: 32px;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
     }
   }
 
@@ -26,20 +27,21 @@
     cursor: pointer;
     display: block;
     line-height: 20px;
-    padding: 10px 34px 6px 14px;
+    padding: 11px 34px 9px 14px;
     text-overflow: ellipsis;
     max-width: 400px;
     overflow: hidden;
   }
 
   .name {
-    color: rgba(255, 255, 255, 0.72);
+    color: var(--pk-text-muted);
+    font-weight: bold;
   }
 
   .notifications {
-    background: #eb5a46;
+    background: var(--pk-danger);
     border: none;
-    border-radius: 3px;
+    border-radius: 999px;
     color: #fff;
     display: inline-block;
     font-size: 10px;
@@ -52,16 +54,14 @@
   }
 
   .tab {
-    border-radius: 3px 3px 0 0;
+    border-bottom: 2px solid transparent;
     min-width: 100px;
     position: relative;
     transition: all 0.1s ease;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.12);
-
       .name {
-        color: #fff;
+        color: var(--pk-text);
       }
 
       .editButton {
@@ -71,15 +71,10 @@
   }
 
   .tabActive {
-    background: rgba(0, 0, 0, 0.24);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.32);
-    }
+    border-bottom-color: var(--pk-accent);
 
     .name {
-      color: #fff;
-      font-weight: bold;
+      color: var(--pk-text);
     }
   }
 

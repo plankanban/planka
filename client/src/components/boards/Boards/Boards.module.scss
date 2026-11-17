@@ -6,18 +6,20 @@
 :global(#app) {
   .addButton {
     background: transparent;
-    color: #fff;
-    margin-right: 0;
+    border-radius: 8px;
+    color: var(--pk-text-muted);
+    margin: 2px 0 0 4px;
     vertical-align: top;
 
     &:hover {
-      background: rgba(34, 36, 38, 0.3);
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
     }
   }
 
   .tabs {
     display: flex;
-    height: 38px;
+    height: 42px;
     flex: 0 0 auto;
     white-space: nowrap;
   }
@@ -35,7 +37,7 @@
     }
 
     &:hover {
-      height: 38px;
+      height: 42px;
     }
 
     &::-webkit-scrollbar {
@@ -52,11 +54,10 @@
   }
 
   .wrapper {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.24);
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    height: 38px;
+    height: 42px;
     overflow: hidden;
   }
 }
