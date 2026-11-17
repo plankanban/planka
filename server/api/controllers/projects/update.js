@@ -42,6 +42,12 @@
  *                 nullable: true
  *                 description: ID of the uploaded image used as the project's tile thumbnail on the home page (null = use the background)
  *                 example: "1357158568008091267"
+ *               homeThumbnailGradient:
+ *                 type: string
+ *                 enum: [old-lime, ocean-dive, tzepesch-style, jungle-mesh, strawberry-dust, purple-rose, sun-scream, warm-rust, sky-change, green-eyes, blue-xchange, blood-orange, sour-peel, green-ninja, algae-green, coral-reef, steel-grey, heat-waves, velvet-lounge, purple-rain, blue-steel, blueish-curve, prism-light, green-mist, red-curtain]
+ *                 nullable: true
+ *                 description: Gradient used as the project's tile thumbnail on the home page (replaces any thumbnail image; null together with a null thumbnail image = use the background)
+ *                 example: ocean-dive
  *               name:
  *                 type: string
  *                 maxLength: 128
@@ -149,6 +155,11 @@ module.exports = {
       ...idInput,
       allowNull: true,
     },
+    homeThumbnailGradient: {
+      type: 'string',
+      isIn: Project.BACKGROUND_GRADIENTS,
+      allowNull: true,
+    },
     name: {
       type: 'string',
       isNotEmptyString: true,
@@ -241,6 +252,7 @@ module.exports = {
       availableInputKeys.push(
         'backgroundImageId',
         'homeThumbnailImageId',
+        'homeThumbnailGradient',
         'name',
         'description',
         'backgroundType',
@@ -308,6 +320,7 @@ module.exports = {
       'ownerProjectManagerId',
       'backgroundImageId',
       'homeThumbnailImageId',
+      'homeThumbnailGradient',
       'name',
       'description',
       'backgroundType',

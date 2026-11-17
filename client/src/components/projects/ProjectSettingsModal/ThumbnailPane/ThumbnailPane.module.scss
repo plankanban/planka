@@ -41,4 +41,30 @@
     text-decoration: underline;
     width: 100%;
   }
+
+  .subtitle {
+    color: #6b808c;
+    font-size: 13px;
+    margin: 16px 0 8px;
+  }
+
+  .gradients {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+  }
+
+  .gradient {
+    border-radius: 3px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+  }
+
+  .gradientLabel {
+    background: transparent;
+    border: none;
+  }
 }

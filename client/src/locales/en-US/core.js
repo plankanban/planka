@@ -103,7 +103,7 @@ export default {
       background: 'Background',
       homeThumbnail: 'Home thumbnail',
       homeThumbnailHint:
-        'Image shown on the project tile on the home page. Pick one of the uploaded images, or upload a new one; click it again to fall back to the background.',
+        'Image shown on the project tile on the home page. Pick an uploaded image or a gradient, or upload a new image; click it again to fall back to the background.',
       baseCustomFields_title: 'Base Custom Fields',
       baseGroup: 'Base group',
       board: 'Board',

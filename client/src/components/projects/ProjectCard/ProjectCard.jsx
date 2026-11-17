@@ -75,6 +75,20 @@ const ProjectCard = React.memo(
       return homeThumbnailImage ? homeThumbnailImage.thumbnailUrls.outside360 : null;
     });
 
+    // Tile cover: thumbnail image > thumbnail gradient > background (image or gradient)
+    let coverImageUrl = homeThumbnailUrl;
+    let coverGradient = null;
+
+    if (!homeThumbnailUrl) {
+      if (project.homeThumbnailGradient) {
+        coverGradient = project.homeThumbnailGradient;
+      } else if (project.backgroundType === ProjectBackgroundTypes.GRADIENT) {
+        coverGradient = project.backgroundGradient;
+      } else {
+        coverImageUrl = backgroundImageUrl;
+      }
+    }
+
     const dispatch = useDispatch();
 
     const handleToggleFavoriteClick = useCallback(() => {
@@ -107,14 +121,10 @@ const ProjectCard = React.memo(
           <div
             className={classNames(
               styles.cover,
-              !homeThumbnailUrl &&
-                project.backgroundType === ProjectBackgroundTypes.GRADIENT &&
-                globalStyles[`background${upperFirst(camelCase(project.backgroundGradient))}`],
+              coverGradient && globalStyles[`background${upperFirst(camelCase(coverGradient))}`],
             )}
             style={{
-              background:
-                (homeThumbnailUrl || backgroundImageUrl) &&
-                `url("${homeThumbnailUrl || backgroundImageUrl}") center / cover`,
+              background: coverImageUrl && `url("${coverImageUrl}") center / cover`,
             }}
           />
           {notificationsTotal > 0 && (

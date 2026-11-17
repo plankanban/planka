@@ -64,6 +64,13 @@ module.exports = {
       }
     }
 
+    // A thumbnail is either an image or a gradient, never both.
+    if (values.homeThumbnailGradient) {
+      values.homeThumbnailImageId = null;
+    } else if (values.homeThumbnailImageId) {
+      values.homeThumbnailGradient = null;
+    }
+
     const backgroundType = _.isUndefined(values.backgroundType)
       ? inputs.record.backgroundType
       : values.backgroundType;
