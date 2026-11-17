@@ -62,10 +62,22 @@
     vertical-align: top;
   }
 
+  // The done toggle sits inside the date pill, so the two read as one control
   .attachmentDueDate {
     align-items: center;
-    display: flex;
-    gap: 4px;
+    background: var(--pk-surface-muted);
+    border-radius: 999px;
+    display: inline-flex;
+    padding-left: 5px;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--pk-border);
+    }
+
+    span {
+      background: transparent !important;
+    }
   }
 
   .attachments {
@@ -104,18 +116,18 @@
 
   .doneButton {
     align-items: center;
-    background: transparent;
-    border: 1.5px solid var(--pk-border-strong);
+    background: var(--pk-surface);
+    border: 1.5px solid var(--pk-text-muted);
     border-radius: 50%;
     color: transparent;
     cursor: pointer;
     display: inline-flex;
-    font-size: 12px;
-    height: 26px;
+    font-size: 11px;
+    height: 22px;
     justify-content: center;
     padding: 0;
     transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-    width: 26px;
+    width: 22px;
 
     &:hover {
       border-color: #21ba45;
