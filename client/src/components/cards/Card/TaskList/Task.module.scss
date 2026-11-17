@@ -5,7 +5,7 @@
 
 :global(#app) {
   .icon {
-    color: rgba(9, 30, 66, 0.24);
+    color: var(--pk-text-muted);
   }
 
   .name {
@@ -15,7 +15,7 @@
   }
 
   .nameCompleted {
-    color: #aaa;
+    color: var(--pk-text-muted);
     text-decoration: line-through;
   }
 
