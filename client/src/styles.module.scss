@@ -32,6 +32,104 @@
     }
   }
 
+  :root[data-theme='dark'] {
+    --pk-bg: #0f1115;
+    --pk-surface: #181b22;
+    --pk-surface-muted: #232733;
+    --pk-list: #1c2029;
+    --pk-border: #2b303c;
+    --pk-border-strong: #3b4252;
+    --pk-text: #f2f4f7;
+    --pk-text-secondary: #cdd2db;
+    --pk-text-muted: #98a1b3;
+    --pk-accent: #7c74ff;
+    --pk-accent-hover: #918aff;
+    --pk-accent-soft: #26244a;
+    --pk-accent-text: #c7c3ff;
+    --pk-danger: #f97066;
+    --pk-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --pk-shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
+
+    color-scheme: dark;
+  }
+
+  // Semantic UI paints these in fixed light colours, so the dark theme recolours them
+  :root[data-theme='dark'] #app {
+    color: var(--pk-text);
+
+    .ui.header,
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--pk-text);
+    }
+
+    .ui.menu .item,
+    .ui.secondary.menu .item {
+      color: var(--pk-text-secondary);
+    }
+
+    .ui.secondary.menu .active.item,
+    .ui.secondary.menu a.item:hover,
+    .ui.secondary.menu .link.item:hover {
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
+    }
+
+    .ui.button:not(.positive):not(.primary):not(.negative):not(.basic) {
+      background: var(--pk-surface-muted);
+      color: var(--pk-text-secondary);
+
+      &:hover {
+        background: var(--pk-border-strong);
+        color: var(--pk-text);
+      }
+    }
+
+    .ui.basic.button {
+      background: transparent !important;
+      box-shadow: inset 0 0 0 1px var(--pk-border-strong) !important;
+      color: var(--pk-text-secondary) !important;
+    }
+
+    .ui.dropdown .menu,
+    .ui.selection.dropdown {
+      background: var(--pk-surface);
+      border-color: var(--pk-border-strong);
+      color: var(--pk-text);
+
+      > .item {
+        border-color: var(--pk-border);
+        color: var(--pk-text);
+      }
+    }
+
+    .ui.table {
+      background: var(--pk-surface);
+      border-color: var(--pk-border);
+      color: var(--pk-text);
+
+      thead th {
+        background: var(--pk-surface-muted);
+        color: var(--pk-text);
+      }
+
+      td {
+        border-color: var(--pk-border);
+      }
+    }
+
+    .ui.divider {
+      border-color: var(--pk-border);
+      color: var(--pk-text-muted);
+    }
+
+    ::placeholder {
+      color: var(--pk-text-muted);
+    }
+  }
+
   // Settings modals, popups and their forms, matched to the dashboard
   #app {
     .ui.modal {

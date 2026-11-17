@@ -10,7 +10,7 @@
   }
 
   .icon {
-    color: #888888;
+    color: var(--pk-text-muted);
     margin: 0 0.35714286em 0 0;
   }
 
@@ -31,7 +31,7 @@
   }
 
   .note {
-    color: #888888;
+    color: var(--pk-text-muted);
   }
 
   .roleCell {
@@ -45,7 +45,7 @@
   }
 
   .wrapper {
-    color: #212121;
+    color: var(--pk-text);
   }
 
   .wrapperDeactivated {
@@ -72,7 +72,7 @@
     }
 
     .mobileIdentity {
-      color: #6b6b6b;
+      color: var(--pk-text-muted);
       display: block;
       font-size: 13px;
       margin-top: 4px;

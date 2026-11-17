@@ -9,7 +9,7 @@
   }
 
   .bubble {
-    background: #fff;
+    background: var(--pk-surface);
     border-radius: 0 8px 8px;
     box-shadow: 0 1px 2px -1px rgba(9, 30, 66, 0.25),
       0 0 0 1px rgba(9, 30, 66, 0.08);
@@ -45,7 +45,7 @@
   }
 
   .header {
-    color: #17394d;
+    color: var(--pk-text);
     display: flex;
     font-weight: bold;
     justify-content: space-between;

@@ -12,6 +12,8 @@ import selectors from '../../../selectors';
 import version from '../../../version';
 import ModalTypes from '../../../constants/ModalTypes';
 import { SidebarContext } from '../../../contexts';
+import { useTheme } from '../../../hooks';
+import { resolveTheme, subscribeToThemeChange } from '../../../utils/theme-storage';
 import Message from './Message';
 import Toaster from '../Toaster';
 import Fixed from '../Fixed';
@@ -42,6 +44,7 @@ const Core = React.memo(() => {
   const [t] = useTranslation();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [theme] = useTheme();
 
   const sidebarContextValue = useMemo(
     () => [isSidebarOpen, setIsSidebarOpen],
@@ -53,6 +56,23 @@ const Core = React.memo(() => {
   const handleRefreshPageClick = useCallback(() => {
     window.location.reload(true);
   }, []);
+
+  // The page follows the user's theme, and the system's while that is the choice
+  useEffect(() => {
+    const { dataset } = document.documentElement;
+
+    const applyTheme = () => {
+      dataset.theme = resolveTheme(theme);
+    };
+
+    applyTheme();
+    const unsubscribe = subscribeToThemeChange(applyTheme);
+
+    return () => {
+      unsubscribe();
+      delete dataset.theme;
+    };
+  }, [theme]);
 
   useEffect(() => {
     const titleParts = [];

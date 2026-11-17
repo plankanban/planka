@@ -19,17 +19,17 @@
   }
 
   .wrapper {
-    background: #dce0e4;
+    background: var(--pk-surface-muted);
     border-radius: 3px;
-    color: #6a808b;
+    color: var(--pk-text-muted);
     display: inline-block;
     transition: background 0.3s ease;
     white-space: nowrap;
   }
 
   .wrapperHoverable:hover {
-    background: #d2d8dc;
-    color: #17394d;
+    background: var(--pk-border);
+    color: var(--pk-text);
   }
 
   /* Sizes */

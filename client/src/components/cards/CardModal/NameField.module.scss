@@ -9,7 +9,7 @@
     border: 1px solid transparent;
     border-radius: 3px;
     box-shadow: none;
-    color: #17394d;
+    color: var(--pk-text);
     font-weight: bold;
     margin: -5px;
     overflow: hidden;
@@ -18,7 +18,7 @@
     width: 100%;
 
     &:focus {
-      background: #fff;
+      background: var(--pk-surface);
       border-color: #5ba4cf;
       box-shadow: 0 0 2px 0 #5ba4cf;
       outline: 0;

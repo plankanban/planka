@@ -16,9 +16,12 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, BoardViews, UserRoles } from '../../../constants/Enums';
+import { ThemeIcons } from '../../../constants/Icons';
+import { useTheme } from '../../../hooks';
 import { SidebarContext } from '../../../contexts';
 import NotificationsStep from '../../notifications/NotificationsStep';
 import SelectBoardStep from '../../boards/SelectBoardStep';
+import ThemeStep from '../ThemeStep';
 
 import styles from './Header.module.scss';
 
@@ -72,6 +75,7 @@ const Header = React.memo(() => {
   }, shallowEqual);
 
   const [, setIsSidebarOpen] = useContext(SidebarContext);
+  const [theme] = useTheme();
 
   const dispatch = useDispatch();
   const [t] = useTranslation();
@@ -94,6 +98,7 @@ const Header = React.memo(() => {
 
   const NotificationsPopup = usePopup(NotificationsStep, POPUP_PROPS);
   const SelectBoardPopup = usePopup(SelectBoardStep, BOARDS_POPUP_PROPS);
+  const ThemePopup = usePopup(ThemeStep, POPUP_PROPS);
 
   return (
     <div className={styles.wrapper}>
@@ -141,6 +146,16 @@ const Header = React.memo(() => {
           )}
         </Menu.Menu>
         <Menu.Menu position="right">
+          <ThemePopup>
+            <Tooltip content={t('common.theme')}>
+              <Menu.Item
+                aria-label={t('common.theme')}
+                className={classNames(styles.item, styles.itemHoverable)}
+              >
+                <Icon fitted name={ThemeIcons[theme]} />
+              </Menu.Item>
+            </Tooltip>
+          </ThemePopup>
           {withEditModeToggler && (
             <Tooltip
               content={t(isEditModeEnabled ? 'action.disableEditMode' : 'action.enableEditMode')}

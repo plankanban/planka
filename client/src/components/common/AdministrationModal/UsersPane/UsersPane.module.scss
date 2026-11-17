@@ -58,7 +58,7 @@
   .toggleDeactivatedButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--pk-text-muted);
     float: left;
     font-weight: normal;
     margin-left: auto;
@@ -71,7 +71,7 @@
 
     &:hover {
       background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      color: var(--pk-text);
     }
   }
 
