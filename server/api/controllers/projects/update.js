@@ -37,6 +37,17 @@
  *                 nullable: true
  *                 description: ID of the background image used as background
  *                 example: "1357158568008091266"
+ *               homeThumbnailImageId:
+ *                 type: string
+ *                 nullable: true
+ *                 description: ID of the uploaded image used as the project's tile thumbnail on the home page (null = use the background)
+ *                 example: "1357158568008091267"
+ *               homeThumbnailGradient:
+ *                 type: string
+ *                 enum: [old-lime, ocean-dive, tzepesch-style, jungle-mesh, strawberry-dust, purple-rose, sun-scream, warm-rust, sky-change, green-eyes, blue-xchange, blood-orange, sour-peel, green-ninja, algae-green, coral-reef, steel-grey, heat-waves, velvet-lounge, purple-rain, blue-steel, blueish-curve, prism-light, green-mist, red-curtain]
+ *                 nullable: true
+ *                 description: Gradient used as the project's tile thumbnail on the home page (replaces any thumbnail image; null together with a null thumbnail image = use the background)
+ *                 example: ocean-dive
  *               name:
  *                 type: string
  *                 maxLength: 128
@@ -106,6 +117,9 @@ const Errors = {
   OWNER_PROJECT_MANAGER_NOT_FOUND: {
     ownerProjectManagerNotFound: 'Owner project manager not found',
   },
+  HOME_THUMBNAIL_IMAGE_NOT_FOUND: {
+    homeThumbnailImageNotFound: 'Home thumbnail image not found',
+  },
   BACKGROUND_IMAGE_NOT_FOUND: {
     backgroundImageNotFound: 'Background image not found',
   },
@@ -135,6 +149,15 @@ module.exports = {
     },
     backgroundImageId: {
       ...idInput,
+      allowNull: true,
+    },
+    homeThumbnailImageId: {
+      ...idInput,
+      allowNull: true,
+    },
+    homeThumbnailGradient: {
+      type: 'string',
+      isIn: Project.BACKGROUND_GRADIENTS,
       allowNull: true,
     },
     name: {
@@ -177,6 +200,9 @@ module.exports = {
       responseType: 'notFound',
     },
     backgroundImageNotFound: {
+      responseType: 'notFound',
+    },
+    homeThumbnailImageNotFound: {
       responseType: 'notFound',
     },
     projectAlreadyHasOwnerProjectManager: {
@@ -225,6 +251,8 @@ module.exports = {
     if (projectManager) {
       availableInputKeys.push(
         'backgroundImageId',
+        'homeThumbnailImageId',
+        'homeThumbnailGradient',
         'name',
         'description',
         'backgroundType',
@@ -262,6 +290,16 @@ module.exports = {
       delete inputs.backgroundImageId; // eslint-disable-line no-param-reassign
     }
 
+    if (inputs.homeThumbnailImageId) {
+      const homeThumbnailImage = await BackgroundImage.qm.getOneById(inputs.homeThumbnailImageId, {
+        projectId: project.id,
+      });
+
+      if (!homeThumbnailImage) {
+        throw Errors.HOME_THUMBNAIL_IMAGE_NOT_FOUND;
+      }
+    }
+
     if (!_.isUndefined(inputs.isFavorite)) {
       if (currentUser.role !== User.Roles.ADMIN || project.ownerProjectManagerId) {
         if (!projectManager) {
@@ -281,6 +319,8 @@ module.exports = {
     const values = _.pick(inputs, [
       'ownerProjectManagerId',
       'backgroundImageId',
+      'homeThumbnailImageId',
+      'homeThumbnailGradient',
       'name',
       'description',
       'backgroundType',

@@ -20,6 +20,8 @@
  *         - id
  *         - ownerProjectManagerId
  *         - backgroundImageId
+ *         - homeThumbnailImageId
+ *         - homeThumbnailGradient
  *         - name
  *         - description
  *         - backgroundType
@@ -42,6 +44,17 @@
  *           nullable: true
  *           description: ID of the background image used as background
  *           example: "1357158568008091266"
+ *         homeThumbnailImageId:
+ *           type: string
+ *           nullable: true
+ *           description: ID of the uploaded image used as the project's tile thumbnail on the home page (falls back to the background when null)
+ *           example: "1357158568008091267"
+ *         homeThumbnailGradient:
+ *           type: string
+ *           enum: [old-lime, ocean-dive, tzepesch-style, jungle-mesh, strawberry-dust, purple-rose, sun-scream, warm-rust, sky-change, green-eyes, blue-xchange, blood-orange, sour-peel, green-ninja, algae-green, coral-reef, steel-grey, heat-waves, velvet-lounge, purple-rain, blue-steel, blueish-curve, prism-light, green-mist, red-curtain]
+ *           nullable: true
+ *           description: Gradient used as the project's tile thumbnail on the home page (mutually exclusive with homeThumbnailImageId; the background is used when both are null)
+ *           example: ocean-dive
  *         name:
  *           type: string
  *           description: Name/title of the project
@@ -172,6 +185,16 @@ module.exports = {
     backgroundImageId: {
       model: 'BackgroundImage',
       columnName: 'background_image_id',
+    },
+    homeThumbnailImageId: {
+      model: 'BackgroundImage',
+      columnName: 'home_thumbnail_image_id',
+    },
+    homeThumbnailGradient: {
+      type: 'string',
+      isIn: BACKGROUND_GRADIENTS,
+      allowNull: true,
+      columnName: 'home_thumbnail_gradient',
     },
     managerUsers: {
       collection: 'User',

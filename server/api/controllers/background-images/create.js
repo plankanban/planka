@@ -33,6 +33,12 @@
  *                 type: string
  *                 format: binary
  *                 description: Background image file (must be an image format)
+ *               purpose:
+ *                 type: string
+ *                 enum: [background, homeThumbnail]
+ *                 default: background
+ *                 description: Whether the uploaded image becomes the project background (default) or only the home page thumbnail, leaving the background unchanged
+ *                 example: homeThumbnail
  *               requestId:
  *                 type: string
  *                 maxLength: 128
@@ -101,6 +107,10 @@ module.exports = {
       ...idInput,
       required: true,
     },
+    purpose: {
+      type: 'string',
+      isIn: ['background', 'homeThumbnail'],
+    },
     requestId: {
       type: 'string',
       isNotEmptyString: true,
@@ -160,6 +170,7 @@ module.exports = {
         ...values,
         project,
       },
+      purpose: inputs.purpose,
       actorUser: currentUser,
       requestId: inputs.requestId,
       request: this.req,
