@@ -87,9 +87,7 @@ const Static = React.memo(() => {
     contentNode = <Board />;
   }
 
-  return (
-    <div className={classNames(styles.wrapper, ...wrapperClassNames)}>{contentNode}</div>
-  );
+  return <div className={classNames(styles.wrapper, ...wrapperClassNames)}>{contentNode}</div>;
 });
 
 export default Static;

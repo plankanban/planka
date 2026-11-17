@@ -35,13 +35,13 @@ const ProjectItem = React.memo(({ id, isActive, isFavorite, onClick }) => {
   const project = useSelector((state) => selectProjectById(state, id));
   const firstBoardId = useSelector((state) => selectFirstBoardIdByProjectId(state, id));
 
-  const notificationsTotal = useSelector((state) =>
-    selectNotificationsTotalByProjectId(state, id),
-  );
+  const notificationsTotal = useSelector((state) => selectNotificationsTotalByProjectId(state, id));
 
   return (
     <Link
-      to={firstBoardId ? Paths.BOARDS.replace(':id', firstBoardId) : Paths.PROJECTS.replace(':id', id)}
+      to={
+        firstBoardId ? Paths.BOARDS.replace(':id', firstBoardId) : Paths.PROJECTS.replace(':id', id)
+      }
       title={project.name}
       className={classNames(styles.item, isActive && styles.itemActive)}
       onClick={onClick}

@@ -53,9 +53,7 @@ const SelectBoardStep = React.memo(({ onClose }) => {
           {boardIds.map((boardId) => (
             <Item key={boardId} id={boardId} onClose={onClose} />
           ))}
-          {boardIds.length === 0 && (
-            <div className={styles.empty}>{t('common.noBoards')}</div>
-          )}
+          {boardIds.length === 0 && <div className={styles.empty}>{t('common.noBoards')}</div>}
           {canAdd && (
             <Menu.Item className={styles.addItem} onClick={handleAddClick}>
               <Icon name="plus" className={styles.addItemIcon} />
