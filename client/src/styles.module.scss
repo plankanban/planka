@@ -4,8 +4,31 @@
  */
 
 :global {
+  :root {
+    --pk-bg: #f4f5f8;
+    --pk-surface: #fff;
+    --pk-surface-muted: #eef0f4;
+    --pk-list: #e9ecf1;
+    --pk-border: #e2e5eb;
+    --pk-border-strong: #cfd4dc;
+    --pk-text: #101828;
+    --pk-text-secondary: #344054;
+    --pk-text-muted: #5d6679;
+    --pk-accent: #4f46e5;
+    --pk-accent-hover: #4338ca;
+    --pk-accent-soft: #eef0ff;
+    --pk-accent-text: #3730a3;
+    --pk-danger: #d92d20;
+    --pk-radius: 10px;
+    --pk-radius-lg: 14px;
+    --pk-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+    --pk-shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08), 0 1px 3px rgba(16, 24, 40, 0.06);
+    --pk-sidebar-width: 248px;
+    --pk-header-height: 56px;
+  }
+
   #app {
-    background: #22252a;
+    background: var(--pk-bg);
     overflow-x: auto;
 
     &::-webkit-scrollbar {
