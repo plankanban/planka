@@ -9,10 +9,10 @@
   }
 
   .button {
-    background: rgba(0, 0, 0, 0.24);
-    border: none;
-    border-radius: 3px;
-    color: #fff;
+    background: var(--pk-surface);
+    border: 1px solid var(--pk-border);
+    border-radius: 8px;
+    color: var(--pk-text-secondary);
     cursor: pointer;
     display: inline-block;
     font-size: 13px;
@@ -21,7 +21,8 @@
     padding: 5px 12px;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.32);
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
     }
   }
 
@@ -29,24 +30,21 @@
     .button {
       border-radius: 0;
 
-      &:enabled {
-        background: rgba(0, 0, 0, 0.08);
-        color: rgba(255, 255, 255, 0.72);
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.12);
-          color: #fff;
-        }
+      &:disabled {
+        background: var(--pk-accent-soft);
+        border-color: var(--pk-accent);
+        color: var(--pk-accent-text);
+        opacity: 1;
       }
 
       &:first-child {
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
       }
 
       &:last-child {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
       }
     }
   }

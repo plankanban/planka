@@ -128,3 +128,9 @@ export const NotificationServiceFormats = {
   MARKDOWN: 'markdown',
   HTML: 'html',
 };
+
+export const Themes = {
+  LIGHT: 'light',
+  DARK: 'dark',
+  SYSTEM: 'system',
+};

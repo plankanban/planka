@@ -5,13 +5,13 @@
 
 :global(#app) {
   .addCardButton {
-    background: rgba(0, 0, 0, 0.24);
-    border: none;
-    border-radius: 3px;
-    color: rgba(255, 255, 255, 0.72);
+    background: transparent;
+    border: 1.5px dashed var(--pk-border-strong);
+    border-radius: var(--pk-radius);
+    color: var(--pk-text-muted);
     cursor: pointer;
     display: block;
-    fill: rgba(255, 255, 255, 0.72);
+    fill: var(--pk-text-muted);
     flex: 1;
     font-weight: normal;
     height: 42px;
@@ -26,7 +26,10 @@
     }
 
     &:hover {
-      background: rgba(0, 0, 0, 0.32);
+      background: var(--pk-accent-soft);
+      border-color: var(--pk-accent);
+      color: var(--pk-accent-text);
+      fill: var(--pk-accent-text);
     }
 
     &.paste {

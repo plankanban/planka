@@ -5,15 +5,15 @@
 
 :global(#app) {
   .icon {
-    color: rgba(255, 255, 255, 0.64);
+    color: var(--pk-text-muted);
     line-height: 1;
   }
 
   .othersButton {
-    background: rgba(0, 0, 0, 0.24);
+    background: var(--pk-surface);
     border-radius: 50%;
-    box-shadow: none;
-    color: #fff;
+    box-shadow: inset 0 0 0 1px var(--pk-border-strong);
+    color: var(--pk-text-secondary);
     line-height: 36px;
     margin: 0;
     padding: 0;
@@ -22,7 +22,8 @@
     width: 36px;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.32);
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
     }
   }
 

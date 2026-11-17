@@ -7,7 +7,7 @@
   .actionsButton {
     background: none;
     box-shadow: none;
-    border-radius: 3px;
+    border-radius: 6px;
     box-sizing: content-box;
     color: #798d99;
     display: inline-block;
@@ -24,8 +24,8 @@
     z-index: 1000;
 
     &:hover {
-      background: #ebeef0;
-      color: #516b7a;
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
     }
   }
 
@@ -49,15 +49,15 @@
   }
 
   .wrapper {
-    background: #fff;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 #ccc;
+    background: var(--pk-surface);
+    border-radius: var(--pk-radius);
+    box-shadow: 0 0 0 1px var(--pk-border), var(--pk-shadow-sm);
     overflow: hidden;
     position: relative;
+    transition: box-shadow 0.15s ease;
 
     &:hover {
-      background: #f5f6f7;
-      border-bottom-color: rgba(9, 30, 66, 0.25);
+      box-shadow: 0 0 0 1px var(--pk-border-strong), var(--pk-shadow-md);
 
       .actionsButton {
         opacity: 1;

@@ -13,7 +13,7 @@
   }
 
   .attachmentContent {
-    color: #6a808b;
+    color: var(--pk-text-muted);
     font-size: 12px;
     line-height: 20px;
     max-width: 176px;
@@ -48,7 +48,7 @@
   }
 
   .descriptionText {
-    color: #17394d;
+    color: var(--pk-text);
     font-size: 10px;
     margin-bottom: 8px;
     mask-image: linear-gradient(180deg, #000 60%, transparent);
@@ -65,7 +65,7 @@
   }
 
   .name {
-    color: #17394d;
+    color: var(--pk-text);
     font-size: 16px;
     font-weight: bold;
     line-height: 20px;

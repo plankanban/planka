@@ -54,7 +54,7 @@
   }
 
   .coverWrapper {
-    border-radius: 3px;
+    border-radius: 7px;
     margin-bottom: 8px;
     overflow: hidden;
   }
@@ -77,9 +77,10 @@
   }
 
   .name {
-    color: #17394d;
+    color: var(--pk-text);
     font-size: 14px;
-    line-height: 18px;
+    font-weight: bold;
+    line-height: 19px;
     margin-bottom: 8px;
     word-wrap: break-word;
   }
@@ -89,7 +90,7 @@
   }
 
   .notification {
-    background: #eb5a46;
+    background: var(--pk-danger);
     color: #fff;
     font-size: 12px;
     line-height: 20px;
@@ -104,7 +105,7 @@
   }
 
   .wrapper {
-    padding: 6px 8px 0;
+    padding: 10px 12px 4px;
 
     &:after {
       clear: both;

@@ -13,6 +13,7 @@ import {
   ProjectGroups,
   ProjectOrders,
   ProjectTypes,
+  Themes,
   UserRoles,
 } from './Enums';
 
@@ -72,4 +73,10 @@ export const ListTypeIcons = {
 export const CardTypeIcons = {
   [CardTypes.PROJECT]: 'list alternate outline',
   [CardTypes.STORY]: 'images outline',
+};
+
+export const ThemeIcons = {
+  [Themes.LIGHT]: 'sun outline',
+  [Themes.DARK]: 'moon outline',
+  [Themes.SYSTEM]: 'desktop',
 };

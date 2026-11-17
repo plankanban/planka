@@ -8,7 +8,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Button, Checkbox, Grid, Icon } from 'semantic-ui-react';
+import { Button, Grid, Icon } from 'semantic-ui-react';
 import { useDidUpdate } from '../../../lib/hooks';
 import { Tooltip } from '../../../lib/custom-ui';
 
@@ -481,11 +481,26 @@ const ProjectContent = React.memo(() => {
                     {canEditDueDate ? (
                       <>
                         {!card.isClosed && (
-                          <Checkbox
-                            checked={card.isDueCompleted}
-                            disabled={!canEditDueDate}
-                            onChange={handleDueCompletionChange}
-                          />
+                          <Tooltip
+                            content={t(
+                              card.isDueCompleted ? 'action.markAsNotDone' : 'action.markAsDone',
+                            )}
+                          >
+                            <button
+                              type="button"
+                              aria-pressed={card.isDueCompleted}
+                              aria-label={t(
+                                card.isDueCompleted ? 'action.markAsNotDone' : 'action.markAsDone',
+                              )}
+                              className={classNames(
+                                styles.doneButton,
+                                card.isDueCompleted && styles.doneButtonActive,
+                              )}
+                              onClick={handleDueCompletionChange}
+                            >
+                              <Icon fitted name="check" />
+                            </button>
+                          </Tooltip>
                         )}
                         <EditDueDatePopup cardId={card.id}>
                           <DueDateChip

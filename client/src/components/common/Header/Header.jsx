@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router';
@@ -16,9 +16,12 @@ import selectors from '../../../selectors';
 import entryActions from '../../../entry-actions';
 import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, BoardViews, UserRoles } from '../../../constants/Enums';
-import UserAvatar from '../../users/UserAvatar';
-import UserActionsStep from '../../users/UserActionsStep';
+import { ThemeIcons } from '../../../constants/Icons';
+import { useTheme } from '../../../hooks';
+import { SidebarContext } from '../../../contexts';
 import NotificationsStep from '../../notifications/NotificationsStep';
+import SelectBoardStep from '../../boards/SelectBoardStep';
+import ThemeStep from '../ThemeStep';
 
 import styles from './Header.module.scss';
 
@@ -26,18 +29,16 @@ const POPUP_PROPS = {
   position: 'bottom right',
 };
 
+const BOARDS_POPUP_PROPS = {
+  position: 'bottom left',
+};
+
 const Header = React.memo(() => {
   const user = useSelector(selectors.selectCurrentUser);
   const project = useSelector(selectors.selectCurrentProject);
   const board = useSelector(selectors.selectCurrentBoard);
   const notificationIds = useSelector(selectors.selectNotificationIdsForCurrentUser);
-  const isFavoritesEnabled = useSelector(selectors.selectIsFavoritesEnabled);
   const isEditModeEnabled = useSelector(selectors.selectIsEditModeEnabled);
-
-  const withFavoritesToggler = useSelector(
-    // TODO: use selector instead?
-    (state) => selectors.selectFavoriteProjectIdsForCurrentUser(state).length > 0,
-  );
 
   const { withEditModeToggler, canEditProject } = useSelector((state) => {
     if (!project) {
@@ -73,12 +74,15 @@ const Header = React.memo(() => {
     };
   }, shallowEqual);
 
+  const [, setIsSidebarOpen] = useContext(SidebarContext);
+  const [theme] = useTheme();
+
   const dispatch = useDispatch();
   const [t] = useTranslation();
 
-  const handleToggleFavoritesClick = useCallback(() => {
-    dispatch(entryActions.toggleFavorites(!isFavoritesEnabled));
-  }, [isFavoritesEnabled, dispatch]);
+  const handleOpenSidebarClick = useCallback(() => {
+    setIsSidebarOpen(true);
+  }, [setIsSidebarOpen]);
 
   const handleToggleEditModeClick = useCallback(() => {
     dispatch(entryActions.toggleEditMode(!isEditModeEnabled));
@@ -93,56 +97,65 @@ const Header = React.memo(() => {
   }, [canEditProject, dispatch]);
 
   const NotificationsPopup = usePopup(NotificationsStep, POPUP_PROPS);
-  const UserActionsPopup = usePopup(UserActionsStep, POPUP_PROPS);
+  const SelectBoardPopup = usePopup(SelectBoardStep, BOARDS_POPUP_PROPS);
+  const ThemePopup = usePopup(ThemeStep, POPUP_PROPS);
 
   return (
     <div className={styles.wrapper}>
-      {!project && (
-        <Link to={Paths.ROOT} className={classNames(styles.logo, styles.title)}>
-          PLANKA
-        </Link>
-      )}
-      <Menu inverted size="large" className={styles.menu}>
-        {project && (
-          <Menu.Menu position="left">
-            <Tooltip content={t('action.returnToProjects')}>
-              <Menu.Item
-                as={Link}
-                to={Paths.ROOT}
-                className={classNames(styles.item, styles.itemHoverable)}
-              >
-                <Icon fitted name="arrow left" />
-              </Menu.Item>
-            </Tooltip>
+      <Menu size="large" className={styles.menu}>
+        <Menu.Menu position="left">
+          <Menu.Item
+            aria-label={t('action.openMenu')}
+            className={classNames(styles.item, styles.itemHoverable, styles.menuToggler)}
+            onClick={handleOpenSidebarClick}
+          >
+            <Icon fitted name="bars" />
+          </Menu.Item>
+          {project ? (
             <Menu.Item className={classNames(styles.item, styles.title)}>
-              {project.name}
+              <Link to={Paths.ROOT} className={styles.breadcrumb}>
+                {t('common.home')}
+              </Link>
+              <Icon fitted name="angle right" className={styles.breadcrumbSeparator} />
+              <span className={styles.titleText}>{project.name}</span>
               {canEditProject && (
                 <Tooltip content={t('common.openProjectSettings')}>
-                  <Button className={styles.editButton} onClick={handleProjectSettingsClick}>
-                    <Icon fitted name="pencil" size="small" />
+                  <Button
+                    aria-label={t('common.openProjectSettings')}
+                    className={styles.editButton}
+                    onClick={handleProjectSettingsClick}
+                  >
+                    <Icon fitted name="setting" />
                   </Button>
                 </Tooltip>
               )}
+              <Icon fitted name="angle right" className={styles.breadcrumbSeparator} />
+              <SelectBoardPopup>
+                <button type="button" className={styles.boardSelector}>
+                  <span className={styles.titleText}>
+                    {board ? board.name : t('common.selectBoard')}
+                  </span>
+                  <Icon fitted name="chevron down" className={styles.boardSelectorIcon} />
+                </button>
+              </SelectBoardPopup>
             </Menu.Item>
-          </Menu.Menu>
-        )}
+          ) : (
+            <Menu.Item className={classNames(styles.item, styles.title)}>
+              {t('common.home')}
+            </Menu.Item>
+          )}
+        </Menu.Menu>
         <Menu.Menu position="right">
-          {withFavoritesToggler && (
-            <Tooltip
-              content={t(isFavoritesEnabled ? 'action.hideProjectList' : 'action.showProjectList')}
-            >
+          <ThemePopup>
+            <Tooltip content={t('common.theme')}>
               <Menu.Item
+                aria-label={t('common.theme')}
                 className={classNames(styles.item, styles.itemHoverable)}
-                onClick={handleToggleFavoritesClick}
               >
-                <Icon
-                  fitted
-                  name={isFavoritesEnabled ? 'star' : 'star outline'}
-                  className={classNames(isFavoritesEnabled && styles.itemIconEnabled)}
-                />
+                <Icon fitted name={ThemeIcons[theme]} />
               </Menu.Item>
             </Tooltip>
-          )}
+          </ThemePopup>
           {withEditModeToggler && (
             <Tooltip
               content={t(isEditModeEnabled ? 'action.disableEditMode' : 'action.enableEditMode')}
@@ -169,12 +182,6 @@ const Header = React.memo(() => {
               </Menu.Item>
             </Tooltip>
           </NotificationsPopup>
-          <UserActionsPopup>
-            <Menu.Item className={classNames(styles.item, styles.itemHoverable)}>
-              <span className={styles.userName}>{user.name}</span>
-              <UserAvatar id={user.id} size="small" />
-            </Menu.Item>
-          </UserActionsPopup>
         </Menu.Menu>
       </Menu>
     </div>

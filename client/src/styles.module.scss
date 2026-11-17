@@ -4,13 +4,256 @@
  */
 
 :global {
+  :root {
+    --pk-bg: #f4f5f8;
+    --pk-surface: #fff;
+    --pk-surface-muted: #eef0f4;
+    --pk-list: #e9ecf1;
+    --pk-border: #e2e5eb;
+    --pk-border-strong: #cfd4dc;
+    --pk-text: #101828;
+    --pk-text-secondary: #344054;
+    --pk-text-muted: #5d6679;
+    --pk-accent: #4f46e5;
+    --pk-accent-hover: #4338ca;
+    --pk-accent-soft: #eef0ff;
+    --pk-accent-text: #3730a3;
+    --pk-danger: #d92d20;
+    --pk-radius: 10px;
+    --pk-radius-lg: 14px;
+    --pk-shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+    --pk-shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08), 0 1px 3px rgba(16, 24, 40, 0.06);
+    --pk-sidebar-width: 248px;
+    --pk-header-height: 56px;
+
+    // The sidebar slides over the content there instead of pushing it aside
+    @media only screen and (width < 768px) {
+      --pk-sidebar-width: 0px;
+    }
+  }
+
+  // The window scrolls sideways on a board, but its scrollbar would run underneath
+  // the sidebar, so the board draws its own beside it instead (see KanbanContent)
+  html,
   #app {
-    background: #22252a;
-    overflow-x: auto;
+    scrollbar-width: none;
 
     &::-webkit-scrollbar {
-      height: auto;
+      display: none;
     }
+  }
+
+  :root[data-theme='dark'] {
+    --pk-bg: #0f1115;
+    --pk-surface: #181b22;
+    --pk-surface-muted: #232733;
+    --pk-list: #1c2029;
+    --pk-border: #2b303c;
+    --pk-border-strong: #3b4252;
+    --pk-text: #f2f4f7;
+    --pk-text-secondary: #cdd2db;
+    --pk-text-muted: #98a1b3;
+    --pk-accent: #7c74ff;
+    --pk-accent-hover: #918aff;
+    --pk-accent-soft: #26244a;
+    --pk-accent-text: #c7c3ff;
+    --pk-danger: #f97066;
+    --pk-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --pk-shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
+
+    color-scheme: dark;
+  }
+
+  // Semantic UI paints these in fixed light colours, so the dark theme recolours them
+  :root[data-theme='dark'] #app {
+    color: var(--pk-text);
+
+    .ui.header,
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--pk-text);
+    }
+
+    .ui.menu .item,
+    .ui.secondary.menu .item {
+      color: var(--pk-text-secondary);
+    }
+
+    .ui.secondary.menu .active.item,
+    .ui.secondary.menu a.item:hover,
+    .ui.secondary.menu .link.item:hover {
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
+    }
+
+    .ui.button:not(.positive):not(.primary):not(.negative):not(.basic) {
+      background: var(--pk-surface-muted);
+      color: var(--pk-text-secondary);
+
+      &:hover {
+        background: var(--pk-border-strong);
+        color: var(--pk-text);
+      }
+    }
+
+    .ui.basic.button {
+      background: transparent !important;
+      box-shadow: inset 0 0 0 1px var(--pk-border-strong) !important;
+      color: var(--pk-text-secondary) !important;
+    }
+
+    .ui.dropdown .menu,
+    .ui.selection.dropdown {
+      background: var(--pk-surface);
+      border-color: var(--pk-border-strong);
+      color: var(--pk-text);
+
+      > .item {
+        border-color: var(--pk-border);
+        color: var(--pk-text);
+      }
+    }
+
+    .ui.table {
+      background: var(--pk-surface);
+      border-color: var(--pk-border);
+      color: var(--pk-text);
+
+      thead th {
+        background: var(--pk-surface-muted);
+        color: var(--pk-text);
+      }
+
+      td {
+        border-color: var(--pk-border);
+      }
+    }
+
+    .ui.divider {
+      border-color: var(--pk-border);
+      color: var(--pk-text-muted);
+    }
+
+    ::placeholder {
+      color: var(--pk-text-muted);
+    }
+  }
+
+  // Settings modals, popups and their forms, matched to the dashboard
+  #app {
+    .ui.modal {
+      background: var(--pk-surface);
+      border-radius: var(--pk-radius-lg);
+      box-shadow: 0 24px 48px rgba(16, 24, 40, 0.18);
+      color: var(--pk-text);
+
+      > .content {
+        background: transparent;
+        border-radius: inherit;
+        color: inherit;
+        padding: 20px 24px 24px;
+      }
+
+      > .close {
+        color: var(--pk-text-muted);
+        opacity: 1;
+
+        &:hover {
+          color: var(--pk-text);
+        }
+      }
+    }
+
+    .ui.popup {
+      background: var(--pk-surface);
+      border: 1px solid var(--pk-border);
+      border-radius: 12px;
+      box-shadow: var(--pk-shadow-md);
+      color: var(--pk-text);
+
+      &:before {
+        background: var(--pk-surface);
+        box-shadow: -1px -1px 0 0 var(--pk-border);
+      }
+    }
+
+    .ui.secondary.pointing.menu {
+      border-bottom: 1px solid var(--pk-border);
+
+      .item {
+        color: var(--pk-text-muted);
+        font-weight: bold;
+        padding: 10px 14px;
+
+        &:hover {
+          color: var(--pk-text);
+        }
+      }
+
+      .active.item {
+        border-color: var(--pk-accent);
+        color: var(--pk-text);
+      }
+    }
+
+    .ui.tab.segment {
+      background: transparent;
+      border: 1px solid var(--pk-border);
+      border-radius: 12px;
+      box-shadow: none;
+      color: var(--pk-text);
+    }
+
+    .ui.toggle.checkbox {
+      input:checked ~ label:before,
+      input:focus:checked ~ label:before {
+        background-color: var(--pk-accent) !important;
+      }
+
+      label {
+        color: var(--pk-text) !important;
+      }
+    }
+
+    .ui.positive.button,
+    .ui.primary.button {
+      background: var(--pk-accent);
+      border-radius: 8px;
+      color: #fff;
+
+      &:hover,
+      &:focus {
+        background: var(--pk-accent-hover);
+      }
+    }
+
+    .ui.input > input,
+    .ui.form input:not([type]),
+    .ui.form input[type='email'],
+    .ui.form input[type='password'],
+    .ui.form input[type='text'],
+    .ui.form input[type='url'],
+    .ui.form textarea {
+      background: var(--pk-surface);
+      border-color: var(--pk-border-strong);
+      border-radius: 8px;
+      color: var(--pk-text);
+
+      &:focus {
+        border-color: var(--pk-accent);
+      }
+    }
+
+    .ui.form .field > label {
+      color: var(--pk-text-secondary);
+    }
+  }
+
+  #app {
+    background: var(--pk-bg);
+    overflow-x: auto;
 
     .mentions-input {
       &__highlighter {

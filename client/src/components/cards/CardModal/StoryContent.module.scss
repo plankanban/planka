@@ -5,23 +5,24 @@
 
 :global(#app) {
   .actionButton {
-    background: #ebeef0;
-    box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.13);
-    color: #444;
+    background: var(--pk-surface-muted);
+    border-radius: 8px;
+    box-shadow: none;
+    color: var(--pk-text-secondary);
     margin-top: 8px;
     padding: 6px 8px 6px 18px;
     text-align: left;
     transition: background 85ms ease;
 
     &:hover {
-      background: #dfe3e6;
-      box-shadow: 0 1px 0 0 rgba(9, 30, 66, 0.25);
-      color: #4c4c4c;
+      background: var(--pk-border);
+      box-shadow: none;
+      color: var(--pk-text);
     }
   }
 
   .actionIcon {
-    color: #17394d;
+    color: var(--pk-text);
     margin-right: 8px;
   }
 
@@ -38,9 +39,9 @@
   }
 
   .actionsTitle {
-    color: #8c8c8c;
-    font-size: 12px;
-    font-weight: normal;
+    color: var(--pk-text-muted);
+    font-size: 11px;
+    font-weight: bold;
     letter-spacing: 0.04em;
     margin-top: 16px;
     text-transform: uppercase;
@@ -91,7 +92,7 @@
   }
 
   .cover {
-    border-radius: 3px;
+    border-radius: 6px;
     cursor: pointer;
     display: block;
     max-height: 450px;
@@ -109,8 +110,8 @@
   .dueDate {
     background: rgba(9, 30, 66, 0.04);
     border: none;
-    border-radius: 3px;
-    color: #6b808c;
+    border-radius: 6px;
+    color: var(--pk-text-muted);
     cursor: pointer;
     font-size: 12px;
     line-height: 20px;
@@ -123,16 +124,16 @@
 
     &:hover {
       background: rgba(9, 30, 66, 0.08);
-      color: #17394d;
+      color: var(--pk-text);
     }
   }
 
   .descriptionButton {
     background: rgba(9, 30, 66, 0.04);
     border: none;
-    border-radius: 3px;
+    border-radius: 6px;
     display: block;
-    color: #6b808c;
+    color: var(--pk-text-muted);
     cursor: pointer;
     min-height: 54px;
     outline: none;
@@ -144,7 +145,7 @@
 
     &:hover {
       background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      color: var(--pk-text);
     }
   }
 
@@ -159,7 +160,7 @@
 
   .draftChip {
     background: #f1eee2;
-    border-radius: 3px;
+    border-radius: 6px;
     color: rgba(0, 0, 0, 0.87);
     display: inline-block;
     line-height: 1.5;
@@ -191,7 +192,7 @@
   }
 
   .headerTitle {
-    color: #17394d;
+    color: var(--pk-text);
     font-size: 28px;
     font-weight: bold;
     line-height: 34px;
@@ -218,8 +219,8 @@
     align-items: center;
     background: rgba(9, 30, 66, 0.04);
     border: none;
-    border-radius: 3px;
-    color: #6b808c;
+    border-radius: 6px;
+    color: var(--pk-text-muted);
     display: flex;
     line-height: 20px;
     outline: none;
@@ -240,7 +241,7 @@
 
   .listHoverable:hover {
     background: rgba(9, 30, 66, 0.08);
-    color: #17394d;
+    color: var(--pk-text);
   }
 
   .listIcon {
@@ -252,7 +253,7 @@
   }
 
   .moduleHeader {
-    color: #17394d;
+    color: var(--pk-text);
     font-size: 16px;
     font-weight: bold;
     line-height: 1.5;
@@ -262,7 +263,7 @@
   }
 
   .moduleIcon {
-    color: #17394d;
+    color: var(--pk-text);
     font-size: 17px;
     height: 32px;
     left: -40px;
@@ -289,7 +290,7 @@
   .moreActionsButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--pk-text-muted);
     font-weight: normal;
     margin-top: 8px;
     padding: 6px 8px 6px 18px;
@@ -299,7 +300,7 @@
 
     &:hover {
       background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      color: var(--pk-text);
     }
   }
 
@@ -329,7 +330,7 @@
   }
 
   .text {
-    color: #6b808c;
+    color: var(--pk-text-muted);
     font-size: 12px;
     font-weight: bold;
     letter-spacing: 0.3px;
@@ -355,8 +356,8 @@
   }
 
   .wrapper {
-    background: #f5f6f7;
-    border-radius: 4px;
+    background: var(--pk-surface);
+    border-radius: var(--pk-radius-lg);
     margin: 0;
   }
 }

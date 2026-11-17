@@ -38,8 +38,13 @@
   }
 
   .wrapper {
+    border-radius: var(--pk-radius-lg);
     margin: 2rem auto;
     width: 880px;
+
+    > :not(button) {
+      border-radius: inherit;
+    }
 
     @media (width < 926px) {
       @include smallScreen;

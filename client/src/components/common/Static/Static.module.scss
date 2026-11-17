@@ -12,7 +12,7 @@
   .message {
     align-content: space-between;
     align-items: center;
-    color: #fff;
+    color: var(--pk-text);
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -20,6 +20,7 @@
   }
 
   .messageIcon {
+    color: var(--pk-text-muted);
     margin-top: -84px;
   }
 
@@ -30,6 +31,7 @@
 
   .messageContent {
     font-size: 18px;
+    color: var(--pk-text-muted);
     line-height: 1.4;
     margin: 4px 0 0;
     text-align: center;
@@ -37,15 +39,8 @@
 
   .wrapper {
     height: 100%;
-    margin-top: calc(116px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperBoard {
-    margin-top: calc(174px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperBoardWithFavorites {
-    margin-top: calc(264px + var(--promo-banner-height, 0px));
+    margin-left: var(--pk-sidebar-width);
+    padding-top: var(--pk-fixed-height, 116px);
   }
 
   .wrapperFlex {
@@ -56,23 +51,7 @@
     position: relative;
   }
 
-  .wrapperProject {
-    margin-top: calc(98px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperProjectWithFavorites {
-    margin-top: calc(188px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperTransitioning {
-    transition: margin-top 0.2s ease;
-  }
-
   .wrapperVertical {
     overflow: hidden;
-  }
-
-  .wrapperWithFavorites {
-    margin-top: calc(206px + var(--promo-banner-height, 0px));
   }
 }

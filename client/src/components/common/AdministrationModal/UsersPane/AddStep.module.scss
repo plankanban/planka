@@ -24,7 +24,7 @@
   .selectRoleButton {
     background: transparent;
     box-shadow: none;
-    color: #6b808c;
+    color: var(--pk-text-muted);
     font-weight: normal;
     margin-left: auto;
     margin-right: 0;
@@ -36,7 +36,7 @@
 
     &:hover {
       background: rgba(9, 30, 66, 0.08);
-      color: #092d42;
+      color: var(--pk-text);
     }
   }
 
@@ -45,7 +45,7 @@
   }
 
   .text {
-    color: #444444;
+    color: var(--pk-text-secondary);
     font-size: 12px;
     font-weight: bold;
     padding-bottom: 6px;

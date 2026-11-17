@@ -6,11 +6,11 @@
 :global(#app) {
   .addButton {
     background: transparent;
-    border: none;
-    border-radius: 4px;
-    color: rgba(255, 255, 255, 0.48);
+    border: 1.5px dashed var(--pk-border-strong);
+    border-radius: var(--pk-radius-lg);
+    color: var(--pk-text-muted);
     cursor: pointer;
-    fill: rgba(255, 255, 255, 0.48);
+    fill: var(--pk-text-muted);
     overflow: hidden;
     padding: 0;
     position: relative;
@@ -18,21 +18,25 @@
     width: 100%;
 
     &:hover {
+      border-color: var(--pk-accent);
+      color: var(--pk-accent-text);
+      fill: var(--pk-accent-text);
+
       .addButtonCover {
-        filter: brightness(0.8);
+        background: var(--pk-accent-soft);
       }
     }
   }
 
   .addButtonCover {
-    background: rgba(107, 128, 140, 0.08);
+    background: transparent;
     bottom: 0;
     content: "";
     left: 0;
     position: absolute;
     right: 0;
     top: 0;
-    transition: filter 0.2s ease;
+    transition: background 0.2s ease;
   }
 
   .addButtonTitle {
@@ -56,12 +60,14 @@
   }
 
   .card {
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1), 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: var(--pk-radius-lg);
+    box-shadow: var(--pk-shadow-sm);
     height: 150px;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
 
     &:hover {
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1), 0 32px 64px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--pk-shadow-md);
+      transform: translateY(-2px);
     }
   }
 
@@ -96,12 +102,14 @@
   }
 
   .title {
-    color: #6b808c;
-    font-size: 16px;
-    padding: 14px 0 14px 2px;
+    color: var(--pk-text);
+    font-size: 15px;
+    font-weight: bold;
+    padding: 18px 0 12px 2px;
   }
 
   .titleIcon {
+    color: var(--pk-text-muted);
     margin-right: 10px;
   }
 

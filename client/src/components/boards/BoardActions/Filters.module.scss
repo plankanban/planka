@@ -31,16 +31,18 @@
   }
 
   .filterLabel {
-    background: rgba(0, 0, 0, 0.24);
-    border-radius: 3px;
-    color: #fff;
+    background: var(--pk-surface);
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px var(--pk-border-strong);
+    color: var(--pk-text-secondary);
     display: inline-block;
     font-size: 12px;
     line-height: 20px;
     padding: 2px 8px;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.32);
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
     }
   }
 
@@ -50,7 +52,8 @@
 
   .filterTitle {
     border-radius: 3px;
-    color: #fff;
+    color: var(--pk-text-muted);
+    font-weight: bold;
     display: inline-block;
     font-size: 12px;
     line-height: 20px;
@@ -73,18 +76,19 @@
   }
 
   .searchInactive {
-    color: #fff;
-    height: 24px;
+    color: var(--pk-text-muted);
+    height: 30px;
     width: 220px;
 
     input {
-      background: rgba(0, 0, 0, 0.24);
-      border: none;
-      color: #fff !important;
+      background: var(--pk-surface);
+      border: 1px solid var(--pk-border);
+      border-radius: 8px !important;
+      color: var(--pk-text) !important;
       font-size: 12px;
 
       &::placeholder {
-        color: #fff;
+        color: var(--pk-text-muted);
       }
     }
   }
