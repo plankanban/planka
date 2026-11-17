@@ -9,10 +9,7 @@ import { useSelector } from 'react-redux';
 import selectors from '../../../selectors';
 import ModalTypes from '../../../constants/ModalTypes';
 import ProjectSettingsModal from '../ProjectSettingsModal';
-import Boards from '../../boards/Boards';
 import BoardSettingsModal from '../../boards/BoardSettingsModal';
-
-import styles from './Project.module.scss';
 
 const Project = React.memo(() => {
   const modal = useSelector(selectors.selectCurrentModal);
@@ -32,14 +29,7 @@ const Project = React.memo(() => {
     }
   }
 
-  return (
-    <>
-      <div className={styles.wrapper}>
-        <Boards />
-      </div>
-      {modalNode}
-    </>
-  );
+  return modalNode;
 });
 
 export default Project;

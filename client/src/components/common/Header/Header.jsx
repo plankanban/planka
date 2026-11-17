@@ -18,11 +18,16 @@ import Paths from '../../../constants/Paths';
 import { BoardMembershipRoles, BoardViews, UserRoles } from '../../../constants/Enums';
 import { SidebarContext } from '../../../contexts';
 import NotificationsStep from '../../notifications/NotificationsStep';
+import SelectBoardStep from '../../boards/SelectBoardStep';
 
 import styles from './Header.module.scss';
 
 const POPUP_PROPS = {
   position: 'bottom right',
+};
+
+const BOARDS_POPUP_PROPS = {
+  position: 'bottom left',
 };
 
 const Header = React.memo(() => {
@@ -88,6 +93,7 @@ const Header = React.memo(() => {
   }, [canEditProject, dispatch]);
 
   const NotificationsPopup = usePopup(NotificationsStep, POPUP_PROPS);
+  const SelectBoardPopup = usePopup(SelectBoardStep, BOARDS_POPUP_PROPS);
 
   return (
     <div className={styles.wrapper}>
@@ -118,6 +124,15 @@ const Header = React.memo(() => {
                   </Button>
                 </Tooltip>
               )}
+              <Icon fitted name="angle right" className={styles.breadcrumbSeparator} />
+              <SelectBoardPopup>
+                <button type="button" className={styles.boardSelector}>
+                  <span className={styles.titleText}>
+                    {board ? board.name : t('common.selectBoard')}
+                  </span>
+                  <Icon fitted name="chevron down" className={styles.boardSelectorIcon} />
+                </button>
+              </SelectBoardPopup>
             </Menu.Item>
           ) : (
             <Menu.Item className={classNames(styles.item, styles.title)}>

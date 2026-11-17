@@ -1,0 +1,116 @@
+/*!
+ * Copyright (c) 2026 PLANKA Software GmbH
+ * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
+ */
+
+:global(#app) {
+  .addItem {
+    border-top: 1px solid var(--pk-border);
+    border-radius: 0 !important;
+    color: var(--pk-accent-text) !important;
+    font-weight: bold;
+    margin: 6px 0 0 !important;
+    padding-top: 12px !important;
+  }
+
+  .addItemIcon {
+    float: none !important;
+    margin: 0 8px 0 0 !important;
+  }
+
+  .badge {
+    background: var(--pk-danger);
+    border-radius: 999px;
+    color: #fff;
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 18px;
+    min-width: 18px;
+    padding: 0 6px;
+    text-align: center;
+  }
+
+  .empty {
+    color: var(--pk-text-muted);
+    padding: 8px 12px;
+  }
+
+  .item {
+    align-items: center;
+    border-radius: 8px;
+    display: flex;
+
+    &:hover {
+      background: var(--pk-surface-muted);
+
+      .settingsButton {
+        opacity: 1;
+      }
+    }
+  }
+
+  .itemActive {
+    background: var(--pk-accent-soft);
+
+    &:hover {
+      background: var(--pk-accent-soft);
+    }
+
+    .itemLink {
+      color: var(--pk-accent-text);
+      font-weight: bold;
+    }
+  }
+
+  .itemIcon {
+    color: inherit;
+    flex: 0 0 auto;
+    width: 16px;
+  }
+
+  .itemLink {
+    align-items: center;
+    color: var(--pk-text-secondary);
+    display: flex;
+    flex: 1 1 auto;
+    gap: 10px;
+    min-height: 38px;
+    min-width: 0;
+    padding: 0 10px;
+  }
+
+  .itemName {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .menu {
+    margin: 0 auto 4px;
+    max-height: 60vh;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .settingsButton {
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--pk-text-muted);
+    cursor: pointer;
+    flex: 0 0 auto;
+    height: 32px;
+    margin-right: 4px;
+    opacity: 0.6;
+    padding: 0;
+    width: 32px;
+
+    &:hover {
+      background: var(--pk-border);
+      color: var(--pk-text);
+    }
+  }
+}

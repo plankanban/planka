@@ -4,6 +4,29 @@
  */
 
 :global(#app) {
+  .boardSelector {
+    align-items: center;
+    background: none;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    font: inherit;
+    gap: 8px;
+    margin: 0 -6px;
+    min-width: 0;
+    padding: 6px 10px;
+
+    &:hover {
+      background: var(--pk-surface-muted);
+    }
+  }
+
+  .boardSelectorIcon {
+    color: var(--pk-text-muted);
+    font-size: 11px;
+  }
+
   .breadcrumb {
     color: var(--pk-text-muted);
     font-weight: normal;
