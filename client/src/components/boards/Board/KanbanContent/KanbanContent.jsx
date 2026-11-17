@@ -16,6 +16,7 @@ import parseDndId from '../../../../utils/parse-dnd-id';
 import DroppableTypes from '../../../../constants/DroppableTypes';
 import { BoardMembershipRoles } from '../../../../constants/Enums';
 import AddList from './AddList';
+import Scrollbar from './Scrollbar';
 import List from '../../../lists/List';
 import PlusMathIcon from '../../../../assets/images/plus-math-icon.svg?react';
 
@@ -188,6 +189,7 @@ const KanbanContent = React.memo(() => {
           </Droppable>
         </DragDropContext>
       </div>
+      <Scrollbar contentRef={wrapperRef} />
     </div>
   );
 });

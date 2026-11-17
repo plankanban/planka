@@ -32,6 +32,17 @@
     }
   }
 
+  // The window scrolls sideways on a board, but its scrollbar would run underneath
+  // the sidebar, so the board draws its own beside it instead (see KanbanContent)
+  html,
+  #app {
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   :root[data-theme='dark'] {
     --pk-bg: #0f1115;
     --pk-surface: #181b22;
@@ -243,10 +254,6 @@
   #app {
     background: var(--pk-bg);
     overflow-x: auto;
-
-    &::-webkit-scrollbar {
-      height: auto;
-    }
 
     .mentions-input {
       &__highlighter {
