@@ -24,14 +24,15 @@
     color: var(--pk-text-muted);
     font-size: 15px;
     line-height: 32px;
-    margin-left: 6px;
-    opacity: 0;
+    margin-left: 4px;
+    opacity: 0.7;
     padding: 0;
     width: 32px;
 
     &:hover {
       background: var(--pk-surface-muted);
       color: var(--pk-text);
+      opacity: 1;
     }
   }
 

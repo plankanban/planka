@@ -109,8 +109,12 @@ const Header = React.memo(() => {
               <span className={styles.titleText}>{project.name}</span>
               {canEditProject && (
                 <Tooltip content={t('common.openProjectSettings')}>
-                  <Button className={styles.editButton} onClick={handleProjectSettingsClick}>
-                    <Icon fitted name="pencil" size="small" />
+                  <Button
+                    aria-label={t('common.openProjectSettings')}
+                    className={styles.editButton}
+                    onClick={handleProjectSettingsClick}
+                  >
+                    <Icon fitted name="setting" />
                   </Button>
                 </Tooltip>
               )}
