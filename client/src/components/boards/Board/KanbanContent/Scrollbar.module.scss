@@ -28,7 +28,9 @@
     }
   }
 
+  // Hidden without display: none, so the track keeps the width the thumb is sized from
   .trackHidden {
-    display: none;
+    pointer-events: none;
+    visibility: hidden;
   }
 }
