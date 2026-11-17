@@ -26,6 +26,7 @@
     --pk-sidebar-width: 248px;
     --pk-header-height: 56px;
 
+    // The sidebar slides over the content there instead of pushing it aside
     @media only screen and (width < 768px) {
       --pk-sidebar-width: 0px;
     }

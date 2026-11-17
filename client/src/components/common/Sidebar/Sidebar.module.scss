@@ -123,7 +123,7 @@
   }
 
   .projectDot {
-    background: var(--pk-border-strong);
+    background: var(--pk-accent);
     border-radius: 4px;
     flex: 0 0 auto;
     height: 12px;
@@ -186,7 +186,7 @@
     left: 0;
     position: fixed;
     top: 0;
-    width: var(--pk-sidebar-width);
+    width: 248px;
     z-index: 3;
   }
 
