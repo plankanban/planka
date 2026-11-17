@@ -20,7 +20,7 @@
 
   .wrapper {
     background: var(--pk-surface-muted);
-    border-radius: 3px;
+    border-radius: 999px;
     color: var(--pk-text-muted);
     display: inline-block;
     transition: background 0.3s ease;
@@ -48,7 +48,7 @@
 
   .wrapperMedium {
     line-height: 20px;
-    padding: 6px 12px;
+    padding: 6px 14px;
   }
 
   /* Statuses */
