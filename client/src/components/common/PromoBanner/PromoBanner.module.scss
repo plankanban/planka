@@ -6,7 +6,8 @@
 :global(#app) {
   .wrapper {
     align-items: center;
-    background: rgba(0, 0, 0, 0.18);
+    background: var(--pk-accent-soft);
+    border-bottom: 1px solid var(--pk-border);
     display: flex;
     gap: 8px;
     justify-content: center;
@@ -14,7 +15,7 @@
   }
 
   .textLink {
-    color: #fff;
+    color: var(--pk-accent-text);
     cursor: pointer;
     flex: 1 1 auto;
     font-size: 13px;
@@ -22,7 +23,8 @@
     text-decoration: none;
 
     &:hover {
-      color: #bdff22;
+      color: var(--pk-accent);
+      text-decoration: underline;
     }
   }
 
@@ -46,7 +48,7 @@
   .closeButton {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--pk-text-muted);
     cursor: pointer;
     flex: 0 0 auto;
     font-size: 18px;
@@ -55,6 +57,6 @@
   }
 
   .closeButton:hover {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--pk-text);
   }
 }

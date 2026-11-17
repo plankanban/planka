@@ -16,16 +16,17 @@
   }
 
   .searchInactive {
-    color: rgba(255, 255, 255, 0.72);
+    color: var(--pk-text-muted);
     max-width: 400px;
 
     input {
-      background: rgba(0, 0, 0, 0.24);
-      border: none;
-      color: rgba(255, 255, 255, 0.72) !important;
+      background: var(--pk-surface);
+      border: 1px solid var(--pk-border);
+      border-radius: 8px !important;
+      color: var(--pk-text) !important;
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.72);
+        color: var(--pk-text-muted);
       }
     }
   }

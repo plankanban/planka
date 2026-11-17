@@ -12,7 +12,7 @@
   .message {
     align-content: space-between;
     align-items: center;
-    color: #fff;
+    color: var(--pk-text);
     display: flex;
     flex: 1 1 auto;
     flex-direction: column;
@@ -20,6 +20,7 @@
   }
 
   .messageIcon {
+    color: var(--pk-text-muted);
     margin-top: -84px;
   }
 
@@ -30,6 +31,7 @@
 
   .messageContent {
     font-size: 18px;
+    color: var(--pk-text-muted);
     line-height: 1.4;
     margin: 4px 0 0;
     text-align: center;

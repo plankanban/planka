@@ -9,7 +9,7 @@
   }
 
   .cover {
-    background: #555;
+    background: var(--pk-accent);
     bottom: 0;
     left: 0;
     position: absolute;
@@ -22,7 +22,7 @@
       bottom: 0;
       content: "";
       left: 0;
-      opacity: 0.3;
+      opacity: 0.2;
       position: absolute;
       right: 0;
       top: 0;
@@ -126,7 +126,7 @@
   }
 
   .wrapper {
-    border-radius: 4px;
+    border-radius: var(--pk-radius-lg);
     overflow: hidden;
     position: relative;
 

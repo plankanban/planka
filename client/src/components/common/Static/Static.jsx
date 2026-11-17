@@ -55,7 +55,7 @@ const Static = React.memo(() => {
 
     contentNode = (
       <div className={styles.message}>
-        <Icon inverted name="hand point up outline" size="huge" className={styles.messageIcon} />
+        <Icon name="hand point up outline" size="huge" className={styles.messageIcon} />
         <h1 className={styles.messageTitle}>
           {t('common.openBoard', {
             context: 'title',
