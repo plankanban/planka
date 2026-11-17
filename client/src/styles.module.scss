@@ -32,6 +32,116 @@
     }
   }
 
+  // Settings modals, popups and their forms, matched to the dashboard
+  #app {
+    .ui.modal {
+      background: var(--pk-surface);
+      border-radius: var(--pk-radius-lg);
+      box-shadow: 0 24px 48px rgba(16, 24, 40, 0.18);
+      color: var(--pk-text);
+
+      > .content {
+        background: transparent;
+        border-radius: inherit;
+        color: inherit;
+        padding: 20px 24px 24px;
+      }
+
+      > .close {
+        color: var(--pk-text-muted);
+        opacity: 1;
+
+        &:hover {
+          color: var(--pk-text);
+        }
+      }
+    }
+
+    .ui.popup {
+      background: var(--pk-surface);
+      border: 1px solid var(--pk-border);
+      border-radius: 12px;
+      box-shadow: var(--pk-shadow-md);
+      color: var(--pk-text);
+
+      &:before {
+        background: var(--pk-surface);
+        box-shadow: -1px -1px 0 0 var(--pk-border);
+      }
+    }
+
+    .ui.secondary.pointing.menu {
+      border-bottom: 1px solid var(--pk-border);
+
+      .item {
+        color: var(--pk-text-muted);
+        font-weight: bold;
+        padding: 10px 14px;
+
+        &:hover {
+          color: var(--pk-text);
+        }
+      }
+
+      .active.item {
+        border-color: var(--pk-accent);
+        color: var(--pk-text);
+      }
+    }
+
+    .ui.tab.segment {
+      background: transparent;
+      border: 1px solid var(--pk-border);
+      border-radius: 12px;
+      box-shadow: none;
+      color: var(--pk-text);
+    }
+
+    .ui.toggle.checkbox {
+      input:checked ~ label:before,
+      input:focus:checked ~ label:before {
+        background-color: var(--pk-accent) !important;
+      }
+
+      label {
+        color: var(--pk-text) !important;
+      }
+    }
+
+    .ui.positive.button,
+    .ui.primary.button {
+      background: var(--pk-accent);
+      border-radius: 8px;
+      color: #fff;
+
+      &:hover,
+      &:focus {
+        background: var(--pk-accent-hover);
+      }
+    }
+
+    .ui.input > input,
+    .ui.form input:not([type]),
+    .ui.form input[type='email'],
+    .ui.form input[type='password'],
+    .ui.form input[type='text'],
+    .ui.form input[type='url'],
+    .ui.form textarea {
+      background: var(--pk-surface);
+      border-color: var(--pk-border-strong);
+      border-radius: 8px;
+      color: var(--pk-text);
+
+      &:focus {
+        border-color: var(--pk-accent);
+      }
+    }
+
+    .ui.form .field > label {
+      color: var(--pk-text-secondary);
+    }
+  }
+
   #app {
     background: var(--pk-bg);
     overflow-x: auto;
