@@ -9,12 +9,13 @@
   }
 
   .addCardButton {
-    background: #dfe3e6;
+    background: transparent;
     border: none;
-    color: #6b808c;
+    border-radius: 8px;
+    color: var(--pk-text-muted);
     cursor: pointer;
     display: block;
-    fill: #6b808c;
+    fill: var(--pk-text-muted);
     flex: 1;
     font-weight: normal;
     height: 36px;
@@ -23,9 +24,9 @@
     text-align: left;
 
     &:hover {
-      background: #c3cbd0;
-      color: #17394d;
-      fill: #17394d;
+      background: rgba(16, 24, 40, 0.06);
+      color: var(--pk-text);
+      fill: var(--pk-text);
     }
 
     &.paste {
@@ -34,9 +35,10 @@
   }
 
   .addCardButtonCount {
-    background: #17394d;
+    background: var(--pk-surface);
     border-radius: 10px;
-    color: #dfe3e6;
+    box-shadow: inset 0 0 0 1px var(--pk-border);
+    color: var(--pk-text-secondary);
     display: inline-block;
     font-size: 11px;
     font-weight: 700;
@@ -67,6 +69,7 @@
 
   .addCardButtonWrapper {
     display: flex;
+    padding: 0 4px 6px;
   }
 
   .card {
@@ -112,7 +115,7 @@
 
   .header {
     outline: none;
-    padding: 6px 36px 6px 8px;
+    padding: 8px 36px 6px 8px;
     position: relative;
 
     &:hover {
@@ -157,7 +160,7 @@
   }
 
   .headerName {
-    color: #17394d;
+    color: var(--pk-text);
     font-weight: bold;
     line-height: 20px;
     max-height: 256px;
@@ -179,8 +182,8 @@
   }
 
   .outerWrapper {
-    background: #dfe3e6;
-    border-radius: 3px;
+    background: var(--pk-list);
+    border-radius: var(--pk-radius-lg);
     display: flex;
     flex-direction: column;
     max-height: calc(100vh - var(--pk-fixed-height, 174px) - 24px);
