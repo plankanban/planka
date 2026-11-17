@@ -1,8 +1,8 @@
 /*!
- * Copyright (c) 2024 PLANKA Software GmbH
+ * Copyright (c) 2026 PLANKA Software GmbH
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import Favorites from './Favorites';
+import Sidebar from './Sidebar';
 
-export default Favorites;
+export default Sidebar;

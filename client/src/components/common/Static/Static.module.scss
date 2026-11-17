@@ -37,15 +37,8 @@
 
   .wrapper {
     height: 100%;
-    margin-top: calc(116px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperBoard {
-    margin-top: calc(174px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperBoardWithFavorites {
-    margin-top: calc(264px + var(--promo-banner-height, 0px));
+    margin-left: var(--pk-sidebar-width);
+    padding-top: var(--pk-fixed-height, 116px);
   }
 
   .wrapperFlex {
@@ -56,23 +49,7 @@
     position: relative;
   }
 
-  .wrapperProject {
-    margin-top: calc(98px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperProjectWithFavorites {
-    margin-top: calc(188px + var(--promo-banner-height, 0px));
-  }
-
-  .wrapperTransitioning {
-    transition: margin-top 0.2s ease;
-  }
-
   .wrapperVertical {
     overflow: hidden;
-  }
-
-  .wrapperWithFavorites {
-    margin-top: calc(206px + var(--promo-banner-height, 0px));
   }
 }

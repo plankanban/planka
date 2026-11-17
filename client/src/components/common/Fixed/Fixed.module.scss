@@ -5,8 +5,10 @@
 
 :global(#app) {
   .wrapper {
+    background: var(--pk-bg);
+    left: var(--pk-sidebar-width);
     position: fixed;
-    width: 100%;
+    right: 0;
     z-index: 1;
   }
 }

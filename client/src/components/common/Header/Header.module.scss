@@ -4,23 +4,39 @@
  */
 
 :global(#app) {
+  .breadcrumb {
+    color: var(--pk-text-muted);
+    font-weight: normal;
+
+    &:hover {
+      color: var(--pk-text);
+    }
+  }
+
+  .breadcrumbSeparator {
+    color: var(--pk-text-muted);
+    margin: 0 8px;
+  }
+
   .editButton {
     background: transparent;
     box-shadow: none;
-    color: #fff;
+    color: var(--pk-text-muted);
     font-size: 15px;
-    line-height: 34px;
-    margin-left: 8px;
+    line-height: 32px;
+    margin-left: 6px;
     opacity: 0;
     padding: 0;
-    width: 34px;
+    width: 32px;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: var(--pk-surface-muted);
+      color: var(--pk-text);
     }
   }
 
   .item {
+    color: var(--pk-text-secondary);
     cursor: auto;
     user-select: auto;
 
@@ -31,7 +47,7 @@
     &:active,
     &:hover {
       background: transparent;
-      color: rgba(255, 255, 255, 0.9);
+      color: var(--pk-text);
 
       .editButton {
         opacity: 1;
@@ -39,26 +55,19 @@
     }
   }
 
-  .itemHoverable:hover {
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.32);
+  .itemHoverable {
+    border-radius: 8px;
+    margin: 8px 2px;
+    padding: 0 12px;
+
+    &:hover {
+      background: var(--pk-surface-muted);
+      cursor: pointer;
+    }
   }
 
   .itemIconEnabled {
-    color: #bdff22;
-  }
-
-  .logo {
-    color: #fff;
-    flex: 0 0 auto;
-    letter-spacing: 3.5px;
-    line-height: 50px;
-    padding: 0 16px;
-    text-transform: uppercase;
-
-    &:before {
-      background: none;
-    }
+    color: var(--pk-accent);
   }
 
   .menu {
@@ -66,45 +75,62 @@
     border: none;
     border-radius: 0;
     box-shadow: none;
-    color: #fff;
     flex: 1 1 auto;
-    height: 50px;
+    height: var(--pk-header-height);
     margin: 0;
+    padding: 0 12px;
     width: 100%;
   }
 
+  .menuToggler {
+    display: none !important;
+  }
+
   .notification {
-    background: #eb5a46;
-    border-radius: 8px;
+    background: var(--pk-danger);
+    border: 2px solid var(--pk-surface);
+    border-radius: 999px;
     color: #fff;
     display: inline-block;
-    font-size: 14px;
+    font-size: 10px;
     font-weight: bold;
-    height: 16px;
-    left: 22px;
-    line-height: 16px;
-    min-width: 16px;
+    height: 18px;
+    left: 20px;
+    line-height: 14px;
+    min-width: 18px;
+    padding: 0 3px;
     position: absolute;
     text-align: center;
-    top: 8px;
+    top: 4px;
   }
 
   .title {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
+    min-width: 0;
   }
 
-  .userName {
-    margin-right: 10px;
-
-    @media only screen and (width < 768px) {
-      display: none;
-    }
+  .titleText {
+    color: var(--pk-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .wrapper {
-    background: rgba(0, 0, 0, 0.24);
+    background: var(--pk-surface);
+    border-bottom: 1px solid var(--pk-border);
     display: flex;
     flex: 0 0 auto;
+  }
+
+  @media only screen and (width < 768px) {
+    .menuToggler {
+      display: flex !important;
+    }
+
+    .title {
+      font-size: 15px;
+    }
   }
 }

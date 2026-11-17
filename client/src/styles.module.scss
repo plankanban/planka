@@ -25,6 +25,10 @@
     --pk-shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08), 0 1px 3px rgba(16, 24, 40, 0.06);
     --pk-sidebar-width: 248px;
     --pk-header-height: 56px;
+
+    @media only screen and (width < 768px) {
+      --pk-sidebar-width: 0px;
+    }
   }
 
   #app {

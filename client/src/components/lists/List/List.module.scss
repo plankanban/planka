@@ -183,15 +183,7 @@
     border-radius: 3px;
     display: flex;
     flex-direction: column;
-    max-height: calc(100vh - 198px);
+    max-height: calc(100vh - var(--pk-fixed-height, 174px) - 24px);
     overflow: hidden;
-  }
-
-  .outerWrapperTransitioning {
-    transition: max-height 0.2s ease;
-  }
-
-  .outerWrapperWithFavorites {
-    max-height: calc(100vh - 288px);
   }
 }

@@ -3,12 +3,11 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useRef } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import { Button, Icon, Loader } from 'semantic-ui-react';
-import { useTransitioning } from '../../../lib/hooks';
 import { usePopup } from '../../../lib/popup';
 
 import selectors from '../../../selectors';
@@ -24,19 +23,12 @@ const Static = React.memo(() => {
   const { cardId, projectId } = useSelector(selectors.selectPath);
   const board = useSelector(selectors.selectCurrentBoard);
   const isFetching = useSelector(selectors.selectIsContentFetching);
-  const isFavoritesActive = useSelector(selectors.selectIsFavoritesActiveForCurrentUser);
 
   const canAddBoard = useSelector((state) =>
     selectors.selectIsCurrentUserManagerForCurrentProject(state),
   );
 
   const [t] = useTranslation();
-
-  const wrapperRef = useRef(null);
-
-  const handleTransitionEnd = useTransitioning(wrapperRef, styles.wrapperTransitioning, [
-    isFavoritesActive,
-  ]);
 
   const AddBoardPopup = usePopup(AddBoardStep);
 
@@ -47,22 +39,19 @@ const Static = React.memo(() => {
     wrapperClassNames = [styles.wrapperLoader];
     contentNode = <Loader active size="huge" />;
   } else if (projectId === undefined) {
-    wrapperClassNames = [isFavoritesActive && styles.wrapperWithFavorites, styles.wrapperVertical];
+    wrapperClassNames = [styles.wrapperVertical];
     contentNode = <Home />;
   } else if (cardId === null) {
-    wrapperClassNames = [isFavoritesActive && styles.wrapperWithFavorites, styles.wrapperFlex];
+    wrapperClassNames = [styles.wrapperFlex];
     contentNode = <GhostError message="common.cardNotFound" />;
   } else if (board === null) {
-    wrapperClassNames = [isFavoritesActive && styles.wrapperWithFavorites, styles.wrapperFlex];
+    wrapperClassNames = [styles.wrapperFlex];
     contentNode = <GhostError message="common.boardNotFound" />;
   } else if (projectId === null) {
-    wrapperClassNames = [isFavoritesActive && styles.wrapperWithFavorites, styles.wrapperFlex];
+    wrapperClassNames = [styles.wrapperFlex];
     contentNode = <GhostError message="common.projectNotFound" />;
   } else if (board === undefined) {
-    wrapperClassNames = [
-      isFavoritesActive ? styles.wrapperProjectWithFavorites : styles.wrapperProject,
-      styles.wrapperFlex,
-    ];
+    wrapperClassNames = [styles.wrapperFlex];
 
     contentNode = (
       <div className={styles.message}>
@@ -86,15 +75,11 @@ const Static = React.memo(() => {
       </div>
     );
   } else if (board.isFetching) {
-    wrapperClassNames = [
-      styles.wrapperLoader,
-      isFavoritesActive ? styles.wrapperProjectWithFavorites : styles.wrapperProject,
-    ];
+    wrapperClassNames = [styles.wrapperLoader];
 
     contentNode = <Loader active size="big" />;
   } else {
     wrapperClassNames = [
-      isFavoritesActive ? styles.wrapperBoardWithFavorites : styles.wrapperBoard,
       [BoardViews.GRID, BoardViews.LIST].includes(board.view) && styles.wrapperVertical,
       styles.wrapperFlex,
     ];
@@ -103,13 +88,7 @@ const Static = React.memo(() => {
   }
 
   return (
-    <div
-      ref={wrapperRef}
-      className={classNames(styles.wrapper, ...wrapperClassNames)}
-      onTransitionEnd={handleTransitionEnd}
-    >
-      {contentNode}
-    </div>
+    <div className={classNames(styles.wrapper, ...wrapperClassNames)}>{contentNode}</div>
   );
 });
 

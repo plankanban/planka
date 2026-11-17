@@ -12,7 +12,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Button, Icon } from 'semantic-ui-react';
-import { useDidUpdate, useToggle, useTransitioning } from '../../../lib/hooks';
+import { useDidUpdate, useToggle } from '../../../lib/hooks';
 import { Tooltip } from '../../../lib/custom-ui';
 import { usePopup } from '../../../lib/popup';
 
@@ -60,7 +60,6 @@ const List = React.memo(({ id, index }) => {
   const selectCardCountByListId = useMemo(() => selectors.makeSelectCardCountByListId(), []);
 
   const clipboard = useSelector(selectors.selectClipboard);
-  const isFavoritesActive = useSelector(selectors.selectIsFavoritesActiveForCurrentUser);
 
   // What the remembered positions belong to. They are kept for one project at a
   // time, so walking into another one starts clean rather than replaying where
@@ -105,7 +104,6 @@ const List = React.memo(({ id, index }) => {
   const [scrollBottomState, scrollBottom] = useToggle();
   const [handleListMouseEnter, handleListMouseLeave] = useContext(BoardShortcutsContext);
 
-  const wrapperRef = useRef(null);
   const cardsWrapperRef = useRef(null);
 
   const handleCardCreate = useCallback(
@@ -160,12 +158,6 @@ const List = React.memo(({ id, index }) => {
   const handleEditNameClose = useCallback(() => {
     setIsEditNameOpened(false);
   }, []);
-
-  const handleWrapperTransitionEnd = useTransitioning(
-    wrapperRef,
-    styles.outerWrapperTransitioning,
-    [isFavoritesActive],
-  );
 
   // Put the list back where it was left, and keep noting where that is. The
   // restore runs before paint and only once per mount, so it never fights the
@@ -366,13 +358,10 @@ const List = React.memo(({ id, index }) => {
           onMouseLeave={handleListMouseLeave}
         >
           <div
-            ref={wrapperRef}
             className={classNames(
               styles.outerWrapper,
-              isFavoritesActive && styles.outerWrapperWithFavorites,
               list.color && globalStyles[`background${upperFirst(camelCase(list.color))}Soft`],
             )}
-            onTransitionEnd={handleWrapperTransitionEnd}
           >
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
                                          jsx-a11y/no-static-element-interactions */}

@@ -3,7 +3,7 @@
  * Licensed under the Fair Use License: https://github.com/plankanban/planka/blob/master/LICENSE.md
  */
 
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import { Loader } from 'semantic-ui-react';
@@ -11,9 +11,11 @@ import { Loader } from 'semantic-ui-react';
 import selectors from '../../../selectors';
 import version from '../../../version';
 import ModalTypes from '../../../constants/ModalTypes';
+import { SidebarContext } from '../../../contexts';
 import Message from './Message';
 import Toaster from '../Toaster';
 import Fixed from '../Fixed';
+import Sidebar from '../Sidebar';
 import Static from '../Static';
 import AdministrationModal from '../AdministrationModal';
 import KeyboardShortcutsModal from '../KeyboardShortcutsModal';
@@ -38,6 +40,13 @@ const Core = React.memo(() => {
   });
 
   const [t] = useTranslation();
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const sidebarContextValue = useMemo(
+    () => [isSidebarOpen, setIsSidebarOpen],
+    [isSidebarOpen, setIsSidebarOpen],
+  );
 
   const defaultTitleRef = useRef(document.title);
 
@@ -122,14 +131,15 @@ const Core = React.memo(() => {
       {isInitializing || !currentUserId ? (
         <Loader active size="massive" />
       ) : (
-        <>
+        <SidebarContext.Provider value={sidebarContextValue}>
           <Toaster />
           {project && project.backgroundType && <ProjectBackground />}
+          <Sidebar />
           <Fixed />
           <Static />
           {modalNode}
           <AutoLogoutWarningModal />
-        </>
+        </SidebarContext.Provider>
       )}
       {messageNode}
     </>
