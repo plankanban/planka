@@ -50,7 +50,8 @@
   }
 
   .addAttachment {
-    margin: 0 -4.3px;
+    font-size: 11px !important;
+    margin: 0 !important;
     text-decoration: none;
   }
 
@@ -101,23 +102,58 @@
     cursor: pointer;
   }
 
-  .dueDate {
-    background: rgba(9, 30, 66, 0.04);
-    border: none;
-    border-radius: 999px;
-    color: var(--pk-text-muted);
+  .doneButton {
+    align-items: center;
+    background: transparent;
+    border: 1.5px solid var(--pk-border-strong);
+    border-radius: 50%;
+    color: transparent;
     cursor: pointer;
-    line-height: 20px;
-    outline: none;
-    padding: 6px 14px;
-    text-align: left;
-    text-decoration: underline;
-    transition: background 0.3s ease;
-    vertical-align: top;
+    display: inline-flex;
+    font-size: 12px;
+    height: 26px;
+    justify-content: center;
+    padding: 0;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    width: 26px;
 
     &:hover {
-      background: rgba(9, 30, 66, 0.08);
-      color: var(--pk-text);
+      border-color: #21ba45;
+      color: #21ba45;
+    }
+  }
+
+  .doneButtonActive {
+    background: #21ba45;
+    border-color: #21ba45;
+    color: #fff;
+
+    &:hover {
+      background: #1ea83f;
+      color: #fff;
+    }
+  }
+
+  .dueDate {
+    align-items: center;
+    background: transparent;
+    border: 1px dashed var(--pk-border-strong);
+    border-radius: 50%;
+    color: var(--pk-text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    outline: none;
+    padding: 0;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    vertical-align: top;
+    width: 32px;
+
+    &:hover {
+      background: var(--pk-accent-soft);
+      border-color: var(--pk-accent);
+      color: var(--pk-accent-text);
     }
   }
 
